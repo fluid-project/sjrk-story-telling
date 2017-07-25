@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     });
 
     fluid.defaults("sjrk.storyTelling.componentTemplate", {
-        gradeNames: ["fluid.viewComponent"],
+        gradeNames: ["gpii.binder", "fluid.viewComponent"],
         templateConfig: {
             // Specified by using grade
             // TODO: supply default
@@ -51,11 +51,22 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         // Specified by using grade
         templateTerms: {
         },
+        // Specified by using grade; see https://github.com/GPII/gpii-binder
+        bindings: {
+        },
+        events: {
+            "onTemplateRendered": null
+        },
         listeners: {
             "{templateLoader}.events.onResourcesLoaded": {
                 funcName: "{that}.renderTemplate",
                 args: ["{templateLoader}.resources.componentTemplate.resourceText", "{that}.options.templateTerms"]
+            },
+            "onTemplateRendered.applyBinding": {
+                funcName: "gpii.binder.applyBinding",
+                args: "{that}"
             }
+
         },
         components: {
             templateLoader: {
@@ -79,7 +90,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             },
             renderTemplate: {
                 funcName: "sjrk.storyTelling.componentTemplate.renderTemplate",
-                args: ["{that}.container", "{arguments}.0", "{arguments}.1"]
+                args: ["{that}.events.onTemplateRendered", "{that}.container", "{arguments}.0", "{arguments}.1"]
             }
         }
     });
@@ -92,9 +103,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         return prefix + "-" + fluid.allocateGuid();
     };
 
-    sjrk.storyTelling.componentTemplate.renderTemplate = function (container, template, terms) {
+    sjrk.storyTelling.componentTemplate.renderTemplate = function (completionEvent, container, template, terms) {
         var renderedTemplate = fluid.stringTemplate(template, terms);
         container.append(renderedTemplate);
+        completionEvent.fire();
     };
 
     fluid.defaults("sjrk.storyTelling.story", {
@@ -103,6 +115,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
             storyContent: ".sjrkc-storytelling-storyContent"
+        },
+        bindings: {
+            storyTitle: "title",
+            storyAuthor: "author",
+            storyContent: "content"
         },
         model: {
             title: "",
