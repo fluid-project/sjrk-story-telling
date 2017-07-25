@@ -41,8 +41,64 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.story", {
+    fluid.defaults("sjrk.storyTelling.componentTemplate", {
         gradeNames: ["fluid.viewComponent"],
+        templateConfig: {
+            // Specified by using grade
+            // TODO: supply default
+            // classPrefix: ""
+        },
+        // Specified by using grade
+        templateTerms: {
+        },
+        listeners: {
+            "{templateLoader}.events.onResourcesLoaded": {
+                funcName: "{that}.renderTemplate",
+                args: ["{templateLoader}.resources.componentTemplate.resourceText", "{that}.options.templateTerms"]
+            }
+        },
+        components: {
+            templateLoader: {
+                type: "fluid.resourceLoader",
+                options: {
+                    resources: {
+                        // Specified by using grade
+                        // componentTemplate: ""
+                    }
+                }
+            }
+        },
+        invokers: {
+            getClasses: {
+                funcName: "sjrk.storyTelling.componentTemplate.getClasses",
+                args: ["{that}.options.templateConfig.classPrefix", "{arguments}.0"]
+            },
+            getLabelId: {
+                funcName: "sjrk.storyTelling.componentTemplate.getLabelId",
+                args: ["{arguments}.0"]
+            },
+            renderTemplate: {
+                funcName: "sjrk.storyTelling.componentTemplate.renderTemplate",
+                args: ["{that}.container", "{arguments}.0", "{arguments}.1"]
+            }
+        }
+    });
+
+    sjrk.storyTelling.componentTemplate.getClasses = function (prefix, className) {
+        return prefix + "c-" + className + " " + prefix + "-" + className;
+    };
+
+    sjrk.storyTelling.componentTemplate.getLabelId = function (prefix) {
+        return prefix + "-" + fluid.allocateGuid();
+    };
+
+    sjrk.storyTelling.componentTemplate.renderTemplate = function (container, template, terms) {
+        var renderedTemplate = fluid.stringTemplate(template, terms);
+        container.append(renderedTemplate);
+    };
+
+    fluid.defaults("sjrk.storyTelling.story", {
+        gradeNames: ["sjrk.storyTelling.componentTemplate"],
         selectors: {
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
@@ -62,46 +118,26 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             classPrefix: "sjrk"
         },
         templateTerms: {
-            storyTitleIdForLabel: "@expand:sjrk.storyTelling.story.getLabelId(title)",
-            storyAuthorIdForLabel: "@expand:sjrk.storyTelling.story.getLabelId(author)",
-            storyContentIdForLabel: "@expand:sjrk.storyTelling.story.getLabelId(content)",
+            storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
+            storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
+            storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
             storyTitleClass:
-            "@expand:sjrk.storyTelling.story.getClasses({that}.options.templateConfig.classPrefix, storyTelling-storyTitle)",
+            "@expand:{that}.getClasses(storyTelling-storyTitle)",
             storyAuthorClass:
-            "@expand:sjrk.storyTelling.story.getClasses({that}.options.templateConfig.classPrefix, storyTelling-storyAuthor)",
+            "@expand:{that}.getClasses(storyTelling-storyAuthor)",
             storyContentClass:
-            "@expand:sjrk.storyTelling.story.getClasses({that}.options.templateConfig.classPrefix, storyTelling-storyContent)"
-        },
-        listeners: {
-            "{templateLoader}.events.onResourcesLoaded": {
-                funcName: "sjrk.storyTelling.story.renderTemplate",
-                args: ["{that}.container", "{templateLoader}.resources.storyTemplate.resourceText", "{that}.options.templateTerms"]
-            }
+            "@expand:{that}.getClasses(storyTelling-storyContent)",
+            storySubmitButtonClass: "@expand:{that}.getClasses(storyTelling-submit)"
         },
         components: {
             templateLoader: {
-                type: "fluid.resourceLoader",
                 options: {
                     resources: {
-                        // May need to be specified at instantiation
-                        storyTemplate: "src/html/story.html"
+                        componentTemplate: "src/html/story.html"
                     }
                 }
             }
         }
     });
-
-    sjrk.storyTelling.story.getClasses = function (prefix, className) {
-        return prefix + "c-" + className + " " + prefix + "-" + className;
-    };
-
-    sjrk.storyTelling.story.getLabelId = function (prefix) {
-        return prefix + "-" + fluid.allocateGuid();
-    };
-
-    sjrk.storyTelling.story.renderTemplate = function (container, template, terms) {
-        var renderedTemplate = fluid.stringTemplate(template, terms);
-        container.append(renderedTemplate);
-    };
 
 })(jQuery, fluid);
