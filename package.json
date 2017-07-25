@@ -1,0 +1,23 @@
+{
+  "name": "sjrk-storytelling",
+  "version": "0.0.1",
+  "description": "SJRK Storytelling Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waharnum/sjrk-storyTelling.git"
+  },
+  "author": "Fluid Project",
+  "license": "(BSD-3-Clause OR ECL-2.0)",
+  "bugs": {
+    "url": "https://github.com/waharnum/sjrk-storyTelling/issues"
+  },
+  "homepage": "https://github.com/waharnum/sjrk-storyTelling#readme",
+  "dependencies": {
+    "infusion": "^2.0.0",
+    "gpii-binder": "https://github.com/GPII/gpii-binder"
+  }
+}
