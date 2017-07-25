@@ -13,4 +13,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
+    fluid.defaults("sjrk.storyTelling", {
+        gradeNames: ["fluid.viewComponent"]
+    });
+
 })(jQuery, fluid);
