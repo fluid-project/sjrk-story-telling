@@ -1,2 +1,5 @@
 # sjrk-storyTelling
-SJRK Storytelling Project
+
+SJRK Storytelling Project.
+
+UI (so far) for storytelling project.
