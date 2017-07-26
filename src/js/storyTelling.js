@@ -41,7 +41,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.componentTemplate", {
+    fluid.defaults("sjrk.storyTelling.templatedComponent", {
         gradeNames: ["gpii.binder", "fluid.viewComponent"],
         templateConfig: {
             // Used to supply both control and style classes
@@ -93,18 +93,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             // insertion into the template; configured using the
             // templateConfig.classPrefix option
             getClasses: {
-                funcName: "sjrk.storyTelling.componentTemplate.getClasses",
+                funcName: "sjrk.storyTelling.templatedComponent.getClasses",
                 args: ["{that}.options.templateConfig.classPrefix", "{arguments}.0"]
             },
             getLabelId: {
-                funcName: "sjrk.storyTelling.componentTemplate.getLabelId",
+                funcName: "sjrk.storyTelling.templatedComponent.getLabelId",
                 args: ["{arguments}.0"]
             },
             // Invoker used to render the component's template and fire
             // the onTemplateRendered event that the applyBinding's listener
             // waits on
             renderTemplate: {
-                funcName: "sjrk.storyTelling.componentTemplate.renderTemplate",
+                funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
                 args: ["{that}.events.onTemplateRendered", "{that}.container", "{arguments}.0", "{arguments}.1"]
             }
         }
@@ -115,7 +115,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * - "prefix": typically the first piece of the project namespace ("sjrk")
      * - "className": classname to follow after the prefixes
     */
-    sjrk.storyTelling.componentTemplate.getClasses = function (prefix, className) {
+    sjrk.storyTelling.templatedComponent.getClasses = function (prefix, className) {
         return prefix + "c-" + className + " " + prefix + "-" + className;
     };
 
@@ -123,7 +123,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * elements in the component template
      * - "prefix": prefix to prepend before the GUID
     */
-    sjrk.storyTelling.componentTemplate.getLabelId = function (prefix) {
+    sjrk.storyTelling.templatedComponent.getLabelId = function (prefix) {
         return prefix + "-" + fluid.allocateGuid();
     };
 
@@ -134,14 +134,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * - "template": a template string in the fluid.stringTemplate style
      * - "terms": terms to use in fluid.stringTemplate
     */
-    sjrk.storyTelling.componentTemplate.renderTemplate = function (completionEvent, container, template, terms) {
+    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, template, terms) {
         var renderedTemplate = fluid.stringTemplate(template, terms);
         container.append(renderedTemplate);
         completionEvent.fire();
     };
 
     fluid.defaults("sjrk.storyTelling.story", {
-        gradeNames: ["sjrk.storyTelling.componentTemplate"],
+        gradeNames: ["sjrk.storyTelling.templatedComponent"],
         selectors: {
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
