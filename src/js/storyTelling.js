@@ -68,7 +68,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
             storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
             storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-            // TODO: classes for other links
+            // TODO: classes for other links,
+            storyAddPhotosClasses: "@expand:{that}.getClasses(storyTelling-storyAddPhotos)",
+            storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
+            storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
+            storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
             storyTitleClasses:
             "@expand:{that}.getClasses(storyTelling-storyTitle)",
             storyAuthorClasses:
