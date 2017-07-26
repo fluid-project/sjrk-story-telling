@@ -40,7 +40,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
-    
+
     fluid.defaults("sjrk.storyTelling.story", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
         selectors: {
@@ -67,13 +67,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
             storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
             storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
-            storyTitleClass:
+            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+            // TODO: classes for other links
+            storyTitleClasses:
             "@expand:{that}.getClasses(storyTelling-storyTitle)",
-            storyAuthorClass:
+            storyAuthorClasses:
             "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-            storyContentClass:
+            storyContentClasses:
             "@expand:{that}.getClasses(storyTelling-storyContent)",
-            storySubmitButtonClass: "@expand:{that}.getClasses(storyTelling-submit)"
+            storySubmitClasses: "@expand:{that}.getClasses(storyTelling-submit)",
+
         },
         components: {
             templateLoader: {
