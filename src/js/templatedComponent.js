@@ -13,6 +13,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
+    // Component that renders its UI using an external
+    // HTML file with fluid.stringTemplate syntax
+    // see concrete components in storyTelling.js for examples
+    // Also uses gpii-binder to bind form components and
+    // model    
     fluid.defaults("sjrk.storyTelling.templatedComponent", {
         gradeNames: ["gpii.binder", "fluid.viewComponent"],
         templateConfig: {
