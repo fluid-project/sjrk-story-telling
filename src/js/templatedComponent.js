@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid, floe */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // HTML file with fluid.stringTemplate syntax
     // see concrete components in storyTelling.js for examples
     // Also uses gpii-binder to bind form components and
-    // model    
+    // model
     fluid.defaults("sjrk.storyTelling.templatedComponent", {
         gradeNames: ["gpii.binder", "fluid.viewComponent"],
         templateConfig: {

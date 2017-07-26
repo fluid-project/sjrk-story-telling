@@ -32,5 +32,5 @@ module.exports = function (grunt) {
     // Custom tasks:
 
     grunt.registerTask("default", ["lint"]);
-    grunt.registerTask("lint", "Apply eslint and jsonlint", ["eslint", "jsonlint"]);    
+    grunt.registerTask("lint", "Apply eslint and jsonlint", ["eslint", "jsonlint"]);
 };
