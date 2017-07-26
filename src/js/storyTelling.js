@@ -44,14 +44,19 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.componentTemplate", {
         gradeNames: ["gpii.binder", "fluid.viewComponent"],
         templateConfig: {
-            // Specified by using grade
-            // TODO: supply default
-            // classPrefix: ""
+            // Used to supply both control and style classes
+            // by the getClasses invoker
+            classPrefix: "sjrk"
         },
         // Specified by using grade
+        // These will be passed as the second argument of
+        // fluid.stringTemplate when rendering the page
+        // template
         templateTerms: {
         },
-        // Specified by using grade; see https://github.com/GPII/gpii-binder
+        // Specified by using grade to bind form markup
+        // to component model;
+        // see https://github.com/GPII/gpii-binder
         bindings: {
         },
         events: {
@@ -62,6 +67,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 funcName: "{that}.renderTemplate",
                 args: ["{templateLoader}.resources.componentTemplate.resourceText", "{that}.options.templateTerms"]
             },
+            // Applies bindings from gpii-binder after
+            // the template is loaded
             "onTemplateRendered.applyBinding": {
                 funcName: "gpii.binder.applyBinding",
                 args: "{that}"
@@ -74,12 +81,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 options: {
                     resources: {
                         // Specified by using grade
+                        // The template file using the
+                        // fluid.stringTemplate syntax
                         // componentTemplate: ""
                     }
                 }
             }
         },
         invokers: {
+            // Invoker used to create a control and style class for
+            // insertion into the template; configured using the
+            // templateConfig.classPrefix option
             getClasses: {
                 funcName: "sjrk.storyTelling.componentTemplate.getClasses",
                 args: ["{that}.options.templateConfig.classPrefix", "{arguments}.0"]
@@ -88,6 +100,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 funcName: "sjrk.storyTelling.componentTemplate.getLabelId",
                 args: ["{arguments}.0"]
             },
+            // Invoker used to render the component's template and fire
+            // the onTemplateRendered event that the applyBinding's listener
+            // waits on
             renderTemplate: {
                 funcName: "sjrk.storyTelling.componentTemplate.renderTemplate",
                 args: ["{that}.events.onTemplateRendered", "{that}.container", "{arguments}.0", "{arguments}.1"]
@@ -95,14 +110,30 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
+    /* Returns a control and style class based on a prefix and classname
+     * Used for templating
+     * - "prefix": typically the first piece of the project namespace ("sjrk")
+     * - "className": classname to follow after the prefixes
+    */
     sjrk.storyTelling.componentTemplate.getClasses = function (prefix, className) {
         return prefix + "c-" + className + " " + prefix + "-" + className;
     };
 
+    /* Generates a unique ID (GUID) for use in labeling form
+     * elements in the component template
+     * - "prefix": prefix to prepend before the GUID
+    */
     sjrk.storyTelling.componentTemplate.getLabelId = function (prefix) {
         return prefix + "-" + fluid.allocateGuid();
     };
 
+    /* Renders a template with fluid.stringTemplate into the
+     * specified container, and fires completionEvent when done
+     * - "completionEvent": component even to fire when complete
+     * - "container": container to render the template into
+     * - "template": a template string in the fluid.stringTemplate style
+     * - "terms": terms to use in fluid.stringTemplate
+    */
     sjrk.storyTelling.componentTemplate.renderTemplate = function (completionEvent, container, template, terms) {
         var renderedTemplate = fluid.stringTemplate(template, terms);
         container.append(renderedTemplate);
@@ -130,9 +161,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             tags: [],
             summary: "",
             translations: []
-        },
-        templateConfig: {
-            classPrefix: "sjrk"
         },
         templateTerms: {
             storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
