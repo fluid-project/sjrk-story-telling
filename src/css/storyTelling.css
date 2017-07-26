@@ -1,0 +1,13 @@
+body {
+    font-family: sans-serif;
+    padding: 0 2em 0 2em;
+    font-size: 1.2em;
+}
+
+.sjrk-storyTelling-story-heading, .sjrk-storyTelling-readOtherStories {
+    margin: 0;
+}
+
+.sjrk-storyTelling-storyContent {
+    width: 100%;
+}
