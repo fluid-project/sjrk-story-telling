@@ -20,10 +20,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         components: {
             templateLoader: {
-                type: "fluid.resourceLoader",
                 options: {
                     resources: {
-                        componentTemplate: "../html/testTemplate.html"
+                        componentTemplate: "../html/templates/testTemplate.html"
                     }
                 }
             }

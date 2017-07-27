@@ -113,11 +113,20 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         // see https://github.com/GPII/gpii-binder
         bindings: {
         },
+        events: {
+            "onBindingApplied": null
+        },
         // Applies bindings from gpii-binder after
         // the template is loaded
-        "onTemplateRendered.applyBinding": {
-            funcName: "gpii.binder.applyBinding",
-            args: "{that}"
+        listeners: {
+            "onTemplateRendered.applyBinding": {
+                funcName: "gpii.binder.applyBinding",
+                args: "{that}"
+            },
+            "onTemplateRendered.fireOnBindingApplied": {
+                func: "{that}.events.onBindingApplied.fire",
+                priority: "after:applyBinding"
+            }
         }
     });
 
