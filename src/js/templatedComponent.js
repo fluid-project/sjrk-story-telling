@@ -16,8 +16,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // Component that renders its UI using an external
     // HTML file with fluid.stringTemplate syntax
     // see concrete components in storyTelling.js for examples
-    // Also uses gpii-binder to bind form components and
-    // model
+
     fluid.defaults("sjrk.storyTelling.templatedComponent", {
         gradeNames: ["fluid.viewComponent"],
         templateConfig: {
@@ -75,21 +74,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithBinder", {
-        gradeNames: ["gpii.binder", "sjrk.storyTelling.templatedComponent"],
-        // Specified by using grade to bind form markup
-        // to component model;
-        // see https://github.com/GPII/gpii-binder
-        bindings: {
-        },
-        // Applies bindings from gpii-binder after
-        // the template is loaded
-        "onTemplateRendered.applyBinding": {
-            funcName: "gpii.binder.applyBinding",
-            args: "{that}"
-        }
-    });
-
     /* Returns a control and style class based on a prefix and classname
      * Used for templating
      * - "prefix": typically the first piece of the project namespace ("sjrk")
@@ -119,5 +103,22 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         container.append(renderedTemplate);
         completionEvent.fire();
     };
+
+
+    // Adds gpii-binder to bind form components and models
+    fluid.defaults("sjrk.storyTelling.templatedComponentWithBinder", {
+        gradeNames: ["gpii.binder", "sjrk.storyTelling.templatedComponent"],
+        // Specified by using grade to bind form markup
+        // to component model;
+        // see https://github.com/GPII/gpii-binder
+        bindings: {
+        },
+        // Applies bindings from gpii-binder after
+        // the template is loaded
+        "onTemplateRendered.applyBinding": {
+            funcName: "gpii.binder.applyBinding",
+            args: "{that}"
+        }
+    });
 
 })(jQuery, fluid);

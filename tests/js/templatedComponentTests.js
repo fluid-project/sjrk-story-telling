@@ -15,6 +15,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     fluid.defaults("sjrk.storyTelling.testTemplatedComponent", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
+        templateConfig: {
+            classPrefix: "test"
+        },
         components: {
             templateLoader: {
                 type: "fluid.resourceLoader",
@@ -42,9 +45,25 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     listener: "sjrk.storyTelling.templatedComponentTester.testTemplateRendering",
                     args: ["{templatedComponent}"]
                 }]
+            },
+            {
+                name: "Test invoker version of getClasses",
+                expect: 1,
+                sequence: [{
+                    funcName:                       "sjrk.storyTelling.templatedComponentTester.testGetClasses",
+                    args: ["{templatedComponent}"]
+                }]
             }]
         }]
     });
+
+    sjrk.storyTelling.templatedComponentTester.testGetClasses = function (component) {
+        var suffix = "testFunction";
+        var classes = component.getClasses(suffix);
+        var expectedClasses = "testc-testFunction test-testFunction";
+
+        jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
+    };
 
     sjrk.storyTelling.templatedComponentTester.testTemplateRendering = function (templatedComponent) {
         var expectedContent = "<span class=\"replacement-Value\">Test content</span>";
