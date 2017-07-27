@@ -53,6 +53,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     funcName:                       "sjrk.storyTelling.templatedComponentTester.testGetClasses",
                     args: ["{templatedComponent}"]
                 }]
+            },
+            {
+                name: "Test invoker version of getLabelId",
+                expect: 2,
+                sequence: [{
+                    funcName:                       "sjrk.storyTelling.templatedComponentTest.testGetLabelId",
+                    args: ["test", "{templatedComponent}.getLabelId"]
+                }]
             }]
         }]
     });
@@ -97,13 +105,19 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         jqUnit.expect(2);
 
         var prefix = "test";
-        var label1 = sjrk.storyTelling.templatedComponent.getLabelId(prefix);
-        var label2 = sjrk.storyTelling.templatedComponent.getLabelId(prefix);
+
+        sjrk.storyTelling.templatedComponentTest.testGetLabelId(prefix, sjrk.storyTelling.templatedComponent.getLabelId);
+    });
+
+    sjrk.storyTelling.templatedComponentTest.testGetLabelId = function (prefix, getLabelIdFunction) {
+
+        var label1 = getLabelIdFunction(prefix);
+        var label2 = getLabelIdFunction(prefix);
 
         jqUnit.assertNotEquals("Two generated labels are not identical", label1, label2);
 
         jqUnit.assertEquals("Generated label begins with prefix and dash", 0, label1.indexOf(prefix + "-"));
-    });
+    };
 
     $(document).ready(function () {
         fluid.test.runTests([
