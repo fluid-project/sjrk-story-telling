@@ -47,3 +47,7 @@ body {
 .sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyAuthor {
     font-size: 1.25em;
 }
+
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags {
+    font-weight: normal;
+}
