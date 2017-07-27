@@ -11,3 +11,11 @@ body {
 .sjrk-storyTelling-storyContent {
     width: 100%;
 }
+
+.sjrk-storyTelling-link-container {
+    margin: 1em 0;
+}
+
+.sjrk-storyTelling-label-container {
+    margin: 1em 0 .25em 0;
+}
