@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // Also uses gpii-binder to bind form components and
     // model
     fluid.defaults("sjrk.storyTelling.templatedComponent", {
-        gradeNames: ["gpii.binder", "fluid.viewComponent"],
+        gradeNames: ["fluid.viewComponent"],
         templateConfig: {
             // Used to supply both control and style classes
             // by the getClasses invoker
@@ -31,11 +31,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         // template
         templateTerms: {
         },
-        // Specified by using grade to bind form markup
-        // to component model;
-        // see https://github.com/GPII/gpii-binder
-        bindings: {
-        },
         events: {
             "onTemplateRendered": null
         },
@@ -43,14 +38,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "{templateLoader}.events.onResourcesLoaded": {
                 funcName: "{that}.renderTemplate",
                 args: ["{templateLoader}.resources.componentTemplate.resourceText", "{that}.options.templateTerms"]
-            },
-            // Applies bindings from gpii-binder after
-            // the template is loaded
-            "onTemplateRendered.applyBinding": {
-                funcName: "gpii.binder.applyBinding",
-                args: "{that}"
             }
-
         },
         components: {
             templateLoader: {
@@ -84,6 +72,21 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
                 args: ["{that}.events.onTemplateRendered", "{that}.container", "{arguments}.0", "{arguments}.1"]
             }
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.templatedComponentWithBinder", {
+        gradeNames: ["gpii.binder", "sjrk.storyTelling.templatedComponent"],
+        // Specified by using grade to bind form markup
+        // to component model;
+        // see https://github.com/GPII/gpii-binder
+        bindings: {
+        },
+        // Applies bindings from gpii-binder after
+        // the template is loaded
+        "onTemplateRendered.applyBinding": {
+            funcName: "gpii.binder.applyBinding",
+            args: "{that}"
         }
     });
 

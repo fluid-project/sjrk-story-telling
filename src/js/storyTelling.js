@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     });
 
     fluid.defaults("sjrk.storyTelling.story", {
-        gradeNames: ["sjrk.storyTelling.templatedComponent"],
+        gradeNames: ["sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
