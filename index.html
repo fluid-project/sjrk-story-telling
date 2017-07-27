@@ -30,12 +30,25 @@
 <div class="grid-12">
     <div class="col-8">
         <div class="srjkc-storyTelling sjrk-storyTelling"></div>
-    </div>    
+    </div>
 </div>
 
 
 <script>
-    var storyTelling = sjrk.storyTelling(".srjkc-storyTelling");
+    var storyTelling = sjrk.storyTelling(".srjkc-storyTelling", {
+        components: {
+            storyViewer: {
+                options: {
+                    model: {
+                        title: "My Amazing Placeholder Title",
+                        content: "Amazing placeholder story content! Thrilling!",
+                        author: "Gregor and Alan",
+                        tags: ["test","story","Alan","Gregor"]
+                    }
+                }
+            }
+        }
+    });
     console.log(storyTelling);
 </script>
 

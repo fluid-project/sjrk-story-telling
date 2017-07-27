@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -19,13 +19,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onStoryTemplateAppended: null
         },
         selectors: {
-            story: ".sjrkc-storyTelling-story"
+            storyEditor: ".sjrkc-storyTelling-storyEditor"
         },
         listeners: {
             "onCreate.appendStoryTemplate": {
                 "this": "{that}.container",
                 "method": "append",
-                "args": ["<div class='sjrkc-storyTelling-story'></div>"]
+                "args": ["<div class='sjrkc-storyTelling-storyEditor'></div><div class='sjrkc-storyTelling-storyViewer'></div>"]
             },
             "onCreate.fireOnStoryTemplateAppend": {
                 "func": "{that}.events.onStoryTemplateAppended.fire",
@@ -33,16 +33,35 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         },
         components: {
-            story: {
-                type: "sjrk.storyTelling.story",
-                container: ".sjrkc-storyTelling-story",
+            storyEditor: {
+                type: "sjrk.storyTelling.storyEditor",
+                container: ".sjrkc-storyTelling-storyEditor",
+                createOnEvent: "{storyTelling}.events.onStoryTemplateAppended"
+            },
+            storyViewer: {
+                type: "sjrk.storyTelling.storyViewer",
+                container: ".sjrkc-storyTelling-storyViewer",
                 createOnEvent: "{storyTelling}.events.onStoryTemplateAppended"
             }
         }
     });
 
     fluid.defaults("sjrk.storyTelling.story", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithBinder"],
+        gradeNames: ["fluid.modelComponent"],
+        model: {
+            title: "",
+            content: "",
+            author: "",
+            language: "",
+            images: [],
+            tags: [],
+            summary: "",
+            translations: []
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.storyEditor", {
+        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
@@ -53,22 +72,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyAuthor: "author",
             storyContent: "content"
         },
-        model: {
-            title: "",
-            content: "",
-            author: "",
-            language: "",
-            images: [],
-            tags: [],
-            summary: "",
-            translations: []
-        },
         templateTerms: {
             storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
             storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
             storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
             storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-            // TODO: classes for other links,
             storyAddPhotosClasses: "@expand:{that}.getClasses(storyTelling-storyAddPhotos)",
             storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
             storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
@@ -80,17 +88,58 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyContentClasses:
             "@expand:{that}.getClasses(storyTelling-storyContent)",
             storySubmitClasses: "@expand:{that}.getClasses(storyTelling-submit)"
-
         },
         components: {
             templateLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "src/html/story.html"
+                        componentTemplate: "src/templates/storyEdit.html"
                     }
                 }
             }
         }
     });
+
+    fluid.defaults("sjrk.storyTelling.storyViewer", {
+        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponent"],
+        templateTerms: {
+            storyTitle: "{that}.model.title",
+            storyContent: "{that}.model.content",
+            storyAuthor: "{that}.model.author",
+            storyTags: {
+                expander: {
+                    func: "sjrk.storyTelling.storyViewer.tagArrayToDisplayString",
+                    args: ["{that}.model.tags"]
+                }
+            },
+            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+            storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
+            storyTitleClasses:
+            "@expand:{that}.getClasses(storyTelling-storyTitle)",
+            storyAuthorClasses:
+            "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+            storyContentClasses:
+            "@expand:{that}.getClasses(storyTelling-storyContent)",
+            storyShareClasses:
+            "@expand:{that}.getClasses(storyTelling-storyShare)",
+            storySaveNoShareClasses:
+            "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
+            storyReadMoreClasses:
+            "@expand:{that}.getClasses(storyTelling-storyReadMore)"
+        },
+        components: {
+            templateLoader: {
+                options: {
+                    resources: {
+                        componentTemplate: "src/templates/storyView.html"
+                    }
+                }
+            }
+        }
+    });
+
+    sjrk.storyTelling.storyViewer.tagArrayToDisplayString = function (array) {
+        return array.join(", ");
+    };
 
 })(jQuery, fluid);
