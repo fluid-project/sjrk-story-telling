@@ -31,6 +31,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onCreate.fireOnStoryTemplateAppend": {
                 "func": "{that}.events.onStoryTemplateAppended.fire",
                 "priority": "after:appendStoryTemplate"
+            },
+            "onStorySubmitRequestedFromEditor.log": {
+                "this": "console",
+                "method": "log",
+                "args": ["Story Submit Requested"]
             }
         },
         components: {
@@ -47,7 +52,21 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyViewer: {
                 type: "sjrk.storyTelling.storyViewer",
                 container: ".sjrkc-storyTelling-storyViewer",
-                createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditor"
+                createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditor",
+                options: {
+                    model: {
+                        title: "{storyEditor}.model.title",
+                        content: "{storyEditor}.model.content",
+                        author: "{storyEditor}.model.author"
+                    },
+                    listeners: {
+                        "onCreate.log": {
+                            "this": "console",
+                            "method": "log",
+                            "args": ["storyViewer subcomponent created", "{that}"]
+                        }
+                    }
+                }
             }
         }
     });
