@@ -16,7 +16,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling", {
         gradeNames: ["fluid.viewComponent"],
         events: {
-            onStoryTemplateAppended: null
+            onStoryTemplateAppended: null,
+            onStorySubmitRequestedFromEditor: null
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor"
@@ -36,12 +37,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyEditor: {
                 type: "sjrk.storyTelling.storyEditor",
                 container: ".sjrkc-storyTelling-storyEditor",
-                createOnEvent: "{storyTelling}.events.onStoryTemplateAppended"
+                createOnEvent: "{storyTelling}.events.onStoryTemplateAppended",
+                options: {
+                    events: {
+                        onStorySubmitRequested: "{storyTelling}.events.onStorySubmitRequestedFromEditor"
+                    }
+                }
             },
             storyViewer: {
                 type: "sjrk.storyTelling.storyViewer",
                 container: ".sjrkc-storyTelling-storyViewer",
-                createOnEvent: "{storyTelling}.events.onStoryTemplateAppended"
+                createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditor"
             }
         }
     });
@@ -65,7 +71,23 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         selectors: {
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
-            storyContent: ".sjrkc-storytelling-storyContent"
+            storyContent: ".sjrkc-storytelling-storyContent",
+            storySubmit: ".sjrkc-storyTelling-storySubmit"
+        },
+        events: {
+            onStorySubmitRequested: null
+        },
+        listeners: {
+            "onTemplateRendered.bindSubmitControl": {
+                "this": "{that}.dom.storySubmit",
+                "method": "click",
+                "args": ["{that}.fireOnStorySubmitRequested"]
+            }
+        },
+        invokers: {
+            fireOnStorySubmitRequested: {
+                "func": "{that}.events.onStorySubmitRequested.fire"
+            }
         },
         bindings: {
             storyTitle: "title",
@@ -87,7 +109,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "@expand:{that}.getClasses(storyTelling-storyAuthor)",
             storyContentClasses:
             "@expand:{that}.getClasses(storyTelling-storyContent)",
-            storySubmitClasses: "@expand:{that}.getClasses(storyTelling-submit)"
+            storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)"
         },
         components: {
             templateLoader: {
