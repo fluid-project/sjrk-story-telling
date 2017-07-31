@@ -88,6 +88,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     });
 
     sjrk.storyTelling.transforms.stringToArray = function (input, extraInputs) {
+        console.log(input, extraInputs);
         var sourceString = input,
             delimiter = extraInputs.delimiter(),
             trim = extraInputs.trim();

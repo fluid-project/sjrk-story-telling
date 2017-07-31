@@ -7,19 +7,31 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global fluid, jqUnit */
 
 (function ($, fluid) {
 
     "use strict";
 
-    jqUnit.test("Test tagInputStringToArray function", function () {
+    jqUnit.test("Test stringToArray transform function", function () {
         jqUnit.expect(2);
 
-        var delimiter = ",";
         var expectedArray = ["tag1","tag2"];
-        var tagArray = sjrk.storyTelling.tagInputStringToArray("tag1, tag2",delimiter);
-        var tagArrayNoSpace = sjrk.storyTelling.tagInputStringToArray("tag1,tag2",delimiter);
+
+        var stringToArrayTransform = {
+            transform: {
+                type: "sjrk.storyTelling.transforms.stringToArray",
+                inputPath: "sourceString"
+            }
+        };
+
+        var tagArray = fluid.model.transformWithRules({sourceString: "tag1,tag2"}, {
+            tagArray: stringToArrayTransform
+        }).tagArray;
+
+        var tagArrayNoSpace = fluid.model.transformWithRules({sourceString: "tag1, tag2"}, {
+            tagArray: stringToArrayTransform
+        }).tagArray;
 
         jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArray);
         jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArrayNoSpace);
@@ -28,8 +40,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     jqUnit.test("Test tagArrayToDisplayString function", function () {
         jqUnit.expect(1);
 
+        var arrayToStringTransform = {
+            transform: {
+                type: "sjrk.storyTelling.transforms.arrayToString",
+                inputPath: "sourceArray"
+            }
+        };
+
         var expectedString = "tag1, tag2";
-        var tagString = sjrk.storyTelling.tagArrayToDisplayString(["tag1","tag2"],", ", true);
+
+        var tagString = fluid.model.transformWithRules({sourceArray: ["tag1", "tag2"]}, {
+            tagString: arrayToStringTransform
+        }).tagString;
 
         jqUnit.assertEquals("Generated array values are as expected", expectedString, tagString);
     });
