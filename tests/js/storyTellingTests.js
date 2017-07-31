@@ -21,17 +21,20 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         var stringToArrayTransform = {
             transform: {
                 type: "sjrk.storyTelling.transforms.stringToArray",
-                inputPath: "sourceString"
+                inputPath: "inputString"
             }
         };
 
-        var tagArray = fluid.model.transformWithRules({sourceString: "tag1,tag2"}, {
-            tagArray: stringToArrayTransform
-        }).tagArray;
+        // TODO: THERE HAS TO BE A BETTER WAY
+        var tagArray = fluid.model.transformWithRules(
+            {inputString: "tag1,tag2"},
+            {output: stringToArrayTransform}
+            ).output;
 
-        var tagArrayNoSpace = fluid.model.transformWithRules({sourceString: "tag1, tag2"}, {
-            tagArray: stringToArrayTransform
-        }).tagArray;
+        var tagArrayNoSpace = fluid.model.transformWithRules(
+            {inputString: "tag1, tag2"},
+            {output: stringToArrayTransform}
+            ).output;
 
         jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArray);
         jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArrayNoSpace);
@@ -49,9 +52,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
         var expectedString = "tag1, tag2";
 
-        var tagString = fluid.model.transformWithRules({sourceArray: ["tag1", "tag2"]}, {
-            tagString: arrayToStringTransform
-        }).tagString;
+        // TODO: THERE HAS TO BE A BETTER WAY
+        var tagString = fluid.model.transformWithRules(
+            {sourceArray: ["tag1", "tag2"]},
+            {tagString: arrayToStringTransform}
+            ).tagString;
 
         jqUnit.assertEquals("Generated array values are as expected", expectedString, tagString);
     });
