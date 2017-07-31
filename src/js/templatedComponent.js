@@ -24,19 +24,20 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             // by the getClasses invoker
             classPrefix: "sjrk"
         },
-        // Specified by using grade
-        // These will be passed as the second argument of
-        // fluid.stringTemplate when rendering the page
-        // template
-        templateTerms: {
+        model: {
+            // Specified by using grade
+            // These will be passed as the second argument of
+            // fluid.stringTemplate when rendering the page
+            // template
+            templateTerms: {
+            }
         },
         events: {
             "onTemplateRendered": null
         },
         listeners: {
             "{templateLoader}.events.onResourcesLoaded": {
-                funcName: "{that}.renderTemplate",
-                args: ["{templateLoader}.resources.componentTemplate.resourceText", "{that}.options.templateTerms"]
+                funcName: "{that}.renderTemplateOnSelf"
             }
         },
         components: {
@@ -67,9 +68,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             // Invoker used to render the component's template and fire
             // the onTemplateRendered event that the applyBinding's listener
             // waits on
-            renderTemplate: {
+            renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
-                args: ["{that}.events.onTemplateRendered", "{that}.container", "{arguments}.0", "{arguments}.1"]
+                args: ["{that}.events.onTemplateRendered", "{that}.container", "{templateLoader}.resources.componentTemplate.resourceText", "{that}.model.templateTerms"]
             }
         }
     });
@@ -100,7 +101,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     */
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, template, terms) {
         var renderedTemplate = fluid.stringTemplate(template, terms);
-        container.append(renderedTemplate);
+        container.html(renderedTemplate);
         completionEvent.fire();
     };
 

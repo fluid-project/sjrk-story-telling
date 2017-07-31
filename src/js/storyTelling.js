@@ -17,7 +17,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         gradeNames: ["fluid.viewComponent"],
         events: {
             onStoryTemplateAppended: null,
-            onStorySubmitRequestedFromEditor: null
+            onStorySubmitRequestedFromEditorNoView: null,
+            onStorySubmitRequestedFromEditorViewExists: null
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor"
@@ -31,11 +32,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onCreate.fireOnStoryTemplateAppend": {
                 "func": "{that}.events.onStoryTemplateAppended.fire",
                 "priority": "after:appendStoryTemplate"
-            },
-            "onStorySubmitRequestedFromEditor.log": {
-                "this": "console",
-                "method": "log",
-                "args": ["Story Submit Requested"]
             }
         },
         components: {
@@ -44,15 +40,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 container: ".sjrkc-storyTelling-storyEditor",
                 createOnEvent: "{storyTelling}.events.onStoryTemplateAppended",
                 options: {
-                    events: {
-                        onStorySubmitRequested: "{storyTelling}.events.onStorySubmitRequestedFromEditor"
+                    listeners: {
+                        "onStorySubmitRequested.fireStoryViewerEvent": {
+                            "func": "sjrk.storyTelling.fireStoryViewerEvent",
+                            "args": "{storyTelling}"
+                        }
                     }
                 }
             },
             storyViewer: {
                 type: "sjrk.storyTelling.storyViewer",
                 container: ".sjrkc-storyTelling-storyViewer",
-                createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditor",
+                createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditorNoView",
                 options: {
                     model: {
                         title: "{storyEditor}.model.title",
@@ -63,13 +62,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         "onCreate.log": {
                             "this": "console",
                             "method": "log",
-                            "args": ["storyViewer subcomponent created", "{that}"]
+                            "args": ["storyViewer subcomponent created", "{storyTelling}"]
+                        },
+                        "{storyTelling}.events.onStorySubmitRequestedFromEditorViewExists": {
+                            func: "{that}.renderTemplateOnSelf"
                         }
                     }
                 }
             }
         }
     });
+
+    sjrk.storyTelling.fireStoryViewerEvent = function (storytellingComponent) {
+        if (!storytellingComponent.storyViewer) {
+            storytellingComponent.events.onStorySubmitRequestedFromEditorNoView.fire();
+        } else {
+            storytellingComponent.events.onStorySubmitRequestedFromEditorViewExists.fire();
+        }
+    };
 
     fluid.defaults("sjrk.storyTelling.story", {
         gradeNames: ["fluid.modelComponent"],
@@ -113,22 +123,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyAuthor: "author",
             storyContent: "content"
         },
-        templateTerms: {
-            storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
-            storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
-            storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
-            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-            storyAddPhotosClasses: "@expand:{that}.getClasses(storyTelling-storyAddPhotos)",
-            storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
-            storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
-            storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
-            storyTitleClasses:
-            "@expand:{that}.getClasses(storyTelling-storyTitle)",
-            storyAuthorClasses:
-            "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-            storyContentClasses:
-            "@expand:{that}.getClasses(storyTelling-storyContent)",
-            storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)"
+        model: {
+            templateTerms: {
+                storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
+                storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
+                storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
+                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+                storyAddPhotosClasses: "@expand:{that}.getClasses(storyTelling-storyAddPhotos)",
+                storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
+                storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
+                storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
+                storyTitleClasses:
+                "@expand:{that}.getClasses(storyTelling-storyTitle)",
+                storyAuthorClasses:
+                "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+                storyContentClasses:
+                "@expand:{that}.getClasses(storyTelling-storyContent)",
+                storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)"
+            }
         },
         components: {
             templateLoader: {
@@ -143,30 +155,35 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     fluid.defaults("sjrk.storyTelling.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponent"],
-        templateTerms: {
-            storyTitle: "{that}.model.title",
-            storyContent: "{that}.model.content",
-            storyAuthor: "{that}.model.author",
-            storyTags: {
-                expander: {
-                    func: "sjrk.storyTelling.storyViewer.tagArrayToDisplayString",
-                    args: ["{that}.model.tags"]
-                }
-            },
-            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-            storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
-            storyTitleClasses:
-            "@expand:{that}.getClasses(storyTelling-storyTitle)",
-            storyAuthorClasses:
-            "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-            storyContentClasses:
-            "@expand:{that}.getClasses(storyTelling-storyContent)",
-            storyShareClasses:
-            "@expand:{that}.getClasses(storyTelling-storyShare)",
-            storySaveNoShareClasses:
-            "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
-            storyReadMoreClasses:
-            "@expand:{that}.getClasses(storyTelling-storyReadMore)"
+        modelRelay: {
+            source: "tags",
+            target: "templateTerms.storyTags",
+            singleTransform: {
+                type: "sjrk.storyTelling.storyViewer.tagArrayToDisplayString"
+            }
+        },
+        model: {
+            templateTerms: {
+                // TODO: fix syntax of this
+                storyTitle: "{that}.model.title",
+                storyContent: "{that}.model.content",
+                storyAuthor: "{that}.model.author",
+                // storyTags: {},
+                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+                storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
+                storyTitleClasses:
+                "@expand:{that}.getClasses(storyTelling-storyTitle)",
+                storyAuthorClasses:
+                "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+                storyContentClasses:
+                "@expand:{that}.getClasses(storyTelling-storyContent)",
+                storyShareClasses:
+                "@expand:{that}.getClasses(storyTelling-storyShare)",
+                storySaveNoShareClasses:
+                "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
+                storyReadMoreClasses:
+                "@expand:{that}.getClasses(storyTelling-storyReadMore)"
+            }
         },
         components: {
             templateLoader: {

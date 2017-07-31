@@ -27,8 +27,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 }
             }
         },
-        templateTerms: {
-            testClasses: "replacement-Value"
+        model: {
+            templateTerms: {
+                testClasses: "replacement-Value"
+            }
         }
     });
 
