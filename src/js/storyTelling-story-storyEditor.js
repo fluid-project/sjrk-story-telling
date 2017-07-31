@@ -24,13 +24,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTags: ".sjrkc-storyTelling-storyTags"
         },
         events: {
-            onStorySubmitRequested: null
+            onStorySubmitRequested: null,
+            onControlsBound: null
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
                 "args": ["{that}.fireOnStorySubmitRequested"]
+            },
+            "onTemplateRendered.fireOnControlsBound": {
+                "func": "{that}.events.onControlsBound.fire",
+                "priority": "after:bindSubmitControl"
             }
         },
         invokers: {

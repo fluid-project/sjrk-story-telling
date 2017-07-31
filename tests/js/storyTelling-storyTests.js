@@ -13,4 +13,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
+    jqUnit.test("no tests yet", function () {
+        jqUnit.expect(0);
+    });
+
 })(jQuery, fluid);

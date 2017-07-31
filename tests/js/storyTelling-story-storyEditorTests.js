@@ -13,4 +13,66 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
+    fluid.defaults("sjrk.storyTelling.story.testStoryEditor", {
+        gradeNames: ["sjrk.storyTelling.story.storyEditor"],
+        components: {
+            templateLoader: {
+                options: {
+                    resources: {
+                        componentTemplate: "../../src/templates/storyEdit.html"
+                    }
+                }
+            }
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.storyEditorTester", {
+        gradeNames: ["fluid.test.testCaseHolder"],
+        modules: [{
+            name: "Test story editor.",
+            tests: [{
+                name: "Test 'Done' button",
+                expect: 1,
+                sequence: [{
+                    "event": "{storyEditorTest storyEditor}.events.onControlsBound",
+                    listener: "sjrk.storyTelling.storyEditorTester.clickDoneButton",
+                    args: ["{storyEditor}.dom.storySubmit"]
+                },
+                {
+                    "event": "{storyEditorTest storyEditor}.events.onStorySubmitRequested",
+                    listener: "sjrk.storyTelling.storyEditorTester.hello"
+                }]
+            }]
+        }]
+    });
+
+    sjrk.storyTelling.storyEditorTester.clickDoneButton = function (selector) {
+        selector.click();
+        console.log("hello");
+    };
+
+    sjrk.storyTelling.storyEditorTester.hello = function () {
+        console.log("hi");
+    };
+
+    fluid.defaults("sjrk.storyTelling.storyEditorTest", {
+        gradeNames: ["fluid.test.testEnvironment"],
+        components: {
+            storyEditor: {
+                type: "sjrk.storyTelling.story.testStoryEditor",
+                container: "#testStoryEditor",
+                createOnEvent: "{storyEditorTester}.events.onTestCaseStart"
+            },
+            storyEditorTester: {
+                type: "sjrk.storyTelling.storyEditorTester"
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        fluid.test.runTests([
+            "sjrk.storyTelling.storyEditorTest"
+        ]);
+    });
+
 })(jQuery, fluid);
