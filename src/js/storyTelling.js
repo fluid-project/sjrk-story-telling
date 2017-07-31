@@ -77,14 +77,39 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     };
 
-    sjrk.storyTelling.tagInputStringToArray = function (tagString) {
-        return fluid.transform(tagString.split(","), function (tag) {
-            return tag.trim();
+    fluid.registerNamespace("sjrk.storyTelling.transforms");
+
+    fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
+        "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
+        "inputVariables": {
+            "delimiter": ",",
+            "trim": true
+        }
+    });
+
+    sjrk.storyTelling.transforms.stringToArray = function (input, extraInputs) {
+        var sourceString = input,
+            delimiter = extraInputs.delimiter(),
+            trim = extraInputs.trim();
+
+        return fluid.transform(sourceString.split(delimiter), function (tag) {
+            if (trim) {
+                return tag.trim();
+            } else {
+                return tag;
+            }
         });
     };
 
-    sjrk.storyTelling.tagArrayToDisplayString = function (tagArray) {
-        return tagArray.join(", ");
+    fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
+        "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
+        "inputVariables": {
+            "separator": ", "
+        }
+    });
+
+    sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
+        return input.join(extraInputs.separator());
     };
 
     fluid.defaults("sjrk.storyTelling.story", {
@@ -136,7 +161,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     domToModel: {
                         "" : {
                             transform: {
-                                type: "sjrk.storyTelling.tagInputStringToArray",
+                                type: "sjrk.storyTelling.transforms.stringToArray",
                                 inputPath: ""
                             }
                         }
@@ -144,7 +169,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     modelToDom: {
                         "" : {
                             transform: {
-                                type: "sjrk.storyTelling.tagArrayToDisplayString",
+                                type: "sjrk.storyTelling.transforms.arrayToString",
                                 inputPath: ""
                             }
                         }
@@ -190,7 +215,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             source: "tags",
             target: "templateTerms.storyTags",
             singleTransform: {
-                type: "sjrk.storyTelling.tagArrayToDisplayString"
+                type: "sjrk.storyTelling.transforms.arrayToString"
             }
         },
         model: {
