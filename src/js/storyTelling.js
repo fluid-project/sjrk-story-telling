@@ -77,6 +77,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     };
 
+    sjrk.storyTelling.tagInputStringToArray = function (tagString) {
+        return fluid.transform(tagString.split(","), function (tag) {
+            return tag.trim();
+        });
+    };
+
+    sjrk.storyTelling.tagArrayToDisplayString = function (tagArray) {
+        return tagArray.join(", ");
+    };
+
     fluid.defaults("sjrk.storyTelling.story", {
         gradeNames: ["fluid.modelComponent"],
         model: {
@@ -126,7 +136,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     domToModel: {
                         "" : {
                             transform: {
-                                type: "sjrk.storyTelling.storyEditor.tagInputStringToArray",
+                                type: "sjrk.storyTelling.tagInputStringToArray",
                                 inputPath: ""
                             }
                         }
@@ -134,7 +144,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     modelToDom: {
                         "" : {
                             transform: {
-                                type: "sjrk.storyTelling.storyViewer.tagArrayToDisplayString",
+                                type: "sjrk.storyTelling.tagArrayToDisplayString",
                                 inputPath: ""
                             }
                         }
@@ -174,19 +184,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    sjrk.storyTelling.storyEditor.tagInputStringToArray = function (tagString) {
-        return fluid.transform(tagString.split(","), function (tag) {
-            return tag.trim();
-        });
-    };
-
     fluid.defaults("sjrk.storyTelling.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponent"],
         modelRelay: {
             source: "tags",
             target: "templateTerms.storyTags",
             singleTransform: {
-                type: "sjrk.storyTelling.storyViewer.tagArrayToDisplayString"
+                type: "sjrk.storyTelling.tagArrayToDisplayString"
             }
         },
         model: {
@@ -222,9 +226,5 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
-
-    sjrk.storyTelling.storyViewer.tagArrayToDisplayString = function (tagArray) {
-        return tagArray.join(", ");
-    };
 
 })(jQuery, fluid);
