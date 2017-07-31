@@ -56,14 +56,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     model: {
                         title: "{storyEditor}.model.title",
                         content: "{storyEditor}.model.content",
-                        author: "{storyEditor}.model.author"
+                        author: "{storyEditor}.model.author",
+                        tags: "{storyEditor}.model.tags"
                     },
                     listeners: {
-                        "onCreate.log": {
-                            "this": "console",
-                            "method": "log",
-                            "args": ["storyViewer subcomponent created", "{storyTelling}"]
-                        },
                         "{storyTelling}.events.onStorySubmitRequestedFromEditorViewExists": {
                             func: "{that}.renderTemplateOnSelf"
                         }
@@ -101,7 +97,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
             storyContent: ".sjrkc-storytelling-storyContent",
-            storySubmit: ".sjrkc-storyTelling-storySubmit"
+            storySubmit: ".sjrkc-storyTelling-storySubmit",
+            storyTags: ".sjrkc-storyTelling-storyTags"
         },
         events: {
             onStorySubmitRequested: null
@@ -121,16 +118,40 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         bindings: {
             storyTitle: "title",
             storyAuthor: "author",
-            storyContent: "content"
+            storyContent: "content",
+            storyTags: {
+                selector: "storyTags",
+                path: "tags",
+                rules: {
+                    domToModel: {
+                        "" : {
+                            transform: {
+                                type: "sjrk.storyTelling.storyEditor.tagInputStringToArray",
+                                inputPath: ""
+                            }
+                        }
+                    },
+                    modelToDom: {
+                        "" : {
+                            transform: {
+                                type: "sjrk.storyTelling.storyViewer.tagArrayToDisplayString",
+                                inputPath: ""
+                            }
+                        }
+                    }
+                }
+            }
         },
         model: {
             templateTerms: {
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
+                storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
                 storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
                 storyAddPhotosClasses: "@expand:{that}.getClasses(storyTelling-storyAddPhotos)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
+                storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
                 storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storyTitleClasses:
@@ -152,6 +173,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
+
+    sjrk.storyTelling.storyEditor.tagInputStringToArray = function (tagString) {
+        return fluid.transform(tagString.split(","), function (tag) {
+            return tag.trim();
+        });
+    };
 
     fluid.defaults("sjrk.storyTelling.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponent"],
@@ -196,8 +223,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    sjrk.storyTelling.storyViewer.tagArrayToDisplayString = function (array) {
-        return array.join(", ");
+    sjrk.storyTelling.storyViewer.tagArrayToDisplayString = function (tagArray) {
+        return tagArray.join(", ");
     };
 
 })(jQuery, fluid);
