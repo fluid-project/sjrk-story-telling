@@ -14,31 +14,20 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling", {
-        gradeNames: ["fluid.viewComponent"],
+        gradeNames: ["sjrk.storyTelling.templatedComponent"],
         events: {
-            onStoryTemplateAppended: null,
             onStorySubmitRequestedFromEditorNoView: null,
             onStorySubmitRequestedFromEditorViewExists: null
         },
         selectors: {
-            storyEditor: ".sjrkc-storyTelling-storyEditor"
-        },
-        listeners: {
-            "onCreate.appendStoryTemplate": {
-                "this": "{that}.container",
-                "method": "append",
-                "args": ["<div class='sjrkc-storyTelling-storyEditor'></div><div class='sjrkc-storyTelling-storyViewer'></div>"]
-            },
-            "onCreate.fireOnStoryTemplateAppend": {
-                "func": "{that}.events.onStoryTemplateAppended.fire",
-                "priority": "after:appendStoryTemplate"
-            }
+            storyEditor: ".sjrkc-storyTelling-storyEditor",
+            storyViewer: ".sjrkc-storyTelling-storyViewer"
         },
         components: {
             storyEditor: {
                 type: "sjrk.storyTelling.story.storyEditor",
-                container: ".sjrkc-storyTelling-storyEditor",
-                createOnEvent: "{storyTelling}.events.onStoryTemplateAppended",
+                container: "{that}.options.selectors.storyEditor",
+                createOnEvent: "{storyTelling}.events.onTemplateRendered",
                 options: {
                     listeners: {
                         "onStorySubmitRequested.fireStoryViewerEvent": {
@@ -50,7 +39,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             },
             storyViewer: {
                 type: "sjrk.storyTelling.story.storyViewer",
-                container: ".sjrkc-storyTelling-storyViewer",
+                container: "{that}.options.selectors.storyViewer",
                 createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditorNoView",
                 options: {
                     model: {
@@ -63,6 +52,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         "{storyTelling}.events.onStorySubmitRequestedFromEditorViewExists": {
                             func: "{that}.renderTemplateOnSelf"
                         }
+                    }
+                }
+            },
+            templateLoader: {
+                options: {
+                    resources: {
+                        componentTemplate: "src/templates/storyTelling.html"
                     }
                 }
             }
