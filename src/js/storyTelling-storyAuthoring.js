@@ -13,11 +13,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling", {
+    fluid.defaults("sjrk.storyTelling.storyAuthoring", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
         events: {
             onStorySubmitRequestedFromEditorNoView: null,
-            onStorySubmitRequestedFromEditorViewExists: null
+            onStorySubmitRequestedFromEditorViewExists: null,
+            onStoryEditorReady: null,
+            onStoryViewerReady: null
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor",
@@ -27,12 +29,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyEditor: {
                 type: "sjrk.storyTelling.story.storyEditor",
                 container: "{that}.options.selectors.storyEditor",
-                createOnEvent: "{storyTelling}.events.onTemplateRendered",
+                createOnEvent: "{storyAuthoring}.events.onTemplateRendered",
                 options: {
                     listeners: {
                         "onStorySubmitRequested.fireStoryViewerEvent": {
-                            "func": "sjrk.storyTelling.fireStoryViewerEvent",
-                            "args": "{storyTelling}"
+                            "func": "sjrk.storyTelling.storyAuthoring.fireStoryViewerEvent",
+                            "args": "{storyAuthoring}"
+                        },
+                        "onControlsBound.escalate": {
+                            "func": "{storyAuthoring}.events.onStoryEditorReady.fire"
                         }
                     }
                 }
@@ -40,7 +45,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyViewer: {
                 type: "sjrk.storyTelling.story.storyViewer",
                 container: "{that}.options.selectors.storyViewer",
-                createOnEvent: "{storyTelling}.events.onStorySubmitRequestedFromEditorNoView",
+                createOnEvent: "{storyAuthoring}.events.onStorySubmitRequestedFromEditorNoView",
                 options: {
                     model: {
                         title: "{storyEditor}.model.title",
@@ -49,8 +54,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         tags: "{storyEditor}.model.tags"
                     },
                     listeners: {
-                        "{storyTelling}.events.onStorySubmitRequestedFromEditorViewExists": {
+                        "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists": {
                             func: "{that}.renderTemplateOnSelf"
+                        },
+                        "onTemplateRendered.escalate": {
+                            "func": "{storyAuthoring}.events.onStoryViewerReady.fire"
                         }
                     }
                 }
@@ -65,7 +73,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    sjrk.storyTelling.fireStoryViewerEvent = function (storytellingComponent) {
+    sjrk.storyTelling.storyAuthoring.fireStoryViewerEvent = function (storytellingComponent) {
         if (!storytellingComponent.storyViewer) {
             storytellingComponent.events.onStorySubmitRequestedFromEditorNoView.fire();
         } else {

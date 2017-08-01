@@ -100,6 +100,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * - "terms": terms to use in fluid.stringTemplate
     */
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, template, terms) {
+        console.log(template);
         var renderedTemplate = fluid.stringTemplate(template, terms);
         container.html(renderedTemplate);
         completionEvent.fire();
