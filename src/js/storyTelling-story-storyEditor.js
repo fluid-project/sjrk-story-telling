@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onTemplateRendered.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
-                "args": ["{that}.fireOnStorySubmitRequested"]
+                "args": ["{that}.events.onStorySubmitRequested.fire"]
             },
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",

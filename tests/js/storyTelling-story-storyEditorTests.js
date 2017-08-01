@@ -32,28 +32,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             name: "Test story editor.",
             tests: [{
                 name: "Test 'Done' button",
-                expect: 1,
+                expect: 2,
                 sequence: [{
                     "event": "{storyEditorTest storyEditor}.events.onControlsBound",
-                    listener: "sjrk.storyTelling.storyEditorTester.clickDoneButton",
-                    args: ["{storyEditor}.dom.storySubmit"]
+                    listener: "jqUnit.assert",
+                    args: ["onControlsBound event fired"]
                 },
                 {
-                    "event": "{storyEditorTest storyEditor}.events.onStorySubmitRequested",
-                    listener: "sjrk.storyTelling.storyEditorTester.hello"
+                    "jQueryTrigger": "click",
+                    "element": "{storyEditor}.dom.storySubmit"
+                },
+                {
+                    "event": "{storyEditor}.events.onStorySubmitRequested",
+                    listener: "jqUnit.assert",
+                    args: "storyEditorSubmitRequested event fired."
                 }]
             }]
         }]
     });
-
-    sjrk.storyTelling.storyEditorTester.clickDoneButton = function (selector) {
-        selector.click();
-        console.log("hello");
-    };
-
-    sjrk.storyTelling.storyEditorTester.hello = function () {
-        console.log("hi");
-    };
 
     fluid.defaults("sjrk.storyTelling.storyEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
