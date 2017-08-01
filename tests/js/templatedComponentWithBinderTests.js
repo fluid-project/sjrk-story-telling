@@ -55,8 +55,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     listener: "sjrk.storyTelling.templatedComponentWithBinderTester.testBinding",
                     args: ["{templatedComponentWithBinder}", "Model and input value are equal when model is changed"]
                 }, {
-                    "func": "sjrk.storyTelling.templatedComponentWithBinderTester.changeForm",
-                    args: ["{templatedComponentWithBinder}"]
+                    "func": "sjrk.storyTelling.testUtils.changeForm",
+                    args: ["{templatedComponentWithBinder}", "testValueInput", "Test value from changing form"]
                 }, {
                     "changeEvent": "{templatedComponentWithBinder}.applier.modelChanged",
                     "path": "testValue",
@@ -71,10 +71,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         var modelValue = fluid.get(component.model, "testValue");
         var inputValue = component.locate("testValueInput").val();
         jqUnit.assertEquals(message, modelValue, inputValue);
-    };
-
-    sjrk.storyTelling.templatedComponentWithBinderTester.changeForm = function (component) {
-        component.locate("testValueInput").val("Test value from changing form").change();
     };
 
     fluid.defaults("sjrk.storyTelling.templatedComponentWithBinderTest", {
