@@ -15,6 +15,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponent"],
+        selectors: {
+            storyTitle: ".sjrkc-storytelling-storyTitle",
+            storyAuthor: ".sjrkc-storytelling-storyAuthor",
+            storyContent: ".sjrkc-storytelling-storyContent",
+            storyTags: ".sjrkc-storyTelling-storyListTags"
+        },
         modelRelay: {
             source: "tags",
             target: "templateTerms.storyTags",

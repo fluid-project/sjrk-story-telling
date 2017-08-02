@@ -100,7 +100,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * - "terms": terms to use in fluid.stringTemplate
     */
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, template, terms) {
-        console.log(template);
         var renderedTemplate = fluid.stringTemplate(template, terms);
         container.html(renderedTemplate);
         completionEvent.fire();
@@ -129,6 +128,26 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 func: "{that}.events.onBindingApplied.fire",
                 priority: "after:applyBinding"
             }
+        }
+    });
+
+    // TODO: refer to Tony's work for implementation
+    // https://wiki.gpii.net/w/Technology_Evaluation_-_Internationalising_and_Localising_UI_strings#Detailed_Review
+    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalization", {
+        gradeNames: ["fluid.prefs.msgLookup", "sjrk.storyTelling.templatedComponent"],
+        events: {
+            "onLocalizationChanged": null,
+            "onMessageBundleLoaded": null
+        },
+        components: {
+            msgResolver: {
+                type: "fluid.messageResolver"
+            }
+        },
+        messageBase: {},
+        distributeOptions: {
+            source: "{that}.options.messageBase",
+            target: "{that > msgResolver}.options.messageBase"
         }
     });
 
