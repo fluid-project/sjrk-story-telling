@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     listener: "sjrk.storyTelling.templatedComponentWithBinderTester.testBinding",
                     args: ["{templatedComponentWithBinder}", "Model and input value are equal when model is changed"]
                 }, {
-                    "func": "sjrk.storyTelling.testUtils.changeForm",
+                    "func": "sjrk.storyTelling.testUtils.changeFormElement",
                     args: ["{templatedComponentWithBinder}", "testValueInput", "Test value from changing form"]
                 }, {
                     "changeEvent": "{templatedComponentWithBinder}.applier.modelChanged",

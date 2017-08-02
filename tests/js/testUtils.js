@@ -13,8 +13,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
-    sjrk.storyTelling.testUtils = {};
-    sjrk.storyTelling.testUtils.changeForm = function (component, selector, value) {
+    fluid.registerNamespace("sjrk.storyTelling.testUtils");
+
+    /*
+     * Used to change the content of a specified HTML element to the given value.
+     * This is abstracted to a utility function in order to use it with gpii-binder
+     * when setting up tests. It triggers the change event in order to ensure
+     * the form value is relayed to the model, as val on its own does not.
+     */
+    sjrk.storyTelling.testUtils.changeFormElement = function (component, selector, value) {
         component.locate(selector).val(value).change();
     };
 
