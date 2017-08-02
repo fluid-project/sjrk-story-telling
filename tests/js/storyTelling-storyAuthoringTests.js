@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.storyAuthoringTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test story authoring interface.",
+            name: "Test story authoring interface",
             tests: [{
                 name: "Test viewer rendering events",
                 expect: 4,
@@ -87,6 +87,44 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists",
                     listener: "jqUnit.assert",
                     args: "onStorySubmitRequestedFromEditorViewExists event fired."
+                }]
+            },
+            {
+                name: "Test editor and viewer model binding and updating",
+                expect: 4,
+                sequence: [{
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyAuthoring}.storyEditor","storyTitle","Initial test title"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyAuthoring}.storyEditor.dom.storySubmit"
+                },
+                {
+                    "event": "{storyAuthoring}.events.onStoryViewerReady",
+                    listener: "jqUnit.assert",
+                    args: ["onStoryViewerReady event fired"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Viewer model updated","{storyAuthoring}.storyEditor.model.title","{storyAuthoring}.storyViewer.model.title"]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyAuthoring}.storyEditor","storyTitle","New test title"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyAuthoring}.storyEditor.dom.storySubmit"
+                },
+                {
+                    "event": "{storyAuthoring}.events.onStoryViewerReady",
+                    listener: "jqUnit.assert",
+                    args: ["onStoryViewerReady event fired"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Viewer model updated after change","{storyAuthoring}.storyEditor.model.title","{storyAuthoring}.storyViewer.model.title"]
                 }]
             }]
         }]
