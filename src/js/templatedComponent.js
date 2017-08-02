@@ -131,4 +131,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
+    // TODO: refer to Tony's work for implementation
+    // https://wiki.gpii.net/w/Technology_Evaluation_-_Internationalising_and_Localising_UI_strings#Detailed_Review
+    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalization", {
+        gradeNames: ["fluid.prefs.msgLookup", "sjrk.storyTelling.templatedComponent"],
+        events: {
+            "onLocalizationChanged": null,
+            "onMessageBundleLoaded": null
+        },
+        components: {
+            msgResolver: {
+                type: "fluid.messageResolver"
+            }
+        },
+        messageBase: {},
+        distributeOptions: {
+            source: "{that}.options.messageBase",
+            target: "{that > msgResolver}.options.messageBase"
+        }
+    });
+
 })(jQuery, fluid);
