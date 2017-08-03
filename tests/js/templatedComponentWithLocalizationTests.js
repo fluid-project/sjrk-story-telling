@@ -62,32 +62,23 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         jqUnit.assertEquals("Selector text matches expected value", expected, text);
     };
 
-    // English localization tester
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester.en", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
-        expectedMessage: "Hello, world!",
-        modules: [{
-            name: "Test templated component with localization (en)"
-        }]
-    });
+    sjrk.storyTelling.templatedComponentWithLocalizationTesterBase.generateLocalizationTest = function (languageCode, expected) {
+        fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester." + languageCode, {
+            gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
+            expectedMessage: expected,
+            modules: [{
+                name: "Test templated component with localization (" + languageCode + ")"
+            }]
+        });
+    };
 
-    // French localization tester
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester.fr", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
-        expectedMessage: "Bonjour le monde!",
-        modules: [{
-            name: "Test templated component with localization (fr)"
-        }]
-    });
+    sjrk.storyTelling.templatedComponentWithLocalizationTesterBase.generateLocalizationTest ("en", "Hello, world!");
 
-    // Spanish localization tester
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester.es", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
-        expectedMessage: "\u00A1Hola Mundo!",
-        modules: [{
-            name: "Test templated component with localization (es)"
-        }]
-    });
+    sjrk.storyTelling.templatedComponentWithLocalizationTesterBase.generateLocalizationTest ("fr", "Bonjour le monde!");
+
+    sjrk.storyTelling.templatedComponentWithLocalizationTesterBase.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
+
+    sjrk.storyTelling.templatedComponentWithLocalizationTesterBase.generateLocalizationTest ("chef", "bork bork bork!");
 
     // Abstract, see factory function below for generating usable
     // test environment grades
@@ -139,11 +130,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     sjrk.storyTelling.templatedComponentWithLocalizationTestBase.generateTestEnvironment("es");
 
+    sjrk.storyTelling.templatedComponentWithLocalizationTestBase.generateTestEnvironment("chef");
+
     $(document).ready(function () {
         fluid.test.runTests([
             "sjrk.storyTelling.templatedComponentWithLocalizationTest.en",
             "sjrk.storyTelling.templatedComponentWithLocalizationTest.fr",
-            "sjrk.storyTelling.templatedComponentWithLocalizationTest.es"
+            "sjrk.storyTelling.templatedComponentWithLocalizationTest.es",
+            "sjrk.storyTelling.templatedComponentWithLocalizationTest.chef"
         ]);
     });
 
