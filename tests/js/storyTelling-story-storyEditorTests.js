@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             name: "Test story editor.",
             tests: [{
                 name: "Test 'Done' button",
-                expect: 2,
+                expect: 3,
                 sequence: [{
                     "event": "{storyEditorTest storyEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
@@ -45,7 +45,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 {
                     "event": "{storyEditor}.events.onStorySubmitRequested",
                     listener: "jqUnit.assert",
-                    args: "storyEditorSubmitRequested event fired."
+                    args: "onStorySubmitRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEditor}.dom.storyListenTo"
+                },
+                {
+                    "event": "{storyEditor}.events.onStoryListenToRequested",
+                    listener: "jqUnit.assert",
+                    args: "onStoryListenToRequested event fired."
                 }]
             }]
         }]

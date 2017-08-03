@@ -20,10 +20,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
             storyContent: ".sjrkc-storytelling-storyContent",
             storySubmit: ".sjrkc-storyTelling-storySubmit",
-            storyTags: ".sjrkc-storyTelling-storyTags"
+            storyTags: ".sjrkc-storyTelling-storyTags",
+            storyListenTo: ".sjrkc-storyTelling-storyListenTo"
         },
         events: {
             onStorySubmitRequested: null,
+            onStoryListenToRequested: null,
             onControlsBound: null
         },
         listeners: {
@@ -32,9 +34,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
             },
+            "onTemplateRendered.bindListenToControl": {
+                "this": "{that}.dom.storyListenTo",
+                "method": "click",
+                "args": ["{that}.events.onStoryListenToRequested.fire"],
+                "priority": "after:bindSubmitControl"
+            },
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
-                "priority": "after:bindSubmitControl"
+                "priority": "after:bindListenToControl"
             }
         },
         invokers: {
@@ -97,6 +105,26 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         componentTemplate: "%resourcePrefix/src/templates/storyEdit.html",
                         componentMessages: "%resourcePrefix/src/messages/storyEdit.json"
                     }
+                }
+            },
+            textToSpeech: {
+                type: "fluid.textToSpeech",
+                options: {
+                    model: {
+                        storyText: "{storyEditor}.model.content",
+                        utteranceOpts: {
+                            lang: "{resourceLoader}.options.locale"
+                        }
+                    },
+                    listeners: {
+                        "{storyEditor}.events.onStoryListenToRequested":
+                        {
+                            func: "{that}.queueSpeech",
+                            args: ["{that}.model.storyText"]
+                        }
+                    }
+
+
                 }
             }
         }
