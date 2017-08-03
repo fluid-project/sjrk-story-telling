@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     }
                 }
             },
-            templateLoader: {
+            resourceLoader: {
                 options: {
                     resources: {
                         componentTemplate: "src/templates/storyTelling.html"

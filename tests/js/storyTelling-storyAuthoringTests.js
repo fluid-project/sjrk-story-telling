@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.testStoryAuthoring", {
         gradeNames: ["sjrk.storyTelling.storyAuthoring"],
         components: {
-            templateLoader: {
+            resourceLoader: {
                 options: {
                     resources: {
                         componentTemplate: "../../src/templates/storyTelling.html"
@@ -26,10 +26,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyEditor: {
                 options: {
                     components: {
-                        templateLoader: {
+                        resourceLoader: {
                             options: {
                                 resources: {
-                                    componentTemplate: "../../src/templates/storyEdit.html"
+                                    componentTemplate: "../../src/templates/storyEdit.html",
+                                    componentMessages: "../../src/messages/storyEdit.json"
                                 }
                             }
                         }
@@ -39,7 +40,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyViewer: {
                 options: {
                     components: {
-                        templateLoader: {
+                        resourceLoader: {
                             options: {
                                 resources: {
                                     componentTemplate: "../../src/templates/storyView.html"

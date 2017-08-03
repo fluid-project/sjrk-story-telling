@@ -1,0 +1,14 @@
+{
+    "message_storyContentInputLabel": "Enter story text in the box",
+    "message_storyContentInputPlaceholder": "Begin typing here",
+    "message_storyListenToText": "Listen to my story",
+    "message_storyTitleInputLabel": "Story title",
+    "message_storyTitleInputPlaceholder": "Enter title here",
+    "message_storyAuthorInputLabel": "Your name (optional)",
+    "message_storyAuthorInputPlaceholder": "Enter your name (optional)",
+    "message_storyAddPhotosText": "Add photos",
+    "message_storyAddTagsText": "Add theme tags",
+    "message_storyCreateSummaryText": "Create summary",
+    "message_storyTranslateText": "Translate my story",
+    "message_storySubmitButton": "Done"
+}

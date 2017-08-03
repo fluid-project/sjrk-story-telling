@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             classPrefix: "test"
         },
         components: {
-            templateLoader: {
+            resourceLoader: {
                 options: {
                     resources: {
                         componentTemplate: "../html/templates/testTemplate.html"
