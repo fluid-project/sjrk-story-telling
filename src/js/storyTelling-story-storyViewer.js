@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
-        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponent"],
+        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization"],
         selectors: {
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
@@ -55,7 +55,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "src/templates/storyView.html"
+                        componentTemplate: "src/templates/storyView.html",
+                        componentMessages: "src/messages/storyView.json"
                     }
                 }
             }
