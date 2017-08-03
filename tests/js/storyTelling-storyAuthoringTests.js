@@ -18,8 +18,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         components: {
             resourceLoader: {
                 options: {
-                    resources: {
-                        componentTemplate: "../../src/templates/storyTelling.html"
+                    terms: {
+                        resourcePrefix: "../.."
                     }
                 }
             },
@@ -28,9 +28,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     components: {
                         resourceLoader: {
                             options: {
-                                resources: {
-                                    componentTemplate: "../../src/templates/storyEdit.html",
-                                    componentMessages: "../../src/messages/storyEdit.json"
+                                terms: {
+                                    resourcePrefix: "../.."
                                 }
                             }
                         }
@@ -42,8 +41,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     components: {
                         resourceLoader: {
                             options: {
-                                resources: {
-                                    componentTemplate: "../../src/templates/storyView.html"
+                                terms: {
+                                    resourcePrefix: "../.."
                                 }
                             }
                         }

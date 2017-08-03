@@ -94,8 +94,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "src/templates/storyEdit.html",
-                        componentMessages: "src/messages/storyEdit.json"
+                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.html",
+                        componentMessages: "%resourcePrefix/src/messages/storyEdit.json"
                     }
                 }
             }

@@ -50,6 +50,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         // The template file using the
                         // fluid.stringTemplate syntax
                         // componentTemplate: ""
+                    },
+                    terms: {
+                        "resourcePrefix": "."
                     }
                 }
             }
