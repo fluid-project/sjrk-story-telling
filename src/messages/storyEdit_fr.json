@@ -8,6 +8,7 @@
     "message_storyAuthorInputPlaceholder": "Entrez votre nom (optionnel)",
     "message_storyAddImagesText": "Ajouter des photos",
     "message_storyAddTagsText": "Ajouter des étiquettes de thème",
+    "message_storyAddTagsPlaceholder": "étiquette 1, étiquette 2",
     "message_storyCreateSummaryText": "Créer un résumé",
     "message_storyTranslateText": "Traduire mon histoire",
     "message_storySubmitButton": "Soumettre"
