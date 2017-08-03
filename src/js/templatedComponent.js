@@ -153,7 +153,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         // The messages file (JSON)
                         // componentMessages: ""
                     },
-                    locale: "fr",
+                    locale: "en",
                     defaultLocale: "en"
                 }
             }
