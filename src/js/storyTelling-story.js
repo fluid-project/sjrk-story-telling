@@ -29,7 +29,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
                 storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
                 storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
+                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)"
             }
         },
         selectors: {
