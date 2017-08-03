@@ -36,7 +36,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         expectedLocaleMessages: {
             "en": "Hello, world!",
             "fr": "Bonjour le monde!",
-            "es": "¡Hola Mundo!"
+            // TODO: need to have a better sense of how to:
+            // - handle potential multilingual input (non-Latin character sets)
+            // - test multilingual input
+            // - store them - HTML entities, unicode, etc?
+            // Issues encountered already:
+            // - encoding between platforms (local vs server)
+            // - testability of multilingual strings when rendering
+            // message bundles to DOM
+            "es": "\u00A1Hola Mundo!"
         },
         modules: [{
             name: "Test templated component with localization.",
