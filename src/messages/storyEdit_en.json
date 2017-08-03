@@ -6,7 +6,7 @@
     "message_storyTitleInputPlaceholder": "Enter title here",
     "message_storyAuthorInputLabel": "Your name (optional)",
     "message_storyAuthorInputPlaceholder": "Enter your name (optional)",
-    "message_storyAddPhotosText": "Add photos",
+    "message_storyAddImagesText": "Add photos",
     "message_storyAddTagsText": "Add theme tags",
     "message_storyCreateSummaryText": "Create summary",
     "message_storyTranslateText": "Translate my story",

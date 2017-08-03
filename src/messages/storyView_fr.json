@@ -1,1 +1,9 @@
-{}
+{
+    "message_storyPreviewText": "Aperçu de l'histoire",
+    "message_storyAuthorText": "par %storyAuthor",
+    "message_storyListenToText": "Écouter à cette histoire",
+    "message_storyReadMoreText": "Lire en plus",
+    "message_storyListTagsLabelText": "Étiquettes de thème",
+    "message_storyShareText": "Partager mon histoire",
+    "message_storySaveNoShareText": "Enregistrer sans partager"
+}

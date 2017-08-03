@@ -16,12 +16,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.storyAuthoring", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
         resourceLoaderConfig: {
-            resourcePrefix: "."
+            resourcePrefix: ".",
+            locale: "en"
         },
-        distributeOptions: {
+        distributeOptions: [{
             source: "{that}.options.resourceLoaderConfig.resourcePrefix",
             target: "{that resourceLoader}.options.terms.resourcePrefix"
         },
+        {
+            source: "{that}.options.resourceLoaderConfig.locale",
+            target: "{that resourceLoader}.options.locale"
+        }],
         events: {
             onStorySubmitRequestedFromEditorNoView: null,
             onStorySubmitRequestedFromEditorViewExists: null,
