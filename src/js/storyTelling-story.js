@@ -24,7 +24,20 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             images: [],
             tags: [],
             summary: "",
-            translations: []
+            translations: [],
+            templateTerms: {
+                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+                storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
+                storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
+            }
+        },
+        selectors: {
+            storyTitle: ".sjrkc-storytelling-storyTitle",
+            storyAuthor: ".sjrkc-storytelling-storyAuthor",
+            storyContent: ".sjrkc-storytelling-storyContent",
+            storyTags: ".sjrkc-storyTelling-storyTags",
+            storyListenTo: ".sjrkc-storyTelling-storyListenTo"
         }
     });
 

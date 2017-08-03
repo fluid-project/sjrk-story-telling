@@ -16,11 +16,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization"],
         selectors: {
-            storyTitle: ".sjrkc-storytelling-storyTitle",
-            storyAuthor: ".sjrkc-storytelling-storyAuthor",
-            storyContent: ".sjrkc-storytelling-storyContent",
-            storyTags: ".sjrkc-storyTelling-storyListTags",
-            storyListenTo: ".sjrkc-storyTelling-storyListenTo"
+            storyTags: ".sjrkc-storyTelling-storyListTags"
         },
         modelRelay: {
             source: "tags",
@@ -46,20 +42,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyContent: "{that}.model.content",
                 storyAuthor: "{that}.model.author",
                 // storyTags: {},
-                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
                 storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
-                storyTitleClasses:
-                "@expand:{that}.getClasses(storyTelling-storyTitle)",
-                storyAuthorClasses:
-                "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-                storyContentClasses:
-                "@expand:{that}.getClasses(storyTelling-storyContent)",
-                storyShareClasses:
-                "@expand:{that}.getClasses(storyTelling-storyShare)",
-                storySaveNoShareClasses:
-                "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
-                storyReadMoreClasses:
-                "@expand:{that}.getClasses(storyTelling-storyReadMore)"
+                storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
+                storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
+                storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)"
             }
         },
         components: {
