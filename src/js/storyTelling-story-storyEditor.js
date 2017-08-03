@@ -107,25 +107,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     }
                 }
             },
-            textToSpeech: {
-                type: "fluid.textToSpeech",
-                options: {
-                    model: {
-                        storyText: "{storyEditor}.model.content",
-                        utteranceOpts: {
-                            lang: "{resourceLoader}.options.locale"
-                        }
-                    },
-                    listeners: {
-                        "{storyEditor}.events.onStoryListenToRequested":
-                        {
-                            func: "{that}.queueSpeech",
-                            args: ["{that}.model.storyText"]
-                        }
-                    }
-
-
-                }
+            storySpeaker: {
+                type: "sjrk.storyTelling.story.storySpeaker"
             }
         }
     });

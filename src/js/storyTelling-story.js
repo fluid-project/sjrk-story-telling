@@ -28,4 +28,25 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
+    // Component to provide text to speech capability to various uses of
+    // story
+    fluid.defaults("sjrk.storyTelling.story.storySpeaker", {
+        gradeNames: ["fluid.textToSpeech"],
+        model: {
+            storyText: "{story}.model.content",
+            utteranceOpts: {
+                // Expected to be received from the resourceLoader of a templated component, such as StoryView or StoryEditor
+                lang: "{resourceLoader}.options.locale"
+            }
+        },
+        listeners: {
+            // Component is expected to fire this event
+            "{story}.events.onStoryListenToRequested":
+            {
+                func: "{that}.queueSpeech",
+                args: ["{that}.model.storyText"]
+            }
+        }
+    });
+
 })(jQuery, fluid);

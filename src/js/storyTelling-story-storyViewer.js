@@ -19,13 +19,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: ".sjrkc-storytelling-storyTitle",
             storyAuthor: ".sjrkc-storytelling-storyAuthor",
             storyContent: ".sjrkc-storytelling-storyContent",
-            storyTags: ".sjrkc-storyTelling-storyListTags"
+            storyTags: ".sjrkc-storyTelling-storyListTags",
+            storyListenTo: ".sjrkc-storyTelling-storyListenTo"
         },
         modelRelay: {
             source: "tags",
             target: "templateTerms.storyTags",
             singleTransform: {
                 type: "sjrk.storyTelling.transforms.arrayToString"
+            }
+        },
+        events: {
+            onStoryListenToRequested: null
+        },
+        listeners: {
+            "onTemplateRendered.bindListenToControl": {
+                "this": "{that}.dom.storyListenTo",
+                "method": "click",
+                "args": ["{that}.events.onStoryListenToRequested.fire"]
             }
         },
         model: {
@@ -59,6 +70,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         componentMessages: "%resourcePrefix/src/messages/storyView.json"
                     }
                 }
+            },
+            storySpeaker: {
+                type: "sjrk.storyTelling.story.storySpeaker"
             }
         }
     });

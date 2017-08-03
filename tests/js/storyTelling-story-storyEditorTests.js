@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         modules: [{
             name: "Test story editor.",
             tests: [{
-                name: "Test 'Done' button",
+                name: "Test UI controls",
                 expect: 3,
                 sequence: [{
                     "event": "{storyEditorTest storyEditor}.events.onControlsBound",
