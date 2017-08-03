@@ -33,19 +33,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // Abstract, see implementations below
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTesterBase", {
         gradeNames: ["fluid.test.testCaseHolder"],
-        expectedLocaleMessages: {
-            "en": "Hello, world!",
-            "fr": "Bonjour le monde!",
-            // TODO: need to have a better sense of how to:
-            // - handle potential multilingual input (non-Latin character sets)
-            // - test multilingual input
-            // - store them - HTML entities, unicode, etc?
-            // Issues encountered already:
-            // - encoding between platforms (local vs server)
-            // - testability of multilingual strings when rendering
-            // message bundles to DOM
-            "es": "\u00A1Hola Mundo!"
-        },
+        // TODO: need to have a better sense of how to:
+        // - handle potential multilingual input (non-Latin character sets)
+        // - test multilingual input
+        // - store them - HTML entities, unicode, etc?
+        // Issues encountered already:
+        // - encoding between platforms (local vs server)
+        // - testability of multilingual strings when rendering
+        // message bundles to DOM
+        // Set by implementing tester grade
+        // expectedMessage: ""
         modules: [{
             name: "Test templated component with localization.",
             tests: [{
@@ -68,7 +65,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // English localization tester
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester.en", {
         gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
-        expectedMessage: "{that}.options.expectedLocaleMessages.en",
+        expectedMessage: "Hello, world!",
         modules: [{
             name: "Test templated component with localization (en)"
         }]
@@ -77,7 +74,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // French localization tester
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester.fr", {
         gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
-        expectedMessage: "{that}.options.expectedLocaleMessages.fr",
+        expectedMessage: "Bonjour le monde!",
         modules: [{
             name: "Test templated component with localization (fr)"
         }]
@@ -86,19 +83,21 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // Spanish localization tester
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTester.es", {
         gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTesterBase"],
-        expectedMessage: "{that}.options.expectedLocaleMessages.es",
+        expectedMessage: "\u00A1Hola Mundo!",
         modules: [{
             name: "Test templated component with localization (es)"
         }]
     });
 
-    // Abstract, see implementing grades below
+    // Abstract, see factory function below for generating usable
+    // test environment grades
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTestBase", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
             templatedComponentWithLocalization: {
                 type: "sjrk.storyTelling.testTemplatedComponentWithLocalization",
-                container: "#testTemplatedComponentWithLocalization",
+                // Set by implementing test environment grade
+                // container: "#testTemplatedComponentWithLocalization",
                 createOnEvent: "{templatedComponentWithLocalizationTester}.events.onTestCaseStart",
                 options: {
                     components: {
@@ -107,59 +106,38 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                                 // locale: "en"
                             }
                         }
+                        // templatedComponentWithLocalizationTester: {
+                        //
+                        // }
                     }
                 }
             }
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTest.en", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTestBase"],
-        distributeOptions: [{
-            record: "en",
-            target: "{that templatedComponentWithLocalization}.options.components.resourceLoader.options.locale"
-        }, {
-            record: "#testTemplatedComponentWithLocalization_en",
-            target: "{that templatedComponentWithLocalization}.container"
-        }],
-        components: {
-            templatedComponentWithLocalizationTester: {
-                type: "sjrk.storyTelling.templatedComponentWithLocalizationTester.en"
+    sjrk.storyTelling.templatedComponentWithLocalizationTestBase.generateTestEnvironment = function (languageCode) {
+        fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTest." + languageCode, {
+            gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTestBase"],
+            distributeOptions: [{
+                record: languageCode,
+                target: "{that templatedComponentWithLocalization}.options.components.resourceLoader.options.locale"
+            }, {
+                record: "#testTemplatedComponentWithLocalization_" + languageCode,
+                target: "{that templatedComponentWithLocalization}.container"
+            }],
+            components: {
+                templatedComponentWithLocalizationTester: {
+                    type: "sjrk.storyTelling.templatedComponentWithLocalizationTester." + languageCode
+                }
             }
-        }
-    });
+        });
+    };
 
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTest.fr", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTestBase"],
-        distributeOptions: [{
-            record: "fr",
-            target: "{that templatedComponentWithLocalization}.options.components.resourceLoader.options.locale"
-        }, {
-            record: "#testTemplatedComponentWithLocalization_fr",
-            target: "{that templatedComponentWithLocalization}.container"
-        }],
-        components: {
-            templatedComponentWithLocalizationTester: {
-                type: "sjrk.storyTelling.templatedComponentWithLocalizationTester.fr"
-            }
-        }
-    });
+    sjrk.storyTelling.templatedComponentWithLocalizationTestBase.generateTestEnvironment("en");
 
-    fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalizationTest.es", {
-        gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTestBase"],
-        distributeOptions: [{
-            record: "es",
-            target: "{that templatedComponentWithLocalization}.options.components.resourceLoader.options.locale"
-        }, {
-            record: "#testTemplatedComponentWithLocalization_es",
-            target: "{that templatedComponentWithLocalization}.container"
-        }],
-        components: {
-            templatedComponentWithLocalizationTester: {
-                type: "sjrk.storyTelling.templatedComponentWithLocalizationTester.es"
-            }
-        }
-    });
+    sjrk.storyTelling.templatedComponentWithLocalizationTestBase.generateTestEnvironment("fr");
+
+    sjrk.storyTelling.templatedComponentWithLocalizationTestBase.generateTestEnvironment("es");
 
     $(document).ready(function () {
         fluid.test.runTests([

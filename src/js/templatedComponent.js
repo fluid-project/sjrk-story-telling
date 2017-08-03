@@ -132,7 +132,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    // TODO: refer to Tony's work for implementation
+    // TODO: refer to Tony's work for further implementation
     // https://wiki.gpii.net/w/Technology_Evaluation_-_Internationalising_and_Localising_UI_strings#Detailed_Review
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalization", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
