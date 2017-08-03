@@ -15,40 +15,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     fluid.defaults("sjrk.storyTelling.testStoryAuthoring", {
         gradeNames: ["sjrk.storyTelling.storyAuthoring"],
-        components: {
-            resourceLoader: {
-                options: {
-                    terms: {
-                        resourcePrefix: "../.."
-                    }
-                }
-            },
-            storyEditor: {
-                options: {
-                    components: {
-                        resourceLoader: {
-                            options: {
-                                terms: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyViewer: {
-                options: {
-                    components: {
-                        resourceLoader: {
-                            options: {
-                                terms: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        resourceLoaderConfig: {
+            resourcePrefix: "../.."
         }
     });
 
