@@ -16,12 +16,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization", "sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
-            storyTitle: ".sjrkc-storytelling-storyTitle",
-            storyAuthor: ".sjrkc-storytelling-storyAuthor",
-            storyContent: ".sjrkc-storytelling-storyContent",
-            storySubmit: ".sjrkc-storyTelling-storySubmit",
-            storyTags: ".sjrkc-storyTelling-storyTags",
-            storyListenTo: ".sjrkc-storyTelling-storyListenTo"
+            storySubmit: ".sjrkc-storyTelling-storySubmit"
         },
         events: {
             onStorySubmitRequested: null,
@@ -83,18 +78,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
-                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
                 storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
-                storyTitleClasses:
-                "@expand:{that}.getClasses(storyTelling-storyTitle)",
-                storyAuthorClasses:
-                "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-                storyContentClasses:
-                "@expand:{that}.getClasses(storyTelling-storyContent)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)"
             }
         },
