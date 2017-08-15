@@ -106,13 +106,12 @@ sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request) {
     var promise = myDataSource.get({directStoryId: id});
 
     promise.then(function (response) {
-        var parsedResponse = JSON.stringify(response);
-        request.events.onSuccess.fire({
-            message: "GET request for story ID fulfilled" + parsedResponse
-        });
+        var responseAsJSON = JSON.stringify(response);
+        request.events.onSuccess.fire(responseAsJSON);
     }, function (error) {
+        var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
-            message: "Error " + error
+            message: errorAsJSON
         });
     });
 };
