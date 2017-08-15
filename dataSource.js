@@ -15,9 +15,21 @@ var kettle = require("kettle");
 var sjrk = fluid.registerNamespace("sjrk");
 
 fluid.defaults("sjrk.storyTelling.server.dataSource", {
-    gradeNames: "kettle.dataSource.URL",
+    gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
     url: "http://localhost:5984/stories/%storyId",
     termMap: {
         storyId: "%directStoryId"
-    }
+    },
+    writable: true
 });
+
+// Writable usage example
+// var dataSource = sjrk.storyTelling.server.dataSource();
+//
+// var promise = dataSource.set({directStoryId: "577"}, {"title": "Story", "author": "Alan", "content": "My content"});
+//
+// promise.then(function (response) {
+//     console.log("Got dataSource response of ", response);
+// }, function (error) {
+//     console.error("Got dataSource error response of ", error);
+// });
