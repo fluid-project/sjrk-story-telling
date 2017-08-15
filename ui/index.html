@@ -74,11 +74,9 @@
 
         var storyId = getParameterByName("story");
         var storyURL = "http://localhost:8081/story/" + storyId;
-        console.log(storyURL);
 
         $.get(storyURL, function (data) {
             var retrievedStory = JSON.parse(data);
-            console.log(retrievedStory);
             storyTelling.storyEditor.applier.change("", retrievedStory);
         });
     }
