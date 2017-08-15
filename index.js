@@ -11,6 +11,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
 var fluid = require("infusion");
 var kettle = require("kettle");
+var dataSource = require("./dataSource");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
@@ -76,6 +77,11 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             "method": "get",
             "prefix": "/node_modules/sjrk-storytelling"
         },
+        getStoryHandler: {
+            type: "sjrk.storyTelling.server.getStoryHandler",
+            "route": "/story/:id",
+            "method": "get"
+        },
         uiHandler: {
             type: "sjrk.storyTelling.server.staticHandler",
             "route": "/*",
@@ -83,6 +89,33 @@ fluid.defaults("sjrk.storyTelling.server.app", {
         }
     }
 });
+
+fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
+    gradeNames: "kettle.request.http",
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.getStoryHandler.handleRequest"
+        }
+    }
+});
+
+sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request) {
+    var id = request.req.params["id"];
+
+    var myDataSource = sjrk.storyTelling.server.dataSource();
+    var promise = myDataSource.get({directStoryId: id});
+
+    promise.then(function (response) {
+        var parsedResponse = JSON.stringify(response);
+        request.events.onSuccess.fire({
+            message: "GET request for story ID fulfilled" + parsedResponse
+        });
+    }, function (error) {
+        request.events.onError.fire({
+            message: "Error " + error
+        });
+    });
+};
 
 fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
     gradeNames: "kettle.request.http",
