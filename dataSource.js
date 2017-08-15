@@ -10,9 +10,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 "use strict";
 
 var fluid = require("infusion");
-var kettle = require("kettle");
+require("kettle");
 
-var sjrk = fluid.registerNamespace("sjrk");
+fluid.registerNamespace("sjrk");
 
 fluid.defaults("sjrk.storyTelling.server.dataSource", {
     gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],

@@ -10,8 +10,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 "use strict";
 
 var fluid = require("infusion");
-var kettle = require("kettle");
-var dataSource = require("./dataSource");
+require("kettle");
+require("./dataSource");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
@@ -100,7 +100,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
 });
 
 sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request) {
-    var id = request.req.params["id"];
+    var id = request.req.params.id;
 
     var myDataSource = sjrk.storyTelling.server.dataSource();
     var promise = myDataSource.get({directStoryId: id});
