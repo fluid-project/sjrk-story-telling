@@ -13,6 +13,8 @@
 
 <script src="node_modules/sjrk-storytelling/src/js/storyTelling-storyAuthoring.js"></script>
 
+<script src="src/js/storyTellingUI.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.4.0/gridlex.min.css" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
@@ -51,6 +53,12 @@
             resourcePrefix: "node_modules/sjrk-storytelling",
             locale: "fr"
         },
+        listeners: {
+            "onStoryEditorReady.loadStoryFromQueryParam":
+            {
+                funcName: "sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam"
+            }
+        }
     });
 </script>
 
