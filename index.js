@@ -13,6 +13,8 @@ var fluid = require("infusion");
 require("kettle");
 require("./dataSource");
 
+var uuidv1 = require("uuid/v1");
+
 var sjrk = fluid.registerNamespace("sjrk");
 
 fluid.defaults("sjrk.storyTelling.server", {
@@ -90,6 +92,11 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             "route": "/story/:id",
             "method": "post"
         },
+        saveNewStoryHandler: {
+            type: "sjrk.storyTelling.server.saveStoryHandler",
+            "route": "/story/",
+            "method": "post"
+        },
         uiHandler: {
             type: "sjrk.storyTelling.server.staticHandler",
             "route": "/*",
@@ -134,10 +141,8 @@ sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request, data
 };
 
 sjrk.storyTelling.server.saveStoryHandler.handleRequest = function (request, dataSource) {
-    var id = request.req.params.id;
-
+    var id = request.req.params.id ? request.req.params.id : uuidv1();
     var body = request.req.body;
-
     var promise = dataSource.set({directStoryId: id}, body);
 
     promise.then(function (response) {

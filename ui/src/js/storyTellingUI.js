@@ -58,12 +58,13 @@ fluid.defaults("sjrk.storyTelling.server.storyAuthoring", {
 
 // TODO: fix the # anchor behaviour of this
 sjrk.storyTelling.server.storyAuthoring.saveNoShare = function (storyViewer) {
-    console.log("saveNoShare", storyViewer);
-
     var storyId = getParameterByName("story");
-    var storyURL = "http://localhost:8081/story/" + storyId;
+    var storyURL = "http://localhost:8081/story/" + (storyId ? storyId : "");
+    console.log(storyURL);
 
-    $.post(storyURL, storyViewer.model, function() {
+    var modelToSave = fluid.censorKeys(storyViewer.model, ["templateTerms"]);
+
+    $.post(storyURL, modelToSave, function() {
         console.log("it worked!");
     });
 };

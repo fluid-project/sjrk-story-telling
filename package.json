@@ -19,7 +19,8 @@
   "dependencies": {
     "infusion": "2.0.0",
     "kettle": "1.6.4",
-    "sjrk-storytelling": "https://github.com/waharnum/sjrk-storyTelling#FLOE-525"
+    "sjrk-storytelling": "https://github.com/waharnum/sjrk-storyTelling#FLOE-525",
+    "uuid": "3.1.0"
   },
   "devDependencies": {
     "eslint-config-fluid": "1.1.0",
