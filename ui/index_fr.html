@@ -48,17 +48,10 @@
 
 
 <script>
-    var storyTelling = sjrk.storyTelling.storyAuthoring(".srjkc-storyTelling", {
+    var storyTelling = sjrk.storyTelling.server.storyAuthoring(".srjkc-storyTelling", {
         resourceLoaderConfig: {
-            resourcePrefix: "node_modules/sjrk-storytelling",
             locale: "fr"
         },
-        listeners: {
-            "onStoryEditorReady.loadStoryFromQueryParam":
-            {
-                funcName: "sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam"
-            }
-        }
     });
 </script>
 

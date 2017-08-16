@@ -49,6 +49,9 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     app: {
                         type: "sjrk.storyTelling.server.app"
+                    },
+                    dataSource: {
+                        type: "sjrk.storyTelling.server.dataSource"
                     }
                 }
             }
@@ -82,6 +85,11 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             "route": "/story/:id",
             "method": "get"
         },
+        saveStoryHandler: {
+            type: "sjrk.storyTelling.server.saveStoryHandler",
+            "route": "/story/:id",
+            "method": "post"
+        },
         uiHandler: {
             type: "sjrk.storyTelling.server.staticHandler",
             "route": "/*",
@@ -94,16 +102,40 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.getStoryHandler.handleRequest"
+            funcName: "sjrk.storyTelling.server.getStoryHandler.handleRequest",
+            args: ["{request}", "{server}.dataSource"]
         }
     }
 });
 
-sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request) {
-    var id = request.req.params.id;
+fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
+    gradeNames: "kettle.request.http",
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.saveStoryHandler.handleRequest",
+            args: ["{request}", "{server}.dataSource"]
+        }
+    }
+});
 
-    var myDataSource = sjrk.storyTelling.server.dataSource();
-    var promise = myDataSource.get({directStoryId: id});
+sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request, dataSource) {
+    var id = request.req.params.id;
+    var promise = dataSource.get({directStoryId: id});
+
+    promise.then(function (response) {
+        var responseAsJSON = JSON.stringify(response);
+        request.events.onSuccess.fire(responseAsJSON);
+    }, function (error) {
+        var errorAsJSON = JSON.stringify(error);
+        request.events.onError.fire({
+            message: errorAsJSON
+        });
+    });
+};
+
+sjrk.storyTelling.server.saveStoryHandler.handleRequest = function (request, dataSource) {
+    var id = request.req.params.id;
+    var promise = dataSource.set({directStoryId: id}, {"title": "Story", "author": "Gregor", "content": "My content"});
 
     promise.then(function (response) {
         var responseAsJSON = JSON.stringify(response);
