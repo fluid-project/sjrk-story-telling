@@ -135,7 +135,10 @@ sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request, data
 
 sjrk.storyTelling.server.saveStoryHandler.handleRequest = function (request, dataSource) {
     var id = request.req.params.id;
-    var promise = dataSource.set({directStoryId: id}, {"title": "Story", "author": "Gregor", "content": "My content"});
+
+    var body = request.req.body;
+
+    var promise = dataSource.set({directStoryId: id}, body);
 
     promise.then(function (response) {
         var responseAsJSON = JSON.stringify(response);

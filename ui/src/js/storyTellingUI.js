@@ -11,7 +11,6 @@ function getParameterByName(name, url) {
 }
 
 sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam = function () {
-
     var storyId = getParameterByName("story");
     var storyURL = "http://localhost:8081/story/" + storyId;
 
@@ -59,5 +58,12 @@ fluid.defaults("sjrk.storyTelling.server.storyAuthoring", {
 
 // TODO: fix the # anchor behaviour of this
 sjrk.storyTelling.server.storyAuthoring.saveNoShare = function (storyViewer) {
-        console.log("saveNoShare", storyViewer);
+    console.log("saveNoShare", storyViewer);
+
+    var storyId = getParameterByName("story");
+    var storyURL = "http://localhost:8081/story/" + storyId;
+
+    $.post(storyURL, storyViewer.model, function() {
+        console.log("it worked!");
+    });
 };
