@@ -12,7 +12,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 var fluid = require("infusion");
 require("kettle");
 
-fluid.registerNamespace("sjrk");
+var sjrk = fluid.registerNamespace("sjrk");
 
 fluid.defaults("sjrk.storyTelling.server.dataSource", {
     gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
@@ -24,12 +24,12 @@ fluid.defaults("sjrk.storyTelling.server.dataSource", {
 });
 
 // Writable usage example
-// var dataSource = sjrk.storyTelling.server.dataSource();
-//
-// var promise = dataSource.set({directStoryId: "577"}, {"title": "Story", "author": "Alan", "content": "My content"});
-//
-// promise.then(function (response) {
-//     console.log("Got dataSource response of ", response);
-// }, function (error) {
-//     console.error("Got dataSource error response of ", error);
-// });
+var dataSource = sjrk.storyTelling.server.dataSource();
+
+var promise = dataSource.set({directStoryId: "588"}, {"title": "Story", "author": "Alan", "content": "My content"});
+
+promise.then(function (response) {
+    console.log("Got dataSource response of ", response);
+}, function (error) {
+    console.error("Got dataSource error response of ", error);
+});
