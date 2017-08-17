@@ -48,17 +48,7 @@
 
 
 <script>
-    var storyTelling = sjrk.storyTelling.storyAuthoring(".srjkc-storyTelling", {
-        resourceLoaderConfig: {
-            resourcePrefix: "node_modules/sjrk-storytelling"
-        },
-        listeners: {
-            "onStoryEditorReady.loadStoryFromQueryParam":
-            {
-                funcName: "sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam"
-            }
-        }
-    });
+    var storyTelling = sjrk.storyTelling.server.storyAuthoring(".srjkc-storyTelling", {});
 </script>
 
 </body>

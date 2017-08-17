@@ -11,7 +11,6 @@ function getParameterByName(name, url) {
 }
 
 sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam = function () {
-
     var storyId = getParameterByName("story");
     var storyURL = "http://localhost:8081/story/" + storyId;
 
@@ -20,3 +19,52 @@ sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam = function () {
         storyTelling.storyEditor.applier.change("", retrievedStory);
     });
 }
+
+fluid.defaults("sjrk.storyTelling.server.storyAuthoring", {
+    gradeNames: ["sjrk.storyTelling.storyAuthoring"],
+    resourceLoaderConfig: {
+        resourcePrefix: "node_modules/sjrk-storytelling"
+    },
+    listeners: {
+        "onStoryEditorReady.loadStoryFromQueryParam":
+        {
+            funcName: "sjrk.storyTelling.storyAuthoring.loadStoryFromQueryParam"
+        }
+    },
+    components: {
+        storyViewer: {
+            options: {
+                selectors: {
+                    storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare"
+                },
+                events: {
+                    onSaveNoShareRequested: null
+                },
+                listeners: {
+                    "onTemplateRendered.bindSaveNoShareControl": {
+                        "this": "{that}.dom.storySaveNoShare",
+                        "method": "click",
+                        "args": ["{that}.events.onSaveNoShareRequested.fire"]
+                    },
+                    "onSaveNoShareRequested.saveNoShare": {
+                        "func": "sjrk.storyTelling.server.storyAuthoring.saveNoShare",
+                        "args": ["{that}"]
+                    }
+                }
+            }
+        }
+    }
+});
+
+// TODO: fix the # anchor behaviour of this
+sjrk.storyTelling.server.storyAuthoring.saveNoShare = function (storyViewer) {
+    var storyId = getParameterByName("story");
+    var storyURL = "http://localhost:8081/story/" + (storyId ? storyId : "");
+    console.log(storyURL);
+
+    var modelToSave = fluid.censorKeys(storyViewer.model, ["templateTerms"]);
+
+    $.post(storyURL, modelToSave, function() {
+        console.log("it worked!");
+    });
+};
