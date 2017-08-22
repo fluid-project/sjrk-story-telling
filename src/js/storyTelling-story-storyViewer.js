@@ -16,6 +16,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization"],
         selectors: {
+            storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
             storyTags: ".sjrkc-storyTelling-storyListTags"
         },
         modelRelay: {
@@ -26,6 +27,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         },
         events: {
+            onSaveNoShareRequested: null,
             onStoryListenToRequested: null
         },
         listeners: {
@@ -33,6 +35,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "this": "{that}.dom.storyListenTo",
                 "method": "click",
                 "args": ["{that}.events.onStoryListenToRequested.fire"]
+            },
+            "onTemplateRendered.bindSaveNoShareControl": {
+                "this": "{that}.dom.storySaveNoShare",
+                "method": "click",
+                "args": ["{that}.events.onSaveNoShareRequested.fire"]
             }
         },
         model: {
