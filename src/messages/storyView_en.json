@@ -5,5 +5,6 @@
     "message_storyReadMoreText": "Read more",
     "message_storyListTagsLabelText": "Theme tags",
     "message_storyShareText": "Share my story",
-    "message_storySaveNoShareText": "Save without sharing"
+    "message_storySaveNoShareText": "Save without sharing",
+    "message_storyLanguageLabelText": "Language(s)"
 }

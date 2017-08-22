@@ -49,6 +49,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: "title",
             storyAuthor: "author",
             storyContent: "content",
+            storyLanguage: "language",
             storyTags: {
                 selector: "storyTags",
                 path: "tags",
@@ -77,6 +78,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
+                storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",

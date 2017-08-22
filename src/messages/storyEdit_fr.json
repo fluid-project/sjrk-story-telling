@@ -11,5 +11,7 @@
     "message_storyAddTagsPlaceholder": "étiquette 1, étiquette 2",
     "message_storyCreateSummaryText": "Créer un résumé",
     "message_storyTranslateText": "Traduire mon histoire",
-    "message_storySubmitButton": "Soumettre"
+    "message_storySubmitButton": "Soumettre",
+    "message_storyLanguageInputLabel": "Langage",
+    "message_storyLanguageInputPlaceholder": "Entrez le langage"
 }

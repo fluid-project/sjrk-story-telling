@@ -44,11 +44,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         model: {
             templateTerms: {
-                // TODO: fix syntax of this
                 storyTitle: "{that}.model.title",
                 storyContent: "{that}.model.content",
                 storyAuthor: "{that}.model.author",
-                // storyTags: {},
+                storyLanguage: "{that}.model.language",
                 storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
                 storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
                 storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",

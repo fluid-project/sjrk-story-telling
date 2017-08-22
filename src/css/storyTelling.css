@@ -20,7 +20,8 @@ body {
     margin: 1em 0 .25em 0;
 }
 
-.sjrk-storyTelling-tags-container {
+.sjrk-storyTelling-tags-container, .sjrk-storyTelling-language-container {
+    margin: 1em 0 0 0;
     font-weight: bold;
 }
 
@@ -48,6 +49,6 @@ body {
     font-size: 1.25em;
 }
 
-.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags {
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags, .sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyLanguage {
     font-weight: normal;
 }
