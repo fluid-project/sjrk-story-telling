@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -17,7 +17,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization"],
         selectors: {
             storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
-            storyTags: ".sjrkc-storyTelling-storyListTags"
+            storyTags: ".sjrkc-storyTelling-storyListTags",
+            storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
         },
         modelRelay: {
             source: "tags",
@@ -28,7 +29,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         events: {
             onSaveNoShareRequested: null,
-            onStoryListenToRequested: null
+            onStoryListenToRequested: null,
+            onViewerPreviousRequested: null
         },
         listeners: {
             "onTemplateRendered.bindListenToControl": {
@@ -40,6 +42,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "this": "{that}.dom.storySaveNoShare",
                 "method": "click",
                 "args": ["{that}.events.onSaveNoShareRequested.fire"]
+            },
+            "onTemplateRendered.bindViewerPreviousControl": {
+                "this": "{that}.dom.storyViewerPrevious",
+                "method": "click",
+                "args": ["{that}.events.onViewerPreviousRequested.fire"]
+            },
+            "onViewerPreviousRequested.showEditorPrevious": {
+                "func": "sjrk.storyTelling.story.storyViewer.showViewerPrevious",
+                "args": ["{that}"]
             }
         },
         model: {
@@ -51,7 +62,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
                 storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
                 storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
-                storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)"
+                storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
+                storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
             }
         },
         components: {
@@ -68,5 +80,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
+
+    sjrk.storyTelling.story.storyViewer.showViewerPrevious = function () {
+        // TODO: use proper component selectors
+        $(".sjrkc-storyTelling-storyViewer").hide();
+        $("#sjrk-storyTelling-Editor2").show();
+    };
 
 })(jQuery, fluid);

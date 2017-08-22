@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -16,18 +16,32 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization", "sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
-            storySubmit: ".sjrkc-storyTelling-storySubmit"
+            storySubmit: ".sjrkc-storyTelling-storySubmit",
+            storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
+            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious"
         },
         events: {
             onStorySubmitRequested: null,
             onStoryListenToRequested: null,
-            onControlsBound: null
+            onControlsBound: null,
+            onEditorNextRequested: null,
+            onEditorPreviousRequested: null
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
+            },
+            "onTemplateRendered.bindEditorNextControl": {
+                "this": "{that}.dom.storyEditorNext",
+                "method": "click",
+                "args": ["{that}.events.onEditorNextRequested.fire"]
+            },
+            "onTemplateRendered.bindEditorPreviousControl": {
+                "this": "{that}.dom.storyEditorPrevious",
+                "method": "click",
+                "args": ["{that}.events.onEditorPreviousRequested.fire"]
             },
             "onTemplateRendered.bindListenToControl": {
                 "this": "{that}.dom.storyListenTo",
@@ -38,6 +52,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
                 "priority": "after:bindListenToControl"
+            },
+            "onEditorNextRequested.showEditorNext": {
+                "func": "sjrk.storyTelling.story.storyEditor.showEditorNext",
+                "args": ["{that}"]
+            },
+            "onEditorPreviousRequested.showEditorPrevious": {
+                "func": "sjrk.storyTelling.story.storyEditor.showEditorPrevious",
+                "args": ["{that}"]
+            },
+            "onStorySubmitRequested.hideEditor": {
+                "func": "sjrk.storyTelling.story.storyEditor.hideEditor",
+                "args": ["{that}"]
             }
         },
         invokers: {
@@ -85,7 +111,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
                 storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
-                storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)"
+                storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
+                storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
+                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
             }
         },
         components: {
@@ -102,5 +130,23 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
+
+    sjrk.storyTelling.story.storyEditor.showEditorNext = function () {
+        // TODO: use proper component selectors
+        $("#sjrk-storyTelling-Editor1").hide();
+        $("#sjrk-storyTelling-Editor2").show();
+    };
+
+    sjrk.storyTelling.story.storyEditor.showEditorPrevious = function () {
+        // TODO: use proper component selectors
+        $("#sjrk-storyTelling-Editor1").show();
+        $("#sjrk-storyTelling-Editor2").hide();
+    };
+
+    sjrk.storyTelling.story.storyEditor.hideEditor = function () {
+        // TODO: use proper component selectors
+        $("#sjrk-storyTelling-Editor2").hide();
+        $(".sjrkc-storyTelling-storyViewer").show();
+    };
 
 })(jQuery, fluid);

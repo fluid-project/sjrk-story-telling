@@ -4,6 +4,10 @@ body {
     font-size: 1.2em;
 }
 
+#sjrk-storyTelling-Editor2 {
+    display: none;
+}
+
 .sjrk-storyTelling-story-heading, .sjrk-storyTelling-readOtherStories {
     margin: 0;
 }

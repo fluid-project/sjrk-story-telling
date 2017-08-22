@@ -13,5 +13,6 @@
     "message_storyTranslateText": "Traduire mon histoire",
     "message_storySubmitButton": "Soumettre",
     "message_storyLanguageInputLabel": "Langage",
-    "message_storyLanguageInputPlaceholder": "Entrez le langage"
+    "message_storyLanguageInputPlaceholder": "Entrez le langage",
+    "message_goBack": "Retourner"
 }

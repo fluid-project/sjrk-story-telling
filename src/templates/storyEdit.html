@@ -1,6 +1,7 @@
 <!-- TODO: deal with the heading hierarchy -->
 <form class="sjrk-storyTelling-storyEditor">
 
+<div id="sjrk-storyTelling-Editor1">
     <div class="sjrk-storyTelling-label-container">
         <label for="%storyContentIdForLabel">%message_storyContentInputLabel</label>
     </div>
@@ -11,6 +12,10 @@
 
     <div class="sjrk-storyTelling-link-container"><a class="%storyListenToClasses" href="#">%message_storyListenToText</a></div>
 
+    <button class="%storyEditorNextClasses" type="button">%message_storySubmitButton</button>
+</div>
+
+<div id="sjrk-storyTelling-Editor2">
     <div class="sjrk-storyTelling-label-container">
         <label for="%storyLanguageIdForLabel">%message_storyLanguageInputLabel</label>
     </div>
@@ -44,7 +49,14 @@
     <div class="sjrk-storyTelling-link-container"><a class="%storyCreateSummaryClasses" href="#">%message_storyCreateSummaryText</a></div>
     <div class="sjrk-storyTelling-link-container"><a class="%storyTranslateClasses" href="#">%message_storyTranslateText</a></div>
 
-    <div><button class="%storySubmitClasses" type="button">%message_storySubmitButton</button></div>
-
+    <div class="grid-12">
+        <div class="col-6">
+            <a href="javascript:void(0)" class="%storyEditorPreviousClasses">%message_goBack</a>
+        </div>
+        <div class="col-6">
+            <button class="%storySubmitClasses" type="button">%message_storySubmitButton</button>
+        </div>
+    </div>
+</div>
 
 </form>

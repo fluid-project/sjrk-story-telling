@@ -13,5 +13,6 @@
     "message_storyTranslateText": "Translate my story",
     "message_storySubmitButton": "Done",
     "message_storyLanguageInputLabel": "Language",
-    "message_storyLanguageInputPlaceholder": "Enter language here"
+    "message_storyLanguageInputPlaceholder": "Enter language here",
+    "message_goBack": "Go back"
 }
