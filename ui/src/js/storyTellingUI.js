@@ -51,7 +51,7 @@ sjrk.storyTelling.server.storyAuthoring.loadStoryFromQueryParam = function () {
 
 // TODO: fix the # anchor behaviour of this
 sjrk.storyTelling.server.storyAuthoring.saveNoShare = function (storyViewer) {
-    var storyId = getParameterByName("story");
+    var storyId = sjrk.storyTelling.server.storyAuthoring.getParameterByName("story");
     var storyURL = "http://localhost:8081/story/" + (storyId ? storyId : "");
     console.log(storyURL);
 
