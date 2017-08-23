@@ -35,7 +35,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor",
-            storyViewer: ".sjrkc-storyTelling-storyViewer"
+            storyViewer: ".sjrkc-storyTelling-storyViewer",
+            storyEditorPage1: ".sjrk-storyTelling-storyEditorPage1",
+            storyEditorPage2: ".sjrk-storyTelling-storyEditorPage2"
         },
         components: {
             storyEditor: {
@@ -50,6 +52,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onControlsBound.escalate": {
                             "func": "{storyAuthoring}.events.onStoryEditorReady.fire"
+                        },
+                        "onEditorNextRequested.showEditorNext": {
+                            "func": "sjrk.storyTelling.storyAuthoring.showPage",
+                            "args": ["{storyAuthoring}","storyEditorPage2"]
+                        },
+                        "onEditorPreviousRequested.showEditorPrevious": {
+                            "func": "sjrk.storyTelling.storyAuthoring.showPage",
+                            "args": ["{storyAuthoring}","storyEditorPage1"]
+                        },
+                        "onStorySubmitRequested.showViewer": {
+                            "func": "sjrk.storyTelling.storyAuthoring.showPage",
+                            "args": ["{storyAuthoring}","storyViewer"]
                         }
                     }
                 }
@@ -72,6 +86,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onTemplateRendered.escalate": {
                             "func": "{storyAuthoring}.events.onStoryViewerReady.fire"
+                        },
+                        "onViewerPreviousRequested.showEditorPrevious": {
+                            "func": "sjrk.storyTelling.storyAuthoring.showPage",
+                            "args": ["{storyAuthoring}","storyEditorPage2"]
                         }
                     }
                 }
@@ -92,6 +110,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         } else {
             storytellingComponent.events.onStorySubmitRequestedFromEditorViewExists.fire();
         }
+    };
+
+    sjrk.storyTelling.storyAuthoring.hideAllPages = function (component) {
+        component.locate("storyEditorPage1").hide();
+        component.locate("storyEditorPage2").hide();
+        component.locate("storyViewer").hide();
+    };
+
+    sjrk.storyTelling.storyAuthoring.showPage = function (component, pageSelector) {
+        sjrk.storyTelling.storyAuthoring.hideAllPages(component);
+        component.locate(pageSelector).show();
     };
 
 })(jQuery, fluid);

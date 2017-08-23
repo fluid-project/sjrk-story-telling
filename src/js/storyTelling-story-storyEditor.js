@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -52,18 +52,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
                 "priority": "after:bindListenToControl"
-            },
-            "onEditorNextRequested.showEditorNext": {
-                "func": "sjrk.storyTelling.story.storyEditor.showEditorNext",
-                "args": ["{that}"]
-            },
-            "onEditorPreviousRequested.showEditorPrevious": {
-                "func": "sjrk.storyTelling.story.storyEditor.showEditorPrevious",
-                "args": ["{that}"]
-            },
-            "onStorySubmitRequested.hideEditor": {
-                "func": "sjrk.storyTelling.story.storyEditor.hideEditor",
-                "args": ["{that}"]
             }
         },
         invokers: {
@@ -131,22 +119,5 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    sjrk.storyTelling.story.storyEditor.showEditorNext = function () {
-        // TODO: use proper component selectors
-        $("#sjrk-storyTelling-Editor1").hide();
-        $("#sjrk-storyTelling-Editor2").show();
-    };
-
-    sjrk.storyTelling.story.storyEditor.showEditorPrevious = function () {
-        // TODO: use proper component selectors
-        $("#sjrk-storyTelling-Editor1").show();
-        $("#sjrk-storyTelling-Editor2").hide();
-    };
-
-    sjrk.storyTelling.story.storyEditor.hideEditor = function () {
-        // TODO: use proper component selectors
-        $("#sjrk-storyTelling-Editor2").hide();
-        $(".sjrkc-storyTelling-storyViewer").show();
-    };
 
 })(jQuery, fluid);

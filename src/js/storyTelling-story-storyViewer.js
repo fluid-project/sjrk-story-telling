@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -47,10 +47,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "this": "{that}.dom.storyViewerPrevious",
                 "method": "click",
                 "args": ["{that}.events.onViewerPreviousRequested.fire"]
-            },
-            "onViewerPreviousRequested.showEditorPrevious": {
-                "func": "sjrk.storyTelling.story.storyViewer.showViewerPrevious",
-                "args": ["{that}"]
             }
         },
         model: {
@@ -80,11 +76,5 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
-
-    sjrk.storyTelling.story.storyViewer.showViewerPrevious = function () {
-        // TODO: use proper component selectors
-        $(".sjrkc-storyTelling-storyViewer").hide();
-        $("#sjrk-storyTelling-Editor2").show();
-    };
 
 })(jQuery, fluid);
