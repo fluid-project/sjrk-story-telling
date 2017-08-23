@@ -14,5 +14,7 @@
     "message_storySubmitButton": "Done",
     "message_storyLanguageInputLabel": "Language",
     "message_storyLanguageInputPlaceholder": "Enter language here",
-    "message_goBack": "Go back"
+    "message_storyGoBack": "Go back",
+    "message_storyHeading" : "My Story",
+    "message_storyReadOtherstories" : "Read Other Stories"
 }

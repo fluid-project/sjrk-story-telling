@@ -4,12 +4,25 @@ body {
     font-size: 1.2em;
 }
 
+h1 {
+    font-weight: normal;
+}
+
+input {
+    width: 100%;
+}
+
 .sjrk-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
     display: none;
 }
 
+.sjrk-storyTelling-story-headingRight {
+    text-align: right;
+}
+
 .sjrk-storyTelling-story-heading, .sjrk-storyTelling-readOtherStories {
     margin: 0;
+    font-weight: normal;
 }
 
 .sjrk-storyTelling-storyContent {
@@ -18,6 +31,14 @@ body {
 
 .sjrk-storyTelling-link-container {
     margin: 1em 0;
+}
+
+.sjrk-storyTelling-link-container-right {
+    text-align: right;
+}
+
+.sjrk-storyTelling-button-container {
+    text-align: right;
 }
 
 .sjrk-storyTelling-label-container {
@@ -30,8 +51,10 @@ body {
 }
 
 .sjrk-storyTelling-storyViewer {
+}
+
+.sjrk-storyTelling-story-previewPane {
     border: solid 1px #000;
-    position: relative;
     padding: 2em;
 }
 
