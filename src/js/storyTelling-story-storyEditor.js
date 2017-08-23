@@ -36,22 +36,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onTemplateRendered.bindEditorNextControl": {
                 "this": "{that}.dom.storyEditorNext",
                 "method": "click",
-                "args": ["{that}.events.onEditorNextRequested.fire"]
+                "args": ["{that}.events.onEditorNextRequested.fire"],
+                "priority": "after:bindSubmitControl"
             },
             "onTemplateRendered.bindEditorPreviousControl": {
                 "this": "{that}.dom.storyEditorPrevious",
                 "method": "click",
-                "args": ["{that}.events.onEditorPreviousRequested.fire"]
+                "args": ["{that}.events.onEditorPreviousRequested.fire"],
+                "priority": "after:bindEditorNextControl"
             },
             "onTemplateRendered.bindListenToControl": {
                 "this": "{that}.dom.storyListenTo",
                 "method": "click",
                 "args": ["{that}.events.onStoryListenToRequested.fire"],
-                "priority": "after:bindSubmitControl"
+                "priority": "after:bindEditorPreviousControl"
             },
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
-                "priority": "after:bindListenToControl"
+                "priority": "last"
             }
         },
         invokers: {

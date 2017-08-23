@@ -31,7 +31,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onStorySubmitRequestedFromEditorNoView: null,
             onStorySubmitRequestedFromEditorViewExists: null,
             onStoryEditorReady: null,
-            onStoryViewerReady: null
+            onStoryViewerReady: null,
+            onVisibilityChanged: null
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor",
@@ -121,6 +122,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     sjrk.storyTelling.storyAuthoring.showPage = function (component, pageSelector) {
         sjrk.storyTelling.storyAuthoring.hideAllPages(component);
         component.locate(pageSelector).show();
+        component.events.onVisibilityChanged.fire();
     };
 
 })(jQuery, fluid);

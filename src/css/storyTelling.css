@@ -4,7 +4,7 @@ body {
     font-size: 1.2em;
 }
 
-.sjrk-storyTelling-storyEditorPage2 {
+.sjrk-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
     display: none;
 }
 
