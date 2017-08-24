@@ -12,7 +12,7 @@ input {
     width: 100%;
 }
 
-.sjrk-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
+.sjrkc-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
     display: none;
 }
 

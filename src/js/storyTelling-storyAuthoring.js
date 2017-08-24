@@ -37,8 +37,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor",
             storyViewer: ".sjrkc-storyTelling-storyViewer",
-            storyEditorPage1: ".sjrk-storyTelling-storyEditorPage1",
-            storyEditorPage2: ".sjrk-storyTelling-storyEditorPage2"
+            storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
+            storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2",
+            storyEditorHeading: ".sjrkc-storyTelling-storyEditor-headingContainer"
+        },
+        pageStates: {
+            editorPage1Visible: [],
+            editorPage2Visible: [],
+            previewVisible: []
         },
         components: {
             storyEditor: {
@@ -56,15 +62,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onEditorNextRequested.showEditorNext": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorPage2"], "{storyAuthoring}"]
+                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorHeading", "storyEditorPage2"], "{storyAuthoring}"]
                         },
                         "onEditorPreviousRequested.showEditorPrevious": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage2", "storyViewer"], ["storyEditorPage1"], "{storyAuthoring}"]
+                            "args": [["storyEditorPage2", "storyViewer"], ["storyEditorHeading", "storyEditorPage1"], "{storyAuthoring}"]
                         },
                         "onStorySubmitRequested.showViewer": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyEditorPage2"], ["storyViewer"], "{storyAuthoring}"]
+                            "args": [["storyEditorHeading", "storyEditor", "storyEditorPage2"], ["storyViewer"], "{storyAuthoring}"]
                         }
                     }
                 }
@@ -90,7 +96,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onViewerPreviousRequested.showEditorPrevious": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorPage2"], "{storyAuthoring}"]
+                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorHeading", "storyEditor", "storyEditorPage2"], "{storyAuthoring}"]
                         }
                     }
                 }
