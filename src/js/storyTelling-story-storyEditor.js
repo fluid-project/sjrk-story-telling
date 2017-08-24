@@ -35,10 +35,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 backward: {
                     excludeSource: "*"
                 },
+                // forward: {
+                //     excludeSource: "languageFromInputSetLanguageSelectToOther"
+                // },
                 singleTransform: {
                     type: "fluid.transforms.value"
                 }
-
             },
             languageFromInputToLanguage: {
                 source: "{that}.model.languageFromInput",
@@ -50,6 +52,24 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     type: "fluid.transforms.value"
                 }
             }
+            // ,
+            // TODO: need to find out how to stop this triggering the first
+            // relay rule
+            // languageFromInputSetLanguageSelectToOther: {
+            //     source: "{that}.model.languageFromInput",
+            //     target: "{that}.model.languageFromSelect",
+            //     backward: {
+            //         excludeSource: "*"
+            //     },
+            //     forward: {
+            //         excludeSource: "languageFromSelectToLanguage"
+            //     },
+            //     singleTransform: {
+            //         type: "fluid.transforms.literalValue",
+            //         input: "other"
+            //     },
+            //     namespace: "languageFromInputSetLanguageSelectToOther"
+            // }
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
