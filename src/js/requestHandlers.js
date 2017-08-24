@@ -19,8 +19,8 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.getStoryHandler.handleRequest",
-            args: ["{request}", "{server}.dataSource"]
+            funcName: "sjrk.storyTelling.server.handleStorageRequest",
+            args: ["{request}", "{server}.dataSource", false]
         }
     }
 });
@@ -29,31 +29,17 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.saveStoryHandler.handleRequest",
-            args: ["{request}", "{server}.dataSource"]
+            funcName: "sjrk.storyTelling.server.handleStorageRequest",
+            args: ["{request}", "{server}.dataSource", true]
         }
     }
 });
 
-sjrk.storyTelling.server.getStoryHandler.handleRequest = function (request, dataSource) {
-    var id = request.req.params.id;
-    var promise = dataSource.get({directStoryId: id});
-
-    promise.then(function (response) {
-        var responseAsJSON = JSON.stringify(response);
-        request.events.onSuccess.fire(responseAsJSON);
-    }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
-        request.events.onError.fire({
-            message: errorAsJSON
-        });
-    });
-};
-
-sjrk.storyTelling.server.saveStoryHandler.handleRequest = function (request, dataSource) {
-    var id = request.req.params.id ? request.req.params.id : uuidv1();
-    var body = request.req.body;
-    var promise = dataSource.set({directStoryId: id}, body);
+sjrk.storyTelling.server.handleStorageRequest = function (request, dataSource, isSave) {
+    var id = request.req.params.id ? request.req.params.id : (isSave ? uuidv1() : "");
+    var promise = isSave ?
+        dataSource.set({directStoryId: id}, request.req.body) :
+        dataSource.get({directStoryId: id});
 
     promise.then(function (response) {
         var responseAsJSON = JSON.stringify(response);
