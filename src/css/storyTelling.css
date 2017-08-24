@@ -4,8 +4,25 @@ body {
     font-size: 1.2em;
 }
 
+h1 {
+    font-weight: normal;
+}
+
+input {
+    width: 100%;
+}
+
+.sjrk-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
+    display: none;
+}
+
+.sjrk-storyTelling-story-headingRight {
+    text-align: right;
+}
+
 .sjrk-storyTelling-story-heading, .sjrk-storyTelling-readOtherStories {
     margin: 0;
+    font-weight: normal;
 }
 
 .sjrk-storyTelling-storyContent {
@@ -16,17 +33,28 @@ body {
     margin: 1em 0;
 }
 
+.sjrk-storyTelling-link-container-right {
+    text-align: right;
+}
+
+.sjrk-storyTelling-button-container {
+    text-align: right;
+}
+
 .sjrk-storyTelling-label-container {
     margin: 1em 0 .25em 0;
 }
 
-.sjrk-storyTelling-tags-container {
+.sjrk-storyTelling-tags-container, .sjrk-storyTelling-language-container {
+    margin: 1em 0 0 0;
     font-weight: bold;
 }
 
 .sjrk-storyTelling-storyViewer {
+}
+
+.sjrk-storyTelling-story-previewPane {
     border: solid 1px #000;
-    position: relative;
     padding: 2em;
 }
 
@@ -48,6 +76,6 @@ body {
     font-size: 1.25em;
 }
 
-.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags {
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags, .sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyLanguage {
     font-weight: normal;
 }

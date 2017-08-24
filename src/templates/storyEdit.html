@@ -1,6 +1,16 @@
 <!-- TODO: deal with the heading hierarchy -->
 <form class="sjrk-storyTelling-storyEditor">
 
+<div class="grid-12">
+    <div class="col-6">
+        <h2 class="sjrk-storyTelling-story-heading">%message_storyHeading</h2>
+    </div>
+    <div class="col-6 sjrk-storyTelling-story-headingRight">
+        <a class="sjrk-storyTelling-readOtherStories" href="#">%message_storyReadOtherstories</a>
+    </div>
+</div>
+
+<div class="sjrk-storyTelling-storyEditorPage1">
     <div class="sjrk-storyTelling-label-container">
         <label for="%storyContentIdForLabel">%message_storyContentInputLabel</label>
     </div>
@@ -11,11 +21,24 @@
 
     <div class="sjrk-storyTelling-link-container"><a class="%storyListenToClasses" href="#">%message_storyListenToText</a></div>
 
+    <div class="sjrk-storyTelling-button-container">
+        <button class="%storyEditorNextClasses" type="button">%message_storySubmitButton</button>
+    </div>
+</div>
+
+<div class="sjrk-storyTelling-storyEditorPage2">
+    <div class="sjrk-storyTelling-label-container">
+        <label for="%storyLanguageIdForLabel">%message_storyLanguageInputLabel</label>
+    </div>
+    <div>
+        <input id="%storyLanguageIdForLabel" class="%storyLanguageClasses" placeholder="%message_storyLanguageInputPlaceholder" />
+    </div>
+
     <div class="sjrk-storyTelling-label-container">
         <label for="%storyTitleIdForLabel">%message_storyTitleInputLabel</label>
     </div>
     <div>
-        <input id="%storyTitleIdForLabel" class="%storyTitleClasses" placeholder="%message_storyTitleInputPlaceholder" /> <br/>
+        <input id="%storyTitleIdForLabel" class="%storyTitleClasses" placeholder="%message_storyTitleInputPlaceholder" />
     </div>
 
     <div class="sjrk-storyTelling-label-container">
@@ -37,7 +60,14 @@
     <div class="sjrk-storyTelling-link-container"><a class="%storyCreateSummaryClasses" href="#">%message_storyCreateSummaryText</a></div>
     <div class="sjrk-storyTelling-link-container"><a class="%storyTranslateClasses" href="#">%message_storyTranslateText</a></div>
 
-    <div><button class="%storySubmitClasses" type="button">%message_storySubmitButton</button></div>
-
+    <div class="grid-12">
+        <div class="col-6">
+            <a href="javascript:void(0)" class="%storyEditorPreviousClasses">%message_storyGoBack</a>
+        </div>
+        <div class="col-6 sjrk-storyTelling-link-container-right">
+            <button class="%storySubmitClasses" type="button">%message_storySubmitButton</button>
+        </div>
+    </div>
+</div>
 
 </form>

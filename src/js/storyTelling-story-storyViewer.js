@@ -16,7 +16,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization"],
         selectors: {
-            storyTags: ".sjrkc-storyTelling-storyListTags"
+            storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
+            storyTags: ".sjrkc-storyTelling-storyListTags",
+            storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
         },
         modelRelay: {
             source: "tags",
@@ -26,26 +28,38 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         },
         events: {
-            onStoryListenToRequested: null
+            onSaveNoShareRequested: null,
+            onStoryListenToRequested: null,
+            onViewerPreviousRequested: null
         },
         listeners: {
             "onTemplateRendered.bindListenToControl": {
                 "this": "{that}.dom.storyListenTo",
                 "method": "click",
                 "args": ["{that}.events.onStoryListenToRequested.fire"]
+            },
+            "onTemplateRendered.bindSaveNoShareControl": {
+                "this": "{that}.dom.storySaveNoShare",
+                "method": "click",
+                "args": ["{that}.events.onSaveNoShareRequested.fire"]
+            },
+            "onTemplateRendered.bindViewerPreviousControl": {
+                "this": "{that}.dom.storyViewerPrevious",
+                "method": "click",
+                "args": ["{that}.events.onViewerPreviousRequested.fire"]
             }
         },
         model: {
             templateTerms: {
-                // TODO: fix syntax of this
                 storyTitle: "{that}.model.title",
                 storyContent: "{that}.model.content",
                 storyAuthor: "{that}.model.author",
-                // storyTags: {},
+                storyLanguage: "{that}.model.language",
                 storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
                 storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
                 storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
-                storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)"
+                storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
+                storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
             }
         },
         components: {

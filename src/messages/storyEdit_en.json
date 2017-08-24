@@ -11,5 +11,10 @@
     "message_storyAddTagsPlaceholder": "Tag 1, Tag 2",
     "message_storyCreateSummaryText": "Create summary",
     "message_storyTranslateText": "Translate my story",
-    "message_storySubmitButton": "Done"
+    "message_storySubmitButton": "Done",
+    "message_storyLanguageInputLabel": "Language",
+    "message_storyLanguageInputPlaceholder": "Enter language here",
+    "message_storyGoBack": "Go back",
+    "message_storyHeading" : "My Story",
+    "message_storyReadOtherstories" : "Read Other Stories"
 }

@@ -31,11 +31,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onStorySubmitRequestedFromEditorNoView: null,
             onStorySubmitRequestedFromEditorViewExists: null,
             onStoryEditorReady: null,
-            onStoryViewerReady: null
+            onStoryViewerReady: null,
+            onVisibilityChanged: null
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor",
-            storyViewer: ".sjrkc-storyTelling-storyViewer"
+            storyViewer: ".sjrkc-storyTelling-storyViewer",
+            storyEditorPage1: ".sjrk-storyTelling-storyEditorPage1",
+            storyEditorPage2: ".sjrk-storyTelling-storyEditorPage2"
         },
         components: {
             storyEditor: {
@@ -50,6 +53,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onControlsBound.escalate": {
                             "func": "{storyAuthoring}.events.onStoryEditorReady.fire"
+                        },
+                        "onEditorNextRequested.showEditorNext": {
+                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
+                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorPage2"], "{storyAuthoring}"]
+                        },
+                        "onEditorPreviousRequested.showEditorPrevious": {
+                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
+                            "args": [["storyEditorPage2", "storyViewer"], ["storyEditorPage1"], "{storyAuthoring}"]
+                        },
+                        "onStorySubmitRequested.showViewer": {
+                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
+                            "args": [["storyEditorPage1", "storyEditorPage2"], ["storyViewer"], "{storyAuthoring}"]
                         }
                     }
                 }
@@ -63,7 +78,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         title: "{storyEditor}.model.title",
                         content: "{storyEditor}.model.content",
                         author: "{storyEditor}.model.author",
-                        tags: "{storyEditor}.model.tags"
+                        tags: "{storyEditor}.model.tags",
+                        language: "{storyEditor}.model.language"
                     },
                     listeners: {
                         "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists": {
@@ -71,6 +87,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onTemplateRendered.escalate": {
                             "func": "{storyAuthoring}.events.onStoryViewerReady.fire"
+                        },
+                        "onViewerPreviousRequested.showEditorPrevious": {
+                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
+                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorPage2"], "{storyAuthoring}"]
                         }
                     }
                 }
@@ -91,6 +111,22 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         } else {
             storytellingComponent.events.onStorySubmitRequestedFromEditorViewExists.fire();
         }
+    };
+
+    // hideSelectors: array of DOM selectors to hide
+    // showSelectors: array of DOM selectors to show
+    // component: viewComponent to manage visibility of selectors
+    sjrk.storyTelling.storyAuthoring.manageVisibility = function (hideSelectors, showSelectors, component) {
+
+        fluid.each(hideSelectors, function (selector) {
+            component.locate(selector).hide();
+        });
+
+        fluid.each(showSelectors, function (selector) {
+            component.locate(selector).show();
+        });
+
+        component.events.onVisibilityChanged.fire();
     };
 
 })(jQuery, fluid);

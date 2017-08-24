@@ -16,12 +16,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
         gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization", "sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
-            storySubmit: ".sjrkc-storyTelling-storySubmit"
+            storySubmit: ".sjrkc-storyTelling-storySubmit",
+            storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
+            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious"
         },
         events: {
             onStorySubmitRequested: null,
             onStoryListenToRequested: null,
-            onControlsBound: null
+            onControlsBound: null,
+            onEditorNextRequested: null,
+            onEditorPreviousRequested: null
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
@@ -29,15 +33,27 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
             },
+            "onTemplateRendered.bindEditorNextControl": {
+                "this": "{that}.dom.storyEditorNext",
+                "method": "click",
+                "args": ["{that}.events.onEditorNextRequested.fire"],
+                "priority": "after:bindSubmitControl"
+            },
+            "onTemplateRendered.bindEditorPreviousControl": {
+                "this": "{that}.dom.storyEditorPrevious",
+                "method": "click",
+                "args": ["{that}.events.onEditorPreviousRequested.fire"],
+                "priority": "after:bindEditorNextControl"
+            },
             "onTemplateRendered.bindListenToControl": {
                 "this": "{that}.dom.storyListenTo",
                 "method": "click",
                 "args": ["{that}.events.onStoryListenToRequested.fire"],
-                "priority": "after:bindSubmitControl"
+                "priority": "after:bindEditorPreviousControl"
             },
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
-                "priority": "after:bindListenToControl"
+                "priority": "last"
             }
         },
         invokers: {
@@ -49,6 +65,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: "title",
             storyAuthor: "author",
             storyContent: "content",
+            storyLanguage: "language",
             storyTags: {
                 selector: "storyTags",
                 path: "tags",
@@ -77,13 +94,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
+                storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
                 storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
-                storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)"
+                storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
+                storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
+                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
             }
         },
         components: {
@@ -100,5 +120,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
+
 
 })(jQuery, fluid);

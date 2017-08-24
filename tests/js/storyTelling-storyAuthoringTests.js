@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk, jqUnit */
 
 (function ($, fluid) {
 
@@ -25,12 +25,29 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         modules: [{
             name: "Test story authoring interface",
             tests: [{
-                name: "Test viewer rendering events",
-                expect: 4,
+                name: "Test editor and viewer model binding and updating",
+                expect: 18,
                 sequence: [{
                     "listener": "jqUnit.assert",
                     "args": "onStoryEditorReady event fired.",
                     "event": "{storyAuthoringTest storyAuthoring}.events.onStoryEditorReady"
+                },
+                {
+                    func: "sjrk.storyTelling.storyAuthoringTester.checkPageVisibility",
+                    args: ["{storyAuthoring}","storyEditorPage1"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyAuthoring}.storyEditor.dom.storyEditorNext"
+                },
+                {
+                    "listener": "sjrk.storyTelling.storyAuthoringTester.checkPageVisibility",
+                    "args": ["{storyAuthoring}","storyEditorPage2"],
+                    "event": "{storyAuthoring}.events.onVisibilityChanged"
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyAuthoring}.storyEditor","storyTitle","Initial test title"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -47,31 +64,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     args: ["onStoryViewerReady event fired"]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyAuthoring}.storyEditor.dom.storySubmit"
-                },
-                {
-                    "event":
-                    "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists",
-                    listener: "jqUnit.assert",
-                    args: "onStorySubmitRequestedFromEditorViewExists event fired."
-                }]
-            },
-            {
-                name: "Test editor and viewer model binding and updating",
-                expect: 4,
-                sequence: [{
-                    func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{storyAuthoring}.storyEditor","storyTitle","Initial test title"]
+                    func: "sjrk.storyTelling.storyAuthoringTester.checkPageVisibility",
+                    args: ["{storyAuthoring}","storyViewer"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{storyAuthoring}.storyEditor.dom.storySubmit"
+                    "element": "{storyAuthoring}.storyViewer.dom.storyViewerPrevious"
                 },
                 {
-                    "event": "{storyAuthoring}.events.onStoryViewerReady",
-                    listener: "jqUnit.assert",
-                    args: ["onStoryViewerReady event fired"]
+                    "listener": "sjrk.storyTelling.storyAuthoringTester.checkPageVisibility",
+                    "args": ["{storyAuthoring}","storyEditorPage2"],
+                    "event": "{storyAuthoring}.events.onVisibilityChanged"
                 },
                 {
                     func: "jqUnit.assertEquals",
@@ -82,23 +85,22 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     args: ["{storyAuthoring}.storyEditor","storyTitle","New test title"]
                 },
                 {
+                    func: "jqUnit.assertEquals",
+                    args: ["Viewer model updated","{storyAuthoring}.storyEditor.model.title","{storyAuthoring}.storyViewer.model.title"]
+                },
+                {
                     "jQueryTrigger": "click",
                     "element": "{storyAuthoring}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{storyAuthoring}.events.onStoryViewerReady",
+                    "event":
+                    "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists",
                     listener: "jqUnit.assert",
-                    args: ["onStoryViewerReady event fired"]
-                },
-                {
-                    func: "jqUnit.assertEquals",
-                    args: ["Viewer model updated after change","{storyAuthoring}.storyEditor.model.title","{storyAuthoring}.storyViewer.model.title"]
+                    args: "onStorySubmitRequestedFromEditorViewExists event fired."
                 }]
             }]
         }]
     });
-
-
 
     fluid.defaults("sjrk.storyTelling.storyAuthoringTest", {
         gradeNames: ["fluid.test.testEnvironment"],
@@ -113,6 +115,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
+
+    var selectors = ["storyEditorPage1", "storyEditorPage2", "storyViewer"];
+
+    sjrk.storyTelling.storyAuthoringTester.checkPageVisibility = function (component, expectedVisible) {
+        fluid.each(selectors, function (selector) {
+            var expectedDisplay = selector === expectedVisible ? "block" : "none";
+            var actualDisplay = component.locate(selector).css("display");
+            jqUnit.assertEquals("The element " + selector + " matches expected display value",expectedDisplay, actualDisplay);
+        });
+    };
 
     $(document).ready(function () {
         fluid.test.runTests([
