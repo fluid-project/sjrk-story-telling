@@ -3,9 +3,9 @@
     "message_storyAuthorText": "par %storyAuthor",
     "message_storyListenToText": "Écouter à cette histoire",
     "message_storyReadMoreText": "Lire en plus",
-    "message_storyListTagsLabelText": "Étiquettes de thème",
+    "message_storyListTagsLabelText": "Mots clés de thème",
     "message_storyShareText": "Partager mon histoire",
     "message_storySaveNoShareText": "Enregistrer sans partager",
-    "message_storyLanguageLabelText": "Langage(s)",
+    "message_storyLanguageLabelText": "Langue(s)",
     "message_storyGoBack": "Retourner"
 }
