@@ -37,7 +37,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         invokers: {
             showPage: {
                 "funcName": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                "args": ["{storyAuthoring}.options.visibilityManagedSelectors", "{arguments}.0", "{storyAuthoring}"]
+                "args": [
+                    "@expand:fluid.censorKeys({storyAuthoring}.options.visibilityManagedSelectors, {arguments}.0)",
+                    "{arguments}.0",
+                    "{storyAuthoring}"]
             }
         },
         selectors: {
@@ -132,7 +135,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     };
 
     sjrk.storyTelling.storyAuthoring.getVisibilityManagedSelectors = function (pageVisibilityStates) {
-
         var combined = [];
 
         fluid.each(pageVisibilityStates, function (visibilityState) {
@@ -152,9 +154,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // hideSelectors: array of DOM selectors to hide
     // showSelectors: array of DOM selectors to show
     // component: viewComponent to manage visibility of selectors
-    sjrk.storyTelling.storyAuthoring.manageVisibility = function (visibilityManagedSelectors, showSelectors, component) {
-        var hideSelectors = fluid.censorKeys(visibilityManagedSelectors, showSelectors);
-
+    sjrk.storyTelling.storyAuthoring.manageVisibility = function (hideSelectors, showSelectors, component) {
         fluid.each(hideSelectors, function (selector) {
             component.locate(selector).hide();
         });
