@@ -41,10 +41,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2",
             storyEditorHeading: ".sjrkc-storyTelling-storyEditor-headingContainer"
         },
-        pageStates: {
-            editorPage1Visible: [],
-            editorPage2Visible: [],
-            previewVisible: []
+        visibilityManagedSelectors: {
+            expander: {
+                funcName: "sjrk.storyTelling.storyAuthoring.getVisibilityManagedSelectors",
+                args: ["{that}.options.pageVisibilityStates"]
+            }
+        },
+        pageVisibilityStates: {
+            storyEditorPage1: ["storyEditorHeading", "storyEditorPage1"],
+            storyEditorPage2: ["storyEditorHeading", "storyEditorPage2"],
+            storyViewer: ["storyViewer"]
         },
         components: {
             storyEditor: {
@@ -62,15 +68,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onEditorNextRequested.showEditorNext": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorHeading", "storyEditorPage2"], "{storyAuthoring}"]
+                            "args": ["{storyAuthoring}.options.visibilityManagedSelectors", "{storyAuthoring}.options.pageVisibilityStates.storyEditorPage2", "{storyAuthoring}"]
                         },
                         "onEditorPreviousRequested.showEditorPrevious": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage2", "storyViewer"], ["storyEditorHeading", "storyEditorPage1"], "{storyAuthoring}"]
+                            "args": ["{storyAuthoring}.options.visibilityManagedSelectors", "{storyAuthoring}.options.pageVisibilityStates.storyEditorPage1", "{storyAuthoring}"]
                         },
                         "onStorySubmitRequested.showViewer": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorHeading", "storyEditor", "storyEditorPage2"], ["storyViewer"], "{storyAuthoring}"]
+                            "args": ["{storyAuthoring}.options.visibilityManagedSelectors", "{storyAuthoring}.options.pageVisibilityStates.storyViewer", "{storyAuthoring}"]
                         }
                     }
                 }
@@ -96,7 +102,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         },
                         "onViewerPreviousRequested.showEditorPrevious": {
                             "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorHeading", "storyEditor", "storyEditorPage2"], "{storyAuthoring}"]
+                            "args": ["{storyAuthoring}.options.visibilityManagedSelectors", "{storyAuthoring}.options.pageVisibilityStates.storyEditorPage2", "{storyAuthoring}"]
                         }
                     }
                 }
@@ -119,10 +125,29 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     };
 
+    sjrk.storyTelling.storyAuthoring.getVisibilityManagedSelectors = function (pageVisibilityStates) {
+
+        var combined = [];
+
+        fluid.each(pageVisibilityStates, function (visibilityState) {
+            combined = combined.concat(visibilityState);
+        });
+
+        // Approach via https://stackoverflow.com/a/14438954
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
+        combined = combined.filter(onlyUnique);
+
+        return combined;
+    };
+
     // hideSelectors: array of DOM selectors to hide
     // showSelectors: array of DOM selectors to show
     // component: viewComponent to manage visibility of selectors
-    sjrk.storyTelling.storyAuthoring.manageVisibility = function (hideSelectors, showSelectors, component) {
+    sjrk.storyTelling.storyAuthoring.manageVisibility = function (visibilityManagedSelectors, showSelectors, component) {
+        var hideSelectors = fluid.censorKeys(visibilityManagedSelectors, showSelectors);
 
         fluid.each(hideSelectors, function (selector) {
             component.locate(selector).hide();
