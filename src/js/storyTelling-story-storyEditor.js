@@ -18,7 +18,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
-            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious"
+            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
+            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList"
         },
         events: {
             onStorySubmitRequested: null,
@@ -26,6 +27,29 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onControlsBound: null,
             onEditorNextRequested: null,
             onEditorPreviousRequested: null
+        },
+        modelRelay: {
+            languageFromSelectToLanguage: {
+                source: "{that}.model.languageFromSelect",
+                target: "language",
+                backward: {
+                    excludeSource: "*"
+                },
+                singleTransform: {
+                    type: "fluid.transforms.value"
+                }
+
+            },
+            languageFromInputToLanguage: {
+                source: "{that}.model.languageFromInput",
+                target: "language",
+                backward: {
+                    excludeSource: "*"
+                },
+                singleTransform: {
+                    type: "fluid.transforms.value"
+                }
+            }
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
@@ -65,7 +89,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: "title",
             storyAuthor: "author",
             storyContent: "content",
-            storyLanguage: "language",
+            storyLanguage: "languageFromInput",
+            storyLanguageList: "languageFromSelect",
             storyTags: {
                 selector: "storyTags",
                 path: "tags",
@@ -90,12 +115,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         },
         model: {
+            languageFromSelect: "",
+            languageFromInput: "",
             templateTerms: {
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
                 storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
+                storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
+                storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",

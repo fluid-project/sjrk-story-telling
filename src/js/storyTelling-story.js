@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             images: [],
             tags: [],
             summary: "",
-            translations: [],
+            translationOf: null,
             templateTerms: {
                 storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
                 storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
