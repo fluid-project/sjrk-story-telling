@@ -20,6 +20,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     },
     dbDocuments: {
         "storyExample": {
+            "type": "story",
             "value": {
                 "title": "Test title",
                 "content": "This is the test story's content.",
@@ -27,17 +28,18 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                 "language": "English",
                 "tags": ["tag1", "tag2"],
                 "summary": "This is a summary of the test story."
-            },
-            "type": "story"
+            }
         },
         "03040e30-8371-11e7-96f2-1fe98400f32b": {
+            "type": "story",
             "value": {
-            "title": "This is a test",
-            "content": "test story modified from front end a second time, this time it's a little longer so the text-to-speech synthesizer voice can keep reading this run-on sentence and make a lot of noise, and we know it's working properly, and why are you still reading this anyway?",
-            "author": "Testauthor",
-            "language": "English",
-            "tags": ["test", "story"],
-            "summary": ""
+                "title": "This is a test",
+                "content": "test story modified from front end a second time, this time it's a little longer so the text-to-speech synthesizer voice can keep reading this run-on sentence and make a lot of noise, and we know it's working properly, and why are you still reading this anyway?",
+                "author": "Testauthor",
+                "language": "English",
+                "tags": ["test", "story"],
+                "summary": ""
+            }
         }
     },
     dbViews: {
