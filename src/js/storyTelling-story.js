@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 
 (function ($, fluid) {
@@ -40,6 +40,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyLanguage: ".sjrkc-storyTelling-storyLanguage",
             storyTags: ".sjrkc-storyTelling-storyTags",
             storyListenTo: ".sjrkc-storyTelling-storyListenTo"
+        },
+        invokers: {
+            getFullStoryText: {
+                "funcName": "sjrk.storyTelling.story.getFullStoryText",
+                args: ["{that}.model.title", "{that}.model.author", "{that}.model.content", "{resourceLoader}"]
+            }
         }
     });
 
@@ -48,7 +54,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.story.storySpeaker", {
         gradeNames: ["fluid.textToSpeech"],
         model: {
-            storyText: "{story}.model.content",
             utteranceOpts: {
                 // Expected to be received from the resourceLoader of a templated component, such as StoryView or StoryEditor
                 lang: "{resourceLoader}.options.locale"
@@ -59,9 +64,21 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "{story}.events.onStoryListenToRequested":
             {
                 func: "{that}.queueSpeech",
-                args: ["{that}.model.storyText"]
+                args: ["@expand:{story}.getFullStoryText()"]
             }
         }
     });
+
+    // Generates full story text, including the title, author name and story content.
+    sjrk.storyTelling.story.getFullStoryText = function (title, author, content, resourceLoader) {
+        var locale = resourceLoader.options.locale;
+
+        //TODO: get proper byline message from the template messages for this locale
+        //var byLineMessage =resourceLoader.resolveResources(....);
+        //var byLine = byLineMessage.replace("%storyAuthor", author);
+        var byLine = (locale === "en" ? ", by " : ", par ") + author;
+
+        return title + byLine + ". " + content;
+    };
 
 })(jQuery, fluid);
