@@ -71,12 +71,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     // Generates full story text, including the title, author name and story content.
     sjrk.storyTelling.story.getFullStoryText = function (title, author, content, resourceLoader) {
-        var locale = resourceLoader.options.locale;
-
-        //TODO: get proper byline message from the template messages for this locale
-        //var byLineMessage =resourceLoader.resolveResources(....);
-        //var byLine = byLineMessage.replace("%storyAuthor", author);
-        var byLine = (locale === "en" ? ", by " : ", par ") + author;
+        var messages = JSON.parse(resourceLoader.resources.componentMessages.resourceText);
+        var byLine = messages.message_storyAuthorText.replace("%storyAuthor", author);
 
         return title + byLine + ". " + content;
     };

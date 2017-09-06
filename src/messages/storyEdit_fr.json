@@ -4,6 +4,7 @@
     "message_storyListenToText": "Écoutez mon histoire",
     "message_storyTitleInputLabel": "Titre de l'histoire (requis)",
     "message_storyTitleInputPlaceholder": "Entrez le titre ici",
+    "message_storyAuthorText": "par %storyAuthor",
     "message_storyAuthorInputLabel": "Votre nom (optionnel)",
     "message_storyAuthorInputPlaceholder": "Entrez votre nom (optionnel)",
     "message_storyLanguageInputLabel": "Langue (requis)",
