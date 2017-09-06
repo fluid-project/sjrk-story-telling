@@ -81,7 +81,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // bylineTemplate: the template string for the byline,
     //      the value "%storyAuthor" will be replaced by the author's name
     sjrk.storyTelling.story.getFullStoryText = function (title, author, content, bylineTemplate) {
-        var byLine = bylineTemplate ? bylineTemplate.replace("%storyAuthor", author) : " by " + author;
+        var byLine = "";
+
+        if (author) {
+            if (bylineTemplate) {
+                byLine = bylineTemplate.replace("%storyAuthor", author);
+            } else {
+                byLine = " by " + author; // defaults to English
+            }
+        }
+
+        //var byLine = !author ? "" : (bylineTemplate ? bylineTemplate.replace("%storyAuthor", author) : " by " + author);
+
         return title + " " + byLine + ". " + content; // ". " for a little pause
     };
 
