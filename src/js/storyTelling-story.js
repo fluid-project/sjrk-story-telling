@@ -44,7 +44,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         invokers: {
             getFullStoryText: {
                 "funcName": "sjrk.storyTelling.story.getFullStoryText",
-                args: ["{that}.model.title", "{that}.model.author", "{that}.model.content", "{resourceLoader}"]
+                args: [
+                    "{that}.model.title",
+                    "{that}.model.author",
+                    "{that}.model.content",
+                    "@expand:sjrk.storyTelling.story.getBylineTemplate({resourceLoader}.resources.componentMessages.resourceText)"
+                ]
             }
         }
     });
@@ -70,11 +75,21 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     });
 
     // Generates full story text, including the title, author name and story content.
-    sjrk.storyTelling.story.getFullStoryText = function (title, author, content, resourceLoader) {
-        var messages = JSON.parse(resourceLoader.resources.componentMessages.resourceText);
-        var byLine = messages.message_storyAuthorText.replace("%storyAuthor", author);
+    // title: the title of the story
+    // author: the author's name/moniker
+    // content: the textual content of the story
+    // bylineTemplate: the template string for the byline,
+    //      the value "%storyAuthor" will be replaced by the author's name
+    sjrk.storyTelling.story.getFullStoryText = function (title, author, content, bylineTemplate) {
+        var byLine = bylineTemplate ? bylineTemplate.replace("%storyAuthor", author) : " by " + author;
+        return title + " " + byLine + ". " + content; // ". " for a little pause
+    };
 
-        return title + byLine + ". " + content;
+    // messagesString: JSON string of the collection of messages for the current locale, there should be
+    //      a "message_storyAuthorText" key. If not, it will return undefined
+    sjrk.storyTelling.story.getBylineTemplate = function (messagesString) {
+        var messages = JSON.parse(messagesString);
+        return messages.message_storyAuthorText;
     };
 
 })(jQuery, fluid);
