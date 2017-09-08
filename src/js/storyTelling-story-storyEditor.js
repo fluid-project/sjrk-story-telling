@@ -23,7 +23,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         events: {
             onStorySubmitRequested: null,
-            onStoryListenToRequested: null,
             onControlsBound: null,
             onEditorNextRequested: null,
             onEditorPreviousRequested: null
@@ -152,7 +151,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
-                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
+                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)",
+                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+                storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
+                storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
+                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)"
             }
         },
         components: {

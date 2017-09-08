@@ -29,7 +29,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         events: {
             onSaveNoShareRequested: null,
-            onStoryListenToRequested: null,
             onViewerPreviousRequested: null
         },
         listeners: {
@@ -59,7 +58,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
                 storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
                 storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
-                storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
+                storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)",
+                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+                storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
+                storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
+                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)"
             }
         },
         components: {

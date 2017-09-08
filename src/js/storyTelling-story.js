@@ -24,14 +24,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             images: [],
             tags: [],
             summary: "",
-            translationOf: null,
-            templateTerms: {
-                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-                storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
-                storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
-                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)"
-            }
+            translationOf: null
         },
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
@@ -40,6 +33,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyLanguage: ".sjrkc-storyTelling-storyLanguage",
             storyTags: ".sjrkc-storyTelling-storyTags",
             storyListenTo: ".sjrkc-storyTelling-storyListenTo"
+        },
+        events: {
+            onStoryListenToRequested: null
         },
         invokers: {
             getFullStoryText: {
@@ -87,20 +83,22 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             if (bylineTemplate) {
                 byLine = bylineTemplate.replace("%storyAuthor", author);
             } else {
-                byLine = " by " + author; // defaults to English
+                byLine = "by " + author; // defaults to English
             }
         }
 
-        //var byLine = !author ? "" : (bylineTemplate ? bylineTemplate.replace("%storyAuthor", author) : " by " + author);
-
-        return title + " " + byLine + ". " + content; // ". " for a little pause
+        return (title ? title + " " : "") + byLine + (title || byLine ? ". " : "") + content;
     };
 
     // messagesString: JSON string of the collection of messages for the current locale, there should be
     //      a "message_storyAuthorText" key. If not, it will return undefined
     sjrk.storyTelling.story.getBylineTemplate = function (messagesString) {
-        var messages = JSON.parse(messagesString);
-        return messages.message_storyAuthorText;
+        if (messagesString) {
+            var messages = JSON.parse(messagesString);
+            return messages.message_storyAuthorText;
+        } else {
+            return undefined;
+        }
     };
 
 })(jQuery, fluid);
