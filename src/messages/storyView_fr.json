@@ -7,5 +7,6 @@
     "message_storyShareText": "Partager mon histoire",
     "message_storySaveNoShareText": "Enregistrer sans partager",
     "message_storyLanguageLabelText": "Langue(s)",
-    "message_storyGoBack": "Retourner"
+    "message_storyGoBack": "Retourner",
+    "message_storyTranslate": "Traduire mon histoire"
 }
