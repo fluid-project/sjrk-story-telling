@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
-        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization", "sjrk.storyTelling.templatedComponentWithBinder"],
+        gradeNames: ["sjrk.storyTelling.story.ui", "sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
@@ -88,12 +88,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "args": ["{that}.events.onEditorPreviousRequested.fire"],
                 "priority": "after:bindEditorNextControl"
             },
-            "onTemplateRendered.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"],
-                "priority": "after:bindEditorPreviousControl"
-            },
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
                 "priority": "last"
@@ -151,25 +145,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
-                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)",
-                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-                storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
-                storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
-                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)"
+                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
+
             }
         },
         components: {
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.html",
-                        componentMessages: "%resourcePrefix/src/messages/storyEdit.json"
+                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.html"
                     }
                 }
-            },
-            storySpeaker: {
-                type: "sjrk.storyTelling.story.storySpeaker"
             }
         }
     });

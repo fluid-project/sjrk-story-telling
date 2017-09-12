@@ -1,4 +1,5 @@
 {
+    "message_readStoryText": "%storyTitle %message_storyAuthorText %storyContent",
     "message_storyContentInputLabel": "Enter story text in the box",
     "message_storyContentInputPlaceholder": "Begin typing here",
     "message_storyListenToText": "Listen to my story",
@@ -17,5 +18,11 @@
     "message_storySubmitButton": "Done",
     "message_storyGoBack": "Go back",
     "message_storyHeading" : "My Story",
-    "message_storyReadOtherstories" : "Read Other Stories"
+    "message_storyReadOtherstories" : "Read Other Stories",
+    "message_storyPreviewText": "Story Preview",
+    "message_storyReadMoreText": "Read more",
+    "message_storyListTagsLabelText": "Theme tags",
+    "message_storyShareText": "Share my story",
+    "message_storySaveNoShareText": "Save without sharing",
+    "message_storyLanguageLabelText": "Language(s)"
 }

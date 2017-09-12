@@ -1,4 +1,5 @@
 {
+    "message_readStoryText": "%storyTitle %message_storyAuthorText %storyContent",
     "message_storyContentInputLabel": "Entrez le texte de l'article dans la boîte",
     "message_storyContentInputPlaceholder": "Commencez à taper ici",
     "message_storyListenToText": "Écoutez mon histoire",
@@ -17,5 +18,11 @@
     "message_storySubmitButton": "Soumettre",
     "message_storyGoBack": "Retourner",
     "message_storyHeading" : "Mon histoire",
-    "message_storyReadOtherstories" : "Lire d'autres histoires"
+    "message_storyReadOtherstories" : "Lire d'autres histoires",
+    "message_storyPreviewText": "Aperçu de l'histoire",
+    "message_storyReadMoreText": "Lire en plus",
+    "message_storyListTagsLabelText": "Mots clés de thème",
+    "message_storyShareText": "Partager mon histoire",
+    "message_storySaveNoShareText": "Enregistrer sans partager",
+    "message_storyLanguageLabelText": "Langue(s)"
 }
