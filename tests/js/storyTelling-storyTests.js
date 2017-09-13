@@ -15,16 +15,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     fluid.defaults("sjrk.storyTelling.story.testStory", {
         gradeNames: ["sjrk.storyTelling.story.ui"],
-        model: {
-            title: "TestTitle",
-            author: "TestAuthor",
-            content: "Test Content"
-        },
         components: {
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "./src/templates/storyEdit.html"
+                        componentTemplate: "%resourcePrefix/src/templates/storyView.html"
+                    },
+                    terms: {
+                        resourcePrefix: "../.."
                     }
                 }
             }
@@ -37,12 +35,21 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             name: "Test story",
             tests: [{
                 name: "Test story",
-                expect: 1,
+                expect: 2,
                 sequence: [{
-                    "func": "jqUnit.assert",
-                    "args": ["no tests yet"]
-                    //TODO: rebuild the tests post-refactor
-                }]
+                    "event": "{storyTest testStory}.events.onTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["onTemplateRendered event fired"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{testStory}.dom.storyListenTo"
+                },
+                {
+                    "event": "{testStory}.events.onStoryListenToRequested",
+                    listener: "jqUnit.assert",
+                    args: ["onStoryListenToRequested event fired"]
+                }]// Test 2: (if possible) ensure that {storySpeaker}.queueSpeech is called?
             }]
         }]
     });
@@ -50,9 +57,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     fluid.defaults("sjrk.storyTelling.storyTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            story: {
+            story_ui: {
                 type: "sjrk.storyTelling.story.testStory",
-                createOnEvent: "{storyTester}.events.onTestCaseStart"
+                createOnEvent: "{storyTester}.events.onTestCaseStart",
+                container: "#testStoryUI"
             },
             storyTester: {
                 type: "sjrk.storyTelling.storyTester"

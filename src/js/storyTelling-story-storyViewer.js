@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
-        gradeNames: ["sjrk.storyTelling.story.ui", "sjrk.storyTelling.templatedComponentWithLocalization"],
+        gradeNames: ["sjrk.storyTelling.story.ui"],
         selectors: {
             storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
             storyTags: ".sjrkc-storyTelling-storyListTags",
