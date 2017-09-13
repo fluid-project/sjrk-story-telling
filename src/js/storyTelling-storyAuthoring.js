@@ -119,7 +119,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyTelling.html"
+                        componentTemplate: "%resourcePrefix/src/templates/storyAuthoring.html"
                     }
                 }
             }
