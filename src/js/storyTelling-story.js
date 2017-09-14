@@ -74,8 +74,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storySpeaker: {
                 type: "fluid.textToSpeech",
                 options: {
-                    utteranceOpts: {
-                        lang: "{resourceLoader}.options.locale"
+                    model:{
+                        utteranceOpts: {
+                            lang: "{resourceLoader}.options.locale"
+                        }
                     }
                 }
             },

@@ -1,5 +1,5 @@
 {
-    "message_readStoryText": "%storyTitle %message_storyAuthorText %storyContent",
+    "message_readStoryText": "%storyTitle, %message_storyAuthorText. %storyContent",
     "message_storyContentInputLabel": "Entrez le texte de l'article dans la boîte",
     "message_storyContentInputPlaceholder": "Commencez à taper ici",
     "message_storyListenToText": "Écoutez mon histoire",
