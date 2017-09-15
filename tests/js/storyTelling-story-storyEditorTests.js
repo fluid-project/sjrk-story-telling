@@ -56,6 +56,33 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     listener: "jqUnit.assert",
                     args: "onStoryListenToRequested event fired."
                 }]
+            },
+            {
+                name: "Test language input relays",
+                expect: 4,
+                sequence: [{
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEditor}","storyLanguage","Esperanto"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Model language value relayed from text input field", "{storyEditor}.model.languageFromInput", "{storyEditor}.model.language"]
+                },
+                {
+                    func: "jqUnit.assertNotEquals",
+                    args: ["Model languageFromInput value not relayed to languageFromSelect field", "{storyEditor}.model.languageFromInput", "{storyEditor}.model.languageFromSelect"]
+                }, {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEditor}","storyLanguageList","fr-CA"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Model language value relayed from select field", "{storyEditor}.model.languageFromSelect", "{storyEditor}.model.language"]
+                },
+                {
+                    func: "jqUnit.assertNotEquals",
+                    args: ["Model languageFromSelect value not relayed to languageFromInput field", "{storyEditor}.model.languageFromSelect", "{storyEditor}.model.languageFromInput"]
+                }]
             }]
         }]
     });

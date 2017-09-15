@@ -34,11 +34,32 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onStoryViewerReady: null,
             onVisibilityChanged: null
         },
+        invokers: {
+            showPage: {
+                "funcName": "sjrk.storyTelling.storyAuthoring.manageVisibility",
+                "args": [
+                    "@expand:fluid.censorKeys({storyAuthoring}.options.visibilityManagedSelectors, {arguments}.0)",
+                    "{arguments}.0",
+                    "{storyAuthoring}"]
+            }
+        },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-storyEditor",
             storyViewer: ".sjrkc-storyTelling-storyViewer",
-            storyEditorPage1: ".sjrk-storyTelling-storyEditorPage1",
-            storyEditorPage2: ".sjrk-storyTelling-storyEditorPage2"
+            storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
+            storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2",
+            storyEditorHeading: ".sjrkc-storyTelling-storyEditor-headingContainer"
+        },
+        visibilityManagedSelectors: {
+            expander: {
+                funcName: "sjrk.storyTelling.storyAuthoring.getVisibilityManagedSelectors",
+                args: ["{that}.options.pageVisibilityStates"]
+            }
+        },
+        pageVisibilityStates: {
+            storyEditorPage1: ["storyEditorHeading", "storyEditorPage1"],
+            storyEditorPage2: ["storyEditorHeading", "storyEditorPage2"],
+            storyViewer: ["storyViewer"]
         },
         components: {
             storyEditor: {
@@ -55,16 +76,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                             "func": "{storyAuthoring}.events.onStoryEditorReady.fire"
                         },
                         "onEditorNextRequested.showEditorNext": {
-                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorPage2"], "{storyAuthoring}"]
+                            "func": "{storyAuthoring}.showPage",
+                            "args": ["{storyAuthoring}.options.pageVisibilityStates.storyEditorPage2"]
                         },
                         "onEditorPreviousRequested.showEditorPrevious": {
-                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage2", "storyViewer"], ["storyEditorPage1"], "{storyAuthoring}"]
+                            "func": "{storyAuthoring}.showPage",
+                            "args": ["{storyAuthoring}.options.pageVisibilityStates.storyEditorPage1"]
                         },
                         "onStorySubmitRequested.showViewer": {
-                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyEditorPage2"], ["storyViewer"], "{storyAuthoring}"]
+                            "func": "{storyAuthoring}.showPage",
+                            "args": ["{storyAuthoring}.options.pageVisibilityStates.storyViewer"]
                         }
                     }
                 }
@@ -89,8 +110,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                             "func": "{storyAuthoring}.events.onStoryViewerReady.fire"
                         },
                         "onViewerPreviousRequested.showEditorPrevious": {
-                            "func": "sjrk.storyTelling.storyAuthoring.manageVisibility",
-                            "args": [["storyEditorPage1", "storyViewer"], ["storyEditorPage2"], "{storyAuthoring}"]
+                            "func": "{storyAuthoring}.showPage",
+                            "args": ["{storyAuthoring}.options.pageVisibilityStates.storyEditorPage2"]
                         }
                     }
                 }
@@ -113,11 +134,27 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     };
 
+    sjrk.storyTelling.storyAuthoring.getVisibilityManagedSelectors = function (pageVisibilityStates) {
+        var combined = [];
+
+        fluid.each(pageVisibilityStates, function (visibilityState) {
+            combined = combined.concat(visibilityState);
+        });
+
+        // Approach via https://stackoverflow.com/a/14438954
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
+        combined = combined.filter(onlyUnique);
+
+        return combined;
+    };
+
     // hideSelectors: array of DOM selectors to hide
     // showSelectors: array of DOM selectors to show
     // component: viewComponent to manage visibility of selectors
     sjrk.storyTelling.storyAuthoring.manageVisibility = function (hideSelectors, showSelectors, component) {
-
         fluid.each(hideSelectors, function (selector) {
             component.locate(selector).hide();
         });

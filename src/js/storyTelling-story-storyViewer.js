@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyViewer", {
-        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization"],
+        gradeNames: ["sjrk.storyTelling.story.ui"],
         selectors: {
             storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
             storyTags: ".sjrkc-storyTelling-storyListTags",
@@ -29,15 +29,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         events: {
             onSaveNoShareRequested: null,
-            onStoryListenToRequested: null,
             onViewerPreviousRequested: null
         },
         listeners: {
-            "onTemplateRendered.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"]
-            },
             "onTemplateRendered.bindSaveNoShareControl": {
                 "this": "{that}.dom.storySaveNoShare",
                 "method": "click",
@@ -66,13 +60,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyView.html",
-                        componentMessages: "%resourcePrefix/src/messages/storyView.json"
+                        componentTemplate: "%resourcePrefix/src/templates/storyView.html"
                     }
                 }
-            },
-            storySpeaker: {
-                type: "sjrk.storyTelling.story.storySpeaker"
             }
         }
     });

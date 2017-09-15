@@ -14,18 +14,61 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
-        gradeNames: ["sjrk.storyTelling.story", "sjrk.storyTelling.templatedComponentWithLocalization", "sjrk.storyTelling.templatedComponentWithBinder"],
+        gradeNames: ["sjrk.storyTelling.story.ui", "sjrk.storyTelling.templatedComponentWithBinder"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
-            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious"
+            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
+            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList"
         },
         events: {
             onStorySubmitRequested: null,
-            onStoryListenToRequested: null,
             onControlsBound: null,
             onEditorNextRequested: null,
             onEditorPreviousRequested: null
+        },
+        modelRelay: {
+            languageFromSelectToLanguage: {
+                source: "{that}.model.languageFromSelect",
+                target: "language",
+                backward: {
+                    excludeSource: "*"
+                },
+                // forward: {
+                //     excludeSource: "languageFromInputSetLanguageSelectToOther"
+                // },
+                singleTransform: {
+                    type: "fluid.transforms.value"
+                }
+            },
+            languageFromInputToLanguage: {
+                source: "{that}.model.languageFromInput",
+                target: "language",
+                backward: {
+                    excludeSource: "*"
+                },
+                singleTransform: {
+                    type: "fluid.transforms.value"
+                }
+            }
+            // ,
+            // TODO: need to find out how to stop this triggering the first
+            // relay rule
+            // languageFromInputSetLanguageSelectToOther: {
+            //     source: "{that}.model.languageFromInput",
+            //     target: "{that}.model.languageFromSelect",
+            //     backward: {
+            //         excludeSource: "*"
+            //     },
+            //     forward: {
+            //         excludeSource: "languageFromSelectToLanguage"
+            //     },
+            //     singleTransform: {
+            //         type: "fluid.transforms.literalValue",
+            //         input: "other"
+            //     },
+            //     namespace: "languageFromInputSetLanguageSelectToOther"
+            // }
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
@@ -45,12 +88,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 "args": ["{that}.events.onEditorPreviousRequested.fire"],
                 "priority": "after:bindEditorNextControl"
             },
-            "onTemplateRendered.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"],
-                "priority": "after:bindEditorPreviousControl"
-            },
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
                 "priority": "last"
@@ -65,7 +102,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: "title",
             storyAuthor: "author",
             storyContent: "content",
-            storyLanguage: "language",
+            storyLanguage: "languageFromInput",
+            storyLanguageList: "languageFromSelect",
             storyTags: {
                 selector: "storyTags",
                 path: "tags",
@@ -90,12 +128,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         },
         model: {
+            languageFromSelect: "",
+            languageFromInput: "",
             templateTerms: {
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
                 storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
+                storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
+                storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
@@ -104,19 +146,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
                 storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
+
             }
         },
         components: {
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.html",
-                        componentMessages: "%resourcePrefix/src/messages/storyEdit.json"
+                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.html"
                     }
                 }
-            },
-            storySpeaker: {
-                type: "sjrk.storyTelling.story.storySpeaker"
             }
         }
     });

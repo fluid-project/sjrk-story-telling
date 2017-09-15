@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.story", {
+    fluid.defaults("sjrk.storyTelling.story.base", {
         gradeNames: ["fluid.modelComponent"],
         model: {
             title: "",
@@ -24,13 +24,28 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             images: [],
             tags: [],
             summary: "",
-            translations: [],
+            requestedTranslations: [
+                //"es": 2, // a list of language codes as keys with
+                //"fr": 5  // the number of requests for that language
+            ],
+            translationOf: null
+        }
+    });
+
+    // mixin grade which combines the base story with a templatedComponentWithLocalization
+    // contains common elements for all of the story interface contexts (editor, viewer, etc.)
+    fluid.defaults("sjrk.storyTelling.story.ui", {
+        gradeNames: ["sjrk.storyTelling.story.base", "sjrk.storyTelling.templatedComponentWithLocalization"],
+        model: {
             templateTerms: {
                 storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
                 storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
                 storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
                 storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
-                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)"
+                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
+                storyAuthor: "{that}.model.author",
+                storyTitle: "{that}.model.title",
+                storyContent: "{that}.model.content"
             }
         },
         selectors: {
@@ -40,26 +55,38 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyLanguage: ".sjrkc-storyTelling-storyLanguage",
             storyTags: ".sjrkc-storyTelling-storyTags",
             storyListenTo: ".sjrkc-storyTelling-storyListenTo"
-        }
-    });
-
-    // Component to provide text to speech capability to various uses of
-    // story
-    fluid.defaults("sjrk.storyTelling.story.storySpeaker", {
-        gradeNames: ["fluid.textToSpeech"],
-        model: {
-            storyText: "{story}.model.content",
-            utteranceOpts: {
-                // Expected to be received from the resourceLoader of a templated component, such as StoryView or StoryEditor
-                lang: "{resourceLoader}.options.locale"
-            }
+        },
+        events: {
+            onStoryListenToRequested: null
         },
         listeners: {
-            // Component is expected to fire this event
-            "{story}.events.onStoryListenToRequested":
-            {
-                func: "{that}.queueSpeech",
-                args: ["{that}.model.storyText"]
+            "onTemplateRendered.bindListenToControl": {
+                "this": "{that}.dom.storyListenTo",
+                "method": "click",
+                "args": ["{that}.events.onStoryListenToRequested.fire"]
+            },
+            "onStoryListenToRequested.speakStory": {
+                func: "{storySpeaker}.queueSpeech",
+                args: ["@expand:fluid.stringTemplate({that}.model.templateTerms.message_readStoryText, {that}.model.templateTerms)"]
+            }
+        },
+        components: {
+            storySpeaker: {
+                type: "fluid.textToSpeech",
+                options: {
+                    model:{
+                        utteranceOpts: {
+                            lang: "{resourceLoader}.options.locale"
+                        }
+                    }
+                }
+            },
+            resourceLoader: {
+                options: {
+                    resources: {
+                        componentMessages: "%resourcePrefix/src/messages/storyMessages.json"
+                    }
+                }
             }
         }
     });

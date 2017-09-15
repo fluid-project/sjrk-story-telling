@@ -1,7 +1,7 @@
 <!-- TODO: deal with the heading hierarchy -->
 <form class="sjrk-storyTelling-storyEditor">
 
-<div class="grid-12">
+<div class="grid-12 sjrkc-storyTelling-storyEditor-headingContainer">
     <div class="col-6">
         <h2 class="sjrk-storyTelling-story-heading">%message_storyHeading</h2>
     </div>
@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div class="sjrk-storyTelling-storyEditorPage1">
+<div class="sjrkc-storyTelling-storyEditorPage1">
     <div class="sjrk-storyTelling-label-container">
         <label for="%storyContentIdForLabel">%message_storyContentInputLabel</label>
     </div>
@@ -26,14 +26,7 @@
     </div>
 </div>
 
-<div class="sjrk-storyTelling-storyEditorPage2">
-    <div class="sjrk-storyTelling-label-container">
-        <label for="%storyLanguageIdForLabel">%message_storyLanguageInputLabel</label>
-    </div>
-    <div>
-        <input id="%storyLanguageIdForLabel" class="%storyLanguageClasses" placeholder="%message_storyLanguageInputPlaceholder" />
-    </div>
-
+<div class="sjrkc-storyTelling-storyEditorPage2">
     <div class="sjrk-storyTelling-label-container">
         <label for="%storyTitleIdForLabel">%message_storyTitleInputLabel</label>
     </div>
@@ -46,6 +39,24 @@
     </div>
     <div>
         <input id="%storyAuthorIdForLabel" class="%storyAuthorClasses" placeholder="%message_storyAuthorInputPlaceholder" />
+    </div>
+
+    <div class="sjrk-storyTelling-label-container">
+        <label for="%storyLanguageListIdForLabel">%message_storyLanguageInputLabel</label>
+    </div>
+    <div>
+        <select name="" id="%storyLanguageListIdForLabel" class="%storyLanguageListClasses">
+            <option value="en-CA">English (Canada)</option>
+            <option value="fr-CA">Français (Canada)</option>
+            <option value="other">Other (please provide)</option>
+        </select>
+    </div>
+
+    <div class="sjrk-storyTelling-label-container">
+        <label for="%storyLanguageIdForLabel">%message_storyLanguageInputLabel</label>
+    </div>
+    <div>
+        <input id="%storyLanguageIdForLabel" class="%storyLanguageClasses" placeholder="%message_storyLanguageInputPlaceholder" />
     </div>
 
     <div class="sjrk-storyTelling-link-container"><a class="%storyAddImagesClasses" href="#">%message_storyAddImagesText</a></div>
