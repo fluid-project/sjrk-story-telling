@@ -12,22 +12,6 @@
 
 <div class="sjrkc-storyTelling-storyEditorPage1">
     <div class="sjrk-storyTelling-label-container">
-        <label for="%storyContentIdForLabel">%message_storyContentInputLabel</label>
-    </div>
-
-    <div>
-        <textarea id="%storyContentIdForLabel" class="%storyContentClasses" cols="30" rows="10" placeholder="%message_storyContentInputPlaceholder"></textarea>
-    </div>
-
-    <div class="sjrk-storyTelling-link-container"><a class="%storyListenToClasses" href="#">%message_storyListenToText</a></div>
-
-    <div class="sjrk-storyTelling-button-container">
-        <button class="%storyEditorNextClasses" type="button">%message_storySubmitButton</button>
-    </div>
-</div>
-
-<div class="sjrkc-storyTelling-storyEditorPage2">
-    <div class="sjrk-storyTelling-label-container">
         <label for="%storyTitleIdForLabel">%message_storyTitleInputLabel</label>
     </div>
     <div>
@@ -42,10 +26,19 @@
     </div>
 
     <div class="sjrk-storyTelling-label-container">
+        <label for="%storyContentIdForLabel">%message_storyContentInputLabel</label>
+    </div>
+    <div>
+        <textarea id="%storyContentIdForLabel" class="%storyContentClasses" cols="30" rows="10" placeholder="%message_storyContentInputPlaceholder"></textarea>
+    </div>
+
+    <div class="sjrk-storyTelling-label-container">
         <label for="%storyLanguageListIdForLabel">%message_storyLanguageInputLabel</label>
     </div>
     <div>
+        <!-- TODO: make the default option a message from the bundle and load the rest dynamically -->
         <select name="" id="%storyLanguageListIdForLabel" class="%storyLanguageListClasses">
+            <option value="" selected="selected">Choose story language</option>
             <option value="en-CA">English (Canada)</option>
             <option value="fr-CA">Français (Canada)</option>
             <option value="other">Other (please provide)</option>
@@ -59,17 +52,36 @@
         <input id="%storyLanguageIdForLabel" class="%storyLanguageClasses" placeholder="%message_storyLanguageInputPlaceholder" />
     </div>
 
-    <div class="sjrk-storyTelling-link-container"><a class="%storyAddImagesClasses" href="#">%message_storyAddImagesText</a></div>
-    <div class="sjrk-storyTelling-link-container">
-        <label for="%storyTagsIdForLabel">
-            <a class="%storyAddTagsClasses" href="#">%message_storyAddTagsText</a>
-        </label>
+    <div class="sjrk-storyTelling-link-container"><a class="%storyListenToClasses" href="#">%message_storyListenToText</a></div>
+
+    <div class="sjrk-storyTelling-button-container">
+        <button class="%storyEditorNextClasses" type="button">%message_storySubmitButton</button>
+    </div>
+</div>
+
+<!-- TODO: determine if colons should be used on the fields or not. design has fields with and without -->
+<div class="sjrkc-storyTelling-storyEditorPage2">
+    <div class="sjrk-storyTelling-label-container">
+        <label for="%storySummaryIdForLabel">%message_storySummaryInputLabel</label>
+    </div>
+    <div>
+        <textarea id="%storySummaryIdForLabel" class="%storySummaryClasses" cols="30" rows="10" placeholder="%message_storySummaryInputPlaceholder"></textarea>
+    </div>
+
+    <div class="sjrk-storyTelling-label-container">
+        <label for="%storyTagsIdForLabel">%message_storyAddTagsText</label>
     </div>
     <div>
         <input id="%storyTagsIdForLabel" class="%storyTagsClasses" type="text" placeholder="%message_storyAddTagsPlaceholder">
     </div>
-    <div class="sjrk-storyTelling-link-container"><a class="%storyCreateSummaryClasses" href="#">%message_storyCreateSummaryText</a></div>
-    <div class="sjrk-storyTelling-link-container"><a class="%storyTranslateClasses" href="#">%message_storyTranslateText</a></div>
+
+    <div class="sjrk-storyTelling-label-container">
+        <fieldset>
+            <legend>%message_storyAddImagesText</legend>
+            <button class="%storyChoosePhotosClasses" type="button">%message_storyChoosePhotosText</button>
+            <button class="%storyTakePhotoClasses" type="button">%message_storyTakePhotoText</button>
+        </fieldset>
+    </div>
 
     <div class="grid-12">
         <div class="col-6">
