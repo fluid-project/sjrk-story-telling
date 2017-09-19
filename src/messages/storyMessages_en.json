@@ -9,6 +9,8 @@
     "message_storyAuthorInputLabel": "Your name (optional)",
     "message_storyAuthorInputPlaceholder": "Enter your name here (optional)",
     "message_storyLanguageInputLabel": "Language (required)",
+    "message_storyLanguageInputDefault": "Choose story language",
+    "message_storyLanguageInputOther": "Other (please provide)",
     "message_storyLanguageInputPlaceholder": "Enter language here",
     "message_storyAddImagesText": "Add photos",
     "message_storyChoosePhotosText": "choose from photos",
