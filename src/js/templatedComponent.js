@@ -43,18 +43,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         components: {
             resourceLoader: {
-                type: "fluid.resourceLoader",
-                options: {
-                    resources: {
-                        // Specified by using grade
-                        // The template file using the
-                        // fluid.stringTemplate syntax
-                        // componentTemplate: ""
-                    },
-                    terms: {
-                        "resourcePrefix": "."
-                    }
-                }
+                type: "sjrk.storyTelling.messageLoader"
             }
         },
         invokers: {
@@ -141,31 +130,46 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
         listeners: {
             "{resourceLoader}.events.onResourcesLoaded": {
-                "func": "sjrk.storyTelling.templatedComponentWithLocalization.loadLocalizationMessages",
-                "args": ["{resourceLoader}.resources.componentMessages.resourceText", "{that}"],
+                "func": "sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages",
+                "args": ["{resourceLoader}.resources.componentMessages.resourceText", "{that}", "templateTerms"],
                 "priority": "before:renderTemplateOnSelf",
                 "namespace": "loadLocalizationMessages"
             }
         },
         components: {
             resourceLoader: {
-                type: "fluid.resourceLoader",
-                options: {
-                    resources: {
-                        // Specified by using grade
-                        // The messages file (JSON)
-                        // componentMessages: ""
-                    },
-                    locale: "en",
-                    defaultLocale: "en"
-                }
+                type: "sjrk.storyTelling.messageLoaderWithLocalization"
             }
         }
     });
 
-    sjrk.storyTelling.templatedComponentWithLocalization.loadLocalizationMessages = function (componentMessages, that) {
+    fluid.defaults("sjrk.storyTelling.messageLoader", {
+        gradeNames: ["fluid.resourceLoader"],
+        resources: {
+            // Specified by using grade
+            // The template file using the
+            // fluid.stringTemplate syntax
+            // componentTemplate: ""
+        },
+        terms: {
+            "resourcePrefix": "."
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.messageLoaderWithLocalization", {
+        gradeNames: ["sjrk.storyTelling.messageLoader"],
+        resources: {
+            // Specified by using grade
+            // The messages file (JSON)
+            // componentMessages: ""
+        },
+        locale: "en",
+        defaultLocale: "en"
+    });
+
+    sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-        that.applier.change("templateTerms", messages);
+        that.applier.change(modelEndpoint, messages);
     };
 
 })(jQuery, fluid);
