@@ -76,7 +76,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 options: {
                     model:{
                         utteranceOpts: {
-                            lang: "{storyEditor}.model.language"
+                            lang: "{ui}.model.language"
                         }
                     }
                 }

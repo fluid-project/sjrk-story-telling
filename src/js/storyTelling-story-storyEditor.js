@@ -137,16 +137,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
                 storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
+                storySummaryIdForLabel: "@expand:{that}.getLabelId(summary)",
                 storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
+                storyChoosePhotosClasses: "@expand:{that}.getClasses(storyTelling-storyChoosePhotos)",
+                storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
-                storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
+                storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
                 storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
-
             }
         },
         components: {
