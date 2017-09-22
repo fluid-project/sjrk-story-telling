@@ -124,7 +124,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 }
             },
             categories: {
-                type: "srjk.storyTelling.story.categories",
+                type: "srjk.storyTelling.story.categories"
             }
         }
     });
