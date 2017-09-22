@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
-        gradeNames: ["sjrk.storyTelling.story.ui", "sjrk.storyTelling.templatedComponentWithBinder"],
+        gradeNames: ["sjrk.storyTelling.templatedComponentWithBinder", "sjrk.storyTelling.story.ui"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
