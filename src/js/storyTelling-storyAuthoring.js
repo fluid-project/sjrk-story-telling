@@ -122,6 +122,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         componentTemplate: "%resourcePrefix/src/templates/storyAuthoring.html"
                     }
                 }
+            },
+            categories: {
+                type: "srjk.storyTelling.story.categories",
             }
         }
     });
