@@ -27,7 +27,9 @@
         </div>
 
         <div class="sjrk-storyTelling-tags-container">
-            {{message_storyListTagsLabelText}}: <span class="{{storyListTagsClasses}}">{{storyTags}}</span>
+            {{message_storyListTagsLabelText}}: <span class="{{storyListTagsClasses}}">
+                {{#each storyTags }}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+            </span>
         </div>
     </div>
 </div>
