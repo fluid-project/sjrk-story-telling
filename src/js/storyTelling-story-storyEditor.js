@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.story.storyEditor", {
-        gradeNames: ["sjrk.storyTelling.story.ui", "sjrk.storyTelling.templatedComponentWithBinder"],
+        gradeNames: ["sjrk.storyTelling.templatedComponentWithBinder", "sjrk.storyTelling.story.ui"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
@@ -137,23 +137,25 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
                 storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
+                storySummaryIdForLabel: "@expand:{that}.getLabelId(summary)",
                 storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
+                storyChoosePhotosClasses: "@expand:{that}.getClasses(storyTelling-storyChoosePhotos)",
+                storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
-                storyCreateSummaryClasses: "@expand:{that}.getClasses(storyTelling-storyCreateSummary)",
+                storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
                 storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
-
             }
         },
         components: {
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.html"
+                        componentTemplate: "%resourcePrefix/src/templates/storyEdit.handlebars"
                     }
                 }
             }

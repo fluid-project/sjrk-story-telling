@@ -43,18 +43,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         components: {
             resourceLoader: {
-                type: "fluid.resourceLoader",
-                options: {
-                    resources: {
-                        // Specified by using grade
-                        // The template file using the
-                        // fluid.stringTemplate syntax
-                        // componentTemplate: ""
-                    },
-                    terms: {
-                        "resourcePrefix": "."
-                    }
-                }
+                type: "sjrk.storyTelling.messageLoader"
+            },
+            templateRenderer: {
+                type: "gpii.handlebars.renderer.standalone"
             }
         },
         invokers: {
@@ -74,7 +66,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             // waits on
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
-                args: ["{that}.events.onTemplateRendered", "{that}.container", "{resourceLoader}.resources.componentTemplate.resourceText", "{that}.model.templateTerms"]
+                args: ["{that}.events.onTemplateRendered", "{that}.container", "componentTemplate", "{resourceLoader}.resources.componentTemplate.resourceText", "{that}.model.templateTerms", "{that}.templateRenderer"]
             }
         }
     });
@@ -103,12 +95,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * - "template": a template string in the fluid.stringTemplate style
      * - "terms": terms to use in fluid.stringTemplate
     */
-    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, template, terms) {
-        var renderedTemplate = fluid.stringTemplate(template, terms);
+    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
+        renderer.templates.partials.componentTemplate = templateContent;
+        var renderedTemplate = renderer.render(templateName, terms);
         container.html(renderedTemplate);
         completionEvent.fire();
     };
-
 
     // Adds gpii-binder to bind form components and models
     fluid.defaults("sjrk.storyTelling.templatedComponentWithBinder", {
@@ -141,31 +133,52 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
         listeners: {
             "{resourceLoader}.events.onResourcesLoaded": {
-                "func": "sjrk.storyTelling.templatedComponentWithLocalization.loadLocalizationMessages",
-                "args": ["{resourceLoader}.resources.componentMessages.resourceText", "{that}"],
+                "func": "sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages",
+                "args": ["{resourceLoader}.resources.componentMessages.resourceText", "{that}", "templateTerms"],
                 "priority": "before:renderTemplateOnSelf",
                 "namespace": "loadLocalizationMessages"
             }
         },
         components: {
             resourceLoader: {
-                type: "fluid.resourceLoader",
-                options: {
-                    resources: {
-                        // Specified by using grade
-                        // The messages file (JSON)
-                        // componentMessages: ""
-                    },
-                    locale: "en",
-                    defaultLocale: "en"
-                }
+                type: "sjrk.storyTelling.messageLoaderWithLocalization"
             }
         }
     });
 
-    sjrk.storyTelling.templatedComponentWithLocalization.loadLocalizationMessages = function (componentMessages, that) {
+    fluid.defaults("sjrk.storyTelling.messageLoader", {
+        gradeNames: ["fluid.resourceLoader"],
+        resources: {
+            // Specified by using grade
+            // The template file using the
+            // fluid.stringTemplate syntax
+            // componentTemplate: ""
+        },
+        terms: {
+            "resourcePrefix": "."
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.messageLoaderWithLocalization", {
+        gradeNames: ["sjrk.storyTelling.messageLoader"],
+        resources: {
+            // Specified by using grade
+            // The messages file (JSON)
+            // componentMessages: ""
+        },
+        locale: "en",
+        defaultLocale: "en"
+    });
+
+    sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-        that.applier.change("templateTerms", messages);
+        var terms = $.extend({}, messages, that.model[modelEndpoint]);
+
+        var resolvedMessages = fluid.transform(messages, function (message) {
+            return fluid.stringTemplate(message, terms);
+        });
+
+        that.applier.change(modelEndpoint, resolvedMessages);
     };
 
 })(jQuery, fluid);

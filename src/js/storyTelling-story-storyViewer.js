@@ -20,13 +20,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTags: ".sjrkc-storyTelling-storyListTags",
             storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
         },
-        modelRelay: {
-            source: "tags",
-            target: "templateTerms.storyTags",
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.arrayToString"
-            }
-        },
         events: {
             onSaveNoShareRequested: null,
             onViewerPreviousRequested: null
@@ -48,6 +41,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTitle: "{that}.model.title",
                 storyContent: "{that}.model.content",
                 storyAuthor: "{that}.model.author",
+                storyTags: "{that}.model.tags",
                 storyLanguage: "{that}.model.language",
                 storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
                 storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
@@ -60,7 +54,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyView.html"
+                        componentTemplate: "%resourcePrefix/src/templates/storyView.handlebars"
                     }
                 }
             }

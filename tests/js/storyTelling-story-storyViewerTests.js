@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     sjrk.storyTelling.storyViewerTester.verifyElementsRendered = function (component, elementSpec) {
         fluid.each(elementSpec, function (el) {
-            var domValue = component.locate(el.selector).text();
+            var domValue = component.locate(el.selector).text().trim();
 
             jqUnit.assertEquals("The element " + el.selector + " matches expected",el.expected, domValue);
         });

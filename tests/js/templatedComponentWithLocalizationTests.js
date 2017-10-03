@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "../html/templates/testLocalizationTemplate.html",
+                        componentTemplate: "../html/templates/testLocalizationTemplate.handlebars",
                         componentMessages: "../json/messages/testLocalizationMessages.json"
                     }
                 }
