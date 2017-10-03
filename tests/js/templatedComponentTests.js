@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "../html/templates/testTemplate.html"
+                        componentTemplate: "../html/templates/testTemplate.handlebars"
                     }
                 }
             }
@@ -51,7 +51,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 name: "Test invoker version of getClasses",
                 expect: 1,
                 sequence: [{
-                    funcName:                       "sjrk.storyTelling.templatedComponentTester.testGetClasses",
+                    funcName: "sjrk.storyTelling.templatedComponentTester.testGetClasses",
                     args: ["{templatedComponent}"]
                 }]
             },
@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 name: "Test invoker version of getLabelId",
                 expect: 2,
                 sequence: [{
-                    funcName:                       "sjrk.storyTelling.templatedComponentTest.testGetLabelId",
+                    funcName: "sjrk.storyTelling.templatedComponentTest.testGetLabelId",
                     args: ["test", "{templatedComponent}.getLabelId"]
                 }]
             }]
