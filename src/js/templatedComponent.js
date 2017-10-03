@@ -103,7 +103,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         completionEvent.fire();
     };
 
-
     // Adds gpii-binder to bind form components and models
     fluid.defaults("sjrk.storyTelling.templatedComponentWithBinder", {
         gradeNames: ["gpii.binder", "sjrk.storyTelling.templatedComponent"],
@@ -174,7 +173,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-        that.applier.change(modelEndpoint, messages);
+        var terms = $.extend({}, messages, that.model[modelEndpoint]);
+
+        var resolvedMessages = fluid.transform(messages, function (message) {
+            return fluid.stringTemplate(message, terms);
+        });
+
+        that.applier.change(modelEndpoint, resolvedMessages);
     };
 
 })(jQuery, fluid);
