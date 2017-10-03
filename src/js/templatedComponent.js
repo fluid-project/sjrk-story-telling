@@ -98,7 +98,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
         renderer.templates.partials.componentTemplate = templateContent;
         var renderedTemplate = renderer.render(templateName, terms);
-        console.log(renderedTemplate);
         container.html(renderedTemplate);
         completionEvent.fire();
     };

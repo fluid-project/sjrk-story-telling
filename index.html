@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Social Justice Repair Kit Storytelling Project</title>
+
 <script src="node_modules/infusion/dist/infusion-all.js"></script>
 <script src="node_modules/handlebars/dist/handlebars.js"></script>
 <script src="node_modules/pagedown/Markdown.Converter.js"></script>
@@ -24,7 +25,6 @@
 <script src="src/js/templatedComponent.js"></script>
 <script src="src/js/transforms.js"></script>
 <script src="src/js/storyTelling-categories.js"></script>
-<script src="src/js/storyTelling-handlebars.js"></script>
 <script src="src/js/storyTelling-story.js"></script>
 <script src="src/js/storyTelling-story-storyEditor.js"></script>
 <script src="src/js/storyTelling-story-storyViewer.js"></script>
@@ -33,7 +33,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.4.0/gridlex.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
 <link rel="stylesheet" href="src/css/storyTelling.css" />
-
 </head>
 <body>
 <h1>
@@ -48,8 +47,7 @@
 <div class="sjrkc-storyTelling sjrk-storyTelling"></div>
 
 <script>
-    // var storyTelling = sjrk.storyTelling.storyAuthoring(".sjrkc-storyTelling", {});
-    var storyTelling = sjrk.storyTelling.handlebars(".sjrkc-storyTelling", {});
+    var storyTelling = sjrk.storyTelling.storyAuthoring(".sjrkc-storyTelling", {});
 </script>
 
 </body>
