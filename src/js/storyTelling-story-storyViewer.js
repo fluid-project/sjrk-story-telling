@@ -60,7 +60,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "%resourcePrefix/src/templates/storyView.html"
+                        componentTemplate: "%resourcePrefix/src/templates/storyView.handlebars"
                     }
                 }
             }
