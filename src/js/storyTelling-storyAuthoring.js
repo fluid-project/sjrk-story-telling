@@ -48,7 +48,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyViewer: ".sjrkc-storyTelling-storyViewer",
             storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
             storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2",
-            storyEditorHeading: ".sjrkc-storyTelling-storyEditor-headingContainer"
+            storyEditorHeading: ".sjrkc-storyTelling-storyEditor-headingContainer",
+            storyContainer: "{that}.container.selector",
+            storyTestArea: ".sjrkc-storyTelling-storyTestArea"
         },
         visibilityManagedSelectors: {
             expander: {
