@@ -44,6 +44,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         components: {
             resourceLoader: {
                 type: "sjrk.storyTelling.messageLoader"
+            },
+            templateRenderer: {
+                type: "gpii.handlebars.renderer.standalone"
             }
         },
         invokers: {
@@ -63,7 +66,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             // waits on
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
-                args: ["{that}.events.onTemplateRendered", "{that}.container", "{resourceLoader}.resources.componentTemplate.resourceText", "{that}.model.templateTerms"]
+                args: ["{that}.events.onTemplateRendered", "{that}.container", "componentTemplate", "{resourceLoader}.resources.componentTemplate.resourceText", "{that}.model.templateTerms", "{that}.templateRenderer"]
             }
         }
     });
@@ -92,12 +95,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
      * - "template": a template string in the fluid.stringTemplate style
      * - "terms": terms to use in fluid.stringTemplate
     */
-    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, template, terms) {
-        var renderedTemplate = fluid.stringTemplate(template, terms);
+    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
+        renderer.templates.partials.componentTemplate = templateContent;
+        var renderedTemplate = renderer.render(templateName, terms);
         container.html(renderedTemplate);
         completionEvent.fire();
     };
-
 
     // Adds gpii-binder to bind form components and models
     fluid.defaults("sjrk.storyTelling.templatedComponentWithBinder", {
@@ -169,7 +172,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-        that.applier.change(modelEndpoint, messages);
+        var terms = $.extend({}, messages, that.model[modelEndpoint]);
+
+        var resolvedMessages = fluid.transform(messages, function (message) {
+            return fluid.stringTemplate(message, terms);
+        });
+
+        that.applier.change(modelEndpoint, resolvedMessages);
     };
 
 })(jQuery, fluid);

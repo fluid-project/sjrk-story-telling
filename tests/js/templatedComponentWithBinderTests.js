@@ -28,7 +28,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             resourceLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "../html//templates/testBinderTemplate.html"
+                        componentTemplate: "../html//templates/testBinderTemplate.handlebars"
                     }
                 }
             }
