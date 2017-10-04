@@ -12,6 +12,8 @@
     "message_storyLanguageInputDefault": "Choisissez la langue",
     "message_storyLanguageInputOther": "Autre (veuillez fournir)",
     "message_storyLanguageInputPlaceholder": "Entrez la langue",
+    "message_storyCategoryInputLabel": "Coissizes une catégorie:",
+    "message_storyCategoryInputDefault": "Choisir la catégorie",
     "message_storyAddImagesText": "Ajouter des photos",
     "message_storyChoosePhotosText": "choisir parmi les photos",
     "message_storyTakePhotoText": "prendre une photo",

@@ -46,6 +46,18 @@
     </div>
 
     <div class="sjrk-storyTelling-label-container">
+        <label for="{{storyCategoryListIdForLabel}}">{{message_storyCategoryInputLabel}}</label>
+    </div>
+    <div>
+        <select name="" id="{{storyCategoryListIdForLabel}}" class="{{storyCategoryListClasses}}">
+            <option value="" selected="selected">-- {{message_storyCategoryInputDefault}} --</option>
+            {{#each storyCategories}}
+                <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="sjrk-storyTelling-label-container">
         <label for="{{storyLanguageIdForLabel}}">{{message_storyLanguageInputLabel}}</label>
     </div>
     <div>

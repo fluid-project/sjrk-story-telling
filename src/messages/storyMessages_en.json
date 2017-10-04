@@ -12,6 +12,8 @@
     "message_storyLanguageInputDefault": "Choose story language",
     "message_storyLanguageInputOther": "Other (please provide)",
     "message_storyLanguageInputPlaceholder": "Enter language here",
+    "message_storyCategoryInputLabel": "Choose a category:",
+    "message_storyCategoryInputDefault": "Choose category",
     "message_storyAddImagesText": "Add photos",
     "message_storyChoosePhotosText": "choose from photos",
     "message_storyTakePhotoText": "take photo",

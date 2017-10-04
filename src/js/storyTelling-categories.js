@@ -30,6 +30,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 options: {
                     resources: {
                         componentMessages: "%resourcePrefix/src/messages/storyCategories_en.json"
+                    },
+                    listeners: {
+                        "onResourcesLoaded.log": {
+                            "this": "console",
+                            "method": "log",
+                            "args": ["{that}"]
+                        }
                     }
                 }
             }

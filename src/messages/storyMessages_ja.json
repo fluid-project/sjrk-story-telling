@@ -12,6 +12,8 @@
     "message_storyLanguageInputDefault": "言語を選択する",
     "message_storyLanguageInputOther": "別の",
     "message_storyLanguageInputPlaceholder": "言語を書いてください",
+    "message_storyCategoryInputLabel": "カテゴリを選択",
+    "message_storyCategoryInputDefault": "カテゴリを選択",
     "message_storyAddImagesText": "写真を投稿する",
     "message_storyChoosePhotosText": "写真を選ぶ",
     "message_storyTakePhotoText": "写真を撮る",

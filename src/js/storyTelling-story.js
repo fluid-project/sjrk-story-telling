@@ -23,6 +23,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             language: "",
             images: [],
             tags: [],
+            categories: "",//[],
             summary: "",
             requestedTranslations: [
                 //"es": 2, // a list of language codes as keys with
@@ -45,7 +46,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
                 storyAuthor: "{that}.model.author",
                 storyTitle: "{that}.model.title",
-                storyContent: "{that}.model.content"
+                storyContent: "{that}.model.content",
+                // storyCategories: "{that}.model.categories",
+                storyCategories: "{categories}.messageLoader.resources.componentMessages.resourceText"
             }
         },
         selectors: {
@@ -54,7 +57,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyContent: ".sjrkc-storyTelling-storyContent",
             storyLanguage: ".sjrkc-storyTelling-storyLanguage",
             storyTags: ".sjrkc-storyTelling-storyTags",
-            storyListenTo: ".sjrkc-storyTelling-storyListenTo"
+            storyListenTo: ".sjrkc-storyTelling-storyListenTo",
+            storyCategories: ".sjrkc-storyTelling-storyCategories"
         },
         events: {
             onStoryListenToRequested: null
@@ -87,6 +91,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         componentMessages: "%resourcePrefix/src/messages/storyMessages.json"
                     }
                 }
+            },
+            categories: {
+                type: "srjk.storyTelling.story.categories"
             }
         }
     });
