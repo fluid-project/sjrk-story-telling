@@ -20,7 +20,7 @@
     "infusion": "2.0.0",
     "kettle": "1.6.4",
     "sjrk-storytelling": "https://github.com/waharnum/sjrk-storyTelling#FLOE-525",
-    "couch-config": "https://github.com/waharnum/couch-config#SJRK-6",
+    "sjrk-couch-config": "https://github.com/waharnum/couch-config#SJRK-6",
     "uuid": "3.1.0"
   },
   "devDependencies": {
