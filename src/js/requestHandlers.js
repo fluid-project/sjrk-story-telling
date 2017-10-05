@@ -96,3 +96,30 @@ fluid.defaults("sjrk.storyTelling.server.storytellingNodeModulesHandler", {
         }
     }
 });
+
+fluid.defaults("sjrk.storyTelling.server.handlebarsNodeModulesHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.handlebarsNodeModules"
+        }
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.pagedownNodeModulesHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.pagedownNodeModules"
+        }
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.gpiiHBNodeModulesHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.gpiiHBNodeModules"
+        }
+    }
+});

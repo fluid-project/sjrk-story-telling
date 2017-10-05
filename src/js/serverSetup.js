@@ -44,6 +44,24 @@ fluid.defaults("sjrk.storyTelling.server", {
                             "root": "./node_modules/sjrk-storytelling"
                         }
                     },
+                    handlebarsNodeModules: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./node_modules/handlebars"
+                        }
+                    },
+                    pagedownNodeModules: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./node_modules/pagedown"
+                        }
+                    },
+                    gpiiHBNodeModules: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./node_modules/gpii-handlebars"
+                        }
+                    },
                     app: {
                         type: "sjrk.storyTelling.server.app"
                     },
@@ -76,6 +94,24 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             "route": "/*",
             "method": "get",
             "prefix": "/node_modules/sjrk-storytelling"
+        },
+        handlebarsNodeModulesHandler: {
+            type: "sjrk.storyTelling.server.handlebarsNodeModulesHandler",
+            "route": "/*",
+            "method": "get",
+            "prefix": "/node_modules/handlebars"
+        },
+        pagedownNodeModulesHandler: {
+            type: "sjrk.storyTelling.server.pagedownNodeModulesHandler",
+            "route": "/*",
+            "method": "get",
+            "prefix": "/node_modules/pagedown"
+        },
+        gpiiHBNodeModulesHandler: {
+            type: "sjrk.storyTelling.server.gpiiHBNodeModulesHandler",
+            "route": "/*",
+            "method": "get",
+            "prefix": "/node_modules/gpii-handlebars"
         },
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
