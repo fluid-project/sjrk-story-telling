@@ -120,6 +120,28 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         jqUnit.assertEquals("Generated label begins with prefix and dash", 0, label1.indexOf(prefix + "-"));
     };
 
+    jqUnit.test("Test resolveTerms function", function () {
+        jqUnit.expect(1);
+
+        var inputTerms = {
+            testTemplate2: "%testTemplate",
+            testString: "testValue",
+            testTemplate: "%testString",
+            testArray: ["value1", "value2", "value3"]
+        };
+
+        var expectedResult = {
+            testTemplate2: "testValue",
+            testString: "testValue",
+            testTemplate: "testValue",
+            testArray: ["value1", "value2", "value3"]
+        };
+
+        var actualResult = sjrk.storyTelling.templatedComponent.resolveTerms(inputTerms);
+
+        jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
+    });
+
     $(document).ready(function () {
         fluid.test.runTests([
             "sjrk.storyTelling.templatedComponentTest"
