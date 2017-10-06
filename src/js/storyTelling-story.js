@@ -46,9 +46,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
                 storyAuthor: "{that}.model.author",
                 storyTitle: "{that}.model.title",
-                storyContent: "{that}.model.content",
-                // storyCategories: "{that}.model.categories",
-                storyCategories: "{categories}.messageLoader.resources.componentMessages.resourceText"
+                storyContent: "{that}.model.content"
             }
         },
         selectors: {
@@ -91,9 +89,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         componentMessages: "%resourcePrefix/src/messages/storyMessages.json"
                     }
                 }
-            },
-            categories: {
-                type: "srjk.storyTelling.story.categories"
             }
         }
     });

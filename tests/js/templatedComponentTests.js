@@ -128,6 +128,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             testString: "testValue",
             testTemplate: "%testString",
             testArray: ["value1", "value2", "value3"]
+            //TODO: once function is made recursive, enable these cases
+            // testArray: ["value1", "value2", "value3", "%testTemplate"],
+            // testObject: {
+            //     testSubObject1: "testValue1",
+            //     testSubObject2: "%testSubObject1"
+            // }
         };
 
         var expectedResult = {
@@ -135,6 +141,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             testString: "testValue",
             testTemplate: "testValue",
             testArray: ["value1", "value2", "value3"]
+            //TODO: once function is made recursive, enable these cases
+            // testArray: ["value1", "value2", "value3", "testValue"],
+            // testObject: {
+            //     testSubObject1: "testValue1",
+            //     testSubObject2: "testValue1"
+            // }
         };
 
         var actualResult = sjrk.storyTelling.templatedComponent.resolveTerms(inputTerms);

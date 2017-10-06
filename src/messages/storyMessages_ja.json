@@ -31,5 +31,15 @@
     "message_storyListTagsLabelText": "タグ",
     "message_storyShareText": "共有する",
     "message_storySaveNoShareText": "共有せずに保存する",
-    "message_storyLanguageLabelText": "言語"
+    "message_storyLanguageLabelText": "言語",
+    "categories": {
+        "category_childhood": "子供時代",
+        "category_immigration": "移民",
+        "category_education": "教育"
+    },
+    "languages": {
+        "en-CA": "英語 (カナダ)",
+        "fr-CA": "フランス語 (カナダ)",
+        "ja": "日本語"
+    }
 }

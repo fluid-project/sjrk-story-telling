@@ -31,5 +31,15 @@
     "message_storyListTagsLabelText": "Mots clés de thème",
     "message_storyShareText": "Partager mon histoire",
     "message_storySaveNoShareText": "Enregistrer sans partager",
-    "message_storyLanguageLabelText": "Langue(s)"
+    "message_storyLanguageLabelText": "Langue(s)",
+    "categories": {
+        "category_childhood": "Enfance",
+        "category_immigration": "Immigration",
+        "category_education": "Éducation"
+    },
+    "languages": {
+        "en-CA": "Anglais (Canada)",
+        "fr-CA": "Français (Canada)",
+        "ja": "Japonais"
+    }
 }

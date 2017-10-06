@@ -31,5 +31,15 @@
     "message_storyListTagsLabelText": "Theme tags",
     "message_storyShareText": "Share my story",
     "message_storySaveNoShareText": "Save without sharing",
-    "message_storyLanguageLabelText": "Language(s)"
+    "message_storyLanguageLabelText": "Language(s)",
+    "categories": {
+        "category_childhood": "Childhood",
+        "category_immigration": "Immigration",
+        "category_education": "Education"
+    },
+    "languages": {
+        "en-CA": "English (Canada)",
+        "fr-CA": "French (Canada)",
+        "ja": "Japanese"
+    }
 }

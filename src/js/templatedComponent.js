@@ -111,11 +111,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     // against the set of terms.
     sjrk.storyTelling.templatedComponent.resolveTerms = function (terms) {
         return fluid.transform(terms, function (term) {
+            // TODO: Make this functionality recursive
+            // if (typeof term === "array" || typeof term === "object") {
+            //     return sjrk.storyTelling.templatedComponent.resolveTerms(term);
+            // } else {
             if (typeof term === "string") {
                 return fluid.stringTemplate(term, terms);
             } else {
                 return term;
             }
+            // }
         });
     };
 

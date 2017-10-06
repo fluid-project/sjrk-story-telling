@@ -38,9 +38,10 @@
     <div>
         <!-- TODO: load the languages dynamically -->
         <select name="" id="{{storyLanguageListIdForLabel}}" class="{{storyLanguageListClasses}}">
-            <option value="" selected="selected">-- {{message_storyLanguageInputDefault}} --</option>
-            <option value="en-CA">English (Canada)</option>
-            <option value="fr-CA">Français (Canada)</option>
+            <option value="" selected="selected">-- {{message_storyLanguageInputDefault}} --</option>\
+            {{#each languages}}
+                <option value="{{@key}}">{{this}}</option>
+            {{/each}}
             <option value="other">-- {{message_storyLanguageInputOther}} --</option>
         </select>
     </div>
@@ -51,8 +52,8 @@
     <div>
         <select name="" id="{{storyCategoryListIdForLabel}}" class="{{storyCategoryListClasses}}">
             <option value="" selected="selected">-- {{message_storyCategoryInputDefault}} --</option>
-            {{#each storyCategories}}
-                <option value="{{this}}">{{this}}</option>
+            {{#each categories}}
+                <option value="{{@key}}">{{this}}</option>
             {{/each}}
         </select>
     </div>
