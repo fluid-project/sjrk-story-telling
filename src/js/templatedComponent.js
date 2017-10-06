@@ -88,14 +88,13 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         return prefix + "-" + fluid.allocateGuid();
     };
 
-    // TODO: these comments and others need to be updated to account for the
-    // move to Handlebars for templating
-    /* Renders a template with fluid.stringTemplate into the
+    /* Renders a template with gpii-handlebars into the
      * specified container, and fires completionEvent when done
      * - "completionEvent": component even to fire when complete
      * - "container": container to render the template into
-     * - "template": a template string in the fluid.stringTemplate style
-     * - "terms": terms to use in fluid.stringTemplate
+     * - "template": a handlebars template string
+     * - "terms": terms to use in the handlebars template, they will be passed
+     *            through the resolveTerms function to references to dynamic values
     */
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
         renderer.templates.partials.componentTemplate = templateContent;
