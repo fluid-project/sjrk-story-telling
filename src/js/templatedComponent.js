@@ -88,6 +88,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         return prefix + "-" + fluid.allocateGuid();
     };
 
+    // TODO: these comments and others need to be updated to account for the
+    // move to Handlebars for templating
     /* Renders a template with fluid.stringTemplate into the
      * specified container, and fires completionEvent when done
      * - "completionEvent": component even to fire when complete
@@ -97,9 +99,25 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
     */
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
         renderer.templates.partials.componentTemplate = templateContent;
-        var renderedTemplate = renderer.render(templateName, terms);
+
+        var resolvedTerms = sjrk.storyTelling.templatedComponent.resolveTerms(terms);
+
+        var renderedTemplate = renderer.render(templateName, resolvedTerms);
         container.html(renderedTemplate);
         completionEvent.fire();
+    };
+
+    // Given a set of terms that may contain a mix of strings, fluid.stringTemplate
+    // syntax and other objects, resolve only the strings using stringTemplate
+    // against the set of terms.
+    sjrk.storyTelling.templatedComponent.resolveTerms = function (terms) {
+        return fluid.transform(terms, function (term) {
+            if (typeof term === "string") {
+                return fluid.stringTemplate(term, terms);
+            } else {
+                return term;
+            }
+        });
     };
 
     // Adds gpii-binder to bind form components and models
@@ -172,13 +190,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-        var terms = $.extend({}, messages, that.model[modelEndpoint]);
 
-        var resolvedMessages = fluid.transform(messages, function (message) {
-            return fluid.stringTemplate(message, terms);
-        });
-
-        that.applier.change(modelEndpoint, resolvedMessages);
+        that.applier.change(modelEndpoint, messages);
     };
 
 })(jQuery, fluid);
