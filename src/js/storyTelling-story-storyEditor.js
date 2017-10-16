@@ -19,8 +19,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
             storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
-            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
-            storyCategoryList: ".sjrkc-storyTelling-storyCategoryList"
+            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList"
         },
         events: {
             onStorySubmitRequested: null,
@@ -142,7 +141,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
                 storySummaryIdForLabel: "@expand:{that}.getLabelId(summary)",
                 storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
-                storyCategoryListClasses: "@expand:{that}.getClasses(storyTelling-storyCategoryList)",
                 storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
                 storyChoosePhotosClasses: "@expand:{that}.getClasses(storyTelling-storyChoosePhotos)",
                 storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",

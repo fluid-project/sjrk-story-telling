@@ -8,8 +8,12 @@ h1 {
     font-weight: normal;
 }
 
-input {
+input:not([type="checkbox"]) {
     width: 100%;
+}
+
+fieldset ul {
+    list-style-type: none;
 }
 
 .sjrkc-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {

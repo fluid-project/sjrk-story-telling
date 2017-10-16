@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             language: "",
             images: [],
             tags: [],
-            categories: "",//[],
+            categories: [],
             summary: "",
             requestedTranslations: [
                 //"es": 2, // a list of language codes as keys with
@@ -44,6 +44,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
                 storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
                 storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
+                storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)",
                 storyAuthor: "{that}.model.author",
                 storyTitle: "{that}.model.title",
                 storyContent: "{that}.model.content"
