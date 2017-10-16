@@ -102,7 +102,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         content: "{storyEditor}.model.content",
                         author: "{storyEditor}.model.author",
                         tags: "{storyEditor}.model.tags",
-                        language: "{storyEditor}.model.language"
+                        language: "{storyEditor}.model.language",
+                        categories: "{storyEditor}.model.categories"
                     },
                     listeners: {
                         "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists": {

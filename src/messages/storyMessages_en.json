@@ -14,6 +14,7 @@
     "message_storyLanguageInputPlaceholder": "Enter language here",
     "message_storyCategoryInputLabel": "Choose a category:",
     "message_storyCategoryInputDefault": "Choose category",
+    "message_storyListCategoriesLabelText": "Categories",
     "message_storyAddImagesText": "Add photos",
     "message_storyChoosePhotosText": "choose from photos",
     "message_storyTakePhotoText": "take photo",
@@ -32,12 +33,12 @@
     "message_storyShareText": "Share my story",
     "message_storySaveNoShareText": "Save without sharing",
     "message_storyLanguageLabelText": "Language(s)",
-    "categories": {
+    "availableCategories": {
         "category_childhood": "Childhood",
         "category_immigration": "Immigration",
         "category_education": "Education"
     },
-    "languages": {
+    "availableLanguages": {
         "en-CA": "English (Canada)",
         "fr-CA": "French (Canada)",
         "ja": "Japanese"

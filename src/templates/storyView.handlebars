@@ -31,6 +31,12 @@
                 {{#each storyTags }}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
             </span>
         </div>
+
+        <div class="sjrk-storyTelling-categories-container">
+            {{message_storyListCategoriesLabelText}}: <span class="{{storyCategoryClasses}}">
+                {{#each storyCategories }}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+            </span>
+        </div>
     </div>
 </div>
 
