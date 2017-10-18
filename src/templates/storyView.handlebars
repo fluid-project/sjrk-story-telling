@@ -28,13 +28,15 @@
 
         <div class="sjrk-storyTelling-tags-container">
             {{message_storyListTagsLabelText}}: <span class="{{storyListTagsClasses}}">
-                {{#each storyTags }}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+                {{#each storyTags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
             </span>
         </div>
 
         <div class="sjrk-storyTelling-categories-container">
             {{message_storyListCategoriesLabelText}}: <span class="{{storyCategoryClasses}}">
-                {{#each storyCategories }}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+                {{#each storyCategories}}
+                    {{lookup ../availableCategories this}}{{#unless @last}}, {{/unless}}
+                {{/each}}
             </span>
         </div>
     </div>

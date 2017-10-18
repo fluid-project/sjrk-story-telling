@@ -14,6 +14,7 @@
     "message_storyLanguageInputPlaceholder": "言語を書いてください",
     "message_storyCategoryInputLabel": "カテゴリを選択",
     "message_storyCategoryInputDefault": "カテゴリを選択",
+    "message_storyListCategoriesLabelText": "カテゴリ",
     "message_storyAddImagesText": "写真を投稿する",
     "message_storyChoosePhotosText": "写真を選ぶ",
     "message_storyTakePhotoText": "写真を撮る",
@@ -32,12 +33,12 @@
     "message_storyShareText": "共有する",
     "message_storySaveNoShareText": "共有せずに保存する",
     "message_storyLanguageLabelText": "言語",
-    "categories": {
+    "availableCategories": {
         "category_childhood": "子供時代",
         "category_immigration": "移民",
         "category_education": "教育"
     },
-    "languages": {
+    "availableLanguages": {
         "en-CA": "英語 (カナダ)",
         "fr-CA": "フランス語 (カナダ)",
         "ja": "日本語"
