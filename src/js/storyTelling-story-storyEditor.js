@@ -28,47 +28,26 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onEditorPreviousRequested: null
         },
         modelRelay: {
-            languageFromSelectToLanguage: {
-                source: "{that}.model.languageFromSelect",
-                target: "language",
+            languageFromInputSetLanguageSelectToOther: {
+                source: "{that}.model.languageFromInput",
+                target: "{that}.model.languageFromSelect",
                 backward: {
                     excludeSource: "*"
                 },
-                // forward: {
-                //     excludeSource: "languageFromInputSetLanguageSelectToOther"
-                // },
                 singleTransform: {
-                    type: "fluid.transforms.value"
+                    type: "fluid.transforms.literalValue",
+                    input: "other"
                 }
             },
-            languageFromInputToLanguage: {
-                source: "{that}.model.languageFromInput",
+            newRelayWithoutANameForNow: {
                 target: "language",
-                backward: {
-                    excludeSource: "*"
-                },
                 singleTransform: {
-                    type: "fluid.transforms.value"
+                    type: "fluid.transforms.condition",
+                    condition: "{that}.model.languageFromInput",
+                    true: "{that}.model.languageFromInput",
+                    false: "{that}.model.languageFromSelect"
                 }
             }
-            // ,
-            // TODO: need to find out how to stop this triggering the first
-            // relay rule
-            // languageFromInputSetLanguageSelectToOther: {
-            //     source: "{that}.model.languageFromInput",
-            //     target: "{that}.model.languageFromSelect",
-            //     backward: {
-            //         excludeSource: "*"
-            //     },
-            //     forward: {
-            //         excludeSource: "languageFromSelectToLanguage"
-            //     },
-            //     singleTransform: {
-            //         type: "fluid.transforms.literalValue",
-            //         input: "other"
-            //     },
-            //     namespace: "languageFromInputSetLanguageSelectToOther"
-            // }
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
