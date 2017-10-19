@@ -19,7 +19,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
             storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
-            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList"
+            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
+            storyLanguageInput: ".sjrkc-storyTelling-storyLanguage"
         },
         events: {
             onStorySubmitRequested: null,
@@ -39,7 +40,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     input: "other"
                 }
             },
-            newRelayWithoutANameForNow: {
+            languageFromUiToModel: {
                 target: "language",
                 singleTransform: {
                     type: "fluid.transforms.condition",
@@ -49,6 +50,12 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 }
             }
         },
+        // modelListeners: {
+        //     language: {
+        //         func: "sjrk.storyTelling.story.updateInputValue",
+        //         args: ["{that}", "storyLanguageList", "storyLanguageInput", "other"]
+        //     }
+        // },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
@@ -81,6 +88,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: "title",
             storyAuthor: "author",
             storyContent: "content",
+            storySummary: "summary",
             storyCategories: "categories",
             storyLanguage: "languageFromInput",
             storyLanguageList: "languageFromSelect",
@@ -125,7 +133,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
-                storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
@@ -143,5 +150,16 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
+    // sjrk.storyTelling.story.updateInputValue = function (component, selectorToCheck, selectorToClear, valueToCheckFor) {
+    //     if (! sjrk.storyTelling.story.valueIsAsExpected(component, selectorToCheck, valueToCheckFor)) {
+    //         console.log(component.locate(selectorToClear))
+    //         component.locate(selectorToClear).text("");
+    //     }
+    // };
+    //
+    // sjrk.storyTelling.story.valueIsAsExpected = function (component, selector, valueToCheckFor) {
+    //     var actualValue = component.locate(selector).find(":selected").val();
+    //     return actualValue === valueToCheckFor;
+    // };
 
 })(jQuery, fluid);

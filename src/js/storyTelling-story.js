@@ -43,17 +43,20 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
                 storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
                 storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
+                storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
                 storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
                 storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)",
                 storyAuthor: "{that}.model.author",
                 storyTitle: "{that}.model.title",
-                storyContent: "{that}.model.content"
+                storyContent: "{that}.model.content",
+                storySummary: "{that}.model.summary"
             }
         },
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
             storyAuthor: ".sjrkc-storyTelling-storyAuthor",
             storyContent: ".sjrkc-storyTelling-storyContent",
+            storySummary: ".sjrkc-storyTelling-storySummary",
             storyLanguage: ".sjrkc-storyTelling-storyLanguage",
             storyTags: ".sjrkc-storyTelling-storyTags",
             storyListenTo: ".sjrkc-storyTelling-storyListenTo",
