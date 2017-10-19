@@ -35,10 +35,34 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 backward: {
                     excludeSource: "*"
                 },
+                forward: {
+                    excludeSource: "init"
+                },
                 singleTransform: {
                     type: "fluid.transforms.literalValue",
                     input: "other"
-                }
+                },
+                priority: 2
+            },
+            clearLanguageInputWhenNotOther: {
+                target: "{that}.model.languageFromInput",
+                backward: {
+                    excludeSource: "*"
+                },
+                singleTransform: {
+                    type: "fluid.transforms.condition",
+                    condition: {
+                        transform: {
+                            type: "fluid.transforms.binaryOp",
+                            left: "{that}.model.languageFromSelect",
+                            right: "other",
+                            operator: "==="
+                        }
+                    },
+                    true: "{that}.model.languageFromInput",
+                    false: ""
+                },
+                priority: 1
             },
             languageFromUiToModel: {
                 target: "language",
@@ -47,15 +71,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     condition: "{that}.model.languageFromInput",
                     true: "{that}.model.languageFromInput",
                     false: "{that}.model.languageFromSelect"
-                }
+                },
+                priority: 3
             }
         },
-        // modelListeners: {
-        //     language: {
-        //         func: "sjrk.storyTelling.story.updateInputValue",
-        //         args: ["{that}", "storyLanguageList", "storyLanguageInput", "other"]
-        //     }
-        // },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
@@ -149,17 +168,5 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
-
-    // sjrk.storyTelling.story.updateInputValue = function (component, selectorToCheck, selectorToClear, valueToCheckFor) {
-    //     if (! sjrk.storyTelling.story.valueIsAsExpected(component, selectorToCheck, valueToCheckFor)) {
-    //         console.log(component.locate(selectorToClear))
-    //         component.locate(selectorToClear).text("");
-    //     }
-    // };
-    //
-    // sjrk.storyTelling.story.valueIsAsExpected = function (component, selector, valueToCheckFor) {
-    //     var actualValue = component.locate(selector).find(":selected").val();
-    //     return actualValue === valueToCheckFor;
-    // };
 
 })(jQuery, fluid);
