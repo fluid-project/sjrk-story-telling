@@ -19,8 +19,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
             storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
-            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
-            storyLanguageInput: ".sjrkc-storyTelling-storyLanguage"
+            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList"
         },
         events: {
             onStorySubmitRequested: null,

@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             },
             {
                 name: "Test language input relays",
-                expect: 4,
+                expect: 5,
                 sequence: [{
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
                     args: ["{storyEditor}","storyLanguage","Esperanto"]
@@ -74,6 +74,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 }, {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
                     args: ["{storyEditor}","storyLanguageList","fr-CA"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Select field value updated", "{storyEditor}.model.languageFromSelect", "fr-CA"]
                 },
                 {
                     func: "jqUnit.assertEquals",
