@@ -67,11 +67,25 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 target: "language",
                 singleTransform: {
                     type: "fluid.transforms.condition",
-                    condition: "{that}.model.languageFromInput",
+                    condition: {
+                        transform: {
+                            type: "fluid.transforms.binaryOp",
+                            left: "{that}.model.languageFromInput",
+                            right: "",
+                            operator: "!=="
+                        }
+                    },//"{that}.model.languageFromInput",
                     true: "{that}.model.languageFromInput",
                     false: "{that}.model.languageFromSelect"
                 },
                 priority: 3
+            }
+        },
+        modelListeners: {
+            "languageFromSelect": {
+                "this": "console",
+                "method": "log",
+                "args": ["{that}.model.language", "{that}.model.languageFromInput", "{that}.model.languageFromSelect"]
             }
         },
         listeners: {
@@ -95,6 +109,11 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
                 "priority": "last"
+            },
+            "onStoryListenToRequested.log": {
+                "this": "console",
+                "method": "log",
+                "args": ["{that}.model.language"]
             }
         },
         invokers: {
