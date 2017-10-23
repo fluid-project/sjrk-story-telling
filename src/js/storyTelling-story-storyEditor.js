@@ -116,7 +116,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         model: {
             languageFromSelect: "",
             languageFromInput: "",
-            otherSelected: false,
             templateTerms: {
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
