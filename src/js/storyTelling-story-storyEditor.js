@@ -28,26 +28,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onEditorPreviousRequested: null
         },
         modelRelay: {
-            languageFromInputSetLanguageSelectToOther: {
-                source: "{that}.model.languageFromInput",
-                target: "{that}.model.languageFromSelect",
-                backward: {
-                    excludeSource: "*"
-                },
-                forward: {
-                    excludeSource: "init"
-                },
-                singleTransform: {
-                    type: "fluid.transforms.literalValue",
-                    input: "other"
-                },
-                priority: 2
-            },
             clearLanguageInputWhenNotOther: {
                 target: "{that}.model.languageFromInput",
-                backward: {
-                    excludeSource: "*"
-                },
                 singleTransform: {
                     type: "fluid.transforms.condition",
                     condition: {
@@ -58,10 +40,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                             operator: "==="
                         }
                     },
-                    true: "{that}.model.languageFromInput",
+                    true: undefined,
                     false: ""
-                },
-                priority: 1
+                }
             },
             languageFromUiToModel: {
                 target: "language",
@@ -70,8 +51,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                     condition: "{that}.model.languageFromInput",
                     true: "{that}.model.languageFromInput",
                     false: "{that}.model.languageFromSelect"
-                },
-                priority: 3
+                }
             }
         },
         listeners: {
