@@ -75,11 +75,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             "onTemplateRendered.fireOnControlsBound": {
                 "func": "{that}.events.onControlsBound.fire",
                 "priority": "last"
-            },
-            "onStoryListenToRequested.log": {
-                "this": "console",
-                "method": "log",
-                "args": ["{that}.model.language"]
             }
         },
         invokers: {
