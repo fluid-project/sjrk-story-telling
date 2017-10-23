@@ -28,26 +28,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onEditorPreviousRequested: null
         },
         modelRelay: {
-            languageFromInputSetLanguageSelectToOther: {
-                source: "{that}.model.languageFromInput",
-                target: "{that}.model.languageFromSelect",
-                backward: {
-                    excludeSource: "*"
-                },
-                forward: {
-                    excludeSource: "init"
-                },
-                singleTransform: {
-                    type: "fluid.transforms.literalValue",
-                    input: "other"
-                },
-                priority: 2
-            },
             clearLanguageInputWhenNotOther: {
                 target: "{that}.model.languageFromInput",
-                backward: {
-                    excludeSource: "*"
-                },
                 singleTransform: {
                     type: "fluid.transforms.condition",
                     condition: {
@@ -58,34 +40,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                             operator: "==="
                         }
                     },
-                    true: "{that}.model.languageFromInput",
+                    true: undefined,
                     false: ""
-                },
-                priority: 1
+                }
             },
             languageFromUiToModel: {
                 target: "language",
                 singleTransform: {
                     type: "fluid.transforms.condition",
-                    condition: {
-                        transform: {
-                            type: "fluid.transforms.binaryOp",
-                            left: "{that}.model.languageFromInput",
-                            right: "",
-                            operator: "!=="
-                        }
-                    },//"{that}.model.languageFromInput",
+                    condition: "{that}.model.languageFromInput",
                     true: "{that}.model.languageFromInput",
                     false: "{that}.model.languageFromSelect"
-                },
-                priority: 3
-            }
-        },
-        modelListeners: {
-            "languageFromSelect": {
-                "this": "console",
-                "method": "log",
-                "args": ["{that}.model.language", "{that}.model.languageFromInput", "{that}.model.languageFromSelect"]
+                }
             }
         },
         listeners: {
@@ -155,6 +121,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         model: {
             languageFromSelect: "",
             languageFromInput: "",
+            otherSelected: false,
             templateTerms: {
                 storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
                 storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",

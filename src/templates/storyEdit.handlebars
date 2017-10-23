@@ -37,7 +37,7 @@
     </div>
     <div>
         <!-- TODO: load the languages dynamically -->
-        <select name="" id="{{storyLanguageListIdForLabel}}" class="{{storyLanguageListClasses}}" onchange="console.log('A CHANGE: ' + this.value);">
+        <select name="" id="{{storyLanguageListIdForLabel}}" class="{{storyLanguageListClasses}}">
             <option value="" selected="selected">-- {{message_storyLanguageInputDefault}} --</option>\
             {{#each availableLanguages}}
                 <option value="{{@key}}">{{this}}</option>

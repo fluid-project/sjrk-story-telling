@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             },
             {
                 name: "Test language input relays",
-                expect: 8,
+                expect: 7,
                 sequence: [{
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
                     args: ["{storyEditor}","storyLanguage","Esperanto"]
@@ -99,10 +99,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 {
                     func: "jqUnit.assertNotEquals",
                     args: ["Model languageFromInput value not relayed to languageFromSelect field", "{storyEditor}.model.languageFromInput", "{storyEditor}.model.languageFromSelect"]
-                },
-                {
-                    func: "jqUnit.assertEquals",
-                    args: ["Select field value updated", "{storyEditor}.model.languageFromSelect", "other"]
                 }]
             }]
         }]
