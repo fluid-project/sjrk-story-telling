@@ -38,9 +38,10 @@
     <div>
         <!-- TODO: load the languages dynamically -->
         <select name="" id="{{storyLanguageListIdForLabel}}" class="{{storyLanguageListClasses}}">
-            <option value="" selected="selected">-- {{message_storyLanguageInputDefault}} --</option>
-            <option value="en-CA">English (Canada)</option>
-            <option value="fr-CA">Français (Canada)</option>
+            <option value="" selected="selected">-- {{message_storyLanguageInputDefault}} --</option>\
+            {{#each availableLanguages}}
+                <option value="{{@key}}">{{this}}</option>
+            {{/each}}
             <option value="other">-- {{message_storyLanguageInputOther}} --</option>
         </select>
     </div>
@@ -52,7 +53,7 @@
         <input id="{{storyLanguageIdForLabel}}" class="{{storyLanguageClasses}}" placeholder="{{message_storyLanguageInputPlaceholder}}" />
     </div>
 
-    <div class="sjrk-storyTelling-link-container"><a class="{{storyListenToClasses}}" href="#">{{message_storyListenToText}}</a></div>
+    <div class="sjrk-storyTelling-link-container"><a class="{{storyListenToClasses}}" href="javascript:void(0)">{{message_storyListenToText}}</a></div>
 
     <div class="sjrk-storyTelling-button-container">
         <button class="{{storyEditorNextClasses}}" type="button">{{message_storySubmitButton}}</button>
@@ -73,6 +74,20 @@
     </div>
     <div>
         <input id="{{storyTagsIdForLabel}}" class="{{storyTagsClasses}}" type="text" placeholder="{{message_storyAddTagsPlaceholder}}">
+    </div>
+
+    <div class="sjrk-storyTelling-label-container">
+        <fieldset id="{{storyCategoryListIdForLabel}}">
+            <legend>{{message_storyCategoryInputLabel}}</legend>
+            <ul>
+            {{#each availableCategories}}
+                <li>
+                    <input name="categories" type="checkbox" id="{{../storyCategoryListIdForLabel}}_{{@key}}" value="{{@key}}" class="{{../storyCategoryClasses}}" />
+                    <label for="{{../storyCategoryListIdForLabel}}_{{@key}}">{{this}}</label>
+                </li>
+            {{/each}}
+            </ul>
+        </fieldset>
     </div>
 
     <div class="sjrk-storyTelling-label-container">

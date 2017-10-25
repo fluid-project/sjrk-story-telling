@@ -101,8 +101,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         title: "{storyEditor}.model.title",
                         content: "{storyEditor}.model.content",
                         author: "{storyEditor}.model.author",
+                        summary: "{storyEditor}.model.summary",
                         tags: "{storyEditor}.model.tags",
-                        language: "{storyEditor}.model.language"
+                        language: "{storyEditor}.model.language",
+                        categories: "{storyEditor}.model.categories"
                     },
                     listeners: {
                         "{storyAuthoring}.events.onStorySubmitRequestedFromEditorViewExists": {
@@ -124,9 +126,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                         componentTemplate: "%resourcePrefix/src/templates/storyAuthoring.handlebars"
                     }
                 }
-            },
-            categories: {
-                type: "srjk.storyTelling.story.categories"
             }
         }
     });

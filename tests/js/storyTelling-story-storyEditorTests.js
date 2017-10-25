@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             },
             {
                 name: "Test language input relays",
-                expect: 4,
+                expect: 7,
                 sequence: [{
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
                     args: ["{storyEditor}","storyLanguage","Esperanto"]
@@ -71,9 +71,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 {
                     func: "jqUnit.assertNotEquals",
                     args: ["Model languageFromInput value not relayed to languageFromSelect field", "{storyEditor}.model.languageFromInput", "{storyEditor}.model.languageFromSelect"]
-                }, {
+                },
+                {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
                     args: ["{storyEditor}","storyLanguageList","fr-CA"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Select field value updated", "{storyEditor}.model.languageFromSelect", "fr-CA"]
                 },
                 {
                     func: "jqUnit.assertEquals",
@@ -82,6 +87,18 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 {
                     func: "jqUnit.assertNotEquals",
                     args: ["Model languageFromSelect value not relayed to languageFromInput field", "{storyEditor}.model.languageFromSelect", "{storyEditor}.model.languageFromInput"]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEditor}","storyLanguage","Interlingua"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Model language value relayed from text input field", "{storyEditor}.model.languageFromInput", "{storyEditor}.model.language"]
+                },
+                {
+                    func: "jqUnit.assertNotEquals",
+                    args: ["Model languageFromInput value not relayed to languageFromSelect field", "{storyEditor}.model.languageFromInput", "{storyEditor}.model.languageFromSelect"]
                 }]
             }]
         }]

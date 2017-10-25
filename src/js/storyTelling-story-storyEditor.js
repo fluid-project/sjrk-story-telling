@@ -28,47 +28,31 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onEditorPreviousRequested: null
         },
         modelRelay: {
-            languageFromSelectToLanguage: {
-                source: "{that}.model.languageFromSelect",
-                target: "language",
-                backward: {
-                    excludeSource: "*"
-                },
-                // forward: {
-                //     excludeSource: "languageFromInputSetLanguageSelectToOther"
-                // },
+            clearLanguageInputWhenNotOther: {
+                target: "{that}.model.languageFromInput",
                 singleTransform: {
-                    type: "fluid.transforms.value"
+                    type: "fluid.transforms.condition",
+                    condition: {
+                        transform: {
+                            type: "fluid.transforms.binaryOp",
+                            left: "{that}.model.languageFromSelect",
+                            right: "other",
+                            operator: "==="
+                        }
+                    },
+                    true: undefined,
+                    false: ""
                 }
             },
-            languageFromInputToLanguage: {
-                source: "{that}.model.languageFromInput",
+            languageFromUiToModel: {
                 target: "language",
-                backward: {
-                    excludeSource: "*"
-                },
                 singleTransform: {
-                    type: "fluid.transforms.value"
+                    type: "fluid.transforms.condition",
+                    condition: "{that}.model.languageFromInput",
+                    true: "{that}.model.languageFromInput",
+                    false: "{that}.model.languageFromSelect"
                 }
             }
-            // ,
-            // TODO: need to find out how to stop this triggering the first
-            // relay rule
-            // languageFromInputSetLanguageSelectToOther: {
-            //     source: "{that}.model.languageFromInput",
-            //     target: "{that}.model.languageFromSelect",
-            //     backward: {
-            //         excludeSource: "*"
-            //     },
-            //     forward: {
-            //         excludeSource: "languageFromSelectToLanguage"
-            //     },
-            //     singleTransform: {
-            //         type: "fluid.transforms.literalValue",
-            //         input: "other"
-            //     },
-            //     namespace: "languageFromInputSetLanguageSelectToOther"
-            // }
         },
         listeners: {
             "onTemplateRendered.bindSubmitControl": {
@@ -102,6 +86,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             storyTitle: "title",
             storyAuthor: "author",
             storyContent: "content",
+            storySummary: "summary",
+            storyCategories: "categories",
             storyLanguage: "languageFromInput",
             storyLanguageList: "languageFromSelect",
             storyTags: {
@@ -136,6 +122,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
                 storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
                 storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
+                storyCategoryListIdForLabel: "@expand:{that}.getLabelId(categoryList)",
                 storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
                 storySummaryIdForLabel: "@expand:{that}.getLabelId(summary)",
                 storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
@@ -144,7 +131,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",
                 storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
                 storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
-                storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
                 storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
                 storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
                 storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
@@ -161,6 +147,5 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
-
 
 })(jQuery, fluid);

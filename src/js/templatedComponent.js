@@ -88,18 +88,40 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         return prefix + "-" + fluid.allocateGuid();
     };
 
-    /* Renders a template with fluid.stringTemplate into the
+    /* Renders a template with gpii-handlebars into the
      * specified container, and fires completionEvent when done
      * - "completionEvent": component even to fire when complete
      * - "container": container to render the template into
-     * - "template": a template string in the fluid.stringTemplate style
-     * - "terms": terms to use in fluid.stringTemplate
+     * - "template": a handlebars template string
+     * - "terms": terms to use in the handlebars template, they will be passed
+     *            through the resolveTerms function to references to dynamic values
     */
     sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
         renderer.templates.partials.componentTemplate = templateContent;
-        var renderedTemplate = renderer.render(templateName, terms);
+
+        var resolvedTerms = sjrk.storyTelling.templatedComponent.resolveTerms(terms);
+
+        var renderedTemplate = renderer.render(templateName, resolvedTerms);
         container.html(renderedTemplate);
         completionEvent.fire();
+    };
+
+    // Given a set of terms that may contain a mix of strings, fluid.stringTemplate
+    // syntax and other objects, resolve only the strings using stringTemplate
+    // against the set of terms.
+    sjrk.storyTelling.templatedComponent.resolveTerms = function (terms) {
+        return fluid.transform(terms, function (term) {
+            // TODO: Make this functionality recursive
+            // if (typeof term === "array" || typeof term === "object") {
+            //     return sjrk.storyTelling.templatedComponent.resolveTerms(term);
+            // } else {
+            if (typeof term === "string") {
+                return fluid.stringTemplate(term, terms);
+            } else {
+                return term;
+            }
+            // }
+        });
     };
 
     // Adds gpii-binder to bind form components and models
@@ -172,13 +194,8 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 
     sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-        var terms = $.extend({}, messages, that.model[modelEndpoint]);
 
-        var resolvedMessages = fluid.transform(messages, function (message) {
-            return fluid.stringTemplate(message, terms);
-        });
-
-        that.applier.change(modelEndpoint, resolvedMessages);
+        that.applier.change(modelEndpoint, messages);
     };
 
 })(jQuery, fluid);

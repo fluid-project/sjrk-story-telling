@@ -43,6 +43,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyAuthor: "{that}.model.author",
                 storyTags: "{that}.model.tags",
                 storyLanguage: "{that}.model.language",
+                storyCategories: "{that}.model.categories",
                 storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
                 storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
                 storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",

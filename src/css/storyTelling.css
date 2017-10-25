@@ -8,8 +8,12 @@ h1 {
     font-weight: normal;
 }
 
-input {
+input:not([type="checkbox"]) {
     width: 100%;
+}
+
+fieldset ul {
+    list-style-type: none;
 }
 
 .sjrkc-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
@@ -45,7 +49,7 @@ input {
     margin: 1em 0 .25em 0;
 }
 
-.sjrk-storyTelling-tags-container, .sjrk-storyTelling-language-container {
+.sjrk-storyTelling-tags-container, .sjrk-storyTelling-language-container, .sjrk-storyTelling-categories-container {
     margin: 1em 0 0 0;
     font-weight: bold;
 }
@@ -76,6 +80,8 @@ input {
     font-size: 1.25em;
 }
 
-.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags, .sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyLanguage {
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags,
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyLanguage,
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyCategories {
     font-weight: normal;
 }
