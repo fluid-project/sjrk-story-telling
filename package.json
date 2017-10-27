@@ -20,7 +20,7 @@
     "gpii-binder": "https://github.com/GPII/gpii-binder",
     "gpii-handlebars": "1.0.2",
     "handlebars": "4.0.10",
-    "infusion": "2.0.0",
+    "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
     "pagedown": "1.1.0"
   },
   "devDependencies": {
