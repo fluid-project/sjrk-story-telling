@@ -39,6 +39,7 @@
         "category_education": "Education"
     },
     "availableLanguages": {
+        "fa": "Farsi",
         "en-CA": "English (Canada)",
         "fr-CA": "French (Canada)",
         "ja": "Japanese"

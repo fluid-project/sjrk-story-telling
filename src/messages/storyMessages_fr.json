@@ -39,8 +39,9 @@
         "category_education": "Éducation"
     },
     "availableLanguages": {
-        "en-CA": "Anglais (Canada)",
-        "fr-CA": "Français (Canada)",
-        "ja": "Japonais"
+        "fa": "persan",
+        "en-CA": "anglais (Canada)",
+        "fr-CA": "français (Canada)",
+        "ja": "japonais"
     }
 }
