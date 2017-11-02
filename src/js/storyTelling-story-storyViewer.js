@@ -25,6 +25,10 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onViewerPreviousRequested: null
         },
         listeners: {
+            // "onCreate.setLanguageName": {
+            //     "funcName": "sjrk.storyTelling.story.setLanguageName",
+            //     "args": ["{that}", "{that}.model.language", "{that}.model.templateTerms.availableLanguages", "languageName"]
+            // },
             "onTemplateRendered.bindSaveNoShareControl": {
                 "this": "{that}.dom.storySaveNoShare",
                 "method": "click",
@@ -61,5 +65,15 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             }
         }
     });
+
+    // // returns the value of an array at a given index,
+    // // or, failing that, the index itself
+    // sjrk.storyTelling.story.getValueOrFallback = function (array, index) {
+    //     console.log("input arr: ", array);
+    //     console.log("input index: ", index);
+    //     var toReturn = array[index] || index;
+    //     console.log("ret: ", toReturn);
+    //     return toReturn;
+    // };
 
 })(jQuery, fluid);
