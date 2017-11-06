@@ -74,14 +74,9 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    // returns the value of an array at a given index,
-    // or, failing that, the index itself
+    // returns the value of an array at a given index, or, failing that, the index itself
     sjrk.storyTelling.story.getValueOrFallback = function (array, index) {
-        console.log("input arr: ", array);
-        console.log("input index: ", index);
-        var toReturn = array[index] || index;
-        console.log("ret: ", toReturn);
-        return toReturn;
+        return array[index] || index;
     };
 
 })(jQuery, fluid);
