@@ -23,16 +23,7 @@
         </div>
 
         <div class="sjrk-storyTelling-language-container">
-            {{message_storyLanguageLabelText}}:
-            <!-- TODO: make a helper to do this cleanly -->
-            <!-- TODO: have it show the model value if no match -->
-            {{#each availableLanguages}}
-                {{#equals @key ../storyLanguage}}
-                <span class="{{../storyLanguageClasses}}">
-                    {{this}}
-                </span>
-                {{/equals}}
-            {{/each}}
+            {{message_storyLanguageLabelText}}: <span class="{{storyLanguageClasses}}">{{storyLanguageName}}</span>
         </div>
 
         <div class="sjrk-storyTelling-tags-container">

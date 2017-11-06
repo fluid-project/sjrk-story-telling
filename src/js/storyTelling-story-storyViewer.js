@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -25,10 +25,6 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
             onViewerPreviousRequested: null
         },
         listeners: {
-            // "onCreate.setLanguageName": {
-            //     "funcName": "sjrk.storyTelling.story.setLanguageName",
-            //     "args": ["{that}", "{that}.model.language", "{that}.model.templateTerms.availableLanguages", "languageName"]
-            // },
             "onTemplateRendered.bindSaveNoShareControl": {
                 "this": "{that}.dom.storySaveNoShare",
                 "method": "click",
@@ -42,6 +38,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         },
         model: {
             templateTerms: {
+                storyLanguageName: "",
                 storyTitle: "{that}.model.title",
                 storyContent: "{that}.model.content",
                 storyAuthor: "{that}.model.author",
@@ -55,6 +52,17 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
             }
         },
+        modelRelay: {
+            target: "{that}.model.templateTerms.storyLanguageName",
+            forward: {
+                excludeSource: "init"
+            },
+            singleTransform: {
+                type: "fluid.transforms.free",
+                func: "sjrk.storyTelling.story.getValueOrFallback",
+                args: ["{that}.model.templateTerms.availableLanguages", "{that}.model.language"]
+            }
+        },
         components: {
             resourceLoader: {
                 options: {
@@ -66,14 +74,14 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    // // returns the value of an array at a given index,
-    // // or, failing that, the index itself
-    // sjrk.storyTelling.story.getValueOrFallback = function (array, index) {
-    //     console.log("input arr: ", array);
-    //     console.log("input index: ", index);
-    //     var toReturn = array[index] || index;
-    //     console.log("ret: ", toReturn);
-    //     return toReturn;
-    // };
+    // returns the value of an array at a given index,
+    // or, failing that, the index itself
+    sjrk.storyTelling.story.getValueOrFallback = function (array, index) {
+        console.log("input arr: ", array);
+        console.log("input index: ", index);
+        var toReturn = array[index] || index;
+        console.log("ret: ", toReturn);
+        return toReturn;
+    };
 
 })(jQuery, fluid);
