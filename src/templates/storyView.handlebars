@@ -1,0 +1,57 @@
+<!-- TODO: deal with the heading hierarchy -->
+<div class="sjrk-storyTelling-storyViewer">
+    <div class="grid-12">
+        <div class="col-6">
+            <h2 class="sjrk-storyTelling-story-heading">{{message_storyPreviewText}}</h2>
+        </div>
+        <div class="col-6 sjrk-storyTelling-story-headingRight">
+            <a class="sjrk-storyTelling-readOtherStories" href="#">{{message_storyTranslateText}}</a>
+        </div>
+    </div>
+    <div class="sjrk-storyTelling-story-previewPane">
+        <div class="{{storyTitleClasses}}">{{storyTitle}}</div>
+        <div class="{{storyAuthorClasses}}">{{message_storyAuthorText}}</div>
+
+        <div class="sjrk-storyTelling-link-container">
+            <a class="{{storyListenToClasses}}" href="javascript:void(0);">{{message_storyListenToText}}</a>
+        </div>
+
+        <div class="{{storyContentClasses}}">{{storyContent}}</div>
+
+        <div class="sjrk-storyTelling-link-container">
+            <a class="{{storyReadMoreClasses}}" href="#">{{message_storyReadMoreText}}</a>
+        </div>
+
+        <div class="sjrk-storyTelling-language-container">
+            {{message_storyLanguageLabelText}}: <span class="{{storyLanguageClasses}}">{{storyLanguage}}</span>
+        </div>
+
+        <div class="sjrk-storyTelling-tags-container">
+            {{message_storyListTagsLabelText}}: <span class="{{storyListTagsClasses}}">
+                {{#each storyTags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+            </span>
+        </div>
+
+        <div class="sjrk-storyTelling-categories-container">
+            {{message_storyListCategoriesLabelText}}: <span class="{{storyCategoryClasses}}">
+                {{#each storyCategories}}
+                    {{lookup ../availableCategories this}}{{#unless @last}}, {{/unless}}
+                {{/each}}
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="grid-12">
+    <div class="col-6 sjrk-storyTelling-link-container">
+        <a href="#" class="{{storyShareClasses}}">{{message_storyShareText}}</a>
+    </div>
+
+    <div class="col-6 sjrk-storyTelling-link-container sjrk-storyTelling-link-container-right">
+        <a href="#" class="{{storySaveNoShareClasses}}">{{message_storySaveNoShareText}}</a>
+    </div>
+
+    <div>
+        <a href="javascript:void(0)" class="{{storyViewerPreviousClasses}}">{{message_storyGoBack}}</a>
+    </div>
+</div>

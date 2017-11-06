@@ -1,0 +1,33 @@
+{
+  "name": "sjrk-storytelling",
+  "version": "0.0.1",
+  "description": "SJRK Storytelling Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waharnum/sjrk-storyTelling.git"
+  },
+  "author": "Fluid Project",
+  "license": "(BSD-3-Clause OR ECL-2.0)",
+  "bugs": {
+    "url": "https://github.com/waharnum/sjrk-storyTelling/issues"
+  },
+  "homepage": "https://github.com/waharnum/sjrk-storyTelling#readme",
+  "dependencies": {
+    "gpii-binder": "https://github.com/GPII/gpii-binder",
+    "gpii-handlebars": "1.0.2",
+    "handlebars": "4.0.10",
+    "infusion": "2.0.0",
+    "pagedown": "1.1.0"
+  },
+  "devDependencies": {
+    "eslint-config-fluid": "1.1.0",
+    "fluid-grunt-eslint": "18.1.2",
+    "grunt": "1.0.1",
+    "grunt-eslint": "20.0.0",
+    "grunt-jsonlint": "1.1.0"
+  }
+}
