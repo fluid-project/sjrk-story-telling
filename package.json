@@ -17,7 +17,7 @@
   },
   "homepage": "",
   "dependencies": {
-    "infusion": "2.0.0",
+    "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
     "kettle": "1.6.4",
     "gpii-handlebars": "1.0.2",
     "handlebars": "4.0.10",

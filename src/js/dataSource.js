@@ -14,6 +14,20 @@ require("kettle");
 
 fluid.defaults("sjrk.storyTelling.server.dataSource", {
     gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
+    rules: {
+        writePayload: {
+            type: {
+                transform: {
+                    type: "fluid.transforms.literalValue",
+                    input: "story"
+                }
+            },
+            value: ""
+        },
+        readPayload: {
+            "": "value"
+        }
+    },
     url: "http://localhost:5984/stories/%storyId",
     termMap: {
         storyId: "%directStoryId"
