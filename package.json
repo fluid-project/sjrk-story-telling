@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waharnum/sjrk-storyTelling.git"
+    "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
   },
   "author": "Fluid Project",
   "license": "(BSD-3-Clause OR ECL-2.0)",
   "bugs": {
-    "url": "https://github.com/waharnum/sjrk-storyTelling/issues"
+    "url": "https://github.com/fluid-project/sjrk-story-telling/issues"
   },
-  "homepage": "https://github.com/waharnum/sjrk-storyTelling#readme",
+  "homepage": "https://github.com/fluid-project/sjrk-story-telling#readme",
   "dependencies": {
     "gpii-binder": "https://github.com/GPII/gpii-binder",
     "gpii-handlebars": "1.0.2",
