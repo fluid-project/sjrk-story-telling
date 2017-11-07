@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waharnum/sjrk-storyTelling-server.git"
+    "url": "git+https://github.com/fluid-project/sjrk-story-telling-server.git"
   },
   "author": "y",
   "license": "(BSD-3-Clause OR ECL-2.0)",
@@ -21,8 +21,8 @@
     "kettle": "1.6.4",
     "gpii-handlebars": "1.0.2",
     "handlebars": "4.0.10",
-    "sjrk-storytelling": "https://github.com/waharnum/sjrk-storyTelling#SJRK-1",
-    "sjrk-couch-config": "https://github.com/waharnum/couch-config#SJRK-6",
+    "sjrk-storytelling": "https://github.com/fluid-project/sjrk-storyTelling",
+    "sjrk-couch-config": "https://github.com/fluid-project/fluid-couch-config",
     "uuid": "3.1.0"
   },
   "devDependencies": {
