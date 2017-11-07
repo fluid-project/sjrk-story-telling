@@ -1,0 +1,35 @@
+{
+  "name": "sjrk-storytelling-server",
+  "version": "0.1.0",
+  "description": "Kettle-based server for SJRK storytelling tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waharnum/sjrk-storyTelling-server.git"
+  },
+  "author": "y",
+  "license": "(BSD-3-Clause OR ECL-2.0)",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
+    "kettle": "1.6.4",
+    "gpii-handlebars": "1.0.2",
+    "handlebars": "4.0.10",
+    "sjrk-storytelling": "https://github.com/waharnum/sjrk-storyTelling#SJRK-1",
+    "sjrk-couch-config": "https://github.com/waharnum/couch-config#SJRK-6",
+    "uuid": "3.1.0"
+  },
+  "devDependencies": {
+    "eslint-config-fluid": "1.1.0",
+    "fluid-grunt-eslint": "18.1.2",
+    "grunt": "1.0.1",
+    "grunt-eslint": "20.0.0",
+    "grunt-jsonlint": "1.1.0"
+  }
+}

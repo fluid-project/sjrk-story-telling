@@ -1,0 +1,24 @@
+#!/bin/bash
+# Usage: runs the linter as a pre-commit hook, FE:
+# 1. mv pre-commit .git/hooks
+# 2. chmod +x .git/hooks/pre-commit
+# Git hook documentation is available at https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
+LINTER_COMMAND="grunt lint"
+echo "---------------------------------------"
+echo "Running pre-commit linter command: $LINTER_COMMAND"
+echo "---------------------------------------"
+echo
+$LINTER_COMMAND
+LINTER_EXIT_STATUS=$?
+echo "Linter exited with status code $LINTER_EXIT_STATUS"
+if [ $LINTER_EXIT_STATUS != 0 ]
+    then
+        echo
+        echo "---------------------------------------------------------------"
+        echo -e "\033[1mCommit failed due to linter errors (╯°□°）╯︵ ┻━┻)\033[0m"
+        echo "Linter command was $LINTER_COMMAND"
+        echo "If you're sure you know what you're doing, you can use"
+        echo "'git commit --no-verify' to skip the linter verification"
+        echo "---------------------------------------------------------------"
+        exit $LINTER_EXIT_STATUS
+fi
