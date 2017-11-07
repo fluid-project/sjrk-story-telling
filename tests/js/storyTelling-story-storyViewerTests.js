@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
         }
     });
 
-    var expectedElements = [
+    var storyViewerExpectedElements = [
         {
             selector: "storyTitle",
             expected: "Test title"
@@ -65,7 +65,7 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 },
                 {
                     func: "sjrk.storyTelling.storyViewerTester.verifyElementsRendered",
-                    args: ["{storyViewer}",expectedElements]
+                    args: ["{storyViewer}", storyViewerExpectedElements]
                 }
                 ]
             }]
@@ -92,6 +92,36 @@ https://raw.githubusercontent.com/waharnum/sjrk-storyTelling/master/LICENSE.txt
                 type: "sjrk.storyTelling.storyViewerTester"
             }
         }
+    });
+
+    var getValueOrFallbackExpectedElements = [
+        {
+            index: "test1",
+            expected: "test1"
+        },
+        {
+            index: "0",
+            expected: "test1"
+        },
+        {
+            index: "nothing",
+            expected: "nothing"
+        },
+        {
+            index: undefined,
+            expected: undefined
+        }
+    ];
+
+    jqUnit.test("Test getValueOrFallback function", function () {
+        jqUnit.expect(4);
+
+        var inputArray = ["test1", "test2"];
+
+        fluid.each(getValueOrFallbackExpectedElements, function (testCase) {
+            var actual = sjrk.storyTelling.story.getValueOrFallback(inputArray, testCase.index);
+            jqUnit.assertEquals("Value returned from index " + testCase.index + " is as expected", testCase.expected, actual);
+        });
     });
 
     $(document).ready(function () {
