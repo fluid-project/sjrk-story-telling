@@ -1,1 +1,5 @@
-Placeholder README for migration of personal repos.
+# sjrk-storyTelling
+
+SJRK Storytelling Project.
+
+UI (so far) for storytelling project.

@@ -1,0 +1,87 @@
+body {
+    font-family: sans-serif;
+    padding: 0 2em 0 2em;
+    font-size: 1.2em;
+}
+
+h1 {
+    font-weight: normal;
+}
+
+input:not([type="checkbox"]) {
+    width: 100%;
+}
+
+fieldset ul {
+    list-style-type: none;
+}
+
+.sjrkc-storyTelling-storyEditorPage2, .sjrkc-storyTelling-storyViewer {
+    display: none;
+}
+
+.sjrk-storyTelling-story-headingRight {
+    text-align: right;
+}
+
+.sjrk-storyTelling-story-heading, .sjrk-storyTelling-readOtherStories {
+    margin: 0;
+    font-weight: normal;
+}
+
+.sjrk-storyTelling-storyContent {
+    width: 100%;
+}
+
+.sjrk-storyTelling-link-container {
+    margin: 1em 0;
+}
+
+.sjrk-storyTelling-link-container-right {
+    text-align: right;
+}
+
+.sjrk-storyTelling-button-container {
+    text-align: right;
+}
+
+.sjrk-storyTelling-label-container {
+    margin: 1em 0 .25em 0;
+}
+
+.sjrk-storyTelling-tags-container, .sjrk-storyTelling-language-container, .sjrk-storyTelling-categories-container {
+    margin: 1em 0 0 0;
+    font-weight: bold;
+}
+
+.sjrk-storyTelling-storyViewer {
+}
+
+.sjrk-storyTelling-story-previewPane {
+    border: solid 1px #000;
+    padding: 2em;
+}
+
+.sjrk-storyTelling-storyPreview {
+    background: #fff;
+    display: inline-block;
+    margin: 0 30%;
+    padding: 1em;
+    position: absolute;
+    top: -1.5em;
+    text-align: center;
+}
+
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyTitle {
+    font-size: 1.5em;
+}
+
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyAuthor {
+    font-size: 1.25em;
+}
+
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyListTags,
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyLanguage,
+.sjrk-storyTelling-storyViewer .sjrk-storyTelling-storyCategories {
+    font-weight: normal;
+}
