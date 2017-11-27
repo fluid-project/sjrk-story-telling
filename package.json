@@ -1,10 +1,9 @@
 {
-  "name": "sjrk-storytelling",
+  "name": "sjrk-story-telling",
   "version": "0.0.1",
   "description": "SJRK Storytelling Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -13,7 +12,7 @@
   "author": "Fluid Project",
   "license": "(BSD-3-Clause OR ECL-2.0)",
   "bugs": {
-    "url": "https://github.com/fluid-project/sjrk-story-telling/issues"
+    "url": "https://issues.fluidproject.org/browse/SJRK-39?jql=project%20%3D%20SJRK%20AND%20component%20%3D%20%22Storytelling%20Tool%20UI%22"
   },
   "homepage": "https://github.com/fluid-project/sjrk-story-telling#readme",
   "dependencies": {

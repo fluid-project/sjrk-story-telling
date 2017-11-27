@@ -18,10 +18,10 @@ module.exports = function (grunt) {
         // Project package file destination.
         pkg: grunt.file.readJSON("package.json"),
         eslint: {
-            all: ["src/**/*.js", "tests/**/*.js", "demos/**/*.js", "examples/**/*.js", "*.js"]
+            all: ["src/**/*.js", "tests/**/*.js", "*.js"]
         },
         jsonlint: {
-            all: ["package.json", ".jshintrc", "src/**/*.json", "tests/**/*.json", "demos/**/*.json", "!node_modules", "!src/lib/**", "!tests/lib/**"]
+            all: ["package.json", ".eslintrc.json", "src/**/*.json", "tests/**/*.json"]
         }
     });
 

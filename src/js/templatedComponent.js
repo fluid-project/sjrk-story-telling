@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Component that renders its UI using an external
     // HTML file with fluid.stringTemplate syntax
-    // see concrete components in storyTelling.js for examples
+    // see concrete components in storyTelling-story.js for examples
 
     fluid.defaults("sjrk.storyTelling.templatedComponent", {
         gradeNames: ["fluid.viewComponent"],
