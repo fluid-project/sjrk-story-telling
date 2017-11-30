@@ -61,65 +61,31 @@ fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.staticHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.ui"
-        }
-    }
-});
+var staticHandlerGrades = {
+    "staticHandler": "{server}.ui",
+    "infusionNodeModulesHandler": "{server}.infusionNodeModules",
+    "binderNodeModulesHandler": "{server}.binderNodeModules",
+    "storytellingNodeModulesHandler": "{server}.storytellingNodeModules",
+    "handlebarsNodeModulesHandler": "{server}.handlebarsNodeModules",
+    "pagedownNodeModulesHandler": "{server}.pagedownNodeModules",
+    "gpiiHBNodeModulesHandler": "{server}.gpiiHBNodeModules"
+};
 
-fluid.defaults("sjrk.storyTelling.server.infusionNodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.infusionNodeModules"
+var createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
+    return fluid.defaults("sjrk.storyTelling.server." + gradeSuffix, {
+        gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+        requestMiddleware: {
+            "static": {
+                middleware: middlewareIoCReference
+            }
         }
-    }
-});
+    });
+};
 
-fluid.defaults("sjrk.storyTelling.server.binderNodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.binderNodeModules"
-        }
-    }
-});
+var createStaticHandlerGrades = function (staticHandlerGrades) {
+    fluid.each(staticHandlerGrades, function (middlewareIoCReference, gradeSuffix) {
+        createStaticHandlerGrade(gradeSuffix, middlewareIoCReference);
+    });
+};
 
-fluid.defaults("sjrk.storyTelling.server.storytellingNodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.storytellingNodeModules"
-        }
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.handlebarsNodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.handlebarsNodeModules"
-        }
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.pagedownNodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.pagedownNodeModules"
-        }
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.gpiiHBNodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.gpiiHBNodeModules"
-        }
-    }
-});
+createStaticHandlerGrades(staticHandlerGrades);
