@@ -133,7 +133,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "method": "post"
         },
         uiHandler: {
-            type: "sjrk.storyTelling.server.staticHandler",
+            type: "sjrk.storyTelling.server.uiHandler",
             "route": "/*",
             "method": "get"
         }

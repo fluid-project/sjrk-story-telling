@@ -62,7 +62,7 @@ fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
 });
 
 var staticHandlerGrades = {
-    "staticHandler": "{server}.ui",
+    "uiHandler": "{server}.ui",
     "infusionNodeModulesHandler": "{server}.infusionNodeModules",
     "binderNodeModulesHandler": "{server}.binderNodeModules",
     "storytellingNodeModulesHandler": "{server}.storytellingNodeModules",
