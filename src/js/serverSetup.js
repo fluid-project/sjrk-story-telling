@@ -13,42 +13,43 @@ var fluid = require("infusion");
 var sjrk = fluid.registerNamespace("sjrk");
 require("kettle");
 
-fluid.defaults("sjrk.storyTelling.server.staticMiddlewareComponents", {
-    gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade"],
+// Given a list of node modules, mounts them as static directories
+// Should be used at the top level of a kettle app definition
+fluid.defaults("sjrk.storyTelling.server.nodeModuleMounter", {
+    gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModulersHandlersGrade"],
+    nodeModulesToMount: ["infusion", "gpii-binder", "sjrk-story-telling", "handlebars", "pagedown", "gpii-handlebars"],
     invokers: {
         generateStaticMiddlewareComponentsGrade: {
-            funcName: "sjrk.storyTelling.server.generateStaticMiddlewareComponentsGrade",
-            args: ["{that}.options.staticMiddlewareComponents"]
+            funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade",
+            args: ["{that}.options.nodeModulesToMount"]
+        },
+        generateNodeModulersHandlersGrade: {
+            funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade",
+            args: ["{that}.options.nodeModulesToMount"]
         }
-    },
-    staticMiddlewareComponents: {
-        "ui": "./ui",
-        "infusionNodeModules": "./node_modules/infusion",
-        "binderNodeModules": "./node_modules/gpii-binder",
-        "storytellingNodeModules": "./node_modules/sjrk-story-telling",
-        "handlebarsNodeModules": "./node_modules/handlebars",
-        "pagedownNodeModules": "./node_modules/pagedown",
-        "gpiiHBNodeModules": "./node_modules/gpii-handlebars"
     }
 });
 
-sjrk.storyTelling.server.generateStaticMiddlewareComponentsGrade = function (staticMiddlewareComponents) {
-    var components = {};
-    fluid.each(staticMiddlewareComponents, function (staticRoot, componentKey) {
+sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade = function (nodeModulesToMount) {
+    var middlewareComponents = {};
+
+    fluid.each(nodeModulesToMount, function (nodeModuleName) {
         var def = {
             type: "kettle.middleware.static",
             options: {
-                "root": staticRoot
+                "root": "./node_modules/" + nodeModuleName
             }
         };
-        components[componentKey] = def;
+        var key = nodeModuleName + "-NodeModules";
+        middlewareComponents[key] = def;
     });
+    console.log(middlewareComponents);
 
     fluid.defaults("sjrk.storyTelling.server.staticMiddlewareComponentsGrade", {
         components: {
             server: {
                 options: {
-                    components: components
+                    components: middlewareComponents
                 }
             }
         }
@@ -58,8 +59,12 @@ sjrk.storyTelling.server.generateStaticMiddlewareComponentsGrade = function (sta
 
 };
 
+sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = function (nodeModulesToMount) {
+    return "fluid.component";
+};
+
 fluid.defaults("sjrk.storyTelling.server", {
-    gradeNames: ["fluid.component", "sjrk.storyTelling.server.staticMiddlewareComponents"],
+    gradeNames: ["fluid.component", "sjrk.storyTelling.server.nodeModuleMounter"],
     components: {
         server: {
             type: "kettle.server",
@@ -74,6 +79,12 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
+                    },
+                    ui: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./ui"
+                        }
                     }
                 }
             }

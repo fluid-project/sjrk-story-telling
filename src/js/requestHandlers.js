@@ -63,12 +63,12 @@ fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
 
 var staticHandlerGrades = {
     "uiHandler": "{server}.ui",
-    "infusionNodeModulesHandler": "{server}.infusionNodeModules",
-    "binderNodeModulesHandler": "{server}.binderNodeModules",
-    "storytellingNodeModulesHandler": "{server}.storytellingNodeModules",
-    "handlebarsNodeModulesHandler": "{server}.handlebarsNodeModules",
-    "pagedownNodeModulesHandler": "{server}.pagedownNodeModules",
-    "gpiiHBNodeModulesHandler": "{server}.gpiiHBNodeModules"
+    "infusionNodeModulesHandler": "{server}.infusion-NodeModules",
+    "binderNodeModulesHandler": "{server}.gpii-binder-NodeModules",
+    "storytellingNodeModulesHandler": "{server}.sjrk-story-telling-NodeModules",
+    "handlebarsNodeModulesHandler": "{server}.handlebars-NodeModules",
+    "pagedownNodeModulesHandler": "{server}.pagedown-NodeModules",
+    "gpiiHBNodeModulesHandler": "{server}.gpii-handlebars-NodeModules"
 };
 
 var createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
