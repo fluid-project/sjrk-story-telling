@@ -110,18 +110,13 @@ sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGra
 
     fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlersGrade", {
         requestHandlers: requestHandlers
-    })
+    });
 
     return "sjrk.storyTelling.server.app.nodeModulersHandlersGrade";
 };
 
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     requestHandlers: {
-        uiHandler: {
-            type: "sjrk.storyTelling.server.staticHandler",
-            "route": "/*",
-            "method": "get"
-        },
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
             "route": "/story/:id",
@@ -136,6 +131,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/story/",
             "method": "post"
+        },
+        uiHandler: {
+            type: "sjrk.storyTelling.server.staticHandler",
+            "route": "/*",
+            "method": "get"
         }
     }
 });
