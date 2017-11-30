@@ -79,45 +79,41 @@ fluid.defaults("sjrk.storyTelling.server", {
 });
 
 fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlers", {
-    requestHandlers: {
-        infusionNodeModulesHandler: {
-            type: "sjrk.storyTelling.server.infusionNodeModulesHandler",
-            "route": "/*",
-            "method": "get",
-            "prefix": "/node_modules/infusion"
-        },
-        binderNodeModulesHandler: {
-            type: "sjrk.storyTelling.server.binderNodeModulesHandler",
-            "route": "/*",
-            "method": "get",
-            "prefix": "/node_modules/gpii-binder"
-        },
-        storytellingNodeModulesHandler: {
-            type: "sjrk.storyTelling.server.storytellingNodeModulesHandler",
-            "route": "/*",
-            "method": "get",
-            "prefix": "/node_modules/sjrk-story-telling"
-        },
-        handlebarsNodeModulesHandler: {
-            type: "sjrk.storyTelling.server.handlebarsNodeModulesHandler",
-            "route": "/*",
-            "method": "get",
-            "prefix": "/node_modules/handlebars"
-        },
-        pagedownNodeModulesHandler: {
-            type: "sjrk.storyTelling.server.pagedownNodeModulesHandler",
-            "route": "/*",
-            "method": "get",
-            "prefix": "/node_modules/pagedown"
-        },
-        gpiiHBNodeModulesHandler: {
-            type: "sjrk.storyTelling.server.gpiiHBNodeModulesHandler",
-            "route": "/*",
-            "method": "get",
-            "prefix": "/node_modules/gpii-handlebars"
+    gradeNames: ["{that}.generateNodeModulersHandlersGrade"],
+    invokers: {
+        generateNodeModulersHandlersGrade: {
+            funcName: "sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGrade",
+            args: ["{that}.options.nodeModulesHandlerDefs"]
         }
+    },
+    nodeModulesHandlerDefs: {
+        "infusionNodeModulesHandler": "/node_modules/infusion",
+        "binderNodeModulesHandler": "/node_modules/gpii-binder",
+        "storytellingNodeModulesHandler": "/node_modules/sjrk-story-telling",
+        "handlebarsNodeModulesHandler": "/node_modules/handlebars",
+        "pagedownNodeModulesHandler": "/node_modules/pagedown",
+        "gpiiHBNodeModulesHandler": "/node_modules/gpii-handlebars"
     }
 });
+
+sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGrade = function (nodeModulesHandlerDefs) {
+    var requestHandlers = {};
+    fluid.each(nodeModulesHandlerDefs, function (prefix, key) {
+        var handler = {
+            type: "sjrk.storyTelling.server." + key,
+            "route": "/*",
+            "method": "get",
+            "prefix": prefix
+        };
+        requestHandlers[key] = handler;
+    });
+
+    fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlersGrade", {
+        requestHandlers: requestHandlers
+    })
+
+    return "sjrk.storyTelling.server.app.nodeModulersHandlersGrade";
+};
 
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     requestHandlers: {
