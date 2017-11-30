@@ -78,8 +78,7 @@ fluid.defaults("sjrk.storyTelling.server", {
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.app", {
-    gradeNames: ["kettle.app"],
+fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlers", {
     requestHandlers: {
         infusionNodeModulesHandler: {
             type: "sjrk.storyTelling.server.infusionNodeModulesHandler",
@@ -116,6 +115,16 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             "route": "/*",
             "method": "get",
             "prefix": "/node_modules/gpii-handlebars"
+        }
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
+    requestHandlers: {
+        uiHandler: {
+            type: "sjrk.storyTelling.server.staticHandler",
+            "route": "/*",
+            "method": "get"
         },
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
@@ -131,11 +140,10 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/story/",
             "method": "post"
-        },
-        uiHandler: {
-            type: "sjrk.storyTelling.server.staticHandler",
-            "route": "/*",
-            "method": "get"
         }
     }
+});
+
+fluid.defaults("sjrk.storyTelling.server.app", {
+    gradeNames: ["kettle.app", "sjrk.storyTelling.server.app.storyTellingHandlers", "sjrk.storyTelling.server.app.nodeModulersHandlers"]
 });
