@@ -66,11 +66,14 @@ fluid.defaults("sjrk.storyTelling.server", {
             options: {
                 port: 8081,
                 components: {
-                    app: {
-                        type: "sjrk.storyTelling.server.app"
-                    },
                     dataSource: {
                         type: "sjrk.storyTelling.server.dataSource"
+                    },
+                    nodeModulesHandlersApp: {
+                        type: "sjrk.storyTelling.server.app.nodeModulersHandlers"
+                    },
+                    app: {
+                        type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     }
                 }
             }
@@ -79,7 +82,7 @@ fluid.defaults("sjrk.storyTelling.server", {
 });
 
 fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlers", {
-    gradeNames: ["{that}.generateNodeModulersHandlersGrade"],
+    gradeNames: ["kettle.app", "{that}.generateNodeModulersHandlersGrade"],
     invokers: {
         generateNodeModulersHandlersGrade: {
             funcName: "sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGrade",
@@ -116,6 +119,7 @@ sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGra
 };
 
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
+    gradeNames: ["kettle.app"],
     requestHandlers: {
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
@@ -138,8 +142,4 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "method": "get"
         }
     }
-});
-
-fluid.defaults("sjrk.storyTelling.server.app", {
-    gradeNames: ["kettle.app", "sjrk.storyTelling.server.app.storyTellingHandlers", "sjrk.storyTelling.server.app.nodeModulersHandlers"]
 });
