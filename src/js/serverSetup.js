@@ -41,7 +41,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     storytellingNodeModules: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./node_modules/sjrk-storytelling"
+                            "root": "./node_modules/sjrk-story-telling"
                         }
                     },
                     handlebarsNodeModules: {
@@ -93,7 +93,7 @@ fluid.defaults("sjrk.storyTelling.server.app", {
             type: "sjrk.storyTelling.server.storytellingNodeModulesHandler",
             "route": "/*",
             "method": "get",
-            "prefix": "/node_modules/sjrk-storytelling"
+            "prefix": "/node_modules/sjrk-story-telling"
         },
         handlebarsNodeModulesHandler: {
             type: "sjrk.storyTelling.server.handlebarsNodeModulesHandler",

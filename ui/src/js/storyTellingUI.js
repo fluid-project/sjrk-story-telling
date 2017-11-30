@@ -1,7 +1,7 @@
 fluid.defaults("sjrk.storyTelling.server.storyAuthoring", {
     gradeNames: ["sjrk.storyTelling.storyAuthoring"],
     resourceLoaderConfig: {
-        resourcePrefix: "node_modules/sjrk-storytelling"
+        resourcePrefix: "node_modules/sjrk-story-telling"
     },
     listeners: {
         "onStoryEditorReady.loadStoryFromQueryParam":

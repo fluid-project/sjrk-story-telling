@@ -19,13 +19,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 require("infusion");
 
 var sjrk = fluid.registerNamespace("sjrk");
-require("sjrk-couch-config");
+require("fluid-couch-config");
 
 fluid.defaults("sjrk.storyTelling.server.storiesDb", {
-    gradeNames: ["sjrk.server.couchConfig.auto"],
-    dbConfig: {
-        dbName: "stories",
-        designDocName: "views"
+    gradeNames: ["fluid.couchConfig.pipeline"],
+    couchOptions: {
+        dbName: "stories"
+    },
+    listeners: {
+        onCreate: "{that}.configureCouch",
+        onSuccess: "fluid.log(SUCCESS)",
+        onError: "fluid.log({arguments}.0.message)"
     },
     dbDocuments: {
         "storyExample": {
@@ -51,13 +55,15 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
             }
         }
     },
-    dbViews: {
-        "storyTags": {
-            "map": "sjrk.storyTelling.server.storiesDb.storyTagsFunction"
+    dbDesignDocuments: {
+        stories: {
+            views: {
+                "storyTags": {
+                    "map": "sjrk.storyTelling.server.storiesDb.storyTagsFunction"
+                }
+            },
+            validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"    
         }
-    },
-    dbValidate: {
-        validateFunction: "sjrk.storyTelling.server.storiesDb.validateFunction"
     }
 });
 
