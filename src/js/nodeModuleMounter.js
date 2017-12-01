@@ -66,6 +66,17 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
 
 };
 
+sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
+    return fluid.defaults("sjrk.storyTelling.server." + gradeSuffix, {
+        gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+        requestMiddleware: {
+            "static": {
+                middleware: middlewareIoCReference
+            }
+        }
+    });
+};
+
 sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = function (nodeModulesToMount) {
     // return "fluid.component";
 
@@ -98,5 +109,23 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = fun
         }
     });
 
+    // Create corresponding handler grades
+    fluid.each(nodeModulesToMount, function (nodeModuleName) {
+        var gradeSuffix = nodeModuleName + "-NodeModulesHandler";
+        var middlewareIoCReference = "{server}." + nodeModuleName + "-NodeModules";
+        sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade(gradeSuffix, middlewareIoCReference);
+    });
+
     return "sjrk.storyTelling.server.app.nodeModuleMountApp";
+};
+
+sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
+    fluid.defaults("sjrk.storyTelling.server." + gradeSuffix, {
+        gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+        requestMiddleware: {
+            "static": {
+                middleware: middlewareIoCReference
+            }
+        }
+    });
 };
