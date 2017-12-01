@@ -46,7 +46,7 @@ sjrk.storyTelling.server.storyAuthoring.loadStoryFromQueryParam = function () {
             storyTelling.storyEditor.applier.change("", retrievedStory);
         });
     }
-}
+};
 
 
 // TODO: fix the # anchor behaviour of this
@@ -57,7 +57,7 @@ sjrk.storyTelling.server.storyAuthoring.saveNoShare = function (storyViewer) {
 
     var modelToSave = fluid.censorKeys(storyViewer.model, ["templateTerms"]);
 
-    $.post(storyURL, modelToSave, function() {
-        console.log("it worked!");
+    $.post(storyURL, modelToSave, function(response) {
+        console.log("it worked!", response.id);
     });
 };
