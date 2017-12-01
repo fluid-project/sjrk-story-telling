@@ -14,6 +14,9 @@ var sjrk = fluid.registerNamespace("sjrk");
 require("kettle");
 
 // Given a list of node modules, mounts them as static directories
+// using kettle.middleware.static, automatically generating handlers
+// and routes
+//
 // Should be used at the top level of a kettle app definition
 fluid.defaults("sjrk.storyTelling.server.nodeModuleMounter", {
     gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModulersHandlersGrade"],
@@ -101,12 +104,12 @@ fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlers", {
         }
     },
     nodeModulesHandlerDefs: {
-        "infusionNodeModulesHandler": "/node_modules/infusion",
-        "binderNodeModulesHandler": "/node_modules/gpii-binder",
-        "storytellingNodeModulesHandler": "/node_modules/sjrk-story-telling",
-        "handlebarsNodeModulesHandler": "/node_modules/handlebars",
-        "pagedownNodeModulesHandler": "/node_modules/pagedown",
-        "gpiiHBNodeModulesHandler": "/node_modules/gpii-handlebars"
+        "infusion-NodeModulesHandler": "/node_modules/infusion",
+        "gpii-binder-NodeModulesHandler": "/node_modules/gpii-binder",
+        "sjrk-story-telling-NodeModulesHandler": "/node_modules/sjrk-story-telling",
+        "handlebars-NodeModulesHandler": "/node_modules/handlebars",
+        "pagedown-NodeModulesHandler": "/node_modules/pagedown",
+        "gpii-handlebars-NodeModulesHandler": "/node_modules/gpii-handlebars"
     }
 });
 
