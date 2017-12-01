@@ -20,14 +20,19 @@ require("kettle");
 // Should be used at the top level of a kettle app definition
 fluid.defaults("sjrk.storyTelling.server.nodeModuleMounter", {
     gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModulersHandlersGrade"],
-    nodeModulesToMount: ["infusion", "gpii-binder", "sjrk-story-telling", "handlebars", "pagedown", "gpii-handlebars"],
+    nodeModulesToMount: ["infusion",
+        "gpii-binder",
+        "sjrk-story-telling",
+        "handlebars",
+        "pagedown",
+        "gpii-handlebars"],
     invokers: {
         generateStaticMiddlewareComponentsGrade: {
             funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade",
             args: ["{that}.options.nodeModulesToMount"]
         },
         generateNodeModulersHandlersGrade: {
-            funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade",
+            funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade",
             args: ["{that}.options.nodeModulesToMount"]
         }
     }
@@ -61,7 +66,7 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
 
 };
 
-sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = function (nodeModulesToMount) {
+sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = function (nodeModulesToMount) {
     // return "fluid.component";
 
     var nodeModulesRequestHandlers = {};
@@ -76,12 +81,12 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = f
         nodeModulesRequestHandlers[suffix] = handler;
     });
 
-    fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlersGrade", {
+    fluid.defaults("sjrk.storyTelling.server.app.nodeModuleMountApp", {
         components: {
             server: {
                 options: {
                     components: {
-                        nodeModulesHandlersApp: {
+                        nodeModuleMountApp: {
                             type: "kettle.app",
                             options: {
                                 requestHandlers: nodeModulesRequestHandlers
@@ -93,5 +98,5 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = f
         }
     });
 
-    return "sjrk.storyTelling.server.app.nodeModulersHandlersGrade";
+    return "sjrk.storyTelling.server.app.nodeModuleMountApp";
 };
