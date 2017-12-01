@@ -61,25 +61,11 @@ fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
     }
 });
 
-var staticHandlerGrades = {
-    "uiHandler": "{server}.ui"
-};
-
-var createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
-    return fluid.defaults("sjrk.storyTelling.server." + gradeSuffix, {
-        gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-        requestMiddleware: {
-            "static": {
-                middleware: middlewareIoCReference
-            }
+fluid.defaults("sjrk.storyTelling.server.uiHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.ui"
         }
-    });
-};
-
-var createStaticHandlerGrades = function (staticHandlerGrades) {
-    fluid.each(staticHandlerGrades, function (middlewareIoCReference, gradeSuffix) {
-        createStaticHandlerGrade(gradeSuffix, middlewareIoCReference);
-    });
-};
-
-createStaticHandlerGrades(staticHandlerGrades);
+    }
+});
