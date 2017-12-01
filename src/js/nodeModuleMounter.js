@@ -19,34 +19,37 @@ require("kettle");
 //
 // Should be used at the top level of a kettle app definition
 fluid.defaults("sjrk.storyTelling.server.nodeModuleMounter", {
-    gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModulersHandlersGrade"],
+    gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModuleMountAppGrade"],
+    nodeModulesRoot: "./node_modules/",
+    nodeModulesHandlerPrefix: "/node_modules/",
+    generatedGradePrefix: "sjrk.storyTelling.server",
     invokers: {
         generateStaticMiddlewareComponentsGrade: {
             funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade",
-            args: ["{that}.options.nodeModulesToMount"]
+            args: ["{that}.options.nodeModulesToMount", "{that}.options.nodeModulesRoot", "{that}.options.generatedGradePrefix"]
         },
-        generateNodeModulersHandlersGrade: {
+        generateNodeModuleMountAppGrade: {
             funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade",
-            args: ["{that}.options.nodeModulesToMount"]
+            args: ["{that}.options.nodeModulesToMount", "{that}.options.nodeModulesHandlerPrefix", "{that}.options.generatedGradePrefix"]
         }
     }
 });
 
-sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade = function (nodeModulesToMount) {
+sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade = function (nodeModulesToMount, nodeModulesHandlerPrefix, generatedGradePrefix) {
     var middlewareComponents = {};
 
     fluid.each(nodeModulesToMount, function (nodeModuleName) {
         var def = {
             type: "kettle.middleware.static",
             options: {
-                "root": "./node_modules/" + nodeModuleName
+                "root": nodeModulesHandlerPrefix + nodeModuleName
             }
         };
         var key = nodeModuleName + "-NodeModules";
         middlewareComponents[key] = def;
     });
 
-    fluid.defaults("sjrk.storyTelling.server.staticMiddlewareComponentsGrade", {
+    fluid.defaults(generatedGradePrefix + ".staticMiddlewareComponentsGrade", {
         components: {
             server: {
                 options: {
@@ -60,28 +63,17 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
 
 };
 
-sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
-    return fluid.defaults("sjrk.storyTelling.server." + gradeSuffix, {
-        gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-        requestMiddleware: {
-            "static": {
-                middleware: middlewareIoCReference
-            }
-        }
-    });
-};
-
-sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = function (nodeModulesToMount) {
+sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = function (nodeModulesToMount, nodeModulesHandlerPrefix, generatedGradePrefix) {
     // return "fluid.component";
 
     var nodeModulesRequestHandlers = {};
     fluid.each(nodeModulesToMount, function (nodeModuleName) {
         var suffix = nodeModuleName + "-NodeModulesHandler";
         var handler = {
-            type: "sjrk.storyTelling.server." + suffix,
+            type: generatedGradePrefix + "." + suffix,
             "route": "/*",
             "method": "get",
-            "prefix": "/node_modules/" + nodeModuleName
+            "prefix": nodeModulesHandlerPrefix + nodeModuleName
         };
         nodeModulesRequestHandlers[suffix] = handler;
     });
@@ -107,14 +99,14 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = fun
     fluid.each(nodeModulesToMount, function (nodeModuleName) {
         var gradeSuffix = nodeModuleName + "-NodeModulesHandler";
         var middlewareIoCReference = "{server}." + nodeModuleName + "-NodeModules";
-        sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade(gradeSuffix, middlewareIoCReference);
+        sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade(generatedGradePrefix, gradeSuffix, middlewareIoCReference);
     });
 
     return "sjrk.storyTelling.server.app.nodeModuleMountApp";
 };
 
-sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade = function (gradeSuffix, middlewareIoCReference) {
-    fluid.defaults("sjrk.storyTelling.server." + gradeSuffix, {
+sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade = function (gradePrefix, gradeSuffix, middlewareIoCReference) {
+    fluid.defaults(gradePrefix + "." + gradeSuffix, {
         gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
         requestMiddleware: {
             "static": {
