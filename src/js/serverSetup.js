@@ -64,7 +64,7 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
 sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = function (nodeModulesToMount) {
     // return "fluid.component";
 
-    var requestHandlers = {};
+    var nodeModulesRequestHandlers = {};
     fluid.each(nodeModulesToMount, function (nodeModuleName) {
         var suffix = nodeModuleName + "-NodeModulesHandler";
         var handler = {
@@ -73,7 +73,7 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = f
             "method": "get",
             "prefix": "/node_modules/" + nodeModuleName
         };
-        requestHandlers[suffix] = handler;
+        nodeModulesRequestHandlers[suffix] = handler;
     });
 
     fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlersGrade", {
@@ -82,7 +82,10 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = f
                 options: {
                     components: {
                         nodeModulesHandlersApp: {
-                            type: "sjrk.storyTelling.server.app.nodeModulersHandlers"
+                            type: "kettle.app",
+                            options: {
+                                requestHandlers: nodeModulesRequestHandlers
+                            }
                         }
                     }
                 }
@@ -118,43 +121,6 @@ fluid.defaults("sjrk.storyTelling.server", {
         }
     }
 });
-
-fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlers", {
-    gradeNames: ["kettle.app", "{that}.generateNodeModulersHandlersGrade"],
-    invokers: {
-        generateNodeModulersHandlersGrade: {
-            funcName: "sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGrade",
-            args: ["{that}.options.nodeModulesHandlerDefs"]
-        }
-    },
-    nodeModulesHandlerDefs: {
-        "infusion-NodeModulesHandler": "/node_modules/infusion",
-        "gpii-binder-NodeModulesHandler": "/node_modules/gpii-binder",
-        "sjrk-story-telling-NodeModulesHandler": "/node_modules/sjrk-story-telling",
-        "handlebars-NodeModulesHandler": "/node_modules/handlebars",
-        "pagedown-NodeModulesHandler": "/node_modules/pagedown",
-        "gpii-handlebars-NodeModulesHandler": "/node_modules/gpii-handlebars"
-    }
-});
-
-sjrk.storyTelling.server.app.nodeModulersHandlers.generateNodeModulesHandlersGrade = function (nodeModulesHandlerDefs) {
-    var requestHandlers = {};
-    fluid.each(nodeModulesHandlerDefs, function (prefix, key) {
-        var handler = {
-            type: "sjrk.storyTelling.server." + key,
-            "route": "/*",
-            "method": "get",
-            "prefix": prefix
-        };
-        requestHandlers[key] = handler;
-    });
-
-    fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlersGrade", {
-        requestHandlers: requestHandlers
-    });
-
-    return "sjrk.storyTelling.server.app.nodeModulersHandlersGrade";
-};
 
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     gradeNames: ["kettle.app"],
