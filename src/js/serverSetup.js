@@ -13,8 +13,18 @@ var fluid = require("infusion");
 var sjrk = fluid.registerNamespace("sjrk");
 require("kettle");
 
+fluid.defaults("sjrk.storyTelling.server.mountedNodeModules", {
+    gradeNames: ["sjrk.storyTelling.server.nodeModuleMounter"],
+    nodeModulesToMount: ["infusion",
+        "gpii-binder",
+        "sjrk-story-telling",
+        "handlebars",
+        "pagedown",
+        "gpii-handlebars"],
+});
+
 fluid.defaults("sjrk.storyTelling.server", {
-    gradeNames: ["fluid.component", "sjrk.storyTelling.server.nodeModuleMounter"],
+    gradeNames: ["fluid.component", "sjrk.storyTelling.server.mountedNodeModules"],
     components: {
         server: {
             type: "kettle.server",

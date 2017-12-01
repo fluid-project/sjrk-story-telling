@@ -52,15 +52,6 @@ sjrk.storyTelling.server.handleStorageRequest = function (request, dataSource, i
     });
 };
 
-fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
-    gradeNames: "kettle.request.http",
-    invokers: {
-        handleRequest: {
-            funcName: "kettle.request.notFoundHandler"
-        }
-    }
-});
-
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {

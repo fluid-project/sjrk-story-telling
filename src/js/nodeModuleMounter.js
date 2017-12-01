@@ -20,12 +20,6 @@ require("kettle");
 // Should be used at the top level of a kettle app definition
 fluid.defaults("sjrk.storyTelling.server.nodeModuleMounter", {
     gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModulersHandlersGrade"],
-    nodeModulesToMount: ["infusion",
-        "gpii-binder",
-        "sjrk-story-telling",
-        "handlebars",
-        "pagedown",
-        "gpii-handlebars"],
     invokers: {
         generateStaticMiddlewareComponentsGrade: {
             funcName: "sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGrade",

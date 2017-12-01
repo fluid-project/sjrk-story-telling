@@ -10,12 +10,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 "use strict";
 
 var fluid = require("infusion");
-require("kettle");
-require("./src/js/staticHandlerBase");
-require("./src/js/nodeModuleMounter");
-require("./src/js/dataSource");
-require("./src/js/serverSetup");
-require("./src/js/requestHandlers");
 
-var sjrk = fluid.registerNamespace("sjrk");
-var server = sjrk.storyTelling.server();
+fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
+    gradeNames: "kettle.request.http",
+    invokers: {
+        handleRequest: {
+            funcName: "kettle.request.notFoundHandler"
+        }
+    }
+});
