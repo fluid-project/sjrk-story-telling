@@ -46,7 +46,6 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
         var key = nodeModuleName + "-NodeModules";
         middlewareComponents[key] = def;
     });
-    console.log(middlewareComponents);
 
     fluid.defaults("sjrk.storyTelling.server.staticMiddlewareComponentsGrade", {
         components: {
@@ -63,7 +62,35 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
 };
 
 sjrk.storyTelling.server.nodeModuleMounter.generateNodeModulersHandlersGrade = function (nodeModulesToMount) {
-    return "fluid.component";
+    // return "fluid.component";
+
+    var requestHandlers = {};
+    fluid.each(nodeModulesToMount, function (nodeModuleName) {
+        var suffix = nodeModuleName + "-NodeModulesHandler";
+        var handler = {
+            type: "sjrk.storyTelling.server." + suffix,
+            "route": "/*",
+            "method": "get",
+            "prefix": "/node_modules/" + nodeModuleName
+        };
+        requestHandlers[suffix] = handler;
+    });
+
+    fluid.defaults("sjrk.storyTelling.server.app.nodeModulersHandlersGrade", {
+        components: {
+            server: {
+                options: {
+                    components: {
+                        nodeModulesHandlersApp: {
+                            type: "sjrk.storyTelling.server.app.nodeModulersHandlers"
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    return "sjrk.storyTelling.server.app.nodeModulersHandlersGrade";
 };
 
 fluid.defaults("sjrk.storyTelling.server", {
@@ -76,9 +103,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                 components: {
                     dataSource: {
                         type: "sjrk.storyTelling.server.dataSource"
-                    },
-                    nodeModulesHandlersApp: {
-                        type: "sjrk.storyTelling.server.app.nodeModulersHandlers"
                     },
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
