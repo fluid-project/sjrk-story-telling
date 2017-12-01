@@ -19,8 +19,8 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleStorageRequest",
-            args: ["{request}", "{server}.dataSource", false]
+            funcName: "sjrk.storyTelling.server.handleStoryRequest",
+            args: ["{request}", "{server}.storyDataSource", false]
         }
     }
 });
@@ -29,13 +29,13 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleStorageRequest",
-            args: ["{request}", "{server}.dataSource", true]
+            funcName: "sjrk.storyTelling.server.handleStoryRequest",
+            args: ["{request}", "{server}.storyDataSource", true]
         }
     }
 });
 
-sjrk.storyTelling.server.handleStorageRequest = function (request, dataSource, isSave) {
+sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource, isSave) {
     var id = request.req.params.id ? request.req.params.id : (isSave ? uuidv1() : "");
     var promise = isSave ?
         dataSource.set({directStoryId: id}, request.req.body) :

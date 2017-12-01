@@ -12,7 +12,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 var fluid = require("infusion");
 require("kettle");
 
-fluid.defaults("sjrk.storyTelling.server.dataSource", {
+fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
     gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
     rules: {
         writePayload: {
