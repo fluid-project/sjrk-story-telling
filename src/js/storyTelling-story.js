@@ -17,6 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.story.base", {
         gradeNames: ["fluid.modelComponent"],
         model: {
+            // TODO: add an ID field?
             title: "",
             content: "",
             author: "",
@@ -39,18 +40,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.story.base", "sjrk.storyTelling.templatedComponentWithLocalization"],
         model: {
             templateTerms: {
-                storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-                storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
-                storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-                storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
-                storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
-                storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
-                storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)",
                 storyAuthor: "{that}.model.author",
                 storyTitle: "{that}.model.title",
                 storyContent: "{that}.model.content",
                 storySummary: "{that}.model.summary"
             }
+        },
+        // TODO: this block will be removed at some point, and values hardcoded in the template(s)
+        interfaceControlStrings: {
+            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
+            storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
+            storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
+            storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
+            storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
+            storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
+            storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)"
         },
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
@@ -87,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            resourceLoader: {
+            messageLoader: {
                 options: {
                     resources: {
                         componentMessages: "%resourcePrefix/src/messages/storyMessages.json"

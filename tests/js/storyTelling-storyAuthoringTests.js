@@ -16,7 +16,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.testStoryAuthoring", {
         gradeNames: ["sjrk.storyTelling.storyAuthoring"],
         resourceLoaderConfig: {
-            resourcePrefix: "../.."
+            templatePrefix: "../..",
+            messagePrefix: "../.."
         }
     });
 

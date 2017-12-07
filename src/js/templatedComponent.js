@@ -32,18 +32,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateTerms: {
             }
         },
+        interfaceControlStrings: null,
         events: {
-            "onTemplateRendered": null
+            "onTemplateRendered": null,
+            "onTemplatesLoaded": null,
+            "onAllResourcesLoaded": {
+                events: {
+                    "onTemplatesLoaded": "onTemplatesLoaded"
+                }
+            }
         },
         listeners: {
-            "{resourceLoader}.events.onResourcesLoaded": {
-                funcName: "{that}.renderTemplateOnSelf",
-                "namespace": "renderTemplateOnSelf"
+            "onAllResourcesLoaded.renderTemplateOnSelf": {
+                funcName: "{that}.renderTemplateOnSelf"
             }
         },
         components: {
-            resourceLoader: {
-                type: "sjrk.storyTelling.messageLoader"
+            templateLoader: {
+                type: "sjrk.storyTelling.messageLoader",
+                options: {
+                    listeners: {
+                        "onResourcesLoaded.escalate": "{templatedComponent}.events.onTemplatesLoaded.fire"
+                    }
+                }
             },
             templateRenderer: {
                 type: "gpii.handlebars.renderer.standalone"
@@ -66,7 +77,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // waits on
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
-                args: ["{that}.events.onTemplateRendered", "{that}.container", "componentTemplate", "{resourceLoader}.resources.componentTemplate.resourceText", "{that}.model.templateTerms", "{that}.templateRenderer"]
+                args: ["{that}.events.onTemplateRendered",
+                    "{that}.container",
+                    "componentTemplate",
+                    "{templateLoader}.resources.componentTemplate.resourceText",
+                    "{that}.options.interfaceControlStrings",
+                    "{that}.model.templateTerms",
+                    "{that}.templateRenderer"]
             }
         }
     });
@@ -96,12 +113,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "terms": terms to use in the handlebars template, they will be passed
      *            through the resolveTerms function to references to dynamic values
     */
-    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, terms, renderer) {
+    sjrk.storyTelling.templatedComponent.renderTemplate = function (completionEvent, container, templateName, templateContent, templateUiStrings, templateTerms, renderer) {
         renderer.templates.partials.componentTemplate = templateContent;
 
-        var resolvedTerms = sjrk.storyTelling.templatedComponent.resolveTerms(terms);
+        var resolvedTerms = sjrk.storyTelling.templatedComponent.resolveTerms(templateTerms);
+        var resolvedUiStrings = sjrk.storyTelling.templatedComponent.resolveTerms(templateUiStrings);
 
-        var renderedTemplate = renderer.render(templateName, resolvedTerms);
+        var combinedTerms = $.extend({}, resolvedTerms, resolvedUiStrings);
+
+        var renderedTemplate = renderer.render(templateName, combinedTerms);
+
         container.html(renderedTemplate);
         completionEvent.fire();
     };
@@ -153,17 +174,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // https://wiki.gpii.net/w/Technology_Evaluation_-_Internationalising_and_Localising_UI_strings#Detailed_Review
     fluid.defaults("sjrk.storyTelling.templatedComponentWithLocalization", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
-        listeners: {
-            "{resourceLoader}.events.onResourcesLoaded": {
-                "func": "sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages",
-                "args": ["{resourceLoader}.resources.componentMessages.resourceText", "{that}", "templateTerms"],
-                "priority": "before:renderTemplateOnSelf",
-                "namespace": "loadLocalizationMessages"
+        events: {
+            "onMessagesLoaded": null,
+            "onAllResourcesLoaded": {
+                events: {
+                    "onMessagesLoaded": "onMessagesLoaded"
+                }
             }
         },
         components: {
-            resourceLoader: {
-                type: "sjrk.storyTelling.messageLoaderWithLocalization"
+            messageLoader: {
+                type: "sjrk.storyTelling.messageLoaderWithLocalization",
+                options: {
+                    listeners: {
+                        "onResourcesLoaded.loadLocalizationMessages": {
+                            "func": "sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages",
+                            "args": ["{messageLoader}.resources.componentMessages.resourceText", "{templatedComponentWithLocalization}", "templateTerms"]
+                        },
+                        "onResourcesLoaded.escalate": "{templatedComponentWithLocalization}.events.onMessagesLoaded.fire"
+                    }
+                }
             }
         }
     });
@@ -194,7 +224,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, that, modelEndpoint) {
         var messages = JSON.parse(componentMessages);
-
         that.applier.change(modelEndpoint, messages);
     };
 

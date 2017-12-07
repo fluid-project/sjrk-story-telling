@@ -115,30 +115,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         model: {
             languageFromSelect: "",
-            languageFromInput: "",
-            templateTerms: {
-                storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
-                storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
-                storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
-                storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
-                storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
-                storyCategoryListIdForLabel: "@expand:{that}.getLabelId(categoryList)",
-                storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
-                storySummaryIdForLabel: "@expand:{that}.getLabelId(summary)",
-                storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
-                storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
-                storyChoosePhotosClasses: "@expand:{that}.getClasses(storyTelling-storyChoosePhotos)",
-                storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",
-                storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
-                storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
-                storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
-                storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
-                storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
-                storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
-            }
+            languageFromInput: ""
+        },
+        // TODO: this block will be removed at some point, and values hardcoded in the template(s)
+        // TODO: consider why we're dynamically generating these ID's.
+        // is it necessary? what are they used for?
+        interfaceControlStrings: {
+            storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
+            storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
+            storyContentIdForLabel: "@expand:{that}.getLabelId(content)",
+            storyLanguageIdForLabel: "@expand:{that}.getLabelId(language)",
+            storyLanguageListIdForLabel: "@expand:{that}.getLabelId(languageList)",
+            storyCategoryListIdForLabel: "@expand:{that}.getLabelId(categoryList)",
+            storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)",
+            storySummaryIdForLabel: "@expand:{that}.getLabelId(summary)",
+            storyLanguageListClasses: "@expand:{that}.getClasses(storyTelling-storyLanguageList)",
+            storyAddImagesClasses: "@expand:{that}.getClasses(storyTelling-storyAddImages)",
+            storyChoosePhotosClasses: "@expand:{that}.getClasses(storyTelling-storyChoosePhotos)",
+            storyTakePhotoClasses: "@expand:{that}.getClasses(storyTelling-storyTakePhoto)",
+            storyAddTagsClasses: "@expand:{that}.getClasses(storyTelling-storyAddTags)",
+            storyTagsClasses: "@expand:{that}.getClasses(storyTelling-storyTags)",
+            storyTranslateClasses: "@expand:{that}.getClasses(storyTelling-storyTranslate)",
+            storySubmitClasses: "@expand:{that}.getClasses(storyTelling-storySubmit)",
+            storyEditorNextClasses: "@expand:{that}.getClasses(storyTelling-storyEditorNext)",
+            storyEditorPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyEditorPrevious)"
         },
         components: {
-            resourceLoader: {
+            templateLoader: {
                 options: {
                     resources: {
                         componentTemplate: "%resourcePrefix/src/templates/storyEdit.handlebars"

@@ -19,10 +19,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             testMessage: ".sjrkc-testTemplatedComponentWithLocalization-testMessage"
         },
         components: {
-            resourceLoader: {
+            templateLoader: {
                 options: {
                     resources: {
-                        componentTemplate: "../html/templates/testLocalizationTemplate.handlebars",
+                        componentTemplate: "../html/templates/testLocalizationTemplate.handlebars"
+                    }
+                }
+            },
+            messageLoader: {
+                options: {
+                    resources: {
                         componentMessages: "../json/messages/testLocalizationMessages.json"
                     }
                 }
@@ -89,19 +95,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.testTemplatedComponentWithLocalization",
                 // Set by implementing test environment grade
                 // container: "#testTemplatedComponentWithLocalization",
-                createOnEvent: "{templatedComponentWithLocalizationTester}.events.onTestCaseStart",
-                options: {
-                    components: {
-                        resourceLoader: {
-                            options: {
-                                // locale: "en"
-                            }
-                        }
-                        // templatedComponentWithLocalizationTester: {
-                        //
-                        // }
-                    }
-                }
+                createOnEvent: "{templatedComponentWithLocalizationTester}.events.onTestCaseStart"//,
+                // options: {
+                //     components: {
+                //         messageLoader: {
+                //             options: {
+                //                 // locale: "en"
+                //             }
+                //         }
+                //         // templatedComponentWithLocalizationTester: {
+                //         //
+                //         // }
+                //     }
+                // }
             }
         }
     });
@@ -111,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             gradeNames: ["sjrk.storyTelling.templatedComponentWithLocalizationTestBase"],
             distributeOptions: [{
                 record: languageCode,
-                target: "{that templatedComponentWithLocalization}.options.components.resourceLoader.options.locale"
+                target: "{that templatedComponentWithLocalization}.options.components.messageLoader.options.locale"
             }, {
                 record: "#testTemplatedComponentWithLocalization_" + languageCode,
                 target: "{that templatedComponentWithLocalization}.container"
