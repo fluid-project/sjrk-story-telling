@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             classPrefix: "test"
         },
         components: {
-            resourceLoader: {
+            templateLoader: {
                 options: {
                     resources: {
                         componentTemplate: "../html/templates/testTemplate.handlebars"
@@ -27,10 +27,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             }
         },
-        model: {
-            templateTerms: {
-                testClasses: "replacement-Value"
-            }
+        interfaceControlStrings: {
+            testClasses: "replacement-Value"
         }
     });
 

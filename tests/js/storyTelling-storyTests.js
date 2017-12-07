@@ -16,11 +16,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.story.testStory", {
         gradeNames: ["sjrk.storyTelling.story.ui"],
         components: {
-            resourceLoader: {
+            templateLoader: {
                 options: {
                     resources: {
                         componentTemplate: "%resourcePrefix/src/templates/storyView.handlebars"
                     },
+                    terms: {
+                        resourcePrefix: "../.."
+                    }
+                }
+            },
+            messageLoader: {
+                options: {
                     terms: {
                         resourcePrefix: "../.."
                     }

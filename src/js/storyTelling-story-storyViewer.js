@@ -44,13 +44,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 storyAuthor: "{that}.model.author",
                 storyTags: "{that}.model.tags",
                 storyLanguage: "{that}.model.language",
-                storyCategories: "{that}.model.categories",
-                storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
-                storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
-                storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
-                storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
-                storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
+                storyCategories: "{that}.model.categories"
             }
+        },
+        // TODO: this block will be removed at some point, and values hardcoded in the template(s)
+        interfaceControlStrings: {
+            storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
+            storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
+            storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
+            storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
+            storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
         },
         modelRelay: {
             target: "{that}.model.templateTerms.storyLanguageName",
@@ -64,7 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
-            resourceLoader: {
+            templateLoader: {
                 options: {
                     resources: {
                         componentTemplate: "%resourcePrefix/src/templates/storyView.handlebars"

@@ -12,10 +12,10 @@ https://wiki.fluidproject.org/display/fluid/Storytelling+and+Story-gathering+Res
 This repository represents the user interface portion of the Storytelling Tool, a project which anyone can use to share their story with the world in a way that is inclusive and accessible. The project uses [Fluid Infusion](https://fluidproject.org/infusion.html), so it is assumed that anyone working on it will have some familiarity with Infusion's syntax and philosophy.
 
 The repository includes a few grades:
-- `sjrk.storyTelling.templatedComponent` which renders html templates using data available in a model. These are specified via the options `{that}.model.templateTerms` and `{resourceLoader}.resources.componentTemplate`. There are also extensions of this grade to provide:
+- `sjrk.storyTelling.templatedComponent` which renders html templates using data available in a model. These are specified via the options `{that}.model.templateTerms` and `{templateLoader}.resources.componentTemplate`. It can also load UI-related values into the template, for example DOM ID's or CSS classes, which should be specified in `{that}.options.interfaceControlStrings`. There are extensions of this grade to provide:
   - binding to DOM input elements `sjrk.storyTelling.templatedComponentWithBinder`
-  - localization of content `sjrk.storyTelling.templatedComponentWithLocalization`
-- `sjrk.storyTelling.story.ui`, a `templatedComponentWithLocalization` that can be used to set up UI contexts (pages) and includes a text-to-speech component
+  - localization of content `sjrk.storyTelling.templatedComponentWithLocalization` using another loader component called `{messageLoader}`
+- `sjrk.storyTelling.story.ui`, a `templatedComponentWithLocalization` that can be used to set up UI contexts (pages) and includes a text-to-speech component.
 - `sjrk.storyTelling.storyAuthoring`, the overall Storytelling Tool interface management grade. It has a subcomponent for each context/page in the tool and manages communication between them:
   - `sjrk.storyTelling.story.storyEditor`
   - `sjrk.storyTelling.story.storyViewer`

@@ -16,16 +16,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.storyAuthoring", {
         gradeNames: ["sjrk.storyTelling.templatedComponent"],
         resourceLoaderConfig: {
-            resourcePrefix: ".",
+            templatePrefix: ".",
+            messagePrefix: ".",
             locale: "en"
         },
         distributeOptions: [{
-            source: "{that}.options.resourceLoaderConfig.resourcePrefix",
-            target: "{that resourceLoader}.options.terms.resourcePrefix"
+            source: "{that}.options.resourceLoaderConfig.templatePrefix",
+            target: "{that templateLoader}.options.terms.resourcePrefix"
+        },
+        {
+            source: "{that}.options.resourceLoaderConfig.messagePrefix",
+            target: "{that messageLoader}.options.terms.resourcePrefix"
         },
         {
             source: "{that}.options.resourceLoaderConfig.locale",
-            target: "{that resourceLoader}.options.locale"
+            target: "{that templateLoader}.options.locale"
         }],
         events: {
             onStorySubmitRequestedFromEditorNoView: null,
@@ -120,7 +125,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            resourceLoader: {
+            templateLoader: {
                 options: {
                     resources: {
                         componentTemplate: "%resourcePrefix/src/templates/storyAuthoring.handlebars"
