@@ -1,11 +1,11 @@
 {
-    "message_readStoryText": "%message_storyAuthorText %storyTitle. %storyContent",
+    "message_readStoryText": "%message_storyAuthorText %title. %content",
     "message_storyContentInputLabel": "箱に話を書いてください",
     "message_storyContentInputPlaceholder": "書いてください",
     "message_storyListenToText": "私の話を聞く",
     "message_storyTitleInputLabel": "話のタイトル",
     "message_storyTitleInputPlaceholder": "タイトルを書いてください",
-    "message_storyAuthorText": "%storyAuthor の",
+    "message_storyAuthorText": "%author の",
     "message_storyAuthorInputLabel": "名前",
     "message_storyAuthorInputPlaceholder": "名前を書いてください",
     "message_storyLanguageInputLabel": "言語",

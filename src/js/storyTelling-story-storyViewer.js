@@ -37,15 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         model: {
-            templateTerms: {
-                storyLanguageName: "",
-                storyTitle: "{that}.model.title",
-                storyContent: "{that}.model.content",
-                storyAuthor: "{that}.model.author",
-                storyTags: "{that}.model.tags",
-                storyLanguage: "{that}.model.language",
-                storyCategories: "{that}.model.categories"
-            }
+            languageName: ""
         },
         // TODO: this block will be removed at some point, and values hardcoded in the template(s)
         interfaceControlStrings: {
@@ -56,14 +48,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
         },
         modelRelay: {
-            target: "{that}.model.templateTerms.storyLanguageName",
+            target: "{that}.model.languageName",
             forward: {
                 excludeSource: "init"
             },
             singleTransform: {
                 type: "fluid.transforms.free",
                 func: "sjrk.storyTelling.story.getValueOrFallback",
-                args: ["{that}.model.templateTerms.availableLanguages", "{that}.model.language"]
+                args: ["{that}.options.interfaceLocalizationStrings.availableLanguages", "{that}.model.language"]
             }
         },
         components: {

@@ -1,11 +1,11 @@
 {
-    "message_readStoryText": "%storyTitle, %message_storyAuthorText. %storyContent",
+    "message_readStoryText": "%title, %message_storyAuthorText. %content",
     "message_storyContentInputLabel": "Entrez le texte de l'article dans la boîte",
     "message_storyContentInputPlaceholder": "Commencez à taper ici",
     "message_storyListenToText": "Écoutez mon histoire",
     "message_storyTitleInputLabel": "Titre de l'histoire (requis)",
     "message_storyTitleInputPlaceholder": "Entrez le titre ici",
-    "message_storyAuthorText": "par %storyAuthor",
+    "message_storyAuthorText": "par %author",
     "message_storyAuthorInputLabel": "Votre nom (optionnel)",
     "message_storyAuthorInputPlaceholder": "Entrez votre nom (optionnel)",
     "message_storyLanguageInputLabel": "Langue (requis)",

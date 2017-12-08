@@ -36,7 +36,6 @@
         <label for="{{storyLanguageListIdForLabel}}">{{message_storyLanguageInputLabel}}</label>
     </div>
     <div>
-        <!-- TODO: load the languages dynamically -->
         <select name="" id="{{storyLanguageListIdForLabel}}" class="{{storyLanguageListClasses}}">
             <option value="" selected="selected">-- {{message_storyLanguageInputDefault}} --</option>\
             {{#each availableLanguages}}
@@ -53,6 +52,7 @@
         <input id="{{storyLanguageIdForLabel}}" class="{{storyLanguageClasses}}" placeholder="{{message_storyLanguageInputPlaceholder}}" />
     </div>
 
+    <!-- TODO: add test coverage for the text fed into the storySpeaker -->
     <div class="sjrk-storyTelling-link-container"><a class="{{storyListenToClasses}}" href="javascript:void(0)">{{message_storyListenToText}}</a></div>
 
     <div class="sjrk-storyTelling-button-container">

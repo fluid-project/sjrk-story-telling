@@ -38,14 +38,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // contains common elements for all of the story interface contexts (editor, viewer, etc.)
     fluid.defaults("sjrk.storyTelling.story.ui", {
         gradeNames: ["sjrk.storyTelling.story.base", "sjrk.storyTelling.templatedComponentWithLocalization"],
-        model: {
-            templateTerms: {
-                storyAuthor: "{that}.model.author",
-                storyTitle: "{that}.model.title",
-                storyContent: "{that}.model.content",
-                storySummary: "{that}.model.summary"
-            }
-        },
         // TODO: this block will be removed at some point, and values hardcoded in the template(s)
         interfaceControlStrings: {
             storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
@@ -55,6 +47,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
             storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
             storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)"
+        },
+        interfaceLocalizationStrings: {
         },
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
@@ -77,7 +71,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onStoryListenToRequested.speakStory": {
                 func: "{storySpeaker}.queueSpeech",
-                args: ["@expand:fluid.stringTemplate({that}.model.templateTerms.message_readStoryText, {that}.model.templateTerms)"]
+                args: ["@expand:fluid.stringTemplate({that}.options.interfaceLocalizationStrings.message_readStoryText, {that}.options.interfaceLocalizationStrings)"]
             }
         },
         components: {

@@ -1,11 +1,11 @@
 {
-    "message_readStoryText": "%storyTitle، %message_storyAuthorText. %storyContent",
+    "message_readStoryText": "%title، %message_storyAuthorText. %content",
     "message_storyContentInputLabel": "محتوای داستان را اینجا وارد کنید",
     "message_storyContentInputPlaceholder": "از اینجا شروع به تایپ کنید",
     "message_storyListenToText": "به  داستان من گوش کنید",
     "message_storyTitleInputLabel": "عنوان داستان (ضروری)",
     "message_storyTitleInputPlaceholder": "عنوان داستان را اینجا وارد کنید",
-    "message_storyAuthorText": "توسط %storyAuthor",
+    "message_storyAuthorText": "توسط %author",
     "message_storyAuthorInputLabel": "نام شما (اختیاری)",
     "message_storyAuthorInputPlaceholder": "نام خود را اینجا وارد کنید (اختیاری)",
     "message_storyLanguageInputLabel": "زبان (ضروری)",

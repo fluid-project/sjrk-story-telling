@@ -9,26 +9,26 @@
         </div>
     </div>
     <div class="sjrk-storyTelling-story-previewPane">
-        <div class="{{storyTitleClasses}}">{{storyTitle}}</div>
+        <div class="{{storyTitleClasses}}">{{title}}</div>
         <div class="{{storyAuthorClasses}}">{{message_storyAuthorText}}</div>
 
         <div class="sjrk-storyTelling-link-container">
             <a class="{{storyListenToClasses}}" href="javascript:void(0);">{{message_storyListenToText}}</a>
         </div>
 
-        <div class="{{storyContentClasses}}">{{storyContent}}</div>
+        <div class="{{storyContentClasses}}">{{content}}</div>
 
         <div class="sjrk-storyTelling-link-container">
             <a class="{{storyReadMoreClasses}}" href="#">{{message_storyReadMoreText}}</a>
         </div>
 
         <div class="sjrk-storyTelling-language-container">
-            {{message_storyLanguageLabelText}}: <span class="{{storyLanguageClasses}}">{{storyLanguageName}}</span>
+            {{message_storyLanguageLabelText}}: <span class="{{storyLanguageClasses}}">{{languageName}}</span>
         </div>
 
         <div class="sjrk-storyTelling-tags-container">
             {{message_storyListTagsLabelText}}: <span class="{{storyListTagsClasses}}">
-                {{#each storyTags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+                {{#each tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
             </span>
         </div>
 
