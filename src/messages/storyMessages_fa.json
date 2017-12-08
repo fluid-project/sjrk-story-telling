@@ -1,5 +1,5 @@
 {
-    "message_readStoryText": "%title، %message_storyAuthorText. %content",
+    "message_readStoryText": "%title، توسط %author. %content",
     "message_storyContentInputLabel": "محتوای داستان را اینجا وارد کنید",
     "message_storyContentInputPlaceholder": "از اینجا شروع به تایپ کنید",
     "message_storyListenToText": "به  داستان من گوش کنید",

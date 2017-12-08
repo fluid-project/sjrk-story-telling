@@ -1,5 +1,5 @@
 {
-    "message_readStoryText": "%message_storyAuthorText %title. %content",
+    "message_readStoryText": "%author の %title. %content",
     "message_storyContentInputLabel": "箱に話を書いてください",
     "message_storyContentInputPlaceholder": "書いてください",
     "message_storyListenToText": "私の話を聞く",

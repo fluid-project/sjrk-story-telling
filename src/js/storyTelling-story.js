@@ -67,19 +67,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.storyListenTo",
                 "method": "click",
                 "args": ["{that}.events.onStoryListenToRequested.fire"]
-            },
-            "onStoryListenToRequested.speakStory": {
-                func: "{storySpeaker}.queueSpeech",
-                args: ["@expand:fluid.stringTemplate({that}.options.interfaceLocalizationStrings.message_readStoryText, {that}.options.interfaceLocalizationStrings)"]
             }
         },
         components: {
             storySpeaker: {
                 type: "fluid.textToSpeech",
+                createOnEvent: "{ui}.events.onAllResourcesLoaded",
                 options: {
                     model:{
+                        ttsText: null,
                         utteranceOpts: {
                             lang: "{ui}.model.language"
+                        }
+                    },
+                    modelRelay: {
+                        target: "{that}.model.ttsText",
+                        singleTransform: {
+                            type: "fluid.transforms.free",
+                            func: "fluid.stringTemplate",
+                            args: ["{ui}.options.interfaceLocalizationStrings.message_readStoryText", "{ui}.model"]
+                        }
+                    },
+                    listeners: {
+                        "{ui}.events.onStoryListenToRequested": {
+                            func: "{that}.queueSpeech",
+                            args: ["{that}.model.ttsText"]
                         }
                     }
                 }
