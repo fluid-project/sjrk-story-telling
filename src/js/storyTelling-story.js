@@ -48,8 +48,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
             storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)"
         },
-        interfaceLocalizationStrings: {
-        },
+        interfaceLocalizationStrings: {},
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
             storyAuthor: ".sjrkc-storyTelling-storyAuthor",
