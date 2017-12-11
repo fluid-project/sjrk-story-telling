@@ -83,9 +83,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     modelRelay: {
                         target: "{that}.model.ttsText",
                         singleTransform: {
-                            type: "fluid.transforms.free",
-                            func: "fluid.stringTemplate",
-                            args: ["{ui}.options.interfaceLocalizationStrings.message_readStoryText", "{ui}.model"]
+                            type: "fluid.transforms.stringTemplate",
+                            template: "{ui}.options.interfaceLocalizationStrings.message_readStoryText",
+                            terms: "{ui}.model"
                         }
                     },
                     listeners: {
