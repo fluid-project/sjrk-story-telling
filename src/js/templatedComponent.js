@@ -41,7 +41,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         components: {
             templateLoader: {
-                type: "sjrk.storyTelling.messageLoader",
+                type: "sjrk.storyTelling.resourceLoader",
                 options: {
                     listeners: {
                         "onResourcesLoaded.escalate": "{templatedComponent}.events.onTemplatesLoaded.fire"
@@ -176,11 +176,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         interfaceLocalizationStrings: {},
         components: {
             messageLoader: {
-                type: "sjrk.storyTelling.messageLoaderWithLocalization",
+                type: "sjrk.storyTelling.resourceLoaderWithLocalization",
                 options: {
                     listeners: {
                         "onResourcesLoaded.loadLocalizationMessages": {
-                            "func": "sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages",
+                            "func": "sjrk.storyTelling.resourceLoaderWithLocalization.loadLocalizationMessages",
                             "args": ["{messageLoader}.resources.componentMessages.resourceText",
                                 "{templatedComponentWithLocalization}",
                                 "options.interfaceLocalizationStrings"]
@@ -205,7 +205,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.messageLoader", {
+    fluid.defaults("sjrk.storyTelling.resourceLoader", {
         gradeNames: ["fluid.resourceLoader"],
         resources: {
             // Specified by using grade
@@ -218,8 +218,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.messageLoaderWithLocalization", {
-        gradeNames: ["sjrk.storyTelling.messageLoader"],
+    fluid.defaults("sjrk.storyTelling.resourceLoaderWithLocalization", {
+        gradeNames: ["sjrk.storyTelling.resourceLoader"],
         resources: {
             // Specified by using grade
             // The messages file (JSON)
@@ -229,7 +229,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         defaultLocale: "en"
     });
 
-    sjrk.storyTelling.messageLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, component, path) {
+    sjrk.storyTelling.resourceLoaderWithLocalization.loadLocalizationMessages = function (componentMessages, component, path) {
         var mergedEndpoint = $.extend({}, fluid.get(component, path), JSON.parse(componentMessages));
         fluid.set(component, path, mergedEndpoint);
     };
