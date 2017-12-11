@@ -36,6 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.storyEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
+            // TODO: verify that the first test is running
             name: "Test story editor.",
             tests: [{
                 name: "Test UI controls",

@@ -71,30 +71,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         components: {
             storySpeaker: {
-                type: "fluid.textToSpeech",
-                createOnEvent: "{ui}.events.onAllResourcesLoaded",
-                options: {
-                    model:{
-                        ttsText: null,
-                        utteranceOpts: {
-                            lang: "{ui}.model.language"
-                        }
-                    },
-                    modelRelay: {
-                        target: "{that}.model.ttsText",
-                        singleTransform: {
-                            type: "fluid.transforms.stringTemplate",
-                            template: "{ui}.options.interfaceLocalizationStrings.message_readStoryText",
-                            terms: "{ui}.model"
-                        }
-                    },
-                    listeners: {
-                        "{ui}.events.onStoryListenToRequested": {
-                            func: "{that}.queueSpeech",
-                            args: ["{that}.model.ttsText"]
-                        }
-                    }
-                }
+                type: "sjrk.storyTelling.story.storySpeaker",
+                createOnEvent: "{ui}.events.onAllResourcesLoaded"
             },
             messageLoader: {
                 options: {
@@ -102,6 +80,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         componentMessages: "%resourcePrefix/src/messages/storyMessages.json"
                     }
                 }
+            }
+        }
+    });
+
+    // Mixin grade to be used with sjrk.storyTelling.story.ui, provides a text-to-speech
+    // interface that reads dynamic text out and based on the story ui's model values
+    fluid.defaults("sjrk.storyTelling.story.storySpeaker", {
+        gradeNames: "fluid.textToSpeech",
+        model:{
+            ttsText: null,
+            utteranceOpts: {
+                lang: "{ui}.model.language"
+            }
+        },
+        modelRelay: {
+            target: "{that}.model.ttsText",
+            singleTransform: {
+                type: "fluid.transforms.stringTemplate",
+                template: "{ui}.options.interfaceLocalizationStrings.message_readStoryText",
+                terms: "{ui}.model"
+            }
+        },
+        listeners: {
+            "{ui}.events.onStoryListenToRequested": {
+                func: "{that}.queueSpeech",
+                args: ["{that}.model.ttsText", true]
             }
         }
     });
