@@ -54,8 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
             storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2",
             storyEditorHeading: ".sjrkc-storyTelling-storyEditor-headingContainer",
-            storyContainer: "{that}.container.selector",
-            storyTestArea: ".sjrkc-storyTelling-storyTestArea"
+            storyContainer: "{that}.container.selector"
         },
         visibilityManagedSelectors: {
             expander: {
