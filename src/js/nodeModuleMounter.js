@@ -17,7 +17,7 @@ require("kettle");
 // using kettle.middleware.static, automatically generating handlers
 // and routes
 //
-// Should be used at the top level of a kettle app definition
+// Should be used at the top level of a kettle server definition
 fluid.defaults("sjrk.storyTelling.server.nodeModuleMounter", {
     gradeNames: ["fluid.component", "{that}.generateStaticMiddlewareComponentsGrade", "{that}.generateNodeModuleMountAppGrade"],
     nodeModulesRoot: "./node_modules/",
@@ -49,7 +49,9 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
         middlewareComponents[key] = def;
     });
 
-    fluid.defaults(generatedGradePrefix + ".staticMiddlewareComponentsGrade", {
+    var returnedGradeName = generatedGradePrefix + ".staticMiddlewareComponentsGrade." + fluid.allocateGuid() ;
+
+    fluid.defaults(returnedGradeName, {
         components: {
             server: {
                 options: {
@@ -59,7 +61,7 @@ sjrk.storyTelling.server.nodeModuleMounter.generateStaticMiddlewareComponentsGra
         }
     });
 
-    return "sjrk.storyTelling.server.staticMiddlewareComponentsGrade";
+    return returnedGradeName;
 
 };
 
@@ -78,7 +80,9 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = fun
         nodeModulesRequestHandlers[suffix] = handler;
     });
 
-    fluid.defaults("sjrk.storyTelling.server.app.nodeModuleMountApp", {
+    var returnedGradeName = generatedGradePrefix + ".app.nodeModuleMountApp." + fluid.allocateGuid() ;
+
+    fluid.defaults(returnedGradeName, {
         components: {
             server: {
                 options: {
@@ -102,7 +106,7 @@ sjrk.storyTelling.server.nodeModuleMounter.generateNodeModuleMountAppGrade = fun
         sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade(generatedGradePrefix, gradeSuffix, middlewareIoCReference);
     });
 
-    return "sjrk.storyTelling.server.app.nodeModuleMountApp";
+    return returnedGradeName;
 };
 
 sjrk.storyTelling.server.nodeModuleMounter.createStaticHandlerGrade = function (gradePrefix, gradeSuffix, middlewareIoCReference) {
