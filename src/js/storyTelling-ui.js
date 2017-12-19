@@ -22,10 +22,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             classPrefix: "sjrk",
             interfaceLanguage: null
         },
-        distributeOptions: [{
+        distributeOptions: {
             source: "{that}.options.interfaceConfig.templateLanguage",
             target: "{that templateManager}.options.templateConfig.locale"
-        }],
+        },
         // TODO: at some point, css values will be hardcoded in the template(s)
         interfaceControlStrings: {
             storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
@@ -52,7 +52,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // templateConfig.classPrefix option
             getClasses: {
                 funcName: "sjrk.storyTelling.ui.getClasses",
-                args: ["{that}.options.templateConfig.classPrefix", "{arguments}.0"]
+                args: ["{that}.options.interfaceConfig.classPrefix", "{arguments}.0"]
             },
             getLabelId: {
                 funcName: "sjrk.storyTelling.ui.getLabelId",
@@ -67,6 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onBindingApplied: null
         },
         // TODO: what about UI's that don't need binding? unnecessary execution
+        // Split the binder out into a mixin grade
         listeners: {
             "onReadyToBind.applyBinding": {
                 funcName: "gpii.binder.applyBinding",

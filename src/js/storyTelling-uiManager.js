@@ -48,6 +48,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     listeners: {
+                        // try using event bubbling/boiling
                         "{uiManager}.events.onStoryListenToRequested": {
                             func: "{that}.queueSpeech",
                             args: ["{that}.model.ttsText", true]

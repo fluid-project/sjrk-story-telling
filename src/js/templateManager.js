@@ -19,39 +19,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templatePath: null,
             messagesPath: null,
             resourcePrefix: ".",
-            locale: null
+            locale: "en"
         },
-        // TODO: revise IoCSS references
-        distributeOptions: [{
-            source: "{that}.options.templateConfig.templatePath",
-            target: "{that templateLoader}.options.resources.componentTemplate"
-        },
-        {
-            source: "{that}.options.templateConfig.messagesPath",
-            target: "{that messagesLoader}.options.resources.componentMessages"
-        },
-        {
-            source: "{that}.options.templateConfig.resourcePrefix",
-            target: "{that messageLoader}.options.terms.resourcePrefix"
-        },
-        {
-            source: "{that}.options.templateConfig.resourcePrefix",
-            target: "{that templateLoader}.options.terms.resourcePrefix"
-        },
-        {
-            source: "{that}.options.resourceLoaderConfig.locale",
-            target: "{that messageLoader}.options.locale"
-        }],
         events: {
             onAllResourcesLoaded: {
                 events: {
                     onMessagesLoaded: "onMessagesLoaded",
-                    onTemplatesLoaded: "onTemplatesLoaded"
+                    onTemplateLoaded: "onTemplateLoaded"
                 }
             },
             onMessagesLoaded: null,
             onTemplateRendered: null,
-            onTemplatesLoaded: null
+            onTemplateLoaded: null
         },
         listeners: {
             "onAllResourcesLoaded.renderTemplateOnSelf": {
@@ -65,17 +44,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     resources: {
                         // The messages file (JSON)
-                        componentMessages: null
+                        componentMessages: "{templateManager}.options.templateConfig.messagesPath"
                     },
-                    locale: "en",
+                    locale: "{templateManager}.options.templateConfig.locale",
                     defaultLocale: "en",
                     terms: {
-                        resourcePrefix: "{that}.resourcePrefix"
+                        resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
                     },
                     listeners: {
                         "onResourcesLoaded.loadLocalizationMessages": {
                             "func": "sjrk.storyTelling.templateManager.loadLocalizedMessages",
-                            "args": ["{messageLoader}.resources.componentMessages.resourceText",
+                            "args": ["{that}.resources.componentMessages.resourceText",
                                 "{templateManager}",
                                 "options.templateStrings"]
                         },
@@ -88,13 +67,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     resources: {
                         // The handlebars template file
-                        componentTemplate: null
+                        componentTemplate: "{templateManager}.options.templateConfig.templatePath"
                     },
+                    // This should be being handled by options distribution
                     terms: {
-                        resourcePrefix: "{that}.resourcePrefix"
+                        resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
                     },
                     listeners: {
-                        "onResourcesLoaded.escalate": "{templateManager}.events.onTemplatesLoaded.fire"
+                        "onResourcesLoaded.escalate": "{templateManager}.events.onTemplateLoaded.fire"
                     }
                 }
             },
@@ -106,12 +86,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // Invoker used to render the component's template and fire
             // the onTemplateRendered event that the applyBinding's listener
             renderTemplateOnSelf: {
-                funcName: "sjrk.storyTelling.templatedComponent.renderTemplate",
+                funcName: "sjrk.storyTelling.templateManager.renderTemplate",
                 args: ["{that}.events.onTemplateRendered",
                     "{that}.container",
                     "componentTemplate",
                     "{templateLoader}.resources.componentTemplate.resourceText",
-                    "{that}.templateStrings",
+                    "{that}.options.templateStrings",
                     "{that}.templateRenderer"]
             }
         }
@@ -132,7 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         templateName, templateContent, termsCollection, renderer) {
         renderer.templates.partials.componentTemplate = templateContent;
 
-        var resolvedTerms = sjrk.storyTelling.templatedComponent.resolveTerms(termsCollection);
+        var resolvedTerms = sjrk.storyTelling.templateManager.resolveTerms(termsCollection);
         var renderedTemplate = renderer.render(templateName, resolvedTerms);
 
         container.html(renderedTemplate);
