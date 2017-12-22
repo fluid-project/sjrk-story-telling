@@ -15,21 +15,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.testTemplateManager", {
         gradeNames: ["sjrk.storyTelling.templateManager"],
-        components: {
-            templateLoader: {
-                options: {
-                    resources: {
-                        componentTemplate: "../html/templates/testTemplate.handlebars"
-                    }
-                }
-            },
-            messageLoader: {
-                options: {
-                    resources: {
-                        componentMessages: "../json/messages/testLocalizationMessages.json"
-                    }
-                }
-            }
+        templateConfig: {
+            templatePath: "../html/templates/testTemplate.handlebars",
+            messagesPath: "../json/messages/testLocalizationMessages.json"
         },
         templateStrings: {
             testClasses: "replacement-Value"
