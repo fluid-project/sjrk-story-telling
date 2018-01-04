@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             interfaceLanguage: null
         },
         distributeOptions: {
-            source: "{that}.options.interfaceConfig.templateLanguage",
+            source: "{that}.options.interfaceConfig.interfaceLanguage",
             target: "{that templateManager}.options.templateConfig.locale"
         },
         // TODO: at some point, css values will be hardcoded in the template(s)
