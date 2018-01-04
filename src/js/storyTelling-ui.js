@@ -36,16 +36,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
             storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)"
         },
-        selectors: {
-            storyTitle: ".sjrkc-storyTelling-storyTitle",
-            storyAuthor: ".sjrkc-storyTelling-storyAuthor",
-            storyContent: ".sjrkc-storyTelling-storyContent",
-            storySummary: ".sjrkc-storyTelling-storySummary",
-            storyLanguage: ".sjrkc-storyTelling-storyLanguage",
-            storyTags: ".sjrkc-storyTelling-storyTags",
-            storyListenTo: ".sjrkc-storyTelling-storyListenTo",
-            storyCategories: ".sjrkc-storyTelling-storyCategories"
-        },
         invokers: {
             // Invoker used to create a control and style class for
             // insertion into the template; configured using the
@@ -59,33 +49,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{arguments}.0"]
             }
         },
-        // Specified by using grade to bind form markup to component model;
-        // see https://github.com/GPII/gpii-binder
-        bindings: {},
         events: {
-            onReadyToBind: null,
-            onBindingApplied: null
-        },
-        // TODO: what about UI's that don't need binding? unnecessary execution
-        // Split the binder out into a mixin grade
-        listeners: {
-            "onReadyToBind.applyBinding": {
-                funcName: "gpii.binder.applyBinding",
-                args: "{that}.binder"
-            },
-            "onReadyToBind.fireOnBindingApplied": {
-                func: "{that}.events.onBindingApplied.fire",
-                priority: "after:applyBinding"
-            },
-            "onReadyToBind.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"]
-            },
-            "onReadyToBind.fireOnControlsBound": {
-                "func": "{that}.events.onControlsBound.fire",
-                "priority": "last"
-            }
+            onReadyToBind: null
         },
         components: {
             templateManager: {
@@ -101,9 +66,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             story: {
                 type: "sjrk.storyTelling.story"
-            },
-            binder: {
-                type: "gpii.binder"
             }
         }
     });
