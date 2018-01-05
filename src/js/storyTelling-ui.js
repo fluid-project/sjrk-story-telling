@@ -55,6 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             templateManager: {
                 type: "sjrk.storyTelling.templateManager",
+                container: "{ui}.container",
                 options: {
                     listeners: {
                         "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
@@ -65,7 +66,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             story: {
-                type: "sjrk.storyTelling.story"
+                type: "sjrk.storyTelling.story.base"
             }
         }
     });
