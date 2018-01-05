@@ -138,7 +138,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
-        var mergedEndpoint = $.extend({}, fluid.get(component, path), JSON.parse(componentMessages));
+        var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
         fluid.set(component, path, mergedEndpoint);
     };
 
