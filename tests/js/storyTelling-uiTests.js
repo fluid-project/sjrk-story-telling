@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk, jqUnit */
 
 (function ($, fluid) {
 
@@ -15,6 +15,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.testUi", {
         gradeNames: ["sjrk.storyTelling.ui"],
+        interfaceConfig: {
+            classPrefix: "test"
+        },
         components: {
             templateManager: {
                 options: {
@@ -35,15 +38,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modules: [{
             name: "Test UI.",
             tests: [{
-                name: "Test UI",
+                name: "Test invoker version of getClasses",
                 expect: 1,
                 sequence: [{
-                    func: "jqUnit.assert",
-                    args: ["An empty test has been run"]
+                    funcName: "sjrk.storyTelling.uiTester.testGetClasses",
+                    args: ["{ui}"]
+                }]
+            },
+            {
+                name: "Test invoker version of getLabelId",
+                expect: 2,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.uiTest.testGetLabelId",
+                    args: ["test"]
                 }]
             }]
         }]
     });
+
+    sjrk.storyTelling.uiTester.testGetClasses = function (component) {
+        var suffix = "testFunction";
+        var classes = component.getClasses(suffix);
+        var expectedClasses = "testc-testFunction test-testFunction";
+
+        jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
+    };
 
     fluid.defaults("sjrk.storyTelling.uiTest", {
         gradeNames: ["fluid.test.testEnvironment"],
@@ -57,6 +76,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    jqUnit.test("Test getClasses function", function () {
+        jqUnit.expect(1);
+
+        var classes = sjrk.storyTelling.ui.getClasses("test", "testFunction");
+
+        jqUnit.assertEquals("Generated classes are expected value", "testc-testFunction test-testFunction", classes);
+    });
+
+    jqUnit.test("Test getLabelId function", function () {
+        jqUnit.expect(2);
+
+        var prefix = "test";
+
+        sjrk.storyTelling.uiTest.testGetLabelId(prefix);
+    });
+
+    sjrk.storyTelling.uiTest.testGetLabelId = function (prefix) {
+        var label1 = sjrk.storyTelling.ui.getLabelId(prefix);
+        var label2 = sjrk.storyTelling.ui.getLabelId(prefix);
+
+        jqUnit.assertNotEquals("Two generated labels are not identical", label1, label2);
+
+        jqUnit.assertEquals("Generated label begins with prefix and dash", 0, label1.indexOf(prefix + "-"));
+    };
 
     $(document).ready(function () {
         fluid.test.runTests([
