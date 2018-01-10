@@ -60,7 +60,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.editor",
                 options: {
                     interfaceConfig: {
-                        interfaceLanguage: "{uiManager}.uiLanguage"
+                        interfaceLanguage: "{uiManager templateManager}.options.templateConfig.locale"
                     }
                 }
             },
@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.previewer",
                 options: {
                     interfaceConfig: {
-                        interfaceLanguage: "{uiManager}.uiLanguage"
+                        interfaceLanguage: "{uiManager templateManager}.options.templateConfig.locale"
                     }
                 }
             }

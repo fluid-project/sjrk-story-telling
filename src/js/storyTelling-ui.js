@@ -19,12 +19,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         interfaceConfig: {
             // Used to supply both control and style classes
             // by the getClasses invoker
-            classPrefix: "sjrk",
-            interfaceLanguage: null
+            classPrefix: "sjrk"
         },
-        distributeOptions: {
-            source: "{that}.options.interfaceConfig.interfaceLanguage",
-            target: "{that templateManager}.options.templateConfig.locale"
+        // common selectors for all UI's
+        selectors: {
+            storyTitle: ".sjrkc-storyTelling-storyTitle",
+            storyAuthor: ".sjrkc-storyTelling-storyAuthor",
+            storyContent: ".sjrkc-storyTelling-storyContent",
+            storySummary: ".sjrkc-storyTelling-storySummary",
+            storyLanguage: ".sjrkc-storyTelling-storyLanguage",
+            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
+            storyCategories: ".sjrkc-storyTelling-storyCategories",
+            storyTags: ".sjrkc-storyTelling-storyTags"
         },
         // TODO: at some point, css values will be hardcoded in the template(s)
         interfaceControlStrings: {
@@ -62,7 +68,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyMessages.json"
-                    }
+                    },
+                    templateStrings: "{ui}.options.interfaceControlStrings"
                 }
             },
             story: {

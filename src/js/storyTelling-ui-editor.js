@@ -58,11 +58,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
             },
-            "onReadyToBind.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"]
-            },
+            // TODO: move storySpeaker listener to uiManager grade
+            // "onReadyToBind.bindListenToControl": {
+            //     "this": "{that}.dom.storyListenTo",
+            //     "method": "click",
+            //     "args": ["{that}.events.onStoryListenToRequested.fire"]
+            // },
             "onReadyToBind.bindEditorNextControl": {
                 "this": "{that}.dom.storyEditorNext",
                 "method": "click",
@@ -84,21 +85,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             binder: {
                 type: "sjrk.storyTelling.binder",
-                events: {
-                    onUiReadyToBind: "{ui}.events.onReadyToBind"
-                },
+                container: "{ui}.container",
                 options: {
                     model: "{story}.model",
-                    selectors: {
-                        storyTitle: ".sjrkc-storyTelling-storyTitle",
-                        storyAuthor: ".sjrkc-storyTelling-storyAuthor",
-                        storyContent: ".sjrkc-storyTelling-storyContent",
-                        storySummary: ".sjrkc-storyTelling-storySummary",
-                        storyLanguage: ".sjrkc-storyTelling-storyLanguage",
-                        storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
-                        storyCategories: ".sjrkc-storyTelling-storyCategories",
-                        storyTags: ".sjrkc-storyTelling-storyTags"
-                    },
+                    selectors: "{ui}.options.selectors",
                     bindings: {
                         storyTitle: "title",
                         storyAuthor: "author",
@@ -138,12 +128,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 condition: {
                                     transform: {
                                         type: "fluid.transforms.binaryOp",
-                                        leftPath: "languageFromSelect",
+                                        left: "{that}.model.languageFromSelect",
                                         right: "other",
                                         operator: "==="
                                     }
                                 },
-                                true: undefined,
                                 false: ""
                             }
                         },
@@ -151,11 +140,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             target: "language",
                             singleTransform: {
                                 type: "fluid.transforms.condition",
-                                condition: "languageFromInput",
-                                true: "languageFromInput",
-                                false: "languageFromSelect"
+                                condition: "{that}.model.languageFromInput",
+                                true: "{that}.model.languageFromInput",
+                                false: "{that}.model.languageFromSelect"
                             }
                         }
+                    },
+                    events: {
+                        onUiReadyToBind: "{ui}.events.onReadyToBind"
                     }
                 }
             }
