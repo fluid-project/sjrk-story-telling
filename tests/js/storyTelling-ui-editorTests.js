@@ -38,7 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 sequence: [{
                     "event": "{editorTest binder}.events.onBindingApplied",
                     listener: "jqUnit.assert",
-                    args: ["onControlsBound event fired"]
+                    args: ["onBindingApplied event fired"]
                 },
                 {
                     "jQueryTrigger": "click",
