@@ -34,7 +34,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 2,
+                expect: 4,
                 sequence: [{
                     "event": "{editorTest binder}.events.onBindingApplied",
                     listener: "jqUnit.assert",
@@ -48,8 +48,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{editor}.events.onStorySubmitRequested",
                     listener: "jqUnit.assert",
                     args: "onStorySubmitRequested event fired."
+                },
                 // TODO: move storyListenTo tests to the uiManager test suite
-                // },
                 // {
                 //     "jQueryTrigger": "click",
                 //     "element": "{editor}.dom.storyListenTo"
@@ -58,6 +58,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 //     "event": "{editor}.events.onStoryListenToRequested",
                 //     listener: "jqUnit.assert",
                 //     args: "onStoryListenToRequested event fired."
+                // },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{editor}.dom.storyEditorNext"
+                },
+                {
+                    "event": "{editor}.events.onEditorNextRequested",
+                    listener: "jqUnit.assert",
+                    args: "onEditorNextRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{editor}.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{editor}.events.onEditorPreviousRequested",
+                    listener: "jqUnit.assert",
+                    args: "onEditorPreviousRequested event fired."
                 }]
             },
             {
@@ -103,6 +121,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "jqUnit.assertNotEquals",
                     args: ["Model languageFromInput value not relayed to languageFromSelect field", "{editor}.story.model.languageFromInput", "{editor}.story.model.languageFromSelect"]
                 }]
+            },
+            {
+                name: "Test tags model relays",
+                expect: 2,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.ui.editorTester.testTagsRelays",
+                    args: ["{editor}", "storyTags", "{editor}.story", "tags"]
+                }]
             }]
         }]
     });
@@ -113,6 +139,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var expectedClasses = "testc-testFunction test-testFunction";
 
         jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
+    };
+
+    sjrk.storyTelling.ui.editorTester.testTagsRelays = function (component, selector, modelComponent, modelEndpoint) {
+        var domToModelInputTags = "testTag1, testTag2";
+        var domToModelExpectedValue = ["testTag1", "testTag2"];
+
+        sjrk.storyTelling.testUtils.changeFormElement(component, selector, domToModelInputTags);
+        var domToModelActualValue = modelComponent.model[modelEndpoint];
+
+        jqUnit.assertDeepEq("DOM to Model: Stored tags are equal to the expected value", domToModelExpectedValue, domToModelActualValue);
+
+        var modelToDomInputTags = ["testTag3", "testTag4"];
+        var modelToDomExpectedValue = "testTag3, testTag4";
+
+        modelComponent.applier.change(modelEndpoint, modelToDomInputTags);
+        var modelToDomActualValue = component.locate(selector).val();
+
+        jqUnit.assertEquals("Model to DOM: Displayed tags are equal to the expected value", modelToDomExpectedValue, modelToDomActualValue);
     };
 
     fluid.defaults("sjrk.storyTelling.ui.editorTest", {
