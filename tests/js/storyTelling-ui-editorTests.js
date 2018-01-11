@@ -123,11 +123,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test tags model relays",
-                expect: 2,
+                name: "Test tags model relay",
+                expect: 1,
                 sequence: [{
-                    funcName: "sjrk.storyTelling.ui.editorTester.testTagsRelays",
-                    args: ["{editor}", "storyTags", "{editor}.story", "tags"]
+                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{editor}", "storyTags", "testTag1, testTag2"]
+                },
+                {
+                    changeEvent: "{editor}.story.applier.modelChanged",
+                    path: "tags",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["DOM to Model: Stored tags are equal to the expected value", ["testTag1", "testTag2"], "{editor}.story.model.tags"]
                 }]
             }]
         }]
@@ -141,22 +147,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
     };
 
-    sjrk.storyTelling.ui.editorTester.testTagsRelays = function (component, selector, modelComponent, modelEndpoint) {
-        var domToModelInputTags = "testTag1, testTag2";
-        var domToModelExpectedValue = ["testTag1", "testTag2"];
-
-        sjrk.storyTelling.testUtils.changeFormElement(component, selector, domToModelInputTags);
-        var domToModelActualValue = modelComponent.model[modelEndpoint];
-
-        jqUnit.assertDeepEq("DOM to Model: Stored tags are equal to the expected value", domToModelExpectedValue, domToModelActualValue);
-
-        var modelToDomInputTags = ["testTag3", "testTag4"];
-        var modelToDomExpectedValue = "testTag3, testTag4";
-
-        modelComponent.applier.change(modelEndpoint, modelToDomInputTags);
-        var modelToDomActualValue = component.locate(selector).val();
-
-        jqUnit.assertEquals("Model to DOM: Displayed tags are equal to the expected value", modelToDomExpectedValue, modelToDomActualValue);
+    sjrk.storyTelling.ui.editorTester.makeTagsChecker = function (message, expectedValue, actualValue) {
+        return function () {
+            jqUnit.assertEquals(message, expectedValue, actualValue);
+        };
     };
 
     fluid.defaults("sjrk.storyTelling.ui.editorTest", {
