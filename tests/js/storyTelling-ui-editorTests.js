@@ -26,8 +26,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.setLogging(true);
-
     fluid.defaults("sjrk.storyTelling.ui.editorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -147,12 +145,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
     };
 
-    sjrk.storyTelling.ui.editorTester.makeTagsChecker = function (message, expectedValue, actualValue) {
-        return function () {
-            jqUnit.assertEquals(message, expectedValue, actualValue);
-        };
-    };
-
     fluid.defaults("sjrk.storyTelling.ui.editorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
@@ -166,15 +158,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    sjrk.storyTelling.ui.editorTest.testGetLabelId = function (prefix) {
-        var label1 = sjrk.storyTelling.ui.editor.getLabelId(prefix);
-        var label2 = sjrk.storyTelling.ui.editor.getLabelId(prefix);
-
-        jqUnit.assertNotEquals("Two generated labels are not identical", label1, label2);
-
-        jqUnit.assertEquals("Generated label begins with prefix and dash", 0, label1.indexOf(prefix + "-"));
-    };
 
     $(document).ready(function () {
         fluid.test.runTests([
