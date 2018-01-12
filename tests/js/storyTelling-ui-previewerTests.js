@@ -22,6 +22,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         resourcePrefix: "../.."
                     }
                 }
+            },
+            story: {
+                options: {
+                    model: {
+                        title: "Test title",
+                        content: "Some content",
+                        author: "Author",
+                        tags: ["tag1","tag2","tag3"]
+                    }
+                }
             }
         }
     });
@@ -55,6 +65,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{previewer}.events.onViewerPreviousRequested",
                     listener: "jqUnit.assert",
                     args: "onViewerPreviousRequested event fired."
+                }]
+            },
+            {
+                name: "Test language name resolution",
+                expect: 1,
+                sequence: [{
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Language name initial state is blank, as expected", "{previewer}.story.model.language", ""]
                 }]
             }]
         }]

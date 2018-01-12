@@ -49,9 +49,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 excludeSource: "init"
             },
             singleTransform: {
-                // TODO: does this work?
                 type: "sjrk.storyTelling.transforms.valueOrIndex",
-                source: "{that}.options.interfaceLocalizationStrings.availableLanguages",
+                source: "{that}.templateManager.options.templateStrings.availableLanguages",
                 index: "{that}.model.language"
             }
         },
