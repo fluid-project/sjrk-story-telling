@@ -32,10 +32,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Previewer UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 1,
+                expect: 3,
                 sequence: [{
-                    funcName: "jqUnit.assert",
-                    args: ["There are currently no tests."]
+                    "event": "{previewerTest previewer}.events.onReadyToBind",
+                    listener: "jqUnit.assert",
+                    args: ["onReadyToBind event fired"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{previewer}.dom.storySaveNoShare"
+                },
+                {
+                    "event": "{previewer}.events.onSaveNoShareRequested",
+                    listener: "jqUnit.assert",
+                    args: "onSaveNoShareRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{previewer}.dom.storyViewerPrevious"
+                },
+                {
+                    "event": "{previewer}.events.onViewerPreviousRequested",
+                    listener: "jqUnit.assert",
+                    args: "onViewerPreviousRequested event fired."
                 }]
             }]
         }]
