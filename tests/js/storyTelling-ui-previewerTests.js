@@ -69,10 +69,40 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test language name resolution",
-                expect: 1,
+                expect: 4,
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
-                    args: ["Language name initial state is blank, as expected", "{previewer}.story.model.language", ""]
+                    args: ["Language name initial state is blank, as expected", "{previewer}.story.model.languageName", ""]
+                },
+                {
+                    func: "{previewer}.story.applier.change",
+                    args: ["language", "fa"]
+                },
+                {
+                    changeEvent: "{previewer}.story.applier.modelChanged",
+                    path: "language",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Language name has been resolved to expected existing value", "Farsi", "{previewer}.story.model.languageName"]
+                },
+                {
+                    func: "{previewer}.story.applier.change",
+                    args: ["language", "fr-CA"]
+                },
+                {
+                    changeEvent: "{previewer}.story.applier.modelChanged",
+                    path: "language",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Language name has been resolved to another expected existing value", "French (Canada)", "{previewer}.story.model.languageName"]
+                },
+                {
+                    func: "{previewer}.story.applier.change",
+                    args: ["language", "zh"]
+                },
+                {
+                    changeEvent: "{previewer}.story.applier.modelChanged",
+                    path: "language",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Language name has not been resolved to an existing value, as expected", "zh", "{previewer}.story.model.languageName"]
                 }]
             }]
         }]

@@ -66,10 +66,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "fluid.resourceLoader",
                 options: {
                     resources: {
-                        // The handlebars template file
+                        // The template file (handlebars)
                         componentTemplate: "{templateManager}.options.templateConfig.templatePath"
                     },
-                    // This should be being handled by options distribution
                     terms: {
                         resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
                     },

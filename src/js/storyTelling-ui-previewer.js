@@ -43,25 +43,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "args": ["{that}.events.onViewerPreviousRequested.fire"]
             }
         },
-        modelRelay: {
-            target: "languageName",
-            forward: {
-                excludeSource: "init"
-            },
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.valueOrIndex",
-                source: "{that}.templateManager.options.templateStrings.availableLanguages",
-                index: "{that}.model.language"
-            }
-        },
-        model: {
-            languageName: ""
-        },
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
                         templatePath: "%resourcePrefix/src/templates/storyView.handlebars"
+                    }
+                }
+            },
+            story: {
+                options: {
+                    model: {
+                        languageName: ""
+                    },
+                    modelRelay: {
+                        target: "{that}.model.languageName",
+                        forward: {
+                            excludeSource: "init"
+                        },
+                        singleTransform: {
+                            type: "sjrk.storyTelling.transforms.valueOrIndex",
+                            input: "{story}.model.language",
+                            component: "{templateManager}",
+                            path: "options.templateStrings.availableLanguages",
+                            index: "{story}.model.language"
+                        }
                     }
                 }
             }
