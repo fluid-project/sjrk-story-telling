@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             testClasses: "replacement-Value"
         },
         selectors: {
-            testMessage: ".sjrkc-testTemplatedComponentWithLocalization-testMessage"
+            testMessage: ".sjrkc-testTemplateManager-testMessage"
         }
     });
 
@@ -97,6 +97,109 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
     });
+
+    // Abstract, see implementations below
+    fluid.defaults("sjrk.storyTelling.templateManagerTesterBase", {
+        gradeNames: ["fluid.test.testCaseHolder"],
+        // TODO: need to have a better sense of how to:
+        // - handle potential multilingual input (non-Latin character sets)
+        // - test multilingual input
+        // - store them - HTML entities, unicode, etc?
+        // Issues encountered already:
+        // - encoding between platforms (local vs server)
+        // - testability of multilingual strings when rendering
+        // message bundles to DOM
+        // Set by implementing tester grade
+        // expectedMessage: ""
+        modules: [{
+            name: "Test template manager localization.",
+            tests: [{
+                name: "Test locale translation",
+                expect: 1,
+                sequence: [{
+                    "event": "{templateManager}.events.onTemplateRendered",
+                    listener: "sjrk.storyTelling.templateManagerTesterBase.testLocalization",
+                    args: ["{templateManager}", "testMessage", "{that}.options.expectedMessage"]
+                }]
+            }]
+        }]
+    });
+
+    sjrk.storyTelling.templateManagerTesterBase.testLocalization = function (component, selector, expected) {
+        var text = component.locate(selector).text().trim();
+        jqUnit.assertEquals("Selector text matches expected value", expected, text);
+    };
+
+    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest = function (languageCode, expected) {
+        fluid.defaults("sjrk.storyTelling.templateManagerTester." + languageCode, {
+            gradeNames: ["sjrk.storyTelling.templateManagerTesterBase"],
+            expectedMessage: expected,
+            modules: [{
+                name: "Test templated component with localization (" + languageCode + ")"
+            }]
+        });
+    };
+
+    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("en", "Hello, world!");
+
+    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("fr", "Bonjour le monde!");
+
+    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
+
+    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("chef", "bork bork bork!");
+
+    // Abstract, see factory function below for generating usable
+    // test environment grades
+    fluid.defaults("sjrk.storyTelling.templateManagerTestBase", {
+        gradeNames: ["fluid.test.testEnvironment"],
+        components: {
+            templateManager: {
+                type: "sjrk.storyTelling.testTemplateManager",
+                // Set by implementing test environment grade
+                // container: "#testTemplateManager",
+                createOnEvent: "{templateManagerTesterLocalized}.events.onTestCaseStart"//,
+                // options: {
+                //     components: {
+                //         messageLoader: {
+                //             options: {
+                //                 // locale: "en"
+                //             }
+                //         }
+                //         // templateManagerTester: {
+                //         //
+                //         // }
+                //     }
+                // }
+            }
+        }
+    });
+
+    sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment = function (languageCode) {
+        fluid.defaults("sjrk.storyTelling.templateManagerTest." + languageCode, {
+            gradeNames: ["sjrk.storyTelling.templateManagerTestBase"],
+            components: {
+                templateManager: {
+                    container: "#testTemplateManager_" + languageCode,
+                    options: {
+                        templateConfig: {
+                            locale: languageCode
+                        }
+                    }
+                },
+                templateManagerTesterLocalized: {
+                    type: "sjrk.storyTelling.templateManagerTester." + languageCode
+                }
+            }
+        });
+    };
+
+    sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("en");
+
+    sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("fr");
+
+    sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("es");
+
+    sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("chef");
 
     $(document).ready(function () {
         fluid.test.runTests([
