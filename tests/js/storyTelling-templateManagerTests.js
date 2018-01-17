@@ -117,17 +117,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test locale translation",
                 expect: 1,
                 sequence: [{
-                    "event": "{templateManager}.events.onTemplateRendered",
+                    "event": "{templateManagerTestBase templateManagerLocalized}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTesterBase.testLocalization",
-                    args: ["{templateManager}", "testMessage", "{that}.options.expectedMessage"]
+                    args: ["{templateManagerLocalized}", "testMessage", "{that}.options.expectedMessage"]
                 }]
             }]
         }]
     });
 
     sjrk.storyTelling.templateManagerTesterBase.testLocalization = function (component, selector, expected) {
-        var text = component.locate(selector).text().trim();
-        jqUnit.assertEquals("Selector text matches expected value", expected, text);
+        var actual = component.locate(selector).text().trim();
+        jqUnit.assertEquals("Selector text matches expected value", expected, actual);
     };
 
     sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest = function (languageCode, expected) {
@@ -140,12 +140,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
+    // TODO: Consider adding further languages that have differing
+    //       character sets or right-to-left scripts
     sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("en", "Hello, world!");
-
     sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("fr", "Bonjour le monde!");
-
     sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
-
     sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("chef", "bork bork bork!");
 
     // Abstract, see factory function below for generating usable
@@ -153,23 +152,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.templateManagerTestBase", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            templateManager: {
+            templateManagerLocalized: {
                 type: "sjrk.storyTelling.testTemplateManager",
                 // Set by implementing test environment grade
                 // container: "#testTemplateManager",
-                createOnEvent: "{templateManagerTesterLocalized}.events.onTestCaseStart"//,
-                // options: {
-                //     components: {
-                //         messageLoader: {
-                //             options: {
-                //                 // locale: "en"
-                //             }
-                //         }
-                //         // templateManagerTester: {
-                //         //
-                //         // }
-                //     }
-                // }
+                createOnEvent: "{templateManagerTesterLocalized}.events.onTestCaseStart",
+                options: {
+                    selectors: {
+                        testMessage: ".replacement-Value"
+                    }
+                }
             }
         }
     });
@@ -178,7 +170,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.defaults("sjrk.storyTelling.templateManagerTest." + languageCode, {
             gradeNames: ["sjrk.storyTelling.templateManagerTestBase"],
             components: {
-                templateManager: {
+                templateManagerLocalized: {
                     container: "#testTemplateManager_" + languageCode,
                     options: {
                         templateConfig: {
@@ -194,16 +186,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("en");
-
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("fr");
-
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("es");
-
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("chef");
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.templateManagerTest"
+            "sjrk.storyTelling.templateManagerTest",
+            "sjrk.storyTelling.templateManagerTest.en",
+            "sjrk.storyTelling.templateManagerTest.fr",
+            "sjrk.storyTelling.templateManagerTest.es",
+            "sjrk.storyTelling.templateManagerTest.chef"
         ]);
     });
 
