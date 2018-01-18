@@ -12,20 +12,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 var fluid = require("infusion");
 var sjrk = fluid.registerNamespace("sjrk");
 require("kettle");
-
-fluid.defaults("sjrk.storyTelling.server.mountedNodeModules", {
-    gradeNames: ["sjrk.storyTelling.server.nodeModuleMounter"],
-    nodeModulesToMount: [
-        "infusion",
-        "gpii-binder",
-        "sjrk-story-telling",
-        "handlebars",
-        "pagedown",
-        "gpii-handlebars"],
-});
+//
+// fluid.defaults("sjrk.storyTelling.server.mountedNodeModules", {
+//     gradeNames: ["sjrk.storyTelling.server.nodeModuleMounter"],
+//     nodeModulesToMount: [
+//         "infusion",
+//         "gpii-binder",
+//         "sjrk-story-telling",
+//         "handlebars",
+//         "pagedown",
+//         "gpii-handlebars"],
+// });
 
 fluid.defaults("sjrk.storyTelling.server", {
-    gradeNames: ["fluid.component", "sjrk.storyTelling.server.mountedNodeModules"],
+    gradeNames: ["fluid.component"],
     components: {
         server: {
             type: "kettle.server",
@@ -37,6 +37,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
+                    },
+                    nodeModulesFilter: {
+                        type: "sjrk.storyTelling.server.staticMiddlewareFilter"
+                    },
+                    nodeModules: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./node_modules"
+                        }
                     },
                     ui: {
                         type: "kettle.middleware.static",
@@ -67,6 +76,12 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/story/",
             "method": "post"
+        },
+        nodeModulesHandler: {
+            type: "sjrk.storyTelling.server.nodeModulesHandler",
+            "route": "/*",
+            "method": "get",
+            "prefix": "/node_modules"
         },
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
