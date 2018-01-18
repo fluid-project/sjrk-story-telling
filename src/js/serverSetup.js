@@ -15,7 +15,8 @@ require("kettle");
 
 fluid.defaults("sjrk.storyTelling.server.mountedNodeModules", {
     gradeNames: ["sjrk.storyTelling.server.nodeModuleMounter"],
-    nodeModulesToMount: ["infusion",
+    nodeModulesToMount: [
+        "infusion",
         "gpii-binder",
         "sjrk-story-telling",
         "handlebars",
