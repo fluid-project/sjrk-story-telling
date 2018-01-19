@@ -53,11 +53,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story user interface",
             tests: [{
                 name: "Test editor and viewer model binding and updating",
-                expect: 4,
+                expect: 8,
                 sequence: [{
+                    "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
-                    "args": "onAllUiComponentsReady event fired.",
-                    "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady"
+                    "args": "onAllUiComponentsReady event fired."
                 },
                 {
                     func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
@@ -65,68 +65,91 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         ["{uiManager}.editor.dom.storyEditorPage2", "{uiManager}.previewer.dom.storyPreviewer"],
                         ["{uiManager}.editor.dom.storyEditorPage1"]
                     ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.editor.dom.storyEditorNext"
+                },
+                {
+                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "args": [
+                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.dom.storyPreviewer"],
+                        ["{uiManager}.editor.dom.storyEditorPage2"]
+                    ]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{uiManager}.editor","storyTitle","Initial test title"]
+                },
+                {
+                    changeEvent: "{uiManager}.editor.story.applier.modelChanged",
+                    path: "title",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Viewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.editor.dom.storySubmit"
                 // },
                 // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.storyEditor.dom.storyEditorNext"
-                // },
-                // {
-                //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     "args": ["{uiManager}","storyEditorPage2"],
-                //     "event": "{uiManager}.events.onVisibilityChanged"
-                // },
-                // {
-                //     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                //     args: ["{uiManager}.storyEditor","storyTitle","Initial test title"]
-                // },
-                // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.storyEditor.dom.storySubmit"
-                // },
-                // {
-                //     "event": "{uiManager}.events.onStorySubmitRequestedFromEditorNoView",
+                //     "event": "{uiManager}.events.onStorySubmitRequestedFromEditor",
                 //     listener: "jqUnit.assert",
                 //     args: ["onStorySubmitRequestedFromEditorNoView event fired"]
                 // },
                 // {
-                //     "event": "{uiManager}.events.onStoryViewerReady",
-                //     listener: "jqUnit.assert",
-                //     args: ["onStoryViewerReady event fired"]
+                //     func: "fluid.identity"
                 // },
                 // {
-                //     func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     args: ["{uiManager}","storyViewer"]
+                //     "event": "{uiManager}.events.onVisibilityChanged",
+                //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                //     "args": [
+                //         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
+                //         ["{uiManager}.previewer.dom.storyPreviewer"]
+                //     ]
                 // },
                 // {
                 //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.storyViewer.dom.storyViewerPrevious"
+                //     "element": "{uiManager}.previewer.dom.storyViewerPrevious"
                 // },
                 // {
+                //     "event": "{uiManager}.events.onVisibilityChanged",
                 //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     "args": ["{uiManager}","storyEditorPage2"],
-                //     "event": "{uiManager}.events.onVisibilityChanged"
-                // },
-                // {
-                //     func: "jqUnit.assertEquals",
-                //     args: ["Viewer model updated","{uiManager}.storyEditor.model.title","{uiManager}.storyViewer.model.title"]
+                //     "args": [
+                //         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.dom.storyPreviewer"],
+                //         ["{uiManager}.editor.dom.storyEditorPage2"]
+                //     ]
                 // },
                 // {
                 //     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                //     args: ["{uiManager}.storyEditor","storyTitle","New test title"]
+                //     args: ["{uiManager}.editor","storyTitle","New test title"]
                 // },
                 // {
+                //     changeEvent: "{uiManager}.editor.story.applier.modelChanged",
+                //     path: "title",
                 //     func: "jqUnit.assertEquals",
-                //     args: ["Viewer model updated","{uiManager}.storyEditor.model.title","{uiManager}.storyViewer.model.title"]
+                //     args: ["Viewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
                 // },
                 // {
                 //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.storyEditor.dom.storySubmit"
+                //     "element": "{uiManager}.editor.dom.storySubmit"
                 // },
                 // {
                 //     "event":
-                //     "{uiManager}.events.onStorySubmitRequestedFromEditorViewExists",
+                //     "{uiManager}.events.onStorySubmitRequestedFromEditor",
                 //     listener: "jqUnit.assert",
-                //     args: "onStorySubmitRequestedFromEditorViewExists event fired."
+                //     args: "onStorySubmitRequestedFromEditor event fired."
+                // },
+                // {
+                //     func: "fluid.identity"
+                // },
+                // {
+                //     "event": "{uiManager}.events.onVisibilityChanged",
+                //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                //     "args": [
+                //         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
+                //         ["{uiManager}.previewer.dom.storyPreviewer"]
+                //     ]
                 }]
             }]
         }]
@@ -150,13 +173,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.each(expectedHidden, function (el) {
             var expectedDisplay = "none";
             var actualDisplay = el.css("display");
-            jqUnit.assertEquals("The element " + el.id + " matches expected display value", expectedDisplay, actualDisplay);
+            jqUnit.assertEquals("The element " + el.selectorName + " is hidden", expectedDisplay, actualDisplay);
         });
 
         fluid.each(expectedVisible, function (el) {
             var expectedDisplay = "block";
             var actualDisplay = el.css("display");
-            jqUnit.assertEquals("The element " + el.id + " matches expected display value", expectedDisplay, actualDisplay);
+            jqUnit.assertEquals("The element " + el.selectorName + " is showing", expectedDisplay, actualDisplay);
         });
     };
 

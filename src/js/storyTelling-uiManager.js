@@ -22,8 +22,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onStoryListenToRequested: null,
-            onStorySubmitRequestedFromEditorNoView: null,
-            onStorySubmitRequestedFromEditorViewExists: null,
+            onStorySubmitRequestedFromEditor: null,
             onAllUiComponentsReady: {
                 events: {
                     onEditorReady: "onEditorReady",
@@ -80,7 +79,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onControlsBound.escalate": {
                             func: "{uiManager}.events.onEditorReady.fire"
                         },
-                        "onEditorNextRequested": {
+                        "onEditorNextRequested.manageVisibility": {
                             funcName: "sjrk.storyTelling.uiManager.manageVisibility",
                             args: [
                                 ["{that}.dom.storyEditorPage1", "{previewer}.dom.storyPreviewer"],
@@ -88,7 +87,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 "{uiManager}.events.onVisibilityChanged"
                             ]
                         },
-                        "onEditorPreviousRequested": {
+                        "onEditorPreviousRequested.manageVisibility": {
                             funcName: "sjrk.storyTelling.uiManager.manageVisibility",
                             args: [
                                 ["{that}.dom.storyEditorPage2", "{previewer}.dom.storyPreviewer"],
@@ -96,13 +95,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 "{uiManager}.events.onVisibilityChanged"
                             ]
                         },
-                        "onStorySubmitRequested": {
+                        "onStorySubmitRequested.manageVisibility": {
                             funcName: "sjrk.storyTelling.uiManager.manageVisibility",
                             args: [
                                 ["{that}.dom.storyEditorPage1", "{that}.dom.storyEditorPage2"],
                                 ["{previewer}.dom.storyPreviewer"],
                                 "{uiManager}.events.onVisibilityChanged"
                             ]
+                        },
+                        "onStorySubmitRequested.escalate": {
+                            func: "{uiManager}.events.onStorySubmitRequestedFromEditor.fire",
+                            priority: "after:manageVisibility"
                         }
                     },
                     components: {
@@ -136,6 +139,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 ["{editor}.dom.storyEditorPage2"],
                                 "{uiManager}.events.onVisibilityChanged"
                             ]
+                        // },
+                        // "{uiManager}.events.onStorySubmitRequestedFromEditor": {
+                        //     func: "{that}.templateManager.renderTemplateOnSelf"
                         }
                     },
                     components: {
@@ -144,6 +150,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 templateConfig: {
                                     locale: "{uiManager}.model.uiLanguage"
                                 }
+                            }
+                        },
+                        story: {
+                            options: {
+                                model: "{editor}.story.model"
                             }
                         }
                     }
