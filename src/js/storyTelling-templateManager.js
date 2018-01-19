@@ -106,10 +106,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *            they will be passed through the resolveTerms function to
      *            resolve and substitute references to dynamic values in other terms
      * - "renderer": the gpii-handlebars client-side renderer component
+     * TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     */
     sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
         templateName, templateContent, termsCollection, renderer) {
-        renderer.templates.partials.componentTemplate = templateContent;
+        renderer.templates.partials[templateName] = templateContent;
 
         var resolvedTerms = sjrk.storyTelling.templateManager.resolveTerms(termsCollection);
         var renderedTemplate = renderer.render(templateName, resolvedTerms);
