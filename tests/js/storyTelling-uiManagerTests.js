@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story user interface",
             tests: [{
                 name: "Test editor and viewer model binding and updating",
-                expect: 8,
+                expect: 9,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -91,11 +91,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "jQueryTrigger": "click",
                     "element": "{uiManager}.editor.dom.storySubmit"
-                // },
-                // {
-                //     "event": "{uiManager}.events.onStorySubmitRequestedFromEditor",
-                //     listener: "jqUnit.assert",
-                //     args: ["onStorySubmitRequestedFromEditorNoView event fired"]
+                },
+                {
+                    "event": "{uiManager}.events.onStorySubmitRequestedFromEditor",
+                    listener: "jqUnit.assert",
+                    args: ["onStorySubmitRequestedFromEditorNoView event fired"]
                 // },
                 // {
                 //     func: "fluid.identity"
