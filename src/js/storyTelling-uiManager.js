@@ -26,7 +26,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             storySpeaker: {
                 type: "fluid.textToSpeech",
-                createOnEvent: "{ui}.events.onAllResourcesLoaded",
+                // TODO: develop a way to generalize for all ui's? {ui} fails
+                createOnEvent: "{editor}.events.onReadyToBind",
                 options: {
                     model:{
                         ttsText: null
@@ -58,18 +59,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             editor: {
                 type: "sjrk.storyTelling.ui.editor",
+                // TODO: Add proper container selector
+                // container: "#testEditor",
                 options: {
-                    interfaceConfig: {
-                        interfaceLanguage: "{uiManager templateManager}.options.templateConfig.locale"
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    locale: "{uiManager}.model.uiLanguage"
+                                }
+                            }
+                        }
                     }
                 }
             },
             // TODO: consider rolling the previewer context into the editor
             previewer: {
                 type: "sjrk.storyTelling.ui.previewer",
+                // TODO: Add proper container selector
+                // container: "#testEditor",
                 options: {
-                    interfaceConfig: {
-                        interfaceLanguage: "{uiManager templateManager}.options.templateConfig.locale"
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    locale: "{uiManager}.model.uiLanguage"
+                                }
+                            }
+                        }
                     }
                 }
             }
