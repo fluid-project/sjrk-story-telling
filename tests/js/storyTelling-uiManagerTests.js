@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story user interface",
             tests: [{
                 name: "Test editor and viewer model binding and updating",
-                expect: 9,
+                expect: 16,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -92,53 +92,53 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "jQueryTrigger": "click",
                     "element": "{uiManager}.editor.dom.storySubmit"
                 },
-                {
-                    "event": "{uiManager}.events.onStorySubmitRequestedFromEditor",
-                    listener: "jqUnit.assert",
-                    args: ["onStorySubmitRequestedFromEditorNoView event fired"]
+                // {
+                //     "event": "{uiManager}.events.onStorySubmitRequestedFromEditor",
+                //     listener: "jqUnit.assert",
+                //     args: ["onStorySubmitRequestedFromEditorNoView event fired"]
                 // },
                 // {
                 //     func: "fluid.identity"
                 // },
-                // {
-                //     "event": "{uiManager}.events.onVisibilityChanged",
-                //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     "args": [
-                //         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
-                //         ["{uiManager}.previewer.dom.storyPreviewer"]
-                //     ]
-                // },
-                // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.previewer.dom.storyViewerPrevious"
-                // },
-                // {
-                //     "event": "{uiManager}.events.onVisibilityChanged",
-                //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     "args": [
-                //         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.dom.storyPreviewer"],
-                //         ["{uiManager}.editor.dom.storyEditorPage2"]
-                //     ]
-                // },
-                // {
-                //     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                //     args: ["{uiManager}.editor","storyTitle","New test title"]
-                // },
-                // {
-                //     changeEvent: "{uiManager}.editor.story.applier.modelChanged",
-                //     path: "title",
-                //     func: "jqUnit.assertEquals",
-                //     args: ["Viewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
-                // },
-                // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.editor.dom.storySubmit"
-                // },
-                // {
-                //     "event":
-                //     "{uiManager}.events.onStorySubmitRequestedFromEditor",
-                //     listener: "jqUnit.assert",
-                //     args: "onStorySubmitRequestedFromEditor event fired."
+                {
+                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "args": [
+                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
+                        ["{uiManager}.previewer.dom.storyPreviewer"]
+                    ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.previewer.dom.storyViewerPrevious"
+                },
+                {
+                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "args": [
+                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.dom.storyPreviewer"],
+                        ["{uiManager}.editor.dom.storyEditorPage2"]
+                    ]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{uiManager}.editor","storyTitle","New test title"]
+                },
+                {
+                    changeEvent: "{uiManager}.editor.story.applier.modelChanged",
+                    path: "title",
+                    func: "jqUnit.assertEquals",
+                    args: ["Viewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.editor.dom.storySubmit"
+                },
+                {
+                    "event":
+                    "{uiManager}.events.onStorySubmitRequestedFromEditor",
+                    listener: "jqUnit.assert",
+                    args: "onStorySubmitRequestedFromEditor event fired."
                 // },
                 // {
                 //     func: "fluid.identity"
