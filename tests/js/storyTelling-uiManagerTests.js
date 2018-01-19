@@ -171,16 +171,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.uiManagerTester.checkPageVisibility = function (expectedHidden, expectedVisible) {
         fluid.each(expectedHidden, function (el) {
-            var expectedDisplay = "none";
-            var actualDisplay = el.css("display");
-            jqUnit.assertEquals("The element " + el.selectorName + " is hidden", expectedDisplay, actualDisplay);
+            sjrk.storyTelling.uiManagerTester.checkElementVisibility(el, "none");
         });
 
         fluid.each(expectedVisible, function (el) {
-            var expectedDisplay = "block";
-            var actualDisplay = el.css("display");
-            jqUnit.assertEquals("The element " + el.selectorName + " is showing", expectedDisplay, actualDisplay);
+            sjrk.storyTelling.uiManagerTester.checkElementVisibility(el, "block");
         });
+    };
+
+    sjrk.storyTelling.uiManagerTester.checkElementVisibility = function (element, expectedVisibility) {
+        jqUnit.assertEquals("The element " + element.selectorName + " is hidden", expectedVisibility, element.css("display"));
     };
 
     $(document).ready(function () {
