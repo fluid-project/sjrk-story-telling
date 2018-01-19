@@ -68,35 +68,8 @@ fluid.defaults("sjrk.storyTelling.server.nodeModulesHandler", {
             middleware: "{server}.nodeModulesFilter"
         },
         "static": {
-            middleware: "{server}.nodeModules"
+            middleware: "{server}.nodeModules",
+            priority: "after:staticFilter"
         }
     }
 });
-
-fluid.defaults("sjrk.storyTelling.server.staticMiddlewareFilter", {
-     gradeNames: "kettle.middleware",
-     invokers: {
-         handle: {
-             funcName: "sjrk.storyTelling.server.staticMiddlewareFilter.handle",
-             args: ["{request}", "{that}.options.allowedDirectories"]
-         }
-     },
-     allowedDirectories: [
-         "infusion",
-         "gpii-binder",
-         "sjrk-story-telling",
-         "handlebars",
-         "pagedown",
-         "gpii-handlebars"]
-});
-
-sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allowedDirectories) {
-    console.log(request.req.url);
-    // TODO: fix this!
-    var directory = request.req.url.split("/")[1];
-    console.log(directory);
-    console.log(allowedDirectories);
-    var togo = fluid.promise();
-    // compare
-    togo.resolve();
-};
