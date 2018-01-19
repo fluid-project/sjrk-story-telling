@@ -56,7 +56,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         events: {
-            onReadyToBind: null
+            onReadyToBind: null,
+            onControlsBound: null
+        },
+        listeners: {
+            "onReadyToBind.fireOnControlsBound": {
+                func: "{that}.events.onControlsBound.fire",
+                priority: "last"
+            }
         },
         components: {
             templateManager: {

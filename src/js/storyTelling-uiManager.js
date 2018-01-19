@@ -21,7 +21,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en"
         },
         events: {
-            onStoryListenToRequested: null
+            onStoryListenToRequested: null,
+            onStorySubmitRequestedFromEditorNoView: null,
+            onStorySubmitRequestedFromEditorViewExists: null,
+            onEditorReady: null,
+            onPreviewerReady: null,
+            onVisibilityChanged: null
         },
         components: {
             storySpeaker: {
@@ -30,21 +35,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{editor}.events.onReadyToBind",
                 options: {
                     model:{
-                        ttsText: null
+                        ttsText: null,
+                        utteranceOpts: {
+                            lang: "{editor}.story.model.language"
+                        }
                     },
                     modelRelay: {
-                        storyLanguageToSpeaker: {
-                            source: "{editor}.options.story.model.language",
-                            target: "{that}.model.utteranceOpts.lang"
-                        },
                         ttsTextFromStory: {
                             // TODO: figure out how to handle this and share it properly
                             // which instance of ui should be referenced?
                             target: "{that}.model.ttsText",
                             singleTransform: {
                                 type: "fluid.transforms.stringTemplate",
-                                template: "{ui templateManager}.templateStrings.message_readStoryText",
-                                terms: "{ui story}.model"
+                                template: "{editor}.templateManager.options.templateStrings.message_readStoryText",
+                                terms: "{editor}.story.model"
                             }
                         }
                     },
@@ -62,6 +66,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // TODO: Add proper container selector
                 // container: "#testEditor",
                 options: {
+                    listeners: {
+                        "onControlsBound.escalate": {
+                            func: "{uiManager}.events.onEditorReady.fire"
+                        }
+                    },
                     components: {
                         templateManager: {
                             options: {
@@ -79,6 +88,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // TODO: Add proper container selector
                 // container: "#testEditor",
                 options: {
+                    listeners: {
+                        "onControlsBound.escalate": {
+                            func: "{uiManager}.events.onPreviewerReady.fire"
+                        }
+                    },
                     components: {
                         templateManager: {
                             options: {

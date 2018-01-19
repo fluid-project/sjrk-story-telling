@@ -55,11 +55,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test editor and viewer model binding and updating",
                 expect: 1,//18,
                 sequence: [{
-                    func: "jqUnit.assert",
-                    args: ["There are no tests configured for this grade, yet"]
-                //     "listener": "jqUnit.assert",
-                //     "args": "onStoryEditorReady event fired.",
-                //     "event": "{uiManagerTest uiManager}.events.onStoryEditorReady"
+                    "listener": "jqUnit.assert",
+                    "args": "onStoryEditorReady event fired.",
+                    "event": "{uiManagerTest uiManager}.events.onEditorReady"
                 // },
                 // {
                 //     func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
