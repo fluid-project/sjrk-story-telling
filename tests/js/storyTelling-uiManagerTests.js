@@ -53,15 +53,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story user interface",
             tests: [{
                 name: "Test editor and viewer model binding and updating",
-                expect: 1,//18,
+                expect: 4,
                 sequence: [{
                     "listener": "jqUnit.assert",
-                    "args": "onStoryEditorReady event fired.",
-                    "event": "{uiManagerTest uiManager}.events.onEditorReady"
-                // },
-                // {
-                //     func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     args: ["{uiManager}","storyEditorPage1"]
+                    "args": "onAllUiComponentsReady event fired.",
+                    "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady"
+                },
+                {
+                    func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    args: [
+                        ["{uiManager}.editor.dom.storyEditorPage2", "{uiManager}.previewer.dom.storyPreviewer"],
+                        ["{uiManager}.editor.dom.storyEditorPage1"]
+                    ]
                 // },
                 // {
                 //     "jQueryTrigger": "click",
@@ -143,13 +146,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    var selectors = ["storyEditorPage1", "storyEditorPage2", "storyViewer"];
+    sjrk.storyTelling.uiManagerTester.checkPageVisibility = function (expectedHidden, expectedVisible) {
+        fluid.each(expectedHidden, function (el) {
+            var expectedDisplay = "none";
+            var actualDisplay = el.css("display");
+            jqUnit.assertEquals("The element " + el.id + " matches expected display value", expectedDisplay, actualDisplay);
+        });
 
-    sjrk.storyTelling.uiManagerTester.checkPageVisibility = function (component, expectedVisible) {
-        fluid.each(selectors, function (selector) {
-            var expectedDisplay = selector === expectedVisible ? "block" : "none";
-            var actualDisplay = component.locate(selector).css("display");
-            jqUnit.assertEquals("The element " + selector + " matches expected display value",expectedDisplay, actualDisplay);
+        fluid.each(expectedVisible, function (el) {
+            var expectedDisplay = "block";
+            var actualDisplay = el.css("display");
+            jqUnit.assertEquals("The element " + el.id + " matches expected display value", expectedDisplay, actualDisplay);
         });
     };
 
