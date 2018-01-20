@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story user interface",
             tests: [{
                 name: "Test editor and viewer model binding and updating",
-                expect: 16,
+                expect: 18,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -133,23 +133,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "jQueryTrigger": "click",
                     "element": "{uiManager}.editor.dom.storySubmit"
-                },
-                {
-                    "event":
-                    "{uiManager}.events.onStorySubmitRequestedFromEditor",
-                    listener: "jqUnit.assert",
-                    args: "onStorySubmitRequestedFromEditor event fired."
+                // },
+                // {
+                //     "event":
+                //     "{uiManager}.events.onStorySubmitRequestedFromEditor",
+                //     listener: "jqUnit.assert",
+                //     args: "onStorySubmitRequestedFromEditor event fired."
                 // },
                 // {
                 //     func: "fluid.identity"
-                // },
-                // {
-                //     "event": "{uiManager}.events.onVisibilityChanged",
-                //     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
-                //     "args": [
-                //         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
-                //         ["{uiManager}.previewer.dom.storyPreviewer"]
-                //     ]
+                },
+                {
+                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "args": [
+                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
+                        ["{uiManager}.previewer.dom.storyPreviewer"]
+                    ]
                 }]
             }]
         }]

@@ -33,6 +33,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onPreviewerReady: null,
             onVisibilityChanged: null
         },
+        listeners: {
+            "onStorySubmitRequestedFromEditor.renderPreviewer": {
+                func: "{that}.previewer.templateManager.renderTemplateOnSelf"
+            }
+        },
         components: {
             storySpeaker: {
                 type: "fluid.textToSpeech",
