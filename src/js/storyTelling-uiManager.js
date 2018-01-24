@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // and organizes the general interaction of the tool
     fluid.defaults("sjrk.storyTelling.uiManager", {
         gradeNames: ["fluid.modelComponent"],
-        model: {
+        uiConfig: {
             uiLanguage: "en"
         },
         selectors: {
@@ -96,7 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    locale: "{uiManager}.model.uiLanguage"
+                                    locale: "{uiManager}.options.uiConfig.uiLanguage"
                                 }
                             }
                         }
@@ -112,7 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    locale: "{uiManager}.model.uiLanguage"
+                                    locale: "{uiManager}.options.uiConfig.uiLanguage"
                                 }
                             }
                         },
