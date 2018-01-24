@@ -57,7 +57,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onReadyToBind: null,
-            onControlsBound: null
+            onControlsBound: null,
+            onVisibilityChanged: null
         },
         listeners: {
             "onReadyToBind.fireOnControlsBound": {

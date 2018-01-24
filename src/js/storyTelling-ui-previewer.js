@@ -20,16 +20,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
             storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
             storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
-            storyViewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyViewerPrevious)"
+            storyPreviewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyPreviewerPrevious)"
         },
         selectors: {
             storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
             storyTags: ".sjrkc-storyTelling-storyListTags",
-            storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
+            storyPreviewerPrevious: ".sjrkc-storyTelling-storyPreviewerPrevious"
         },
         events: {
             onSaveNoShareRequested: null,
-            onViewerPreviousRequested: null
+            onPreviewerPreviousRequested: null
         },
         listeners: {
             "onReadyToBind.bindSaveNoShareControl": {
@@ -37,10 +37,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onSaveNoShareRequested.fire"]
             },
-            "onReadyToBind.bindViewerPreviousControl": {
-                "this": "{that}.dom.storyViewerPrevious",
+            "onReadyToBind.bindPreviewerPreviousControl": {
+                "this": "{that}.dom.storyPreviewerPrevious",
                 "method": "click",
-                "args": ["{that}.events.onViewerPreviousRequested.fire"]
+                "args": ["{that}.events.onPreviewerPreviousRequested.fire"]
             }
         },
         components: {

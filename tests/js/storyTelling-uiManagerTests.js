@@ -15,9 +15,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.testUiManager", {
         gradeNames: ["sjrk.storyTelling.uiManager"],
+        selectors: {
+            storyEditor: "#testEditor",
+            storyPreviewer: "#testPreviewer"
+        },
         components: {
             editor: {
-                container: "#testEditor",
                 options: {
                     components: {
                         templateManager: {
@@ -31,7 +34,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             previewer: {
-                container: "#testPreviewer",
                 options: {
                     components: {
                         templateManager: {
@@ -50,10 +52,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.uiManagerTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test combined story user interface",
+            name: "Test combined story authoring interface",
             tests: [{
-                name: "Test editor and viewer model binding and updating",
-                expect: 18,
+                name: "Test editor and previewer model binding and updating",
+                expect: 17,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -62,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
                     args: [
-                        ["{uiManager}.editor.dom.storyEditorPage2", "{uiManager}.previewer.dom.storyPreviewer"],
+                        ["{uiManager}.editor.dom.storyEditorPage2", "{uiManager}.previewer.container"],
                         ["{uiManager}.editor.dom.storyEditorPage1"]
                     ]
                 },
@@ -71,10 +73,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{uiManager}.editor.dom.storyEditorNext"
                 },
                 {
-                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "event": "{uiManager}.editor.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.dom.storyPreviewer"],
+                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
                         ["{uiManager}.editor.dom.storyEditorPage2"]
                     ]
                 },
@@ -86,37 +88,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     changeEvent: "{uiManager}.editor.story.applier.modelChanged",
                     path: "title",
                     listener: "jqUnit.assertEquals",
-                    args: ["Viewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
+                    args: ["Editor model updated to expected value", "Initial test title", "{uiManager}.editor.story.model.title"]
+                },
+                {
+                    func: "jqUnit.assertEquals",
+                    args: ["Previewer model updated to match editor","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
                     "element": "{uiManager}.editor.dom.storySubmit"
                 },
-                // {
-                //     "event": "{uiManager}.events.onStorySubmitRequestedFromEditor",
-                //     listener: "jqUnit.assert",
-                //     args: ["onStorySubmitRequestedFromEditorNoView event fired"]
-                // },
-                // {
-                //     func: "fluid.identity"
-                // },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
-                        ["{uiManager}.previewer.dom.storyPreviewer"]
+                        ["{uiManager}.editor.container"],
+                        ["{uiManager}.previewer.container"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.previewer.dom.storyViewerPrevious"
+                    "element": "{uiManager}.previewer.dom.storyPreviewerPrevious"
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.dom.storyPreviewer"],
+                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
                         ["{uiManager}.editor.dom.storyEditorPage2"]
                     ]
                 },
@@ -128,27 +126,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     changeEvent: "{uiManager}.editor.story.applier.modelChanged",
                     path: "title",
                     func: "jqUnit.assertEquals",
-                    args: ["Viewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
+                    args: ["previewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
                     "element": "{uiManager}.editor.dom.storySubmit"
-                // },
-                // {
-                //     "event":
-                //     "{uiManager}.events.onStorySubmitRequestedFromEditor",
-                //     listener: "jqUnit.assert",
-                //     args: "onStorySubmitRequestedFromEditor event fired."
-                // },
-                // {
-                //     func: "fluid.identity"
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.editor.dom.storyEditorPage2"],
-                        ["{uiManager}.previewer.dom.storyPreviewer"]
+                        ["{uiManager}.editor.container"],
+                        ["{uiManager}.previewer.container"]
                     ]
                 }]
             }]

@@ -59,12 +59,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{previewer}.dom.storyViewerPrevious"
+                    "element": "{previewer}.dom.storyPreviewerPrevious"
                 },
                 {
-                    "event": "{previewer}.events.onViewerPreviousRequested",
+                    "event": "{previewer}.events.onPreviewerPreviousRequested",
                     listener: "jqUnit.assert",
-                    args: "onViewerPreviousRequested event fired."
+                    args: "onPreviewerPreviousRequested event fired."
                 }]
             },
             {

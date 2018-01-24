@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -20,29 +20,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             uiLanguage: "en"
         },
+        selectors: {
+            storyEditor: ".sjrkc-storyTelling-storyEditor",
+            storyPreviewer: ".sjrkc-storyTelling-storyPreviewer"
+        },
         events: {
             onStoryListenToRequested: null,
-            onStorySubmitRequestedFromEditor: null,
             onAllUiComponentsReady: {
                 events: {
-                    onEditorReady: "onEditorReady",
-                    onPreviewerReady: "onPreviewerReady"
+                    onEditorReady: "{editor}.events.onControlsBound",
+                    onPreviewerReady: "{previewer}.events.onControlsBound"
                 }
             },
-            onEditorReady: null,
-            onPreviewerReady: null,
             onVisibilityChanged: null
         },
         listeners: {
-            "onStorySubmitRequestedFromEditor.renderPreviewer": {
+            "{editor}.events.onStorySubmitRequested": [{
                 func: "{that}.previewer.templateManager.renderTemplateOnSelf"
+            },
+            {
+                funcName: "sjrk.storyTelling.ui.manageVisibility",
+                args: [
+                    ["{editor}.container"],
+                    ["{previewer}.container"],
+                    "{that}.events.onVisibilityChanged"
+                ]
+            }],
+            "{previewer}.events.onPreviewerPreviousRequested": {
+                funcName: "sjrk.storyTelling.ui.manageVisibility",
+                args: [
+                    ["{previewer}.container"],
+                    ["{editor}.container"],
+                    "{that}.events.onVisibilityChanged"
+                ]
             }
         },
         components: {
             storySpeaker: {
                 type: "fluid.textToSpeech",
                 // TODO: develop a way to generalize for all ui's? {ui} fails
-                createOnEvent: "{editor}.events.onReadyToBind",
+                createOnEvent: "{uiManager}.events.onAllUiComponentsReady",
                 options: {
                     model:{
                         ttsText: null,
@@ -73,46 +90,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             editor: {
                 type: "sjrk.storyTelling.ui.editor",
-                // TODO: Add proper container selector
-                // container: "#testEditor",
+                container: "{uiManager}.options.selectors.storyEditor",
                 options: {
-                    selectors: {
-                        storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
-                        storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2"
-                    },
-                    listeners: {
-                        "onControlsBound.escalate": {
-                            func: "{uiManager}.events.onEditorReady.fire"
-                        },
-                        "onEditorNextRequested.manageVisibility": {
-                            funcName: "sjrk.storyTelling.uiManager.manageVisibility",
-                            args: [
-                                ["{that}.dom.storyEditorPage1", "{previewer}.dom.storyPreviewer"],
-                                ["{that}.dom.storyEditorPage2"],
-                                "{uiManager}.events.onVisibilityChanged"
-                            ]
-                        },
-                        "onEditorPreviousRequested.manageVisibility": {
-                            funcName: "sjrk.storyTelling.uiManager.manageVisibility",
-                            args: [
-                                ["{that}.dom.storyEditorPage2", "{previewer}.dom.storyPreviewer"],
-                                ["{that}.dom.storyEditorPage1"],
-                                "{uiManager}.events.onVisibilityChanged"
-                            ]
-                        },
-                        "onStorySubmitRequested.manageVisibility": {
-                            funcName: "sjrk.storyTelling.uiManager.manageVisibility",
-                            args: [
-                                ["{that}.dom.storyEditorPage1", "{that}.dom.storyEditorPage2"],
-                                ["{previewer}.dom.storyPreviewer"],
-                                "{uiManager}.events.onVisibilityChanged"
-                            ]
-                        },
-                        "onStorySubmitRequested.escalate": {
-                            func: "{uiManager}.events.onStorySubmitRequestedFromEditor.fire",
-                            priority: "after:manageVisibility"
-                        }
-                    },
                     components: {
                         templateManager: {
                             options: {
@@ -127,28 +106,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // TODO: consider rolling the previewer context into the editor
             previewer: {
                 type: "sjrk.storyTelling.ui.previewer",
-                // TODO: Add proper container selector
-                // container: "#testEditor",
+                container: "{uiManager}.options.selectors.storyPreviewer",
                 options: {
-                    selectors: {
-                        storyPreviewer: ".sjrkc-storyTelling-storyViewer"
-                    },
-                    listeners: {
-                        "onControlsBound.escalate": {
-                            func: "{uiManager}.events.onPreviewerReady.fire"
-                        },
-                        "onViewerPreviousRequested": {
-                            funcName: "sjrk.storyTelling.uiManager.manageVisibility",
-                            args: [
-                                ["{editor}.dom.storyEditorPage1", "{that}.dom.storyPreviewer"],
-                                ["{editor}.dom.storyEditorPage2"],
-                                "{uiManager}.events.onVisibilityChanged"
-                            ]
-                        // },
-                        // "{uiManager}.events.onStorySubmitRequestedFromEditor": {
-                        //     func: "{that}.templateManager.renderTemplateOnSelf"
-                        }
-                    },
                     components: {
                         templateManager: {
                             options: {
@@ -167,17 +126,5 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    sjrk.storyTelling.uiManager.manageVisibility = function (hideElements, showElements, completionEvent) {
-        fluid.each(hideElements, function (el) {
-            el.hide();
-        });
-
-        fluid.each(showElements, function (el) {
-            el.show();
-        });
-
-        completionEvent.fire();
-    };
 
 })(jQuery, fluid);

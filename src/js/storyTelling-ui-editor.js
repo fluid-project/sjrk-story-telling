@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -20,7 +20,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storySubmit: ".sjrkc-storyTelling-storySubmit",
             storyListenTo: ".sjrkc-storyTelling-storyListenTo",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
-            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious"
+            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
+            storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
+            storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2"
         },
         interfaceControlStrings: {
             storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
@@ -73,6 +75,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.storyEditorPrevious",
                 "method": "click",
                 "args": ["{that}.events.onEditorPreviousRequested.fire"]
+            },
+            "onEditorNextRequested.manageVisibility": {
+                funcName: "sjrk.storyTelling.ui.manageVisibility",
+                args: [
+                    ["{that}.dom.storyEditorPage1"],
+                    ["{that}.dom.storyEditorPage2"],
+                    "{that}.events.onVisibilityChanged"
+                ]
+            },
+            "onEditorPreviousRequested.manageVisibility": {
+                funcName: "sjrk.storyTelling.ui.manageVisibility",
+                args: [
+                    ["{that}.dom.storyEditorPage2"],
+                    ["{that}.dom.storyEditorPage1"],
+                    "{that}.events.onVisibilityChanged"
+                ]
             }
         },
         components: {
@@ -153,5 +171,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.ui.manageVisibility = function (hideElements, showElements, completionEvent) {
+        fluid.each(hideElements, function (el) {
+            el.hide();
+        });
+
+        fluid.each(showElements, function (el) {
+            el.show();
+        });
+
+        completionEvent.fire();
+    };
 
 })(jQuery, fluid);
