@@ -15,17 +15,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.ui.previewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
+        selectors: {
+            storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
+            storyTags: ".sjrkc-storyTelling-storyListTags",
+            storyPreviewerPrevious: ".sjrkc-storyTelling-storyPreviewerPrevious"
+        },
         interfaceControlStrings: {
             storyListTagsClasses: "@expand:{that}.getClasses(storyTelling-storyListTags)",
             storyShareClasses: "@expand:{that}.getClasses(storyTelling-storyShare)",
             storySaveNoShareClasses: "@expand:{that}.getClasses(storyTelling-storySaveNoShare)",
             storyReadMoreClasses: "@expand:{that}.getClasses(storyTelling-storyReadMore)",
             storyPreviewerPreviousClasses: "@expand:{that}.getClasses(storyTelling-storyPreviewerPrevious)"
-        },
-        selectors: {
-            storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
-            storyTags: ".sjrkc-storyTelling-storyListTags",
-            storyPreviewerPrevious: ".sjrkc-storyTelling-storyPreviewerPrevious"
         },
         events: {
             onSaveNoShareRequested: null,

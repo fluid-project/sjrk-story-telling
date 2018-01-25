@@ -98,7 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Used for templating
      * - "prefix": typically the first piece of the project namespace ("sjrk")
      * - "className": classname to follow after the prefixes
-    */
+     */
     sjrk.storyTelling.ui.getClasses = function (prefix, className) {
         return prefix + "c-" + className + " " + prefix + "-" + className;
     };
@@ -106,9 +106,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /* Generates a unique ID (GUID) for use in labeling form
      * elements in the component template
      * - "prefix": prefix to prepend before the GUID
-    */
+     */
     sjrk.storyTelling.ui.getLabelId = function (prefix) {
         return prefix + "-" + fluid.allocateGuid();
+    };
+
+    /* Hides and shows DOM elements as specified, using jQuery hide() and show()
+     * - "hideElements": the DOM elements to be hidden
+     * - "showElements": the DOM elements to be shown
+     * - "completionEvent": the event to be fired upon successful completion
+     */
+    sjrk.storyTelling.ui.manageVisibility = function (hideElements, showElements, completionEvent) {
+        fluid.each(hideElements, function (el) {
+            el.hide();
+        });
+
+        fluid.each(showElements, function (el) {
+            el.show();
+        });
+
+        completionEvent.fire();
     };
 
 })(jQuery, fluid);
