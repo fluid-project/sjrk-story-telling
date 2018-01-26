@@ -36,7 +36,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "{editor}.events.onStorySubmitRequested": [{
-                func: "{that}.previewer.templateManager.renderTemplateOnSelf"
+                func: "{previewer}.templateManager.renderTemplateOnSelf",
+                args: ["{previewer}.story.model"]
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
@@ -58,7 +59,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             storySpeaker: {
                 type: "fluid.textToSpeech",
-                // TODO: develop a way to generalize for all ui's? {ui} fails
                 createOnEvent: "{uiManager}.events.onAllUiComponentsReady",
                 options: {
                     model:{

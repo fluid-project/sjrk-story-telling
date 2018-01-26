@@ -18,15 +18,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         interfaceConfig: {
             classPrefix: "test"
         },
+        interfaceControlStrings: {
+            testClasses: "replacement-Value"
+        },
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
                         templatePath: "../html/templates/testTemplate.handlebars",
                         messagesPath: "../json/messages/testLocalizationMessages.json"
-                    },
-                    templateStrings: {
-                        testClasses: "replacement-Value"
                     }
                 }
             }

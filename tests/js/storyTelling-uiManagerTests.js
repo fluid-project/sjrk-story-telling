@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 17,
+                expect: 18,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -169,7 +169,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.uiManagerTester.checkElementVisibility = function (element, expectedVisibility) {
-        jqUnit.assertEquals("The element " + element.selectorName + " is hidden", expectedVisibility, element.css("display"));
+        var friendlyName = element.selectorName || element.selector;
+        jqUnit.assertEquals("The element " + friendlyName + " is hidden", expectedVisibility, element.css("display"));
     };
 
     $(document).ready(function () {

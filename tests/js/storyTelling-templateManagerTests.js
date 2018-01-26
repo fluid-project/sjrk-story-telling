@@ -20,7 +20,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             messagesPath: "../json/messages/testLocalizationMessages.json"
         },
         templateStrings: {
-            testClasses: "replacement-Value"
+            uiStrings: {
+                testClasses: "replacement-Value"
+            }
         },
         selectors: {
             testMessage: ".sjrkc-testTemplateManager-testMessage"
@@ -69,31 +71,39 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         var inputTerms = {
             testTemplate2: "%testTemplate",
+            testTemp3: "%testTemplate2",
             testString: "testValue",
-            testTemplate: "%testString",
-            testArray: ["value1", "value2", "value3"]
-            //TODO: once function is made recursive, enable these cases
+            testTemplate: "%testString"//,
+            // testA: "%testArray.2",
             // testArray: ["value1", "value2", "value3", "%testTemplate"],
+            // testB: "%testObject.testSubObject1",
             // testObject: {
             //     testSubObject1: "testValue1",
-            //     testSubObject2: "%testSubObject1"
+            //     testSubObject2: "%testObject.testSubObject1"
+            // },
+            // testObject2: {
+            //     testSubObject3: "%testObject.testSubObject1"
             // }
         };
 
         var expectedResult = {
             testTemplate2: "testValue",
+            testTemp3: "testValue",
             testString: "testValue",
-            testTemplate: "testValue",
-            testArray: ["value1", "value2", "value3"]
-            //TODO: once function is made recursive, enable these cases
+            testTemplate: "testValue"//,
+            // testA: "value3",
             // testArray: ["value1", "value2", "value3", "testValue"],
+            // testB: "testValue1",
             // testObject: {
             //     testSubObject1: "testValue1",
             //     testSubObject2: "testValue1"
+            // },
+            // testObject2: {
+            //     testSubObject3: "testValue1"
             // }
         };
 
-        var actualResult = sjrk.storyTelling.templateManager.resolveTerms(inputTerms);
+        var actualResult = sjrk.storyTelling.templateManager.resolveTerms(inputTerms, inputTerms);
 
         jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
     });

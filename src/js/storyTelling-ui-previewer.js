@@ -43,6 +43,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "args": ["{that}.events.onPreviewerPreviousRequested.fire"]
             }
         },
+        modelRelay: {
+            target: "{story}.model.languageName",
+            forward: {
+                excludeSource: "init"
+            },
+            singleTransform: {
+                type: "sjrk.storyTelling.transforms.valueOrIndex",
+                input: "{story}.model.language",
+                component: "{templateManager}",
+                path: "options.templateStrings.localizedMessages.availableLanguages",
+                index: "{story}.model.language"
+            }
+        },
         components: {
             templateManager: {
                 options: {
@@ -55,19 +68,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: {
                         languageName: ""
-                    },
-                    modelRelay: {
-                        target: "{that}.model.languageName",
-                        forward: {
-                            excludeSource: "init"
-                        },
-                        singleTransform: {
-                            type: "sjrk.storyTelling.transforms.valueOrIndex",
-                            input: "{story}.model.language",
-                            component: "{templateManager}",
-                            path: "options.templateStrings.availableLanguages",
-                            index: "{story}.model.language"
-                        }
                     }
                 }
             }

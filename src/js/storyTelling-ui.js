@@ -72,20 +72,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.container",
                 options: {
                     listeners: {
-                        // TODO: determine if there is a cleaner way to implement this
-                        //       preferably using fluid functions instead of jQuery,
-                        //       and in a way that maintains a link, not one-time
-                        "onAllResourcesLoaded.injectStoryModel": {
-                            funcName: "$.extend",
-                            args: ["{that}.options.templateStrings", "{story}.model"],
-                            priority: "before:renderTemplateOnSelf"
+                        "onAllResourcesLoaded.renderTemplateOnSelf": {
+                            funcName: "{that}.renderTemplateOnSelf",
+                            args: ["{story}.model"]
                         },
                         "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyMessages.json"
                     },
-                    templateStrings: "{ui}.options.interfaceControlStrings"
+                    templateStrings: {
+                        uiStrings: "{ui}.options.interfaceControlStrings"
+                    }
                 }
             },
             story: {

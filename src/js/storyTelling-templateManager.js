@@ -34,10 +34,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "onAllResourcesLoaded.renderTemplateOnSelf": {
-                funcName: "{that}.renderTemplateOnSelf"
+                funcName: "{that}.renderTemplateOnSelf",
+                args: [{}]
             }
         },
-        templateStrings: {},
+        templateStrings: {
+            uiStrings: null, // for things like CSS classes and ID's
+            localizedMessages: null // for localized interface messages
+        },
         components: {
             messageLoader: {
                 type: "fluid.resourceLoader",
@@ -56,7 +60,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             "func": "sjrk.storyTelling.templateManager.loadLocalizedMessages",
                             "args": ["{that}.resources.componentMessages.resourceText",
                                 "{templateManager}",
-                                "options.templateStrings"]
+                                "options.templateStrings.localizedMessages"]
                         },
                         "onResourcesLoaded.escalate": "{templateManager}.events.onMessagesLoaded.fire"
                     }
@@ -90,8 +94,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.container",
                     "componentTemplate",
                     "{templateLoader}.resources.componentTemplate.resourceText",
-                    "{that}.options.templateStrings",
-                    "{that}.templateRenderer"]
+                    "{that}.templateRenderer",
+                    "{that}.options.templateStrings.uiStrings",
+                    "{that}.options.templateStrings.localizedMessages",
+                    "{arguments}.0"
+                    ]
             }
         }
     });
@@ -109,34 +116,42 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     */
     sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
-        templateName, templateContent, termsCollection, renderer) {
+        templateName, templateContent, renderer, uiStrings, localizedMessages, dynamicValues) {
         renderer.templates.partials[templateName] = templateContent;
 
-        var resolvedTerms = sjrk.storyTelling.templateManager.resolveTerms(termsCollection);
-        var renderedTemplate = renderer.render(templateName, resolvedTerms);
+        if (dynamicValues) {
+            localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, dynamicValues);
+        }
+
+        var renderedTemplate = renderer.render(templateName, {
+            uiStrings: uiStrings,
+            localizedMessages: localizedMessages,
+            dynamicValues: dynamicValues
+        });
 
         container.html(renderedTemplate);
         completionEvent.fire();
     };
 
-    // Given a set of terms that may contain a mix of strings, fluid.stringTemplate
-    // syntax and other objects, resolve only the strings using stringTemplate
-    // against the set of terms.
-    sjrk.storyTelling.templateManager.resolveTerms = function (terms) {
-        return fluid.transform(terms, function (term) {
-            // TODO: Make this functionality recursive
-            // if (typeof term === "array" || typeof term === "object") {
-            //     return sjrk.storyTelling.templatedComponent.resolveTerms(term);
-            // } else {
-            if (typeof term === "string") {
-                return fluid.stringTemplate(term, terms);
+    /* Given a set of terms that may contain a mix of strings, fluid.stringTemplate
+     * syntax and other objects, resolve only the strings using stringTemplate
+     * against the set of terms.
+     */
+    sjrk.storyTelling.templateManager.resolveTerms = function (termsToResolve, toResolveAgainst) {
+        return fluid.transform(termsToResolve, function (term) {
+            if (Array.isArray(term) || typeof term === "object") {
+                return sjrk.storyTelling.templateManager.resolveTerms(term, toResolveAgainst);
             } else {
-                return term;
+                if (typeof term === "string") {
+                    return fluid.stringTemplate(term, toResolveAgainst);
+                } else {
+                    return term;
+                }
             }
-            // }
         });
     };
 
+    // TODO: document this function
     sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
         var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
         fluid.set(component, path, mergedEndpoint);
