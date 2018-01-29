@@ -163,6 +163,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": "onStoryListenToRequested event fired from previewer."
                 }]
             }]
+        },
+        {
+            name: "Test storySpeaker",
+            tests: [{
+                name: "Test storySpeaker",
+                expect: 2,
+                sequence: [{
+                    func: "{uiManager}.editor.story.applier.change",
+                    args: ["author", "Rootbeer"]
+                },
+                {
+                    "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
+                    path: "author",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
+                },
+                {
+                    func: "{uiManager}.editor.story.applier.change",
+                    args: ["title", "My brother Shyguy"]
+                },
+                {
+                    "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
+                    path: "title",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
+                }]
+            }]
         }]
     });
 
