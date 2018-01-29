@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 17,
+                expect: 18,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -139,6 +139,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         ["{uiManager}.editor.container"],
                         ["{uiManager}.previewer.container"]
                     ]
+                },
+                {
+                    func: "sjrk.storyTelling.uiManagerTester.verifyElementText",
+                    args: ["{uiManager}.previewer.dom.storyTitle", "New test title"]
                 }]
             }]
         }]
@@ -170,7 +174,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.uiManagerTester.verifyElementVisibility = function (element, expectedVisibility) {
         var friendlyName = element.selectorName || element.selector;
-        jqUnit.assertEquals("The element " + friendlyName + " is hidden", expectedVisibility, element.css("display"));
+        jqUnit.assertEquals("The element " + friendlyName + " has expected visibility", expectedVisibility, element.css("display"));
+    };
+
+    sjrk.storyTelling.uiManagerTester.verifyElementText = function (element, expectedText) {
+        var friendlyName = element.selectorName || element.selector;
+        jqUnit.assertEquals("The element " + friendlyName + " has expected text", expectedText, element.text());
     };
 
     $(document).ready(function () {
