@@ -22,12 +22,14 @@
 <script src="node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
 <script src="node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-<script src="src/js/templatedComponent.js"></script>
-<script src="src/js/transforms.js"></script>
+<script src="src/js/storyTelling-binder.js"></script>
 <script src="src/js/storyTelling-story.js"></script>
-<script src="src/js/storyTelling-story-storyEditor.js"></script>
-<script src="src/js/storyTelling-story-storyViewer.js"></script>
-<script src="src/js/storyTelling-storyAuthoring.js"></script>
+<script src="src/js/storyTelling-templateManager.js"></script>
+<script src="src/js/storyTelling-ui.js"></script>
+<script src="src/js/storyTelling-ui-editor.js"></script>
+<script src="src/js/storyTelling-ui-previewer.js"></script>
+<script src="src/js/storyTelling-uiManager.js"></script>
+<script src="src/js/transforms.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.4.0/gridlex.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
@@ -43,12 +45,15 @@
     </div>
 </div>
 
-<div class="srjkc-storyTelling sjrk-storyTelling"></div>
+<div class="sjrkc-storyTelling sjrk-storyTelling">
+    <div class='sjrk-storyTelling-storyEditor sjrkc-storyTelling-storyEditor'></div>
+    <div aria-live="polite" class='sjrk-storyTelling-storyPreviewer sjrkc-storyTelling-storyPreviewer'></div>
+</div>
 
 <script>
-    var storyTelling = sjrk.storyTelling.storyAuthoring(".srjkc-storyTelling", {
-        resourceLoaderConfig: {
-            locale: "ja"
+    var storyTelling = sjrk.storyTelling.uiManager({
+        uiConfig: {
+            uiLanguage: "ja"
         }
     });
 </script>

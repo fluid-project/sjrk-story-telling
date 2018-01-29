@@ -48,4 +48,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return input.join(extraInputs.separator());
     };
 
+    // TODO: verify that a transform like this does not already exist
+    fluid.defaults("sjrk.storyTelling.transforms.valueOrIndex", {
+        "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
+        "inputVariables": {
+            "component": null,
+            "path": null,
+            "index": null
+        }
+    });
+
+    // returns the value of a collection at a given index, or, failing that, the index itself
+    sjrk.storyTelling.transforms.valueOrIndex = function (input, extraInputs) {
+        var component = extraInputs.component();
+        var path = extraInputs.path();
+        var index = extraInputs.index();
+
+        return fluid.get(component, path)[index] || index;
+    };
+
 })(jQuery, fluid);
