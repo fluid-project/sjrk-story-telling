@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": "onAllUiComponentsReady event fired."
                 },
                 {
-                    func: "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    func: "sjrk.storyTelling.uiManagerTester.verifyPageVisibility",
                     args: [
                         ["{uiManager}.editor.dom.storyEditorPage2", "{uiManager}.previewer.container"],
                         ["{uiManager}.editor.dom.storyEditorPage1"]
@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{uiManager}.editor.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "listener": "sjrk.storyTelling.uiManagerTester.verifyPageVisibility",
                     "args": [
                         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
                         ["{uiManager}.editor.dom.storyEditorPage2"]
@@ -100,7 +100,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "listener": "sjrk.storyTelling.uiManagerTester.verifyPageVisibility",
                     "args": [
                         ["{uiManager}.editor.container"],
                         ["{uiManager}.previewer.container"]
@@ -112,7 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "listener": "sjrk.storyTelling.uiManagerTester.verifyPageVisibility",
                     "args": [
                         ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
                         ["{uiManager}.editor.dom.storyEditorPage2"]
@@ -134,7 +134,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.uiManagerTester.checkPageVisibility",
+                    "listener": "sjrk.storyTelling.uiManagerTester.verifyPageVisibility",
                     "args": [
                         ["{uiManager}.editor.container"],
                         ["{uiManager}.previewer.container"]
@@ -158,17 +158,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.uiManagerTester.checkPageVisibility = function (expectedHidden, expectedVisible) {
+    sjrk.storyTelling.uiManagerTester.verifyPageVisibility = function (expectedHidden, expectedVisible) {
         fluid.each(expectedHidden, function (el) {
-            sjrk.storyTelling.uiManagerTester.checkElementVisibility(el, "none");
+            sjrk.storyTelling.uiManagerTester.verifyElementVisibility(el, "none");
         });
 
         fluid.each(expectedVisible, function (el) {
-            sjrk.storyTelling.uiManagerTester.checkElementVisibility(el, "block");
+            sjrk.storyTelling.uiManagerTester.verifyElementVisibility(el, "block");
         });
     };
 
-    sjrk.storyTelling.uiManagerTester.checkElementVisibility = function (element, expectedVisibility) {
+    sjrk.storyTelling.uiManagerTester.verifyElementVisibility = function (element, expectedVisibility) {
         var friendlyName = element.selectorName || element.selector;
         jqUnit.assertEquals("The element " + friendlyName + " is hidden", expectedVisibility, element.css("display"));
     };
