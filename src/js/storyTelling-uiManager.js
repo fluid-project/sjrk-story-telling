@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             target: "{that}.model.ttsText",
                             singleTransform: {
                                 type: "fluid.transforms.stringTemplate",
-                                template: "{editor}.templateManager.options.templateStrings.message_readStoryText",
+                                template: "{editor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
                                 terms: "{editor}.story.model"
                             }
                         }
