@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 4,
+                expect: 5,
                 sequence: [{
                     "event": "{editorTest binder}.events.onBindingApplied",
                     listener: "jqUnit.assert",
@@ -47,16 +47,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "jqUnit.assert",
                     args: "onStorySubmitRequested event fired."
                 },
-                // TODO: move storyListenTo tests to the uiManager test suite
-                // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{editor}.dom.storyListenTo"
-                // },
-                // {
-                //     "event": "{editor}.events.onStoryListenToRequested",
-                //     listener: "jqUnit.assert",
-                //     args: "onStoryListenToRequested event fired."
-                // },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{editor}.dom.storyListenTo"
+                },
+                {
+                    "event": "{editor}.events.onStoryListenToRequested",
+                    listener: "jqUnit.assert",
+                    args: "onStoryListenToRequested event fired."
+                },
                 {
                     "jQueryTrigger": "click",
                     "element": "{editor}.dom.storyEditorNext"

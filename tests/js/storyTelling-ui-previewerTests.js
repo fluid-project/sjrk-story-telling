@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Previewer UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 3,
+                expect: 4,
                 sequence: [{
                     "event": "{previewerTest previewer}.events.onReadyToBind",
                     listener: "jqUnit.assert",
@@ -65,6 +65,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{previewer}.events.onPreviewerPreviousRequested",
                     listener: "jqUnit.assert",
                     args: "onPreviewerPreviousRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{previewer}.dom.storyListenTo"
+                },
+                {
+                    "event": "{previewer}.events.onStoryListenToRequested",
+                    listener: "jqUnit.assert",
+                    args: "onStoryListenToRequested event fired."
                 }]
             },
             {

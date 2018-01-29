@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 18,
+                expect: 20,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -143,6 +143,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.uiManagerTester.verifyElementText",
                     args: ["{uiManager}.previewer.dom.storyTitle", "New test title"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.editor.dom.storyListenTo"
+                },
+                {
+                    "event": "{uiManager}.events.onStoryListenToRequested",
+                    "listener": "jqUnit.assert",
+                    "args": "onStoryListenToRequested event fired from editor."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.previewer.dom.storyListenTo"
+                },
+                {
+                    "event": "{uiManager}.events.onStoryListenToRequested",
+                    "listener": "jqUnit.assert",
+                    "args": "onStoryListenToRequested event fired from previewer."
                 }]
             }]
         }]
