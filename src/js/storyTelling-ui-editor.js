@@ -18,7 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // TODO: figure out what to do with the UI control selectors
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
-            storyListenTo: ".sjrkc-storyTelling-storyListenTo",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
             storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
             storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
@@ -47,7 +46,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onStorySubmitRequested: null,
             onEditorNextRequested: null,
-            onEditorPreviousRequested: null
+            onEditorPreviousRequested: null,
+            onStoryListenToRequested: null
         },
         listeners: {
             "onReadyToBind.bindSubmitControl": {
@@ -55,12 +55,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
             },
-            // TODO: move storySpeaker listener to uiManager grade
-            // "onReadyToBind.bindListenToControl": {
-            //     "this": "{that}.dom.storyListenTo",
-            //     "method": "click",
-            //     "args": ["{that}.events.onStoryListenToRequested.fire"]
-            // },
+            "onReadyToBind.bindListenToControl": {
+                "this": "{that}.dom.storyListenTo",
+                "method": "click",
+                "args": ["{that}.events.onStoryListenToRequested.fire"]
+            },
             "onReadyToBind.bindEditorNextControl": {
                 "this": "{that}.dom.storyEditorNext",
                 "method": "click",

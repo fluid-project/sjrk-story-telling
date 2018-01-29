@@ -29,7 +29,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onSaveNoShareRequested: null,
-            onPreviewerPreviousRequested: null
+            onPreviewerPreviousRequested: null,
+            onStoryListenToRequested: null
         },
         listeners: {
             "onReadyToBind.bindSaveNoShareControl": {
@@ -41,6 +42,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.storyPreviewerPrevious",
                 "method": "click",
                 "args": ["{that}.events.onPreviewerPreviousRequested.fire"]
+            },
+            "onReadyToBind.bindListenToControl": {
+                "this": "{that}.dom.storyListenTo",
+                "method": "click",
+                "args": ["{that}.events.onStoryListenToRequested.fire"]
             }
         },
         modelRelay: {

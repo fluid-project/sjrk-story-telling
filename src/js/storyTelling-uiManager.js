@@ -54,6 +54,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     ["{editor}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
+            },
+            // TODO: determine a way for all UI's to be listened to at once
+            "{editor}.events.onStoryListenToRequested": {
+                func: "{that}.events.onStoryListenToRequested.fire"
+            },
+            "{previewer}.events.onStoryListenToRequested": {
+                func: "{that}.events.onStoryListenToRequested.fire"
             }
         },
         components: {
@@ -80,7 +87,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     listeners: {
-                        // try using event bubbling/boiling
                         "{uiManager}.events.onStoryListenToRequested": {
                             func: "{that}.queueSpeech",
                             args: ["{that}.model.ttsText", true]

@@ -27,6 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyAuthor: ".sjrkc-storyTelling-storyAuthor",
             storyContent: ".sjrkc-storyTelling-storyContent",
             storySummary: ".sjrkc-storyTelling-storySummary",
+            storyListenTo: ".sjrkc-storyTelling-storyListenTo",
             storyLanguage: ".sjrkc-storyTelling-storyLanguage",
             storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
             storyCategories: ".sjrkc-storyTelling-storyCategories",
