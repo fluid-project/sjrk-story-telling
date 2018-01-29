@@ -12,13 +12,12 @@ https://wiki.fluidproject.org/display/fluid/Storytelling+and+Story-gathering+Res
 This repository represents the user interface portion of the Storytelling Tool, a project which anyone can use to share their story with the world in a way that is inclusive and accessible. The project uses [Fluid Infusion](https://fluidproject.org/infusion.html), so it is assumed that anyone working on it will have some familiarity with Infusion's syntax and philosophy.
 
 The repository includes a few grades:
-- `sjrk.storyTelling.templatedComponent` which renders html templates using data available in a model. These are specified via the options `{that}.model.templateTerms` and `{templateLoader}.resources.componentTemplate`. It can also load UI-related values into the template, for example DOM ID's or CSS classes, which should be specified in `{that}.options.interfaceControlStrings`. There are extensions of this grade to provide:
-  - binding to DOM input elements `sjrk.storyTelling.templatedComponentWithBinder`
-  - localization of content `sjrk.storyTelling.templatedComponentWithLocalization` using another loader component called `{messageLoader}`
-- `sjrk.storyTelling.story.ui`, a `templatedComponentWithLocalization` that can be used to set up UI contexts (pages) and includes a text-to-speech component.
-- `sjrk.storyTelling.storyAuthoring`, the overall Storytelling Tool interface management grade. It has a subcomponent for each context/page in the tool and manages communication between them:
-  - `sjrk.storyTelling.story.storyEditor`
-  - `sjrk.storyTelling.story.storyViewer`
+- `sjrk.storyTelling.templateManager`, which renders html templates using data specified via the options `{that}.options.templateStrings`. Two endpoints are included in `templateStrings` to help organize values: `uiStrings` for DOM ID's or CSS classes and `localizedMessages` for localized UI strings. Template and message bundle options are configured at `{that}.options.templateConfig`. Localization of content is specified at `{that}.options.templateConfig.locale`, but this is set at the highest level by the `uiManager` (more on this below)
+- `sjrk.storyTelling.binder`, which is an implementation of `gpii.binder` to link DOM elements to model values that also provides a couple of events to tie into the `ui` grade (below).
+- `sjrk.storyTelling.ui`, which can be used to set up UI contexts (pages). Every UI has a `story` component to represent its data and a `templateManager` to handle rendering. It also loads UI-related values into the template manager's `uiStrings` endpoint from `{that}.options.interfaceControlStrings`.
+- `sjrk.storyTelling.ui.editor` is an extension of `ui` that provides an editing interface for stories. It has a handlebars template associated with it called `storyEdit.handlebars`. It also contains a `sjrk.storyTelling.binder`.
+- `sjrk.storyTelling.ui.previewer`, which is similar to `editor`, except it doesn't have a binder since its purpose is to preview a story after editing. It includes some logic to resolve 'friendly' localized names for the story's internal language value. It has a handlebars template associated with it called `storyView.handlebars`.
+- `sjrk.storyTelling.uiManager`, the overall Storytelling Tool interface management grade. It has a `fluid.textToSpeech`, called storySpeaker, for reading out the various stories on demand. It also has a subcomponent for each context/page in the tool and manages communication of relevant information between them.
 
 ### Installing
 Run `npm install` to install all of the package's dependencies.
