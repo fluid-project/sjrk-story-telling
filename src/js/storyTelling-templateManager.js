@@ -103,6 +103,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // TODO: update documentation
     /* Renders a template with gpii-handlebars into the
      * specified container, and fires completionEvent when done
      * - "completionEvent": component even to fire when complete

@@ -50,6 +50,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onStoryListenToRequested: null
         },
         listeners: {
+            // These listeners use the jQuery click() function to register click handlers
+            // They fire events that other listeners respond to.
             "onReadyToBind.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
