@@ -40,15 +40,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storySubmit"
-                },
-                {
-                    "event": "{editor}.events.onStorySubmitRequested",
-                    listener: "jqUnit.assert",
-                    args: "onStorySubmitRequested event fired."
-                },
-                {
-                    "jQueryTrigger": "click",
                     "element": "{editor}.dom.storyListenTo"
                 },
                 {
@@ -64,6 +55,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{editor}.events.onEditorNextRequested",
                     listener: "jqUnit.assert",
                     args: "onEditorNextRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{editor}.dom.storySubmit"
+                },
+                {
+                    "event": "{editor}.events.onStorySubmitRequested",
+                    listener: "jqUnit.assert",
+                    args: "onStorySubmitRequested event fired."
                 },
                 {
                     "jQueryTrigger": "click",
@@ -131,6 +131,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "tags",
                     listener: "jqUnit.assertDeepEq",
                     args: ["DOM to Model: Stored tags are equal to the expected value", ["testTag1", "testTag2"], "{editor}.story.model.tags"]
+                }]
+            },
+            {
+                name: "Test page visibility",
+                expect: 4,
+                sequence: [{
+                    "jQueryTrigger": "click",
+                    "element": "{editor}.dom.storyEditorNext"
+                },
+                {
+                    "event": "{editor}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "args": [
+                        ["{editor}.dom.storyEditorPage1"],
+                        ["{editor}.dom.storyEditorPage2"]
+                    ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{editor}.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{editor}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "args": [
+                        ["{editor}.dom.storyEditorPage2"],
+                        ["{editor}.dom.storyEditorPage1"]
+                    ]
                 }]
             }]
         }]

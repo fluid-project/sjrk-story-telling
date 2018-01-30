@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid, sjrk, jqUnit */
 
 (function ($, fluid) {
 
@@ -23,6 +23,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.testUtils.changeFormElement = function (component, selector, value) {
         component.locate(selector).val(value).change();
+    };
+
+    // TODO: document
+    sjrk.storyTelling.testUtils.verifyPageVisibility = function (expectedHidden, expectedVisible) {
+        fluid.each(expectedHidden, function (el) {
+            sjrk.storyTelling.testUtils.verifyElementVisibility(el, "none");
+        });
+
+        fluid.each(expectedVisible, function (el) {
+            sjrk.storyTelling.testUtils.verifyElementVisibility(el, "block");
+        });
+    };
+
+    // TODO: document
+    sjrk.storyTelling.testUtils.verifyElementVisibility = function (element, expectedVisibility) {
+        var friendlyName = element.selectorName || element.selector;
+        jqUnit.assertEquals("The element " + friendlyName + " has expected visibility", expectedVisibility, element.css("display"));
+    };
+
+    // TODO: document
+    sjrk.storyTelling.testUtils.verifyElementText = function (element, expectedText) {
+        var friendlyName = element.selectorName || element.selector;
+        jqUnit.assertEquals("The element " + friendlyName + " has expected text", expectedText, element.text());
     };
 
 })(jQuery, fluid);
