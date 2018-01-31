@@ -36,8 +36,8 @@
         <label for="{{uiStrings.storyLanguageListIdForLabel}}">{{localizedMessages.message_storyLanguageInputLabel}}</label>
     </div>
     <div>
-        <select name="" id="{{uiStrings.storyLanguageListIdForLabel}}" class="{{uiStrings.storyLanguageListClasses}}">
-            <option value="" selected="selected">-- {{localizedMessages.message_storyLanguageInputDefault}} --</option>\
+        <select name="languages" id="{{uiStrings.storyLanguageListIdForLabel}}" class="{{uiStrings.storyLanguageListClasses}}">
+            <option value="" selected="selected">-- {{localizedMessages.message_storyLanguageInputDefault}} --</option>
             {{#each localizedMessages.availableLanguages}}
                 <option value="{{@key}}">{{this}}</option>
             {{/each}}
