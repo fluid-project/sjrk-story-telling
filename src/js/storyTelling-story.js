@@ -14,6 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // The data model for all stories
     fluid.defaults("sjrk.storyTelling.story.base", {
         gradeNames: ["fluid.modelComponent"],
         model: {

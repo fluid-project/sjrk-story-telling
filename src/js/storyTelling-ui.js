@@ -14,6 +14,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // Represents a context or view of a story UI. Contains a story component
+    // to represent the data and a templateManager to handle DOM interaction
     fluid.defaults("sjrk.storyTelling.ui", {
         gradeNames: ["fluid.viewComponent"],
         interfaceConfig: {
@@ -68,6 +70,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // Manages template loading and rendering
             templateManager: {
                 type: "sjrk.storyTelling.templateManager",
                 container: "{ui}.container",
@@ -87,6 +90,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // represents the story data
             story: {
                 type: "sjrk.storyTelling.story.base"
             }

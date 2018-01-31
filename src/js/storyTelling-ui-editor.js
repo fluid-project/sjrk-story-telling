@@ -13,6 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // A UI representing the story editing context. It has two pages, and uses
+    // a gpii.binder to link up the story model and form fields in the DOM
     fluid.defaults("sjrk.storyTelling.ui.editor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         // TODO: figure out what to do with the UI control selectors
@@ -97,6 +99,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // Coordinates between the story model and the DOM form elements
             binder: {
                 type: "sjrk.storyTelling.binder",
                 container: "{ui}.container",

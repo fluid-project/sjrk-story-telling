@@ -15,6 +15,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.registerNamespace("sjrk.storyTelling.transforms");
 
+    // A transform to turn a delimited string into an array.
+    // - "delimiter": the delimiter of terms within the given strings
+    // - "trim": if true, trims excess whitespace from each term, otherwise no
     fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
@@ -37,6 +40,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
+    // A transform to turn an array into a delimited string
+    // - "separator": the string delimiter to be inserted between each term
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
@@ -48,7 +53,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return input.join(extraInputs.separator());
     };
 
-    // TODO: verify that a transform like this does not already exist
+    // A transform which, given a collection and an index, will the value of the
+    // collection at the specified index, or if that is not truthy, the index itself
+    // - "component": the component with the collection
+    // - "path": the EL path on the component where the collection resides
+    // - "index": the index value to be checked
     fluid.defaults("sjrk.storyTelling.transforms.valueOrIndex", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {

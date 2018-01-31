@@ -13,6 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // A UI representing the story preview context. Has a languageName value to
+    // represent a "friendly" representation of the internal language value
     fluid.defaults("sjrk.storyTelling.ui.previewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {

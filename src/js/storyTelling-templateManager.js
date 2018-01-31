@@ -13,6 +13,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // A grade which coordinates the loading of a handlebars template and
+    // localized UI text, then uses a client-side gpii.handlebars renderer
+    // to insert it into the DOM
     fluid.defaults("sjrk.storyTelling.templateManager", {
         gradeNames: "fluid.viewComponent",
         templateConfig: {
@@ -43,11 +46,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             localizedMessages: null // for localized interface messages
         },
         components: {
+            // For loading localized message values
             messageLoader: {
                 type: "fluid.resourceLoader",
                 options: {
                     resources: {
-                        // The messages file (JSON)
                         componentMessages: "{templateManager}.options.templateConfig.messagesPath"
                     },
                     locale: "{templateManager}.options.templateConfig.locale",
@@ -66,11 +69,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // For loading the handlebars template
             templateLoader: {
                 type: "fluid.resourceLoader",
                 options: {
                     resources: {
-                        // The template file (handlebars)
                         componentTemplate: "{templateManager}.options.templateConfig.templatePath"
                     },
                     terms: {
@@ -81,13 +84,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // For rendering the handlebars template with all applicable values
             templateRenderer: {
                 type: "gpii.handlebars.renderer.standalone"
             }
         },
         invokers: {
-            // Invoker used to render the component's template and fire
-            // the onTemplateRendered event that the applyBinding's listener
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplate",
                 args: ["{that}.events.onTemplateRendered",
@@ -103,17 +105,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // TODO: update documentation
-    /* Renders a template with gpii-handlebars into the
-     * specified container, and fires completionEvent when done
+    /* Renders a template into the specified container with a gpii.handlebars
+     * client-side renderer, and fires completionEvent when done.
+     * Values in localizedMessages are resolved against those in dynamicValues.
+     * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
+     * dynamicValues, the result is 'msg_auth:"Someone"'.
      * - "completionEvent": component even to fire when complete
      * - "container": container to render the template into
      * - "templateName": a handlebars template name
      * - "templateContent": the raw content of the template to be loaded at templateName
-     * - "termsCollection": terms to use in the handlebars template,
-     *            they will be passed through the resolveTerms function to
-     *            resolve and substitute references to dynamic values in other terms
      * - "renderer": the gpii-handlebars client-side renderer component
+     * - "uiStrings": CSS classes, ID's and other DOM-related values
+     * - "localizedMessages": localized UI strings
+     * - "dynamicValues": other values which are likely to change often.
      * TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     */
     sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
@@ -134,9 +138,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire();
     };
 
-    /* Given a set of terms that may contain a mix of strings, fluid.stringTemplate
-     * syntax and other objects, resolve only the strings using stringTemplate
-     * against the set of terms.
+    /* Given a set of terms that may contain a mix of strings and references in
+     * the fluid.stringTemplate syntax, resolves the stringTemplate referenecs
+     * against another set of terms.
+     * - "termsToResolve": the terms that will be resolved
+     * - "toResolveAgainst": the terms the first set will be resolved against
      */
     sjrk.storyTelling.templateManager.resolveTerms = function (termsToResolve, toResolveAgainst) {
         return fluid.transform(termsToResolve, function (term) {
@@ -152,7 +158,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    // TODO: document this function
+    /* Merges localized UI messages into a component at a given path. Any values
+     * already extant at the path in question are preserved. If there are any
+     * keys which are duplicated, they will be overwritten by the new value.
+     * - "componentMessages": a collection of messages to be merged in
+     * - "component": the infusion component to be affected
+     * - "path": the EL path on the component where messages will be merged
+     */
     sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
         var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
         fluid.set(component, path, mergedEndpoint);

@@ -15,35 +15,50 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.registerNamespace("sjrk.storyTelling.testUtils");
 
-    /*
-     * Used to change the content of a specified HTML element to the given value.
+    /* Changes the content of a specified HTML element to the given value.
      * This is abstracted to a utility function in order to use it with gpii-binder
      * when setting up tests. It triggers the change event in order to ensure
      * the form value is relayed to the model, as val on its own does not.
+     * - "component": the infusion component containing the element
+     * - "selector": the infusion selector of the element
+     * - "value": the value to which the element will be set using jQuery val()
      */
     sjrk.storyTelling.testUtils.changeFormElement = function (component, selector, value) {
         component.locate(selector).val(value).change();
     };
 
-    // TODO: document
+    /* Verifies that specified UI "pages" are visible or hidden in the DOM.
+     * The pages are DOM elements, but could be entire UI grades or internal to them.
+     * Visible is taken to mean "display: block" and hidden is "display: none".
+     * - "expectedHidden": a collection of elements which should be hidden
+     * - "expectedVisible": a collection of elements which should be visible
+     */
     sjrk.storyTelling.testUtils.verifyPageVisibility = function (expectedHidden, expectedVisible) {
         fluid.each(expectedHidden, function (el) {
-            sjrk.storyTelling.testUtils.verifyElementVisibility(el, "none");
+            sjrk.storyTelling.testUtils.assertElementVisibility(el, "none");
         });
 
         fluid.each(expectedVisible, function (el) {
-            sjrk.storyTelling.testUtils.verifyElementVisibility(el, "block");
+            sjrk.storyTelling.testUtils.assertElementVisibility(el, "block");
         });
     };
 
-    // TODO: document
-    sjrk.storyTelling.testUtils.verifyElementVisibility = function (element, expectedVisibility) {
+    /* Asserts that an individual DOM element has a given visibility state
+     * according to its css "display" value. Uses jqUnit for the assertion.
+     * - "element": the DOM element to be tested
+     * - "expectedVisibility": the display state which is expected
+     */
+    sjrk.storyTelling.testUtils.assertElementVisibility = function (element, expectedVisibility) {
         var friendlyName = element.selectorName || element.selector;
         jqUnit.assertEquals("The element " + friendlyName + " has expected visibility", expectedVisibility, element.css("display"));
     };
 
-    // TODO: document
-    sjrk.storyTelling.testUtils.verifyElementText = function (element, expectedText) {
+    /* Asserts that an individual DOM element has a given text value
+     * according to the jQuery text() function. Uses jqUnit for the assertion.
+     * - "element": the DOM element to be tested
+     * - "expectedText": the expected text value of the element
+     */
+    sjrk.storyTelling.testUtils.assertElementText = function (element, expectedText) {
         var friendlyName = element.selectorName || element.selector;
         jqUnit.assertEquals("The element " + friendlyName + " has expected text", expectedText, element.text());
     };

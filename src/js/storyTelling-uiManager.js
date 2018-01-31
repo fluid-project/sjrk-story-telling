@@ -64,6 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // handles text to speech requests globally for the whole site
             storySpeaker: {
                 type: "fluid.textToSpeech",
                 createOnEvent: "{uiManager}.events.onAllUiComponentsReady",
@@ -94,6 +95,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the story editing context
             editor: {
                 type: "sjrk.storyTelling.ui.editor",
                 container: "{uiManager}.options.selectors.storyEditor",
@@ -109,6 +111,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the story preview context
             // TODO: consider rolling the previewer context into the editor
             previewer: {
                 type: "sjrk.storyTelling.ui.previewer",
