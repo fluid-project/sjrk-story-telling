@@ -141,7 +141,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     ]
                 },
                 {
-                    func: "sjrk.storyTelling.testUtils.verifyElementText",
+                    func: "sjrk.storyTelling.testUtils.assertElementText",
                     args: ["{uiManager}.previewer.dom.storyTitle", "New test title"]
                 },
                 {
