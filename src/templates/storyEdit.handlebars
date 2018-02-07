@@ -29,7 +29,7 @@
         <label for="{{uiStrings.storyContentIdForLabel}}">{{localizedMessages.message_storyContentInputLabel}}</label>
     </div>
     <div>
-        <textarea id="{{uiStrings.storyContentIdForLabel}}" class="{{uiStrings.storyContentClasses}}" cols="30" rows="10" placeholder="{{message_storyContentInputPlaceholder}}"></textarea>
+        <textarea id="{{uiStrings.storyContentIdForLabel}}" class="{{uiStrings.storyContentClasses}}" cols="30" rows="10" placeholder="{{localizedMessages.message_storyContentInputPlaceholder}}"></textarea>
     </div>
 
     <div class="sjrk-storyTelling-label-container">
@@ -80,8 +80,8 @@
             <ul>
             {{#each localizedMessages.availableCategories}}
                 <li>
-                    <input name="categories" type="checkbox" id="{{../storyCategoryListIdForLabel}}_{{@key}}" value="{{@key}}" class="{{../storyCategoryClasses}}" />
-                    <label for="{{../storyCategoryListIdForLabel}}_{{@key}}">{{this}}</label>
+                    <input name="categories" type="checkbox" id="{{../uiStrings.storyCategoryListIdForLabel}}_{{@key}}" value="{{@key}}" class="{{../uiStrings.storyCategoryClasses}}" />
+                    <label for="{{../uiStrings.storyCategoryListIdForLabel}}_{{@key}}">{{this}}</label>
                 </li>
             {{/each}}
             </ul>
