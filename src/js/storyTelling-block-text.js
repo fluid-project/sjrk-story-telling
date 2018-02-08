@@ -29,8 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     templateStrings: {
                         uiStrings: {
-                            // TODO: think about the usage of these functions
-                            textBlockClasses: "@expand:sjrk.storyTelling.ui.getClasses(storyBlock-text)",
+                            // TODO: think about the usage/location of this function
                             textBlockIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)"
                         }
                     }
@@ -38,9 +37,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             binder: {
                 options: {
-                    selectors: "{templateManager}.options.templateStrings.uiStrings",
+                    selectors: {
+                        textBlock: ".sjrkc-storyBlock-text"
+                    },
                     bindings: {
-                        textBlockClasses: "{text}.model.content.text"
+                        textBlock: "{text}.model.content.text"
                     }
                 }
             }

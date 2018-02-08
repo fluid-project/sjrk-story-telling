@@ -25,14 +25,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             timestampModified: null
         },
         listeners: {
-            "{templateManager}.onAllResourcesLoaded": {
+            "{templateManager}.events.onAllResourcesLoaded": {
                 funcName: "gpii.binder.applyBinding",
-                args: "{that}"
+                args: "{binder}"
             }
         },
         components: {
             templateManager: {
                 type: "sjrk.storyTelling.templateManager",
+                container: "{block}.container",
                 options: {
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
@@ -41,7 +42,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             binder: {
-                type: "gpii.binder"
+                type: "gpii.binder",
+                container: "{block}.container"
             }
         }
     });
