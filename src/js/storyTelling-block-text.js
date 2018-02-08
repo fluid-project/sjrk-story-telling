@@ -25,8 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars",
-                        messagesPath: "%resourcePrefix/src/messages/storyBlockText.json"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
                     },
                     templateStrings: {
                         uiStrings: {

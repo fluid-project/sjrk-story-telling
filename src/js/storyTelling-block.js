@@ -17,8 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.viewComponent"],
         model: {
             content: {
-                text: "",
-                simplifiedText: ""
+                // the contents of each block will depend on what kind of block it is
             },
             id: null,
             language: "",
@@ -30,6 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.templateManager",
                 options: {
                     templateConfig: {
+                        messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
                         locale: "{block}.language"
                     }
                 }
