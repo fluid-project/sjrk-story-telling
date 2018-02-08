@@ -29,6 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     templateStrings: {
                         uiStrings: {
+                            // TODO: think about the usage of these functions
                             blockClasses: "@expand:sjrk.storyTelling.ui.getClasses(storyBlock-text)",
                             blockIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)"
                         }

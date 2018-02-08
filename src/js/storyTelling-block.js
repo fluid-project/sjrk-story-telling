@@ -24,6 +24,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             timestampCreated: null,
             timestampModified: null
         },
+        listeners: {
+            "{templateManager}.onAllResourcesLoaded": {
+                funcName: "gpii.binder.applyBinding",
+                args: "{that}"
+            }
+        },
         components: {
             templateManager: {
                 type: "sjrk.storyTelling.templateManager",
@@ -33,6 +39,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         locale: "{block}.language"
                     }
                 }
+            },
+            binder: {
+                type: "gpii.binder"
             }
         }
     });
