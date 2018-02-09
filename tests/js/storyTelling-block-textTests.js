@@ -15,6 +15,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.block.testText", {
         gradeNames: ["sjrk.storyTelling.block.text"],
+        model: {
+            text: "An initial value",
+            someOtherKey: "a value "
+        },
         components: {
             templateManager: {
                 options: {
@@ -32,10 +36,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Text Block.",
             tests: [{
                 name: "Test Text Block",
-                expect: 1,
+                expect: 3,
                 sequence: [{
-                    funcName: "jqUnit.assert",
-                    args: ["There are currently no tests for this grade."]
+                    event: "{textTest text}.events.onReadyToBind",
+                    listener: "jqUnit.assert",
+                    args: ["The template has been loaded and rendered"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{text}", "textBlock", "Hello Shyguy!"]
+                },
+                {
+                    changeEvent: "{text}.applier.modelChanged",
+                    path: "text",
+                    listener: "jqUnit.assertEquals",
+                    args: ["The model text has expected value", "Hello Shyguy!", "{text}.model.text"]
+                },
+                {
+                    func: "{text}.applier.change",
+                    args: ["text", "Hello Rootbeer!"]
+                },
+                {
+                    changeEvent: "{text}.applier.modelChanged",
+                    path: "text",
+                    listener: "sjrk.storyTelling.testUtils.assertElementValue",
+                    args: ["{text}.dom.textBlock", "Hello Rootbeer!"]
                 }]
             }]
         }]

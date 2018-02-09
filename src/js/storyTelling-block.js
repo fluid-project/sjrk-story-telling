@@ -16,18 +16,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block", {
         gradeNames: ["fluid.viewComponent"],
         model: {
-            content: {
-                // the contents of each block will depend on what kind of block it is
-            },
             id: null,
             language: "",
             timestampCreated: null,
             timestampModified: null
         },
+        events: {
+            onReadyToBind: "{templateManager}.events.onAllResourcesLoaded"
+        },
         listeners: {
-            "{templateManager}.events.onAllResourcesLoaded": {
+            "onReadyToBind.applyBinding": {
                 funcName: "gpii.binder.applyBinding",
-                args: "{binder}"
+                args: "{that}.binder"
             }
         },
         components: {
@@ -42,8 +42,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             binder: {
-                type: "gpii.binder",
-                container: "{block}.container"
+                type: "sjrk.storyTelling.binder",
+                container: "{block}.container",
+                options: {
+                    model: "{block}.model"
+                }
             }
         }
     });

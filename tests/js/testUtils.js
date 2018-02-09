@@ -49,8 +49,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "expectedVisibility": the display state which is expected
      */
     sjrk.storyTelling.testUtils.assertElementVisibility = function (element, expectedVisibility) {
-        var friendlyName = element.selectorName || element.selector;
-        jqUnit.assertEquals("The element " + friendlyName + " has expected visibility", expectedVisibility, element.css("display"));
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected visibility", expectedVisibility, element.css("display"));
     };
 
     /* Asserts that an individual DOM element has a given text value
@@ -59,8 +58,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "expectedText": the expected text value of the element
      */
     sjrk.storyTelling.testUtils.assertElementText = function (element, expectedText) {
-        var friendlyName = element.selectorName || element.selector;
-        jqUnit.assertEquals("The element " + friendlyName + " has expected text", expectedText, element.text());
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected text", expectedText, element.text());
+    };
+
+    /* Asserts that an individual DOM element has a given value
+     * according to the jQuery val() function. Uses jqUnit for the assertion.
+     * - "element": the DOM element to be tested
+     * - "expectedValue": the expected value of the element
+     */
+    sjrk.storyTelling.testUtils.assertElementValue = function (element, expectedValue) {
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected value", expectedValue, element.val());
+    };
+
+    /* Returns a "friendly" name for the given element, when available
+     * - "element": the DOM element for which the friendly name is to be returned
+     */
+    sjrk.storyTelling.testUtils.getElementName = function (element) {
+        return element.selectorName || element.selector || element.toString();
     };
 
 })(jQuery, fluid);
