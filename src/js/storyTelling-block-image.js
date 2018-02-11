@@ -13,25 +13,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.text", {
+    fluid.defaults("sjrk.storyTelling.block.image", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
-            text: null,
-            simplifiedText: null
+            imageUrl: null,
+            alternativeText: null,
+            description: null
         },
         selectors: {
-            textBlock: ".sjrkc-storyblock-text"
+            imagePreview: ".sjrkc-storyblock-image-preview",
+            imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
+            imageUploadButton: ".sjrkc-storyblock-image-upload-button",
+            imageAltText: ".sjrkc-storyblock-image-alt-text",
+            imageDescription: ".sjrck-storyblock-image-description"
         },
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
                     },
                     templateStrings: {
                         uiStrings: {
                             // TODO: think about the usage/location of this function
-                            textBlockIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)"
+                            imageUploadButton: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageUploadButton)",
+                            imageCaptureButton: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageCaptureButton)",
+                            imageAltText: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageAltText)",
+                            imageDescription: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageDescription)"
                         }
                     }
                 }
