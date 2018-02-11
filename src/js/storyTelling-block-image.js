@@ -20,6 +20,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             alternativeText: null,
             description: null
         },
+        events: {
+            imageUploadRequested: null,
+            imageCaptureRequested: null
+        },
         selectors: {
             imagePreview: ".sjrkc-storyblock-image-preview",
             imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
