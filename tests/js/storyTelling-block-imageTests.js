@@ -26,62 +26,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    //
-    // fluid.defaults("sjrk.storyTelling.block.textTester", {
-    //     gradeNames: ["fluid.test.testCaseHolder"],
-    //     modules: [{
-    //         name: "Test Text Block.",
-    //         tests: [{
-    //             name: "Test Text Block",
-    //             expect: 3,
-    //             sequence: [{
-    //                 event: "{textTest text}.events.onReadyToBind",
-    //                 listener: "jqUnit.assert",
-    //                 args: ["The template has been loaded and rendered"]
-    //             },
-    //             {
-    //                 funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-    //                 args: ["{text}", "textBlock", "Hello Shyguy!"]
-    //             },
-    //             {
-    //                 changeEvent: "{text}.applier.modelChanged",
-    //                 path: "text",
-    //                 listener: "jqUnit.assertEquals",
-    //                 args: ["The model text has expected value", "Hello Shyguy!", "{text}.model.text"]
-    //             },
-    //             {
-    //                 func: "{text}.applier.change",
-    //                 args: ["text", "Hello Rootbeer!"]
-    //             },
-    //             {
-    //                 changeEvent: "{text}.applier.modelChanged",
-    //                 path: "text",
-    //                 listener: "sjrk.storyTelling.testUtils.assertElementValue",
-    //                 args: ["{text}.dom.textBlock", "Hello Rootbeer!"]
-    //             }]
-    //         }]
-    //     }]
-    // });
-    //
-    // fluid.defaults("sjrk.storyTelling.block.textTest", {
-    //     gradeNames: ["fluid.test.testEnvironment"],
-    //     components: {
-    //         text: {
-    //             type: "sjrk.storyTelling.block.testText",
-    //             container: "#testText",
-    //             createOnEvent: "{textTester}.events.onTestCaseStart"
-    //         },
-    //         textTester: {
-    //             type: "sjrk.storyTelling.block.textTester"
-    //         }
-    //     }
-    // });
-    //
+    fluid.defaults("sjrk.storyTelling.block.imageTester", {
+        gradeNames: ["fluid.test.testCaseHolder"],
+        modules: [{
+            name: "Test Text Block.",
+            tests: [{
+                name: "Test Text Block",
+                expect: 1,
+                sequence: [{
+                    event: "{imageTest image}.events.onReadyToBind",
+                    listener: "jqUnit.assert",
+                    args: ["The template has been loaded and rendered"]
+                }]
+            }]
+        }]
+    });
+
+    fluid.defaults("sjrk.storyTelling.block.imageTest", {
+        gradeNames: ["fluid.test.testEnvironment"],
+        components: {
+            image: {
+                type: "sjrk.storyTelling.block.testImage",
+                container: "#testImage",
+                createOnEvent: "{imageTester}.events.onTestCaseStart"
+            },
+            imageTester: {
+                type: "sjrk.storyTelling.block.imageTester"
+            }
+        }
+    });
+
     $(document).ready(function () {
-        // fluid.test.runTests([
-        //     "sjrk.storyTelling.block.textTest"
-        // ]);
-        sjrk.storyTelling.block.testImage("#testImage");
+        fluid.test.runTests([
+            "sjrk.storyTelling.block.imageTest"
+        ]);
+        sjrk.storyTelling.block.testImage("#testImageManual");
     });
 
 })(jQuery, fluid);
