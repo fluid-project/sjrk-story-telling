@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.applier.change("fileObjectURL", URL.createObjectURL(currentFile));
     };
 
-    fluid.defaults("sjrk.storyTelling.block.image", {
+    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
             imageUrl: null,
@@ -85,7 +85,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
             imageUploadButton: ".sjrkc-storyblock-image-upload-button",
             imageAltText: ".sjrkc-storyblock-image-alt-text",
-            imageDescription: ".sjrck-storyblock-image-description"
+            imageDescription: ".sjrck-storyblock-image-description",
+            singleFileUploader: ".sjrkc-storyblock-uploader"
         },
         listeners: {
             "{templateManager}.events.onTemplateRendered": [{
@@ -100,7 +101,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "bindImageCaptureRequested"
             }],
             "imageCaptureRequested.handleImageCaptureRequested": {
-                func: "sjrk.storyTelling.block.image.handleCaptureRequested"
+                func: "sjrk.storyTelling.block.imageBlock.handleCaptureRequested"
             }
         },
         invokers: {
@@ -138,16 +139,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             singleFileUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: ".sjrkc-storyblock-uploader",
+                container: "{that}.dom.singleFileUploader",
                 options: {
                     listeners: {
-                        "{image}.events.imageUploadRequested": {
+                        "{imageBlock}.events.imageUploadRequested": {
                             func: "{that}.events.onUploadRequested.fire"
                         }
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{image}.updateImagePreview",
+                            func: "{imageBlock}.updateImagePreview",
                             excludeSource: "init"
                         }
                     }
@@ -157,8 +158,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     // TODO: placeholder
-    sjrk.storyTelling.block.image.handleCaptureRequested = function () {
-        console.log("sjrk.storyTelling.block.image.handleCaptureRequested");
+    sjrk.storyTelling.block.imageBlock.handleCaptureRequested = function () {
+        console.log("sjrk.storyTelling.block.imageBlock.handleCaptureRequested");
     };
 
 })(jQuery, fluid);

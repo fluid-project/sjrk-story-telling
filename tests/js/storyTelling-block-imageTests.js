@@ -13,8 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.testImage", {
-        gradeNames: ["sjrk.storyTelling.block.image"],
+    fluid.defaults("sjrk.storyTelling.block.testImageBlock", {
+        gradeNames: ["sjrk.storyTelling.block.imageBlock"],
         components: {
             templateManager: {
                 options: {
@@ -26,15 +26,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.block.imageTester", {
+    fluid.defaults("sjrk.storyTelling.block.imageBlockTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Text Block.",
+            name: "Test Image Block.",
             tests: [{
-                name: "Test Text Block",
+                name: "Test Image Block",
                 expect: 1,
                 sequence: [{
-                    event: "{imageTest image}.events.onReadyToBind",
+                    event: "{imageBlockTest imageBlock}.events.onReadyToBind",
                     listener: "jqUnit.assert",
                     args: ["The template has been loaded and rendered"]
                 }]
@@ -42,25 +42,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.block.imageTest", {
+    fluid.defaults("sjrk.storyTelling.block.imageBlockTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            image: {
-                type: "sjrk.storyTelling.block.testImage",
+            imageBlock: {
+                type: "sjrk.storyTelling.block.testImageBlock",
                 container: "#testImage",
-                createOnEvent: "{imageTester}.events.onTestCaseStart"
+                createOnEvent: "{imageBlockTester}.events.onTestCaseStart"
             },
-            imageTester: {
-                type: "sjrk.storyTelling.block.imageTester"
+            imageBlockTester: {
+                type: "sjrk.storyTelling.block.imageBlockTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.block.imageTest"
+            "sjrk.storyTelling.block.imageBlockTest"
         ]);
-        sjrk.storyTelling.block.testImage("#testImageManual");
+        sjrk.storyTelling.block.testImageBlock("#testImageManual");
     });
 
 })(jQuery, fluid);
