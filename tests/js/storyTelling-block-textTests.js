@@ -16,8 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block.testText", {
         gradeNames: ["sjrk.storyTelling.block.text"],
         model: {
-            text: "An initial value",
-            someOtherKey: "a value "
+            text: "An initial value"
         },
         components: {
             templateManager: {
