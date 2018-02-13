@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block.singleFileUploader", {
         gradeNames: ["fluid.viewComponent"],
         members: {
-            currentFile: null,
+            currentFile: null
         },
         // Holds a fileObjectURL for file preview purposes
         model: {
@@ -117,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
                     },
                     templateStrings: {
-                        uiStrings: {                            
+                        uiStrings: {
                             imageUploadButton: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageUploadButton)",
                             imageCaptureButton: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageCaptureButton)",
                             imageAltTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageAltText)",
