@@ -117,8 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
                     },
                     templateStrings: {
-                        uiStrings: {
-                            // TODO: think about the usage/location of this function
+                        uiStrings: {                            
                             imageUploadButton: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageUploadButton)",
                             imageCaptureButton: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageCaptureButton)",
                             imageAltTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockImageAltText)",
