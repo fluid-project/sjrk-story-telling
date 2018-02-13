@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "SJRK Storytelling Project",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
