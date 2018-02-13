@@ -32,12 +32,47 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Image Block.",
             tests: [{
                 name: "Test Image Block",
-                expect: 1,
+                expect: 5,
                 sequence: [{
                     event: "{imageBlockTest imageBlock}.events.onReadyToBind",
                     listener: "jqUnit.assert",
                     args: ["The template has been loaded and rendered"]
-                }]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{imageBlock}", "imageAltText", "Alternative text for the image"]
+                },
+                {
+                    changeEvent: "{imageBlock}.applier.modelChanged",
+                    path: "alternativeText",
+                    listener: "jqUnit.assertEquals",
+                    args: ["The model text has expected value", "Alternative text for the image", "{imageBlock}.model.alternativeText"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{imageBlock}", "imageDescription", "Caption for image"]
+                },
+                {
+                    changeEvent: "{imageBlock}.applier.modelChanged",
+                    path: "description",
+                    listener: "jqUnit.assertEquals",
+                    args: ["The model text has expected value", "Caption for image", "{imageBlock}.model.description"]
+                }, {
+                    jQueryTrigger: "click",
+                    element: "{imageBlock}.dom.imageUploadButton"
+                }, {
+                    event: "{imageBlock}.events.imageUploadRequested",
+                    listener: "jqUnit.assert",
+                    args: ["The imageUploadRequested event fired"]
+                },
+                {
+                   jQueryTrigger: "click",
+                   element: "{imageBlock}.dom.imageCaptureButton"
+               }, {
+                   event: "{imageBlock}.events.imageCaptureRequested",
+                   listener: "jqUnit.assert",
+                   args: ["The imageUploadRequested event fired"]
+               }]
             }]
         }]
     });

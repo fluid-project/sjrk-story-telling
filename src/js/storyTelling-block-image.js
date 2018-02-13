@@ -31,7 +31,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onFileChanged: null
         },
         selectors: {
-            fileInput: ".sjrkc-storyblock-uploader-input"
+            // Supplied by implementing component
+            fileInput: null
         },
         listeners: {
             "onCreate.addFileInputChangeListener": {
@@ -85,7 +86,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
             imageUploadButton: ".sjrkc-storyblock-image-upload-button",
             imageAltText: ".sjrkc-storyblock-image-alt-text",
-            imageDescription: ".sjrck-storyblock-image-description",
+            imageDescription: ".sjrkc-storyblock-image-description",
             singleFileUploader: ".sjrkc-storyblock-uploader"
         },
         listeners: {
@@ -141,6 +142,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
                 container: "{that}.dom.singleFileUploader",
                 options: {
+                    selectors: {
+                        fileInput: ".sjrkc-storyblock-uploader-input"
+                    },
                     listeners: {
                         "{imageBlock}.events.imageUploadRequested": {
                             func: "{that}.events.onUploadRequested.fire"
