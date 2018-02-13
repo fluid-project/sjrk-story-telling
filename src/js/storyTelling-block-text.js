@@ -13,11 +13,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.text", {
+    fluid.defaults("sjrk.storyTelling.block.textBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
-            text: null,
-            simplifiedText: null
+            text: null
         },
         selectors: {
             textBlock: ".sjrkc-storyblock-text"
@@ -38,7 +37,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             binder: {
                 options: {
-                    selectors: "{block}.options.selectors",
                     bindings: {
                         textBlock: "text"
                     }

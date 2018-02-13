@@ -161,6 +161,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     ]
                 }]
             }]
+            // TODO: add tests for each field's bindings, see text block tests
         }]
     });
 

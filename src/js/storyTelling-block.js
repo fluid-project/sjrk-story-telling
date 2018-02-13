@@ -17,9 +17,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.viewComponent"],
         model: {
             id: null,
-            language: "",
+            language: null,
             timestampCreated: null,
-            timestampModified: null
+            timestampModified: null,
+            heading: null
+        },
+        selectors: {
+            heading: ".sjrkc-storyblock-heading"
         },
         events: {
             onReadyToBind: "{templateManager}.events.onAllResourcesLoaded"
@@ -38,6 +42,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
                         locale: "{block}.language"
+                    },
+                    templateStrings: {
+                        uiStrings: {
+                            // TODO: think about the usage/location of this function
+                            // TODO: perhaps it could be set up as a handlebars helper (see SJRK-52 Jira)
+                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)"
+                        }
                     }
                 }
             },
@@ -45,7 +56,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.binder",
                 container: "{block}.container",
                 options: {
-                    model: "{block}.model"
+                    model: "{block}.model",
+                    selectors: "{block}.options.selectors",
+                    bindings: {
+                        heading: "heading"
+                    }
                 }
             }
         }
