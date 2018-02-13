@@ -13,8 +13,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // A simple single-file uploader using what's presumed to be a hidden
-    // <input type="file">
+    // A simple single-file uploader to use with hidden <input type="file">
+    // elements
+    //
+    // presumes indirect usage via the onUploadRequested event
+    //
+    // maintains a handle on both the current file and a constructed
+    // object URL that can be used for client-side preview purposes,
+    // presenting information in a custom style, etc
     //
     // This component is expected to be used with existing markup
     fluid.defaults("sjrk.storyTelling.block.singleFileUploader", {
@@ -31,7 +37,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onFileChanged: null
         },
         selectors: {
-            // Supplied by implementing component
+            // Supplied by implementing component; this should be a
+            // reference to an appropriate <input type="file">
             fileInput: null
         },
         listeners: {
