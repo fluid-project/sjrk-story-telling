@@ -39,7 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "change",
                 "args": ["{that}.handleFileInputChange"]
             },
-            "onUploadRequested.clickFileInput": {
+            "onUploadRequested.clickHiddenFileInput": {
                 "this": "{that}.dom.fileInput",
                 "method": "click",
                 "args": []
