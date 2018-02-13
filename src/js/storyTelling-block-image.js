@@ -105,8 +105,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         invokers: {
             "updateImagePreview": {
-                funcName: "sjrk.storyTelling.block.image.updateImagePreview",
-                args: ["{that}", "{singleFileUploader}.model.fileObjectURL"]
+                "this": "{that}.dom.imagePreview",
+                "method": "attr",
+                "args": ["src", "{singleFileUploader}.model.fileObjectURL"]
             }
         },
         components: {
@@ -155,10 +156,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    sjrk.storyTelling.block.image.updateImagePreview = function (that, imagePreviewURL) {
-        that.locate("imagePreview").attr("src", imagePreviewURL);
-    };
 
     // TODO: placeholder
     sjrk.storyTelling.block.image.handleCaptureRequested = function () {
