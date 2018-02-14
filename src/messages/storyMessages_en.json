@@ -1,5 +1,9 @@
 {
     "message_readStoryText": "%title, by %author. %content",
+    "message_storyBlockAddTextBlock": "Add a text block",
+    "message_storyBlockAddImageBlock": "Add an image block",
+    "message_storyBlockRemoveBlocks": "Remove selected blocks",
+    "message_storyBlockRestoreBlocks": "Restore last removed blocks",
     "message_storyContentInputLabel": "Enter story text in the box",
     "message_storyContentInputPlaceholder": "Begin typing here",
     "message_storyListenToText": "Listen to my story",

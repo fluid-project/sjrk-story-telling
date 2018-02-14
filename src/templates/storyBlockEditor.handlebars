@@ -1,0 +1,55 @@
+<form class="sjrk-storyTelling-block-editor sjrkc-storyTelling-block-editor">
+    <div class="sjrk-storyTelling-storyEditorPage1 sjrkc-storyTelling-storyEditorPage1">
+        <div class="sjrk-storyTelling-button-container">
+            <button class="sjrk-storyTelling-button-text-block sjrkc-storyTelling-button-text-block" type="button">{{localizedMessages.message_storyBlockAddTextBlock}}</button>
+        </div>
+        <div class="sjrk-storyTelling-button-container">
+            <button class="sjrk-storyTelling-button-image-block sjrkc-storyTelling-button-image-block" type="button">{{localizedMessages.message_storyBlockAddImageBlock}}</button>
+        </div>
+        <div class="sjrk-storyTelling-button-container">
+            <button class="sjrk-storyTelling-button-remove-blocks sjrkc-storyTelling-button-remove-blocks" type="button">{{localizedMessages.message_storyBlockRemoveBlocks}}</button>
+        </div>
+        <div class="sjrk-storyTelling-button-container">
+            <button class="sjrk-storyTelling-button-restore-blocks sjrkc-storyTelling-button-restore-blocks" type="button">{{localizedMessages.message_storyBlockRestoreBlocks}}</button>
+        </div>
+        <hr />
+        <!-- area where blocks will be added -->
+        <div class="sjrk-storyTelling-story sjrkc-storyTelling-story"></div>
+        <div class="sjrk-storyTelling-button-container">
+            <button class="sjrk-storyTelling-storyEditorNext sjrkc-storyTelling-storyEditorNext" type="button">{{localizedMessages.message_storySubmitButton}}</button>
+        </div>
+    </div>
+
+    <div class="sjrk-storyTelling-storyEditorPage2 sjrkc-storyTelling-storyEditorPage2">
+        <!-- field for story title -->
+        <div class="sjrk-storyTelling-label-container">
+            <label for="{{uiStrings.storyTitleIdForLabel}}">{{localizedMessages.message_storyTitleInputLabel}}</label>
+        </div>
+        <div>
+            <input id="{{uiStrings.storyTitleIdForLabel}}" class="sjrk-storyTelling-storyTitle sjrkc-storyTelling-storyTitle" placeholder="{{localizedMessages.message_storyTitleInputPlaceholder}}" />
+        </div>
+
+        <div class="sjrk-storyTelling-label-container">
+            <label for="{{uiStrings.storyAuthorIdForLabel}}">{{localizedMessages.message_storyAuthorInputLabel}}</label>
+        </div>
+        <div>
+            <input id="{{uiStrings.storyAuthorIdForLabel}}" class="sjrk-storyTelling-storyAuthor sjrkc-storyTelling-storyAuthor" placeholder="{{localizedMessages.message_storyAuthorInputPlaceholder}}" />
+        </div>
+
+        <div class="sjrk-storyTelling-label-container">
+            <label for="{{uiStrings.storyTagsIdForLabel}}">{{localizedMessages.message_storyAddTagsText}}</label>
+        </div>
+        <div>
+            <input id="{{uiStrings.storyTagsIdForLabel}}" class="sjrk-storyTelling-storyTags sjrkc-storyTelling-storyTags" type="text" placeholder="{{localizedMessages.message_storyAddTagsPlaceholder}}">
+        </div>
+
+        <div class="grid-12">
+            <div class="col-6">
+                <a href="javascript:void(0)" class="sjrk-storyTelling-storyEditorPrevious sjrkc-storyTelling-storyEditorPrevious">{{localizedMessages.message_storyGoBack}}</a>
+            </div>
+            <div class="col-6 sjrk-storyTelling-link-container-right">
+                <button class="sjrk-storyTelling-storySubmit sjrkc-storyTelling-storySubmit" type="button">{{localizedMessages.message_storySubmitButton}}</button>
+            </div>
+        </div>
+    </div>
+</form>

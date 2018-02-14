@@ -28,6 +28,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onReadyToBind: "{templateManager}.events.onAllResourcesLoaded"
         },
+        // TODO: use the binder's onUiReadyToBind event
         listeners: {
             "onReadyToBind.applyBinding": {
                 funcName: "gpii.binder.applyBinding",
