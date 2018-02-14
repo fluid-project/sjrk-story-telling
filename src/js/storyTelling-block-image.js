@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Grade used to detect and enhance if a mobile camera is available
     // May not be super-reliable at this time
-    // Assumes anything on iPhone, iPad or Android platforms is a mobile
+    // Assumes anything on iPhone, iPad or Android is a mobile
     // device with a camera
     fluid.defaults("sjrk.storyTelling.mobileCameraAware", {
         gradeNames: ["fluid.contextAware", "fluid.component"],
