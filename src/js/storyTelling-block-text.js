@@ -20,7 +20,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             simplifiedText: null
         },
         selectors: {
-            textBlock: ".sjrkc-storyblock-text"
+            textBlockText: ".sjrkc-storyblock-text",
+            textBlockSimplifiedText: ".sjrkc-storyblock-simplified-text"
         },
         components: {
             templateManager: {
@@ -39,7 +40,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             binder: {
                 options: {
                     bindings: {
-                        textBlock: "text"
+                        textBlockText: "text",
+                        textBlockSimplifiedText: "simplifiedText"
                     }
                 }
             }
