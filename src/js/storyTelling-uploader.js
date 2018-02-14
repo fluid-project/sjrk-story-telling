@@ -73,8 +73,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.block.singleFileUploader.updateFileObjectURL = function (that, currentFile) {
-        URL.revokeObjectURL(that.model.fileObjectURL);
-        that.applier.change("fileObjectURL", URL.createObjectURL(currentFile));
+        if(currentFile) {
+            URL.revokeObjectURL(that.model.fileObjectURL);
+            that.applier.change("fileObjectURL", URL.createObjectURL(currentFile));
+        } else {
+            that.applier.change("fileObjectURL", "");
+        }
     };
 
-})(jQuery, fluid);    
+})(jQuery, fluid);

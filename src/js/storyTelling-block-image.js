@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             imageUploadButton: ".sjrkc-storyblock-image-upload-button",
             imageAltText: ".sjrkc-storyblock-image-alt-text",
             imageDescription: ".sjrkc-storyblock-image-description",
-            singleFileUploader: ".sjrkc-storyblock-uploader"
+            singleFileUploader: ".sjrkc-storyblock-uploader-input"
         },
         listeners: {
             "{templateManager}.events.onTemplateRendered": [{
@@ -52,7 +52,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "updateImagePreview": {
                 "this": "{that}.dom.imagePreview",
                 "method": "attr",
-                "args": ["src", "{singleFileUploader}.model.fileObjectURL"]
+                "args": ["src", "{arguments}.0"]
             }
         },
         components: {
@@ -83,10 +83,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             singleFileUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{that}.dom.singleFileUploader",
+                container: "{imageBlock}.dom.singleFileUploader",
                 options: {
                     selectors: {
-                        fileInput: ".sjrkc-storyblock-uploader-input"
+                        fileInput: "{that}.container"
                     },
                     listeners: {
                         "{imageBlock}.events.imageUploadRequested": {
@@ -96,6 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     modelListeners: {
                         "fileObjectURL": {
                             func: "{imageBlock}.updateImagePreview",
+                            args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
                     }
