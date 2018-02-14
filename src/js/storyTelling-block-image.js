@@ -13,15 +13,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // Grade used to detect and enhance if a mobile camera is available
+    // May not be super-reliable at this time
+    // Assumes anything on iPhone, iPad or Android platforms is a mobile
+    // device with a camera
     fluid.defaults("sjrk.storyTelling.mobileCameraAware", {
         gradeNames: ["fluid.contextAware", "fluid.component"],
         contextAwareness: {
             technology: {
                 checks: {
                     mobileCamera: {
-                        contextValue: "{fluid.platform.hasMobileCamera}",
+                        contextValue: "{fluid.platform.hasMobileCamera}"
                         // gradeNames: supplied by implementation
-                    },
+                    }
                     // defaultGradeNames: supplied by implementation
                 }
             }
@@ -37,29 +41,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.contextAware.makeChecks({
         "fluid.platform.hasMobileCamera": {
             funcName: "sjrk.storyTelling.mobileCameraAware.hasMobileCamera"
-        }
-    });
-
-    fluid.defaults("sjrk.storyTelling.block.imageBlock.hasMobileCamera", {
-        selectors: {
-            imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
-        },
-        components: {
-            templateManager: {
-                options: {
-                    templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
-                    }
-                }
-            }
-        },
-        listeners: {
-            "{templateManager}.events.onTemplateRendered": {
-                    this: "{that}.dom.imageCaptureButton",
-                    method: "click",
-                    args: ["{that}.events.imageCaptureRequested.fire"],
-                    namespace: "bindImageCaptureRequested"
-                }
         }
     });
 
@@ -80,8 +61,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             description: null
         },
         events: {
-            imageUploadRequested: null,
-            imageCaptureRequested: null
+            imageUploadRequested: null
         },
         selectors: {
             imagePreview: ".sjrkc-storyblock-image-preview",
@@ -96,9 +76,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 method: "click",
                 args: ["{that}.events.imageUploadRequested.fire"],
                 namespace: "bindImageUploadRequested"
-            },
-            "imageCaptureRequested.handleImageCaptureRequested": {
-                func: "sjrk.storyTelling.block.imageBlock.handleCaptureRequested"
             }
         },
         invokers: {
@@ -158,9 +135,54 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // TODO: placeholder
-    sjrk.storyTelling.block.imageBlock.handleCaptureRequested = function () {
-        console.log("sjrk.storyTelling.block.imageBlock.handleCaptureRequested");
-    };
+
+    fluid.defaults("sjrk.storyTelling.block.imageBlock.hasMobileCamera", {
+        selectors: {
+            imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
+            cameraCaptureUploader: ".sjrkc-storyblock-camera-capture-input"
+        },
+        components: {
+            templateManager: {
+                options: {
+                    templateConfig: {
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
+                    }
+                }
+            },
+            cameraCaptureUploader: {
+                type: "sjrk.storyTelling.block.singleFileUploader",
+                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                container: "{hasMobileCamera}.dom.singleFileUploader",
+                options: {
+                    selectors: {
+                        fileInput: "{that}.container"
+                    },
+                    listeners: {
+                        "{hasMobileCamera}.events.imageCaptureRequested": {
+                            func: "{that}.events.onUploadRequested.fire"
+                        }
+                    },
+                    modelListeners: {
+                        "fileObjectURL": {
+                            func: "{imageBlock}.updateImagePreview",
+                            args: "{that}.model.fileObjectURL",
+                            excludeSource: "init"
+                        }
+                    }
+                }
+            }
+        },
+        events: {
+            imageCaptureRequested: null
+        },
+        listeners: {
+            "{templateManager}.events.onTemplateRendered": {
+                this: "{that}.dom.imageCaptureButton",
+                method: "click",
+                args: ["{that}.events.imageCaptureRequested.fire"],
+                namespace: "bindImageCaptureRequested"
+            }
+        }
+    });
 
 })(jQuery, fluid);

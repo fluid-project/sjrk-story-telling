@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -64,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{imageBlock}.events.imageUploadRequested",
                     listener: "jqUnit.assert",
                     args: ["The imageUploadRequested event fired"]
-                },
+                }
                 // TODO: make these context-aware tests
                //  {
                //     jQueryTrigger: "click",
