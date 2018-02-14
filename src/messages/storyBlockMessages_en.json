@@ -1,4 +1,6 @@
 {
+    "message_blockHeadingLabel": "Heading",
+    "message_blockHeadingPlaceholder": "Enter the block heading here",
     "message_textInputLabel": "Enter text in the box",
     "message_textInputPlaceholder": "Begin typing here",
     "message_imageAltTextInput": "Enter alt text here",

@@ -1,5 +1,13 @@
 <!-- TODO: consider adding header text input and level selection for each block -->
+<!-- TODO: avoid repeating heading boilerplate for each block https://issues.fluidproject.org/projects/SJRK/issues/SJRK-52 -->
 <div class="sjrk-storyblock-block">
+    <!-- TODO: a checkbox at the top right to select this block -->
+    <div class="sjrk-storyTelling-label-container">
+        <label for="{{uiStrings.blockHeadingIdForLabel}}">{{localizedMessages.message_blockHeadingLabel}}</label>
+    </div>
+    <div>
+        <input id="{{uiStrings.blockHeadingIdForLabel}}" class="sjrk-storyblock-heading sjrkc-storyblock-heading" cols="30" rows="10" placeholder="{{localizedMessages.message_blockHeadingPlaceholder}}"></textarea>
+    </div>
     <div class="sjrk-storyTelling-label-container">
         <label for="{{uiStrings.textBlockIdForLabel}}">{{localizedMessages.message_textInputLabel}}</label>
     </div>
