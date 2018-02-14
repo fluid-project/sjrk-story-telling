@@ -91,11 +91,4 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    $(document).ready(function () {
-        fluid.test.runTests([
-            "sjrk.storyTelling.block.imageBlockTest"
-        ]);
-        sjrk.storyTelling.block.testImageBlock("#testImageManual");
-    });
-
 })(jQuery, fluid);
