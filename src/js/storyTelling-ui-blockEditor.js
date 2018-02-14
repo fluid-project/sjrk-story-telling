@@ -25,6 +25,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
             storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)"
         },
+        // TODO: add events for binding the various buttons
+        // TODO: add listeners to handle the various buttons' functionality
         components: {
             templateManager: {
                 options: {
