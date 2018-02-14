@@ -33,8 +33,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
-        var platform = navigator.platform.toLowerCase();
-        var hasMobileCamera = platform.includes("iphone") || platform.includes("ipad") || platform.includes("android");
+        var userAgent = navigator.userAgent.toLowerCase();
+        var hasMobileCamera = userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("android");
         return hasMobileCamera;
     };
 
@@ -152,7 +152,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             cameraCaptureUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{hasMobileCamera}.dom.singleFileUploader",
+                container: "{hasMobileCamera}.dom.cameraCaptureUploader",
                 options: {
                     selectors: {
                         fileInput: "{that}.container"
