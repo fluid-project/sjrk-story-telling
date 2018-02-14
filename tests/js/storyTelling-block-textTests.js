@@ -84,7 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test text field",
+                name: "Test simplified text field",
                 expect: 2,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
