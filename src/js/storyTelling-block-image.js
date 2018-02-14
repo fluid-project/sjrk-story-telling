@@ -145,7 +145,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImage-withCameraCapture.handlebars"
                     }
                 }
             },
