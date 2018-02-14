@@ -13,8 +13,67 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    fluid.defaults("sjrk.storyTelling.mobileCameraAware", {
+        gradeNames: ["fluid.contextAware", "fluid.component"],
+        contextAwareness: {
+            technology: {
+                checks: {
+                    mobileCamera: {
+                        contextValue: "{fluid.platform.hasMobileCamera}",
+                        // gradeNames: supplied by implementation
+                    },
+                    // defaultGradeNames: supplied by implementation
+                }
+            }
+        }
+    });
+
+    sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
+        var platform = navigator.platform.toLowerCase();
+        var hasMobileCamera = platform.includes("iphone") || platform.includes("ipad") || platform.includes("android");
+        return hasMobileCamera;
+    };
+
+    fluid.contextAware.makeChecks({
+        "fluid.platform.hasMobileCamera": {
+            funcName: "sjrk.storyTelling.mobileCameraAware.hasMobileCamera"
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.block.imageBlock.hasMobileCamera", {
+        selectors: {
+            imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
+        },
+        components: {
+            templateManager: {
+                options: {
+                    templateConfig: {
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
+                    }
+                }
+            }
+        },
+        listeners: {
+            "{templateManager}.events.onTemplateRendered": {
+                    this: "{that}.dom.imageCaptureButton",
+                    method: "click",
+                    args: ["{that}.events.imageCaptureRequested.fire"],
+                    namespace: "bindImageCaptureRequested"
+                }
+        }
+    });
+
     fluid.defaults("sjrk.storyTelling.block.imageBlock", {
-        gradeNames: ["sjrk.storyTelling.block"],
+        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.block"],
+        contextAwareness: {
+            technology: {
+                checks: {
+                    mobileCamera: {
+                        gradeNames: "sjrk.storyTelling.block.imageBlock.hasMobileCamera"
+                    }
+                }
+            }
+        },
         model: {
             imageUrl: null,
             alternativeText: null,
@@ -26,24 +85,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         selectors: {
             imagePreview: ".sjrkc-storyblock-image-preview",
-            imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
             imageUploadButton: ".sjrkc-storyblock-image-upload-button",
             imageAltText: ".sjrkc-storyblock-image-alt-text",
             imageDescription: ".sjrkc-storyblock-image-description",
             singleFileUploader: ".sjrkc-storyblock-uploader-input"
         },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": [{
+            "{templateManager}.events.onTemplateRendered": {
                 this: "{that}.dom.imageUploadButton",
                 method: "click",
                 args: ["{that}.events.imageUploadRequested.fire"],
                 namespace: "bindImageUploadRequested"
-            }, {
-                this: "{that}.dom.imageCaptureButton",
-                method: "click",
-                args: ["{that}.events.imageCaptureRequested.fire"],
-                namespace: "bindImageCaptureRequested"
-            }],
+            },
             "imageCaptureRequested.handleImageCaptureRequested": {
                 func: "sjrk.storyTelling.block.imageBlock.handleCaptureRequested"
             }
@@ -59,7 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImage-noCamera.handlebars"
                     },
                     templateStrings: {
                         uiStrings: {
