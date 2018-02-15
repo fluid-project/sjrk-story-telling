@@ -61,12 +61,6 @@ fieldset ul {
 }
 
 .sjrk-storyblock-block {
-    max-width: 26em;
-    border: solid 2px #000;
-}
-
-.sjrk-storyblock-block {
-    max-width: 30em;
     border: solid 2px #000;
     margin: 1em 0;
 }
