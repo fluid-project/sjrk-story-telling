@@ -69,6 +69,10 @@ fieldset ul {
     background: #eee;
 }
 
+.sjrk-storyTelling-block-alternative-content input {
+    background: #eee;
+}
+
 .sjrk-storyTelling-story-previewPane {
     border: solid 1px #000;
     padding: 2em;
