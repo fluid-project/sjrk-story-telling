@@ -1,23 +1,26 @@
-<!-- TODO: consider adding header text input and level selection for each block -->
 <!-- TODO: avoid repeating heading boilerplate for each block https://issues.fluidproject.org/projects/SJRK/issues/SJRK-52 -->
 <div class="sjrk-storyblock-block">
     <!-- TODO: a checkbox at the top right to select this block -->
-    <div class="sjrk-storyTelling-label-container">
-        <label for="{{uiStrings.blockHeadingIdForLabel}}">{{localizedMessages.message_blockHeadingLabel}}</label>
-    </div>
-    <div>
-        <input id="{{uiStrings.blockHeadingIdForLabel}}" class="sjrk-storyblock-heading sjrkc-storyblock-heading" cols="30" rows="10" placeholder="{{localizedMessages.message_blockHeadingPlaceholder}}"></textarea>
+    <div class="sjrk-storyTelling-block-alternative-content">
+        <div class="sjrk-storyTelling-label-container">
+            <label for="{{uiStrings.blockHeadingIdForLabel}}">{{localizedMessages.message_blockHeadingLabel}}</label>
+        </div>
+        <div>
+            <input id="{{uiStrings.blockHeadingIdForLabel}}" class="sjrk-storyblock-heading sjrkc-storyblock-heading" cols="30" rows="10" placeholder="{{localizedMessages.message_blockHeadingPlaceholder}}"></textarea>
+        </div>
     </div>
     <div class="sjrk-storyTelling-label-container">
         <label for="{{uiStrings.blockTextIdForLabel}}">{{localizedMessages.message_textInputLabel}}</label>
     </div>
     <div>
-        <textarea id="{{uiStrings.blockTextIdForLabel}}" class="sjrk-storyblock-text sjrkc-storyblock-text" cols="30" rows="10" placeholder="{{localizedMessages.message_textInputPlaceholder}}"></textarea>
+        <textarea id="{{uiStrings.blockTextIdForLabel}}" class="sjrk-storyblock-text sjrkc-storyblock-text" cols="30" rows="5" placeholder="{{localizedMessages.message_textInputPlaceholder}}"></textarea>
     </div>
-    <div class="sjrk-storyTelling-label-container">
-        <label for="{{uiStrings.blockSimplifiedTextIdForLabel}}">{{localizedMessages.message_simplifiedTextInputLabel}}</label>
-    </div>
-    <div>
-        <input id="{{uiStrings.blockSimplifiedTextIdForLabel}}" class="sjrk-storyblock-simplified-text sjrkc-storyblock-simplified-text" cols="30" rows="10" placeholder="{{localizedMessages.message_simplifiedTextInputPlaceholder}}"></textarea>
+    <div class="sjrk-storyTelling-block-alternative-content">
+        <div class="sjrk-storyTelling-label-container">
+            <label for="{{uiStrings.blockSimplifiedTextIdForLabel}}">{{localizedMessages.message_simplifiedTextInputLabel}}</label>
+        </div>
+        <div class="sjrk-storyTelling-alternative-content-container">
+            <input id="{{uiStrings.blockSimplifiedTextIdForLabel}}" class="sjrk-storyblock-simplified-text sjrkc-storyblock-simplified-text" cols="30" rows="10" placeholder="{{localizedMessages.message_simplifiedTextInputPlaceholder}}"></textarea>
+        </div>
     </div>
 </div>
