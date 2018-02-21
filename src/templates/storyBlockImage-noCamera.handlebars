@@ -1,11 +1,19 @@
 <!-- TODO: consider adding header text input and level selection for each block -->
 <div class="sjrk-storyblock-block">
+    <div class="sjrk-storyTelling-block-alternative-content">
+        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+            <label for="{{uiStrings.blockHeadingIdForLabel}}">{{localizedMessages.message_blockHeadingLabel}}</label>
+        </div>
+        <div>
+            <input id="{{uiStrings.blockHeadingIdForLabel}}" class="sjrk-storyblock-heading sjrkc-storyblock-heading" cols="30" rows="10" placeholder="{{localizedMessages.message_blockHeadingPlaceholder}}"></textarea>
+        </div>
+    </div>
     <div class="sjrk-storyblock-image-preview-container">
         <img class="sjrkc-storyblock-image-preview sjrk-storyblock-image-preview" alt="" />
     </div>
     <form>
         <div class="sjrk-storyblock-image-buttons-container">
-            <button type="button" class="sjrkc-storyblock-image-upload-button sjrk-storyblock-image-upload-button">{{localizedMessages.message_imageUploadButton}}</button>            
+            <button type="button" class="sjrkc-storyblock-image-upload-button sjrk-storyblock-image-upload-button">{{localizedMessages.message_imageUploadButton}}</button>
         </div>
 
         <div class="sjrk-storyblock-image-alt-text-container">
