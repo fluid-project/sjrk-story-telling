@@ -47,6 +47,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onTextBlockAdditionRequested.fire"]
             },
+            "onReadyToBind.bindAddImageBlock": {
+                "this": "{that}.dom.storyAddImageBlock",
+                "method": "click",
+                "args": ["{that}.events.onImageBlockAdditionRequested.fire"]
+            },
             "onReadyToBind.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
@@ -98,8 +103,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "{blockEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
-                            namespace: "addItem",
+                            namespace: "addTextBlock",
                             args: ["sjrk.storyTelling.block.textBlock"]
+                        },
+                        "{blockEditor}.events.onImageBlockAdditionRequested": {
+                            func: "{that}.events.viewComponentContainerRequested",
+                            namespace: "addImageBlock",
+                            args: ["sjrk.storyTelling.block.imageBlock"]
                         }
                     }
                 }
