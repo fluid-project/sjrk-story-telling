@@ -10,6 +10,12 @@ h1 {
 
 input:not([type="checkbox"]) {
     width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 fieldset ul {
@@ -46,12 +52,25 @@ fieldset ul {
 }
 
 .sjrk-storyTelling-label-container {
-    margin: 1em 0 .25em 0;
+    /* margin: 1em 0 .25em 0; */
 }
 
 .sjrk-storyTelling-tags-container, .sjrk-storyTelling-language-container, .sjrk-storyTelling-categories-container {
     margin: 1em 0 0 0;
     font-weight: bold;
+}
+
+.sjrk-storyblock-block {
+    border: solid 2px #000;
+    margin: 1em 0;
+}
+
+.sjrk-storyTelling-block-alternative-content {
+    background: #eee;
+}
+
+.sjrk-storyTelling-block-alternative-content input {
+    background: #eee;
 }
 
 .sjrk-storyTelling-story-previewPane {

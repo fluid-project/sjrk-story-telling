@@ -16,10 +16,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block.textBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
-            text: null
+            text: null,
+            simplifiedText: null
         },
         selectors: {
-            textBlock: ".sjrkc-storyblock-text"
+            textBlockText: ".sjrkc-storyblock-text",
+            textBlockSimplifiedText: ".sjrkc-storyblock-simplified-text"
         },
         components: {
             templateManager: {
@@ -29,8 +31,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     templateStrings: {
                         uiStrings: {
-                            // TODO: think about the usage/location of this function
-                            textBlockIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)"
+                            blockTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)",
+                            blockSimplifiedTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockSimplifiedText)"
                         }
                     }
                 }
@@ -38,7 +40,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             binder: {
                 options: {
                     bindings: {
-                        textBlock: "text"
+                        textBlockText: "text",
+                        textBlockSimplifiedText: "simplifiedText"
                     }
                 }
             }
