@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -52,6 +52,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onImageBlockAdditionRequested.fire"]
             },
+            "onReadyToBind.bindRemoveSelectedBlocks": {
+                "this": "{that}.dom.storyRemoveSelectedBlocks",
+                "method": "click",
+                "args": ["{that}.events.onRemoveBlocksRequested.fire"]
+            },
             "onReadyToBind.bindSubmitControl": {
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
@@ -82,6 +87,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     ["{that}.dom.storyEditorPage1"],
                     "{that}.events.onVisibilityChanged"
                 ]
+            },
+            "onRemoveBlocksRequested.removeSelectedBlocks": {
+                funcName: "sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks",
+                args: ["{that}.blockManager.managedViewComponentRegistry"]
             }
         },
         // TODO: add events for binding the various buttons
@@ -153,5 +162,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks = function (managedViewComponentRegistry)
+    {
+        fluid.each(managedViewComponentRegistry, function (managedComponent) {
+            var checked = managedComponent.locate("selectedCheckbox").prop("checked");
+
+            if (checked) {
+                managedComponent.destroy();
+            }
+        });
+    };
 
 })(jQuery, fluid);

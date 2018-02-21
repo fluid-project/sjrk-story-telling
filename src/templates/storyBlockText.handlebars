@@ -1,6 +1,12 @@
 <!-- TODO: avoid repeating heading boilerplate for each block https://issues.fluidproject.org/projects/SJRK/issues/SJRK-52 -->
 <div class="sjrk-storyblock-block">
-    <!-- TODO: a checkbox at the top right to select this block -->
+    <!-- TODO: repeated markup start -->
+    <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+        <label for="{{uiStrings.blockSelectionCheckboxIdForLabel}}">{{localizedMessages.message_blockSelectionCheckboxLabel}}</label>
+    </div>
+    <div>
+        <input id="{{uiStrings.blockSelectionCheckboxIdForLabel}}" class="sjrk-storyblock-selection-checkbox sjrkc-storyblock-selection-checkbox" type="checkbox">
+    </div>
     <div class="sjrk-storyTelling-block-alternative-content">
         <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
             <label for="{{uiStrings.blockHeadingIdForLabel}}">{{localizedMessages.message_blockHeadingLabel}}</label>
@@ -9,6 +15,7 @@
             <input id="{{uiStrings.blockHeadingIdForLabel}}" class="sjrk-storyblock-heading sjrkc-storyblock-heading" cols="30" rows="10" placeholder="{{localizedMessages.message_blockHeadingPlaceholder}}"></textarea>
         </div>
     </div>
+    <!-- TODO: repeated markup end -->
     <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
         <label for="{{uiStrings.blockTextIdForLabel}}">{{localizedMessages.message_textInputLabel}}</label>
     </div>

@@ -23,7 +23,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             heading: null
         },
         selectors: {
-            heading: ".sjrkc-storyblock-heading"
+            heading: ".sjrkc-storyblock-heading",
+            selectedCheckbox: ".sjrkc-storyblock-selection-checkbox"
         },
         events: {
             onReadyToBind: "{templateManager}.events.onAllResourcesLoaded"
@@ -48,7 +49,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         uiStrings: {
                             // TODO: think about the usage/location of this function
                             // TODO: perhaps it could be set up as a handlebars helper (see SJRK-52 Jira)
-                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)"
+                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)",
+                            blockSelectionCheckboxIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storySelectionCheckbox)"
                         }
                     }
                 }

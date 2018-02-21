@@ -8,5 +8,6 @@
     "message_imageAltTextInput": "Enter alt text here",
     "message_imageDescriptionInput": "Enter caption here",
     "message_imageUploadButton": "Upload image",
-    "message_imageCaptureButton": "Capture image"
+    "message_imageCaptureButton": "Capture image",
+    "message_blockSelectionCheckboxLabel": "Select this block"
 }
