@@ -65,6 +65,19 @@ fieldset ul {
     margin: 1em 0;
 }
 
+.sjrk-storyblock-uploader-container, .sjrk-storyblock-camera-capture-container {
+    display: none;
+}
+
+.sjrk-storyblock-image-preview-container {
+    width: 10em;
+}
+
+.sjrk-storyblock-image-preview {
+    max-width: 100%;
+    height: auto;
+}
+
 .sjrk-storyTelling-block-alternative-content {
     background: #eee;
 }
