@@ -10,6 +10,8 @@
             managedViewComponents: ".sjrk-dynamic-view-component"
         },
         events: {
+            // single-argument event - requires a specified "type" for the
+            // viewComponent
             viewComponentContainerRequested: null,
             viewComponentContainerAppended: null,
             viewComponentCreated: null,
@@ -19,24 +21,23 @@
             viewComponentDeregisteredWithManager: null
         },
         members: {
-            // key: compent individual class
+            // key: component individual class
             // value: direct reference to the component
             managedViewComponentRegistry: {
             }
         },
         dynamicComponents: {
             managedViewComponents: {
-                type: "fluid.viewComponent",
+                type: "{arguments}.3",
                 container: "{arguments}.0",
                 createOnEvent: "viewComponentContainerAppended",
                 options: {
                     managedViewComponentRequiredConfig: {
                         containerSelector: "{arguments}.0",
                         containerIndividualClass: "{arguments}.1",
-                        guid: "{arguments}.2"
+                        guid: "{arguments}.2",
+                        type: "{arguments}.3"
                     },
-                    // This is to be used by any implementing grades
-                    managedViewComponentOptionalConfig: "{arguments}.3",
                     listeners: {
                         "onCreate.notifyManager": {
                             func: "{dynamicViewComponentManager}.events.viewComponentCreated",
@@ -58,7 +59,7 @@
         listeners: {
             "viewComponentContainerRequested.addComponentContainer": {
                 "funcName": "sjrk.dynamicViewComponentManager.addComponentContainer",
-                "args": ["{that}", "{that}.events.viewComponentContainerAppended"]
+                "args": ["{that}", "{that}.events.viewComponentContainerAppended", "{arguments}.0"]
             },
             "viewComponentCreated.registerManagedViewComponent": {
                 func: "sjrk.dynamicViewComponentManager.registerManagedViewComponent",
@@ -102,7 +103,7 @@
         completionEvent.fire(componentContainerIndividualClass);
     };
 
-    sjrk.dynamicViewComponentManager.addComponentContainer = function (that, completionEvent) {
+    sjrk.dynamicViewComponentManager.addComponentContainer = function (that, completionEvent, type) {
 
         var guid = fluid.allocateGuid();
 
@@ -114,7 +115,7 @@
 
         var containerSelector = "." + containerIndividualClass;
 
-        completionEvent.fire(containerSelector, containerIndividualClass, guid);
+        completionEvent.fire(containerSelector, containerIndividualClass, guid, type);
     };
 
     sjrk.dynamicViewComponentManager.getContainerMarkup = function (containerGlobalClass, containerIndividualClass) {

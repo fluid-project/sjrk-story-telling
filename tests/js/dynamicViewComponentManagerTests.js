@@ -8,7 +8,7 @@
         gradeNames: ["sjrk.dynamicViewComponentManager"],
         dynamicComponents: {
             managedViewComponents: {
-                type: "sjrk.testDynamicViewComponent"
+                type: "{arguments}.3"
             }
         }
     });
@@ -24,6 +24,17 @@
         }
     });
 
+    fluid.defaults("sjrk.testDynamicViewComponent2", {
+        gradeNames: ["fluid.viewComponent"],
+        listeners: {
+            "onCreate.appendMarkup": {
+                "this": "{that}.container",
+                "method": "html",
+                "args": ["I am sjrk.testDynamicViewComponent2"]
+            }
+        }
+    });
+
     fluid.defaults("sjrk.dynamicViewComponentManagerTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -32,28 +43,30 @@
                 expect: 7,
                 name: "Test dynamic component container addition and deletion.",
                 sequence: [{
-                    listener: "sjrk.dynamicViewComponentManagerTester.testInit",
+                    listener: "sjrk.dynamicViewComponentManagerTester.verifyInit",
                     "event": "{dynamicViewComponentManagerTests dynamicViewComponentManager}.events.onCreate",
                     args: ["{dynamicViewComponentManager}"]
                 }, // Add one container
                 {
-                    func: "{dynamicViewComponentManager}.events.viewComponentContainerRequested.fire"
+                    func: "{dynamicViewComponentManager}.events.viewComponentContainerRequested.fire",
+                    args: ["sjrk.testDynamicViewComponent"]
                 }, {
-                    listener: "sjrk.dynamicViewComponentManagerTester.testManagedViewComponentNumbers",
+                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
                     event: "{dynamicViewComponentManager}.events.viewComponentRegisteredWithManager",
                     args: ["{dynamicViewComponentManager}", 1]
                 }, // Add a second container
                 {
-                    func: "{dynamicViewComponentManager}.events.viewComponentContainerRequested.fire"
+                    func: "{dynamicViewComponentManager}.events.viewComponentContainerRequested.fire",
+                    args: ["sjrk.testDynamicViewComponent2"]
                 }, {
-                    listener: "sjrk.dynamicViewComponentManagerTester.testManagedViewComponentNumbers",
+                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
                     event: "{dynamicViewComponentManager}.events.viewComponentRegisteredWithManager",
                     args: ["{dynamicViewComponentManager}", 2]
                 }, {
                     func: "sjrk.dynamicViewComponentManagerTester.destroyFirstManagedComponent",
                     args: ["{dynamicViewComponentManager}"]
                 }, {
-                    listener: "sjrk.dynamicViewComponentManagerTester.testManagedViewComponentNumbers",
+                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
                     event: "{dynamicViewComponentManager}.events.viewComponentDeregisteredWithManager",
                     args: ["{dynamicViewComponentManager}", 1]
                 }]
@@ -61,11 +74,11 @@
         }]
     });
 
-    sjrk.dynamicViewComponentManagerTester.testInit = function () {
+    sjrk.dynamicViewComponentManagerTester.verifyInit = function () {
         jqUnit.assert("dynamicViewComponentManager created");
     };
 
-    sjrk.dynamicViewComponentManagerTester.testManagedViewComponentNumbers = function (that, expectedNumber) {
+    sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers = function (that, expectedNumber) {
         var registerAsArray = fluid.hashToArray(that.managedViewComponentRegistry, "componentContainerIndividualClass");
 
         jqUnit.assertEquals("managedViewComponentRegistry length is " + expectedNumber, expectedNumber, registerAsArray.length);
