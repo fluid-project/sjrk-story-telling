@@ -21,9 +21,9 @@
             viewComponentDeregisteredWithManager: null
         },
         members: {
-            // key: component individual class
-            // value: direct reference to the component
             managedViewComponentRegistry: {
+                // key: component individual class
+                // value: direct reference to the component
             }
         },
         dynamicComponents: {
@@ -82,7 +82,7 @@
 
         that.managedViewComponentRegistry[componentContainerIndividualClass] = managedComponent;
 
-        completionEvent.fire();
+        completionEvent.fire(componentContainerIndividualClass);
     };
 
     sjrk.dynamicViewComponentManager.deregisterManagedViewComponent = function (that, managedComponentIndividualClass, completionEvent) {

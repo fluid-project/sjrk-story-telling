@@ -40,7 +40,7 @@
         modules: [{
             name: "Test the sjrk.dynamicViewComponentManager component.",
             tests: [{
-                expect: 7,
+                expect: 9,
                 name: "Test dynamic component container addition and deletion.",
                 sequence: [{
                     listener: "sjrk.dynamicViewComponentManagerTester.verifyInit",
@@ -51,16 +51,22 @@
                     func: "{dynamicViewComponentManager}.events.viewComponentContainerRequested.fire",
                     args: ["sjrk.testDynamicViewComponent"]
                 }, {
-                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
+                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentType",
                     event: "{dynamicViewComponentManager}.events.viewComponentRegisteredWithManager",
+                    args: ["{dynamicViewComponentManager}", "{arguments}.0", "sjrk.testDynamicViewComponent"]
+                }, {
+                    funcName: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
                     args: ["{dynamicViewComponentManager}", 1]
                 }, // Add a second container
                 {
                     func: "{dynamicViewComponentManager}.events.viewComponentContainerRequested.fire",
                     args: ["sjrk.testDynamicViewComponent2"]
                 }, {
-                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
+                    listener: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentType",
                     event: "{dynamicViewComponentManager}.events.viewComponentRegisteredWithManager",
+                    args: ["{dynamicViewComponentManager}", "{arguments}.0", "sjrk.testDynamicViewComponent2"]
+                }, {
+                    funcName: "sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers",
                     args: ["{dynamicViewComponentManager}", 2]
                 }, {
                     func: "sjrk.dynamicViewComponentManagerTester.destroyFirstManagedComponent",
@@ -76,6 +82,11 @@
 
     sjrk.dynamicViewComponentManagerTester.verifyInit = function () {
         jqUnit.assert("dynamicViewComponentManager created");
+    };
+
+    sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentType = function (that, componentContainerIndividualClass, expectedType) {
+        var actualType = that.managedViewComponentRegistry[componentContainerIndividualClass].options.managedViewComponentRequiredConfig.type;
+        jqUnit.assertEquals("managedViewComponent element has the expected type of " + expectedType, expectedType, actualType);
     };
 
     sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentNumbers = function (that, expectedNumber) {
