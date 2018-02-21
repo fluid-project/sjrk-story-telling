@@ -30,11 +30,13 @@
                 container: "{arguments}.0",
                 createOnEvent: "viewComponentContainerAppended",
                 options: {
-                    managedViewComponentDetails: {
+                    managedViewComponentRequiredConfig: {
                         containerSelector: "{arguments}.0",
                         containerIndividualClass: "{arguments}.1",
                         guid: "{arguments}.2"
                     },
+                    // This is to be used by any implementing grades
+                    managedViewComponentOptionalConfig: "{arguments}.3",
                     listeners: {
                         "onCreate.notifyManager": {
                             func: "{dynamicViewComponentManager}.events.viewComponentCreated",
@@ -42,7 +44,7 @@
                         },
                         "onDestroy.notifyManager": {
                             func: "{dynamicViewComponentManager}.events.viewComponentDestroyed",
-                            args: ["{that}.options.managedViewComponentDetails.containerSelector", "{that}.options.managedViewComponentDetails.containerIndividualClass"]
+                            args: ["{that}.options.managedViewComponentRequiredConfig.containerSelector", "{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
                         }
                     }
                 }
@@ -75,7 +77,7 @@
 
     sjrk.dynamicViewComponentManager.registerManagedViewComponent = function (that, managedComponent, completionEvent) {
 
-        var componentContainerIndividualClass = managedComponent.options.managedViewComponentDetails.containerIndividualClass;
+        var componentContainerIndividualClass = managedComponent.options.managedViewComponentRequiredConfig.containerIndividualClass;
 
         that.managedViewComponentRegistry[componentContainerIndividualClass] = managedComponent;
 

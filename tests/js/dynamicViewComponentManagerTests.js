@@ -19,7 +19,7 @@
             "onCreate.appendMarkup": {
                 "this": "{that}.container",
                 "method": "html",
-                "args": ["{that}.options.managedViewComponentDetails.containerIndividualClass"]
+                "args": ["{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
             }
         }
     });
