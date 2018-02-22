@@ -22,6 +22,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         resourcePrefix: "../.."
                     }
                 }
+            },
+            blockManager: {
+                options: {
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                components: {
+                                    templateManager: {
+                                        options: {
+                                            templateConfig: {
+                                                resourcePrefix: "../..",
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     });
