@@ -39,6 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onTextBlockAdditionRequested: null,
             onImageBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
+            onRemoveBlocksCompleted: null,
             onRestoreBlocksRequested: null
         },
         listeners: {
@@ -90,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onRemoveBlocksRequested.removeSelectedBlocks": {
                 funcName: "sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks",
-                args: ["{that}.blockManager.managedViewComponentRegistry"]
+                args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             }
         },
         // TODO: add events for binding the various buttons
@@ -109,7 +110,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.options.selectors.storyContent",
                 createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
                 options: {
-                    listeners: {                        
+                    listeners: {
                         "{blockEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addTextBlock",
@@ -163,7 +164,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks = function (managedViewComponentRegistry)
+    sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {
         fluid.each(managedViewComponentRegistry, function (managedComponent) {
             var checked = managedComponent.locate("selectedCheckbox").prop("checked");
@@ -172,6 +173,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 managedComponent.destroy();
             }
         });
+        that.events.onRemoveBlocksCompleted.fire();
     };
 
 })(jQuery, fluid);

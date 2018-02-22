@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Block Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 5,
+                expect: 12,
                 sequence: [{
                     "event": "{blockEditorTest blockEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
@@ -46,6 +46,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "jqUnit.assert",
                     args: ["Block manager ready"]
                 },
+                // Click to add a text block
                 {
                     "jQueryTrigger": "click",
                     "element": "{blockEditor}.dom.storyAddTextBlock"
@@ -53,12 +54,55 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
                     args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
-                }]
+                },
+                // Click to add an image block
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyAddImageBlock"
+                },
+                {
+                   "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                   listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
+                   args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock"]
+               },
+               // Add a second text block
+               {
+                   "jQueryTrigger": "click",
+                   "element": "{blockEditor}.dom.storyAddTextBlock"
+               },
+               {
+                  "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                  listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
+                  args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
+              },
+              // Select the checkbox of the first block
+              {
+                  func: "sjrk.storyTelling.ui.blockEditorTester.checkFirstBlockCheckbox",
+                  args: ["{blockEditor}.blockManager"]
+              },
+              // Click the "remove selected blocks" button
+              {
+                  "jQueryTrigger": "click",
+                  "element": "{blockEditor}.dom.storyRemoveSelectedBlocks"
+              },
+              // Verify removal
+              {
+                  "event": "{blockEditor}.events.onRemoveBlocksCompleted",
+                  listener: "jqUnit.assert",
+                  args: ["Block editor's onRemoveBlocksCompleted event fired"]
+              }]
             }]
-            // TODO: add tests for each field's bindings, see text block tests
         }]
     });
 
+    sjrk.storyTelling.ui.blockEditorTester.checkFirstBlockCheckbox = function (blockManager) {
+        var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
+        managedComponentRegistryAsArray[0].locate("selectedCheckbox").prop("checked", true);
+    };
+
+    sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved = function (blockManager) {
+        console.log(blockManager);
+    };
 
     sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded = function (blockManager, blockKey, expectedGrade) {
 
