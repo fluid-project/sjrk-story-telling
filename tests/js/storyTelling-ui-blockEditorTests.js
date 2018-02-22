@@ -32,24 +32,48 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Block Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 1,
+                expect: 5,
                 sequence: [{
-                    "event": "{blockEditorTest binder}.events.onBindingApplied",
+                    "event": "{blockEditorTest blockEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
-                    args: ["onBindingApplied event fired"]
+                    args: ["Block editor's onControlsBound event fired"]
+                },{
+                    func: "fluid.identity"
+                },
+                // TODO: waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
+                {
+                    "event": "{blockEditor blockManager}.events.onCreate",
+                    listener: "jqUnit.assert",
+                    args: ["Block manager ready"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyAddTextBlock"
+                }, {
+                    "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
                 }]
             }]
             // TODO: add tests for each field's bindings, see text block tests
         }]
     });
 
-    // sjrk.storyTelling.ui.editorTester.testGetClasses = function (component) {
-    //     var suffix = "testFunction";
-    //     var classes = component.getClasses(suffix);
-    //     var expectedClasses = "testc-testFunction test-testFunction";
-    //
-    //     jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
-    // };
+
+    sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded = function (blockManager, blockKey, expectedGrade) {
+
+        var blockComponent = blockManager.managedViewComponentRegistry[blockKey];
+
+        // Verify the block is added to the manager's registry
+        jqUnit.assertNotNull("New block added to manager's registry", blockComponent);
+
+        // Verify the block's type is correct
+        jqUnit.assertEquals("Block's dynamicComponent type is expected " + expectedGrade, expectedGrade,  blockComponent.options.managedViewComponentRequiredConfig.type);
+
+        // Verify the block is added to the DOM
+        var newBlock = blockManager.container.find("." + blockKey);
+        jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
+    };
 
     fluid.defaults("sjrk.storyTelling.ui.blockEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],

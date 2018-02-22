@@ -109,7 +109,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.options.selectors.storyContent",
                 createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
                 options: {
-                    listeners: {
+                    listeners: {                        
                         "{blockEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addTextBlock",
