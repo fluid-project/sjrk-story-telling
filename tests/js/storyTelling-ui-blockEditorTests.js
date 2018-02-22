@@ -107,25 +107,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
               // Verify removal
               {
                   "event": "{blockEditor}.events.onRemoveBlocksCompleted",
-                  listener: "jqUnit.assert",
-                  args: ["Block editor's onRemoveBlocksCompleted event fired"]
+                  listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved",
+                  args: ["{blockEditor}.blockManager", "{arguments}.0", 2]
               }]
             }]
         }]
     });
 
+    // TODO: this doesn't work because of speed of execution and asynchronous
+    // template loading - need to delay on this until the blocks have loaded
+    // their content, because until then they don't have checkboxes!
     sjrk.storyTelling.ui.blockEditorTester.checkFirstBlockCheckbox = function (blockManager) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
-        managedComponentRegistryAsArray[0].locate("selectedCheckbox").prop("checked", true);
+
+        var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
+
+        checkBox.prop("checked", true);
     };
 
-    sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved = function (blockManager) {
-        console.log(blockManager);
+    // TODO: test currently failing - see comment above. 
+    sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
+        var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
+        jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
     };
 
-    sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded = function (blockManager, blockKey, expectedGrade) {
+    sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
 
-        var blockComponent = blockManager.managedViewComponentRegistry[blockKey];
+        var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
 
         // Verify the block is added to the manager's registry
         jqUnit.assertNotNull("New block added to manager's registry", blockComponent);
@@ -134,7 +142,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Block's dynamicComponent type is expected " + expectedGrade, expectedGrade,  blockComponent.options.managedViewComponentRequiredConfig.type);
 
         // Verify the block is added to the DOM
-        var newBlock = blockManager.container.find("." + blockKey);
+        var newBlock = blockManager.container.find("." + addedBlockKey);
         jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
     };
 

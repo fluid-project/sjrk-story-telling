@@ -166,14 +166,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {
-        fluid.each(managedViewComponentRegistry, function (managedComponent) {
+
+        var removedBlockKeys = [];
+
+        fluid.each(managedViewComponentRegistry, function (managedComponent, blockKey) {
             var checked = managedComponent.locate("selectedCheckbox").prop("checked");
 
             if (checked) {
                 managedComponent.destroy();
+                removedBlockKeys.push(blockKey);
             }
-        });
-        that.events.onRemoveBlocksCompleted.fire();
+        });        
+        that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 
 })(jQuery, fluid);
