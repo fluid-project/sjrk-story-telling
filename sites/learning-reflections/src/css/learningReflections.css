@@ -15,11 +15,27 @@ body {
 
 .sjrk-learningReflections-pageHeading-container {
     padding: 2rem 3rem 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 1rem;
 }
 
 .sjrk-learningReflections-pageHeading {
     font-size: 2.5rem;
     font-weight: bold;
+    grid-column: 1 / 10;
+    align-self: center;
+}
+
+.sjrk-learningReflections-pageHeading-heartBook-container {
+    grid-column: 11 / 12;
+    height: 6rem;
+    align-self: center;
+}
+
+.sjrk-learningReflections-pageHeading-heartBook {
+    max-height: 6rem;
+    width: auto;
 }
 
 .sjrk-learningReflections-pageHeading-mainTitle {
