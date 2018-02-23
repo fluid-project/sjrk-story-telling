@@ -43,7 +43,89 @@ body {
     grid-column: 2;
 }
 
+.sjrk-learningReflections-small-text {
+    font-size: 1rem;
+}
+
+.sjrk-learningReflections-list-hearts li::before {
+    content: "❤ ";
+    color: var(--site-blue);
+}
+
+.sjrk-learningReflections-list-hearts li {
+    list-style-type: none;
+    padding-bottom: 1rem;
+}
+
+.sjrk-storyTelling-block-editor-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 0.3rem;
+}
+
+.sjrk-storyTelling-button {
+    background-color: var(--site-blue);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 8px;
+    border:2px solid #000;
+}
+
+.sjrk-storyTelling-button-text-block, .sjrk-storyTelling-button-image-block {
+    background-color: var(--site-blue);
+}
+
+.sjrk-storyTelling-button-remove-blocks, .sjrk-storyTelling-button-restore-blocks {
+    background-color: var(--site-white);
+}
+
+.sjrk-storyTelling-button-restore-blocks {
+    border-style: dashed;
+    border-color: #CCC;
+}
+
+.sjrk-storyTelling-button-text-block-container {
+    grid-column: 1;
+}
+
+.sjrk-storyTelling-button-image-block-container {
+    grid-column: 2;
+}
+
+.sjrk-storyTelling-button-remove-blocks-container {
+    grid-column: 7;
+}
+
+.sjrk-storyTelling-button-restore-blocks-container {
+    grid-column: 8;
+}
+
 .sjrk-learningReflections-pageFooter-container {
     font-size: 1.5rem;
     padding: 1.5rem 3rem 1.5rem 3rem;
+}
+
+.sjrk-storyTelling-button-text {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+.sjrk-storyTelling-button-text-block::before {
+    content: "T"
+}
+
+.sjrk-storyTelling-button-image-block::before {
+    content: "📷"
+}
+
+.sjrk-storyTelling-button-remove-blocks::before {
+    content: "🗑️"
+}
+
+.sjrk-storyTelling-button-restore-blocks::before {
+    content: "↩️"
 }
