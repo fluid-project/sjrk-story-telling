@@ -39,8 +39,10 @@
 <script src="../../src/js/storyTelling-uploader.js"></script>
 <script src="../../src/js/transforms.js"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.4.0/gridlex.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+
 <link rel="stylesheet" href="../../src/css/storyTelling.css" />
 <link rel="stylesheet" href="../../node_modules/infusion/src/framework/core/css/fluid.css">
 
@@ -49,13 +51,51 @@
 
 </head>
 <body>
-<h1>
-    Learning Reflections: a Storytelling Project
-</h1>
-<div class="sjrkc-story-editor-block"></div>
+
+<div class="sjrk-learningReflections-pageHeading-container">
+    <h1 class="sjrk-learningReflections-pageHeading">
+        <span class="sjrk-learningReflections-pageHeading-mainTitle">Learning Reflections</span>: <span class="sjrk-learningReflections-pageHeading-subTitle">a Storytelling Project</span>
+    </h1>
+</div>
+
+
+<div class="sjrk-learningReflections-pageBody-container">
+    <div class="sjrk-learningReflections-introduction-container">
+        <p>
+            <strong>We all learn differently.</strong> Most of us can probably recall a time when we had trouble learning something new, or perhaps a time when something came easily to us. What was it about the learning experience that didn't work for us, and what was it that worked well?
+        </p>
+
+        <p>
+            The goal of this site is to gather stories about unique learning styles. We'd like to hear your story about how you learn best.
+        </p>
+
+        <p>
+            You may want to consider the following ideas as you create your story:
+            <ul>
+                <li>Describe how you learned to do something you now do regularly</li>
+                <li>Consider something you've tried to learn to do, but haven't been able to learn in a way that satisfies you</li>
+                <li>Think of a challenge you had while learning something new</li>
+                <li>Describe how you taught someone else to do something</li>
+                <li>Consider something that surprised you &emdash; for example, something you didn't think would help you learn but did</li>
+                <li>Describe a time you learned something when you didn't expect to</li>
+            </ul>
+        </p>
+
+
+    </div>
+
+    <div class="sjrk-learningReflections-story-editor-container">
+        <div class="sjrkc-learningReflections-story-editor-block"></div>
+    </div>
+
+</div>
+
+<div class="sjrk-learningReflections-pageFooter-container">
+    created by members of the Floe community
+</div>
 
 <script>
-    var storyBlockTest = sjrk.storyTelling.ui.blockEditor.learningReflections(".sjrkc-story-editor-block");
+    var storyBlockTest = sjrk.storyTelling.ui.blockEditor.learningReflections(".sjrkc-learningReflections-story-editor-block");
 </script>
 
 </body>

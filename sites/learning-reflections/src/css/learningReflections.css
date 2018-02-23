@@ -1,0 +1,49 @@
+:root {
+    --site-blue: #00a0cc;
+    --site-white: #fff;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+}
+
+.sjrk-learningReflections-pageHeading-container, .sjrk-learningReflections-pageFooter-container {
+    background-color: var(--site-blue);
+    color: var(--site-white);
+}
+
+.sjrk-learningReflections-pageHeading-container {
+    padding: 2rem 3rem 2rem 3rem;
+}
+
+.sjrk-learningReflections-pageHeading {
+    font-size: 2rem;
+}
+
+.sjrk-learningReflections-pageHeading-mainTitle {
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.sjrk-learningReflections-pageBody-container {
+    background-color: var(--site-white);
+    padding: 2rem 3rem 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4rem;
+}
+
+.sjrk-learningReflections-introduction-container {
+    grid-column: 1;
+}
+
+.sjrk-learningReflections-story-editor-container {
+    grid-column: 2;
+}
+
+.sjrk-learningReflections-pageFooter-container {
+    font-size: 1.5rem;
+    padding: 1.5rem 3rem 1.5rem 3rem;
+}
