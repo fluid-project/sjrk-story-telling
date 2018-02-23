@@ -68,11 +68,29 @@ body {
     width: 4rem;
     height: 4rem;
     border-radius: 8px;
-    border:2px solid #000;
+    border:2px solid #000;    
+    background-size: cover;
 }
 
 .sjrk-storyTelling-button-text-block, .sjrk-storyTelling-button-image-block {
     background-color: var(--site-blue);
+}
+
+.sjrk-storyTelling-button-text-block {
+    background-image: url("../img/icons/icon-textBlock.png");
+}
+
+
+.sjrk-storyTelling-button-image-block {
+    background-image: url("../img/icons/icon-imageBlock.png");
+}
+
+.sjrk-storyTelling-button-remove-blocks {
+    background-image: url("../img/icons/icon-removeBlocks.png");
+}
+
+.sjrk-storyTelling-button-restore-blocks {
+    background-image: url("../img/icons/icon-restoreBlocks.png");
 }
 
 .sjrk-storyTelling-button-remove-blocks, .sjrk-storyTelling-button-restore-blocks {
@@ -108,22 +126,6 @@ body {
     width:1px;
     height:1px;
     overflow:hidden;
-}
-
-.sjrk-storyTelling-button-text-block::before {
-    content: "T"
-}
-
-.sjrk-storyTelling-button-image-block::before {
-    content: "📷"
-}
-
-.sjrk-storyTelling-button-remove-blocks::before {
-    content: "🗑️"
-}
-
-.sjrk-storyTelling-button-restore-blocks::before {
-    content: "↩️"
 }
 
 .sjrk-storyblock-selection-checkbox-container {
