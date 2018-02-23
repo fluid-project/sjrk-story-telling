@@ -68,8 +68,11 @@ body {
     width: 4rem;
     height: 4rem;
     border-radius: 8px;
-    border:2px solid #000;    
+    border:2px solid #000;
     background-size: cover;
+    background-origin: content-box;
+    padding: 0.1em;
+    background-repeat: no-repeat;
 }
 
 .sjrk-storyTelling-button-text-block, .sjrk-storyTelling-button-image-block {
@@ -142,17 +145,17 @@ body {
     font-size: 1.8rem;
     padding: 1rem 3rem 1rem 3rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-gap: 0.5rem;
 }
 
 .sjrk-learningReflections-pageFooter-text-container {
-    grid-column: 1 / 3;
+    grid-column: 1 / 4;
     align-self: center;
 }
 
 .sjrk-learningReflections-pageFooter-oakLogo-container {
-    grid-column: 4;
+    grid-column: 5;
     background-color: var(--site-white);
     display: flex;
     flex-direction: column;
@@ -162,7 +165,7 @@ body {
 }
 
 .sjrk-learningReflections-pageFooter-floeLogo-container {
-    grid-column: 5;
+    grid-column: 6;
     background-color: var(--site-white);
     display: flex;
     flex-direction: column;
