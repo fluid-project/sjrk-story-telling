@@ -15,6 +15,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.ui.testBlockEditor", {
         gradeNames: ["sjrk.storyTelling.ui.blockEditor"],
+        events: {
+            onNewBlockTemplateRendered: null
+        },
         components: {
             templateManager: {
                 options: {
@@ -33,6 +36,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                         options: {
                                             templateConfig: {
                                                 resourcePrefix: "../..",
+                                            },
+                                            listeners: {
+                                                "onTemplateRendered.notifyTestBlockEditor": {
+                                                    func: "{testBlockEditor}.events.onNewBlockTemplateRendered.fire",
+                                                    args: ["{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
+                                                }
                                             }
                                         }
                                     }
@@ -51,7 +60,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Block Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 12,
+                expect: 15,
                 sequence: [{
                     "event": "{blockEditorTest blockEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
@@ -74,6 +83,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
                     args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
                 },
+                {
+                    func: "fluid.identity"
+                },
+                // Wait for block to fully render
+                {
+                    "event": "{blockEditor}.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                },
                 // Click to add an image block
                 {
                     "jQueryTrigger": "click",
@@ -84,6 +102,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                    listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock"]
                },
+               {
+                   func: "fluid.identity"
+               },
+               // Wait for block to fully render
+               {
+                   "event": "{blockEditor}.events.onNewBlockTemplateRendered",
+                   listener: "jqUnit.assert",
+                   args: ["New block template fully rendered"]
+               },
                // Add a second text block
                {
                    "jQueryTrigger": "click",
@@ -93,6 +120,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                   "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                   listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
                   args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
+              },
+              {
+                  func: "fluid.identity"
+              },
+              // Wait for block to fully render
+              {
+                  "event": "{blockEditor}.events.onNewBlockTemplateRendered",
+                  listener: "jqUnit.assert",
+                  args: ["New block template fully rendered"]
               },
               // Select the checkbox of the first block
               {
@@ -119,13 +155,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // their content, because until then they don't have checkboxes!
     sjrk.storyTelling.ui.blockEditorTester.checkFirstBlockCheckbox = function (blockManager) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
-
         var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
 
         checkBox.prop("checked", true);
     };
 
-    // TODO: test currently failing - see comment above. 
+    // TODO: test currently failing - see comment above.
     sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
