@@ -18,12 +18,12 @@ body {
 }
 
 .sjrk-learningReflections-pageHeading {
-    font-size: 2rem;
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
 .sjrk-learningReflections-pageHeading-mainTitle {
     text-transform: uppercase;
-    font-weight: bold;
     letter-spacing: 0.1em;
 }
 
@@ -100,11 +100,7 @@ body {
     grid-column: 8;
 }
 
-.sjrk-learningReflections-pageFooter-container {
-    font-size: 1.5rem;
-    padding: 1.5rem 3rem 1.5rem 3rem;
-}
-
+/* Hidden, but accessible */
 .sjrk-storyTelling-button-text {
     position:absolute;
     left:-10000px;
@@ -128,4 +124,31 @@ body {
 
 .sjrk-storyTelling-button-restore-blocks::before {
     content: "↩️"
+}
+
+.sjrk-storyblock-selection-checkbox-container {
+    text-align: right;
+}
+
+.sjrk-storyblock-selection-checkbox {
+    height: 2rem;
+    width: 2rem;
+    display: inline-block;
+}
+
+.sjrk-learningReflections-pageFooter-container {
+    font-size: 1.8rem;
+    padding: 1rem 3rem 1rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.sjrk-learningReflections-pageFooter-text-container {
+    grid-column: 1 / 4;
+    align-self: center;
+}
+
+.sjrk-learningReflections-pageFooter-floeLogo-container {
+    grid-column: 5;
+    background-color: var(--site-white);
 }
