@@ -8,13 +8,22 @@ body {
     padding: 0;
 }
 
+.sjrk-learningReflections-prefsEditor-container {
+    display: grid;
+    background-color: var(--site-blue);
+}
+
+.sjrk-learningReflections-toc-container {
+    padding-left: 3rem;
+}
+
 .sjrk-learningReflections-pageHeading-container, .sjrk-learningReflections-pageFooter-container {
     background-color: var(--site-blue);
     color: var(--site-white);
 }
 
 .sjrk-learningReflections-pageHeading-container {
-    padding: 2rem 3rem 2rem 3rem;
+    padding: 0 3rem 2rem 3rem;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 1rem;
