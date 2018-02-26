@@ -25,17 +25,17 @@
             <button type="button" class="sjrkc-storyblock-image-capture-button sjrk-storyblock-image-capture-button">{{localizedMessages.message_imageCaptureButton}}</button>
         </div>
 
-        <div class="sjrk-storyblock-image-alt-text-container">
-            <div class="sjrk-storyTelling-label-container">
-                <label for="{{uiStrings.imageAltTextIdForLabel}}">{{localizedMessages.message_imageAltTextInput}}</label>
-            </div>
-            <textarea id="{{uiStrings.imageAltTextIdForLabel}}" class="sjrkc-storyblock-image-alt-text sjrk-storyblock-image-alt-text"></textarea>
-        </div>
         <div class="sjrk-storyblock-image-description-container">
-            <div class="sjrk-storyTelling-label-container">
-                <label for="{{uiStrings.imageDescriptionIdForLabel}}">{{localizedMessages.message_imageDescriptionInput}}</label>
+            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+                <label for="{{uiStrings.imageDescriptionIdForLabel}}">{{localizedMessages.message_imageDescriptionInputLabel}}</label>
             </div>
-            <textarea id="{{uiStrings.imageDescriptionIdForLabel}}" class="sjrkc-storyblock-image-description sjrk-storyblock-image-description"></textarea>
+            <textarea id="{{uiStrings.imageDescriptionIdForLabel}}" class="sjrkc-storyblock-image-description sjrk-storyblock-image-description" placeholder="{{localizedMessages.message_imageDescriptionInputPlaceholder}}"></textarea>
+        </div>
+        <div class="sjrk-storyblock-image-alt-text-container">
+            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+                <label for="{{uiStrings.imageAltTextIdForLabel}}">{{localizedMessages.message_imageAltTextInputLabel}}</label>
+            </div>
+            <textarea id="{{uiStrings.imageAltTextIdForLabel}}" class="sjrkc-storyblock-image-alt-text sjrk-storyblock-image-alt-text" placeholder="{{localizedMessages.message_imageAltTextInputPlaceholder}}"></textarea>
         </div>
 
         <!-- Container for the uploader -->

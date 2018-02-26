@@ -5,8 +5,10 @@
     "message_textInputPlaceholder": "Begin typing here",
     "message_simplifiedTextInputLabel": "Simplified text",
     "message_simplifiedTextInputPlaceholder": "Add simplified text (optional) — this can be helpful for those who are learning the language, those with difficulty processing text, or those in a hurry.",
-    "message_imageAltTextInput": "Enter alt text here",
-    "message_imageDescriptionInput": "Enter caption here",
+    "message_imageAltTextInputLabel": "Enter alt text here",
+    "message_imageAltTextInputPlaceholder": "Enter alt text here",
+    "message_imageDescriptionInputLabel": "Enter caption here",
+    "message_imageDescriptionInputPlaceholder": "Enter caption here",
     "message_imageUploadButton": "Upload image",
     "message_imageCaptureButton": "Capture image",
     "message_blockSelectionCheckboxLabel": "Select this block"

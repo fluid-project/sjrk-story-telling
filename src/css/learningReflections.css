@@ -89,7 +89,7 @@ body {
     grid-gap: 0.3rem;
 }
 
-.sjrk-storyTelling-block-alternative-content input {
+.sjrk-storyTelling-block-alternative-content input, .sjrk-storyblock-image-description, .sjrk-storyblock-image-alt-text {
     background: var(--site-grey);
 }
 
