@@ -1,0 +1,200 @@
+:root {
+    --site-blue: #00a0cc;
+    --site-white: #fff;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+}
+
+.sjrk-learningReflections-prefsEditor-container {
+    display: grid;
+    background-color: var(--site-blue);
+}
+
+.sjrk-learningReflections-toc-container {
+    padding-left: 3rem;
+}
+
+.sjrk-learningReflections-pageHeading-container, .sjrk-learningReflections-pageFooter-container {
+    background-color: var(--site-blue);
+    color: var(--site-white);
+}
+
+.sjrk-learningReflections-pageHeading-container {
+    padding: 0 3rem 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 1rem;
+}
+
+.sjrk-learningReflections-pageHeading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    grid-column: 1 / 10;
+    align-self: center;
+}
+
+.sjrk-learningReflections-pageHeading-heartBook-container {
+    grid-column: 11 / 12;
+    height: 6rem;
+    align-self: center;
+}
+
+.sjrk-learningReflections-pageHeading-heartBook {
+    max-height: 6rem;
+    width: auto;
+}
+
+.sjrk-learningReflections-pageHeading-mainTitle {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.sjrk-learningReflections-pageBody-container {
+    background-color: var(--site-white);
+    padding: 2rem 3rem 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4rem;
+}
+
+.sjrk-learningReflections-introduction-container {
+    grid-column: 1;
+}
+
+.sjrk-learningReflections-story-editor-container {
+    grid-column: 2;
+}
+
+.sjrk-learningReflections-small-text {
+    font-size: 1rem;
+}
+
+.sjrk-learningReflections-list-hearts li::before {
+    content: "❤ ";
+    color: var(--site-blue);
+}
+
+.sjrk-learningReflections-list-hearts li {
+    list-style-type: none;
+    padding-bottom: 1rem;
+}
+
+.sjrk-storyTelling-block-editor-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 0.3rem;
+}
+
+.sjrk-storyTelling-button {
+    background-color: var(--site-blue);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 8px;
+    border:2px solid #000;
+    background-size: cover;
+    background-origin: content-box;
+    padding: 0.1em;
+    background-repeat: no-repeat;
+}
+
+.sjrk-storyTelling-button-text-block, .sjrk-storyTelling-button-image-block {
+    background-color: var(--site-blue);
+}
+
+.sjrk-storyTelling-button-text-block {
+    background-image: url("../img/icons/icon-textBlock.png");
+}
+
+
+.sjrk-storyTelling-button-image-block {
+    background-image: url("../img/icons/icon-imageBlock.png");
+}
+
+.sjrk-storyTelling-button-remove-blocks {
+    background-image: url("../img/icons/icon-removeBlocks.png");
+}
+
+.sjrk-storyTelling-button-restore-blocks {
+    background-image: url("../img/icons/icon-restoreBlocks.png");
+}
+
+.sjrk-storyTelling-button-remove-blocks, .sjrk-storyTelling-button-restore-blocks {
+    background-color: var(--site-white);
+}
+
+.sjrk-storyTelling-button-restore-blocks {
+    border-style: dashed;
+    border-color: #CCC;
+}
+
+.sjrk-storyTelling-button-text-block-container {
+    grid-column: 1;
+}
+
+.sjrk-storyTelling-button-image-block-container {
+    grid-column: 2;
+}
+
+.sjrk-storyTelling-button-remove-blocks-container {
+    grid-column: 7;
+}
+
+.sjrk-storyTelling-button-restore-blocks-container {
+    grid-column: 8;
+}
+
+/* Hidden, but accessible */
+.sjrk-storyTelling-button-text {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+.sjrk-storyblock-selection-checkbox-container {
+    text-align: right;
+}
+
+.sjrk-storyblock-selection-checkbox {
+    height: 3rem;
+    width: 3rem;
+    display: inline-block;
+}
+
+.sjrk-learningReflections-pageFooter-container {
+    font-size: 1.8rem;
+    padding: 1rem 3rem 1rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 0.5rem;
+}
+
+.sjrk-learningReflections-pageFooter-text-container {
+    grid-column: 1 / 4;
+    align-self: center;
+}
+
+.sjrk-learningReflections-pageFooter-oakLogo-container {
+    grid-column: 5;
+    background-color: var(--site-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.sjrk-learningReflections-pageFooter-floeLogo-container {
+    grid-column: 6;
+    background-color: var(--site-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
