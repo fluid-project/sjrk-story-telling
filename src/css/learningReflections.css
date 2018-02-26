@@ -1,6 +1,7 @@
 :root {
     --site-blue: #00a0cc;
     --site-white: #fff;
+    --site-grey: #e6e6e6;
 }
 
 body {
@@ -86,6 +87,14 @@ body {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-gap: 0.3rem;
+}
+
+.sjrk-storyTelling-block-alternative-content input {
+    background: var(--site-grey);
+}
+
+.sjrk-storyTelling-block-alternative-content .sjrk-storyblock-heading {
+    padding-right: 1.5rem;
 }
 
 .sjrk-storyTelling-button {
