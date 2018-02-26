@@ -176,7 +176,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 managedComponent.destroy();
                 removedBlockKeys.push(blockKey);
             }
-        });        
+        });
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 

@@ -35,7 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     templateManager: {
                                         options: {
                                             templateConfig: {
-                                                resourcePrefix: "../..",
+                                                resourcePrefix: "../.."
                                             },
                                             listeners: {
                                                 "onTemplateRendered.notifyTestBlockEditor": {
@@ -98,54 +98,54 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{blockEditor}.dom.storyAddImageBlock"
                 },
                 {
-                   "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
-                   listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
-                   args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock"]
-               },
-               {
-                   func: "fluid.identity"
-               },
-               // Wait for block to fully render
-               {
-                   "event": "{blockEditor}.events.onNewBlockTemplateRendered",
-                   listener: "jqUnit.assert",
-                   args: ["New block template fully rendered"]
-               },
-               // Add a second text block
-               {
-                   "jQueryTrigger": "click",
-                   "element": "{blockEditor}.dom.storyAddTextBlock"
-               },
-               {
-                  "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
-                  listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
-                  args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
-              },
-              {
-                  func: "fluid.identity"
-              },
-              // Wait for block to fully render
-              {
-                  "event": "{blockEditor}.events.onNewBlockTemplateRendered",
-                  listener: "jqUnit.assert",
-                  args: ["New block template fully rendered"]
-              },
-              // Select the checkbox of the first block
-              {
-                  func: "sjrk.storyTelling.ui.blockEditorTester.checkFirstBlockCheckbox",
-                  args: ["{blockEditor}.blockManager"]
-              },
-              // Click the "remove selected blocks" button
-              {
-                  "jQueryTrigger": "click",
-                  "element": "{blockEditor}.dom.storyRemoveSelectedBlocks"
-              },
-              // Verify removal
-              {
-                  "event": "{blockEditor}.events.onRemoveBlocksCompleted",
-                  listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved",
-                  args: ["{blockEditor}.blockManager", "{arguments}.0", 2]
-              }]
+                    "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                // Wait for block to fully render
+                {
+                    "event": "{blockEditor}.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                },
+                // Add a second text block
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyAddTextBlock"
+                },
+                {
+                    "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                // Wait for block to fully render
+                {
+                    "event": "{blockEditor}.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                },
+                // Select the checkbox of the first block
+                {
+                    func: "sjrk.storyTelling.ui.blockEditorTester.checkFirstBlockCheckbox",
+                    args: ["{blockEditor}.blockManager"]
+                },
+                // Click the "remove selected blocks" button
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyRemoveSelectedBlocks"
+                },
+                // Verify removal
+                {
+                    "event": "{blockEditor}.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved",
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", 2]
+                }]
             }]
         }]
     });
