@@ -156,8 +156,16 @@ body {
     overflow:hidden;
 }
 
+.sjrk-storyblock-block {
+    border: dashed 1px #000;
+    position: relative;
+    margin: 2rem 0;
+}
+
 .sjrk-storyblock-selection-checkbox-container {
-    text-align: right;
+    position: absolute;
+    top: -1.5rem;
+    right: -1.5rem;
 }
 
 .sjrk-storyblock-selection-checkbox {
