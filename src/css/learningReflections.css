@@ -9,6 +9,10 @@ body {
     padding: 0;
 }
 
+textarea {
+    vertical-align: top;
+}
+
 .sjrk-learningReflections-prefsEditor-container {
     display: grid;
     background-color: var(--site-blue);
@@ -59,14 +63,6 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 4rem;
-}
-
-.sjrk-learningReflections-introduction-container {
-    grid-column: 1;
-}
-
-.sjrk-learningReflections-story-editor-container {
-    grid-column: 2;
 }
 
 .sjrk-learningReflections-small-text {
@@ -131,6 +127,10 @@ body {
     background-image: url("../img/icons/icon-restoreBlocks.png");
 }
 
+.sjrk-storyTelling-button-restore-blocks-container {
+    display: none;
+}
+
 .sjrk-storyTelling-button-remove-blocks, .sjrk-storyTelling-button-restore-blocks {
     background-color: var(--site-white);
 }
@@ -167,7 +167,7 @@ body {
 }
 
 .sjrk-storyblock-block {
-    border: dashed 1px #000;
+    border: solid 1px #000;
     position: relative;
     margin: 2rem 0;
 }
@@ -217,4 +217,10 @@ body {
     padding-left: 1rem;
     padding-bottom: 0.2rem;
     padding-right: 1rem;
+}
+
+@media only screen and (max-width: 50rem) {
+    .sjrk-learningReflections-pageBody-container {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
 }
