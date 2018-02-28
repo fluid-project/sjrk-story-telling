@@ -171,9 +171,6 @@ textarea {
 }
 
 .sjrk-storyblock-image-preview-container {
-    width: 18rem;
-    height: auto;
-    max-height: 15rem;
     margin: 0 auto;
     background: var(--site-grey);
 }
@@ -241,7 +238,6 @@ textarea {
 
 @media only screen and (max-width: 50em) {
     .sjrk-learningReflections-pageHeading-container {
-        /* grid-template-columns: repeat(1, minmax(250px, 1fr)); */
         padding: 1rem;
     }
 
