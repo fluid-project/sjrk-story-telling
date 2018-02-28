@@ -30,19 +30,17 @@ textarea {
 .sjrk-learningReflections-pageHeading-container {
     padding: 0 3rem 2rem 3rem;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: 1fr auto;
     grid-gap: 1rem;
 }
 
 .sjrk-learningReflections-pageHeading {
     font-size: 2.5rem;
     font-weight: bold;
-    grid-column: 1 / 10;
     align-self: center;
 }
 
 .sjrk-learningReflections-pageHeading-heartBook-container {
-    grid-column: 11 / 12;
     height: 6rem;
     align-self: center;
 }
@@ -172,6 +170,24 @@ textarea {
     margin: 2rem 0;
 }
 
+.sjrk-storyblock-image-preview-container {
+    width: 18rem;
+    height: auto;
+    max-height: 15rem;
+    margin: 0 auto;
+    background: var(--site-grey);
+}
+
+.sjrk-storyblock-image-preview {
+    display: block;
+}
+
+.sjrk-storyblock-image-preview[src=""] {
+    display: block;
+    width: 15rem;
+    height: 13.5rem;
+}
+
 .sjrk-storyblock-selection-checkbox-container {
     position: absolute;
     top: -1.5rem;
@@ -182,6 +198,10 @@ textarea {
     height: 3rem;
     width: 3rem;
     display: inline-block;
+}
+
+.sjrk-storyTelling-label-container:not(:first-child) {
+    margin: 1em 0 .25em 0;
 }
 
 .sjrk-learningReflections-pageFooter-container {
@@ -221,13 +241,13 @@ textarea {
 
 @media only screen and (max-width: 50em) {
     .sjrk-learningReflections-pageHeading-container {
-        grid-template-columns: repeat(1, minmax(250px, 1fr));
+        /* grid-template-columns: repeat(1, minmax(250px, 1fr)); */
         padding: 1rem;
     }
 
     .sjrk-learningReflections-pageHeading,
     .sjrk-learningReflections-pageHeading-heartBook-container {
-        grid-column: auto;
+        font-size: 1.5rem;
     }
 
     .sjrk-learningReflections-pageBody-container {
