@@ -60,13 +60,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Block Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 15,
+                expect: 18,
                 sequence: [{
                     "event": "{blockEditorTest blockEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
                     args: ["Block editor's onControlsBound event fired"]
-                },{
-                    func: "fluid.identity"
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyEditorNext"
+                },
+                {
+                    "event": "{blockEditor}.events.onEditorNextRequested",
+                    listener: "jqUnit.assert",
+                    args: "onEditorNextRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storySubmit"
+                },
+                {
+                    "event": "{blockEditor}.events.onStorySubmitRequested",
+                    listener: "jqUnit.assert",
+                    args: "onStorySubmitRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{blockEditor}.events.onEditorPreviousRequested",
+                    listener: "jqUnit.assert",
+                    args: "onEditorPreviousRequested event fired."
                 },
                 // TODO: waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
                 {
@@ -78,7 +103,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "jQueryTrigger": "click",
                     "element": "{blockEditor}.dom.storyAddTextBlock"
-                }, {
+                },
+                {
                     "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
                     args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock"]
@@ -145,6 +171,55 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{blockEditor}.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlocksRemoved",
                     args: ["{blockEditor}.blockManager", "{arguments}.0", 2]
+                }]
+            },
+            {
+                name: "Test tags model relay",
+                expect: 1,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{blockEditor}", "storyTags", "testTag1, testTag2"]
+                },
+                {
+                    changeEvent: "{blockEditor}.story.applier.modelChanged",
+                    path: "tags",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["DOM to Model: Stored tags are equal to the expected value", ["testTag1", "testTag2"], "{blockEditor}.story.model.tags"]
+                }]
+            },
+            {
+                name: "Test page visibility",
+                expect: 6,
+                sequence: [{
+                    "funcName": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "args": [
+                        ["{blockEditor}.dom.storyEditorPage2"],
+                        ["{blockEditor}.dom.storyEditorPage1"]
+                    ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyEditorNext"
+                },
+                {
+                    "event": "{blockEditor}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "args": [
+                        ["{blockEditor}.dom.storyEditorPage1"],
+                        ["{blockEditor}.dom.storyEditorPage2"]
+                    ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{blockEditor}.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{blockEditor}.events.onVisibilityChanged",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "args": [
+                        ["{blockEditor}.dom.storyEditorPage2"],
+                        ["{blockEditor}.dom.storyEditorPage1"]
+                    ]
                 }]
             }]
         }]
