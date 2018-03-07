@@ -41,7 +41,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                             invokers: {
                                 "getMiddlewareForFileStrategy": {
                                     "funcName": "kettle.middleware.multer.getMiddlewareForFileStrategy",
-                                    "args": ["{that}", "array", ["files"]]
+                                    "args": ["{that}", "array", ["file"]]
                                 },
                                 "getStorage": {
                                     "func": "{that}.getDiskStorage"

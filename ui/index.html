@@ -58,6 +58,8 @@
 <script src="node_modules/sjrk-story-telling/src/js/learningReflections.js"></script>
 <link rel="stylesheet" href="node_modules/sjrk-story-telling/src/css/learningReflections.css" />
 
+<script src="src/js/storyTellingUI.js"></script>
+
 </head>
 <body>
 
@@ -158,36 +160,7 @@
 </div>
 
 <script>
-    var storyBlockTest = sjrk.storyTelling.ui.blockEditor.learningReflections(".sjrkc-learningReflections-story-editor-block", {
-        components: {
-            templateManager: {
-                options: {
-                    templateConfig: {
-                        resourcePrefix: "node_modules/sjrk-story-telling"
-                    }
-                }
-            },
-            blockManager: {
-                options: {
-                    dynamicComponents: {
-                        managedViewComponents: {
-                            options: {
-                                components: {
-                                    templateManager: {
-                                        options: {
-                                            templateConfig: {
-                                                resourcePrefix: "node_modules/sjrk-story-telling"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
+    var storyBlockTest = sjrk.storyTelling.server.ui.blockEditor.learningReflections(".sjrkc-learningReflections-story-editor-block");
 </script>
 
 <script>
