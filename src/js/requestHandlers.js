@@ -69,7 +69,7 @@ fluid.defaults("sjrk.storyTelling.server.saveBinariesHandler", {
 });
 
 sjrk.storyTelling.server.handleSaveBinaries = function (request) {
-    console.log(request.req.file);
+    console.log(request.req.files);
     request.events.onSuccess.fire("It worked!");
 };
 
