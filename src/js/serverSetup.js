@@ -35,6 +35,23 @@ fluid.defaults("sjrk.storyTelling.server", {
                     storyDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.story"
                     },
+                    saveBinaries: {
+                        type: "kettle.middleware.multer",
+                        options: {
+                            invokers: {
+                                "getMiddlewareForFileStrategy": {
+                                    "funcName": "kettle.middleware.multer.getMiddlewareForFileStrategy",
+                                    "args": ["{that}", "array", ["files"]]
+                                },
+                                "getStorage": {
+                                    "func": "{that}.getDiskStorage"
+                                },
+                                "getDiskStorageDestinationFunc": {
+                                    "funcName": "kettle.middleware.multer.getDefaultDiskStorageDestinationFunc"
+                                },
+                            }
+                        }
+                    },
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
@@ -75,6 +92,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         saveNewStoryHandler: {
             type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/story/",
+            "method": "post"
+        },
+        saveBinariesHandler: {
+            type: "sjrk.storyTelling.server.saveBinariesHandler",
+            "route": "/binaries/",
             "method": "post"
         },
         nodeModulesHandler: {

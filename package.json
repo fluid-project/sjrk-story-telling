@@ -21,10 +21,10 @@
     "gpii-handlebars": "1.0.2",
     "handlebars": "4.0.10",
     "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
-    "kettle": "1.6.4",
+    "kettle": "git+https://github.com/waharnum/kettle.git#KETTLE-66",
     "sjrk-couch-config": "https://github.com/waharnum/fluid-couch-config#viewsFix",
     "sjrk-story-telling": "git+https://github.com/BlueSlug/sjrk-story-telling.git",
-    "sjrk-storytelling": "https://github.com/BlueSlug/sjrk-story-telling",
+    "sjrk-storytelling": "https://github.com/BlueSlug/sjrk-story-telling#SJRK-49",
     "uuid": "3.1.0"
   },
   "devDependencies": {

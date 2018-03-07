@@ -52,6 +52,27 @@ sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource, isS
     });
 };
 
+
+fluid.defaults("sjrk.storyTelling.server.saveBinariesHandler", {
+    gradeNames: "kettle.request.http",
+    requestMiddleware: {
+        "saveBinaries": {
+            middleware: "{server}.saveBinaries"
+        }
+    },
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleSaveBinaries",
+            args: ["{request}"]
+        }
+    }
+});
+
+sjrk.storyTelling.server.handleSaveBinaries = function (request) {
+    console.log(request.req.file);
+    request.events.onSuccess.fire("It worked!");
+};
+
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {
