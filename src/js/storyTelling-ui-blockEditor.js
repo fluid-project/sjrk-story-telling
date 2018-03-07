@@ -106,7 +106,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
-                // container: "{ui}.options.selectors.storyContent",
                 container: "{ui}.options.selectors.storyContent",
                 createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
                 options: {
