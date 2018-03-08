@@ -27,7 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // specific to and consistent with that type.
                 // e.g.
                 // {
-                //     type: "sjrk.storyTelling.block.textBlock",
+                //     type: "text",
                 //     id: "id-123",
                 //     language: "en-CA",
                 //     heading: "An appropriate header",

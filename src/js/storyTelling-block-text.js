@@ -13,12 +13,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.textBlock", {
+    fluid.defaults("sjrk.storyTelling.block.textBlock.base", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
             text: null,
             simplifiedText: null
         },
+        components: {
+            templateManager: {
+                options: {
+                    templateConfig: {
+                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
+                    }
+                }
+            }
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.block.textBlock.editable", {
+        gradeNames: ["sjrk.storyTelling.block.editable"],
         selectors: {
             textBlockText: ".sjrkc-storyblock-text",
             textBlockSimplifiedText: ".sjrkc-storyblock-simplified-text"
@@ -26,9 +39,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             templateManager: {
                 options: {
-                    templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
-                    },
                     templateStrings: {
                         uiStrings: {
                             blockTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)",
@@ -46,6 +56,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             }
         }
+    });
+
+    fluid.defaults("sjrk.storyTelling.block.textBlock", {
+        gradeNames: ["sjrk.storyTelling.block.textBlock.base", "sjrk.storyTelling.block.textBlock.editable"]
     });
 
 })(jQuery, fluid);

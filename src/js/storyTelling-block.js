@@ -13,13 +13,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block", {
+    fluid.defaults("sjrk.storyTelling.block.base", {
         gradeNames: ["fluid.viewComponent"],
         model: {
             id: null,
             language: null,
             heading: null
         },
+        components: {
+            templateManager: {
+                type: "sjrk.storyTelling.templateManager",
+                container: "{base}.container",
+                options: {
+                    templateConfig: {
+                        messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
+                        locale: "{base}.language"
+                    },
+                    templateStrings: {
+                        uiStrings: {
+                            // TODO: think about the usage/location of this function
+                            // TODO: perhaps it could be set up as a handlebars helper (see SJRK-52 Jira)
+                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)",
+                            blockSelectionCheckboxIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storySelectionCheckbox)"
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // mix-in grade
+    fluid.defaults("sjrk.storyTelling.block.editable", {
         selectors: {
             heading: ".sjrkc-storyblock-heading",
             selectedCheckbox: ".sjrkc-storyblock-selection-checkbox"
@@ -35,36 +59,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
-            templateManager: {
-                type: "sjrk.storyTelling.templateManager",
-                container: "{block}.container",
-                options: {
-                    templateConfig: {
-                        messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
-                        locale: "{block}.language"
-                    },
-                    templateStrings: {
-                        uiStrings: {
-                            // TODO: think about the usage/location of this function
-                            // TODO: perhaps it could be set up as a handlebars helper (see SJRK-52 Jira)
-                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)",
-                            blockSelectionCheckboxIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storySelectionCheckbox)"
-                        }
-                    }
-                }
-            },
             binder: {
                 type: "sjrk.storyTelling.binder",
-                container: "{block}.container",
+                container: "{base}.container",
                 options: {
-                    model: "{block}.model",
-                    selectors: "{block}.options.selectors",
+                    model: "{base}.model",
+                    selectors: "{base}.options.selectors",
                     bindings: {
                         heading: "heading"
                     }
                 }
             }
         }
+    });
+
+    fluid.defaults("sjrk.storyTelling.block", {
+        gradeNames: ["sjrk.storyTelling.block.base", "sjrk.storyTelling.block.editable"]
     });
 
 })(jQuery, fluid);
