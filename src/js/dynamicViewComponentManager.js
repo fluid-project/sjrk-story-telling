@@ -38,6 +38,9 @@
                         guid: "{arguments}.2",
                         type: "{arguments}.3"
                     },
+                    // An endpoint for storing additional configuration
+                    // options by an implementing grade
+                    additionalConfiguration: "{arguments}.4",
                     listeners: {
                         "onCreate.notifyManager": {
                             func: "{dynamicViewComponentManager}.events.viewComponentCreated",
@@ -59,7 +62,7 @@
         listeners: {
             "viewComponentContainerRequested.addComponentContainer": {
                 "funcName": "sjrk.dynamicViewComponentManager.addComponentContainer",
-                "args": ["{that}", "{that}.events.viewComponentContainerAppended", "{arguments}.0"]
+                "args": ["{that}", "{that}.events.viewComponentContainerAppended", "{arguments}.0", "{arguments}.1"]
             },
             "viewComponentCreated.registerManagedViewComponent": {
                 func: "sjrk.dynamicViewComponentManager.registerManagedViewComponent",
@@ -103,7 +106,7 @@
         completionEvent.fire(componentContainerIndividualClass);
     };
 
-    sjrk.dynamicViewComponentManager.addComponentContainer = function (that, completionEvent, type) {
+    sjrk.dynamicViewComponentManager.addComponentContainer = function (that, completionEvent, type, additionalConfiguration) {
 
         var guid = fluid.allocateGuid();
 
@@ -115,7 +118,7 @@
 
         var containerSelector = "." + containerIndividualClass;
 
-        completionEvent.fire(containerSelector, containerIndividualClass, guid, type);
+        completionEvent.fire(containerSelector, containerIndividualClass, guid, type, additionalConfiguration);
     };
 
     sjrk.dynamicViewComponentManager.getContainerMarkup = function (containerGlobalClass, containerIndividualClass) {
