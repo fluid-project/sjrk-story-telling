@@ -52,3 +52,22 @@ sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allo
 
     return togo;
 };
+
+fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
+    gradeNames: ["kettle.middleware.multer"],    
+    invokers: {
+        "getMiddlewareForFileStrategy": {
+            "funcName": "kettle.middleware.multer.getMiddlewareForFileStrategy",
+            "args": ["{that}", "fields", [
+                    {name: "file", maxCount: 10},
+                    {name: "model", maxCount: 1}
+                ]]
+        },
+        "getStorage": {
+            "func": "{that}.getDiskStorage"
+        },
+        "getDiskStorageDestinationFunc": {
+            "funcName": "kettle.middleware.multer.getDefaultDiskStorageDestinationFunc"
+        },
+    }
+});
