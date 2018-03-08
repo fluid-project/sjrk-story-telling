@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -55,9 +55,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
                 container: "{ui}.options.selectors.storyContent",
-                createOnEvent: "{templateManager}.events.onAllResourcesLoaded"
+                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                options: {
+                    listeners: {
+                        "onCreate.renderStoryContent": {
+                            "funcName": "sjrk.storyTelling.ui.blockViewer.renderStoryContent",
+                            "args": ["{story}.model.content", "{blockManager}.events.viewComponentContainerRequested"]
+                        }
+                    }
+                }
             }
         }
     });
+
+    sjrk.storyTelling.ui.blockViewer.renderStoryContent = function (storyBlocks, createEvent) {
+        fluid.each(storyBlocks, function (blockData) {
+            var block = createEvent.fire(blockData.type);
+            console.log(block);
+        });
+    };
 
 })(jQuery, fluid);

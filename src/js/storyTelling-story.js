@@ -21,6 +21,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // TODO: add an ID field?
             title: "",
             content: "",
+            //[
+                // a collection of sjrk.storyTelling.block data.
+                // blocks should contain the type of block and fields
+                // specific to and consistent with that type.
+                // e.g.
+                // {
+                //     type: "sjrk.storyTelling.block.textBlock",
+                //     id: "id-123",
+                //     language: "en-CA",
+                //     heading: "An appropriate header",
+                //     text: "This is the main text of this block",
+                //     simplifiedText: "Main text."
+                // }
+            //],
             author: "",
             language: "",
             images: [],
