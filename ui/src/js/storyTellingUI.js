@@ -41,11 +41,34 @@ fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
 
 sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory = function (that) {
     var form = that.locate("storyBlockEditor");
+
     form.attr("action", "/binaries/");
     form.attr("method", "post");
     form.attr("enctype", "multipart/form-data");
-    var uploaders = form.find(".sjrkc-storyblock-uploader-input");
-    form.submit();
+
+    var formData = new FormData(form[0]);
+
+    var modelAsJSON = JSON.stringify(that.story.model);
+
+    formData.append("model", modelAsJSON);
+
+    var formAction = form.attr("action");
+
+    $.ajax({
+        url         : formAction,
+        data        : formData ? formData : form.serialize(),
+        cache       : false,
+        contentType : false,
+        processData : false,
+        type        : 'POST',
+        success     : function(data, textStatus, jqXHR){
+            console.log(data, textStatus, jqXHR);
+        },
+        error       : function (jqXHR, textStatus, errorThrown) {
+            console.log("Something went wrong");
+            console.log(jqXHR, textStatus, errorThrown);
+        }
+    });
 };
 
 // classic query string parser via
