@@ -73,14 +73,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request) {
     // The list of uploaded files is available at request.req.files
     console.log(request.req.files);
 
-    // The total model of the story is available as JSON at request.req.body.model
+    // The total model of the story is available as a JSON string at request.req.body.model
     console.log(JSON.parse(request.req.body.model));
 
     // We'll need to iterate the story model and update the
     // image URLs where appropriate to the newly-saved files
 
     // Then persist that model to couch, with the updated
-    // references
+    // references to where the binaries are saved
 
     request.events.onSuccess.fire("It worked!");
 };

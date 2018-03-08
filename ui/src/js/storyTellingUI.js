@@ -42,20 +42,25 @@ fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
 sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory = function (that) {
     var form = that.locate("storyBlockEditor");
 
+    //
     form.attr("action", "/binaries/");
     form.attr("method", "post");
     form.attr("enctype", "multipart/form-data");
 
+    // This is the easiest way to be able to submit form
+    // content in the background via ajax
     var formData = new FormData(form[0]);
 
+    // Stores the entire model as a JSON string in one
+    // field of the multipart form
     var modelAsJSON = JSON.stringify(that.story.model);
-
     formData.append("model", modelAsJSON);
 
-    var formAction = form.attr("action");
-
+    // In the real implementation, this should have
+    // proper handling of feedback on success / failure,
+    // but currently it just logs to console
     $.ajax({
-        url         : formAction,
+        url         : form.attr("action"),
         data        : formData ? formData : form.serialize(),
         cache       : false,
         contentType : false,
