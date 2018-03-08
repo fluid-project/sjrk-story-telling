@@ -18,8 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             id: null,
             language: null,
-            timestampCreated: null,
-            timestampModified: null,
             heading: null
         },
         selectors: {

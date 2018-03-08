@@ -27,6 +27,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             tags: [],
             categories: [],
             summary: "",
+            timestampCreated: null,
+            timestampModified: null,
             requestedTranslations: [
                 //"es": 2, // a list of language codes as keys with
                 //"fr": 5  // the number of requests for that language
