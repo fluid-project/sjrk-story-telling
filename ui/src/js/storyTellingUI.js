@@ -42,7 +42,6 @@ fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
 sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory = function (that) {
     var form = that.locate("storyBlockEditor");
 
-    //
     form.attr("action", "/binaries/");
     form.attr("method", "post");
     form.attr("enctype", "multipart/form-data");
