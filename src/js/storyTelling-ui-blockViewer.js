@@ -62,6 +62,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             "funcName": "sjrk.storyTelling.ui.blockViewer.renderStoryContent",
                             "args": ["{story}.model.content", "{blockManager}.events.viewComponentContainerRequested"]
                         }
+                    },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                model: "{that}.options.additionalConfiguration.modelValues"
+                            }
+                        }
                     }
                 }
             }
@@ -70,7 +77,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.ui.blockViewer.renderStoryContent = function (storyBlocks, createEvent) {
         fluid.each(storyBlocks, function (blockData) {
-            var block = createEvent.fire(blockData.type);
+            var block = createEvent.fire(blockData.type, {modelValues: blockData});
             console.log(block);
         });
     };
