@@ -126,7 +126,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
-                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock"]
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock.editable"]
                 },
                 {
                     func: "fluid.identity"

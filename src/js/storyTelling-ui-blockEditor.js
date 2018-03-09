@@ -118,7 +118,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "{blockEditor}.events.onImageBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
-                            args: ["sjrk.storyTelling.block.imageBlock"]
+                            args: ["sjrk.storyTelling.block.imageBlock.editable"]
                         }
                     }
                 }

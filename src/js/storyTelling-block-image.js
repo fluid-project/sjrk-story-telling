@@ -44,7 +44,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.block.imageBlock.base", {
+    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
             imageUrl: null,
@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     fluid.defaults("sjrk.storyTelling.block.imageBlock.editable", {
-        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.block.imageBlock.base", "sjrk.storyTelling.block.editable"],
+        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.block.imageBlock", "sjrk.storyTelling.block.editable"],
         contextAwareness: {
             technology: {
                 checks: {
@@ -196,10 +196,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "bindImageCaptureRequested"
             }
         }
-    });
-
-    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
-        gradeNames: ["sjrk.storyTelling.block.imageBlock.editable"]
     });
 
 })(jQuery, fluid);
