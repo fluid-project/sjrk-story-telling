@@ -44,6 +44,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // mix-in grade
     fluid.defaults("sjrk.storyTelling.block.editable", {
+        gradeNames: ["sjrk.storyTelling.block.base"],
         selectors: {
             heading: ".sjrkc-storyblock-heading",
             selectedCheckbox: ".sjrkc-storyblock-selection-checkbox"
@@ -74,7 +75,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     fluid.defaults("sjrk.storyTelling.block", {
-        gradeNames: ["sjrk.storyTelling.block.base", "sjrk.storyTelling.block.editable"]
+        gradeNames: ["sjrk.storyTelling.block.editable"]
     });
 
 })(jQuery, fluid);

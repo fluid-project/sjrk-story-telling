@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.block.textBlock.base", {
-        gradeNames: ["sjrk.storyTelling.block"],
+        gradeNames: ["sjrk.storyTelling.block.base"],
         model: {
             text: null,
             simplifiedText: null
@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockTextView.handlebars"
                     }
                 }
             }
@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     fluid.defaults("sjrk.storyTelling.block.textBlock.editable", {
-        gradeNames: ["sjrk.storyTelling.block.editable"],
+        gradeNames: ["sjrk.storyTelling.block.textBlock.base", "sjrk.storyTelling.block.editable"],
         selectors: {
             textBlockText: ".sjrkc-storyblock-text",
             textBlockSimplifiedText: ".sjrkc-storyblock-simplified-text"
@@ -39,6 +39,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             templateManager: {
                 options: {
+                    templateConfig: {
+                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
+                    },
                     templateStrings: {
                         uiStrings: {
                             blockTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)",
@@ -59,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     fluid.defaults("sjrk.storyTelling.block.textBlock", {
-        gradeNames: ["sjrk.storyTelling.block.textBlock.base", "sjrk.storyTelling.block.textBlock.editable"]
+        gradeNames: ["sjrk.storyTelling.block.textBlock.editable"]
     });
 
 })(jQuery, fluid);

@@ -44,21 +44,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
-        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.block"],
-        contextAwareness: {
-            technology: {
-                checks: {
-                    mobileCamera: {
-                        gradeNames: "sjrk.storyTelling.block.imageBlock.hasMobileCamera"
-                    }
-                }
-            }
-        },
+    fluid.defaults("sjrk.storyTelling.block.imageBlock.base", {
+        gradeNames: ["sjrk.storyTelling.block.base"],
         model: {
             imageUrl: null,
             alternativeText: null,
             description: null
+        },
+        components: {
+            templateManager: {
+                options: {
+                    templateConfig: {
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImageView.handlebars"
+                    }
+                }
+            }
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.block.imageBlock.editable", {
+        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.block.imageBlock.base", "sjrk.storyTelling.block.editable"],
+        contextAwareness: {
+            technology: {
+                checks: {
+                    mobileCamera: {
+                        gradeNames: "sjrk.storyTelling.block.imageBlock.editable.hasMobileCamera"
+                    }
+                }
+            }
         },
         events: {
             imageUploadRequested: null
@@ -103,7 +116,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             binder: {
                 options: {
-                    selectors: "{block}.options.selectors",
+                    selectors: "{editable}.options.selectors",
                     bindings: {
                         imageAltText: "alternativeText",
                         imageDescription: "description"
@@ -113,19 +126,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             singleFileUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{imageBlock}.dom.singleFileUploader",
+                container: "{editable}.dom.singleFileUploader",
                 options: {
                     selectors: {
                         fileInput: "{that}.container"
                     },
                     listeners: {
-                        "{imageBlock}.events.imageUploadRequested": {
+                        "{editable}.events.imageUploadRequested": {
                             func: "{that}.events.onUploadRequested.fire"
                         }
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{imageBlock}.updateImagePreview",
+                            func: "{editable}.updateImagePreview",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
@@ -136,7 +149,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
 
-    fluid.defaults("sjrk.storyTelling.block.imageBlock.hasMobileCamera", {
+    fluid.defaults("sjrk.storyTelling.block.imageBlock.editable.hasMobileCamera", {
         selectors: {
             imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
             cameraCaptureUploader: ".sjrkc-storyblock-camera-capture-input"
@@ -164,7 +177,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{imageBlock}.updateImagePreview",
+                            func: "{editable}.updateImagePreview",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
@@ -183,6 +196,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "bindImageCaptureRequested"
             }
         }
+    });
+
+    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
+        gradeNames: ["sjrk.storyTelling.block.imageBlock.editable"]
     });
 
 })(jQuery, fluid);
