@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.block.testTextBlock", {
-        gradeNames: ["sjrk.storyTelling.block.textBlock"],
+        gradeNames: ["sjrk.storyTelling.block.textBlock.editable"],
         components: {
             templateManager: {
                 options: {
