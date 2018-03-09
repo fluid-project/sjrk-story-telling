@@ -45,7 +45,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     fluid.defaults("sjrk.storyTelling.block.imageBlock.base", {
-        gradeNames: ["sjrk.storyTelling.block.base"],
+        gradeNames: ["sjrk.storyTelling.block"],
         model: {
             imageUrl: null,
             alternativeText: null,

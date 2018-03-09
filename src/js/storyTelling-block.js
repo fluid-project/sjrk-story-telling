@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.base", {
+    fluid.defaults("sjrk.storyTelling.block", {
         gradeNames: ["fluid.viewComponent"],
         model: {
             id: null,
@@ -23,11 +23,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             templateManager: {
                 type: "sjrk.storyTelling.templateManager",
-                container: "{base}.container",
+                container: "{block}.container",
                 options: {
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
-                        locale: "{base}.language"
+                        locale: "{block}.language"
                     },
                     templateStrings: {
                         uiStrings: {
@@ -44,7 +44,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // mix-in grade
     fluid.defaults("sjrk.storyTelling.block.editable", {
-        gradeNames: ["sjrk.storyTelling.block.base"],
+        gradeNames: ["sjrk.storyTelling.block"],
         selectors: {
             heading: ".sjrkc-storyblock-heading",
             selectedCheckbox: ".sjrkc-storyblock-selection-checkbox"
@@ -62,20 +62,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             binder: {
                 type: "sjrk.storyTelling.binder",
-                container: "{base}.container",
+                container: "{editable}.container",
                 options: {
-                    model: "{base}.model",
-                    selectors: "{base}.options.selectors",
+                    model: "{editable}.model",
+                    selectors: "{editable}.options.selectors",
                     bindings: {
                         heading: "heading"
                     }
                 }
             }
         }
-    });
-
-    fluid.defaults("sjrk.storyTelling.block", {
-        gradeNames: ["sjrk.storyTelling.block.editable"]
     });
 
 })(jQuery, fluid);

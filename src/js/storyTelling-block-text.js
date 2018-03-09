@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.block.textBlock.base", {
-        gradeNames: ["sjrk.storyTelling.block.base"],
+        gradeNames: ["sjrk.storyTelling.block"],
         model: {
             text: null,
             simplifiedText: null
