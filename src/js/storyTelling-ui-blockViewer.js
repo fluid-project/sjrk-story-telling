@@ -77,8 +77,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.ui.blockViewer.renderStoryContent = function (storyBlocks, createEvent) {
         fluid.each(storyBlocks, function (blockData) {
-            var block = createEvent.fire(blockData.type, {modelValues: blockData});
-            console.log(block);
+            createEvent.fire(blockData.blockType, {modelValues: blockData});
         });
     };
 
