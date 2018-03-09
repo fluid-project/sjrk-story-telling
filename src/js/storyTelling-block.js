@@ -29,12 +29,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json",
                         locale: "{block}.language"
                     },
-                    templateStrings: {
-                        uiStrings: {
-                            // TODO: think about the usage/location of this function
-                            // TODO: perhaps it could be set up as a handlebars helper (see SJRK-52 Jira)
-                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)",
-                            blockSelectionCheckboxIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storySelectionCheckbox)"
+                    listeners: {
+                        "onAllResourcesLoaded.renderTemplateOnSelf": {
+                            funcName: "{that}.renderTemplateOnSelf",
+                            args: ["{block}.model"]
                         }
                     }
                 }
@@ -60,12 +58,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            templateManager: {
+                options: {
+                    templateStrings: {
+                        uiStrings: {
+                            // TODO: think about the usage/location of this function
+                            // TODO: perhaps it could be set up as a handlebars helper (see SJRK-52 Jira)
+                            blockHeadingIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockHeading)",
+                            blockSelectionCheckboxIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storySelectionCheckbox)"
+                        }
+                    }
+                }
+            },
             binder: {
                 type: "sjrk.storyTelling.binder",
-                container: "{editable}.container",
+                container: "{block}.container",
                 options: {
-                    model: "{editable}.model",
-                    selectors: "{editable}.options.selectors",
+                    model: "{block}.model",
+                    selectors: "{block}.options.selectors",
                     bindings: {
                         heading: "heading"
                     }
