@@ -20,7 +20,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyTags: ".sjrkc-storyTelling-storyListTags",
             storyPreviewerPrevious: ".sjrkc-storyTelling-storyPreviewerPrevious"
         },
-        interfaceControlStrings: {
+        // TODO: think of a better name for this key
+        blockGrades: {
+            "text": "sjrk.storyTelling.block.textBlock",
+            "image": "sjrk.storyTelling.block.imageBlock"
         },
         events: {
             onSaveNoShareRequested: null,
@@ -60,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onCreate.renderStoryContent": {
                             "funcName": "sjrk.storyTelling.ui.blockViewer.renderStoryContent",
-                            "args": ["{story}.model.content", "{blockManager}.events.viewComponentContainerRequested"]
+                            "args": ["{story}.model.content", "{blockViewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
                         }
                     },
                     dynamicComponents: {
@@ -75,9 +78,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.ui.blockViewer.renderStoryContent = function (storyBlocks, createEvent) {
+    sjrk.storyTelling.ui.blockViewer.renderStoryContent = function (storyBlocks, gradeLookup, createEvent) {
         fluid.each(storyBlocks, function (blockData) {
-            createEvent.fire(blockData.blockType, {modelValues: blockData});
+            var gradeNames = gradeLookup[blockData.blockType];
+            createEvent.fire(gradeNames, {modelValues: blockData});
         });
     };
 

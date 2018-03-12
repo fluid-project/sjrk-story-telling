@@ -26,6 +26,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyRemoveSelectedBlocks: ".sjrkc-storyTelling-button-remove-blocks",
             storyRestoreRemovedBlocks: ".sjrkc-storyTelling-button-restore-blocks"
         },
+        blockGrades: {
+            "text": "sjrk.storyTelling.block.textBlock.editable",
+            "image": "sjrk.storyTelling.block.imageBlock.editable"
+        },
         interfaceControlStrings: {
             storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
             storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
