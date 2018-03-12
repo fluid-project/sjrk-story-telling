@@ -17,6 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
+            storyEditorContent: ".sjrkc-storyTelling-story-editor-content",
             storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
             storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
             storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
@@ -67,6 +68,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
             },
+            "onReadyToBind.bindListenToControl": {
+                "this": "{that}.dom.storyListenTo",
+                "method": "click",
+                "args": ["{that}.events.onStoryListenToRequested.fire"]
+            },
             "onReadyToBind.bindEditorNextControl": {
                 "this": "{that}.dom.storyEditorNext",
                 "method": "click",
@@ -110,7 +116,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
-                container: "{ui}.options.selectors.storyContent",
+                container: "{ui}.options.selectors.storyEditorContent",
                 createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
                 options: {
                     listeners: {

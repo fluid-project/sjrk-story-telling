@@ -21,8 +21,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en"
         },
         selectors: {
-            storyEditor: ".sjrkc-storyTelling-storyEditor",
-            storyPreviewer: ".sjrkc-storyTelling-storyPreviewer"
+            storyEditor: ".sjrkc-storyTelling-block-editor",
+            storyPreviewer: ".sjrkc-storyTelling-block-viewer"
         },
         events: {
             onStoryListenToRequested: null,
@@ -97,7 +97,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // the story editing context
             editor: {
-                type: "sjrk.storyTelling.ui.editor",
+                type: "sjrk.storyTelling.ui.blockEditor",
                 container: "{uiManager}.options.selectors.storyEditor",
                 options: {
                     components: {
@@ -114,7 +114,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story preview context
             // TODO: consider rolling the previewer context into the editor
             previewer: {
-                type: "sjrk.storyTelling.ui.previewer",
+                type: "sjrk.storyTelling.ui.blockViewer",
                 container: "{uiManager}.options.selectors.storyPreviewer",
                 options: {
                     components: {
