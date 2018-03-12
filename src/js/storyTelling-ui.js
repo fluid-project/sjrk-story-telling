@@ -131,6 +131,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire();
     };
 
+    // TODO: add tests for this function in the appropriate place(s)
     /* Given a collection of story block data, will fire a creation event for each,
      * specifying a grade name based on a lookup list. The format of the lookup list is:
      *     {
