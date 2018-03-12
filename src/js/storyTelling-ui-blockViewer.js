@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     listeners: {
                         "onCreate.renderStoryContent": {
-                            "funcName": "sjrk.storyTelling.ui.blockViewer.renderStoryContent",
+                            "funcName": "sjrk.storyTelling.ui.blockViewer.createBlocksFromStored",
                             "args": ["{story}.model.content", "{blockViewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
                         }
                     },
@@ -78,7 +78,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.ui.blockViewer.renderStoryContent = function (storyBlocks, gradeLookup, createEvent) {
+    // TODO: Consider moving this somewhere that it may be accessed by the editor as well
+    /* Given a collection of story blocks from a story model, will fire a creation
+     * event for each of them, specifying a grade name based on a lookup list.
+     * The format of the lookup list is thus:
+     *     {
+     *         "x": "the.full.x.block.grade.name",
+     *         "y": "the.full.y.block.grade.name",
+     *     }
+     * - "storyBlocks": the story model block list
+     * - "gradeLookup": the list of blockType names and associated grades
+     * - "createEvent": the event that is to be fired in order to create the blocks
+     */
+    sjrk.storyTelling.ui.blockViewer.createBlocksFromStored = function (storyBlocks, gradeLookup, createEvent) {
         fluid.each(storyBlocks, function (blockData) {
             var gradeNames = gradeLookup[blockData.blockType];
             createEvent.fire(gradeNames, {modelValues: blockData});
