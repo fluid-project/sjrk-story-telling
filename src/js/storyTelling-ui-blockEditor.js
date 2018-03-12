@@ -133,6 +133,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: "{story}.model",
                     selectors: "{ui}.options.selectors",
+                    events: {
+                        onUiReadyToBind: "{ui}.events.onReadyToBind"
+                    },
                     bindings: {
                         storyTitle: "title",
                         storyAuthor: "author",
@@ -158,9 +161,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 }
                             }
                         }
-                    },
-                    events: {
-                        onUiReadyToBind: "{ui}.events.onReadyToBind"
                     }
                 }
             }
