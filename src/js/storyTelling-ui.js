@@ -92,7 +92,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // represents the story data
             story: {
-                type: "sjrk.storyTelling.story.base"
+                type: "sjrk.storyTelling.story"
             }
         }
     });
