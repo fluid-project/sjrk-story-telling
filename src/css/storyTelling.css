@@ -22,7 +22,7 @@ fieldset ul {
     list-style-type: none;
 }
 
-.sjrk-storyTelling-storyEditorPage2, .sjrk-storyTelling-storyPreviewer {
+.sjrk-storyTelling-storyEditorPage2, .sjrk-storyTelling-block-viewer {
     display: none;
 }
 
@@ -106,19 +106,14 @@ fieldset ul {
     text-align: center;
 }
 
-.sjrk-storyTelling-storyPreviewer .sjrk-storyTelling-storyTitle,
 .sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyTitle {
     font-size: 1.5em;
 }
 
-.sjrk-storyTelling-storyPreviewer .sjrk-storyTelling-storyAuthor,
 .sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyAuthor {
     font-size: 1.25em;
 }
 
-.sjrk-storyTelling-storyPreviewer .sjrk-storyTelling-storyListTags,
-.sjrk-storyTelling-storyPreviewer .sjrk-storyTelling-storyLanguage,
-.sjrk-storyTelling-storyPreviewer .sjrk-storyTelling-storyCategories,
 .sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyListTags,
 .sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyLanguage,
 .sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyCategories {
