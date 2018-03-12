@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     listeners: {
                         "onCreate.renderStoryContent": {
-                            "funcName": "sjrk.storyTelling.ui.blockViewer.createBlocksFromData",
+                            "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
                             "args": ["{story}.model.content", "{blockViewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
                         }
                     },
@@ -77,24 +77,5 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    // TODO: Consider moving this somewhere that it may be accessed by the editor as well
-    /* Given a collection of story block data, will fire a creation event for each,
-     * specifying a grade name based on a lookup list. The format of the lookup list is:
-     *     {
-     *         "x": "the.full.x.block.grade.name",
-     *         "y": "the.full.y.block.grade.name",
-     *     }
-     * - "storyBlocks": a collection of story block data, the format of the data
-     *                  is as laid out in sjrk.storyTelling.story
-     * - "gradeLookup": the list of blockType names and associated grades
-     * - "createEvent": the event that is to be fired in order to create the blocks
-     */
-    sjrk.storyTelling.ui.blockViewer.createBlocksFromData = function (storyBlocks, gradeLookup, createEvent) {
-        fluid.each(storyBlocks, function (blockData) {
-            var gradeNames = gradeLookup[blockData.blockType];
-            createEvent.fire(gradeNames, {modelValues: blockData});
-        });
-    };
 
 })(jQuery, fluid);
