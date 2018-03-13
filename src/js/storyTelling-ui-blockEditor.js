@@ -134,7 +134,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "{blockEditor}.events.onStorySubmitRequested": {
                             funcName: "sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks",
                             namespace: "updateStoryFromBlocks",
-                            args: ["{blockEditor}.story.model", "{that}.managedViewComponentRegistry", "{blockEditor}.events.onStoryUpdatedFromBlocks"]
+                            args: ["{blockEditor}.story", "{that}.managedViewComponentRegistry", "{blockEditor}.events.onStoryUpdatedFromBlocks"],
+                            priority: "first"
                         }
                     }
                 }
@@ -195,13 +196,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 
-    sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks = function (storyModel, blockComponents, completionEvent) {
-        storyModel.content = []; // clear the story content before reconstruction
+    sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks = function (story, blockComponents, completionEvent) {
+        var storyContent = [];
 
         fluid.each(blockComponents, function (block) {
             var blockData = block.model;
-            storyModel.content.push(blockData);
+            storyContent.push(blockData);
         });
+
+        story.applier.change("content", storyContent);
 
         completionEvent.fire();
     };
