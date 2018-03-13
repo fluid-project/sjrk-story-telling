@@ -132,6 +132,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     selectors: {
                         fileInput: "{that}.container"
                     },
+                    model: {
+                        fileObjectURL: "{imageBlock}.model.imageUrl"
+                    },
                     listeners: {
                         "{editable}.events.imageUploadRequested": {
                             func: "{that}.events.onUploadRequested.fire"
@@ -170,6 +173,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     selectors: {
                         fileInput: "{that}.container"
+                    },
+                    model: {
+                        fileObjectURL: "{imageBlock}.model.imageUrl"
                     },
                     listeners: {
                         "{hasMobileCamera}.events.imageCaptureRequested": {
