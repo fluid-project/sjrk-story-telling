@@ -45,7 +45,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onImageBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
-            onRestoreBlocksRequested: null
+            onRestoreBlocksRequested: null,
+            onStoryUpdatedFromBlocks: null
         },
         listeners: {
             "onReadyToBind.bindAddTextBlock": {
@@ -129,6 +130,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
                             args: ["sjrk.storyTelling.block.imageBlock.editable"]
+                        },
+                        "{blockEditor}.events.onStorySubmitRequested": {
+                            funcName: "sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks",
+                            namespace: "updateStoryFromBlocks",
+                            args: ["{blockEditor}.story.model", "{that}.managedViewComponentRegistry", "{blockEditor}.events.onStoryUpdatedFromBlocks"]
                         }
                     }
                 }
@@ -187,6 +193,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
+    };
+
+    sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks = function (storyModel, blockComponents, completionEvent) {
+        storyModel.content = []; // clear the story content before reconstruction
+
+        fluid.each(blockComponents, function (block) {
+            var blockData = block.model;
+            storyModel.content.push(blockData);
+        });
+
+        completionEvent.fire();
     };
 
 })(jQuery, fluid);

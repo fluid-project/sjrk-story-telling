@@ -20,8 +20,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             // TODO: add an ID field?
             title: "",
-            content: "",
-            //[
+            content: //"",
+            [
                 // a collection of sjrk.storyTelling.block data.
                 // blocks should contain the type of block and fields
                 // specific to and consistent with that type.
@@ -34,7 +34,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 //     text: "This is the main text of this block",
                 //     simplifiedText: "Main text."
                 // }
-            //],
+            ],
             author: "",
             language: "",
             images: [],
