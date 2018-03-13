@@ -16,6 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block.textBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
+            blockType: "text",
             text: null,
             simplifiedText: null
         },
