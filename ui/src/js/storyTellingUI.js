@@ -1,26 +1,33 @@
 fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
-    gradeNames: ["sjrk.storyTelling.ui.blockEditor.learningReflections"],
+    gradeNames: ["sjrk.storyTelling.uiManager"],
     selectors: {
         storyBlockEditor: ".sjrkc-storyTelling-block-editor"
     },
+    // TODO: this is too pointy and we should this with distributeOptions
     components: {
-        templateManager: {
+        editor: {
             options: {
-                templateConfig: {
-                    resourcePrefix: "node_modules/sjrk-story-telling"
-                }
-            }
-        },
-        blockManager: {
-            options: {
-                dynamicComponents: {
-                    managedViewComponents: {
+                components: {
+                    templateManager: {
                         options: {
-                            components: {
-                                templateManager: {
+                            templateConfig: {
+                                resourcePrefix: "node_modules/sjrk-story-telling"
+                            }
+                        }
+                    },
+                    blockManager: {
+                        options: {
+                            dynamicComponents: {
+                                managedViewComponents: {
                                     options: {
-                                        templateConfig: {
-                                            resourcePrefix: "node_modules/sjrk-story-telling"
+                                        components: {
+                                            templateManager: {
+                                                options: {
+                                                    templateConfig: {
+                                                        resourcePrefix: "node_modules/sjrk-story-telling"
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -29,18 +36,52 @@ fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
                     }
                 }
             }
-        }
-    },
-    listeners: {
-        "onStorySubmitRequested.submitStory": {
-            funcName: "sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory",
-            args: ["{that}"]
+        },
+        previewer: {
+            options: {
+                components: {
+                    templateManager: {
+                        options: {
+                            templateConfig: {
+                                resourcePrefix: "node_modules/sjrk-story-telling"
+                            }
+                        }
+                    },
+                    blockManager: {
+                        options: {
+                            dynamicComponents: {
+                                managedViewComponents: {
+                                    options: {
+                                        components: {
+                                            templateManager: {
+                                                options: {
+                                                    templateConfig: {
+                                                        resourcePrefix: "node_modules/sjrk-story-telling"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                listeners: {
+                    "onSaveNoShareRequested.submitStory": {
+                        funcName: "sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory",
+                        args: ["{editor}"]
+                    }
+                }
+            }
         }
     }
 });
 
 sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory = function (that) {
-    var form = that.locate("storyBlockEditor");
+
+    // TODO: add proper selector for form
+    var form = that.container.find("form");
 
     form.attr("action", "/binaries/");
     form.attr("method", "post");
