@@ -16,31 +16,32 @@ require("kettle");
 var sjrk = fluid.registerNamespace("sjrk");
 
 fluid.defaults("sjrk.storyTelling.server.staticMiddlewareFilter", {
-     gradeNames: "kettle.middleware",
-     invokers: {
-         handle: {
-             funcName: "sjrk.storyTelling.server.staticMiddlewareFilter.handle",
-             args: ["{request}", "{that}.options.allowedDirectories"]
-         }
-     },
-     allowedDirectories: [
-         "infusion",
-         "gpii-binder",
-         "sjrk-story-telling",
-         "handlebars",
-         "pagedown",
-         "gpii-handlebars"]
+    gradeNames: "kettle.middleware",
+    invokers: {
+        handle: {
+            funcName: "sjrk.storyTelling.server.staticMiddlewareFilter.handle",
+            args: ["{request}", "{that}.options.allowedDirectories"]
+        }
+    },
+    allowedDirectories: [
+        "infusion",
+        "gpii-binder",
+        "sjrk-story-telling",
+        "handlebars",
+        "pagedown",
+        "gpii-handlebars"]
 });
 
 sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allowedDirectories) {
     var togo = fluid.promise();
 
     var directory = path.parse(request.req.url).dir;
-    var requestedNodeModulesDir = directory.split(path.sep)[1];
+    //Because directory is always from a URL, it will always split on a forward slash
+    var requestedNodeModulesDir = directory.split("/")[1];
 
     var isAllowed = fluid.contains(allowedDirectories, requestedNodeModulesDir);
 
-    if(isAllowed) {
+    if (isAllowed) {
         togo.resolve();
     } else {
         togo.reject({
@@ -54,20 +55,20 @@ sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allo
 };
 
 fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
-    gradeNames: ["kettle.middleware.multer"],    
+    gradeNames: ["kettle.middleware.multer"],
     invokers: {
         "getMiddlewareForFileStrategy": {
             "funcName": "kettle.middleware.multer.getMiddlewareForFileStrategy",
             "args": ["{that}", "fields", [
                     {name: "file", maxCount: 10},
                     {name: "model", maxCount: 1}
-                ]]
+            ]]
         },
         "getStorage": {
             "func": "{that}.getDiskStorage"
         },
         "getDiskStorageDestinationFunc": {
             "funcName": "kettle.middleware.multer.getDefaultDiskStorageDestinationFunc"
-        },
+        }
     }
 });

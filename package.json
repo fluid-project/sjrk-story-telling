@@ -1,5 +1,5 @@
 {
-  "name": "sjrk-storytelling-server",
+  "name": "sjrk-story-telling-server",
   "version": "0.1.0",
   "description": "Kettle-based server for SJRK storytelling tool",
   "main": "index.js",
@@ -17,13 +17,12 @@
   },
   "homepage": "",
   "dependencies": {
-    "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#viewsFix",
+    "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
     "gpii-handlebars": "1.0.2",
     "handlebars": "4.0.10",
     "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
     "kettle": "git+https://github.com/waharnum/kettle.git#KETTLE-66",
-    "sjrk-couch-config": "https://github.com/waharnum/fluid-couch-config#viewsFix",    
-    "sjrk-storytelling": "https://github.com/BlueSlug/sjrk-story-telling#SJRK-49",
+    "sjrk-story-telling": "git+https://github.com/BlueSlug/sjrk-story-telling.git#SJRK-49",
     "uuid": "3.1.0"
   },
   "devDependencies": {
