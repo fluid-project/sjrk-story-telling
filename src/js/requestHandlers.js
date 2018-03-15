@@ -69,15 +69,11 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 });
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request) {
-
-    var filesUploaded = request.req.files.file;
-
     var storyModel = JSON.parse(request.req.body.model);
 
     fluid.each(storyModel.content, function (block) {
         if (block.blockType === "image") {
-            var imageFile = fluid.find_if(filesUploaded, function (singleFile) {
-                console.log(singleFile);
+            var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
                 return singleFile.originalname === block.fileDetails.name;
             });
 
