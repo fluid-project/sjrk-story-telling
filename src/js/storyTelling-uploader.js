@@ -30,7 +30,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         // Holds a fileObjectURL for file preview purposes
         model: {
-            fileObjectURL: null
+            fileObjectURL: null,
+            fileDetails: null
         },
         events: {
             onUploadRequested: null,
@@ -52,8 +53,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": []
             },
-            "onFileChanged.updateFileObjectURL": {
-                "func": "sjrk.storyTelling.block.singleFileUploader.updateFileObjectURL",
+            "onFileChanged.updateFileObjectInformation": {
+                "func": "sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation",
                 "args": ["{that}", "{that}.currentFile"]
             }
         },
@@ -72,12 +73,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onFileChanged.fire();
     };
 
-    sjrk.storyTelling.block.singleFileUploader.updateFileObjectURL = function (that, currentFile) {
+    sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that, currentFile) {
+
         if (currentFile) {
+
+            // TODO: confirming this works should be part of the manual tests
+            var fileDetails = {
+                lastModified: currentFile.lastModified,
+                lastModifiedDate: currentFile.lastModifiedDate,
+                name: currentFile.name,
+                size: currentFile.size,
+                type: currentFile.type
+            };
+
             URL.revokeObjectURL(that.model.fileObjectURL);
             that.applier.change("fileObjectURL", URL.createObjectURL(currentFile));
+            that.applier.change("fileDetails", fileDetails);
         } else {
             that.applier.change("fileObjectURL", "");
+            that.applier.change("fileDetails", "");
         }
     };
 

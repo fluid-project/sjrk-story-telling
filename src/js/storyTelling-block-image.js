@@ -65,6 +65,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.block.imageBlock.editable", {
         gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.block.imageBlock", "sjrk.storyTelling.block.editable"],
+        model: {
+            // imageURL: relayed from uploaders
+            // fileDetails: relayed from uploaders
+        },
         contextAwareness: {
             technology: {
                 checks: {
@@ -133,7 +137,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{imageBlock}.model.imageUrl"
+                        fileObjectURL: "{imageBlock}.model.imageUrl",
+                        fileDetails: "{imageBlock}.model.fileDetails"
                     },
                     listeners: {
                         "{editable}.events.imageUploadRequested": {
@@ -175,7 +180,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{imageBlock}.model.imageUrl"
+                        fileObjectURL: "{imageBlock}.model.imageUrl",
+                        fileDetails: "{imageBlock}.model.fileDetails"
                     },
                     listeners: {
                         "{hasMobileCamera}.events.imageCaptureRequested": {
