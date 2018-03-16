@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 18,
+                expect: 20,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -143,55 +143,53 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.testUtils.assertElementText",
                     args: ["{uiManager}.previewer.dom.storyTitle", "New test title"]
-                // TODO: Re-enable these events, controls and listeners when ready
-                // },
-                // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.editor.dom.storyListenTo"
-                // },
-                // {
-                //     "event": "{uiManager}.events.onStoryListenToRequested",
-                //     "listener": "jqUnit.assert",
-                //     "args": "onStoryListenToRequested event fired from editor."
-                // },
-                // {
-                //     "jQueryTrigger": "click",
-                //     "element": "{uiManager}.previewer.dom.storyListenTo"
-                // },
-                // {
-                //     "event": "{uiManager}.events.onStoryListenToRequested",
-                //     "listener": "jqUnit.assert",
-                //     "args": "onStoryListenToRequested event fired from previewer."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.editor.dom.storyListenTo"
+                },
+                {
+                    "event": "{uiManager}.events.onStoryListenToRequested",
+                    "listener": "jqUnit.assert",
+                    "args": "onStoryListenToRequested event fired from editor."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{uiManager}.previewer.dom.storyListenTo"
+                },
+                {
+                    "event": "{uiManager}.events.onStoryListenToRequested",
+                    "listener": "jqUnit.assert",
+                    "args": "onStoryListenToRequested event fired from previewer."
                 }]
             }]
-        // TODO: Re-enable these events, controls and listeners when ready
-        // },
-        // {
-        //     name: "Test storySpeaker",
-        //     tests: [{
-        //         name: "Test storySpeaker",
-        //         expect: 2,
-        //         sequence: [{
-        //             func: "{uiManager}.editor.story.applier.change",
-        //             args: ["author", "Rootbeer"]
-        //         },
-        //         {
-        //             "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
-        //             path: "author",
-        //             listener: "jqUnit.assertEquals",
-        //             args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
-        //         },
-        //         {
-        //             func: "{uiManager}.editor.story.applier.change",
-        //             args: ["title", "My brother Shyguy"]
-        //         },
-        //         {
-        //             "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
-        //             path: "title",
-        //             listener: "jqUnit.assertEquals",
-        //             args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
-        //         }]
-        //     }]
+        },
+        {
+            name: "Test storySpeaker",
+            tests: [{
+                name: "Test storySpeaker",
+                expect: 2,
+                sequence: [{
+                    func: "{uiManager}.editor.story.applier.change",
+                    args: ["author", "Rootbeer"]
+                },
+                {
+                    "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
+                    path: "author",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
+                },
+                {
+                    func: "{uiManager}.editor.story.applier.change",
+                    args: ["title", "My brother Shyguy"]
+                },
+                {
+                    "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
+                    path: "title",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
+                }]
+            }]
         }]
     });
 

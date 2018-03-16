@@ -58,11 +58,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // TODO: determine a way for all UI's to be listened to at once
             "{editor}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
-            }//,
-            // TODO: Re-enable these events, controls and listeners when ready
-            // "{previewer}.events.onStoryListenToRequested": {
-            //     func: "{that}.events.onStoryListenToRequested.fire"
-            // }
+            },
+            "{previewer}.events.onStoryListenToRequested": {
+                func: "{that}.events.onStoryListenToRequested.fire"
+            }
         },
         components: {
             // handles text to speech requests globally for the whole site
