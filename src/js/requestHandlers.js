@@ -69,15 +69,17 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 });
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request) {
+    var storyModel = JSON.parse(request.req.body.model);
 
-    // The list of uploaded files is available at request.req.files
-    console.log(request.req.files);
+    fluid.each(storyModel.content, function (block) {
+        if (block.blockType === "image") {
+            var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
+                return singleFile.filename === block.fileDetails.name;
+            });
 
-    // The total model of the story is available as a JSON string at request.req.body.model
-    console.log(JSON.parse(request.req.body.model));
-
-    // We'll need to iterate the story model and update the
-    // image URLs where appropriate to the newly-saved files
+            block.imageUrl = imageFile.filename;
+        }
+    });
 
     // Then persist that model to couch, with the updated
     // references to where the binaries are saved

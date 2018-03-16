@@ -62,7 +62,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "map": "sjrk.storyTelling.server.storiesDb.storyTagsFunction"
                 }
             },
-            validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"    
+            validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"
         }
     }
 });

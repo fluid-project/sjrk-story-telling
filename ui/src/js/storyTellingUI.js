@@ -1,4 +1,4 @@
-fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
+fluid.defaults("sjrk.storyTelling.uiManager.learningReflections", {
     gradeNames: ["sjrk.storyTelling.uiManager"],
     selectors: {
         storyBlockEditor: ".sjrkc-storyTelling-block-editor"
@@ -69,7 +69,7 @@ fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
                 },
                 listeners: {
                     "onSaveNoShareRequested.submitStory": {
-                        funcName: "sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory",
+                        funcName: "sjrk.storyTelling.uiManager.learningReflections.submitStory",
                         args: ["{editor}"]
                     }
                 }
@@ -78,7 +78,7 @@ fluid.defaults("sjrk.storyTelling.server.ui.blockEditor.learningReflections", {
     }
 });
 
-sjrk.storyTelling.server.ui.blockEditor.learningReflections.submitStory = function (that) {
+sjrk.storyTelling.uiManager.learningReflections.submitStory = function (that) {
 
     // TODO: add proper selector for form
     var form = that.container.find("form");
