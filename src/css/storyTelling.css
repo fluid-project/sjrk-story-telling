@@ -91,9 +91,12 @@ fieldset ul {
     padding: 2rem;
 }
 
-.sjrk-storyTelling-block-viewer-heading-container, .sjrk-storyTelling-story-viewer-footer-container {
+.sjrk-storyTelling-block-viewer-heading-container,
+.sjrk-storyTelling-story-viewer-footer-container,
+.sjrk-storyTelling-story-editor-footer-container {
     display: grid;
     grid-template-columns: 1fr auto;
+    margin-top: 1rem;
 }
 
 .sjrk-storyTelling-storyPreview {
