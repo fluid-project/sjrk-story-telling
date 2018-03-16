@@ -26,26 +26,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "image": "sjrk.storyTelling.block.imageBlock"
         },
         events: {
-            onSaveNoShareRequested: null,
-            onPreviewerPreviousRequested: null,
-            onStoryListenToRequested: null
+            // TODO: Re-enable these events, controls and listeners when ready
+            // onSaveNoShareRequested: null,
+            onPreviewerPreviousRequested: null//,
+            //onStoryListenToRequested: null
         },
         listeners: {
-            "onReadyToBind.bindSaveNoShareControl": {
-                "this": "{that}.dom.storySaveNoShare",
-                "method": "click",
-                "args": ["{that}.events.onSaveNoShareRequested.fire"]
-            },
+            // TODO: Re-enable these events, controls and listeners when ready
+            // "onReadyToBind.bindSaveNoShareControl": {
+            //     "this": "{that}.dom.storySaveNoShare",
+            //     "method": "click",
+            //     "args": ["{that}.events.onSaveNoShareRequested.fire"]
+            // },
             "onReadyToBind.bindPreviewerPreviousControl": {
                 "this": "{that}.dom.storyPreviewerPrevious",
                 "method": "click",
                 "args": ["{that}.events.onPreviewerPreviousRequested.fire"]
-            },
-            "onReadyToBind.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"]
-            }
+            }//,
+            // TODO: Re-enable these events, controls and listeners when ready
+            // "onReadyToBind.bindListenToControl": {
+            //     "this": "{that}.dom.storyListenTo",
+            //     "method": "click",
+            //     "args": ["{that}.events.onStoryListenToRequested.fire"]
+            // }
         },
         components: {
             templateManager: {
