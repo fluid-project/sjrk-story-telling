@@ -1,15 +1,15 @@
 <div class="sjrk-storyTelling-block-viewer-heading-container">
-    <div>
-        <h2 class="sjrkc-storyTelling-story-heading sjrk-storyTelling-story-heading">{{localizedMessages.message_storyPreviewText}}</h2>
-    </div>
     {{!-- TODO: Re-enable these events, controls and listeners when ready --}}
     {{!--<div>
+        <h2 class="sjrkc-storyTelling-story-heading sjrk-storyTelling-story-heading">{{localizedMessages.message_storyPreviewText}}</h2>
+    </div>
+    <div>
         <a class="sjrkc-storyTelling-read-other-stories sjrk-storyTelling-read-other-stories " href="#">{{localizedMessages.message_storyTranslateText}}</a>
     </div>--}}
 </div>
 <div class="sjrk-storyTelling-story-viewer-main-container">
-    <div class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</div>
-    <div class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_storyAuthorText}}</div>
+    <h2 class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</h2>
+    <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_storyAuthorText}}</p>
 
     {{!-- TODO: Re-enable these events, controls and listeners when ready --}}
     {{!--<div class="sjrk-storyTelling-link-container">
@@ -21,13 +21,13 @@
     {{!-- TODO: Re-enable these events, controls and listeners when ready --}}
     {{!--<div class="sjrk-storyTelling-link-container">
         <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_storyReadMoreText}}</a>
-    </div>--}}
+    </div>
 
     <div class="sjrk-storyTelling-language-container">
         {{localizedMessages.message_storyLanguageLabelText}}: <span class="sjrkc-storyTelling-storyLanguage sjrk-storyTelling-storyLanguage">
             {{lookup ../localizedMessages.availableLanguages dynamicValues.language}}
         </span>
-    </div>
+    </div>--}}
 
     <div class="sjrk-storyTelling-tags-container">
         {{localizedMessages.message_storyListTagsLabelText}}: <span class="sjrkc-storyTelling-storyListTags sjrk-storyTelling-storyListTags">
@@ -35,13 +35,15 @@
         </span>
     </div>
 
+    {{!-- TODO: Re-enable these events, controls and listeners when ready --}}
+    {{!--
     <div class="sjrk-storyTelling-categories-container">
         {{localizedMessages.message_storyListCategoriesLabelText}}: <span class="sjrkc-storyTelling-storyCategories sjrk-storyTelling-storyCategories">
             {{#each dynamicValues.storyCategories}}
                 {{lookup ../localizedMessages.availableCategories this}}{{#unless @last}}, {{/unless}}
             {{/each}}
         </span>
-    </div>
+    </div>--}}
 </div>
 <div class="sjrk-storyTelling-story-viewer-footer-container">
     {{!-- TODO: Re-enable these events, controls and listeners when ready --}}

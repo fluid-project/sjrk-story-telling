@@ -103,6 +103,14 @@ textarea {
     padding-right: 1.5rem;
 }
 
+.sjrk-storyblock-heading-view {
+    margin-bottom: 0.5rem;
+}
+
+.sjrk-storyblock-text-view {
+    margin: 0.5rem 0;
+}
+
 .sjrk-storyTelling-button {
     background-color: var(--site-light-blue);
     width: 4rem;
