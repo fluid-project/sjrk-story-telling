@@ -29,10 +29,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "gpii.binder.applyBinding",
                 args: "{that}"
             },
-            // TODO: determine if this listner is required
-            //       or listen for changes to binder's model
-            // TODO: what we should really have is an onBindingComplete
-            //       event or similar in the binder itself, and listed for that
             "onUiReadyToBind.fireOnBindingApplied": {
                 func: "{that}.events.onBindingApplied.fire",
                 priority: "after:applyBinding"
