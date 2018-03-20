@@ -1,21 +1,27 @@
 <!-- TODO: consider adding header text input and level selection for each block -->
 <div class="sjrk-storyblock-block">
     <!-- TODO: repeated markup start -->
-    <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
-        <label for="{{uiStrings.blockSelectionCheckboxIdForLabel}}">{{localizedMessages.message_blockSelectionCheckboxLabel}}</label>
-    </div>
-    <div class="sjrk-storyblock-selection-checkbox-container">
-        <input id="{{uiStrings.blockSelectionCheckboxIdForLabel}}" class="sjrk-storyblock-selection-checkbox sjrkc-storyblock-selection-checkbox" type="checkbox">
-    </div>
-    <div class="sjrk-storyTelling-block-alternative-content">
+    {{#getIds "storySelectionCheckbox"}}
         <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
-            <label for="{{uiStrings.blockHeadingIdForLabel}}">{{localizedMessages.message_blockHeadingLabel}}</label>
+            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
         </div>
-        <div>
-            <input id="{{uiStrings.blockHeadingIdForLabel}}" class="sjrk-storyblock-heading sjrkc-storyblock-heading" cols="30" rows="10" placeholder="{{localizedMessages.message_blockHeadingPlaceholder}}"></textarea>
+        <div class="sjrk-storyblock-selection-checkbox-container">
+            <input id="$id" class="sjrk-storyblock-selection-checkbox sjrkc-storyblock-selection-checkbox" type="checkbox">
         </div>
-    </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-storyTelling-block-alternative-content">
+            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+                <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-storyblock-heading sjrkc-storyblock-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            </div>
+        </div>
+    {{/getIds}}
     <!-- TODO: repeated markup end -->
+
     <div class="sjrk-storyblock-image-preview-container">
         <img class="sjrkc-storyblock-image-preview sjrk-storyblock-image-preview" src="" alt="" />
     </div>
@@ -26,16 +32,20 @@
         </div>
 
         <div class="sjrk-storyblock-image-description-container">
-            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
-                <label for="{{uiStrings.imageDescriptionIdForLabel}}">{{localizedMessages.message_imageDescriptionInputLabel}}</label>
-            </div>
-            <textarea id="{{uiStrings.imageDescriptionIdForLabel}}" class="sjrkc-storyblock-image-description sjrk-storyblock-image-description" placeholder="{{localizedMessages.message_imageDescriptionInputPlaceholder}}"></textarea>
+            {{#getIds "storyBlockImageDescription"}}
+                <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_imageDescriptionInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-storyblock-image-description sjrk-storyblock-image-description" placeholder="{{../localizedMessages.message_imageDescriptionInputPlaceholder}}"></textarea>
+            {{/getIds}}
         </div>
         <div class="sjrk-storyblock-image-alt-text-container">
-            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
-                <label for="{{uiStrings.imageAltTextIdForLabel}}">{{localizedMessages.message_imageAltTextInputLabel}}</label>
-            </div>
-            <textarea id="{{uiStrings.imageAltTextIdForLabel}}" class="sjrkc-storyblock-image-alt-text sjrk-storyblock-image-alt-text" placeholder="{{localizedMessages.message_imageAltTextInputPlaceholder}}"></textarea>
+            {{#getIds "storyBlockImageAltText"}}
+                <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_imageAltTextInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-storyblock-image-alt-text sjrk-storyblock-image-alt-text" placeholder="{{../localizedMessages.message_imageAltTextInputPlaceholder}}"></textarea>
+            {{/getIds}}
         </div>
 
         <!-- Container for the uploader -->
