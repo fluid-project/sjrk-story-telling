@@ -107,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
-                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock.editable"]
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
                     func: "fluid.identity"
@@ -126,7 +126,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
-                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.imageBlock.editable"]
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                 },
                 {
                     func: "fluid.identity"
@@ -145,7 +145,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{blockEditor}.blockManager.events.viewComponentRegisteredWithManager",
                     listener: "sjrk.storyTelling.ui.blockEditorTester.verifyBlockAdded",
-                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.block.textBlock.editable"]
+                    args: ["{blockEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
                     func: "fluid.identity"
