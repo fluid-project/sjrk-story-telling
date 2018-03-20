@@ -86,7 +86,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // For rendering the handlebars template with all applicable values
             templateRenderer: {
-                type: "gpii.handlebars.renderer.standalone"
+                type: "gpii.handlebars.renderer.standalone",
+                options: {
+                    components: {
+                        getIds: {
+                            type: "sjrk.storyTelling.templateManager.getIdsHelper"
+                        }
+                    }
+                }
             }
         },
         invokers: {
@@ -168,6 +175,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
         var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
         fluid.set(component, path, mergedEndpoint);
+    };
+
+    /* A gpii.handlebars.helper grade which registers a helper function */
+    fluid.defaults("sjrk.storyTelling.templateManager.getIdsHelper", {
+        gradeNames: ["gpii.handlebars.helper"],
+        helperName: "getIds",
+        invokers: {
+            "getHelper": {
+                funcName: "sjrk.storyTelling.templateManager.getIdsHelper.getLabelIds",
+                args: ["{that}"]
+            }
+        }
+    });
+
+    /* Handlebars block helper function to generate a unique ID (GUID) for
+     * use in labeling form elements in the component template. Any
+     * instances of the value "$id" in the block will be replaced with this ID.
+     * - "prefixForId": prefix to prepend before the GUID
+     */
+    sjrk.storyTelling.templateManager.getIdsHelper.getLabelIds = function () {
+        return function (prefixForId, options) {
+            if (prefixForId && typeof prefixForId === "string") {
+                prefixForId = prefixForId + "-" + fluid.allocateGuid();
+            } else {
+                prefixForId = fluid.allocateGuid();
+            }
+
+            return options.fn().replace(/\$id/g, prefixForId);
+        };
     };
 
 })(jQuery, fluid);
