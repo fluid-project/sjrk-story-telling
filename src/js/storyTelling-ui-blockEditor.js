@@ -28,13 +28,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyRestoreRemovedBlocks: ".sjrkc-storyTelling-button-restore-blocks"
         },
         blockGrades: {
-            "text": "sjrk.storyTelling.block.textBlock.editable",
-            "image": "sjrk.storyTelling.block.imageBlock.editable"
-        },
-        interfaceControlStrings: {
-            storyTitleIdForLabel: "@expand:{that}.getLabelId(title)",
-            storyAuthorIdForLabel: "@expand:{that}.getLabelId(author)",
-            storyTagsIdForLabel: "@expand:{that}.getLabelId(tags)"
+            "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
+            "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor"
         },
         events: {
             onStorySubmitRequested: null,
@@ -124,12 +119,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "{blockEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addTextBlock",
-                            args: ["sjrk.storyTelling.block.textBlock.editable"]
+                            args: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                         },
                         "{blockEditor}.events.onImageBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
-                            args: ["sjrk.storyTelling.block.imageBlock.editable"]
+                            args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                         },
                         "{blockEditor}.events.onStorySubmitRequested": {
                             funcName: "sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks",
@@ -182,7 +177,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {
-
         var removedBlockKeys = [];
 
         fluid.each(managedViewComponentRegistry, function (managedComponent, blockKey) {

@@ -19,46 +19,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             blockType: "text",
             text: null,
             simplifiedText: null
-        },
-        components: {
-            templateManager: {
-                options: {
-                    templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockTextView.handlebars"
-                    }
-                }
-            }
-        }
-    });
-
-    fluid.defaults("sjrk.storyTelling.block.textBlock.editable", {
-        gradeNames: ["sjrk.storyTelling.block.textBlock", "sjrk.storyTelling.block.editable"],
-        selectors: {
-            textBlockText: ".sjrkc-storyblock-text",
-            textBlockSimplifiedText: ".sjrkc-storyblock-simplified-text"
-        },
-        components: {
-            templateManager: {
-                options: {
-                    templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockText.handlebars"
-                    },
-                    templateStrings: {
-                        uiStrings: {
-                            blockTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockText)",
-                            blockSimplifiedTextIdForLabel: "@expand:sjrk.storyTelling.ui.getLabelId(storyBlockSimplifiedText)"
-                        }
-                    }
-                }
-            },
-            binder: {
-                options: {
-                    bindings: {
-                        textBlockText: "text",
-                        textBlockSimplifiedText: "simplifiedText"
-                    }
-                }
-            }
         }
     });
 
