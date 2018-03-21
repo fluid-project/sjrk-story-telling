@@ -36,6 +36,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "args": ["src", "{arguments}.0"]
             }
         },
+        // TODO: Discuss this event-listener setup with someone, it doesn't smell right
+        // Why can't we add a listener to singleFileUploader's onUploadRequested event?
+        events: {
+            imageUploadRequested: null
+        },
+        listeners: {
+            "{templateManager}.events.onTemplateRendered": {
+                this: "{that}.dom.imageUploadButton",
+                method: "click",
+                args: ["{that}.events.imageUploadRequested.fire"],
+                namespace: "bindImageUploadRequested"
+            }
+        },
         components: {
             block: {
                 type: "sjrk.storyTelling.block.imageBlock",
@@ -78,11 +91,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileDetails: "{block}.model.fileDetails"
                     },
                     listeners: {
-                        "{templateManager}.events.onTemplateRendered": {
-                            this: "{imageBlockEditor}.dom.imageUploadButton",
-                            method: "click",
-                            args: ["{that}.events.onUploadRequested.fire"],
-                            namespace: "bindImageUploadRequested"
+                        "{imageBlockEditor}.events.imageUploadRequested": {
+                            func: "{that}.events.onUploadRequested.fire"
                         }
                     },
                     modelListeners: {
