@@ -32,6 +32,9 @@
         <script src="../../src/js/storyTelling-uploader.js"></script>
         <script src="../../src/js/storyTelling-block.js"></script>
         <script src="../../src/js/storyTelling-block-image.js"></script>
+        <script src="../../src/js/storyTelling-blockUi.js"></script>
+        <script src="../../src/js/storyTelling-blockUi-editor.js"></script>
+        <script src="../../src/js/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
         <script src="../../src/js/storyTelling-templateManager.js"></script>
         <script src="../../src/js/storyTelling-ui.js"></script>
 
@@ -81,11 +84,11 @@
                 Confirm the preview disappears
             </li>
         </ol>
-        <div id="testImageManual"></div>
+        <div id="testImageBlockEditorManual"></div>
 
         <script>
         $(document).ready(function () {
-            sjrk.storyTelling.block.testImageBlock("#testImageManual");
+            sjrk.storyTelling.blockUi.editor.testImageBlockEditor("#testImageBlockEditorManual");
         });
         </script>
 

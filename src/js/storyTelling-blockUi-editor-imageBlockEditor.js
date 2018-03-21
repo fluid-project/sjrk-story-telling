@@ -144,6 +144,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
             cameraCaptureUploader: ".sjrkc-storyblock-camera-capture-input"
         },
+        events: {
+            imageCaptureRequested: null
+        },
+        listeners: {
+            "{templateManager}.events.onTemplateRendered": {
+                this: "{that}.dom.imageCaptureButton",
+                method: "click",
+                args: ["{that}.events.imageCaptureRequested.fire"],
+                namespace: "bindImageCaptureRequested"
+            }
+        },
         components: {
             templateManager: {
                 options: {
@@ -165,11 +176,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileDetails: "{imageBlock}.model.fileDetails"
                     },
                     listeners: {
-                        "{templateManager}.events.onTemplateRendered": {
-                            this: "{hasMobileCamera}.dom.imageCaptureButton",
-                            method: "click",
-                            args: ["{that}.events.onUploadRequested.fire"],
-                            namespace: "bindImageCaptureRequested"
+                        "{hasMobileCamera}.events.imageCaptureRequested": {
+                            func: "{that}.events.onUploadRequested.fire"
                         }
                     },
                     modelListeners: {
