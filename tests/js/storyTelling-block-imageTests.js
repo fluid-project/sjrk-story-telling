@@ -13,8 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.testImageBlock", {
-        gradeNames: ["sjrk.storyTelling.block.imageBlock.editable"],
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.testImageBlockEditor", {
+        gradeNames: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"],
         components: {
             templateManager: {
                 options: {
@@ -26,44 +26,44 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.block.imageBlockTester", {
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Image Block.",
+            name: "Test Image Block Editor.",
             tests: [{
-                name: "Test Image Block",
+                name: "Test Image Block Editor",
                 expect: 4,
                 sequence: [{
-                    event: "{imageBlockTest imageBlock}.events.onReadyToBind",
+                    event: "{imageBlockEditorTest imageBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
                     args: ["The template has been loaded and rendered"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{imageBlock}", "imageAltText", "Alternative text for the image"]
+                    args: ["{imageBlockEditor}.binder", "imageAltText", "Alternative text for the image"]
                 },
                 {
-                    changeEvent: "{imageBlock}.applier.modelChanged",
+                    changeEvent: "{imageBlockEditor}.block.applier.modelChanged",
                     path: "alternativeText",
                     listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Alternative text for the image", "{imageBlock}.model.alternativeText"]
+                    args: ["The model text has expected value", "Alternative text for the image", "{imageBlockEditor}.block.model.alternativeText"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{imageBlock}", "imageDescription", "Caption for image"]
+                    args: ["{imageBlockEditor}.binder", "imageDescription", "Caption for image"]
                 },
                 {
-                    changeEvent: "{imageBlock}.applier.modelChanged",
+                    changeEvent: "{imageBlockEditor}.block.applier.modelChanged",
                     path: "description",
                     listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Caption for image", "{imageBlock}.model.description"]
+                    args: ["The model text has expected value", "Caption for image", "{imageBlockEditor}.block.model.description"]
                 }, {
                     jQueryTrigger: "click",
-                    element: "{imageBlock}.dom.imageUploadButton"
+                    element: "{imageBlockEditor}.dom.imageUploadButton"
                 }, {
-                    event: "{imageBlock}.events.imageUploadRequested",
+                    event: "{imageBlockEditor}.events.imageUploadRequested",
                     listener: "jqUnit.assert",
-                    args: ["The imageUploadRequested event fired"]
+                    args: ["The onUploadRequested event fired"]
                 }
                 // TODO: make these context-aware tests
                //  {
@@ -79,18 +79,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.block.imageBlockTest", {
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            imageBlock: {
-                type: "sjrk.storyTelling.block.testImageBlock",
-                container: "#testImage",
-                createOnEvent: "{imageBlockTester}.events.onTestCaseStart"
+            imageBlockEditor: {
+                type: "sjrk.storyTelling.blockUi.editor.testImageBlockEditor",
+                container: "#testImageBlockEditor",
+                createOnEvent: "{imageBlockEditorTester}.events.onTestCaseStart"
             },
-            imageBlockTester: {
-                type: "sjrk.storyTelling.block.imageBlockTester"
+            imageBlockEditorTester: {
+                type: "sjrk.storyTelling.blockUi.editor.imageBlockEditorTester"
             }
         }
+    });
+
+    $(document).ready(function () {
+        fluid.test.runTests([
+            "sjrk.storyTelling.blockUi.editor.imageBlockEditorTest"
+        ]);
     });
 
 })(jQuery, fluid);

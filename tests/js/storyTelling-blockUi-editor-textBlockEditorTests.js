@@ -13,6 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // This test file also includes tests for the blockUi.editor grade's bindings
+    // The Editor on its own does not have any template against which to test
     fluid.defaults("sjrk.storyTelling.blockUi.editor.testTextBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"],
         components: {
