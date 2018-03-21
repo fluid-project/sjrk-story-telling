@@ -13,8 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.block.testTextBlock", {
-        gradeNames: ["sjrk.storyTelling.block.textBlock.editable"],
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.testTextBlockEditor", {
+        gradeNames: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"],
         components: {
             templateManager: {
                 options: {
@@ -26,37 +26,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.block.textBlockTester", {
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Text Block.",
+            name: "Test Text Block Editor.",
             tests: [{
                 name: "Test heading field",
                 expect: 3,
                 sequence: [{
-                    event: "{textBlockTest textBlock}.events.onReadyToBind",
+                    event: "{textBlockEditorTest textBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
                     args: ["The template has been loaded and rendered"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{textBlock}", "heading", "Text about cats"]
+                    args: ["{textBlockEditor}.binder", "heading", "Text about cats"]
                 },
                 {
-                    changeEvent: "{textBlock}.applier.modelChanged",
+                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
                     path: "heading",
                     listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Text about cats", "{textBlock}.model.heading"]
+                    args: ["The model text has expected value", "Text about cats", "{textBlockEditor}.block.model.heading"]
                 },
                 {
-                    func: "{textBlock}.applier.change",
+                    func: "{textBlockEditor}.block.applier.change",
                     args: ["heading", "Story about cats"]
                 },
                 {
-                    changeEvent: "{textBlock}.applier.modelChanged",
+                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
                     path: "heading",
                     listener: "sjrk.storyTelling.testUtils.assertElementValue",
-                    args: ["{textBlock}.dom.heading", "Story about cats"]
+                    args: ["{textBlockEditor}.binder.dom.heading", "Story about cats"]
                 }]
             },
             {
@@ -64,23 +64,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 2,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{textBlock}", "textBlockText", "Hello Shyguy!"]
+                    args: ["{textBlockEditor}.binder", "textBlockText", "Hello Shyguy!"]
                 },
                 {
-                    changeEvent: "{textBlock}.applier.modelChanged",
+                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
                     path: "text",
                     listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Hello Shyguy!", "{textBlock}.model.text"]
+                    args: ["The model text has expected value", "Hello Shyguy!", "{textBlockEditor}.block.model.text"]
                 },
                 {
-                    func: "{textBlock}.applier.change",
+                    func: "{textBlockEditor}.block.applier.change",
                     args: ["text", "Hello Rootbeer!"]
                 },
                 {
-                    changeEvent: "{textBlock}.applier.modelChanged",
+                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
                     path: "text",
                     listener: "sjrk.storyTelling.testUtils.assertElementValue",
-                    args: ["{textBlock}.dom.textBlockText", "Hello Rootbeer!"]
+                    args: ["{textBlockEditor}.binder.dom.textBlockText", "Hello Rootbeer!"]
                 }]
             },
             {
@@ -88,45 +88,45 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 2,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{textBlock}", "textBlockSimplifiedText", "Hi Shyguy!"]
+                    args: ["{textBlockEditor}.binder", "textBlockSimplifiedText", "Hi Shyguy!"]
                 },
                 {
-                    changeEvent: "{textBlock}.applier.modelChanged",
+                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
                     path: "simplifiedText",
                     listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Hi Shyguy!", "{textBlock}.model.simplifiedText"]
+                    args: ["The model text has expected value", "Hi Shyguy!", "{textBlockEditor}.block.model.simplifiedText"]
                 },
                 {
-                    func: "{textBlock}.applier.change",
+                    func: "{textBlockEditor}.block.applier.change",
                     args: ["simplifiedText", "Hi Rootbeer!"]
                 },
                 {
-                    changeEvent: "{textBlock}.applier.modelChanged",
+                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
                     path: "simplifiedText",
                     listener: "sjrk.storyTelling.testUtils.assertElementValue",
-                    args: ["{textBlock}.dom.textBlockSimplifiedText", "Hi Rootbeer!"]
+                    args: ["{textBlockEditor}.binder.dom.textBlockSimplifiedText", "Hi Rootbeer!"]
                 }]
             }]
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.block.textBlockTest", {
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            textBlock: {
-                type: "sjrk.storyTelling.block.testTextBlock",
-                container: "#testText",
-                createOnEvent: "{textBlockTester}.events.onTestCaseStart"
+            textBlockEditor: {
+                type: "sjrk.storyTelling.blockUi.editor.testTextBlockEditor",
+                container: "#testTextBlockEditor",
+                createOnEvent: "{textBlockEditorTester}.events.onTestCaseStart"
             },
-            textBlockTester: {
-                type: "sjrk.storyTelling.block.textBlockTester"
+            textBlockEditorTester: {
+                type: "sjrk.storyTelling.blockUi.editor.textBlockTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.block.textBlockTest"
+            "sjrk.storyTelling.blockUi.editor.textBlockEditorTest"
         ]);
     });
 
