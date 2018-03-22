@@ -9,8 +9,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 "use strict";
 
+
 var fluid = require("infusion");
 require("kettle");
+
+var sjrk = fluid.registerNamespace("sjrk");
+
+
 
 fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
     gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
@@ -28,9 +33,21 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
             "": "value"
         }
     },
-    url: "http://localhost:5984/stories/%storyId",
+    host: "http://localhost:5984",
+    path: "/stories/%storyId",
+    url: "@expand:{that}.getURL()",
     termMap: {
         storyId: "%directStoryId"
     },
-    writable: true
+    writable: true,
+    invokers: {
+        getURL: {
+            funcName: "sjrk.storyTelling.server.dataSource.story.getURL",
+            args: ["{that}.options.host", "{that}.options.path"]
+        }
+    }
 });
+
+sjrk.storyTelling.server.dataSource.story.getURL = function (host, path) {
+    return host + path;
+};

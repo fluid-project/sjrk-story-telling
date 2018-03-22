@@ -10,19 +10,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 "use strict";
 
 var fluid = require("infusion");
-//var sjrk = fluid.registerNamespace("sjrk");
+
 require("kettle");
-//
-// fluid.defaults("sjrk.storyTelling.server.mountedNodeModules", {
-//     gradeNames: ["sjrk.storyTelling.server.nodeModuleMounter"],
-//     nodeModulesToMount: [
-//         "infusion",
-//         "gpii-binder",
-//         "sjrk-story-telling",
-//         "handlebars",
-//         "pagedown",
-//         "gpii-handlebars"],
-// });
 
 fluid.defaults("sjrk.storyTelling.server", {
     gradeNames: ["fluid.component"],
@@ -33,7 +22,21 @@ fluid.defaults("sjrk.storyTelling.server", {
                 port: 8081,
                 components: {
                     storyDataSource: {
-                        type: "sjrk.storyTelling.server.dataSource.story"
+                        type: "sjrk.storyTelling.server.dataSource.story",
+                        options: {
+                            distributeOptions: {
+                                target: "{that}.options.host",
+                                record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
+                            },
+                            listeners: {
+                                "onCreate.log": {
+                                    "this": "console",
+                                    "method": "log",
+                                    "args": ["{that}.options.url"],
+                                    "priority": "first"
+                                }
+                            }
+                        }
                     },
                     saveStoryWithBinaries: {
                         type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries"
