@@ -22,8 +22,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         // TODO: think of a better name for this key
         blockGrades: {
-            "text": "sjrk.storyTelling.block.textBlock",
-            "image": "sjrk.storyTelling.block.imageBlock"
+            "text": "sjrk.storyTelling.blockUi.textBlockViewer",
+            "image": "sjrk.storyTelling.blockUi.imageBlockViewer"
         },
         events: {
             onSaveNoShareRequested: null,

@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             block: {
-                type: "sjrk.storyTelling.block.image"
+                type: "sjrk.storyTelling.block.imageBlock"
             }
         }
     });
