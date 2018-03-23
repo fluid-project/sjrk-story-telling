@@ -190,11 +190,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 
-    sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks = function (story, blockComponents, completionEvent) {
+    sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks = function (story, blockEditorComponents, completionEvent) {
         var storyContent = [];
 
-        fluid.each(blockComponents, function (block) {
-            var blockData = block.model;
+        fluid.each(blockEditorComponents, function (blockEditor) {
+            var blockData = blockEditor.block.model;
             storyContent.push(blockData);
         });
 

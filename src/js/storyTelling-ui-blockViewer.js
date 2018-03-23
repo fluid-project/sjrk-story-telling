@@ -69,7 +69,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     dynamicComponents: {
                         managedViewComponents: {
                             options: {
-                                model: "{that}.options.additionalConfiguration.modelValues"
+                                components: {
+                                    block: {
+                                        options: {
+                                            model: "{blockUi}.options.additionalConfiguration.modelValues"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
