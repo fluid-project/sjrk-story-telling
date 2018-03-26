@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         heading: "heading"
                     },
                     events: {
-                        onUiReadyToBind: "{templateManager}.events.onAllResourcesLoaded"
+                        onUiReadyToBind: "{templateManager}.events.onTemplateRendered"
                     },
                     listeners: {
                         "onUiReadyToBind.applyBinding": {
