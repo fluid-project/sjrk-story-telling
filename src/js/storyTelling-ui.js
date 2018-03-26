@@ -18,11 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // to represent the data and a templateManager to handle DOM interaction
     fluid.defaults("sjrk.storyTelling.ui", {
         gradeNames: ["fluid.viewComponent"],
-        interfaceConfig: {
-            // Used to supply both control and style classes
-            // by the getClasses invoker
-            classPrefix: "sjrk"
-        },
         // common selectors for all UI's
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
@@ -34,19 +29,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
             storyCategories: ".sjrkc-storyTelling-storyCategories",
             storyTags: ".sjrkc-storyTelling-storyTags"
-        },
-        invokers: {
-            // Invoker used to create a control and style class for
-            // insertion into the template; configured using the
-            // templateConfig.classPrefix option
-            getClasses: {
-                funcName: "sjrk.storyTelling.ui.getClasses",
-                args: ["{that}.options.interfaceConfig.classPrefix", "{arguments}.0"]
-            },
-            getLabelId: {
-                funcName: "sjrk.storyTelling.ui.getLabelId",
-                args: ["{arguments}.0"]
-            }
         },
         events: {
             onReadyToBind: null,
@@ -83,23 +65,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    /* Returns a control and style class based on a prefix and classname
-     * Used for templating
-     * - "prefix": typically the first piece of the project namespace ("sjrk")
-     * - "className": classname to follow after the prefixes
-     */
-    sjrk.storyTelling.ui.getClasses = function (prefix, className) {
-        return prefix + "c-" + className + " " + prefix + "-" + className;
-    };
-
-    /* Generates a unique ID (GUID) for use in labeling form
-     * elements in the component template
-     * - "prefix": prefix to prepend before the GUID
-     */
-    sjrk.storyTelling.ui.getLabelId = function (prefix) {
-        return prefix + "-" + fluid.allocateGuid();
-    };
 
     /* Hides and shows DOM elements as specified, using jQuery hide() and show()
      * - "hideElements": the DOM elements to be hidden
