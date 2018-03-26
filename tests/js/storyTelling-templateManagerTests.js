@@ -37,28 +37,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test template manager.",
             tests: [{
                 name: "Test template manager template rendering",
-                expect: 1,
+                expect: 2,
                 sequence: [{
                     "event": "{templateManagerTest testTemplateManager}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
                     priority: "last:testing",
-                    args: ["{testTemplateManager}"]
+                    args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>"]
                 },
                 {
                     func: "{testTemplateManager}.renderTemplateOnSelf",
                     args: ["{testTemplateManager}.options.testValues"]
-                // },
-                // {
-                //     "event": "{testTemplateManager}.events.onTemplateRendered",
-                //     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
-                //     args: ["{testTemplateManager}"]
+                },
+                {
+                    "event": "{testTemplateManager}.events.onTemplateRendered",
+                    listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
+                    args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world! a dynamic test value!</span>"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager) {
-        var expectedContent = "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>";
+    // TODO: consider combining this and sjrk.storyTelling.templateManagerTesterBase.testLocalization
+    sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager, expectedContent) {
         var actualContent = templateManager.container.html().trim();
 
         jqUnit.assertEquals("Generated markup is inserted into specified container", expectedContent, actualContent);
