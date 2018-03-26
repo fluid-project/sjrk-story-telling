@@ -22,12 +22,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         testValues: {
             testValue: " a dynamic test value!"
         },
-        listeners: {
-            "onAllResourcesLoaded.log": {
-                this: "console",
-                method: "log",
-                args: ["loaded"]
-            }
+        selectors: {
+            testId1: ".sjrkc-testTemplateManager-testId1",
+            testId2: ".sjrkc-testTemplateManager-testId2"
         }
     });
 

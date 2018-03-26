@@ -173,6 +173,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.set(component, path, mergedEndpoint);
     };
 
+    // TODO: consider putting this helper code elsewhere
     /* A gpii.handlebars.helper grade which registers a helper function */
     fluid.defaults("sjrk.storyTelling.templateManager.getIdsHelper", {
         gradeNames: ["gpii.handlebars.helper"],
