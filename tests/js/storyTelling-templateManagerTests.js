@@ -19,13 +19,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templatePath: "../html/templates/testTemplate.handlebars",
             messagesPath: "../json/messages/testLocalizationMessages.json"
         },
-        templateStrings: {
-            uiStrings: {
-                testClasses: "replacement-Value"
-            }
+        testValues: {
+            testValue: " a dynamic test value!"
         },
-        selectors: {
-            testMessage: ".sjrkc-testTemplateManager-testMessage"
+        listeners: {
+            "onAllResourcesLoaded.log": {
+                this: "console",
+                method: "log",
+                args: ["loaded"]
+            }
         }
     });
 
@@ -39,14 +41,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 sequence: [{
                     "event": "{templateManagerTest testTemplateManager}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
+                    priority: "last:testing",
                     args: ["{testTemplateManager}"]
+                },
+                {
+                    func: "{testTemplateManager}.renderTemplateOnSelf",
+                    args: ["{testTemplateManager}.options.testValues"]
+                // },
+                // {
+                //     "event": "{testTemplateManager}.events.onTemplateRendered",
+                //     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
+                //     args: ["{testTemplateManager}"]
                 }]
             }]
         }]
     });
 
     sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager) {
-        var expectedContent = "<span class=\"replacement-Value\">Hello, world!</span>";
+        var expectedContent = "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>";
         var actualContent = templateManager.container.html().trim();
 
         jqUnit.assertEquals("Generated markup is inserted into specified container", expectedContent, actualContent);
@@ -169,7 +181,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManagerTesterLocalized}.events.onTestCaseStart",
                 options: {
                     selectors: {
-                        testMessage: ".replacement-Value"
+                        testMessage: ".sjrkc-testTemplateManager-testMessage"
                     }
                 }
             }

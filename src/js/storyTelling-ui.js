@@ -35,16 +35,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyCategories: ".sjrkc-storyTelling-storyCategories",
             storyTags: ".sjrkc-storyTelling-storyTags"
         },
-        // TODO: at some point, css values will be hardcoded in the template(s)
-        interfaceControlStrings: {
-            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-            storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
-            storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-            storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
-            storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
-            storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
-            storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)"
-        },
         invokers: {
             // Invoker used to create a control and style class for
             // insertion into the template; configured using the
@@ -84,9 +74,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyMessages.json"
-                    },
-                    templateStrings: {
-                        uiStrings: "{ui}.options.interfaceControlStrings"
                     }
                 }
             },

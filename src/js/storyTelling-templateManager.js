@@ -42,7 +42,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         templateStrings: {
-            uiStrings: null, // for things like CSS classes and ID's
             localizedMessages: null // for localized interface messages
         },
         components: {
@@ -104,7 +103,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "componentTemplate",
                     "{templateLoader}.resources.componentTemplate.resourceText",
                     "{that}.templateRenderer",
-                    "{that}.options.templateStrings.uiStrings",
                     "{that}.options.templateStrings.localizedMessages",
                     "{arguments}.0"
                     ]
@@ -122,13 +120,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "templateName": a handlebars template name
      * - "templateContent": the raw content of the template to be loaded at templateName
      * - "renderer": the gpii-handlebars client-side renderer component
-     * - "uiStrings": CSS classes, ID's and other DOM-related values
      * - "localizedMessages": localized UI strings
      * - "dynamicValues": other values which are likely to change often.
      * TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     */
     sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
-        templateName, templateContent, renderer, uiStrings, localizedMessages, dynamicValues) {
+        templateName, templateContent, renderer, localizedMessages, dynamicValues) {
         renderer.templates.partials[templateName] = templateContent;
 
         if (dynamicValues) {
@@ -136,7 +133,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
 
         var renderedTemplate = renderer.render(templateName, {
-            uiStrings: uiStrings,
             localizedMessages: localizedMessages,
             dynamicValues: dynamicValues
         });
