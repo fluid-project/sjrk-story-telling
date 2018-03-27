@@ -35,7 +35,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     },
     retryConfig: {
         maxRetries: 3,
-        retryDelay: 10,
+        retryDelay: 10
     },
     members: {
         currentTries: 0
@@ -103,7 +103,7 @@ sjrk.storyTelling.server.storiesDb.handleRetry = function (that) {
     var maxRetries = that.options.retryConfig.maxRetries,
         retryDelay = that.options.retryConfig.retryDelay,
         currentTries = that.currentTries;
-    if(currentTries < maxRetries) {
+    if (currentTries < maxRetries) {
         that.currentTries = that.currentTries + 1;
         fluid.log("Retry " + that.currentTries + " of " + maxRetries + "; retrying after " + retryDelay + " seconds");
         setTimeout(function () {
