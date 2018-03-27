@@ -32,10 +32,13 @@
         <script src="../../src/js/storyTelling-uploader.js"></script>
         <script src="../../src/js/storyTelling-block.js"></script>
         <script src="../../src/js/storyTelling-block-image.js"></script>
+        <script src="../../src/js/storyTelling-blockUi.js"></script>
+        <script src="../../src/js/storyTelling-blockUi-editor.js"></script>
+        <script src="../../src/js/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
         <script src="../../src/js/storyTelling-templateManager.js"></script>
         <script src="../../src/js/storyTelling-ui.js"></script>
 
-        <script src="../js/storyTelling-block-imageTests.js"></script>
+        <script src="../js/storyTelling-blockUi-editor-imageBlockEditorTests.js"></script>
         <script src="../js/testUtils.js"></script>
 
         <title>Image Block - Tests</title>
@@ -56,38 +59,12 @@
         </style>
     </head>
     <body id="body">
-        <h1>Image Block - Manual Tests</h1>
-        <h2>Instructions</h2>
-        <ol>
-            <li>
-                Upload an image file with the Upload Image button
-            </li>
-            <li>
-                Confirm the preview appears
-            </li>
-            <li>
-                Upload a different image file with the Upload Image button
-            </li>
-            <li>
-                Confirm the preview updates
-            </li>
-            <li>
-                Click the Upload Image button
-            </li>
-            <li>
-                Cancel out of the file choice dialog
-            </li>
-            <li>
-                Confirm the preview disappears
-            </li>
-        </ol>
-        <div id="testImageManual"></div>
+        <h1 id="qunit-header">Image Block - Tests</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
 
-        <script>
-        $(document).ready(function () {
-            sjrk.storyTelling.block.testImageBlock("#testImageManual");
-        });
-        </script>
-
+        <div id="testImageBlockEditor"></div>
     </body>
 </html>

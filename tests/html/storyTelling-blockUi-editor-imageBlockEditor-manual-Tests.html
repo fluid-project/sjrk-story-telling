@@ -29,23 +29,68 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
         <script src="../../src/js/storyTelling-binder.js"></script>
+        <script src="../../src/js/storyTelling-uploader.js"></script>
         <script src="../../src/js/storyTelling-block.js"></script>
-        <script src="../../src/js/storyTelling-block-text.js"></script>
+        <script src="../../src/js/storyTelling-block-image.js"></script>
+        <script src="../../src/js/storyTelling-blockUi.js"></script>
+        <script src="../../src/js/storyTelling-blockUi-editor.js"></script>
+        <script src="../../src/js/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
         <script src="../../src/js/storyTelling-templateManager.js"></script>
         <script src="../../src/js/storyTelling-ui.js"></script>
 
-        <script src="../js/storyTelling-block-textTests.js"></script>
+        <script src="../js/storyTelling-blockUi-editor-imageBlockEditorTests.js"></script>
         <script src="../js/testUtils.js"></script>
 
-        <title>Text Block - Tests</title>
+        <title>Image Block - Tests</title>
+        <style>
+
+            .sjrk-storyblock-uploader-container, .sjrk-storyblock-camera-capture-container {
+                display: none;
+            }
+
+            .sjrk-storyblock-image-preview-container {
+                width: 10em;
+            }
+
+            .sjrk-storyblock-image-preview {
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
     </head>
     <body id="body">
-        <h1 id="qunit-header">Text Block - Tests</h1>
-        <h2 id="qunit-banner"></h2>
-        <div id="qunit-testrunner-toolbar"></div>
-        <h2 id="qunit-userAgent"></h2>
-        <ol id="qunit-tests"></ol>
+        <h1>Image Block - Manual Tests</h1>
+        <h2>Instructions</h2>
+        <ol>
+            <li>
+                Upload an image file with the Upload Image button
+            </li>
+            <li>
+                Confirm the preview appears
+            </li>
+            <li>
+                Upload a different image file with the Upload Image button
+            </li>
+            <li>
+                Confirm the preview updates
+            </li>
+            <li>
+                Click the Upload Image button
+            </li>
+            <li>
+                Cancel out of the file choice dialog
+            </li>
+            <li>
+                Confirm the preview disappears
+            </li>
+        </ol>
+        <div id="testImageBlockEditorManual"></div>
 
-        <div id="testText"></div>
+        <script>
+        $(document).ready(function () {
+            sjrk.storyTelling.blockUi.editor.testImageBlockEditor("#testImageBlockEditorManual");
+        });
+        </script>
+
     </body>
 </html>

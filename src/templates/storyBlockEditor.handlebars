@@ -14,7 +14,7 @@
                 <button class="sjrk-storyTelling-button sjrk-storyTelling-button-restore-blocks sjrkc-storyTelling-button-restore-blocks" type="button"><span class="sjrk-storyTelling-button-text">{{localizedMessages.message_storyBlockRestoreBlocks}}</span></button>
             </div>
         </div>
-        <div hidden class="sjrk-storyTelling-link-container"><a class="{{uiStrings.storyListenToClasses}}" href="javascript:void(0)">{{localizedMessages.message_storyListenToText}}</a></div>
+        <div hidden class="sjrk-storyTelling-link-container"><a class="sjrk-storyTelling-storyListenTo sjrkc-storyTelling-storyListenTo" href="javascript:void(0)">{{localizedMessages.message_storyListenToText}}</a></div>
         <!-- area where blocks will be added -->
         <div class="sjrk-storyTelling-story-editor-content sjrkc-storyTelling-story-editor-content"></div>
         <div class="sjrk-storyTelling-button-container">
@@ -23,27 +23,32 @@
     </div>
 
     <div class="sjrk-storyTelling-storyEditorPage2 sjrkc-storyTelling-storyEditorPage2">
-        <!-- field for story title -->
-        <div class="sjrk-storyTelling-label-container">
-            <label for="{{uiStrings.storyTitleIdForLabel}}">{{localizedMessages.message_storyTitleInputLabel}}</label>
-        </div>
-        <div>
-            <input id="{{uiStrings.storyTitleIdForLabel}}" class="sjrk-storyTelling-storyTitle sjrkc-storyTelling-storyTitle" placeholder="{{localizedMessages.message_storyTitleInputPlaceholder}}" />
-        </div>
+        {{#getIds "title"}}
+            <div class="sjrk-storyTelling-label-container">
+                <label for="$id">{{../localizedMessages.message_storyTitleInputLabel}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-storyTelling-storyTitle sjrkc-storyTelling-storyTitle" placeholder="{{../localizedMessages.message_storyTitleInputPlaceholder}}" />
+            </div>
+        {{/getIds}}
 
-        <div class="sjrk-storyTelling-label-container">
-            <label for="{{uiStrings.storyAuthorIdForLabel}}">{{localizedMessages.message_storyAuthorInputLabel}}</label>
-        </div>
-        <div>
-            <input id="{{uiStrings.storyAuthorIdForLabel}}" class="sjrk-storyTelling-storyAuthor sjrkc-storyTelling-storyAuthor" placeholder="{{localizedMessages.message_storyAuthorInputPlaceholder}}" />
-        </div>
+        {{#getIds "author"}}
+            <div class="sjrk-storyTelling-label-container">
+                <label for="$id">{{../localizedMessages.message_storyAuthorInputLabel}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-storyTelling-storyAuthor sjrkc-storyTelling-storyAuthor" placeholder="{{../localizedMessages.message_storyAuthorInputPlaceholder}}" />
+            </div>
+        {{/getIds}}
 
-        <div class="sjrk-storyTelling-label-container">
-            <label for="{{uiStrings.storyTagsIdForLabel}}">{{localizedMessages.message_storyAddTagsText}}</label>
-        </div>
-        <div>
-            <input id="{{uiStrings.storyTagsIdForLabel}}" class="sjrk-storyTelling-storyTags sjrkc-storyTelling-storyTags" type="text" placeholder="{{localizedMessages.message_storyAddTagsPlaceholder}}">
-        </div>
+        {{#getIds "keywords"}}
+            <div class="sjrk-storyTelling-label-container">
+                <label for="$id">{{../localizedMessages.message_storyAddTagsText}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-storyTelling-storyTags sjrkc-storyTelling-storyTags" type="text" placeholder="{{../localizedMessages.message_storyAddTagsPlaceholder}}">
+            </div>
+        {{/getIds}}
 
         <div class="sjrk-storyTelling-story-editor-footer-container">
             <div>

@@ -42,7 +42,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         templateStrings: {
-            uiStrings: null, // for things like CSS classes and ID's
             localizedMessages: null // for localized interface messages
         },
         components: {
@@ -86,7 +85,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // For rendering the handlebars template with all applicable values
             templateRenderer: {
-                type: "gpii.handlebars.renderer.standalone"
+                type: "gpii.handlebars.renderer.standalone",
+                options: {
+                    components: {
+                        getIds: {
+                            type: "sjrk.storyTelling.templateManager.getIdsHelper"
+                        }
+                    }
+                }
             }
         },
         invokers: {
@@ -97,7 +103,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "componentTemplate",
                     "{templateLoader}.resources.componentTemplate.resourceText",
                     "{that}.templateRenderer",
-                    "{that}.options.templateStrings.uiStrings",
                     "{that}.options.templateStrings.localizedMessages",
                     "{arguments}.0"
                     ]
@@ -115,13 +120,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "templateName": a handlebars template name
      * - "templateContent": the raw content of the template to be loaded at templateName
      * - "renderer": the gpii-handlebars client-side renderer component
-     * - "uiStrings": CSS classes, ID's and other DOM-related values
      * - "localizedMessages": localized UI strings
      * - "dynamicValues": other values which are likely to change often.
      * TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     */
     sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
-        templateName, templateContent, renderer, uiStrings, localizedMessages, dynamicValues) {
+        templateName, templateContent, renderer, localizedMessages, dynamicValues) {
         renderer.templates.partials[templateName] = templateContent;
 
         if (dynamicValues) {
@@ -129,7 +133,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
 
         var renderedTemplate = renderer.render(templateName, {
-            uiStrings: uiStrings,
             localizedMessages: localizedMessages,
             dynamicValues: dynamicValues
         });
@@ -168,6 +171,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
         var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
         fluid.set(component, path, mergedEndpoint);
+    };
+
+    // TODO: consider putting this helper code elsewhere
+    /* A gpii.handlebars.helper grade which registers a helper function */
+    fluid.defaults("sjrk.storyTelling.templateManager.getIdsHelper", {
+        gradeNames: ["gpii.handlebars.helper"],
+        helperName: "getIds",
+        invokers: {
+            "getHelper": {
+                funcName: "sjrk.storyTelling.templateManager.getIdsHelper.getLabelIds",
+                args: ["{that}"]
+            }
+        }
+    });
+
+    /* Handlebars block helper function to generate a unique ID (GUID) for
+     * use in labeling form elements in the component template. Any
+     * instances of the value "$id" in the block will be replaced with this ID.
+     * - "prefixForId": prefix to prepend before the GUID
+     */
+    sjrk.storyTelling.templateManager.getIdsHelper.getLabelIds = function () {
+        return function (prefixForId, options) {
+            if (prefixForId && typeof prefixForId === "string") {
+                prefixForId = prefixForId + "-" + fluid.allocateGuid();
+            } else {
+                prefixForId = fluid.allocateGuid();
+            }
+
+            return options.fn().replace(/\$id/g, prefixForId);
+        };
     };
 
 })(jQuery, fluid);
