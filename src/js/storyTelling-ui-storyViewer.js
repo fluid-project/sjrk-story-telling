@@ -13,12 +13,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.viewer", {
+    fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
             storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
             storyTags: ".sjrkc-storyTelling-storyListTags",
-            storyPreviewerPrevious: ".sjrkc-storyTelling-storyPreviewerPrevious"
+            storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
         },
         // TODO: think of a better name for this key
         blockGrades: {
@@ -27,7 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onSaveNoShareRequested: null,
-            onPreviewerPreviousRequested: null,
+            onStoryViewerPreviousRequested: null,
             onStoryListenToRequested: null
         },
         listeners: {
@@ -36,10 +36,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onSaveNoShareRequested.fire"]
             },
-            "onReadyToBind.bindPreviewerPreviousControl": {
-                "this": "{that}.dom.storyPreviewerPrevious",
+            "onReadyToBind.bindStoryViewerPreviousControl": {
+                "this": "{that}.dom.storyViewerPrevious",
                 "method": "click",
-                "args": ["{that}.events.onPreviewerPreviousRequested.fire"]
+                "args": ["{that}.events.onStoryViewerPreviousRequested.fire"]
             },
             "onReadyToBind.bindListenToControl": {
                 "this": "{that}.dom.storyListenTo",
@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onCreate.renderStoryContent": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
-                            "args": ["{story}.model.content", "{viewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
+                            "args": ["{story}.model.content", "{storyViewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
                         }
                     },
                     dynamicComponents: {

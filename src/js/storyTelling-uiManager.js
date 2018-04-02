@@ -21,36 +21,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en"
         },
         selectors: {
-            storyEditor: ".sjrkc-storyTelling-block-editor",
-            storyPreviewer: ".sjrkc-storyTelling-block-viewer"
+            storyEditor: ".sjrkc-storyTelling-story-editor",
+            storyViewer: ".sjrkc-storyTelling-story-viewer"
         },
         events: {
             onStoryListenToRequested: null,
             onAllUiComponentsReady: {
                 events: {
                     onEditorReady: "{storyEditor}.events.onControlsBound",
-                    onPreviewerReady: "{previewer}.events.onControlsBound"
+                    onViewerReady: "{storyViewer}.events.onControlsBound"
                 }
             },
             onVisibilityChanged: null
         },
         listeners: {
             "{storyEditor}.events.onStorySubmitRequested": [{
-                func: "{previewer}.templateManager.renderTemplateOnSelf",
-                args: ["{previewer}.story.model"]
+                func: "{storyViewer}.templateManager.renderTemplateOnSelf",
+                args: ["{storyViewer}.story.model"]
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
                     ["{storyEditor}.container"],
-                    ["{previewer}.container"],
+                    ["{storyViewer}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
             }],
-            "{previewer}.events.onPreviewerPreviousRequested": {
+            "{storyViewer}.events.onStoryViewerPreviousRequested": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{previewer}.container"],
+                    ["{storyViewer}.container"],
                     ["{storyEditor}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "{storyEditor}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
             },
-            "{previewer}.events.onStoryListenToRequested": {
+            "{storyViewer}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
             }
         },
@@ -111,11 +111,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            // the story preview context
-            // TODO: consider rolling the previewer context into the editor
-            previewer: {
-                type: "sjrk.storyTelling.ui.viewer",
-                container: "{uiManager}.options.selectors.storyPreviewer",
+            // the story view context
+            // TODO: consider rolling the storyViewer context into the storyEditor
+            storyViewer: {
+                type: "sjrk.storyTelling.ui.storyViewer",
+                container: "{uiManager}.options.selectors.storyViewer",
                 options: {
                     components: {
                         templateManager: {

@@ -29,7 +29,7 @@ Here is a rundown of the grades included in this repository:
     - `sjrk.storyTelling.blockUi.editor.textBlockEditor` for text blocks
     - `sjrk.storyTelling.blockUi.editor.imageBlockEditor` for image blocks. This grade also has some additional configuration which uses context awareness to determine whether to load a slightly different editor that can capture from a camera.
 - `sjrk.storyTelling.ui.storyEditor` is an extension of `ui` that provides an editing interface for stories. It has a handlebars template associated with it called `storyEditor.handlebars`. It also contains a `sjrk.storyTelling.binder` to link up with the title, author and keywords fields. It makes use of a `dynamicViewComponentManager` to add blocks of varying types on demand.
-- `sjrk.storyTelling.ui.viewer` is similar to the `storyEditor`, except it doesn't have a binder since its purpose is to preview a story after editing. It has a handlebars template associated with it called `storyViewer.handlebars`.
+- `sjrk.storyTelling.ui.storyViewer` is similar to the `storyEditor`, except it doesn't have a binder since its purpose is to preview a story after editing. It has a handlebars template associated with it called `storyViewer.handlebars`.
 - `sjrk.storyTelling.uiManager` is the overall Storytelling Tool interface management grade. It has a `fluid.textToSpeech`, called storySpeaker, for reading out the various stories on demand. It also has a subcomponent for each context/page in the tool and manages communication of relevant information between them.
 
 ### Installing

@@ -22,7 +22,7 @@ fieldset ul {
     list-style-type: none;
 }
 
-.sjrk-storyTelling-storyEditorPage2, .sjrk-storyTelling-block-viewer {
+.sjrk-storyTelling-storyEditorPage2, .sjrk-storyTelling-story-viewer {
     display: none;
 }
 
@@ -82,7 +82,7 @@ fieldset ul {
     background: #eee;
 }
 
-.sjrk-storyTelling-block-viewer .sjrk-storyblock-block {
+.sjrk-storyTelling-story-viewer .sjrk-storyblock-block {
     border: none;
 }
 
@@ -91,7 +91,7 @@ fieldset ul {
     padding: 2rem;
 }
 
-.sjrk-storyTelling-block-viewer-heading-container,
+.sjrk-storyTelling-story-viewer-heading-container,
 .sjrk-storyTelling-story-viewer-footer-container,
 .sjrk-storyTelling-story-editor-footer-container {
     display: grid;
@@ -109,18 +109,18 @@ fieldset ul {
     text-align: center;
 }
 
-.sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyTitle {
+.sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyTitle {
     font-size: 1.5em;
     margin: 0;
 }
 
-.sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyAuthor {
+.sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyAuthor {
     font-size: 1.25em;
     margin-top: 0;
 }
 
-.sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyListTags,
-.sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyLanguage,
-.sjrk-storyTelling-block-viewer .sjrk-storyTelling-storyCategories {
+.sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyListTags,
+.sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyLanguage,
+.sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyCategories {
     font-weight: normal;
 }

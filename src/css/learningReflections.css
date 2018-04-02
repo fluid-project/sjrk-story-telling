@@ -89,7 +89,7 @@ textarea {
     padding: 1.5rem;
 }
 
-.sjrk-storyTelling-block-editor-buttons-container {
+.sjrk-storyTelling-story-editor-buttons-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 0.3rem;
