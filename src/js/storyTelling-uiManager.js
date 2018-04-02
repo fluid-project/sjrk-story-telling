@@ -114,7 +114,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story preview context
             // TODO: consider rolling the previewer context into the editor
             previewer: {
-                type: "sjrk.storyTelling.ui.blockViewer",
+                type: "sjrk.storyTelling.ui.viewer",
                 container: "{uiManager}.options.selectors.storyPreviewer",
                 options: {
                     components: {

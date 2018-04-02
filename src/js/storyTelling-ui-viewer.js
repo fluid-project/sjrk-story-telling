@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.blockViewer", {
+    fluid.defaults("sjrk.storyTelling.ui.viewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
             storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
@@ -51,7 +51,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockViewer.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyViewer.handlebars"
                     }
                 }
             },
@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onCreate.renderStoryContent": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
-                            "args": ["{story}.model.content", "{blockViewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
+                            "args": ["{story}.model.content", "{viewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
                         }
                     },
                     dynamicComponents: {
