@@ -113,18 +113,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     // Abstract, see implementations below
+    // TODO: does this need to be abstract? could be defined within the generator function instead
     fluid.defaults("sjrk.storyTelling.templateManagerTesterBase", {
         gradeNames: ["fluid.test.testCaseHolder"],
-        // TODO: need to have a better sense of how to:
-        // - handle potential multilingual input (non-Latin character sets)
-        // - test multilingual input
-        // - store them - HTML entities, unicode, etc?
-        // Issues encountered already:
-        // - encoding between platforms (local vs server)
-        // - testability of multilingual strings when rendering
-        // message bundles to DOM
-        // Set by implementing tester grade
-        // expectedMessage: ""
         modules: [{
             name: "Test template manager localization.",
             tests: [{

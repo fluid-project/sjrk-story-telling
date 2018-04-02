@@ -77,8 +77,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelRelay: {
                         ttsTextFromStory: {
-                            // TODO: figure out how to handle this and share it properly
-                            // which instance of ui should be referenced?
                             target: "{that}.model.ttsText",
                             singleTransform: {
                                 type: "fluid.transforms.stringTemplate",

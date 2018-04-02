@@ -235,7 +235,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         checkBox.prop("checked", true);
     };
 
-    // TODO: test currently failing - see comment above.
     sjrk.storyTelling.ui.storyEditorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
