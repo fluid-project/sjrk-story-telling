@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.blockEditor", {
+    fluid.defaults("sjrk.storyTelling.ui.editor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
@@ -96,7 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 ]
             },
             "onRemoveBlocksRequested.removeSelectedBlocks": {
-                funcName: "sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks",
+                funcName: "sjrk.storyTelling.ui.editor.removeSelectedBlocks",
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             }
         },
@@ -106,7 +106,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockEditor.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyEditor.handlebars"
                     }
                 }
             },
@@ -116,20 +116,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
                 options: {
                     listeners: {
-                        "{blockEditor}.events.onTextBlockAdditionRequested": {
+                        "{editor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addTextBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                         },
-                        "{blockEditor}.events.onImageBlockAdditionRequested": {
+                        "{editor}.events.onImageBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                         },
-                        "{blockEditor}.events.onStorySubmitRequested": {
-                            funcName: "sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks",
+                        "{editor}.events.onStorySubmitRequested": {
+                            funcName: "sjrk.storyTelling.ui.editor.updateStoryFromBlocks",
                             namespace: "updateStoryFromBlocks",
-                            args: ["{blockEditor}.story", "{that}.managedViewComponentRegistry", "{blockEditor}.events.onStoryUpdatedFromBlocks"],
+                            args: ["{editor}.story", "{that}.managedViewComponentRegistry", "{editor}.events.onStoryUpdatedFromBlocks"],
                             priority: "first"
                         }
                     }
@@ -175,7 +175,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.ui.blockEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
+    sjrk.storyTelling.ui.editor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {
         var removedBlockKeys = [];
 
@@ -190,11 +190,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 
-    sjrk.storyTelling.ui.blockEditor.updateStoryFromBlocks = function (story, blockEditorComponents, completionEvent) {
+    sjrk.storyTelling.ui.editor.updateStoryFromBlocks = function (story, editorComponents, completionEvent) {
         var storyContent = [];
 
-        fluid.each(blockEditorComponents, function (blockEditor) {
-            var blockData = blockEditor.block.model;
+        fluid.each(editorComponents, function (editor) {
+            var blockData = editor.block.model;
             storyContent.push(blockData);
         });
 

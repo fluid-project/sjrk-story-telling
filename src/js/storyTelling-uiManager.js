@@ -97,7 +97,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // the story editing context
             editor: {
-                type: "sjrk.storyTelling.ui.blockEditor",
+                type: "sjrk.storyTelling.ui.editor",
                 container: "{uiManager}.options.selectors.storyEditor",
                 options: {
                     components: {
