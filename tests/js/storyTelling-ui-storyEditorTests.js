@@ -13,8 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.testEditor", {
-        gradeNames: ["sjrk.storyTelling.ui.editor"],
+    fluid.defaults("sjrk.storyTelling.ui.testStoryEditor", {
+        gradeNames: ["sjrk.storyTelling.ui.storyEditor"],
         events: {
             onNewBlockTemplateRendered: null
         },
@@ -38,8 +38,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                                 resourcePrefix: "../.."
                                             },
                                             listeners: {
-                                                "onTemplateRendered.notifyTestEditor": {
-                                                    func: "{testEditor}.events.onNewBlockTemplateRendered.fire",
+                                                "onTemplateRendered.notifyTestStoryEditor": {
+                                                    func: "{testStoryEditor}.events.onNewBlockTemplateRendered.fire",
                                                     args: ["{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
                                                 }
                                             }
@@ -54,123 +54,123 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.ui.editorTester", {
+    fluid.defaults("sjrk.storyTelling.ui.storyEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Block Editor UI.",
+            name: "Test Story Editor UI.",
             tests: [{
                 name: "Test UI controls",
                 expect: 18,
                 sequence: [{
-                    "event": "{editorTest editor}.events.onControlsBound",
+                    "event": "{storyEditorTest storyEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
-                    args: ["Block editor's onControlsBound event fired"]
+                    args: ["Story editor's onControlsBound event fired"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyEditorNext"
+                    "element": "{storyEditor}.dom.storyEditorNext"
                 },
                 {
-                    "event": "{editor}.events.onEditorNextRequested",
+                    "event": "{storyEditor}.events.onEditorNextRequested",
                     listener: "jqUnit.assert",
                     args: "onEditorNextRequested event fired."
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storySubmit"
+                    "element": "{storyEditor}.dom.storySubmit"
                 },
                 {
-                    "event": "{editor}.events.onStorySubmitRequested",
+                    "event": "{storyEditor}.events.onStorySubmitRequested",
                     listener: "jqUnit.assert",
                     args: "onStorySubmitRequested event fired."
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyEditorPrevious"
+                    "element": "{storyEditor}.dom.storyEditorPrevious"
                 },
                 {
-                    "event": "{editor}.events.onEditorPreviousRequested",
+                    "event": "{storyEditor}.events.onEditorPreviousRequested",
                     listener: "jqUnit.assert",
                     args: "onEditorPreviousRequested event fired."
                 },
                 // TODO: waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
                 {
-                    "event": "{editor blockManager}.events.onCreate",
+                    "event": "{storyEditor blockManager}.events.onCreate",
                     listener: "jqUnit.assert",
                     args: ["Block manager ready"]
                 },
                 // Click to add a text block
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyAddTextBlock"
+                    "element": "{storyEditor}.dom.storyAddTextBlock"
                 },
                 {
-                    "event": "{editor}.blockManager.events.viewComponentRegisteredWithManager",
-                    listener: "sjrk.storyTelling.ui.editorTester.verifyBlockAdded",
-                    args: ["{editor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                    "event": "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded",
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
                     func: "fluid.identity"
                 },
                 // Wait for block to fully render
                 {
-                    "event": "{editor}.events.onNewBlockTemplateRendered",
+                    "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
                 },
                 // Click to add an image block
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyAddImageBlock"
+                    "element": "{storyEditor}.dom.storyAddImageBlock"
                 },
                 {
-                    "event": "{editor}.blockManager.events.viewComponentRegisteredWithManager",
-                    listener: "sjrk.storyTelling.ui.editorTester.verifyBlockAdded",
-                    args: ["{editor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
+                    "event": "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded",
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                 },
                 {
                     func: "fluid.identity"
                 },
                 // Wait for block to fully render
                 {
-                    "event": "{editor}.events.onNewBlockTemplateRendered",
+                    "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
                 },
                 // Add a second text block
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyAddTextBlock"
+                    "element": "{storyEditor}.dom.storyAddTextBlock"
                 },
                 {
-                    "event": "{editor}.blockManager.events.viewComponentRegisteredWithManager",
-                    listener: "sjrk.storyTelling.ui.editorTester.verifyBlockAdded",
-                    args: ["{editor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                    "event": "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded",
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
                     func: "fluid.identity"
                 },
                 // Wait for block to fully render
                 {
-                    "event": "{editor}.events.onNewBlockTemplateRendered",
+                    "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
                 },
                 // Select the checkbox of the first block
                 {
-                    func: "sjrk.storyTelling.ui.editorTester.checkFirstBlockCheckbox",
-                    args: ["{editor}.blockManager"]
+                    func: "sjrk.storyTelling.ui.storyEditorTester.checkFirstBlockCheckbox",
+                    args: ["{storyEditor}.blockManager"]
                 },
                 // Click the "remove selected blocks" button
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyRemoveSelectedBlocks"
+                    "element": "{storyEditor}.dom.storyRemoveSelectedBlocks"
                 },
                 // Verify removal
                 {
-                    "event": "{editor}.events.onRemoveBlocksCompleted",
-                    listener: "sjrk.storyTelling.ui.editorTester.verifyBlocksRemoved",
-                    args: ["{editor}.blockManager", "{arguments}.0", 2]
+                    "event": "{storyEditor}.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlocksRemoved",
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", 2]
                 }]
             },
             {
@@ -178,13 +178,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 1,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{editor}", "storyTags", "testTag1, testTag2"]
+                    args: ["{storyEditor}", "storyTags", "testTag1, testTag2"]
                 },
                 {
-                    changeEvent: "{editor}.story.applier.modelChanged",
+                    changeEvent: "{storyEditor}.story.applier.modelChanged",
                     path: "tags",
                     listener: "jqUnit.assertDeepEq",
-                    args: ["DOM to Model: Stored tags are equal to the expected value", ["testTag1", "testTag2"], "{editor}.story.model.tags"]
+                    args: ["DOM to Model: Stored tags are equal to the expected value", ["testTag1", "testTag2"], "{storyEditor}.story.model.tags"]
                 }]
             },
             {
@@ -193,32 +193,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 sequence: [{
                     "funcName": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{editor}.dom.storyEditorPage2"],
-                        ["{editor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyEditorPage2"],
+                        ["{storyEditor}.dom.storyEditorPage1"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyEditorNext"
+                    "element": "{storyEditor}.dom.storyEditorNext"
                 },
                 {
-                    "event": "{editor}.events.onVisibilityChanged",
+                    "event": "{storyEditor}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{editor}.dom.storyEditorPage1"],
-                        ["{editor}.dom.storyEditorPage2"]
+                        ["{storyEditor}.dom.storyEditorPage1"],
+                        ["{storyEditor}.dom.storyEditorPage2"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{editor}.dom.storyEditorPrevious"
+                    "element": "{storyEditor}.dom.storyEditorPrevious"
                 },
                 {
-                    "event": "{editor}.events.onVisibilityChanged",
+                    "event": "{storyEditor}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{editor}.dom.storyEditorPage2"],
-                        ["{editor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyEditorPage2"],
+                        ["{storyEditor}.dom.storyEditorPage1"]
                     ]
                 }]
             }]
@@ -228,7 +228,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // TODO: this doesn't work because of speed of execution and asynchronous
     // template loading - need to delay on this until the blocks have loaded
     // their content, because until then they don't have checkboxes!
-    sjrk.storyTelling.ui.editorTester.checkFirstBlockCheckbox = function (blockManager) {
+    sjrk.storyTelling.ui.storyEditorTester.checkFirstBlockCheckbox = function (blockManager) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
 
@@ -236,12 +236,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     // TODO: test currently failing - see comment above.
-    sjrk.storyTelling.ui.editorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
+    sjrk.storyTelling.ui.storyEditorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
     };
 
-    sjrk.storyTelling.ui.editorTester.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
+    sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
 
         var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
 
@@ -256,23 +256,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
     };
 
-    fluid.defaults("sjrk.storyTelling.ui.editorTest", {
+    fluid.defaults("sjrk.storyTelling.ui.storyEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            editor: {
-                type: "sjrk.storyTelling.ui.testEditor",
-                container: "#testEditor",
-                createOnEvent: "{editorTester}.events.onTestCaseStart"
+            storyEditor: {
+                type: "sjrk.storyTelling.ui.testStoryEditor",
+                container: "#testStoryEditor",
+                createOnEvent: "{storyEditorTester}.events.onTestCaseStart"
             },
-            editorTester: {
-                type: "sjrk.storyTelling.ui.editorTester"
+            storyEditorTester: {
+                type: "sjrk.storyTelling.ui.storyEditorTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.ui.editorTest"
+            "sjrk.storyTelling.ui.storyEditorTest"
         ]);
     });
 

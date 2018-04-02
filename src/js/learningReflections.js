@@ -13,8 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.editor.learningReflections", {
-        gradeNames: ["sjrk.storyTelling.ui.editor"],
+    fluid.defaults("sjrk.storyTelling.ui.storyEditor.learningReflections", {
+        gradeNames: ["sjrk.storyTelling.ui.storyEditor"],
         components: {
             templateManager: {
                 options: {

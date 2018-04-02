@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.editor", {
+    fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
             storySubmit: ".sjrkc-storyTelling-storySubmit",
@@ -96,7 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 ]
             },
             "onRemoveBlocksRequested.removeSelectedBlocks": {
-                funcName: "sjrk.storyTelling.ui.editor.removeSelectedBlocks",
+                funcName: "sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks",
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             }
         },
@@ -116,20 +116,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
                 options: {
                     listeners: {
-                        "{editor}.events.onTextBlockAdditionRequested": {
+                        "{storyEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addTextBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                         },
-                        "{editor}.events.onImageBlockAdditionRequested": {
+                        "{storyEditor}.events.onImageBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                         },
-                        "{editor}.events.onStorySubmitRequested": {
-                            funcName: "sjrk.storyTelling.ui.editor.updateStoryFromBlocks",
+                        "{storyEditor}.events.onStorySubmitRequested": {
+                            funcName: "sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks",
                             namespace: "updateStoryFromBlocks",
-                            args: ["{editor}.story", "{that}.managedViewComponentRegistry", "{editor}.events.onStoryUpdatedFromBlocks"],
+                            args: ["{storyEditor}.story", "{that}.managedViewComponentRegistry", "{storyEditor}.events.onStoryUpdatedFromBlocks"],
                             priority: "first"
                         }
                     }
@@ -175,7 +175,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.ui.editor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
+    sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {
         var removedBlockKeys = [];
 
@@ -190,7 +190,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 
-    sjrk.storyTelling.ui.editor.updateStoryFromBlocks = function (story, editorComponents, completionEvent) {
+    sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks = function (story, editorComponents, completionEvent) {
         var storyContent = [];
 
         fluid.each(editorComponents, function (editor) {

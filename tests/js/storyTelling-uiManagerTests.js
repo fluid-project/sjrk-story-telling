@@ -16,11 +16,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.testUiManager", {
         gradeNames: ["sjrk.storyTelling.uiManager"],
         selectors: {
-            storyEditor: "#testEditor",
+            storyEditor: "#testStoryEditor",
             storyPreviewer: "#testPreviewer"
         },
         components: {
-            editor: {
+            storyEditor: {
                 options: {
                     components: {
                         templateManager: {
@@ -64,45 +64,45 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     args: [
-                        ["{uiManager}.editor.dom.storyEditorPage2", "{uiManager}.previewer.container"],
-                        ["{uiManager}.editor.dom.storyEditorPage1"]
+                        ["{uiManager}.storyEditor.dom.storyEditorPage2", "{uiManager}.previewer.container"],
+                        ["{uiManager}.storyEditor.dom.storyEditorPage1"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.editor.dom.storyEditorNext"
+                    "element": "{uiManager}.storyEditor.dom.storyEditorNext"
                 },
                 {
-                    "event": "{uiManager}.editor.events.onVisibilityChanged",
+                    "event": "{uiManager}.storyEditor.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
-                        ["{uiManager}.editor.dom.storyEditorPage2"]
+                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
+                        ["{uiManager}.storyEditor.dom.storyEditorPage2"]
                     ]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{uiManager}.editor","storyTitle","Initial test title"]
+                    args: ["{uiManager}.storyEditor","storyTitle","Initial test title"]
                 },
                 {
-                    changeEvent: "{uiManager}.editor.story.applier.modelChanged",
+                    changeEvent: "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     listener: "jqUnit.assertEquals",
-                    args: ["Editor model updated to expected value", "Initial test title", "{uiManager}.editor.story.model.title"]
+                    args: ["Editor model updated to expected value", "Initial test title", "{uiManager}.storyEditor.story.model.title"]
                 },
                 {
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated to match editor","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
+                    args: ["Previewer model updated to match editor","{uiManager}.storyEditor.story.model.title","{uiManager}.previewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.editor.dom.storySubmit"
+                    "element": "{uiManager}.storyEditor.dom.storySubmit"
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.container"],
+                        ["{uiManager}.storyEditor.container"],
                         ["{uiManager}.previewer.container"]
                     ]
                 },
@@ -114,29 +114,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
-                        ["{uiManager}.editor.dom.storyEditorPage2"]
+                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.previewer.container"],
+                        ["{uiManager}.storyEditor.dom.storyEditorPage2"]
                     ]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{uiManager}.editor","storyTitle","New test title"]
+                    args: ["{uiManager}.storyEditor","storyTitle","New test title"]
                 },
                 {
-                    changeEvent: "{uiManager}.editor.story.applier.modelChanged",
+                    changeEvent: "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     func: "jqUnit.assertEquals",
-                    args: ["previewer model updated","{uiManager}.editor.story.model.title","{uiManager}.previewer.story.model.title"]
+                    args: ["previewer model updated","{uiManager}.storyEditor.story.model.title","{uiManager}.previewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.editor.dom.storySubmit"
+                    "element": "{uiManager}.storyEditor.dom.storySubmit"
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.editor.container"],
+                        ["{uiManager}.storyEditor.container"],
                         ["{uiManager}.previewer.container"]
                     ]
                 },
@@ -146,7 +146,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.editor.dom.storyListenTo"
+                    "element": "{uiManager}.storyEditor.dom.storyListenTo"
                 },
                 {
                     "event": "{uiManager}.events.onStoryListenToRequested",
@@ -170,21 +170,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test storySpeaker",
                 expect: 2,
                 sequence: [{
-                    func: "{uiManager}.editor.story.applier.change",
+                    func: "{uiManager}.storyEditor.story.applier.change",
                     args: ["author", "Rootbeer"]
                 },
                 {
-                    "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
+                    "changeEvent": "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "author",
                     listener: "jqUnit.assertEquals",
                     args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
                 },
                 {
-                    func: "{uiManager}.editor.story.applier.change",
+                    func: "{uiManager}.storyEditor.story.applier.change",
                     args: ["title", "My brother Shyguy"]
                 },
                 {
-                    "changeEvent": "{uiManager}.editor.story.applier.modelChanged",
+                    "changeEvent": "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     listener: "jqUnit.assertEquals",
                     args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]

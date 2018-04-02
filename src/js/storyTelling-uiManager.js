@@ -28,21 +28,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onStoryListenToRequested: null,
             onAllUiComponentsReady: {
                 events: {
-                    onEditorReady: "{editor}.events.onControlsBound",
+                    onEditorReady: "{storyEditor}.events.onControlsBound",
                     onPreviewerReady: "{previewer}.events.onControlsBound"
                 }
             },
             onVisibilityChanged: null
         },
         listeners: {
-            "{editor}.events.onStorySubmitRequested": [{
+            "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{previewer}.templateManager.renderTemplateOnSelf",
                 args: ["{previewer}.story.model"]
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{editor}.container"],
+                    ["{storyEditor}.container"],
                     ["{previewer}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
@@ -51,12 +51,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
                     ["{previewer}.container"],
-                    ["{editor}.container"],
+                    ["{storyEditor}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
             },
             // TODO: determine a way for all UI's to be listened to at once
-            "{editor}.events.onStoryListenToRequested": {
+            "{storyEditor}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
             },
             "{previewer}.events.onStoryListenToRequested": {
@@ -72,7 +72,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     model:{
                         ttsText: null,
                         utteranceOpts: {
-                            lang: "{editor}.story.model.language"
+                            lang: "{storyEditor}.story.model.language"
                         }
                     },
                     modelRelay: {
@@ -82,8 +82,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             target: "{that}.model.ttsText",
                             singleTransform: {
                                 type: "fluid.transforms.stringTemplate",
-                                template: "{editor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                                terms: "{editor}.story.model"
+                                template: "{storyEditor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
+                                terms: "{storyEditor}.story.model"
                             }
                         }
                     },
@@ -96,8 +96,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             // the story editing context
-            editor: {
-                type: "sjrk.storyTelling.ui.editor",
+            storyEditor: {
+                type: "sjrk.storyTelling.ui.storyEditor",
                 container: "{uiManager}.options.selectors.storyEditor",
                 options: {
                     components: {
@@ -127,7 +127,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         },
                         story: {
                             options: {
-                                model: "{editor}.story.model"
+                                model: "{storyEditor}.story.model"
                             }
                         }
                     }
