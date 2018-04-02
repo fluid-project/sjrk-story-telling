@@ -20,8 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyTags: ".sjrkc-storyTelling-storyListTags",
             storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
         },
-        // TODO: think of a better name for this key
-        blockGrades: {
+        blockTypeLookup: {
             "text": "sjrk.storyTelling.blockUi.textBlockViewer",
             "image": "sjrk.storyTelling.blockUi.imageBlockViewer"
         },
@@ -63,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onCreate.renderStoryContent": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
-                            "args": ["{story}.model.content", "{storyViewer}.options.blockGrades", "{blockManager}.events.viewComponentContainerRequested"]
+                            "args": ["{story}.model.content", "{storyViewer}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
                         }
                     },
                     dynamicComponents: {

@@ -18,7 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.story", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            // TODO: add an ID field?
             title: "",
             content: //"",
             [

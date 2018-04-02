@@ -92,12 +92,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *     }
      * - "storyBlocks": a collection of story block data, the format of the data
      *                  is as laid out in sjrk.storyTelling.story
-     * - "gradeLookup": the list of blockType names and associated grades
+     * - "blockTypeLookup": the list of blockType names and associated grades
      * - "createEvent": the event that is to be fired in order to create the blocks
      */
-    sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, gradeLookup, createEvent) {
+    sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
         fluid.each(storyBlocks, function (blockData) {
-            var gradeNames = gradeLookup[blockData.blockType];
+            var gradeNames = blockTypeLookup[blockData.blockType];
             createEvent.fire(gradeNames, {modelValues: blockData});
         });
     };

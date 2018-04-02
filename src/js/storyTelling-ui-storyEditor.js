@@ -27,7 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyRemoveSelectedBlocks: ".sjrkc-storyTelling-button-remove-blocks",
             storyRestoreRemovedBlocks: ".sjrkc-storyTelling-button-restore-blocks"
         },
-        blockGrades: {
+        blockTypeLookup: {
             "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
             "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor"
         },
@@ -100,8 +100,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             }
         },
-        // TODO: add events for binding the various buttons
-        // TODO: add listeners to handle the various buttons' functionality
         components: {
             templateManager: {
                 options: {
