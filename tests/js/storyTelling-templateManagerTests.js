@@ -49,7 +49,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    // TODO: consider combining this and sjrk.storyTelling.templateManagerTesterBase.testLocalization
     sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager, expectedContent) {
         var actualContent = templateManager.container.html().trim();
 
