@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // the common, shared data model of all blocks
     fluid.defaults("sjrk.storyTelling.block", {
         gradeNames: ["fluid.modelComponent"],
         model: {

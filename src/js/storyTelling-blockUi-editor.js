@@ -13,12 +13,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // the base blockUi for editing individual blocks, contains shared elements
     fluid.defaults("sjrk.storyTelling.blockUi.editor", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         selectors: {
             selectedCheckbox: ".sjrkc-storyblock-selection-checkbox"
         },
         components: {
+            // binds user input DOM elements to model values on the block
             binder: {
                 type: "sjrk.storyTelling.binder",
                 container: "{blockUi}.container",

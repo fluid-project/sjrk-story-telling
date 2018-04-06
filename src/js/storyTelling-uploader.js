@@ -66,6 +66,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    /* Updates the uploader's internal file representation with
+     * information stored in the DOM's uploader element.
+     * - "that": the uploader itself
+     * - "fileInput": the DOM uploader element
+     */
     sjrk.storyTelling.block.singleFileUploader.handleFileInputChange = function (that, fileInput) {
         var fileList = fileInput[0].files;
         var currentFile = fileList[0];
@@ -73,10 +78,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onFileChanged.fire();
     };
 
+    /* Given a file, updates the file's metadata as held on the uploader's model
+     * - "that": the uploader itself
+     * - "currentFile": the file whose details are being updated
+     */
     sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that, currentFile) {
-
         if (currentFile) {
-
             // TODO: confirming this works should be part of the manual tests
             var fileDetails = {
                 lastModified: currentFile.lastModified,

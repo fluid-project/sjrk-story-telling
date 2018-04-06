@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // an editing interface for individual text-type blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor"],
         components: {

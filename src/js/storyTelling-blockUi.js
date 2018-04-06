@@ -13,9 +13,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // the "base" grade for all interfaces which render/represent an individual
+    // block, regardless of type.
     fluid.defaults("sjrk.storyTelling.blockUi", {
         gradeNames: ["fluid.viewComponent"],
         components: {
+            // loads the localized messages and template for the block
             templateManager: {
                 type: "sjrk.storyTelling.templateManager",
                 container: "{blockUi}.container",
@@ -32,6 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the data, the block itself
             block: {
                 type: "sjrk.storyTelling.block"
             }

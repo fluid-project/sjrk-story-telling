@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // the data model of a text-type block
     fluid.defaults("sjrk.storyTelling.block.textBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {

@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // a UI for viewing/previewing block-based stories
     fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
@@ -54,6 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // for dynamically rendering the story block by block
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
                 container: "{ui}.options.selectors.storyContent",

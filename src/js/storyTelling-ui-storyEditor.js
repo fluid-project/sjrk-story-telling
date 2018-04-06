@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // a UI for editing block-based stories
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
@@ -108,6 +109,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // for dynamically adding/removing block UIs
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
                 container: "{ui}.options.selectors.storyEditorContent",
@@ -133,6 +135,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // for binding the non-block input fields to the story model
             binder: {
                 type: "sjrk.storyTelling.binder",
                 container: "{ui}.container",
@@ -173,6 +176,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    /* Removes all blocks which have been selected in the editor
+     * - "that": the story editor UI
+     * - "managedViewComponentRegistry": the registry of view components
+     */
     sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {
         var removedBlockKeys = [];
@@ -188,6 +195,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 
+    /* Updates a story's model based on the individual models of all blocks,
+     * in the order in which they're stored.
+     * - "story": the story component
+     * - "editorComponents": the individual block editor UI's
+     * - "completionEvent": the event to be fired upon successful completion
+     */
     sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks = function (story, editorComponents, completionEvent) {
         var storyContent = [];
 

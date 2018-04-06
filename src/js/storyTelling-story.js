@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.modelComponent"],
         model: {
             title: "",
-            content: //"",
+            content:
             [
                 // a collection of sjrk.storyTelling.block data.
                 // blocks should contain the type of block and fields

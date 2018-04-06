@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // A grade which coordinates the loading of a handlebars template and
     // localized UI text, then uses a client-side gpii.handlebars renderer
-    // to insert it into the DOM
+    // to insert the resulting combined markup into the DOM
     fluid.defaults("sjrk.storyTelling.templateManager", {
         gradeNames: "fluid.viewComponent",
         templateConfig: {
@@ -110,6 +110,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     /* Renders a template into the specified container with a gpii.handlebars
      * client-side renderer, and fires completionEvent when done.
      * Values in localizedMessages are resolved against those in dynamicValues.
@@ -122,7 +123,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "renderer": the gpii-handlebars client-side renderer component
      * - "localizedMessages": localized UI strings
      * - "dynamicValues": other values which are likely to change often.
-     * TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     */
     sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
         templateName, templateContent, renderer, localizedMessages, dynamicValues) {

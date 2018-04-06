@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // an interface for viewing an individual image block
     fluid.defaults("sjrk.storyTelling.blockUi.imageBlockViewer", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         components: {

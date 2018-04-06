@@ -13,6 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
+    // an editing interface for individual image-type blocks
+    // provides additional capabilities depending on whether the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor", {
         gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.blockUi.editor"],
         contextAwareness: {
@@ -78,6 +80,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // handles previewing and uploading a single image for storage
             singleFileUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
@@ -127,6 +130,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     // TODO: make this check more robust and reliable
+    /* Determines whether the current user device has a "mobile" camera. */
     sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
         var userAgent = navigator.userAgent.toLowerCase();
         var hasMobileCamera = userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("android");
@@ -139,6 +143,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // the extra interface elements to be added if the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor.hasMobileCamera", {
         selectors: {
             imageCaptureButton: ".sjrkc-storyblock-image-capture-button",
@@ -163,6 +168,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // captures an image from the device, previews it and uploads it
             cameraCaptureUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
