@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk, jqUnit */
 
 (function ($, fluid) {
 
@@ -54,14 +54,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Story UI.",
             tests: [{
                 name: "Test createBlocksFromData function",
-                expect: 0,
+                expect: 6,
                 sequence: [{
                     funcName: "sjrk.storyTelling.ui.createBlocksFromData",
                     args: ["{ui}.options.storyBlocks", "{ui}.options.blockTypeLookup", "{ui}.events.blockCreateEvent"]
+                },
+                {
+                    event: "{ui}.events.blockCreateEvent",
+                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
+                    args: ["{arguments}.0", "{arguments}.1", "cat.grade.name", {blockType: "cat", fur: "orange"}]
+                },
+                {
+                    event: "{ui}.events.blockCreateEvent",
+                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
+                    args: ["{arguments}.0", "{arguments}.1", "cat.grade.name", {blockType: "cat", fur: "spotted"}]
+                },
+                {
+                    event: "{ui}.events.blockCreateEvent",
+                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
+                    args: ["{arguments}.0", "{arguments}.1", "cat.other.grade.name", {blockType: "otherCat", fur: "none"}]
                 }]
             }]
         }]
     });
+
+    sjrk.storyTelling.uiTester.verifyBlocksCreated = function (gradeNames, blockData, expectedGradeNames, expectedModelValues) {
+        jqUnit.assertEquals("The grade names are as expected", expectedGradeNames, gradeNames);
+        jqUnit.assertDeepEq("The model values are as expected", expectedModelValues, blockData.modelValues);
+    };
 
     fluid.defaults("sjrk.storyTelling.uiTest", {
         gradeNames: ["fluid.test.testEnvironment"],
