@@ -62,6 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
                 options: {
                     listeners: {
+                        // TODO: pick a more accurate name for this listener
                         "onCreate.renderStoryContent": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
                             "args": ["{story}.model.content", "{storyViewer}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
