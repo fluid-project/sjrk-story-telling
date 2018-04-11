@@ -38,6 +38,9 @@
     "message_storyShareText": "Share my story",
     "message_storySaveNoShareText": "Save without sharing",
     "message_storyLanguageLabelText": "Language(s)",
+    "message_menu_browseLinkText": "Browse stories...",
+    "message_menu_english": "English",
+    "message_menu_spanish": "Español",
     "availableCategories": {
         "category_childhood": "Childhood",
         "category_immigration": "Immigration",

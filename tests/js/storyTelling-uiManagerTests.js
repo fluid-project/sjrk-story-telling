@@ -17,9 +17,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.uiManager"],
         selectors: {
             storyEditor: "#testStoryEditor",
-            storyViewer: "#testStoryViewer"
+            storyViewer: "#testStoryViewer",
+            menu: "#testMenu"
         },
         components: {
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    resourcePrefix: "../.."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             storyEditor: {
                 options: {
                     components: {

@@ -22,6 +22,16 @@ fieldset ul {
     list-style-type: none;
 }
 
+.sjrk-storyTelling-menu-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 1rem;
+}
+
+.sjrk-storyTelling-menu-languages-container {
+    text-align: right;
+}
+
 .sjrk-storyTelling-storyEditorPage2, .sjrk-storyTelling-story-viewer {
     display: none;
 }

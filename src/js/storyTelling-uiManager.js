@@ -18,11 +18,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.uiManager", {
         gradeNames: ["fluid.modelComponent"],
         uiConfig: {
-            uiLanguage: "en"
+            uiLanguage: "en" //initial state is English (TODO: is there a better way?)
         },
         selectors: {
             storyEditor: ".sjrkc-storyTelling-story-editor",
-            storyViewer: ".sjrkc-storyTelling-story-viewer"
+            storyViewer: ".sjrkc-storyTelling-story-viewer",
+            menu: ".sjrkc-storyTelling-menu-links"
         },
         events: {
             onStoryListenToRequested: null,
@@ -32,7 +33,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onViewerReady: "{storyViewer}.events.onControlsBound"
                 }
             },
-            onVisibilityChanged: null
+            onVisibilityChanged: null,
+            onInterfaceLanguageChangeRequested: null
         },
         listeners: {
             "{storyEditor}.events.onStorySubmitRequested": [{
@@ -89,6 +91,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "{uiManager}.events.onStoryListenToRequested": {
                             func: "{that}.queueSpeech",
                             args: ["{that}.model.ttsText", true]
+                        }
+                    }
+                }
+            },
+            // the storytelling tool "main" menu
+            menu: {
+                type: "sjrk.storyTelling.ui.menu",
+                container: "{uiManager}.options.selectors.menu",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    locale: "{uiManager}.options.uiConfig.uiLanguage"
+                                }
+                            }
                         }
                     }
                 }
