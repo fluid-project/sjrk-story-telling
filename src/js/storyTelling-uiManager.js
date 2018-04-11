@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // and organizes the general interaction of the tool
     fluid.defaults("sjrk.storyTelling.uiManager", {
         gradeNames: ["fluid.modelComponent"],
-        uiConfig: {
+        model: {
             uiLanguage: "en" //initial state is English (TODO: is there a better way?)
         },
         selectors: {
@@ -33,10 +33,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onViewerReady: "{storyViewer}.events.onControlsBound"
                 }
             },
-            onVisibilityChanged: null,
-            onInterfaceLanguageChangeRequested: null
+            onVisibilityChanged: null
         },
         listeners: {
+            // TODO: add namespaces for each event from a component?
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyViewer}.templateManager.renderTemplateOnSelf",
                 args: ["{storyViewer}.story.model"]
@@ -63,6 +63,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{storyViewer}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
+            },
+            "{menu}.events.onInterfaceLanguageChangeRequested": {
+                func: "{that}.applier.change",
+                args: ["uiLanguage", "{arguments}.0.data"]
+            }
+        },
+        modelListeners: {
+            uiLanguage: {
+                funcName: "console.log",
+                excludeSource: "init",
+                args: ["Value changed to ", "{change}.value"]
             }
         },
         components: {
@@ -104,7 +115,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    locale: "{uiManager}.options.uiConfig.uiLanguage"
+                                    locale: "{uiManager}.model.uiLanguage"
                                 }
                             }
                         }
@@ -120,7 +131,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    locale: "{uiManager}.options.uiConfig.uiLanguage"
+                                    locale: "{uiManager}.model.uiLanguage"
                                 }
                             }
                         }
@@ -137,7 +148,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    locale: "{uiManager}.options.uiConfig.uiLanguage"
+                                    locale: "{uiManager}.model.uiLanguage"
                                 }
                             }
                         },

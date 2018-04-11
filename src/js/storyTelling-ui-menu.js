@@ -21,30 +21,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             languageLinkSpanish: ".sjrkc-storyTelling-menu-languages-es"
         },
         events: {
-            onEnglishInterfaceRequested: null,
-            onSpanishInterfaceRequested: null
+            onInterfaceLanguageChangeRequested: null
         },
         listeners: {
             "onReadyToBind.bindLanguageLinkEnglish": {
                 "this": "{that}.dom.languageLinkEnglish",
                 "method": "click",
-                "args": ["en", "{that}.events.onEnglishInterfaceRequested.fire"]
+                "args": ["en", "{that}.events.onInterfaceLanguageChangeRequested.fire"]
             },
             "onReadyToBind.bindLanguageLinkSpanish": {
                 "this": "{that}.dom.languageLinkSpanish",
                 "method": "click",
-                "args": ["es", "{that}.events.onSpanishInterfaceRequested.fire"]
-            },
-            // TODO: REMOVE THESE LOGGERS!!!!
-            "onEnglishInterfaceRequested.": {
-                "this": "console",
-                "method": "log",
-                "args": ["english"]
-            },
-            "onSpanishInterfaceRequested.log": {
-                "this": "console",
-                "method": "log",
-                "args": ["spanish"]
+                "args": ["es", "{that}.events.onInterfaceLanguageChangeRequested.fire"]
             }
         },
         components: {
