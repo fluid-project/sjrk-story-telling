@@ -18,11 +18,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // to insert the resulting combined markup into the DOM
     fluid.defaults("sjrk.storyTelling.templateManager", {
         gradeNames: "fluid.viewComponent",
+        model: {
+            locale: "en"
+        },
         templateConfig: {
             templatePath: null,
             messagesPath: null,
-            resourcePrefix: ".",
-            locale: "en"
+            resourcePrefix: "."
         },
         events: {
             onAllResourcesLoaded: {
@@ -52,7 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resources: {
                         componentMessages: "{templateManager}.options.templateConfig.messagesPath"
                     },
-                    locale: "{templateManager}.options.templateConfig.locale",
+                    locale: "{templateManager}.model.locale",
                     defaultLocale: "en",
                     terms: {
                         resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"

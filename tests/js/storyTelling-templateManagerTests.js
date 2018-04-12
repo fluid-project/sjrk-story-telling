@@ -177,7 +177,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 templateManagerLocalized: {
                     container: "#testTemplateManager_" + languageCode,
                     options: {
-                        templateConfig: {
+                        model: {
                             locale: languageCode
                         }
                     }
