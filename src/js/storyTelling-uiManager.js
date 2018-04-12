@@ -71,13 +71,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         modelListeners: {
             uiLanguage: {
-                funcName: "{that}.renderAllUiTemplates",
-                excludeSource: "init"
-            }
-        },
-        invokers: {
-            "renderAllUiTemplates": {
                 funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
+                excludeSource: "init",
                 args: ["{that}"]
             }
         },
@@ -169,10 +164,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.uiManager.renderAllUiTemplates = function (component) {
-        fluid.each(component.options.components, function (subcomponent) {
-            if (subcomponent.type.includes("sjrk.storyTelling.ui.")) {
-                // this isn't correct, yet.
-                //subcomponent.options.components.templateManager.renderTemplateOnSelf();
+        fluid.each(component, function (subcomponent) {
+            if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui.")) {
+                subcomponent.templateManager.renderTemplateOnSelf();
             }
         });
     };
