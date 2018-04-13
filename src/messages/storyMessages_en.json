@@ -1,4 +1,5 @@
 {
+    "language": "en",
     "message_readStoryText": "%title, by %author. %content",
     "message_storyBlockAddTextBlock": "Add a text block",
     "message_storyBlockAddImageBlock": "Add an image block",
