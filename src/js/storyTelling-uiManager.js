@@ -76,6 +76,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}"]
             }
         },
+        modelRelay: [
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{menu}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{storyEditor}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{storyViewer}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            }
+        ],
         components: {
             // handles text to speech requests globally for the whole site
             storySpeaker: {
@@ -109,34 +132,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: "{uiManager}.options.selectors.menu",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    locale: "{uiManager}.model.uiLanguage"
-                                }
-                            }
-                        }
-                    }
-                }
+                container: "{uiManager}.options.selectors.menu"
             },
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: "{uiManager}.options.selectors.storyEditor",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    locale: "{uiManager}.model.uiLanguage"
-                                }
-                            }
-                        }
-                    }
-                }
+                container: "{uiManager}.options.selectors.storyEditor"
             },
             // the story view context
             // TODO: consider rolling the storyViewer context into the storyEditor
@@ -145,13 +146,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{uiManager}.options.selectors.storyViewer",
                 options: {
                     components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    locale: "{uiManager}.model.uiLanguage"
-                                }
-                            }
-                        },
                         story: {
                             options: {
                                 model: "{storyEditor}.story.model"
@@ -166,7 +160,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.uiManager.renderAllUiTemplates = function (component) {
         fluid.each(component, function (subcomponent) {
             if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui.")) {
-                subcomponent.templateManager.renderTemplateOnSelf();
+                subcomponent.templateManager.events.onResourceLoadRequested.fire();
             }
         });
     };

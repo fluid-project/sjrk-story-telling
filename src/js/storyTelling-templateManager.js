@@ -35,9 +35,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             onMessagesLoaded: null,
             onTemplateRendered: null,
-            onTemplateLoaded: null
+            onTemplateLoaded: null,
+            onResourceLoadRequested: null
         },
         listeners: {
+            "onCreate.loadResources": {
+                func: "{that}.events.onResourceLoadRequested.fire"
+            },
             "onAllResourcesLoaded.renderTemplateOnSelf": {
                 funcName: "{that}.renderTemplateOnSelf",
                 args: [{}]
@@ -50,6 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // For loading localized message values
             messageLoader: {
                 type: "fluid.resourceLoader",
+                createOnEvent: "onResourceLoadRequested",
                 options: {
                     resources: {
                         componentMessages: "{templateManager}.options.templateConfig.messagesPath"
@@ -73,6 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // For loading the handlebars template
             templateLoader: {
                 type: "fluid.resourceLoader",
+                createOnEvent: "onResourceLoadRequested",
                 options: {
                     resources: {
                         componentTemplate: "{templateManager}.options.templateConfig.templatePath"
