@@ -13,12 +13,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // Provides the Learning Reflections framing to the site
+    // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections", {
         gradeNames: ["sjrk.storyTelling.uiManager"],
         selectors: {
+            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container",
             learningReflectionsIntro: ".sjrkc-learningReflections-introduction-container",
-            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container"
+            learningReflectionsFooter: ".sjrkc-learningReflections-pageFooter-container"
         },
         modelRelay: [
             {
@@ -34,10 +35,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 singleTransform: {
                     type: "fluid.transforms.identity"
                 }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{learningReflectionsFooter}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
             }
         ],
         components: {
-            // masthead/banner section for the site
+            // masthead/banner section
             learningReflectionsMasthead: {
                 type: "sjrk.storyTelling.ui",
                 container: "{learningReflections}.options.selectors.learningReflectionsMasthead",
@@ -54,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            // introductory content for learning reflection
+            // introductory content
             learningReflectionsIntro: {
                 type: "sjrk.storyTelling.ui",
                 container: "{learningReflections}.options.selectors.learningReflectionsIntro",
@@ -65,6 +73,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/templates/learningReflections-introduction.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            // footer section
+            learningReflectionsFooter: {
+                type: "sjrk.storyTelling.ui",
+                container: "{learningReflections}.options.selectors.learningReflectionsFooter",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/src/templates/learningReflections-footer.handlebars"
                                 }
                             }
                         }
