@@ -1,0 +1,15 @@
+{
+    "message_blockHeadingLabel": "Encabezado de bloque",
+    "message_blockHeadingPlaceholder": "Agregue un encabezado descriptivo (opcional): esto puede ayudar a los usuarios del lector de pantalla y a otros a navegar su historia más fácilmente.",
+    "message_textInputLabel": "Ingrese texto en el cuadro",
+    "message_textInputPlaceholder": "Comience a escribir aquí",
+    "message_simplifiedTextInputLabel": "Texto simplificado",
+    "message_simplifiedTextInputPlaceholder": "Agregue texto simplificado (opcional): esto puede ser útil para aquellos que están aprendiendo el idioma, aquellos con dificultades para procesar el texto o aquellos que tienen prisa.",
+    "message_imageAltTextInputLabel": "Texto alternativo",
+    "message_imageAltTextInputPlaceholder": "Ingresa el texto alternativo aquí",
+    "message_imageDescriptionInputLabel": "Descripción de la imagen",
+    "message_imageDescriptionInputPlaceholder": "Ingrese la descripción aquí",
+    "message_imageUploadButton": "Cargar imagen",
+    "message_imageCaptureButton": "Capturar imagen",
+    "message_blockSelectionCheckboxLabel": "Seleccione este bloque"
+}
