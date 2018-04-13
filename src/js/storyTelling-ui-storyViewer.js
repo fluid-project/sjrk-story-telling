@@ -72,6 +72,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         managedViewComponents: {
                             options: {
                                 components: {
+                                    templateManager: {
+                                        options: {
+                                            model: {
+                                                locale: "{ui}.templateManager.model.locale"
+                                            }
+                                        }
+                                    },
                                     block: {
                                         options: {
                                             model: "{blockUi}.options.additionalConfiguration.modelValues"

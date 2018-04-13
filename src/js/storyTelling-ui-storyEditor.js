@@ -132,6 +132,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             args: ["{storyEditor}.story", "{that}.managedViewComponentRegistry", "{storyEditor}.events.onStoryUpdatedFromBlocks"],
                             priority: "first"
                         }
+                    },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                components: {
+                                    templateManager: {
+                                        options: {
+                                            model: {
+                                                locale: "{ui}.templateManager.model.locale"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
