@@ -32,6 +32,7 @@
 <script src="node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
 <script src="src/js/dynamicViewComponentManager.js"></script>
+<script src="src/js/learningReflections.js"></script>
 <script src="src/js/storyTelling-binder.js"></script>
 <script src="src/js/storyTelling-block.js"></script>
 <script src="src/js/storyTelling-block-text.js"></script>
@@ -98,49 +99,18 @@
 </div>
 
 
-<div class="sjrk-learningReflections-pageHeading-container">
-    <h1 class="sjrk-learningReflections-pageHeading">
-        <span class="sjrk-learningReflections-pageHeading-mainTitle">Learning Reflections</span>: <span class="sjrk-learningReflections-pageHeading-subTitle">a Storytelling Project</span>
-    </h1>
-    <div class="sjrk-learningReflections-pageHeading-heartBook-container">
-        <img class="sjrk-learningReflections-pageHeading-heartBook" alt="" src="src/img/icons/icon-heartBook.png" />
-    </div>
-</div>
+<div class="sjrk-learningReflections-pageHeading-container sjrkc-learningReflections-pageHeading-container"></div>
 
 <div class="sjrk-learningReflections-toc-container">
     <div class="flc-toc-tocContainer toc"> </div>
 </div>
 <div class="sjrk-learningReflections-pageBody-container">
-    <div class="sjrk-learningReflections-introduction-container">
-        <p>
-            <strong>We all learn differently.</strong> Most of us can probably recall a time when we had trouble learning something new, or perhaps a time when something came easily to us. What was it about the learning experience that didn't work for us, and what was it that worked well?
-        </p>
-
-        <p>
-            The goal of this site is to gather stories about unique learning styles. We'd like to hear your story about how you learn best.
-        </p>
-
-        <p class="sjrk-learningReflections-small-text">
-            You may want to consider the following ideas as you create your story:
-            <ul class="sjrk-learningReflections-small-text sjrk-learningReflections-list-hearts">
-                <li>Describe how you learned to do something you now do regularly</li>
-                <li>Consider something you've tried to learn to do, but haven't been able to learn in a way that satisfies you</li>
-                <li>Think of a challenge you had while learning something new</li>
-                <li>Describe how you taught someone else to do something</li>
-                <li>Consider something that surprised you &mdash; for example, something you didn't think would help you learn but did</li>
-                <li>Describe a time you learned something when you didn't expect to</li>
-            </ul>
-        </p>
-
-
-    </div>
-
+    <div class="sjrk-learningReflections-introduction-container sjrkc-learningReflections-introduction-container"></div>
     <div class="sjrk-learningReflections-story-editor-container">
         <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div>
         <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div>
         <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-viewer"></div>
     </div>
-
 </div>
 
 <div class="sjrk-learningReflections-pageFooter-container">
@@ -160,7 +130,7 @@
 </div>
 
 <script>
-    var storyBlockTest = sjrk.storyTelling.uiManager({});
+    var storyBlockTest = sjrk.storyTelling.learningReflections({});
 </script>
 
 <script>

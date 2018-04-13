@@ -21,9 +21,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en" //initial state is English (TODO: is there a better way?)
         },
         selectors: {
+            menu: ".sjrkc-storyTelling-menu-links",
             storyEditor: ".sjrkc-storyTelling-story-editor",
-            storyViewer: ".sjrkc-storyTelling-story-viewer",
-            menu: ".sjrkc-storyTelling-menu-links"
+            storyViewer: ".sjrkc-storyTelling-story-viewer"
         },
         events: {
             onStoryListenToRequested: null,
@@ -72,7 +72,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modelListeners: {
             uiLanguage: {
                 funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
-                excludeSource: "init",
                 args: ["{that}"]
             }
         },
@@ -159,7 +158,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.uiManager.renderAllUiTemplates = function (component) {
         fluid.each(component, function (subcomponent) {
-            if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui.")) {
+            if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui")) {
                 subcomponent.templateManager.events.onResourceLoadRequested.fire();
 
                 // TODO: find a way to have the blocks persisted as well

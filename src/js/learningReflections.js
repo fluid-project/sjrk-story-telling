@@ -13,29 +13,58 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.ui.storyEditor.learningReflections", {
-        gradeNames: ["sjrk.storyTelling.ui.storyEditor"],
+    // Provides the Learning Reflections framing to the site
+    fluid.defaults("sjrk.storyTelling.learningReflections", {
+        gradeNames: ["sjrk.storyTelling.uiManager"],
+        selectors: {
+            learningReflectionsIntro: ".sjrkc-learningReflections-introduction-container",
+            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container"
+        },
+        modelRelay: [
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{learningReflectionsMasthead}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{learningReflectionsIntro}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            }
+        ],
         components: {
-            templateManager: {
+            // masthead/banner section for the site
+            learningReflectionsMasthead: {
+                type: "sjrk.storyTelling.ui",
+                container: "{learningReflections}.options.selectors.learningReflectionsMasthead",
                 options: {
-                    templateConfig: {
-                        resourcePrefix: "../.."
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/src/templates/learningReflections-masthead.handlebars"
+                                }
+                            }
+                        }
                     }
                 }
             },
-            blockManager: {
+            // introductory content for learning reflection
+            learningReflectionsIntro: {
+                type: "sjrk.storyTelling.ui",
+                container: "{learningReflections}.options.selectors.learningReflectionsIntro",
                 options: {
-                    dynamicComponents: {
-                        managedViewComponents: {
+                    components: {
+                        templateManager: {
                             options: {
-                                components: {
-                                    templateManager: {
-                                        options: {
-                                            templateConfig: {
-                                                resourcePrefix: "../.."
-                                            }
-                                        }
-                                    }
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/src/templates/learningReflections-introduction.handlebars"
                                 }
                             }
                         }
