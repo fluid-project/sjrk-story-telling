@@ -113,9 +113,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
                 container: "{ui}.options.selectors.storyEditorContent",
-                createOnEvent: "{templateManager}.events.onAllResourcesLoaded",
+                createOnEvent: "{templateManager}.events.onTemplateRendered",
                 options: {
                     listeners: {
+                        // TODO: pick a more accurate name for this listener
+                        "onCreate.renderStoryContent": {
+                            "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
+                            "args": ["{story}.model.content", "{storyEditor}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
+                        },
                         "{storyEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addTextBlock",
@@ -142,6 +147,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                             model: {
                                                 locale: "{ui}.templateManager.model.locale"
                                             }
+                                        }
+                                    },
+                                    // TODO: this won't work because it's not a model bind
+                                    block: {
+                                        options: {
+                                            model: "{blockUi}.options.additionalConfiguration.modelValues"
                                         }
                                     }
                                 }

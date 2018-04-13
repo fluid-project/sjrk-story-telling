@@ -161,12 +161,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui")) {
                 subcomponent.templateManager.events.onResourceLoadRequested.fire();
 
-                // TODO: find a way to have the blocks persisted as well
                 // fluid.each(subcomponent, function (blockManager) {
                 //     if (blockManager && blockManager.typeName && blockManager.typeName === "sjrk.dynamicViewComponentManager") {
-                //         fluid.each(blockManager.managedViewComponentRegistry, function (block) {
-                //             block.templateManager.events.onResourceLoadRequested.fire();
-                //         });
+                //         // debugger
+                //         sjrk.storyTelling.ui.createBlocksFromData(subcomponent.story.model.content, subcomponent.options.blockTypeLookup, blockManager.events.viewComponentContainerRequested);
                 //     }
                 // });
             }
