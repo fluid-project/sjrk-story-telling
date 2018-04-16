@@ -68,7 +68,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
             "func": "{that}.getDiskStorage"
         },
         "getDiskStorageDestinationFunc": {
-            "funcName": "kettle.middleware.multer.getDefaultDiskStorageDestinationFunc",
+            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc",
             "args": ["./uploads"]
         }
     }

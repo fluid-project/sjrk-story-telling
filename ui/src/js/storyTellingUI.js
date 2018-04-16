@@ -91,6 +91,9 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections", {
         },
         storyViewer: {
             options: {
+                events: {
+                    onShareRequested: null
+                },
                 components: {
                     templateManager: {
                         options: {
@@ -119,10 +122,18 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections", {
                         }
                     }
                 },
+                selectors: {
+                    storyShare: ".sjrkc-storyTelling-storyShare"
+                },
                 listeners: {
-                    "onSaveNoShareRequested.submitStory": {
+                    "onReadyToBind.bindShareControl": {
+                        "this": "{that}.dom.storyShare",
+                        "method": "click",
+                        "args": ["{that}.events.onShareRequested.fire"]
+                    },
+                    "onShareRequested.submitStory": {
                         funcName: "sjrk.storyTelling.server.learningReflections.submitStory",
-                        args: ["{editor}"]
+                        args: ["{storyEditor}"]
                     }
                 }
             }
