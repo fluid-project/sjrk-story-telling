@@ -18,12 +18,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 require("infusion");
 require("kettle");
+fluid.setLogging(true);
 
 var sjrk = fluid.registerNamespace("sjrk");
 require("fluid-couch-config");
 
 fluid.defaults("sjrk.storyTelling.server.storiesDb", {
-    gradeNames: ["fluid.couchConfig.pipeline"],
+    gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     couchOptions: {
         dbName: "stories"
     },
@@ -31,23 +32,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
         "onCreate.configureCouch": "{that}.configureCouch",
         "onSuccess.logSuccess": "fluid.log(SUCCESS)",
         "onError.logError": "fluid.log({arguments}.0.message)",
-        "onError.handleRetry": "{that}.handleRetry"
-    },
-    retryConfig: {
-        maxRetries: 3,
-        retryDelay: 10
-    },
-    members: {
-        currentTries: 0
-    },
-    invokers: {
-        handleRetry: {
-            funcName: "sjrk.storyTelling.server.storiesDb.handleRetry",
-            args: ["{that}"]
-        },
-        retryingFunction: {
-            func: "{that}.configureCouch"
-        }
     },
     dbDocuments: {
         "storyExample": {
@@ -96,22 +80,6 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
     if (!newDoc.type) {
         throw ({forbidden: "doc.type is required"});
-    }
-};
-
-sjrk.storyTelling.server.storiesDb.handleRetry = function (that) {
-    var maxRetries = that.options.retryConfig.maxRetries,
-        retryDelay = that.options.retryConfig.retryDelay,
-        currentTries = that.currentTries;
-    if (currentTries < maxRetries) {
-        that.currentTries = that.currentTries + 1;
-        fluid.log("Retry " + that.currentTries + " of " + maxRetries + "; retrying after " + retryDelay + " seconds");
-        setTimeout(function () {
-            that.retryingFunction();
-        }, retryDelay * 1000);
-
-    } else {
-        fluid.log("Max retries exceeded");
     }
 };
 
