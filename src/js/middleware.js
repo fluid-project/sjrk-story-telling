@@ -68,7 +68,14 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
             "func": "{that}.getDiskStorage"
         },
         "getDiskStorageDestinationFunc": {
-            "funcName": "kettle.middleware.multer.getDefaultDiskStorageDestinationFunc"
+            "funcName": "kettle.middleware.multer.getDefaultDiskStorageDestinationFunc",
+            "args": ["./uploads"]
         }
     }
 });
+
+sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc = function (uploadDirectory) {
+    return function (req, file, cb) {
+        cb(null, uploadDirectory);
+    };
+};

@@ -63,28 +63,45 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
-            args: ["{request}"]
+            args: ["{request}", "{server}.storyDataSource"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request) {
+sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource) {
+
+    var id = uuidv1();
+
     var storyModel = JSON.parse(request.req.body.model);
 
-    fluid.each(storyModel.content, function (block) {
+    fluid.transform(storyModel.content, function (block) {
+        console.log(block);
         if (block.blockType === "image") {
             var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                return singleFile.filename === block.fileDetails.name;
+                console.log(singleFile);
+                return singleFile.originalname === block.fileDetails.name;
             });
-
+            console.log(imageFile);
             block.imageUrl = imageFile.filename;
+            return block;
         }
     });
 
     // Then persist that model to couch, with the updated
     // references to where the binaries are saved
+    // TODO: remove fileDetails since it's not needed for persistence
 
-    request.events.onSuccess.fire("It worked!");
+    var promise = dataSource.set({directStoryId: id}, storyModel);
+
+    promise.then(function (response) {
+        var responseAsJSON = JSON.stringify(response);
+        request.events.onSuccess.fire(responseAsJSON);
+    }, function (error) {
+        var errorAsJSON = JSON.stringify(error);
+        request.events.onError.fire({
+            message: errorAsJSON
+        });
+    });
 };
 
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {

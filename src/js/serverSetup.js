@@ -27,14 +27,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                             distributeOptions: {
                                 target: "{that}.options.host",
                                 record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            },
-                            listeners: {
-                                "onCreate.log": {
-                                    "this": "console",
-                                    "method": "log",
-                                    "args": ["{that}.options.url"],
-                                    "priority": "first"
-                                }
                             }
                         }
                     },

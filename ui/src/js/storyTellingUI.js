@@ -1,11 +1,63 @@
-fluid.defaults("sjrk.storyTelling.uiManager.learningReflections", {
-    gradeNames: ["sjrk.storyTelling.uiManager"],
+fluid.defaults("sjrk.storyTelling.server.learningReflections", {
+    gradeNames: ["sjrk.storyTelling.learningReflections"],
     selectors: {
         storyBlockEditor: ".sjrkc-storyTelling-block-editor"
     },
     // TODO: this is too pointy and we should this with distributeOptions
     components: {
-        editor: {
+        learningReflectionsMasthead: {
+            options: {
+                components: {
+                    templateManager: {
+                        options: {
+                            templateConfig: {
+                                resourcePrefix: "node_modules/sjrk-story-telling"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        learningReflectionsIntro: {
+            options: {
+                components: {
+                    templateManager: {
+                        options: {
+                            templateConfig: {
+                                resourcePrefix: "node_modules/sjrk-story-telling"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        learningReflectionsFooter: {
+            options: {
+                components: {
+                    templateManager: {
+                        options: {
+                            templateConfig: {
+                                resourcePrefix: "node_modules/sjrk-story-telling"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        menu: {
+            options: {
+                components: {
+                    templateManager: {
+                        options: {
+                            templateConfig: {
+                                resourcePrefix: "node_modules/sjrk-story-telling"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        storyEditor: {
             options: {
                 components: {
                     templateManager: {
@@ -37,7 +89,7 @@ fluid.defaults("sjrk.storyTelling.uiManager.learningReflections", {
                 }
             }
         },
-        previewer: {
+        storyViewer: {
             options: {
                 components: {
                     templateManager: {
@@ -69,7 +121,7 @@ fluid.defaults("sjrk.storyTelling.uiManager.learningReflections", {
                 },
                 listeners: {
                     "onSaveNoShareRequested.submitStory": {
-                        funcName: "sjrk.storyTelling.uiManager.learningReflections.submitStory",
+                        funcName: "sjrk.storyTelling.server.learningReflections.submitStory",
                         args: ["{editor}"]
                     }
                 }
@@ -78,7 +130,7 @@ fluid.defaults("sjrk.storyTelling.uiManager.learningReflections", {
     }
 });
 
-sjrk.storyTelling.uiManager.learningReflections.submitStory = function (that) {
+sjrk.storyTelling.server.learningReflections.submitStory = function (that) {
 
     // TODO: add proper selector for form
     var form = that.container.find("form");
