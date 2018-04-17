@@ -84,12 +84,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /* Fabricates a grade based on the model values passed in from the event
-    /* This roundabout approach is necessary to ensure that we can have
-    /* model values from the event merged successfully with the base values
-    /* of the block
-    /* TODO: is there a better approach than this, perhaps something using
-    /* a mergePolicy?
-    */
+     * This roundabout approach is necessary to ensure that we can have
+     * model values from the event merged successfully with the base values
+     * of the block
+     * TODO: is there a better approach than this, perhaps something using
+     * a mergePolicy?
+     * TODO: review the grade name 'path'. Should it be part of storyEditor?
+     */
     sjrk.storyTelling.ui.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
         var gradeName = "sjrk.storyTelling.ui.storyEditor.block-" + fluid.allocateGuid();
         fluid.defaults(gradeName, {
