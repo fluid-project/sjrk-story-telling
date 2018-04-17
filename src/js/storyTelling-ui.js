@@ -83,6 +83,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire();
     };
 
+    /* Fabricates a grade based on the model values passed in from the event
+    /* This roundabout approach is necessary to ensure that we can have
+    /* model values from the event merged successfully with the base values
+    /* of the block
+    /* TODO: is there a better approach than this, perhaps something using
+    /* a mergePolicy?
+    */
+    sjrk.storyTelling.ui.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
+        var gradeName = "sjrk.storyTelling.ui.storyEditor.block-" + fluid.allocateGuid();
+        fluid.defaults(gradeName, {
+            // TODO: this should test that modelValuesFromEvent is a legitimate
+            // model object, rather than simply existing
+            model: modelValuesFromEvent  ? modelValuesFromEvent : {}
+        });
+        return gradeName;
+    };
+
     // TODO: add tests for this function in the appropriate place(s)
     /* Given a collection of story block data, will fire a creation event for each,
      * specifying a grade name based on a lookup list. The format of the lookup list is:
@@ -96,6 +113,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "createEvent": the event that is to be fired in order to create the blocks
      */
     sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
+        console.log("sjrk.storyTelling.ui.createBlocksFromData");
         fluid.each(storyBlocks, function (blockData) {
             var gradeNames = blockTypeLookup[blockData.blockType];
             createEvent.fire(gradeNames, {modelValues: blockData});

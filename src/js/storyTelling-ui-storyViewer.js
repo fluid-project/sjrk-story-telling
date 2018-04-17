@@ -81,7 +81,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     },
                                     block: {
                                         options: {
-                                            model: "{blockUi}.options.additionalConfiguration.modelValues"
+                                            gradeNames: ["{that}.getBlockGrade"],
+                                            invokers: {
+                                                "getBlockGrade": {
+                                                    funcName: "sjrk.storyTelling.ui.getBlockGradeFromEventModelValues",
+                                                    args: ["{blockUi}.options.additionalConfiguration.modelValues"]
+                                                }
+                                            }
                                         }
                                     }
                                 }
