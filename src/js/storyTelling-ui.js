@@ -113,7 +113,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "createEvent": the event that is to be fired in order to create the blocks
      */
     sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
-        console.log("sjrk.storyTelling.ui.createBlocksFromData");
         fluid.each(storyBlocks, function (blockData) {
             var gradeNames = blockTypeLookup[blockData.blockType];
             createEvent.fire(gradeNames, {modelValues: blockData});

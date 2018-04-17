@@ -33,9 +33,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onViewerReady: "{storyViewer}.events.onControlsBound"
                 }
             },
+            onContextChangeRequested: null, // TODO: think of a better name
             onVisibilityChanged: null
         },
         listeners: {
+            "onContextChangeRequested.updateStoryFromBlocks": {
+                func: "{storyEditor}.events.onUpdateStoryFromBlocksRequested.fire",
+                priority: "first"
+            },
             // TODO: add namespaces for each event from a component?
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyViewer}.templateManager.renderTemplateOnSelf",
@@ -70,10 +75,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         modelListeners: {
-            uiLanguage: {
-                funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
-                args: ["{that}"]
-            }
+            uiLanguage: [
+                {
+                    funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
+                    args: ["{that}"]
+                },
+                {
+                    funcName: "{that}.events.onContextChangeRequested.fire"
+                }
+            ]
         },
         modelRelay: [
             {
@@ -136,7 +146,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: "{uiManager}.options.selectors.storyEditor"
+                container: "{uiManager}.options.selectors.storyEditor",
+                options: {
+                    listeners: {
+                        // TODO: determine if there is a better way to "register" these
+                        onStorySubmitRequested: "{uiManager}.events.onContextChangeRequested.fire",
+                        onEditorNextRequested: "{uiManager}.events.onContextChangeRequested.fire",
+                        onEditorPreviousRequested: "{uiManager}.events.onContextChangeRequested.fire"
+                    }
+                }
             },
             // the story view context
             // TODO: consider rolling the storyViewer context into the storyEditor
@@ -144,6 +162,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.storyViewer",
                 container: "{uiManager}.options.selectors.storyViewer",
                 options: {
+                    listeners: {
+                        onStoryViewerPreviousRequested: "{uiManager}.events.onContextChangeRequested.fire"
+                    },
                     components: {
                         story: {
                             options: {
@@ -160,13 +181,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.each(component, function (subcomponent) {
             if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui")) {
                 subcomponent.templateManager.events.onResourceLoadRequested.fire();
-
-                // fluid.each(subcomponent, function (blockManager) {
-                //     if (blockManager && blockManager.typeName && blockManager.typeName === "sjrk.dynamicViewComponentManager") {
-                //         // debugger
-                //         sjrk.storyTelling.ui.createBlocksFromData(subcomponent.story.model.content, subcomponent.options.blockTypeLookup, blockManager.events.viewComponentContainerRequested);
-                //     }
-                // });
             }
         });
     };

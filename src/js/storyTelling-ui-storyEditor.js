@@ -42,6 +42,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
             onRestoreBlocksRequested: null,
+            onUpdateStoryFromBlocksRequested: null,
             onStoryUpdatedFromBlocks: null
         },
         listeners: {
@@ -131,7 +132,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             namespace: "addImageBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                         },
-                        "{storyEditor}.events.onStorySubmitRequested": {
+                        "{storyEditor}.events.onUpdateStoryFromBlocksRequested": {
                             funcName: "sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks",
                             namespace: "updateStoryFromBlocks",
                             args: ["{storyEditor}.story", "{that}.managedViewComponentRegistry", "{storyEditor}.events.onStoryUpdatedFromBlocks"],
