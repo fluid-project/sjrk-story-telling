@@ -14,8 +14,6 @@
         <a class="sjrkc-storyTelling-storyListenTo sjrk-storyTelling-storyListenTo" href="javascript:void(0);">{{localizedMessages.message_storyListenToText}}</a>
     </div>
 
-    <div class="sjrkc-storyTelling-storyContent sjrk-storyTelling-storyContent"></div>
-
     <div hidden class="sjrk-storyTelling-link-container">
         <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_storyReadMoreText}}</a>
     </div>
@@ -31,6 +29,10 @@
             {{#each dynamicValues.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
         </span>
     </div>
+
+    <hr class="sjrk-storyTelling-view-separator" />
+
+    <div class="sjrkc-storyTelling-storyContent sjrk-storyTelling-storyContent"></div>
 
     <div hidden class="sjrk-storyTelling-categories-container">
         {{localizedMessages.message_storyListCategoriesLabelText}}: <span class="sjrkc-storyTelling-storyCategories sjrk-storyTelling-storyCategories">

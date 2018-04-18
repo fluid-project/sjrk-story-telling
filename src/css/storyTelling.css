@@ -97,8 +97,7 @@ fieldset ul {
 }
 
 .sjrk-storyTelling-story-previewPane, .sjrk-storyTelling-story-viewer-main-container {
-    border: solid 1px #000;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .sjrk-storyTelling-story-viewer-heading-container,
@@ -124,13 +123,14 @@ fieldset ul {
     margin: 0;
 }
 
-.sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyAuthor {
-    font-size: 1.25em;
-    margin-top: 0;
-}
-
 .sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyListTags,
 .sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyLanguage,
 .sjrk-storyTelling-story-viewer .sjrk-storyTelling-storyCategories {
     font-weight: normal;
+}
+
+.sjrk-storyTelling-view-separator {
+    border: 0;
+    border-bottom: 1px dashed;
+    margin: 2rem 0;
 }
