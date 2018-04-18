@@ -198,7 +198,7 @@ textarea {
     display: block;
 }
 
-.sjrk-storyblock-image-preview[src=""] {
+.sjrk-storyblock-image-preview[src=""], .sjrk-storyblock-image-preview:not([src]) {
     display: block;
     width: 15rem;
     height: 13.5rem;

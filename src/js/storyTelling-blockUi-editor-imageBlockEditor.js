@@ -44,12 +44,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             imageUploadRequested: null
         },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": {
-                this: "{that}.dom.imageUploadButton",
-                method: "click",
-                args: ["{that}.events.imageUploadRequested.fire"],
-                namespace: "bindImageUploadRequested"
-            }
+            "{templateManager}.events.onTemplateRendered": [
+                {
+                    this: "{that}.dom.imageUploadButton",
+                    method: "click",
+                    args: ["{that}.events.imageUploadRequested.fire"],
+                    namespace: "bindImageUploadRequested"
+                },
+                {
+                    func: "{blockUi}.updateImagePreview",
+                    args: ["{that}.block.model.imageUrl"],
+                    namespace: "updateImagePreview"
+                }
+            ]
         },
         components: {
             block: {
