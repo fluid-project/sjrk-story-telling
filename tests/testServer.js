@@ -15,7 +15,8 @@ var fluid = require("infusion"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
 require("../src/js/staticHandlerBase");
-require("../src/js/middleware");
+require("../src/js/middleware/saveStoryWithBinaries");
+require("../src/js/middleware/staticMiddlewareSubdirectoryFilter");
 require("../src/js/dataSource");
 require("../src/js/serverSetup");
 require("../src/js/requestHandlers");

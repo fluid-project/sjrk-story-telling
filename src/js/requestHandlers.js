@@ -53,8 +53,7 @@ sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource, isS
 };
 
 // TODO: this needs a corresponding get handler
-// TODO: the get handler will need to provide an expanded URL for the binaries,
-// based on the config
+// TODO: the get handler will need to provide an expanded URL for the binary locations, based on the config
 fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     gradeNames: "kettle.request.http",
     requestMiddleware: {
