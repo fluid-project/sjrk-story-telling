@@ -32,7 +32,8 @@ fieldset ul {
     text-align: right;
 }
 
-.sjrk-storyTelling-storyEditorPage2, .sjrk-storyTelling-story-viewer {
+/* TODO: Initial visibility of the editor pages should not be set in CSS */
+.sjrk-storyTelling-storyEditorPage2, .sjrkc-storyTelling-story-previewer {
     display: none;
 }
 
