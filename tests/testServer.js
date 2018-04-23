@@ -27,7 +27,7 @@ kettle.loadTestingSupport();
 var sjrk = fluid.registerNamespace("sjrk");
 
 sjrk.storyTelling.server.testServerDefs = [{
-    name: "Basic serve tests",
+    name: "Basic server tests",
     expect: 2,
     config: {
         configName: "sjrk.storyTelling.server.test",

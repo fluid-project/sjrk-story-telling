@@ -31,6 +31,7 @@
     "grunt": "1.0.1",
     "grunt-eslint": "20.0.0",
     "node-jqunit": "1.1.8",
-    "grunt-jsonlint": "1.1.0"
+    "grunt-jsonlint": "1.1.0",
+    "gpii-pouchdb": "1.0.7"
   }
 }
