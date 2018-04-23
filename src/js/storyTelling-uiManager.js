@@ -23,14 +23,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         selectors: {
             menu: ".sjrkc-storyTelling-menu-links",
             storyEditor: ".sjrkc-storyTelling-story-editor",
-            storyViewer: ".sjrkc-storyTelling-story-viewer"
+            storyPreviewer: ".sjrkc-storyTelling-story-previewer"
         },
         events: {
             onStoryListenToRequested: null,
             onAllUiComponentsReady: {
                 events: {
                     onEditorReady: "{storyEditor}.events.onControlsBound",
-                    onViewerReady: "{storyViewer}.events.onControlsBound"
+                    onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
             onContextChangeRequested: null, // TODO: think of a better name
@@ -43,21 +43,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // TODO: add namespaces for each event from a component?
             "{storyEditor}.events.onStorySubmitRequested": [{
-                func: "{storyViewer}.templateManager.renderTemplateOnSelf",
-                args: ["{storyViewer}.story.model"]
+                func: "{storyPreviewer}.templateManager.renderTemplateOnSelf",
+                args: ["{storyPreviewer}.story.model"]
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
                     ["{storyEditor}.container"],
-                    ["{storyViewer}.container"],
+                    ["{storyPreviewer}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
             }],
-            "{storyViewer}.events.onStoryViewerPreviousRequested": {
+            "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{storyViewer}.container"],
+                    ["{storyPreviewer}.container"],
                     ["{storyEditor}.container"],
                     "{that}.events.onVisibilityChanged"
                 ]
@@ -66,7 +66,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "{storyEditor}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
             },
-            "{storyViewer}.events.onStoryListenToRequested": {
+            "{storyPreviewer}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire"
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": {
@@ -102,7 +102,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 source: "{that}.model.uiLanguage",
-                target: "{storyViewer}.templateManager.model.locale",
+                target: "{storyPreviewer}.templateManager.model.locale",
                 singleTransform: {
                     type: "fluid.transforms.identity"
                 }
@@ -158,9 +158,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // the story view context
             // TODO: consider rolling the storyViewer context into the storyEditor
-            storyViewer: {
+            storyPreviewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
-                container: "{uiManager}.options.selectors.storyViewer",
+                container: "{uiManager}.options.selectors.storyPreviewer",
                 options: {
                     listeners: {
                         onStoryViewerPreviousRequested: "{uiManager}.events.onContextChangeRequested.fire"
