@@ -33,7 +33,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     listeners: {
         "onCreate.configureCouch": "{that}.configureCouch",
         "onSuccess.logSuccess": "fluid.log(SUCCESS)",
-        "onError.logError": "fluid.log({arguments}.0.message)",
+        "onError.logError": "fluid.log({arguments}.0.message)"
     },
     dbDocuments: {
         "storyExample": {

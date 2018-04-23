@@ -10,7 +10,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 "use strict";
 
 var fluid = require("infusion");
-var path = require("path");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");

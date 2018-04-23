@@ -1,6 +1,6 @@
 {
     "type": "sjrk.storyTelling.server.testServer",
-    options: {
+    "options": {
         "gradeNames": ["sjrk.storyTelling.server"]
     }
 }

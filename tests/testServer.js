@@ -39,7 +39,7 @@ sjrk.storyTelling.server.testServerDefs = [{
             options: {
                 path: "/node_modules/sjrk-story-telling/src/js/dynamicViewComponentManager.js",
                 method: "GET"
-                }
+            }
         },
         invalidNodeModulesRequest: {
             type: "kettle.test.request.http",
