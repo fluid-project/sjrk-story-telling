@@ -37,7 +37,16 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
                     nodeModulesFilter: {
-                        type: "sjrk.storyTelling.server.staticMiddlewareFilter"
+                        type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
+                        options: {
+                            allowedSubdirectories: [
+                                "infusion",
+                                "gpii-binder",
+                                "sjrk-story-telling",
+                                "handlebars",
+                                "pagedown",
+                                "gpii-handlebars"]
+                        }
                     },
                     nodeModules: {
                         type: "kettle.middleware.static",

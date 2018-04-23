@@ -15,31 +15,26 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-fluid.defaults("sjrk.storyTelling.server.staticMiddlewareFilter", {
+fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
     gradeNames: "kettle.middleware",
     invokers: {
         handle: {
-            funcName: "sjrk.storyTelling.server.staticMiddlewareFilter.handle",
-            args: ["{request}", "{that}.options.allowedDirectories"]
+            funcName: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter.handle",
+            args: ["{arguments}.0", "{that}.options.allowedSubdirectories"]
         }
     },
-    allowedDirectories: [
-        "infusion",
-        "gpii-binder",
-        "sjrk-story-telling",
-        "handlebars",
-        "pagedown",
-        "gpii-handlebars"]
+    // This should be a list of allowed subdirectory names
+    allowedSubdirectories: []
 });
 
-sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allowedDirectories) {
+sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter.handle = function (request, allowedSubdirectories) {
     var togo = fluid.promise();
 
     var directory = path.parse(request.req.url).dir;
     //Because directory is always from a URL, it will always split on a forward slash
-    var requestedNodeModulesDir = directory.split("/")[1];
+    var requestedSubdirectory = directory.split("/")[1];
 
-    var isAllowed = fluid.contains(allowedDirectories, requestedNodeModulesDir);
+    var isAllowed = fluid.contains(allowedSubdirectories, requestedSubdirectory);
 
     if (isAllowed) {
         togo.resolve();
@@ -54,7 +49,6 @@ sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allo
     return togo;
 };
 
-// TODO: make disk storage location configurable
 fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
     gradeNames: ["kettle.middleware.multer"],
     binaryUploadOptions: {
