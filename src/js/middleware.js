@@ -54,6 +54,7 @@ sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allo
     return togo;
 };
 
+// TODO: make disk storage location configurable
 fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
     gradeNames: ["kettle.middleware.multer"],
     invokers: {

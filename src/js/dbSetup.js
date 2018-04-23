@@ -23,6 +23,8 @@ fluid.setLogging(true);
 var sjrk = fluid.registerNamespace("sjrk");
 require("fluid-couch-config");
 
+// TODO: the examples should be removed
+// TODO: what additional views are needed?
 fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     couchOptions: {
