@@ -57,11 +57,15 @@ sjrk.storyTelling.server.staticMiddlewareFilter.handle = function (request, allo
 // TODO: make disk storage location configurable
 fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
     gradeNames: ["kettle.middleware.multer"],
+    binaryUploadOptions: {
+        fileMaxCount: 10,
+        uploadDirectory: "./uploads"
+    },
     invokers: {
         "getMiddlewareForFileStrategy": {
             "funcName": "kettle.middleware.multer.getMiddlewareForFileStrategy",
             "args": ["{that}", "fields", [
-                    {name: "file", maxCount: 10},
+                    {name: "file", maxCount: "{that}.options.binaryUploadOptions.fileMaxCount"},
                     {name: "model", maxCount: 1}
             ]]
         },
@@ -70,7 +74,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
         },
         "getDiskStorageDestinationFunc": {
             "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc",
-            "args": ["./uploads"]
+            "args": ["{that}.options.binaryUploadOptions.uploadDirectory"]
         }
     }
 });
