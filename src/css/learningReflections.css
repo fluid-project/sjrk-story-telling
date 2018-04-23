@@ -65,6 +65,10 @@ textarea {
     grid-gap: 4rem;
 }
 
+.sjrk-learningReflections-pageBody-container-oneColumn {
+    display: block;
+}
+
 .sjrk-learningReflections-small-text {
     font-size: 1rem;
 }
