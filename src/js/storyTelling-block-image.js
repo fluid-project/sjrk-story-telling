@@ -23,16 +23,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             description: null
         },
         modelRelay: {
-            target: "text",
+            target: "contentString",
             singleTransform: {
                 type: "fluid.transforms.free",
-                func: "sjrk.storyTelling.block.imageBlock.updateText",
+                func: "sjrk.storyTelling.block.imageBlock.updateContentString",
                 args: ["{that}.model.heading", "{that}.model.alternativeText", "{that}.model.description"]
             }
         }
     });
 
-    sjrk.storyTelling.block.imageBlock.updateText = function (heading, alternativeText, description) {
+    sjrk.storyTelling.block.imageBlock.updateContentString = function (heading, alternativeText, description) {
         return heading + ". " + alternativeText + ". " + description;
     };
 

@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var contentString = "";
 
         fluid.each(content, function (block) {
-            contentString += ". " + block.text;
+            contentString += ". " + block.contentString;
         });
 
         return contentString;
