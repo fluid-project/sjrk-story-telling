@@ -120,4 +120,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
+    /* Updates a story's model based on the individual models of all blocks,
+     * in the order in which they're stored.
+     * - "story": the story component
+     * - "editorComponents": the individual block editor UI's
+     * - "completionEvent": the event to be fired upon successful completion
+     */
+    sjrk.storyTelling.ui.updateStoryFromBlocks = function (story, editorComponents, completionEvent) {
+        var storyContent = [];
+
+        fluid.each(editorComponents, function (editor) {
+            var blockData = editor.block.model;
+            storyContent.push(blockData);
+        });
+
+        story.applier.change("content", storyContent);
+
+        completionEvent.fire();
+    };
+
 })(jQuery, fluid);

@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             "args": ["{story}.model.content", "{storyViewer}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
                         },
                         "onCreate.updateStoryFromBlocks": {
-                            "funcName": "sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks",
+                            "funcName": "sjrk.storyTelling.ui.updateStoryFromBlocks",
                             "args": ["{storyViewer}.story", "{that}.managedViewComponentRegistry", "{storyViewer}.events.onStoryUpdatedFromBlocks"],
                             "priority": "last"
                         }

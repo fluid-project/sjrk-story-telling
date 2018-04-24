@@ -133,7 +133,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                         },
                         "{storyEditor}.events.onUpdateStoryFromBlocksRequested": {
-                            funcName: "sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks",
+                            funcName: "sjrk.storyTelling.ui.updateStoryFromBlocks",
                             namespace: "updateStoryFromBlocks",
                             args: ["{storyEditor}.story", "{that}.managedViewComponentRegistry", "{storyEditor}.events.onStoryUpdatedFromBlocks"],
                             priority: "first"
@@ -225,25 +225,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
-    };
-
-    /* Updates a story's model based on the individual models of all blocks,
-     * in the order in which they're stored.
-     * - "story": the story component
-     * - "editorComponents": the individual block editor UI's
-     * - "completionEvent": the event to be fired upon successful completion
-     */
-    sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks = function (story, editorComponents, completionEvent) {
-        var storyContent = [];
-
-        fluid.each(editorComponents, function (editor) {
-            var blockData = editor.block.model;
-            storyContent.push(blockData);
-        });
-
-        story.applier.change("content", storyContent);
-
-        completionEvent.fire();
     };
 
 })(jQuery, fluid);
