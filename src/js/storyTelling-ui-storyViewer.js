@@ -28,7 +28,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onSaveNoShareRequested: null,
             onStoryViewerPreviousRequested: null,
-            onStoryListenToRequested: null
+            onStoryListenToRequested: null,
+            onStoryUpdatedFromBlocks: null
         },
         listeners: {
             "onReadyToBind.bindSaveNoShareControl": {
@@ -62,10 +63,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
                 options: {
                     listeners: {
-                        // TODO: pick a more accurate name for this listener
-                        "onCreate.renderStoryContent": {
+                        // TODO: the event being listened to for this step may change
+                        "onCreate.createBlocksFromData": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
                             "args": ["{story}.model.content", "{storyViewer}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
+                        },
+                        "onCreate.updateStoryFromBlocks": {
+                            "funcName": "sjrk.storyTelling.ui.storyEditor.updateStoryFromBlocks",
+                            "args": ["{storyViewer}.story", "{that}.managedViewComponentRegistry", "{storyViewer}.events.onStoryUpdatedFromBlocks"],
+                            "priority": "last"
                         }
                     },
                     dynamicComponents: {

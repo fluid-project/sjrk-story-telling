@@ -180,6 +180,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                         },
                                         {
                                             blockType: "image",
+                                            language: "de",
+                                            heading: "Second block",
                                             imageUrl: "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
                                             alternativeText: "Google logo",
                                             description: "This is the logo for Google"
