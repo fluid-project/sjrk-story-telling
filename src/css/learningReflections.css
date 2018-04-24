@@ -136,7 +136,6 @@ textarea {
     background-image: url("../img/icons/icon-textBlock.png");
 }
 
-
 .sjrk-storyTelling-button-image-block {
     background-image: url("../img/icons/icon-imageBlock.png");
 }
@@ -147,6 +146,10 @@ textarea {
 
 .sjrk-storyTelling-button-restore-blocks {
     background-image: url("../img/icons/icon-restoreBlocks.png");
+}
+
+.sjrk-storyTelling-storyListenTo {
+    background-image: url("../img/icons/icon-audioBlock.png");
 }
 
 .sjrk-storyTelling-button-restore-blocks-container {

@@ -88,10 +88,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         ],
         components: {
+            // handles text to speech requests globally for the whole site
+            storySpeaker: {
+                type: "fluid.textToSpeech",
+                createOnEvent: "{uiHolder}.events.onAllUiComponentsReady",
+                options: {
+                    model:{
+                        ttsText: null,
+                        utteranceOpts: {
+                            lang: "{uiHolder}.model.uiLanguage"
+                        }
+                    },
+                    modelRelay: {
+                        ttsTextFromStory: {
+                            target: "{that}.model.ttsText",
+                            singleTransform: {
+                                type: "fluid.transforms.stringTemplate",
+                                template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
+                                terms: "{storyViewer}.story.model"
+                            }
+                        }
+                    },
+                    listeners: {
+                        "{uiHolder}.events.onStoryListenToRequested": {
+                            func: "{that}.queueSpeech",
+                            args: ["{that}.model.ttsText", true]
+                        }
+                    }
+                }
+            },
+            // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
                 container: "{uiHolder}.options.selectors.menu"
             },
+            // the story view context
             storyViewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
                 container: "{uiHolder}.options.selectors.storyViewer",
