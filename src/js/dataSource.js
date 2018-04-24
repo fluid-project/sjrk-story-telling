@@ -15,8 +15,6 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-
-
 fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
     gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
     rules: {

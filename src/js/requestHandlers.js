@@ -64,7 +64,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
-            args: ["{request}", "{server}.storyDataSource"]
+            args: ["{arguments}.0", "{server}.storyDataSource"]
         }
     }
 });
@@ -75,6 +75,8 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
     var storyModel = JSON.parse(request.req.body.model);
 
+    // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
+
     fluid.transform(storyModel.content, function (block) {
         console.log(block);
         if (block.blockType === "image") {
@@ -83,6 +85,8 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
                 return singleFile.originalname === block.fileDetails.name;
             });
             console.log(imageFile);
+            // TODO: generate a UUID filename to avoid potential collision from people
+            // uploading images - this will need to be done in the multer config
             block.imageUrl = imageFile.filename;
             return block;
         }

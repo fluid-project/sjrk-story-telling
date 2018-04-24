@@ -32,28 +32,62 @@ require("gpii-pouchdb");
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 0,
+    expect: 1,
     config: {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/configs"
     },
     components: {
+        storySave: {
+            type: "kettle.test.request.formData",
+            options: {
+                path: "/binaries",
+                method: "POST",
+                formData: {
+                    files: {
+                        "file": ["./tests/binaries/logo_small_fluid_vertical.png"]
+                    },
+                    fields: {
+                        "model": {
+                            expander: {
+                                type: "fluid.noexpand",
+                                // TODO: real story model
+                                value: JSON.stringify({"ABC": "DEF"})
+                            }
+                        }
+                    }
+                }
+            }
+        },
     },
-    sequence: []
+    sequence: [{
+        func: "{that}.storySave.send"
+    }, {
+        event: "{that}.storySave.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful"
+    }]
 }];
+
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (arg1, arg2) {    
+    jqUnit.assert("Story save successful");
+};
 
 // Start PouchDB harness, then run the tests
 gpii.pouch.harness({
     port: 5984,
     listeners: {
+        // TODO: configure DB before starting tests
         "onReady.configureDB": {
             listener: "fluid.require",
             args: ["../src/js/dbSetup", require]
         },
         "onReady.startTests": {
-            listener: "kettle.test.bootstrapServer",
-            args: [sjrk.storyTelling.server.testServerWithStorageDefs],
+            listener: "sjrk.storyTelling.server.testServerWithStorageDefs.startTests",
             priority: "last"
         }
     }
 });
+
+sjrk.storyTelling.server.testServerWithStorageDefs.startTests = function () {
+    kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithStorageDefs);
+};
