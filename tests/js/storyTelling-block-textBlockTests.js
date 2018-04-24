@@ -14,7 +14,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.block.testTextBlock", {
-        gradeNames: ["sjrk.storyTelling.block.textBlock"]
+        gradeNames: ["sjrk.storyTelling.block.textBlock"],
+        model: {
+            heading: "Rootbeer's favourite things",
+            text: "Food."
+        }
     });
 
     fluid.defaults("sjrk.storyTelling.block.textBlockTester", {
@@ -23,10 +27,50 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test text block.",
             tests: [{
                 name: "Test model relay",
-                expect: 1,
+                expect: 6,
                 sequence: [{
-                    funcName: "jqUnit.assert",
-                    args: ["Empty test sequence"]
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Initial combined text is as expected", "Rootbeer's favourite things. Food.", "{textBlock}.model.contentString"]
+                },
+                {
+                    func: "{textBlock}.applier.change",
+                    args: ["heading", "Shyguy's favourite things"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Combined text is as expected", "Shyguy's favourite things. Food.", "{textBlock}.model.contentString"]
+                },
+                {
+                    func: "{textBlock}.applier.change",
+                    args: ["text", "Calm."]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Combined text is as expected", "Shyguy's favourite things. Calm.", "{textBlock}.model.contentString"]
+                },
+                {
+                    func: "{textBlock}.applier.change",
+                    args: ["text", ""]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Combined text is as expected", "Shyguy's favourite things", "{textBlock}.model.contentString"]
+                },
+                {
+                    func: "{textBlock}.applier.change",
+                    args: ["text", "Pets"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Combined text is as expected", "Shyguy's favourite things. Pets", "{textBlock}.model.contentString"]
+                },
+                {
+                    func: "{textBlock}.applier.change",
+                    args: ["heading", ""]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Combined text is as expected", "Pets", "{textBlock}.model.contentString"]
                 }]
             }]
         }]
