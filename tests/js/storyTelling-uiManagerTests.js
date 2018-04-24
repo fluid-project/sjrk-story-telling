@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.uiManager"],
         selectors: {
             storyEditor: "#testStoryEditor",
-            storyViewer: "#testStoryViewer",
+            storyPreviewer: "#testStoryPreviewer",
             menu: "#testMenu"
         },
         components: {
@@ -47,7 +47,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            storyViewer: {
+            storyPreviewer: {
                 options: {
                     components: {
                         templateManager: {
@@ -68,7 +68,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modules: [{
             name: "Test combined story authoring interface",
             tests: [{
-                name: "Test editor and viewer model binding and updating",
+                name: "Test editor and previewer model binding and updating",
                 expect: 20,
                 sequence: [{
                     "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
@@ -78,7 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     args: [
-                        ["{uiManager}.storyEditor.dom.storyEditorPage2", "{uiManager}.storyViewer.container"],
+                        ["{uiManager}.storyEditor.dom.storyEditorPage2", "{uiManager}.storyPreviewer.container"],
                         ["{uiManager}.storyEditor.dom.storyEditorPage1"]
                     ]
                 },
@@ -90,7 +90,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{uiManager}.storyEditor.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.storyViewer.container"],
+                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.storyPreviewer.container"],
                         ["{uiManager}.storyEditor.dom.storyEditorPage2"]
                     ]
                 },
@@ -106,7 +106,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "jqUnit.assertEquals",
-                    args: ["Viewer model updated to match editor","{uiManager}.storyEditor.story.model.title","{uiManager}.storyViewer.story.model.title"]
+                    args: ["Previewer model updated to match editor","{uiManager}.storyEditor.story.model.title","{uiManager}.storyPreviewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -117,18 +117,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
                         ["{uiManager}.storyEditor.container"],
-                        ["{uiManager}.storyViewer.container"]
+                        ["{uiManager}.storyPreviewer.container"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyViewer.dom.storyViewerPrevious"
+                    "element": "{uiManager}.storyPreviewer.dom.storyViewerPrevious"
                 },
                 {
                     "event": "{uiManager}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.storyViewer.container"],
+                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.storyPreviewer.container"],
                         ["{uiManager}.storyEditor.dom.storyEditorPage2"]
                     ]
                 },
@@ -140,7 +140,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     changeEvent: "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     func: "jqUnit.assertEquals",
-                    args: ["Viewer model updated","{uiManager}.storyEditor.story.model.title","{uiManager}.storyViewer.story.model.title"]
+                    args: ["Previewer model updated","{uiManager}.storyEditor.story.model.title","{uiManager}.storyPreviewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -151,12 +151,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
                         ["{uiManager}.storyEditor.container"],
-                        ["{uiManager}.storyViewer.container"]
+                        ["{uiManager}.storyPreviewer.container"]
                     ]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.assertElementText",
-                    args: ["{uiManager}.storyViewer.dom.storyTitle", "New test title"]
+                    args: ["{uiManager}.storyPreviewer.dom.storyTitle", "New test title"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -169,12 +169,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyViewer.dom.storyListenTo"
+                    "element": "{uiManager}.storyPreviewer.dom.storyListenTo"
                 },
                 {
                     "event": "{uiManager}.events.onStoryListenToRequested",
                     "listener": "jqUnit.assert",
-                    "args": "onStoryListenToRequested event fired from viewer."
+                    "args": "onStoryListenToRequested event fired from previewer."
                 }]
             }]
         },

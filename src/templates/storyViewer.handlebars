@@ -7,12 +7,12 @@
     </div>
 </div>
 <div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-main-container">
+    <div class="sjrk-storyTelling-link-container">
+        <button class="sjrk-storyTelling-button sjrk-storyTelling-storyListenTo sjrkc-storyTelling-storyListenTo" type="button"><span class="sjrk-storyTelling-button-text">{{localizedMessages.message_storyListenToText}}</span></button>
+    </div>
+
     <h2 class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</h2>
     <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_storyAuthorText}}</p>
-
-    <div hidden class="sjrk-storyTelling-link-container">
-        <a class="sjrkc-storyTelling-storyListenTo sjrk-storyTelling-storyListenTo" href="javascript:void(0);">{{localizedMessages.message_storyListenToText}}</a>
-    </div>
 
     <div hidden class="sjrk-storyTelling-link-container">
         <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_storyReadMoreText}}</a>
