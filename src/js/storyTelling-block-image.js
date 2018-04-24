@@ -33,7 +33,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.block.imageBlock.updateContentString = function (heading, alternativeText, description) {
-        return heading + ". " + alternativeText + ". " + description;
+        return heading +
+         (heading && alternativeText || heading && !alternativeText && description ? ". " : "") +
+          alternativeText +
+           (alternativeText && description ? ". " : "") +
+            description;
     };
 
 })(jQuery, fluid);
