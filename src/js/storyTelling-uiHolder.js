@@ -120,7 +120,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: "{uiHolder}.options.selectors.menu"
+                container: "{uiHolder}.options.selectors.menu",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    resourcePrefix: "../.."
+                                }
+                            }
+                        }
+                    }
+                }
             },
             // the story view context
             storyViewer: {
@@ -128,6 +139,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{uiHolder}.options.selectors.storyViewer",
                 options: {
                     components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    resourcePrefix: "../.."
+                                }
+                            }
+                        },
+                        blockManager: {
+                            options: {
+                                dynamicComponents: {
+                                    managedViewComponents: {
+                                        options: {
+                                            components: {
+                                                templateManager: {
+                                                    options: {
+                                                        templateConfig: {
+                                                            resourcePrefix: "../.."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
                         story: {
                             options: {
                                 model: {
@@ -167,7 +204,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/templates/learningReflections-masthead.handlebars"
+                                    templatePath: "%resourcePrefix/src/templates/learningReflections-masthead.handlebars",
+                                    resourcePrefix: "../.."
                                 }
                             }
                         }
@@ -184,7 +222,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/templates/learningReflections-footer.handlebars"
+                                    templatePath: "%resourcePrefix/src/templates/learningReflections-footer.handlebars",
+                                    resourcePrefix: "../.."
                                 }
                             }
                         }
