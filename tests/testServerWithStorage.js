@@ -33,7 +33,7 @@ require("gpii-pouchdb");
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 1,
+    expect: 2,
     config: {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/configs"
@@ -73,9 +73,10 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }]
 }];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (arg1, arg2) {
-    console.log(arg1, arg2)
-    jqUnit.assert("Story save successful");
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (response) {
+    var parsedResponse = JSON.parse(response);
+    jqUnit.assertTrue("Response OK is true", parsedResponse["ok"]);
+    jqUnit.assertTrue("Response contains ID field", parsedResponse["id"]);
 };
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
