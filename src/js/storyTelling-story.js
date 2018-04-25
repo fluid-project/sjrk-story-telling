@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             target: "keywordString",
             singleTransform: {
                 type: "sjrk.storyTelling.transforms.arrayToString",
-                separator: ","
+                separator: ", "
             }
         }]
     });

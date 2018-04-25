@@ -14,7 +14,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.testStory", {
-        gradeNames: ["sjrk.storyTelling.story"]
+        gradeNames: ["sjrk.storyTelling.story"],
+        model: {
+            content:
+            [
+                {
+                    contentString: "Shyguy is a grey Mackerel Tabby with Bengal spots"
+                },
+                {
+                    contentString: "Rootbeer is an grey-orange Mackerel Tabby with a few spots."
+                }
+            ]
+        }
     });
 
     fluid.defaults("sjrk.storyTelling.storyTester", {
@@ -23,34 +34,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story.",
             tests: [{
                 name: "Test model relay",
-                expect: 4,
+                expect: 2,
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
-                    args: ["Initial contentString is as expected", "", "{story}.model.contentString"]
+                    args: ["Initial contentString is as expected", "Shyguy is a grey Mackerel Tabby with Bengal spots. Rootbeer is an grey-orange Mackerel Tabby with a few spots.. ", "{story}.model.contentString"]
                 },
                 {
                     func: "{story}.applier.change",
-                    args: ["", ""]
+                    args: ["content", [{contentString: "Cats"}]]
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["contentString is as expected", "", ""]
-                },
-                {
-                    func: "{story}.applier.change",
-                    args: ["", ""]
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["contentString is as expected", "", ""]
-                },
-                {
-                    func: "{story}.applier.change",
-                    args: ["description", ""]
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["contentString is as expected", "", ""]
+                    args: ["contentString is as expected", "Cats. ", "{story}.model.contentString"]
                 }]
             }]
         }]
@@ -60,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
             story: {
-                type: "sjrk.storyTelling.story",
+                type: "sjrk.storyTelling.testStory",
                 container: "#testStory",
                 createOnEvent: "{storyTester}.events.onTestCaseStart"
             },
