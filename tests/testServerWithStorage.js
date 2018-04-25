@@ -21,6 +21,7 @@ require("../src/js/dataSource");
 require("../src/js/serverSetup");
 require("../src/js/requestHandlers");
 require("../src/js/serverSetup");
+require("../src/js/db/dbConfiguration");
 
 kettle.loadTestingSupport();
 
@@ -38,6 +39,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         configPath: "./tests/configs"
     },
     components: {
+        testDB: {
+            type: "sjrk.storyTelling.server.testServerWithStorageDefs.testDB"
+        },
         storySave: {
             type: "kettle.test.request.formData",
             options: {
@@ -61,33 +65,33 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         },
     },
     sequence: [{
-        func: "{that}.storySave.send"
+        event: "{testDB}.dbConfiguration.events.onSuccess",
+        listener: "{that}.storySave.send"
     }, {
         event: "{that}.storySave.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful"
     }]
 }];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (arg1, arg2) {    
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (arg1, arg2) {
+    console.log(arg1, arg2)
     jqUnit.assert("Story save successful");
 };
 
-// Start PouchDB harness, then run the tests
-gpii.pouch.harness({
-    port: 5984,
-    listeners: {
-        // TODO: configure DB before starting tests
-        "onReady.configureDB": {
-            listener: "fluid.require",
-            args: ["../src/js/dbSetup", require]
+fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
+    gradeNames: ["fluid.component"],
+    components: {
+        pouchHarness: {
+            type: "gpii.pouch.harness",
+            options: {
+                port: 5984
+            }
         },
-        "onReady.startTests": {
-            listener: "sjrk.storyTelling.server.testServerWithStorageDefs.startTests",
-            priority: "last"
+        dbConfiguration: {
+            type: "sjrk.storyTelling.server.storiesDb",
+            createOnEvent: "{pouchHarness}.events.onReady",
         }
     }
 });
 
-sjrk.storyTelling.server.testServerWithStorageDefs.startTests = function () {
-    kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithStorageDefs);
-};
+kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithStorageDefs);
