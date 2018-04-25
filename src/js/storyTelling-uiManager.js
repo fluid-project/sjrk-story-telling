@@ -117,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     model:{
                         ttsText: null,
                         utteranceOpts: {
-                            lang: "{storyEditor}.story.model.language"
+                            lang: "{uiManager}.model.uiLanguage"
                         }
                     },
                     modelRelay: {
