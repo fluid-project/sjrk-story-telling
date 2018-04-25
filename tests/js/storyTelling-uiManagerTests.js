@@ -191,7 +191,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "changeEvent": "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "author",
                     listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
+                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. Keywords: . ", "{uiManager}.storySpeaker.model.ttsText"]
                 },
                 {
                     func: "{uiManager}.storyEditor.story.applier.change",
@@ -201,7 +201,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "changeEvent": "{uiManager}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. ", "{uiManager}.storySpeaker.model.ttsText"]
+                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{uiManager}.storySpeaker.model.ttsText"]
                 }]
             }]
         }]

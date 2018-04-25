@@ -38,6 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             language: "",
             images: [],
             tags: [],
+            keywordString: "", // a string representation of the tags
             categories: [],
             summary: "",
             timestampCreated: null,
@@ -48,21 +49,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             ],
             translationOf: null
         },
-        modelRelay: {
+        modelRelay: [{
             target: "contentString",
             singleTransform: {
                 type: "fluid.transforms.free",
                 func: "sjrk.storyTelling.story.updateContentString",
                 args: ["{that}.model.content"]
             }
-        }
+        },
+        {
+            source: "tags",
+            target: "keywordString",
+            singleTransform: {
+                type: "sjrk.storyTelling.transforms.arrayToString",
+                separator: ","
+            }
+        }]
     });
 
     sjrk.storyTelling.story.updateContentString = function (content) {
         var contentString = "";
 
         fluid.each(content, function (block) {
-            contentString += ". " + block.contentString;
+            contentString += block.contentString + ". ";
         });
 
         return contentString;

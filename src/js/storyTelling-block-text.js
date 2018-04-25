@@ -31,6 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // TODO: determine the use and display options of simplifiedText
     sjrk.storyTelling.block.textBlock.updateContentString = function (heading, text) {
         return heading + (heading && text ? ". " : "") + text;
     };

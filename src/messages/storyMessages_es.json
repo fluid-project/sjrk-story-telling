@@ -1,6 +1,6 @@
 {
     "language": "es",
-    "message_readStoryText": "%title, de %author. %content",
+    "message_readStoryText": "%title, de %author. Palabras claves: %keywordString. %contentString",
     "message_storyBlockAddTextBlock": "Agrega un bloque de texto",
     "message_storyBlockAddImageBlock": "Agrega un bloque de imagen",
     "message_storyBlockRemoveBlocks": "Eliminar bloques seleccionados",
