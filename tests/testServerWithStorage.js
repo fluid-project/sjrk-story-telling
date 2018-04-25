@@ -67,16 +67,29 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 }
             }
         },
+        getSavedStory: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/story/%id",
+                termMap: {
+                    id: "%directStoryId"
+                }
+            }
+        }
     },
     sequence: [{
         event: "{testDB}.dbConfiguration.events.onSuccess",
         listener: "{that}.storySave.send"
     }, {
-        event: "{that}.storySave.events.onComplete",
+        event: "{storySave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful",
         args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        args: ["{arguments}.0", "{getSavedStory}"]
+    }, {
+        event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory"
     }]
 }];
@@ -84,14 +97,19 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
 sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (response, completionEvent) {
     var parsedResponse = JSON.parse(response);
     jqUnit.assertTrue("Response OK is true", parsedResponse["ok"]);
-    jqUnit.assertTrue("Response contains ID field", parsedResponse["id"]);    
+    jqUnit.assertTrue("Response contains ID field", parsedResponse["id"]);
     completionEvent.fire(parsedResponse["id"]);
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (storyId) {
+sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, getSavedStoryRequest) {
     console.log("testGetSavedStory called for storyId: " + storyId);
     jqUnit.assert("testGetSavedStory called for storyId: " + storyId);
+    getSavedStoryRequest.send(null, {termMap: {directStoryId: storyId}});
 };
+
+sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (response) {
+    console.log(response);
+}
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
