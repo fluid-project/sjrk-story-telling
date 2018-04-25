@@ -13,120 +13,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // TODO: The purpose of this grade is to illustrate the similarities between
-    //      it and the uiManager. Once "complete", we can pull the similar bits
-    //      out into a "shell" grade that is then used by other new grades which
-    //      will each represent a particular workflow/use case within the tool
-    fluid.defaults("sjrk.storyTelling.uiHolder", {
-        gradeNames: ["fluid.modelComponent"],
-        model: {
-            uiLanguage: "en" //initial state is English (TODO: is there a better way?)
-        },
+    fluid.defaults("sjrk.storyTelling.storyView", { // TODO name?
+        gradeNames: ["fluid.component"],
         selectors: {
-            menu: ".sjrkc-storyTelling-menu-links",
-            storyViewer: ".sjrkc-storyTelling-story-viewer",
-            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container",
-            learningReflectionsFooter: ".sjrkc-learningReflections-pageFooter-container"
+            storyViewer: ".sjrkc-storyTelling-story-viewer"
         },
-        events: {
-            onStoryListenToRequested: null,
-            onAllUiComponentsReady: {
-                events: {
-                    onViewerReady: "{storyViewer}.events.onControlsBound"
-                }
-            },
-            onContextChangeRequested: null // TODO: think of a better name
-        },
-        listeners: {
-            "{storyViewer}.events.onStoryListenToRequested": {
-                func: "{that}.events.onStoryListenToRequested.fire"
-            },
-            "{menu}.events.onInterfaceLanguageChangeRequested": {
-                func: "{that}.applier.change",
-                args: ["uiLanguage", "{arguments}.0.data"]
-            }
-        },
-        modelListeners: {
-            uiLanguage: [
-                {
-                    funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
-                    args: ["{that}"]
-                },
-                {
-                    funcName: "{that}.events.onContextChangeRequested.fire"
-                }
-            ]
-        },
-        modelRelay: [
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{menu}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{storyViewer}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{learningReflectionsMasthead}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{learningReflectionsFooter}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            }
-        ],
         components: {
-            // handles text to speech requests globally for the whole site
-            storySpeaker: {
-                type: "fluid.textToSpeech",
-                createOnEvent: "{uiHolder}.events.onAllUiComponentsReady",
+            pageShell: {
+                type: "sjrk.storyTelling.pageShell",
                 options: {
-                    model:{
-                        ttsText: null,
-                        utteranceOpts: {
-                            lang: "{uiHolder}.model.uiLanguage"
-                        }
-                    },
-                    modelRelay: {
-                        ttsTextFromStory: {
-                            target: "{that}.model.ttsText",
-                            singleTransform: {
-                                type: "fluid.transforms.stringTemplate",
-                                template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                                terms: "{storyViewer}.story.model"
+                    events: {
+                        onAllUiComponentsReady: {
+                            events: {
+                                onViewerReady: "{storyViewer}.events.onControlsBound"
                             }
                         }
                     },
                     listeners: {
-                        "{uiHolder}.events.onStoryListenToRequested": {
-                            func: "{that}.queueSpeech",
-                            args: ["{that}.model.ttsText", true]
+                        "{storyViewer}.events.onStoryListenToRequested": {
+                            func: "{that}.events.onStoryListenToRequested.fire"
                         }
-                    }
-                }
-            },
-            // the storytelling tool "main" menu
-            menu: {
-                type: "sjrk.storyTelling.ui.menu",
-                container: "{uiHolder}.options.selectors.menu",
-                options: {
+                    },
+                    modelRelay: [{
+                        source: "{that}.model.uiLanguage",
+                        target: "{storyViewer}.templateManager.model.locale",
+                        singleTransform: {
+                            type: "fluid.transforms.identity"
+                        }
+                    }],
                     components: {
-                        templateManager: {
+                        storySpeaker: {
                             options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
+                                modelRelay: {
+                                    ttsTextFromStory: {
+                                        target: "{that}.model.ttsText",
+                                        singleTransform: {
+                                            type: "fluid.transforms.stringTemplate",
+                                            template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
+                                            terms: "{storyViewer}.story.model"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -136,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story view context
             storyViewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
-                container: "{uiHolder}.options.selectors.storyViewer",
+                container: "{storyView}.options.selectors.storyViewer",
                 options: {
                     components: {
                         templateManager: {
@@ -195,11 +121,109 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     }
                 }
+            }
+        }
+    });
+
+    // TODO: The purpose of this grade is to illustrate the similarities between
+    //      it and the uiManager. Once "complete", we can pull the similar bits
+    //      out into a "shell" grade that is then used by other new grades which
+    //      will each represent a particular workflow/use case within the tool
+    fluid.defaults("sjrk.storyTelling.pageShell", { // TODO name?
+        gradeNames: ["fluid.modelComponent"],
+        model: {
+            uiLanguage: "en" //initial state is English (TODO: is there a better way?)
+        },
+        selectors: {
+            menu: ".sjrkc-storyTelling-menu-links",
+            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container",
+            learningReflectionsFooter: ".sjrkc-learningReflections-pageFooter-container"
+        },
+        events: {
+            onStoryListenToRequested: null,
+            onAllUiComponentsReady: null,
+            onContextChangeRequested: null // TODO: think of a better name
+        },
+        listeners: {
+            "{menu}.events.onInterfaceLanguageChangeRequested": {
+                func: "{that}.applier.change",
+                args: ["uiLanguage", "{arguments}.0.data"]
+            }
+        },
+        modelListeners: {
+            uiLanguage: [
+                {
+                    funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
+                    args: ["{that}"]
+                },
+                {
+                    funcName: "{that}.events.onContextChangeRequested.fire"
+                }
+            ]
+        },
+        modelRelay: [
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{menu}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{learningReflectionsMasthead}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{learningReflectionsFooter}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            }
+        ],
+        components: {
+            // handles text to speech requests globally for the whole site
+            storySpeaker: {
+                type: "fluid.textToSpeech",
+                createOnEvent: "{pageShell}.events.onAllUiComponentsReady",
+                options: {
+                    model:{
+                        ttsText: null,
+                        utteranceOpts: {
+                            lang: "{pageShell}.model.uiLanguage"
+                        }
+                    },
+                    listeners: {
+                        "{pageShell}.events.onStoryListenToRequested": {
+                            func: "{that}.queueSpeech",
+                            args: ["{that}.model.ttsText", true]
+                        }
+                    }
+                }
+            },
+            // the storytelling tool "main" menu
+            menu: {
+                type: "sjrk.storyTelling.ui.menu",
+                container: "{pageShell}.options.selectors.menu",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    resourcePrefix: "../.."
+                                }
+                            }
+                        }
+                    }
+                }
             },
             // masthead/banner section
             learningReflectionsMasthead: {
                 type: "sjrk.storyTelling.ui",
-                container: "{uiHolder}.options.selectors.learningReflectionsMasthead",
+                container: "{pageShell}.options.selectors.learningReflectionsMasthead",
                 options: {
                     components: {
                         templateManager: {
@@ -217,7 +241,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // footer section
             learningReflectionsFooter: {
                 type: "sjrk.storyTelling.ui",
-                container: "{uiHolder}.options.selectors.learningReflectionsFooter",
+                container: "{pageShell}.options.selectors.learningReflectionsFooter",
                 options: {
                     components: {
                         templateManager: {
