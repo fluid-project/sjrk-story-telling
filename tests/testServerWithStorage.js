@@ -33,7 +33,11 @@ require("gpii-pouchdb");
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 2,
+    expect: 3,
+    // Receives the ID of the saved story
+    events: {
+        "onStorySaveSuccessful": null
+    },
     config: {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/configs"
@@ -69,14 +73,24 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "{that}.storySave.send"
     }, {
         event: "{that}.storySave.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful"
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful",
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful"]
+    }, {
+        event: "{that}.events.onStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory"
     }]
 }];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (response) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (response, completionEvent) {
     var parsedResponse = JSON.parse(response);
     jqUnit.assertTrue("Response OK is true", parsedResponse["ok"]);
-    jqUnit.assertTrue("Response contains ID field", parsedResponse["id"]);
+    jqUnit.assertTrue("Response contains ID field", parsedResponse["id"]);    
+    completionEvent.fire(parsedResponse["id"]);
+};
+
+sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (storyId) {
+    console.log("testGetSavedStory called for storyId: " + storyId);
+    jqUnit.assert("testGetSavedStory called for storyId: " + storyId);
 };
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
