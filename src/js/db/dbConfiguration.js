@@ -18,7 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 require("infusion");
 require("kettle");
-fluid.setLogging(true);
 
 var sjrk = fluid.registerNamespace("sjrk");
 require("fluid-couch-config");
@@ -84,10 +83,3 @@ sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, 
         throw ({forbidden: "doc.type is required"});
     }
 };
-
-sjrk.storyTelling.server.storiesDb({
-    distributeOptions: {
-        target: "{that}.options.couchOptions.couchUrl",
-        record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-    }
-});

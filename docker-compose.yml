@@ -22,4 +22,4 @@ services:
       - "db"
     links:
       - "db"
-    entrypoint: "node ./src/js/dbSetup.js"    
+    entrypoint: "node ./src/js/db/dbSetup.js"    

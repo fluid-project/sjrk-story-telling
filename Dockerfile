@@ -7,8 +7,7 @@ COPY package*.json ./
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 
-RUN npm install
-# RUN npm install --only=production
+RUN npm install --only=production
 
 COPY . .
 
