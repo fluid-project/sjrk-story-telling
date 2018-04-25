@@ -104,6 +104,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = fun
 sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, getSavedStoryRequest) {
     console.log("testGetSavedStory called for storyId: " + storyId);
     jqUnit.assert("testGetSavedStory called for storyId: " + storyId);
+    // TODO: this doesn't seem to work for passing in the ID
     getSavedStoryRequest.send(null, {termMap: {directStoryId: storyId}});
 };
 
