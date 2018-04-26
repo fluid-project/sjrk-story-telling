@@ -25,6 +25,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     }
 });
 
+// TODO: the get handler will need to provide an expanded URL for the binary locations, based on the config
 sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
@@ -40,8 +41,6 @@ sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource) {
     });
 };
 
-// TODO: this needs a corresponding get handler
-// TODO: the get handler will need to provide an expanded URL for the binary locations, based on the config
 fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     gradeNames: "kettle.request.http",
     requestMiddleware: {
@@ -74,7 +73,8 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
             });
             console.log(imageFile);
             // TODO: generate a UUID filename to avoid potential collision from people
-            // uploading images - this will need to be done in the multer config
+            // uploading binaries with same name - this will need to be done in the multer config
+            // TODO: but preserve the file extension
             block.imageUrl = imageFile.filename;
             return block;
         }
