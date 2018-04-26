@@ -45,13 +45,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         storySpeaker: {
                             options: {
                                 modelRelay: {
-                                    ttsTextFromStory: {
-                                        target: "{that}.model.ttsText",
-                                        singleTransform: {
-                                            type: "fluid.transforms.stringTemplate",
-                                            template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                                            terms: "{storyViewer}.story.model"
-                                        }
+                                    target: "{that}.model.ttsText",
+                                    singleTransform: {
+                                        type: "fluid.transforms.stringTemplate",
+                                        template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
+                                        terms: "{storyViewer}.story.model"
                                     }
                                 }
                             }
@@ -91,6 +89,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 }
                             }
                         },
+                        // TODO: remove this section once tests have been added
                         story: {
                             options: {
                                 model: {
