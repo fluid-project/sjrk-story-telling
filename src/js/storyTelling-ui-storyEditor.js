@@ -103,8 +103,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // represents the story data
+            story: {
+                type: "sjrk.storyTelling.story"
+            },
             templateManager: {
                 options: {
+                    listeners: {
+                        "onAllResourcesLoaded.renderTemplateOnSelf": {
+                            funcName: "{that}.renderTemplateOnSelf",
+                            args: ["{story}.model"]
+                        }
+                    },
                     templateConfig: {
                         templatePath: "%resourcePrefix/src/templates/storyEditor.handlebars"
                     }
