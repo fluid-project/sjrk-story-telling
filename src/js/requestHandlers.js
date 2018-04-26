@@ -65,6 +65,9 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
     // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
 
+    // key-value pairs of original filename : generated filename
+    // this is used primarily by tests, but may be of use
+    // to client-side components too
     var binaryRenameMap = {};
 
     // Update any image URLs to refer to the changed
@@ -108,6 +111,15 @@ fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     requestMiddleware: {
         "static": {
             middleware: "{server}.ui"
+        }
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.uploadsHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.uploads"
         }
     }
 });

@@ -54,6 +54,12 @@ fluid.defaults("sjrk.storyTelling.server", {
                             "root": "./node_modules"
                         }
                     },
+                    uploads: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./uploads"
+                        }
+                    },
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
@@ -84,6 +90,12 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/*",
             "method": "get",
             "prefix": "/node_modules"
+        },
+        uploadsHandler: {
+            type: "sjrk.storyTelling.server.uploadsHandler",
+            "route": "/*",
+            "method": "get",
+            "prefix": "/uploads"
         },
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
