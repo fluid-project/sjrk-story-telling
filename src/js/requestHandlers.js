@@ -58,15 +58,23 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource) {
 
+
     var id = uuidv1();
 
     var storyModel = JSON.parse(request.req.body.model);
 
+
     // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
 
-    fluid.transform(storyModel.content, function (block) {
+    fluid.transform(storyModel.value.content, function (block) {
+        fluid.setLogging(true);
+        fluid.log("BLOCK: ", block);
+        fluid.setLogging(false);
         if (block.blockType === "image") {
             var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
+                fluid.setLogging(true);
+                fluid.log("SINGLEFILE: ", singleFile);
+                fluid.setLogging(false);
                 return singleFile.originalname === block.fileDetails.name;
             });
             // TODO: generate a UUID filename to avoid potential collision from people
