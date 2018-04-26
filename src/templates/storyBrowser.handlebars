@@ -1,0 +1,11 @@
+{{#each dynamicValues.stories}}
+    <div class="sjrk-storyTelling-browse-story-container">
+        <a href="storyView.html?id={{@key}}">{{title}}</a>
+        tags: {{tags}}
+        {{#each content}}
+            <div>
+                type: {{blockType}}, text: {{text}}
+            </div>
+        {{/each}}
+    </div>
+{{/each}}
