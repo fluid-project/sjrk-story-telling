@@ -31,6 +31,59 @@ var sjrk = fluid.registerNamespace("sjrk");
 var gpii = fluid.registerNamespace("gpii");
 require("gpii-pouchdb");
 
+// TODO: real story model
+var testStoryModel = {
+  "type": "story",
+  "value": {
+    "languageFromSelect": "",
+    "languageFromInput": "",
+    "title": "History of the Fluid Project",
+    "content": [
+      {
+        "id": null,
+        "language": null,
+        "heading": null,
+        "blockType": "image",
+        "imageUrl": "logo_small_fluid_vertical.png",
+        "alternativeText": "Fluid",
+        "description": "The Fluid Project logo",
+        "languageFromSelect": "",
+        "languageFromInput": "",
+        "fileDetails": {
+          "lastModified": 1524592510016,
+          "lastModifiedDate": "2018-04-24T17:55:10.016Z",
+          "name": "logo_small_fluid_vertical.png",
+          "size": 3719,
+          "type": "image/png"
+        }
+      },
+      {
+        "id": null,
+        "language": null,
+        "heading": null,
+        "blockType": "text",
+        "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
+        "simplifiedText": null,
+        "languageFromSelect": "",
+        "languageFromInput": ""
+      }
+    ],
+    "author": "Alan Harnum",
+    "language": "",
+    "images": [],
+    "tags": [
+      "fluidproject",
+      "history"
+    ],
+    "categories": [],
+    "summary": "",
+    "timestampCreated": null,
+    "timestampModified": null,
+    "requestedTranslations": [],
+    "translationOf": null
+  }
+};
+
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
     expect: 3,
@@ -59,8 +112,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                         "model": {
                             expander: {
                                 type: "fluid.noexpand",
-                                // TODO: real story model
-                                value: JSON.stringify({"ABC": "DEF"})
+                                value: JSON.stringify(testStoryModel)
                             }
                         }
                     }
@@ -72,7 +124,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             options: {
                 path: "/story/%id",
                 termMap: {
-                    id: "%directStoryId"
+                    // We don't know this until the story is saved, so needs
+                    // to be filled in at runtime
+                    id: null
                 }
             }
         }
@@ -83,7 +137,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{storySave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful",
-        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful"]
+        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
@@ -94,23 +148,21 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }]
 }];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (response, completionEvent) {
-    var parsedResponse = JSON.parse(response);
-    jqUnit.assertTrue("Response OK is true", parsedResponse["ok"]);
-    jqUnit.assertTrue("Response contains ID field", parsedResponse["id"]);
-    completionEvent.fire(parsedResponse["id"]);
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
+    var parsedData = JSON.parse(data);
+    jqUnit.assertTrue("Response OK is true", parsedData["ok"]);
+    jqUnit.assertTrue("Response contains ID field", parsedData["id"]);
+    completionEvent.fire(parsedData["id"]);
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, getSavedStoryRequest) {
-    console.log("testGetSavedStory called for storyId: " + storyId);
-    jqUnit.assert("testGetSavedStory called for storyId: " + storyId);
-    // TODO: this doesn't seem to work for passing in the ID
-    getSavedStoryRequest.send(null, {termMap: {directStoryId: storyId}});
+    getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (response) {
-    console.log(response);
-}
+sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (data, request) {
+    var parsedData = JSON.parse(data);    
+    jqUnit.assertDeepEq("Saved story data is as expected", testStoryModel, parsedData);
+};
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
