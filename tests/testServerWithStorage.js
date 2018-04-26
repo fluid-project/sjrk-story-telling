@@ -30,8 +30,6 @@ var sjrk = fluid.registerNamespace("sjrk");
 require("gpii-pouchdb");
 
 var testStoryModel = {
-    "type": "story",
-    "value": {
         "languageFromSelect": "",
         "languageFromInput": "",
         "title": "History of the Fluid Project",
@@ -78,7 +76,6 @@ var testStoryModel = {
         "timestampModified": null,
         "requestedTranslations": [],
         "translationOf": null
-    }
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
@@ -147,7 +144,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }]
 }];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {    
     var parsedData = JSON.parse(data);
     jqUnit.assertTrue("Response OK is true", parsedData.ok);
     jqUnit.assertTrue("Response contains ID field", parsedData.id);

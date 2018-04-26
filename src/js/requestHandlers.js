@@ -66,7 +66,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
     // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
 
-    fluid.transform(storyModel.value.content, function (block) {
+    fluid.transform(storyModel.content, function (block) {
         fluid.setLogging(true);
         fluid.log("BLOCK: ", block);
         fluid.setLogging(false);
