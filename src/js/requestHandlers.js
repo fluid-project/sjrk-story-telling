@@ -63,20 +63,24 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
     var storyModel = JSON.parse(request.req.body.model);
 
-
     // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
 
+    var binaryRenameMap = {};
+
+    // Update any image URLs to refer to the changed
+    // file names
     fluid.transform(storyModel.content, function (block) {
-        fluid.log("BLOCK: ", block);
+        // fluid.log("BLOCK: ", block);
         if (block.blockType === "image") {
             var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                fluid.log("SINGLEFILE: ", singleFile);
+                // fluid.log("SINGLEFILE: ", singleFile);
                 return singleFile.originalname === block.fileDetails.name;
             });
-            // TODO: generate a UUID filename to avoid potential collision from people
-            // uploading binaries with same name - this will need to be done in the multer config
-            // TODO: but preserve the file extension
+
             block.imageUrl = imageFile.filename;
+
+            binaryRenameMap[imageFile.originalname] = imageFile.filename;
+
             return block;
         }
     });
@@ -88,6 +92,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     var promise = dataSource.set({directStoryId: id}, storyModel);
 
     promise.then(function (response) {
+        response.binaryRenameMap = binaryRenameMap;
         var responseAsJSON = JSON.stringify(response);
         request.events.onSuccess.fire(responseAsJSON);
     }, function (error) {

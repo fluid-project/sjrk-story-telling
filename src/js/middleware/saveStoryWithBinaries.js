@@ -10,6 +10,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 "use strict";
 
 var fluid = require("infusion");
+var uuidv1 = require("uuid/v1");
+var path = require("path");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
@@ -34,6 +36,9 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
         "getDiskStorageDestinationFunc": {
             "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc",
             "args": ["{that}.options.binaryUploadOptions.uploadDirectory"]
+        },
+        "getDiskStorageFilenameFunc": {
+            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageFilenameFunc",
         }
     }
 });
@@ -41,5 +46,15 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
 sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc = function (uploadDirectory) {
     return function (req, file, cb) {
         cb(null, uploadDirectory);
+    };
+};
+
+// Renames any uploaded files to a pattern of uuid + extension
+sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageFilenameFunc = function () {
+    return function (req, file, cb) {
+        var id = uuidv1();
+        var extension = path.extname(file.originalname);
+        var generatedFileName = id + extension;
+        cb(null, generatedFileName);
     };
 };

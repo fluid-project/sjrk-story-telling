@@ -41,6 +41,8 @@ var testStoryModel = {
                 "language": null,
                 "heading": null,
                 "blockType": "image",
+                // TODO: need to fill this out dynamically
+                // or not test on it
                 "imageUrl": "logo_small_fluid_vertical.png",
                 "alternativeText": "Fluid",
                 "description": "The Fluid Project logo",
@@ -82,15 +84,17 @@ var testStoryModel = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 4,
-    // Receives the ID of the saved story
+    expect: 5,
+    // Receives two arguments:
+    // - the ID of the saved story
+    // - the binaryRenameMap
     events: {
         "onStorySaveSuccessful": null
     },
     testUploadOptions: {
         testFile: "./tests/binaries/logo_small_fluid_vertical.png",
         testDirectory: "./tests/uploads/",
-        expectedUploadPath: "./tests/uploads/logo_small_fluid_vertical.png"
+        expectedUploadDirectory: "./tests/uploads/"
     },
     config: {
         configName: "sjrk.storyTelling.server.test",
@@ -132,7 +136,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             }
         }
     },
-    // TODO: test for presence of uploaded binary
     sequence: [{
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
@@ -147,13 +150,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getSavedStory}"]
+        args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}"]
     }, {
         event: "{getSavedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory"
-    }, {
-        func: "sjrk.storyTelling.server.testServerWithStorageDefs.testFileUploaded",
-        args: ["{testCaseHolder}.options.testUploadOptions.expectedUploadPath"]
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaved",
+        args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory"]
     },
     {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
@@ -172,25 +173,43 @@ sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = f
 
 sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
     var parsedData = JSON.parse(data);
+
     jqUnit.assertTrue("Response OK is true", parsedData.ok);
+
     jqUnit.assertTrue("Response contains ID field", parsedData.id);
-    completionEvent.fire(parsedData.id);
+
+    jqUnit.assertTrue("Response contains binaryRenameMap field", parsedData.binaryRenameMap);
+
+    completionEvent.fire(parsedData.id, parsedData.binaryRenameMap);
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, getSavedStoryRequest) {
+sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest) {
+
+    // We store this material on the request so we can
+    // keep moving it forward; may be a better way
+    getSavedStoryRequest.binaryRenameMap = binaryRenameMap;
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (data, request) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaved = function (data, request, expectedUploadDirectory) {
+    var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
-    jqUnit.assertDeepEq("Saved story data is as expected", testStoryModel, parsedData);
 
-};
+    // update the expected model to use the
+    // dynamically-generated file name before we
+    // test on it
+    // TODO: there is probably a better way than this :/
+    var updatedModel = fluid.copy(testStoryModel);
+    updatedModel.content[0].imageUrl = binaryRenameMap[testStoryModel.content[0].imageUrl];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testFileUploaded = function (expectedUploadPath) {
-    var exists = fs.existsSync(expectedUploadPath);
+    jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
+
+    var exists = fs.existsSync(expectedUploadDirectory + parsedData.content[0].imageUrl);
+
     jqUnit.assertTrue("Uploaded file exists", exists);
+
 };
+
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
