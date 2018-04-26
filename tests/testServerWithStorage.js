@@ -12,6 +12,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 var fluid = require("infusion"),
     kettle = require("kettle"),
+    fs = require("fs"),
+    path = require("path"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
 require("../src/js/staticHandlerBase");
@@ -125,9 +127,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             }
         }
     },
-    // TODO: remove binary upload before test run
     // TODO: test for presence of uploaded binary
     sequence: [{
+        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        args: ["./tests/uploads/"]
+    },
+        {
         event: "{testDB}.dbConfiguration.events.onSuccess",
         listener: "{that}.storySave.send"
     }, {
@@ -141,8 +146,20 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory"
+    }, {
+        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        args: ["./tests/uploads/"]
     }]
 }];
+
+sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = function (dirPath) {
+    var testUploadsDir = fs.readdirSync(dirPath);
+    fluid.each(testUploadsDir, function (filePath) {
+        if(filePath !== ".gitkeep") {
+            fs.unlinkSync(dirPath + filePath);
+        }
+    });
+};
 
 sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
     var parsedData = JSON.parse(data);
