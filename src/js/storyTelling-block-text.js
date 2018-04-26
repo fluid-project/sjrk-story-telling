@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             target: "contentString",
             singleTransform: {
                 type: "fluid.transforms.free",
-                func: "sjrk.storyTelling.block.updateContentString",
+                func: "sjrk.storyTelling.transforms.combineTerms",
                 args: [["{that}.model.heading", "{that}.model.text"], ". "]
             }
         }

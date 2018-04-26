@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -53,8 +53,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             target: "contentString",
             singleTransform: {
                 type: "fluid.transforms.free",
-                func: "sjrk.storyTelling.story.updateContentString",
-                args: ["{that}.model.content"]
+                func: "sjrk.storyTelling.transforms.combineTerms",
+                args: ["{that}.model.content", ". ", "contentString"]
             }
         },
         {
@@ -66,15 +66,5 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }]
     });
-
-    sjrk.storyTelling.story.updateContentString = function (content) {
-        var contentString = "";
-
-        fluid.each(content, function (block) {
-            contentString += block.contentString + ". ";
-        });
-
-        return contentString;
-    };
 
 })(jQuery, fluid);

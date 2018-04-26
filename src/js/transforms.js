@@ -15,9 +15,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.registerNamespace("sjrk.storyTelling.transforms");
 
-    // A transform to turn a delimited string into an array.
-    // - "delimiter": the delimiter of terms within the given strings
-    // - "trim": if true, trims excess whitespace from each term, otherwise no
+    /* A transform to turn a delimited string into an array.
+     * - "delimiter": the delimiter of terms within the given strings
+     * - "trim": if true, trims excess whitespace from each term, otherwise no
+     */
     fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
@@ -40,8 +41,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    // A transform to turn an array into a delimited string
-    // - "separator": the string delimiter to be inserted between each term
+    /* A transform to turn an array into a delimited string
+     * - "separator": the string delimiter to be inserted between each term
+     */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
@@ -54,11 +56,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return input.join(extraInputs.separator());
     };
 
-    // A transform which, given a collection and an index, will the value of the
-    // collection at the specified index, or if that is not truthy, the index itself
-    // - "component": the component with the collection
-    // - "path": the EL path on the component where the collection resides
-    // - "index": the index value to be checked
+    /* A transform which, given a collection and an index, will the value of the
+     * collection at the specified index, or if that is not truthy, the index itself
+     * - "component": the component with the collection
+     * - "path": the EL path on the component where the collection resides
+     * - "index": the index value to be checked
+     */
     fluid.defaults("sjrk.storyTelling.transforms.valueOrIndex", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
@@ -75,6 +78,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var index = extraInputs.index();
 
         return fluid.get(component, path)[index] || index;
+    };
+
+    // TODO: consider combining with arrayToString (above)
+    /* given a set of terms and a separator, will produce a concatenated string
+     * of all the terms separated by the separator. Where a term is not truthy,
+     * it simply won't appear in the final result.
+     * - terms: a collection of terms to be combined
+     * - separator: the string to be inserted after each term
+     * - path (optional): an EL path on each item in the terms collection
+     */
+    sjrk.storyTelling.transforms.combineTerms = function (terms, separator, path) {
+        var contentString = "";
+
+        fluid.each(terms, function (term) {
+            if (term) {
+                if (path) {
+                    term = fluid.get(term, path) || term;
+                }
+
+                contentString += term + (separator || "");
+            }
+        });
+
+        return contentString;
     };
 
 })(jQuery, fluid);
