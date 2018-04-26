@@ -166,7 +166,7 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
         pouchHarness: {
             type: "gpii.pouch.harness",
             options: {
-                port: 5984
+                port: 6789
             }
         },
         dbConfiguration: {
@@ -174,7 +174,10 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
             createOnEvent: "{pouchHarness}.events.onReady",
             options: {
                 listeners: {
-                    "onCreate.configureCouch": "{that}.configureCouch",    
+                    "onCreate.configureCouch": "{that}.configureCouch",
+                },
+                couchOptions: {
+                    couchUrl: "http://localhost:6789"
                 }
             }
         }

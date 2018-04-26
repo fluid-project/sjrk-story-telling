@@ -12,6 +12,12 @@
                                     "uploadDirectory": "./tests/uploads"
                                 }
                             }
+                        },
+                        "storyDataSource": {
+                            "type": "sjrk.storyTelling.server.dataSource.story",
+                            "options": {
+                                "host": "http://localhost:6789"            
+                            }
                         }
                     }
                 }
