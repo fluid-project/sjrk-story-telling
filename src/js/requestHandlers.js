@@ -65,13 +65,10 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
 
     fluid.transform(storyModel.content, function (block) {
-        console.log(block);
         if (block.blockType === "image") {
             var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                console.log(singleFile);
                 return singleFile.originalname === block.fileDetails.name;
             });
-            console.log(imageFile);
             // TODO: generate a UUID filename to avoid potential collision from people
             // uploading binaries with same name - this will need to be done in the multer config
             // TODO: but preserve the file extension
