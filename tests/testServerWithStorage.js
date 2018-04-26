@@ -99,7 +99,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         storySave: {
             type: "kettle.test.request.formData",
             options: {
-                path: "/binaries",
+                path: "/stories",
                 method: "POST",
                 formData: {
                     files: {
@@ -119,7 +119,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         getSavedStory: {
             type: "kettle.test.request.http",
             options: {
-                path: "/story/%id",
+                path: "/stories/%id",
                 termMap: {
                     // We don't know this until the story is saved, so needs
                     // to be filled in at runtime
@@ -174,7 +174,7 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
         },
         dbConfiguration: {
             type: "sjrk.storyTelling.server.storiesDb",
-            createOnEvent: "{pouchHarness}.events.onReady",
+            createOnEvent: "{pouchHarness}.events.onReady"
         }
     }
 });

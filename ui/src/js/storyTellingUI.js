@@ -146,7 +146,7 @@ sjrk.storyTelling.server.learningReflections.submitStory = function (that) {
     // TODO: add proper selector for form
     var form = that.container.find("form");
 
-    form.attr("action", "/binaries/");
+    form.attr("action", "/stories/");
     form.attr("method", "post");
     form.attr("enctype", "multipart/form-data");
 
