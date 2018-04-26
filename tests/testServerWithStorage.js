@@ -82,14 +82,15 @@ var testStoryModel = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 3,
+    expect: 4,
     // Receives the ID of the saved story
     events: {
         "onStorySaveSuccessful": null
     },
     testUploadOptions: {
         testFile: "./tests/binaries/logo_small_fluid_vertical.png",
-        testDirectory: "./tests/uploads/"
+        testDirectory: "./tests/uploads/",
+        expectedUploadPath: "./tests/uploads/logo_small_fluid_vertical.png"
     },
     config: {
         configName: "sjrk.storyTelling.server.test",
@@ -151,6 +152,10 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory"
     }, {
+        func: "sjrk.storyTelling.server.testServerWithStorageDefs.testFileUploaded",
+        args: ["{testCaseHolder}.options.testUploadOptions.expectedUploadPath"]
+    },
+    {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
     }]
@@ -180,6 +185,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function 
     var parsedData = JSON.parse(data);
     jqUnit.assertDeepEq("Saved story data is as expected", testStoryModel, parsedData);
 
+};
+
+sjrk.storyTelling.server.testServerWithStorageDefs.testFileUploaded = function (expectedUploadPath) {
+    var exists = fs.existsSync(expectedUploadPath);
+    jqUnit.assertTrue("Uploaded file exists", exists);
 };
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
