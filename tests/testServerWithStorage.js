@@ -87,6 +87,10 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     events: {
         "onStorySaveSuccessful": null
     },
+    testUploadOptions: {
+        testFile: "./tests/binaries/logo_small_fluid_vertical.png",
+        testDirectory: "./tests/uploads/"
+    },
     config: {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/configs"
@@ -102,7 +106,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 method: "POST",
                 formData: {
                     files: {
-                        "file": ["./tests/binaries/logo_small_fluid_vertical.png"]
+                        "file": ["{testCaseHolder}.options.testUploadOptions.testFile"]
                     },
                     fields: {
                         "model": {
@@ -130,7 +134,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     // TODO: test for presence of uploaded binary
     sequence: [{
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["./tests/uploads/"]
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
     },
         {
         event: "{testDB}.dbConfiguration.events.onSuccess",
@@ -148,7 +152,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory"
     }, {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["./tests/uploads/"]
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
     }]
 }];
 
@@ -175,6 +179,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
 sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (data, request) {
     var parsedData = JSON.parse(data);
     jqUnit.assertDeepEq("Saved story data is as expected", testStoryModel, parsedData);
+
 };
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
