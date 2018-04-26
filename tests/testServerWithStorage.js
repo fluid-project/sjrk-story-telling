@@ -27,61 +27,58 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-// gpii-pouchdb
-var gpii = fluid.registerNamespace("gpii");
 require("gpii-pouchdb");
 
-// TODO: real story model
 var testStoryModel = {
-  "type": "story",
-  "value": {
-    "languageFromSelect": "",
-    "languageFromInput": "",
-    "title": "History of the Fluid Project",
-    "content": [
-      {
-        "id": null,
-        "language": null,
-        "heading": null,
-        "blockType": "image",
-        "imageUrl": "logo_small_fluid_vertical.png",
-        "alternativeText": "Fluid",
-        "description": "The Fluid Project logo",
+    "type": "story",
+    "value": {
         "languageFromSelect": "",
         "languageFromInput": "",
-        "fileDetails": {
-          "lastModified": 1524592510016,
-          "lastModifiedDate": "2018-04-24T17:55:10.016Z",
-          "name": "logo_small_fluid_vertical.png",
-          "size": 3719,
-          "type": "image/png"
-        }
-      },
-      {
-        "id": null,
-        "language": null,
-        "heading": null,
-        "blockType": "text",
-        "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
-        "simplifiedText": null,
-        "languageFromSelect": "",
-        "languageFromInput": ""
-      }
-    ],
-    "author": "Alan Harnum",
-    "language": "",
-    "images": [],
-    "tags": [
-      "fluidproject",
-      "history"
-    ],
-    "categories": [],
-    "summary": "",
-    "timestampCreated": null,
-    "timestampModified": null,
-    "requestedTranslations": [],
-    "translationOf": null
-  }
+        "title": "History of the Fluid Project",
+        "content": [
+            {
+                "id": null,
+                "language": null,
+                "heading": null,
+                "blockType": "image",
+                "imageUrl": "logo_small_fluid_vertical.png",
+                "alternativeText": "Fluid",
+                "description": "The Fluid Project logo",
+                "languageFromSelect": "",
+                "languageFromInput": "",
+                "fileDetails": {
+                    "lastModified": 1524592510016,
+                    "lastModifiedDate": "2018-04-24T17:55:10.016Z",
+                    "name": "logo_small_fluid_vertical.png",
+                    "size": 3719,
+                    "type": "image/png"
+                }
+            },
+            {
+                "id": null,
+                "language": null,
+                "heading": null,
+                "blockType": "text",
+                "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
+                "simplifiedText": null,
+                "languageFromSelect": "",
+                "languageFromInput": ""
+            }
+        ],
+        "author": "Alan Harnum",
+        "language": "",
+        "images": [],
+        "tags": [
+            "fluidproject",
+            "history"
+        ],
+        "categories": [],
+        "summary": "",
+        "timestampCreated": null,
+        "timestampModified": null,
+        "requestedTranslations": [],
+        "translationOf": null
+    }
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
@@ -131,6 +128,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             }
         }
     },
+    // TODO: remove binary upload before test run
+    // TODO: test for presence of uploaded binary
     sequence: [{
         event: "{testDB}.dbConfiguration.events.onSuccess",
         listener: "{that}.storySave.send"
@@ -150,9 +149,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
 
 sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
     var parsedData = JSON.parse(data);
-    jqUnit.assertTrue("Response OK is true", parsedData["ok"]);
-    jqUnit.assertTrue("Response contains ID field", parsedData["id"]);
-    completionEvent.fire(parsedData["id"]);
+    jqUnit.assertTrue("Response OK is true", parsedData.ok);
+    jqUnit.assertTrue("Response contains ID field", parsedData.id);
+    completionEvent.fire(parsedData.id);
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, getSavedStoryRequest) {
@@ -160,7 +159,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.testGetSavedStory = function (data, request) {
-    var parsedData = JSON.parse(data);    
+    var parsedData = JSON.parse(data);
     jqUnit.assertDeepEq("Saved story data is as expected", testStoryModel, parsedData);
 };
 
