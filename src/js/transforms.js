@@ -49,6 +49,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // TODO: should test coverage check for null values?
     sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
         return input.join(extraInputs.separator());
     };
