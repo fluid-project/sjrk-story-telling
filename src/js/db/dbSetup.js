@@ -26,5 +26,8 @@ sjrk.storyTelling.server.storiesDb({
     distributeOptions: {
         target: "{that}.options.couchOptions.couchUrl",
         record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
+    },
+    listeners: {
+        "onCreate.configureCouch": "{that}.configureCouch",
     }
 });

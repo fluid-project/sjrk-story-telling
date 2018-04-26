@@ -144,7 +144,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }]
 }];
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {    
+sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
     var parsedData = JSON.parse(data);
     jqUnit.assertTrue("Response OK is true", parsedData.ok);
     jqUnit.assertTrue("Response contains ID field", parsedData.id);
@@ -171,7 +171,12 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
         },
         dbConfiguration: {
             type: "sjrk.storyTelling.server.storiesDb",
-            createOnEvent: "{pouchHarness}.events.onReady"
+            createOnEvent: "{pouchHarness}.events.onReady",
+            options: {
+                listeners: {
+                    "onCreate.configureCouch": "{that}.configureCouch",    
+                }
+            }
         }
     }
 });
