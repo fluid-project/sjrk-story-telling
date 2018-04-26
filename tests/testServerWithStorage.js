@@ -145,7 +145,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "{that}.storySave.send"
     }, {
         event: "{storySave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
         args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
@@ -153,7 +153,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}"]
     }, {
         event: "{getSavedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaved",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
         args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory"]
     },
     {
@@ -171,7 +171,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = f
     });
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaveSuccessful = function (data, request, completionEvent) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful = function (data, request, completionEvent) {
     var parsedData = JSON.parse(data);
 
     jqUnit.assertTrue("Response OK is true", parsedData.ok);
@@ -191,7 +191,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaved = function (data, request, expectedUploadDirectory) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedUploadDirectory) {
     var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
 
@@ -209,7 +209,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStorySaved = function (da
     jqUnit.assertTrue("Uploaded file exists", exists);
 
 };
-
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
