@@ -20,26 +20,14 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleStoryRequest",
-            args: ["{request}", "{server}.storyDataSource", false]
+            args: ["{request}", "{server}.storyDataSource"]
         }
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
-    gradeNames: "kettle.request.http",
-    invokers: {
-        handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleStoryRequest",
-            args: ["{request}", "{server}.storyDataSource", true]
-        }
-    }
-});
-
-sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource, isSave) {
-    var id = request.req.params.id ? request.req.params.id : (isSave ? uuidv1() : "");
-    var promise = isSave ?
-        dataSource.set({directStoryId: id}, request.req.body) :
-        dataSource.get({directStoryId: id});
+sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource) {
+    var id = request.req.params.id;
+    var promise = dataSource.get({directStoryId: id});
 
     promise.then(function (response) {
         var responseAsJSON = JSON.stringify(response);
