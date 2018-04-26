@@ -1,6 +1,21 @@
 {
     "type": "sjrk.storyTelling.server.testServer",
     "options": {
-        "gradeNames": ["sjrk.storyTelling.server"]
+        "gradeNames": ["sjrk.storyTelling.server"],
+        "components": {
+            "server": {
+                "options": {
+                    "components": {
+                        "saveStoryWithBinaries": {
+                            "options": {
+                                "binaryUploadOptions": {
+                                    "uploadDirectory": "./tests/uploads"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
