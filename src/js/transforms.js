@@ -92,11 +92,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var contentString = "";
 
         fluid.each(terms, function (term) {
-            if (term) {
-                if (path) {
-                    term = fluid.get(term, path) || term;
-                }
+            if (path) {
+                term = fluid.get(term, path) || term;
+            }
 
+            if (term && typeof term === "string") {
                 contentString += term + (separator || "");
             }
         });
