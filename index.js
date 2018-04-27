@@ -19,4 +19,5 @@ require("./src/js/serverSetup");
 require("./src/js/requestHandlers");
 
 var sjrk = fluid.registerNamespace("sjrk");
+
 sjrk.storyTelling.server();

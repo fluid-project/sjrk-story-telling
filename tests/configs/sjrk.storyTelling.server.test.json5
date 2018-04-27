@@ -5,23 +5,14 @@
         "components": {
             "server": {
                 "options": {
+                    "globalConfig": {
+                        "binaryUploadDirectory": "./tests/uploads"
+                    },
                     "components": {
-                        "saveStoryWithBinaries": {
-                            "options": {
-                                "binaryUploadOptions": {
-                                    "uploadDirectory": "./tests/uploads"
-                                }
-                            }
-                        },
                         "storyDataSource": {
                             "type": "sjrk.storyTelling.server.dataSource.story",
                             "options": {
                                 "host": "http://localhost:6789"
-                            }
-                        },
-                        "uploads": {
-                            "options": {
-                                "root": "./tests/uploads"
                             }
                         }
                     }

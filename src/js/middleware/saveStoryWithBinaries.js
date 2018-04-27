@@ -20,7 +20,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
     gradeNames: ["kettle.middleware.multer"],
     binaryUploadOptions: {
         fileMaxCount: 10,
-        uploadDirectory: "./uploads"
+        uploadDirectory: "./binaryUploads"
     },
     invokers: {
         "getMiddlewareForFileStrategy": {

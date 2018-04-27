@@ -40,8 +40,6 @@ var testStoryModel = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            // TODO: need to fill this out dynamically
-            // or not test on it
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "The Fluid Project logo",
@@ -220,7 +218,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
     // update the expected model to use the
     // dynamically-generated file name before we
     // test on it
-    // TODO: there is probably a better way than this :/
     var updatedModel = fluid.copy(testStoryModel);
     updatedModel.content[0].imageUrl = binaryRenameMap[testStoryModel.content[0].imageUrl];
 
@@ -233,8 +230,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
     completionEvent.fire(parsedData.content[0].imageUrl);
 };
 
-// TODO: test that the file can be retrieved through
-// the uploads GET handler
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (filename, getUploadedImageRequest) {
     getUploadedImageRequest.send(null, {termMap: {filename: filename}});
 };

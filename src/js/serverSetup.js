@@ -19,6 +19,11 @@ fluid.defaults("sjrk.storyTelling.server", {
         server: {
             type: "kettle.server",
             options: {
+                // All globally configured elements go here
+                // and are passed to the relevant components
+                globalConfig: {
+                    binaryUploadDirectory: "./uploads"
+                },
                 port: 8081,
                 components: {
                     storyDataSource: {
@@ -31,7 +36,12 @@ fluid.defaults("sjrk.storyTelling.server", {
                         }
                     },
                     saveStoryWithBinaries: {
-                        type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries"
+                        type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
+                        options: {
+                            binaryUploadOptions: {
+                                uploadDirectory: "{server}.options.globalConfig.binaryUploadDirectory"
+                            }
+                        }
                     },
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
@@ -57,7 +67,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     uploads: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./uploads"
+                            "root": "{server}.options.globalConfig.binaryUploadDirectory"
                         }
                     },
                     ui: {
