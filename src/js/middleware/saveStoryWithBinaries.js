@@ -38,7 +38,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
             "args": ["{that}.options.binaryUploadOptions.uploadDirectory"]
         },
         "getDiskStorageFilenameFunc": {
-            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageFilenameFunc",
+            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageFilenameFunc"
         }
     }
 });

@@ -10,9 +10,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 "use strict";
 
-
-"use strict";
-
 var fluid = require("infusion"),
     kettle = require("kettle");
 
@@ -20,7 +17,7 @@ kettle.loadTestingSupport();
 
 var testIncludes = [
     "./testServer.js",
-    "./testServerWithStorage.js",
+    "./testServerWithStorage.js"
 ];
 
 fluid.each(testIncludes, function (path) {

@@ -16,7 +16,12 @@
                         "storyDataSource": {
                             "type": "sjrk.storyTelling.server.dataSource.story",
                             "options": {
-                                "host": "http://localhost:6789"            
+                                "host": "http://localhost:6789"
+                            }
+                        },
+                        "uploads": {
+                            "options": {
+                                "root": "./tests/uploads"
                             }
                         }
                     }

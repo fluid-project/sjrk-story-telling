@@ -13,7 +13,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 var fluid = require("infusion"),
     kettle = require("kettle"),
     fs = require("fs"),
-    path = require("path"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
 require("../src/js/staticHandlerBase");
@@ -32,64 +31,67 @@ var sjrk = fluid.registerNamespace("sjrk");
 require("gpii-pouchdb");
 
 var testStoryModel = {
-        "languageFromSelect": "",
-        "languageFromInput": "",
-        "title": "History of the Fluid Project",
-        "content": [
-            {
-                "id": null,
-                "language": null,
-                "heading": null,
-                "blockType": "image",
-                // TODO: need to fill this out dynamically
-                // or not test on it
-                "imageUrl": "logo_small_fluid_vertical.png",
-                "alternativeText": "Fluid",
-                "description": "The Fluid Project logo",
-                "languageFromSelect": "",
-                "languageFromInput": "",
-                "fileDetails": {
-                    "lastModified": 1524592510016,
-                    "lastModifiedDate": "2018-04-24T17:55:10.016Z",
-                    "name": "logo_small_fluid_vertical.png",
-                    "size": 3719,
-                    "type": "image/png"
-                }
-            },
-            {
-                "id": null,
-                "language": null,
-                "heading": null,
-                "blockType": "text",
-                "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
-                "simplifiedText": null,
-                "languageFromSelect": "",
-                "languageFromInput": ""
+    "languageFromSelect": "",
+    "languageFromInput": "",
+    "title": "History of the Fluid Project",
+    "content": [
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "blockType": "image",
+            // TODO: need to fill this out dynamically
+            // or not test on it
+            "imageUrl": "logo_small_fluid_vertical.png",
+            "alternativeText": "Fluid",
+            "description": "The Fluid Project logo",
+            "languageFromSelect": "",
+            "languageFromInput": "",
+            "fileDetails": {
+                "lastModified": 1524592510016,
+                "lastModifiedDate": "2018-04-24T17:55:10.016Z",
+                "name": "logo_small_fluid_vertical.png",
+                "size": 3719,
+                "type": "image/png"
             }
-        ],
-        "author": "Alan Harnum",
-        "language": "",
-        "images": [],
-        "tags": [
-            "fluidproject",
-            "history"
-        ],
-        "categories": [],
-        "summary": "",
-        "timestampCreated": null,
-        "timestampModified": null,
-        "requestedTranslations": [],
-        "translationOf": null
+        },
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "blockType": "text",
+            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
+            "simplifiedText": null,
+            "languageFromSelect": "",
+            "languageFromInput": ""
+        }
+    ],
+    "author": "Alan Harnum",
+    "language": "",
+    "images": [],
+    "tags": [
+        "fluidproject",
+        "history"
+    ],
+    "categories": [],
+    "summary": "",
+    "timestampCreated": null,
+    "timestampModified": null,
+    "requestedTranslations": [],
+    "translationOf": null
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 5,
-    // Receives two arguments:
-    // - the ID of the saved story
-    // - the binaryRenameMap
+    expect: 8,
     events: {
-        "onStorySaveSuccessful": null
+        // Receives two arguments:
+        // - the ID of the saved story
+        // - the binaryRenameMap
+        "onStorySaveSuccessful": null,
+        // Receives one argument:
+        // - the filename of the image to retrieve
+        "onTestImageRetrieval": null
     },
     testUploadOptions: {
         testFile: "./tests/binaries/logo_small_fluid_vertical.png",
@@ -134,13 +136,24 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     id: null
                 }
             }
+        },
+        getUploadedImage: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/uploads/%filename",
+                termMap: {
+                    // We don't know this until the story is saved, so needs
+                    // to be filled in at runtime
+                    filename: null
+                }
+            }
         }
     },
     sequence: [{
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
     },
-        {
+    {
         event: "{testDB}.dbConfiguration.events.onSuccess",
         listener: "{that}.storySave.send"
     }, {
@@ -154,7 +167,16 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
-        args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory"]
+        args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory", "{testCaseHolder}.events.onTestImageRetrieval"]
+    },
+    {
+        event: "{that}.events.onTestImageRetrieval",
+        args: ["{arguments}.0", "{getUploadedImage}"],
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage"
+    },
+    {
+        event: "{getUploadedImage}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval"
     },
     {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
@@ -165,7 +187,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
 sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = function (dirPath) {
     var testUploadsDir = fs.readdirSync(dirPath);
     fluid.each(testUploadsDir, function (filePath) {
-        if(filePath !== ".gitkeep") {
+        if (filePath !== ".gitkeep") {
             fs.unlinkSync(dirPath + filePath);
         }
     });
@@ -191,7 +213,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedUploadDirectory) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedUploadDirectory, completionEvent) {
     var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
 
@@ -208,6 +230,19 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
 
     jqUnit.assertTrue("Uploaded file exists", exists);
 
+    completionEvent.fire(parsedData.content[0].imageUrl);
+};
+
+// TODO: test that the file can be retrieved through
+// the uploads GET handler
+sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (filename, getUploadedImageRequest) {
+    getUploadedImageRequest.send(null, {termMap: {filename: filename}});
+};
+
+sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request) {
+    jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
+    jqUnit.assertEquals("header.content-type is image/png", "image/png", request.nativeResponse.headers["content-type"]);
+    jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);
 };
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
@@ -224,7 +259,7 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
             createOnEvent: "{pouchHarness}.events.onReady",
             options: {
                 listeners: {
-                    "onCreate.configureCouch": "{that}.configureCouch",
+                    "onCreate.configureCouch": "{that}.configureCouch"
                 },
                 couchOptions: {
                     couchUrl: "http://localhost:6789"

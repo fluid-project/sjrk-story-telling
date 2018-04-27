@@ -28,6 +28,6 @@ sjrk.storyTelling.server.storiesDb({
         record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
     },
     listeners: {
-        "onCreate.configureCouch": "{that}.configureCouch",
+        "onCreate.configureCouch": "{that}.configureCouch"
     }
 });
