@@ -22,7 +22,8 @@ fluid.defaults("sjrk.storyTelling.server", {
                 // All globally configured elements go here
                 // and are passed to the relevant components
                 globalConfig: {
-                    binaryUploadDirectory: "./uploads"
+                    binaryUploadDirectory: "./uploads",
+                    uploadedFilesHandlerPath: "/uploads"
                 },
                 port: 8081,
                 components: {
@@ -105,7 +106,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.uploadsHandler",
             "route": "/*",
             "method": "get",
-            "prefix": "/uploads"
+            "prefix": "{server}.options.globalConfig.uploadedFilesHandlerPath"
         },
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
