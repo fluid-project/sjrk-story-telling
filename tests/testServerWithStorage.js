@@ -168,6 +168,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
         args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory", "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath", "{testCaseHolder}.events.onTestImageRetrieval"]
     },
+    // TODO: these three parts of the sequence need to be
+    // fixed to accomodate the recent change
     // {
     //     event: "{that}.events.onTestImageRetrieval",
     //     args: ["{arguments}.0", "{getUploadedImage}"],
