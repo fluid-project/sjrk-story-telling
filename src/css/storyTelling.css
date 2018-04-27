@@ -135,3 +135,54 @@ fieldset ul {
     border-bottom: 1px dashed;
     margin: 2rem 0;
 }
+
+.sjrk-storyTelling-story-browser {
+
+}
+
+.sjrk-storyTelling-story-browser-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.sjrk-storyTelling-browser-story-container {
+    margin: 1rem 0;
+    background: var(--site-medium-grey);
+}
+
+.sjrk-storyTelling-browser-story-container:last-child {
+    margin-bottom: 0;
+}
+
+.sjrk-storyTelling-browser-story-container a {
+    color: black;
+    text-decoration: none;
+}
+
+.sjrk-storyTelling-browser-story-thumbnail {
+    display: inline-block;
+    background: var(--site-blue) url("../img/icons/icon-heartBook.png") no-repeat;
+    background-size: contain;
+    background-position: center;
+    min-width: 5rem;
+    min-height: 5rem;
+    /* height: 100%; */
+    /* width: 100%; */
+}
+
+.sjrk-storyTelling-browser-story-details {
+    display: inline-block;
+    padding: 1rem;
+}
+
+.sjrk-storyTelling-browser-story-title {
+    font-size: 1.4rem;
+    font-weight: normal;
+    margin: 0;
+}
+
+.sjrk-storyTelling-browser-story-author,
+.sjrk-storyTelling-browser-story-tags,
+.sjrk-storyTelling-browser-story-contains {
+     margin: 0.4rem 0rem;
+}
