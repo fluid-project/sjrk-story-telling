@@ -20,17 +20,28 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleStoryRequest",
-            args: ["{request}", "{server}.storyDataSource"]
+            args: ["{request}", "{server}.storyDataSource", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
         }
     }
 });
 
 // TODO: the get handler will need to provide an expanded URL for the binary locations, based on the config
-sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource) {
+sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource, uploadedFilesHandlerPath) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
 
     promise.then(function (response) {
+
+        fluid.transform(response.content, function (block) {
+            // fluid.log("BLOCK: ", block);
+            if (block.blockType === "image") {
+                block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
+                return block;
+            }
+        });
+
+        // console.log(response);
+
         var responseAsJSON = JSON.stringify(response);
         request.events.onSuccess.fire(responseAsJSON);
     }, function (error) {
