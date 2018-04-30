@@ -172,6 +172,28 @@ fieldset ul {
     object-fit: cover;
     height: 100%;
     width: 100%;
+    display: block;
+}
+
+.sjrk-storyTelling-browser-stories.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 20rem));
+    grid-gap: 2rem;
+    margin-top: 1rem;
+}
+
+.sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-container {
+    margin: 0;
+}
+
+.sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-container a {
+    grid-template-columns: auto;
+}
+
+.sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-thumbnail-container {
+    margin: 0;
+    width: 100%;
+    height: auto;
 }
 
 .sjrk-storyTelling-browser-story-details {

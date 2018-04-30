@@ -28,75 +28,51 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             stories: {
                 story1: {
                     title: "First story about something",
-                    content:
-                    [
-                        {
-                            blockType: "text",
-                            id: "id-123",
-                            language: "en-CA",
-                            heading: "An appropriate header",
-                            text: "This is the main text of this block",
-                            simplifiedText: "Main text."
-                        }
-                    ],
-                    contentString: "", // a string representation of the story content
-                    author: "",
-                    language: "",
-                    images: [],
-                    tags: ["story1tag1","story1tag2"],
-                    keywordString: "", // a string representation of the tags
-                    categories: [],
-                    summary: "",
-                    timestampCreated: null,
-                    timestampModified: null,
-                    requestedTranslations: [
-                        //"es": 2, // a list of language codes as keys with
-                        //"fr": 5  // the number of requests for that language
-                    ],
-                    translationOf: null
+                    author: "First Author",
+                    tags: ["story1tag1","story1tag2"]
                 },
                 story2: {
                     title: "Second story about other things",
-                    content:
-                    [
-                        {
-                            blockType: "text",
-                            language: "en",
-                            heading: "First block",
-                            text: "Here are some story words that form a sentence",
-                            simplifiedText: "Story words"
-                        },
-                        {
-                            blockType: "image",
-                            language: "de",
-                            heading: "Second block",
-                            imageUrl: "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-                            alternativeText: "Google logo",
-                            description: "This is the logo for Google"
-                        }
-                    ],
-                    contentString: "", // a string representation of the story content
-                    author: "",
-                    language: "",
-                    images: [],
-                    tags: ["story2tag1","story2tag2"],
-                    keywordString: "", // a string representation of the tags
-                    categories: [],
-                    summary: "",
-                    timestampCreated: null,
-                    timestampModified: null,
-                    requestedTranslations: [
-                        //"es": 2, // a list of language codes as keys with
-                        //"fr": 5  // the number of requests for that language
-                    ],
-                    translationOf: null
+                    author: "Second Author",
+                    tags: ["story2tag1","story2tag2"]
                 },
                 story3: {
                     title: "Third story to try out a different thumbnail image",
-                    content: null,
-                    tags: ["story2tag1","story2tag2"],
-                    keywordString: "", // a string representation of the tags
+                    tags: ["story3tag1"],
                     thumbnailUrl: "../../tests/img/obliterationroom.jpg"
+                },
+                story4: {
+                    title: "Fourth story to complete the first row of the grid view",
+                    author: "Fourth Author"
+                },
+                story5: {
+                    title: "Fifth story to be the first in a new row in the grid view",
+                    tags: ["story5tag1","story5tag2"],
+                    thumbnailUrl: "../../tests/img/obliterationroom.jpg"
+                },
+                story6: {
+                    title: "Six",
+                    author: "Sixth Author",
+                    tags: ["story6tag1","story6tag2"]
+                },
+                story7: {
+                    title: "Seven",
+                    tags: ["story7tag1","story7tag2"]
+                },
+                story8: {
+                    title: "Eight",
+                    tags: ["story8tag1","story8tag2"]
+                },
+                story9: {
+                    title: "Nine",
+                    author: "Ninth Author",
+                    tags: ["story9tag1","story9tag2"],
+                    thumbnailUrl: "../../tests/img/obliterationroom.jpg"
+                },
+                story0: {
+                    title: "Ten Ten Ten Ten Ten Ten Ten Ten Ten",
+                    author: "Tenth Author",
+                    tags: ["story0tag1"]
                 }
             }
         },
