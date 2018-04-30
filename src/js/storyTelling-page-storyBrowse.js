@@ -14,7 +14,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.page.storyBrowse", {
-        gradeNames: ["fluid.component"],
+        gradeNames: ["sjrk.storyTelling.pageShell"],
+        events: {
+            onAllUiComponentsReady: {
+                events: {
+                    onBrowserReady: "{storyBrowser}.events.onControlsBound"
+                }
+            }
+        },
+        modelRelay: [{
+            source: "{that}.model.uiLanguage",
+            target: "{storyBrowser}.templateManager.model.locale",
+            singleTransform: {
+                type: "fluid.transforms.identity"
+            }
+        }],
         components: {
             storyBrowser: {
                 type: "sjrk.storyTelling.ui.storyBrowser",
@@ -29,25 +43,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             }
                         }
                     }
-                }
-            },
-            pageShell: {
-                type: "sjrk.storyTelling.pageShell",
-                options: {
-                    events: {
-                        onAllUiComponentsReady: {
-                            events: {
-                                onBrowserReady: "{storyBrowser}.events.onControlsBound"
-                            }
-                        }
-                    },
-                    modelRelay: [{
-                        source: "{that}.model.uiLanguage",
-                        target: "{storyBrowser}.templateManager.model.locale",
-                        singleTransform: {
-                            type: "fluid.transforms.identity"
-                        }
-                    }]
                 }
             }
         }

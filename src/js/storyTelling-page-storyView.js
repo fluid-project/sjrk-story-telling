@@ -14,45 +14,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.page.storyView", {
-        gradeNames: ["fluid.component"],
-        selectors: {
-            storyViewer: ".sjrkc-storyTelling-story-viewer"
+        gradeNames: ["sjrk.storyTelling.pageShell"],
+        events: {
+            onAllUiComponentsReady: {
+                events: {
+                    onViewerReady: "{storyViewer}.events.onControlsBound"
+                }
+            }
         },
+        listeners: {
+            "{storyViewer}.events.onStoryListenToRequested": {
+                func: "{that}.events.onStoryListenToRequested.fire"
+            }
+        },
+        modelRelay: [{
+            source: "{that}.model.uiLanguage",
+            target: "{storyViewer}.templateManager.model.locale",
+            singleTransform: {
+                type: "fluid.transforms.identity"
+            }
+        }],
         components: {
-            pageShell: {
-                type: "sjrk.storyTelling.pageShell",
+            storySpeaker: {
                 options: {
-                    events: {
-                        onAllUiComponentsReady: {
-                            events: {
-                                onViewerReady: "{storyViewer}.events.onControlsBound"
-                            }
-                        }
-                    },
-                    listeners: {
-                        "{storyViewer}.events.onStoryListenToRequested": {
-                            func: "{that}.events.onStoryListenToRequested.fire"
-                        }
-                    },
-                    modelRelay: [{
-                        source: "{that}.model.uiLanguage",
-                        target: "{storyViewer}.templateManager.model.locale",
+                    modelRelay: {
+                        target: "{that}.model.ttsText",
                         singleTransform: {
-                            type: "fluid.transforms.identity"
-                        }
-                    }],
-                    components: {
-                        storySpeaker: {
-                            options: {
-                                modelRelay: {
-                                    target: "{that}.model.ttsText",
-                                    singleTransform: {
-                                        type: "fluid.transforms.stringTemplate",
-                                        template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                                        terms: "{storyViewer}.story.model"
-                                    }
-                                }
-                            }
+                            type: "fluid.transforms.stringTemplate",
+                            template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
+                            terms: "{storyViewer}.story.model"
                         }
                     }
                 }
@@ -60,7 +50,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story view context
             storyViewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
-                container: "{storyView}.options.selectors.storyViewer",
+                container: ".sjrkc-storyTelling-story-viewer",
                 options: {
                     components: {
                         templateManager: {
