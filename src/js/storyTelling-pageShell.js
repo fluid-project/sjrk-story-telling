@@ -18,11 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             uiLanguage: "en" //initial state is English (TODO: is there a better way?)
         },
-        selectors: {
-            menu: ".sjrkc-storyTelling-menu-links",
-            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container",
-            learningReflectionsFooter: ".sjrkc-learningReflections-pageFooter-container"
-        },
         events: {
             onStoryListenToRequested: null,
             onAllUiComponentsReady: null,
@@ -52,20 +47,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 singleTransform: {
                     type: "fluid.transforms.identity"
                 }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{learningReflectionsMasthead}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{learningReflectionsFooter}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
             }
         ],
         components: {
@@ -91,48 +72,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: "{pageShell}.options.selectors.menu",
+                container: ".sjrkc-storyTelling-menu-links",
                 options: {
                     components: {
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            // masthead/banner section
-            learningReflectionsMasthead: {
-                type: "sjrk.storyTelling.ui",
-                container: "{pageShell}.options.selectors.learningReflectionsMasthead",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/templates/learningReflections-masthead.handlebars",
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            // footer section
-            learningReflectionsFooter: {
-                type: "sjrk.storyTelling.ui",
-                container: "{pageShell}.options.selectors.learningReflectionsFooter",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/templates/learningReflections-footer.handlebars",
                                     resourcePrefix: "../.."
                                 }
                             }
