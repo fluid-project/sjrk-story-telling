@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.storyBrowse", {
+    fluid.defaults("sjrk.storyTelling.page.storyBrowse", {
         gradeNames: ["fluid.component"],
         components: {
             storyBrowser: {

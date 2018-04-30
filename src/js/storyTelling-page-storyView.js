@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.storyView", { // TODO name?
+    fluid.defaults("sjrk.storyTelling.page.storyView", {
         gradeNames: ["fluid.component"],
         selectors: {
             storyViewer: ".sjrkc-storyTelling-story-viewer"
@@ -115,140 +115,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     author: "The usual author",
                                     language: "en",
                                     tags: ["test", "story", "simple"]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // TODO: The purpose of this grade is to illustrate the similarities between
-    //      it and the uiManager. Once "complete", we can pull the similar bits
-    //      out into a "shell" grade that is then used by other new grades which
-    //      will each represent a particular workflow/use case within the tool
-    fluid.defaults("sjrk.storyTelling.pageShell", { // TODO name?
-        gradeNames: ["fluid.modelComponent"],
-        model: {
-            uiLanguage: "en" //initial state is English (TODO: is there a better way?)
-        },
-        selectors: {
-            menu: ".sjrkc-storyTelling-menu-links",
-            learningReflectionsMasthead: ".sjrkc-learningReflections-pageHeading-container",
-            learningReflectionsFooter: ".sjrkc-learningReflections-pageFooter-container"
-        },
-        events: {
-            onStoryListenToRequested: null,
-            onAllUiComponentsReady: null,
-            onContextChangeRequested: null // TODO: think of a better name
-        },
-        listeners: {
-            "{menu}.events.onInterfaceLanguageChangeRequested": {
-                func: "{that}.applier.change",
-                args: ["uiLanguage", "{arguments}.0.data"]
-            }
-        },
-        modelListeners: {
-            uiLanguage: [
-                {
-                    funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
-                    args: ["{that}"]
-                },
-                {
-                    funcName: "{that}.events.onContextChangeRequested.fire"
-                }
-            ]
-        },
-        modelRelay: [
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{menu}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{learningReflectionsMasthead}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{learningReflectionsFooter}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            }
-        ],
-        components: {
-            // handles text to speech requests globally for the whole site
-            storySpeaker: {
-                type: "fluid.textToSpeech",
-                createOnEvent: "{pageShell}.events.onAllUiComponentsReady",
-                options: {
-                    model:{
-                        ttsText: null,
-                        utteranceOpts: {
-                            lang: "{pageShell}.model.uiLanguage"
-                        }
-                    },
-                    listeners: {
-                        "{pageShell}.events.onStoryListenToRequested": {
-                            func: "{that}.queueSpeech",
-                            args: ["{that}.model.ttsText", true]
-                        }
-                    }
-                }
-            },
-            // the storytelling tool "main" menu
-            menu: {
-                type: "sjrk.storyTelling.ui.menu",
-                container: "{pageShell}.options.selectors.menu",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            // masthead/banner section
-            learningReflectionsMasthead: {
-                type: "sjrk.storyTelling.ui",
-                container: "{pageShell}.options.selectors.learningReflectionsMasthead",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/templates/learningReflections-masthead.handlebars",
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            // footer section
-            learningReflectionsFooter: {
-                type: "sjrk.storyTelling.ui",
-                container: "{pageShell}.options.selectors.learningReflectionsFooter",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/templates/learningReflections-footer.handlebars",
-                                    resourcePrefix: "../.."
                                 }
                             }
                         }
