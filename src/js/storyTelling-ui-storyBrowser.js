@@ -90,6 +90,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         //"fr": 5  // the number of requests for that language
                     ],
                     translationOf: null
+                },
+                story3: {
+                    title: "Third story to try out a different thumbnail image",
+                    content: null,
+                    tags: ["story2tag1","story2tag2"],
+                    keywordString: "", // a string representation of the tags
+                    thumbnailUrl: "../../tests/img/obliterationroom.jpg"
                 }
             }
         },

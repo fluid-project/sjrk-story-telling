@@ -47,7 +47,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 //"es": 2, // a list of language codes as keys with
                 //"fr": 5  // the number of requests for that language
             ],
-            translationOf: null
+            translationOf: null,
+            thumbnailUrl: "", // filename/url of the thumbnail image for this story
+            thumbnailAltText: "", // alternative text for the thumbnail image
+            blockTypes: "" // the types of blocks present in this story
         },
         modelRelay: [{
             target: "contentString",

@@ -11,7 +11,13 @@
                 especially wrt its position relative to title
          --}}
         <a class="sjrk-storyTelling-browser-story-link" href="storyView.html?id={{@key}}">
-            <img class="sjrk-storyTelling-browser-story-thumbnail" src="{{thumbnail}}" alt="{{thumbnailAlt}}">
+            <div class="sjrk-storyTelling-browser-story-thumbnail-container">
+                {{#if thumbnailUrl}}
+                    <img class="sjrk-storyTelling-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
+                {{else}}
+                    <img class="sjrk-storyTelling-browser-story-thumbnail" src="../img/icons/icon-heartBook-thumbnail.png" alt="Story thumbnail">
+                {{/if}}
+            </div>
             <div class="sjrk-storyTelling-browser-story-details">
                 <h2 class="sjrk-storyTelling-browser-story-title">{{title}}</h2>
                 <p class="sjrk-storyTelling-browser-story-author">{{author}}</p>

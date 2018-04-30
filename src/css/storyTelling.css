@@ -161,15 +161,17 @@ fieldset ul {
     grid-template-columns: auto 1fr;
 }
 
-.sjrk-storyTelling-browser-story-thumbnail {
-    display: inline-block;
-    /* background: var(--site-blue) url("../img/icons/icon-heartBook.png") no-repeat; */
-    /* background-size: contain; */
-    /* background-position: center; */
+.sjrk-storyTelling-browser-story-thumbnail-container {
     background: var(--site-blue);
-    min-width: 7rem;
-    min-height: 7rem;
     margin: .25rem;
+    height: 7rem;
+    width: 7rem;
+}
+
+.sjrk-storyTelling-browser-story-thumbnail {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
 
 .sjrk-storyTelling-browser-story-details {
