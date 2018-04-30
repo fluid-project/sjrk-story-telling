@@ -157,17 +157,19 @@ fieldset ul {
 .sjrk-storyTelling-browser-story-container a {
     color: black;
     text-decoration: none;
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
 
 .sjrk-storyTelling-browser-story-thumbnail {
     display: inline-block;
-    background: var(--site-blue) url("../img/icons/icon-heartBook.png") no-repeat;
-    background-size: contain;
-    background-position: center;
-    min-width: 5rem;
-    min-height: 5rem;
-    /* height: 100%; */
-    /* width: 100%; */
+    /* background: var(--site-blue) url("../img/icons/icon-heartBook.png") no-repeat; */
+    /* background-size: contain; */
+    /* background-position: center; */
+    background: var(--site-blue);
+    min-width: 7rem;
+    min-height: 7rem;
+    margin: .25rem;
 }
 
 .sjrk-storyTelling-browser-story-details {
