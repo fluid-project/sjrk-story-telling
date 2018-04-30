@@ -189,57 +189,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    fluid.defaults("sjrk.storyTelling.testTemplateManagerHelper", {
-        gradeNames: ["sjrk.storyTelling.templateManager"],
-        templateConfig: {
-            templatePath: "../html/templates/testHandleBarsHelperTemplate.handlebars",
-            messagesPath: "../json/messages/testLocalizationMessages.json"
-        },
-        selectors: {
-            testId1: ".sjrkc-testTemplateManager-testId1",
-            testId2: ".sjrkc-testTemplateManager-testId2"
-        }
-    });
-
-    fluid.defaults("sjrk.storyTelling.templateManagerHelperTester", {
-        gradeNames: ["fluid.test.testCaseHolder"],
-        modules: [{
-            name: "Test template manager.",
-            tests: [{
-                name: "Test template manager Handlebars helper",
-                expect: 2,
-                sequence: [{
-                    "event": "{templateManagerHelperTest testTemplateManagerHelper}.events.onTemplateRendered",
-                    listener: "sjrk.storyTelling.templateManagerHelperTester.testHandlebarsIdHelper",
-                    args: ["{testTemplateManagerHelper}", "testId1", "testId2", "test"]
-                }]
-            }]
-        }]
-    });
-
-    sjrk.storyTelling.templateManagerHelperTester.testHandlebarsIdHelper = function (component, selector1, selector2, prefix) {
-        var generatedId1 = component.locate(selector1).text().trim();
-        var generatedId2 = component.locate(selector2).text().trim();
-
-        jqUnit.assertNotEquals("Two generated IDs are not identical", generatedId1, generatedId2);
-
-        jqUnit.assertEquals("Generated ID begins with prefix and dash", 0, generatedId1.indexOf(prefix + "-"));
-    };
-
-    fluid.defaults("sjrk.storyTelling.templateManagerHelperTest", {
-        gradeNames: ["fluid.test.testEnvironment"],
-        components: {
-            templateManagerHelper: {
-                type: "sjrk.storyTelling.testTemplateManagerHelper",
-                container: "#testTemplateManagerHelper",
-                createOnEvent: "{templateManagerHelperTester}.events.onTestCaseStart"
-            },
-            templateManagerHelperTester: {
-                type: "sjrk.storyTelling.templateManagerHelperTester"
-            }
-        }
-    });
-
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("en");
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("fr");
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment("es");
@@ -251,8 +200,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "sjrk.storyTelling.templateManagerTest.en",
             "sjrk.storyTelling.templateManagerTest.fr",
             "sjrk.storyTelling.templateManagerTest.es",
-            "sjrk.storyTelling.templateManagerTest.chef",
-            "sjrk.storyTelling.templateManagerHelperTest"
+            "sjrk.storyTelling.templateManagerTest.chef"
         ]);
     });
 
