@@ -98,6 +98,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         getIds: {
                             type: "sjrk.storyTelling.templateManager.getIdsHelper"
+                        },
+                        replace: {
+                            type: "sjrk.storyTelling.templateManager.replaceHelper"
                         }
                     }
                 }
@@ -207,6 +210,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
 
             return options.fn().replace(/\$id/g, prefixForId);
+        };
+    };
+
+    /* A gpii.handlebars.helper grade which replaces one string with another */
+    fluid.defaults("sjrk.storyTelling.templateManager.replaceHelper", {
+        gradeNames: ["gpii.handlebars.helper"],
+        helperName: "replace",
+        invokers: {
+            "getHelper": {
+                funcName: "sjrk.storyTelling.templateManager.replaceHelper.replace",
+                args: ["{that}"]
+            }
+        }
+    });
+
+    // TODO: write tests for this function
+    /* Handlebars block helper function to replace all instances of one value
+     * within a given string with another new value.
+     * - "source": the source string to be modified
+     * - "originalValue": the value to be replaced
+     * - "newValue": the new value to use instead of originalValue
+     */
+    sjrk.storyTelling.templateManager.replaceHelper.replace = function () {
+        return function (source, originalValue, newValue) {
+            var modifiedSource = source;
+            return modifiedSource.replace(new RegExp(originalValue, "g"), newValue);
         };
     };
 

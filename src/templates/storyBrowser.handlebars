@@ -21,7 +21,11 @@
                 </div>
                 <div class="sjrk-storyTelling-browser-story-details">
                     <h2 class="sjrk-storyTelling-browser-story-title">{{title}}</h2>
-                    <p class="sjrk-storyTelling-browser-story-author">{{author}}</p>
+                    <p class="sjrk-storyTelling-browser-story-author">
+                        {{#if author}}
+                            {{#replace ../localizedMessages.message_storyAuthorText "%author" author}}{{/replace}}
+                        {{/if}}
+                    </p>
                     <p class="sjrk-storyTelling-browser-story-tags">{{../localizedMessages.message_storyListTagsLabelText}}: {{tags}}</p>
                     {{!-- TODO: localize/internationalize block type names --}}
                     <p class="sjrk-storyTelling-browser-story-contains">Contains: text, image</p>
