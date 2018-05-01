@@ -97,9 +97,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                             blockType: "image",
                                             language: "de",
                                             heading: "Second block",
-                                            imageUrl: "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-                                            alternativeText: "Google logo",
-                                            description: "This is the logo for Google"
+                                            imageUrl: "../../tests/img/obliterationroom.jpg",
+                                            alternativeText: "The Obliteration Room at the Yayoi Kusama Infinity Rooms exhibit",
+                                            description: "This is a photo of the Obliteration Room at the Art Gallery of Ontario"
                                         }
                                     ],
                                     author: "The usual author",
