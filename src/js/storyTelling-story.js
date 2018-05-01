@@ -50,7 +50,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             translationOf: null,
             thumbnailUrl: "", // filename/url of the thumbnail image for this story
             thumbnailAltText: "", // alternative text for the thumbnail image
-            blockTypes: "" // the types of blocks present in this story
+            contentTypes: [] // a collection of the types of block present in this story
         },
         modelRelay: [{
             target: "contentString",

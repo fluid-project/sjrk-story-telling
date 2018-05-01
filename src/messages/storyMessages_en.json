@@ -39,9 +39,18 @@
     "message_storyShareText": "Share my story",
     "message_storySaveNoShareText": "Save without sharing",
     "message_storyLanguageLabelText": "Language(s)",
+    "message_storyBrowseViewText": "View",
+    "message_storyBrowseListText": "List",
+    "message_storyBrowseGridText": "Grid",
+    "message_storyBrowseThumbAltText": "Story thumbnail",
+    "message_storyBrowseContainsText": "Contains",
     "message_menu_browseLinkText": "Browse stories...",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
+    "contentTypes": {
+        "text": "text",
+        "image": "image"
+    },
     "availableCategories": {
         "category_childhood": "Childhood",
         "category_immigration": "Immigration",

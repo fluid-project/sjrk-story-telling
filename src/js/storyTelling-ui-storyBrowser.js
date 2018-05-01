@@ -29,7 +29,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 story1: {
                     title: "First story about something",
                     author: "First Author",
-                    tags: ["story1tag1","story1tag2"]
+                    tags: ["story1tag1","story1tag2"],
+                    contentTypes: ["text", "image"]
                 },
                 story2: {
                     title: "Second story about other things",
