@@ -1,7 +1,7 @@
 <div class="sjrk-storyTelling-browser-view-control-container">
-    {{localizedMessages.message_storyBrowseViewText}}: <a href="javascript:void(0);">{{localizedMessages.message_storyBrowseListText}}</a>
+    {{localizedMessages.message_browseViewText}}: <a href="javascript:void(0);">{{localizedMessages.message_browseListText}}</a>
     |
-    <a href="javascript:void(0);">{{localizedMessages.message_storyBrowseGridText}}</a>
+    <a href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
 </div>
 <div class="sjrk-storyTelling-browser-stories grid">
     {{#each dynamicValues.stories}}
@@ -14,25 +14,25 @@
                     {{#if thumbnailUrl}}
                         <img class="sjrk-storyTelling-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
                     {{else}}
-                        <img class="sjrk-storyTelling-browser-story-thumbnail" src="../img/icons/icon-heartBook-thumbnail.png" alt="{{../localizedMessages.message_storyBrowseListText}}">
+                        <img class="sjrk-storyTelling-browser-story-thumbnail" src="../img/icons/icon-heartBook-thumbnail.png" alt="{{../localizedMessages.message_browseListText}}">
                     {{/if}}
                 </div>
                 <div class="sjrk-storyTelling-browser-story-details">
                     <h2 class="sjrk-storyTelling-browser-story-title">{{title}}</h2>
                     <p class="sjrk-storyTelling-browser-story-author">
                         {{#if author}}
-                            {{#replace ../localizedMessages.message_storyAuthorText "%author" author}}{{/replace}}
+                            {{#replace ../localizedMessages.message_authorText "%author" author}}{{/replace}}
                         {{/if}}
                     </p>
                     {{#if tags}}
-                        <p class="sjrk-storyTelling-browser-story-tags">{{../localizedMessages.message_storyListTagsLabelText}}:
+                        <p class="sjrk-storyTelling-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}:
                             {{#each tags}}
                                 {{this}}{{#unless @last}}, {{/unless}}
                             {{/each}}
                         </p>
                     {{/if}}
                     {{#if contentTypes}}
-                        <p class="sjrk-storyTelling-browser-story-contains">{{../localizedMessages.message_storyBrowseContainsText}}:
+                        <p class="sjrk-storyTelling-browser-story-contains">{{../localizedMessages.message_browseContainsText}}:
                             {{#each contentTypes}}
                                 {{lookup ../../localizedMessages.contentTypes this}}{{#unless @last}}, {{/unless}}
                             {{/each}}
