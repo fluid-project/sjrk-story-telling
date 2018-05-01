@@ -29,51 +29,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 story1: {
                     title: "First story about something",
                     author: "First Author",
-                    tags: ["story1tag1","story1tag2"],
-                    contentTypes: ["text", "image"]
+                    tags: ["Heart","Book"],
+                    contentTypes: ["text","image"]
                 },
                 story2: {
                     title: "Second story about other things",
                     author: "Second Author",
-                    tags: ["story2tag1","story2tag2"]
+                    tags: ["Cats"]
                 },
                 story3: {
                     title: "Third story to try out a different thumbnail image",
-                    tags: ["story3tag1"],
+                    tags: ["Dots","Yayoi Kusama"],
                     thumbnailUrl: "../../tests/img/obliterationroom.jpg"
                 },
                 story4: {
-                    title: "Fourth story to complete the first row of the grid view",
+                    title: "Fourth story",
                     author: "Fourth Author"
                 },
                 story5: {
-                    title: "Fifth story to be the first in a new row in the grid view",
-                    tags: ["story5tag1","story5tag2"],
+                    title: "Fifth story",
+                    tags: ["Dots"],
                     thumbnailUrl: "../../tests/img/obliterationroom.jpg"
-                },
-                story6: {
-                    title: "Six",
-                    author: "Sixth Author",
-                    tags: ["story6tag1","story6tag2"]
-                },
-                story7: {
-                    title: "Seven",
-                    tags: ["story7tag1","story7tag2"]
-                },
-                story8: {
-                    title: "Eight",
-                    tags: ["story8tag1","story8tag2"]
-                },
-                story9: {
-                    title: "Nine",
-                    author: "Ninth Author",
-                    tags: ["story9tag1","story9tag2"],
-                    thumbnailUrl: "../../tests/img/obliterationroom.jpg"
-                },
-                story0: {
-                    title: "Ten Ten Ten Ten Ten Ten Ten Ten Ten",
-                    author: "Tenth Author",
-                    tags: ["story0tag1"]
                 }
             }
         },
