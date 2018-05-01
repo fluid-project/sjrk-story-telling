@@ -4,6 +4,7 @@
     --site-light-blue: #66c6e0;
     --site-white: #fff;
     --site-grey: #f2f2f2;
+    --site-medium-grey: #e6e6e6;
 }
 
 body {
@@ -60,7 +61,7 @@ textarea {
 
 .sjrk-learningReflections-pageBody-container {
     background-color: var(--site-white);
-    padding: 2rem 3rem 2rem 3rem;
+    padding: 2rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 4rem;

@@ -28,50 +28,66 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test image block.",
             tests: [{
                 name: "Test model relay",
-                expect: 6,
+                expect: 8,
                 sequence: [{
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Initial combined text is as expected", "Picture of Shyguy. A picture of a cute kitty. This is a picture of Shyguy", "{imageBlock}.model.contentString"]
+                    funcName: "jqUnit.assertEquals", // 111
+                    args: ["Initial combined text is as expected", "Picture of Shyguy. A picture of a cute kitty. This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
-                    args: ["heading", ""]
+                    args: ["heading", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Combined text is as expected", "A picture of a cute kitty. This is a picture of Shyguy", "{imageBlock}.model.contentString"]
+                    funcName: "jqUnit.assertEquals", // 011
+                    args: ["Combined text is as expected", "A picture of a cute kitty. This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
+                },
+                {
+                    func: "{imageBlock}.applier.change",
+                    args: ["alternativeText", null]
+                },
+                {
+                    funcName: "jqUnit.assertEquals", // 001
+                    args: ["Combined text is as expected", "This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
                     args: ["heading", "Picture of Rootbeer"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Combined text is as expected", "Picture of Rootbeer. A picture of a cute kitty. This is a picture of Shyguy", "{imageBlock}.model.contentString"]
+                    funcName: "jqUnit.assertEquals", // 101
+                    args: ["Combined text is as expected", "Picture of Rootbeer. This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
-                    args: ["description", ""]
+                    args: ["description", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Combined text is as expected", "Picture of Rootbeer. A picture of a cute kitty", "{imageBlock}.model.contentString"]
-                },
-                {
-                    func: "{imageBlock}.applier.change",
-                    args: ["description", "This is a picture of Rootbeer"]
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Combined text is as expected", "Picture of Rootbeer. A picture of a cute kitty. This is a picture of Rootbeer", "{imageBlock}.model.contentString"]
+                    funcName: "jqUnit.assertEquals", // 100
+                    args: ["Combined text is as expected", "Picture of Rootbeer. ", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
-                    args: ["alternativeText", ""]
+                    args: ["alternativeText", "A picture of another cute kitty"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Combined text is as expected", "Picture of Rootbeer. This is a picture of Rootbeer", "{imageBlock}.model.contentString"]
+                    funcName: "jqUnit.assertEquals", // 110
+                    args: ["Combined text is as expected", "Picture of Rootbeer. A picture of another cute kitty. ", "{imageBlock}.model.contentString"]
+                },
+                {
+                    func: "{imageBlock}.applier.change",
+                    args: ["heading", null]
+                },
+                {
+                    funcName: "jqUnit.assertEquals", // 010
+                    args: ["Combined text is as expected", "A picture of another cute kitty. ", "{imageBlock}.model.contentString"]
+                },
+                {
+                    func: "{imageBlock}.applier.change",
+                    args: ["alternativeText", null]
+                },
+                {
+                    funcName: "jqUnit.assertEquals", // 000
+                    args: ["Combined text is as expected", "", "{imageBlock}.model.contentString"]
                 }]
             }]
         }]

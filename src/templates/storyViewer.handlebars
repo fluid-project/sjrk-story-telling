@@ -1,31 +1,31 @@
 <div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-heading-container">
     <div hidden>
-        <h2 class="sjrkc-storyTelling-story-heading sjrk-storyTelling-story-heading">{{localizedMessages.message_storyPreviewText}}</h2>
+        <h2 class="sjrkc-storyTelling-story-heading sjrk-storyTelling-story-heading">{{localizedMessages.message_previewText}}</h2>
     </div>
     <div hidden>
-        <a class="sjrkc-storyTelling-read-other-stories sjrk-storyTelling-read-other-stories " href="#">{{localizedMessages.message_storyTranslateText}}</a>
+        <a class="sjrkc-storyTelling-read-other-stories sjrk-storyTelling-read-other-stories " href="#">{{localizedMessages.message_translateText}}</a>
     </div>
 </div>
 <div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-main-container">
     <div class="sjrk-storyTelling-link-container">
-        <button class="sjrk-storyTelling-button sjrk-storyTelling-storyListenTo sjrkc-storyTelling-storyListenTo" type="button"><span class="sjrk-storyTelling-button-text">{{localizedMessages.message_storyListenToText}}</span></button>
+        <button class="sjrk-storyTelling-button sjrk-storyTelling-storyListenTo sjrkc-storyTelling-storyListenTo" type="button"><span class="sjrk-storyTelling-button-text">{{localizedMessages.message_listenToText}}</span></button>
     </div>
 
     <h2 class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</h2>
-    <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_storyAuthorText}}</p>
+    <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_authorText}}</p>
 
     <div hidden class="sjrk-storyTelling-link-container">
-        <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_storyReadMoreText}}</a>
+        <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_readMoreText}}</a>
     </div>
 
     <div hidden class="sjrk-storyTelling-language-container">
-        {{localizedMessages.message_storyLanguageLabelText}}: <span class="sjrkc-storyTelling-storyLanguage sjrk-storyTelling-storyLanguage">
+        {{localizedMessages.message_languageLabelText}}: <span class="sjrkc-storyTelling-storyLanguage sjrk-storyTelling-storyLanguage">
             {{lookup ../localizedMessages.availableLanguages dynamicValues.language}}
         </span>
     </div>
 
     <div class="sjrk-storyTelling-tags-container">
-        {{localizedMessages.message_storyListTagsLabelText}}: <span class="sjrkc-storyTelling-storyListTags sjrk-storyTelling-storyListTags">
+        {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-storyTelling-storyListTags sjrk-storyTelling-storyListTags">
             {{#each dynamicValues.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
         </span>
     </div>
@@ -35,7 +35,7 @@
     <div class="sjrkc-storyTelling-storyContent sjrk-storyTelling-storyContent"></div>
 
     <div hidden class="sjrk-storyTelling-categories-container">
-        {{localizedMessages.message_storyListCategoriesLabelText}}: <span class="sjrkc-storyTelling-storyCategories sjrk-storyTelling-storyCategories">
+        {{localizedMessages.message_listCategoriesLabelText}}: <span class="sjrkc-storyTelling-storyCategories sjrk-storyTelling-storyCategories">
             {{#each dynamicValues.storyCategories}}
                 {{lookup ../localizedMessages.availableCategories this}}{{#unless @last}}, {{/unless}}
             {{/each}}
@@ -44,12 +44,12 @@
 </div>
 <div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-footer-container">
     <div>
-        <a href="javascript:void(0)" class="sjrkc-storyTelling-storyViewerPrevious sjrk-storyTelling-storyViewerPrevious">{{localizedMessages.message_storyGoBack}}</a>
+        <a href="javascript:void(0)" class="sjrkc-storyTelling-storyViewerPrevious sjrk-storyTelling-storyViewerPrevious">{{localizedMessages.message_goBack}}</a>
     </div>
     <div>
-        <a href="#" class="sjrkc-storyTelling-storyShare sjrk-storyTelling-storyShare">{{localizedMessages.message_storyShareText}}</a>
+        <a href="#" class="sjrkc-storyTelling-storyShare sjrk-storyTelling-storyShare">{{localizedMessages.message_shareText}}</a>
     </div>
     <div hidden>
-        <a href="#" class="sjrkc-storyTelling-storySaveNoShare sjrk-storyTelling-storySaveNoShare">{{localizedMessages.message_storySaveNoShareText}}</a>
+        <a href="#" class="sjrkc-storyTelling-storySaveNoShare sjrk-storyTelling-storySaveNoShare">{{localizedMessages.message_saveNoShareText}}</a>
     </div>
 </div>

@@ -16,15 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.testStory", {
         gradeNames: ["sjrk.storyTelling.story"],
         model: {
-            content:
-            [
-                {
-                    contentString: "Shyguy is a grey Mackerel Tabby with Bengal spots"
-                },
-                {
-                    contentString: "Rootbeer is an grey-orange Mackerel Tabby with a few spots."
-                }
-            ]
+            content: [{ incorrectKey: "Not about cats." }]
         }
     });
 
@@ -34,18 +26,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story.",
             tests: [{
                 name: "Test model relay",
-                expect: 2,
+                expect: 3,
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
-                    args: ["Initial contentString is as expected", "Shyguy is a grey Mackerel Tabby with Bengal spots. Rootbeer is an grey-orange Mackerel Tabby with a few spots.. ", "{story}.model.contentString"]
+                    args: ["Initial contentString is as expected", "", "{story}.model.contentString"]
                 },
                 {
                     func: "{story}.applier.change",
-                    args: ["content", [{contentString: "Cats"}]]
+                    args: ["content", [{ contentString: "Cats" }]]
                 },
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["contentString is as expected", "Cats. ", "{story}.model.contentString"]
+                },
+                {
+                    func: "{story}.applier.change",
+                    args: ["content", [
+                        { contentString: "Shyguy is a grey Mackerel Tabby with Bengal spots" },
+                        { contentString: "Rootbeer is an grey-orange Mackerel Tabby with a few spots." }
+                    ]]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["contentString is as expected", "Shyguy is a grey Mackerel Tabby with Bengal spots. Rootbeer is an grey-orange Mackerel Tabby with a few spots.. ", "{story}.model.contentString"]
                 }]
             }]
         }]

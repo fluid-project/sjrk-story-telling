@@ -48,20 +48,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.container",
                 options: {
                     listeners: {
-                        "onAllResourcesLoaded.renderTemplateOnSelf": {
-                            funcName: "{that}.renderTemplateOnSelf",
-                            args: ["{story}.model"]
-                        },
                         "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyMessages.json"
                     }
                 }
-            },
-            // represents the story data
-            story: {
-                type: "sjrk.storyTelling.story"
             }
         }
     });

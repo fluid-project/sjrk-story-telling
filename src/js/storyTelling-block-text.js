@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -25,15 +25,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             target: "contentString",
             singleTransform: {
                 type: "fluid.transforms.free",
-                func: "sjrk.storyTelling.block.textBlock.updateContentString",
-                args: ["{that}.model.heading", "{that}.model.text"]
+                func: "sjrk.storyTelling.transforms.combineTerms",
+                args: [["{that}.model.heading", "{that}.model.text"], ". "]
             }
         }
     });
-
-    // TODO: determine the use and display options of simplifiedText
-    sjrk.storyTelling.block.textBlock.updateContentString = function (heading, text) {
-        return heading + (heading && text ? ". " : "") + text;
-    };
 
 })(jQuery, fluid);
