@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.page.storyEdit", {
-        gradeNames: ["sjrk.storyTelling.pageShell"],
+        gradeNames: ["sjrk.storyTelling.page"],
         events: {
             onAllUiComponentsReady: {
                 events: {
@@ -90,9 +90,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     listeners: {
                         // TODO: determine if there is a better way to "register" these
-                        onStorySubmitRequested: "{pageShell}.events.onContextChangeRequested.fire",
-                        onEditorNextRequested: "{pageShell}.events.onContextChangeRequested.fire",
-                        onEditorPreviousRequested: "{pageShell}.events.onContextChangeRequested.fire"
+                        onStorySubmitRequested: "{page}.events.onContextChangeRequested.fire",
+                        onEditorNextRequested: "{page}.events.onContextChangeRequested.fire",
+                        onEditorPreviousRequested: "{page}.events.onContextChangeRequested.fire"
                     },
                     components: {
                         templateManager: {
@@ -130,7 +130,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".sjrkc-storyTelling-story-previewer",
                 options: {
                     listeners: {
-                        onStoryViewerPreviousRequested: "{pageShell}.events.onContextChangeRequested.fire"
+                        onStoryViewerPreviousRequested: "{page}.events.onContextChangeRequested.fire"
                     },
                     components: {
                         story: {

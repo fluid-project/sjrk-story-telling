@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections", {
-        gradeNames: ["sjrk.storyTelling.pageShell"],
+        gradeNames: ["sjrk.storyTelling.page"],
         modelRelay: [
             {
                 source: "{that}.model.uiLanguage",

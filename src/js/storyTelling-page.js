@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.pageShell", {
+    fluid.defaults("sjrk.storyTelling.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
             uiLanguage: "en" //initial state is English (TODO: is there a better way?)
@@ -53,16 +53,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // handles text to speech requests globally for the whole site
             storySpeaker: {
                 type: "fluid.textToSpeech",
-                createOnEvent: "{pageShell}.events.onAllUiComponentsReady",
+                createOnEvent: "{page}.events.onAllUiComponentsReady",
                 options: {
                     model:{
                         ttsText: null,
                         utteranceOpts: {
-                            lang: "{pageShell}.model.uiLanguage"
+                            lang: "{page}.model.uiLanguage"
                         }
                     },
                     listeners: {
-                        "{pageShell}.events.onStoryListenToRequested": {
+                        "{page}.events.onStoryListenToRequested": {
                             func: "{that}.queueSpeech",
                             args: ["{that}.model.ttsText", true]
                         }
