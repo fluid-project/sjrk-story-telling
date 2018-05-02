@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modelListeners: {
             uiLanguage: [
                 {
-                    funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
+                    funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
                     args: ["{that}"]
                 },
                 {
@@ -87,5 +87,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.page.renderAllUiTemplates = function (component) {
+        fluid.each(component, function (subcomponent) {
+            if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui")) {
+                subcomponent.templateManager.events.onResourceLoadRequested.fire();
+            }
+        });
+    };
 
 })(jQuery, fluid);
