@@ -45,6 +45,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired."
                 }]
+                // TODO: Add tests for uiLanguage changing and events
+                // TODO: Add tests for onContextChangeRequested event
             }]
         }]
     });

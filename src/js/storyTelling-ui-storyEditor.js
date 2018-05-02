@@ -36,7 +36,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onStorySubmitRequested: null,
             onEditorNextRequested: null,
             onEditorPreviousRequested: null,
-            onStoryListenToRequested: null,
             onTextBlockAdditionRequested: null,
             onImageBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
@@ -65,11 +64,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.storySubmit",
                 "method": "click",
                 "args": ["{that}.events.onStorySubmitRequested.fire"]
-            },
-            "onReadyToBind.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"]
             },
             "onReadyToBind.bindEditorNextControl": {
                 "this": "{that}.dom.storyEditorNext",
