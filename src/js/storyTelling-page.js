@@ -20,7 +20,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onStoryListenToRequested: null,
-            onAllUiComponentsReady: null,
+            onAllUiComponentsReady: {
+                events: {
+                    onMenuReady: "{menu}.events.onControlsBound"
+                }
+            },
             onContextChangeRequested: null // TODO: think of a better name
         },
         listeners: {
