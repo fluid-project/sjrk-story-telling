@@ -108,44 +108,16 @@ sjrk.storyTelling.server.loadStoryFromParameter = function () {
     var storyId = sjrk.storyTelling.server.getParameterByName("id");
     if (storyId) {
         var storyUrl = "/stories/" + storyId;
+
+            $.get(storyUrl, function (data) {
+                var retrievedStory = JSON.parse(data);
+
+                sjrk.storyTelling.server.learningReflections.storyView({
+                    distributeOptions: {
+                        "target": "{that story}.options.model",
+                        "record": retrievedStory
+                    }
+                });
+            });
     }
-    
-    $.get(storyUrl, function (data) {
-        var retrievedStory = JSON.parse(data);
-        console.log(retrievedStory);
-        sjrk.storyTelling.server.learningReflections.storyView({
-            distributeOptions: {
-                "target": "{that story}.options.model",
-                "record": retrievedStory
-            }
-        });
-    });
-
 };
-
-// sjrk.storyTelling.server.storyAuthoring.loadStoryFromQueryParam = function () {
-//     var storyId = sjrk.storyTelling.server.storyAuthoring.getParameterByName("story");
-//
-//     if(storyId){
-//         var storyURL = "http://localhost:8081/story/" + storyId;
-//
-//         $.get(storyURL, function (data) {
-//             var retrievedStory = JSON.parse(data);
-//             storyTelling.storyEditor.applier.change("", retrievedStory);
-//         });
-//     }
-// };
-//
-//
-// // TODO: fix the # anchor behaviour of this
-// sjrk.storyTelling.server.storyAuthoring.saveNoShare = function (storyViewer) {
-//     var storyId = sjrk.storyTelling.server.storyAuthoring.getParameterByName("story");
-//     var storyURL = "http://localhost:8081/story/" + (storyId ? storyId : "");
-//     console.log(storyURL);
-//
-//     var modelToSave = fluid.censorKeys(storyViewer.model, ["templateTerms"]);
-//
-//     $.post(storyURL, modelToSave, function(response) {
-//         console.log("it worked!", response.id);
-//     });
-// };
