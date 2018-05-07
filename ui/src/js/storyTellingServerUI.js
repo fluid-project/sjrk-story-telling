@@ -70,18 +70,59 @@ sjrk.storyTelling.server.learningReflections.submitStory = function (that) {
     });
 };
 
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
+    gradeNames: ["sjrk.storyTelling.learningReflections.storyView"],
+    distributeOptions: {
+        target: "{that templateManager}.options.templateConfig.resourcePrefix",
+        record: "/node_modules/sjrk-story-telling"
+    },
+    components: {
+        storyViewer: {
+            options: {
+                components: {
+                    story: {
+                        options: {
+                            model: null
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
 // classic query string parser via
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-// sjrk.storyTelling.server.storyAuthoring.getParameterByName = function (name, url) {
-//     if (!url) url = window.location.href;
-//     name = name.replace(/[\[\]]/g, "\\$&");
-//     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-//         results = regex.exec(url);
-//     if (!results) return null;
-//     if (!results[2]) return '';
-//     return decodeURIComponent(results[2].replace(/\+/g, " "));
-// };
-//
+
+sjrk.storyTelling.server.getParameterByName = function (name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
+
+sjrk.storyTelling.server.loadStoryFromParameter = function () {
+    var storyId = sjrk.storyTelling.server.getParameterByName("id");
+    if (storyId) {
+        var storyUrl = "/stories/" + storyId;
+    }
+    
+    $.get(storyUrl, function (data) {
+        var retrievedStory = JSON.parse(data);
+        console.log(retrievedStory);
+        sjrk.storyTelling.server.learningReflections.storyView({
+            distributeOptions: {
+                "target": "{that story}.options.model",
+                "record": retrievedStory
+            }
+        });
+    });
+
+};
+
 // sjrk.storyTelling.server.storyAuthoring.loadStoryFromQueryParam = function () {
 //     var storyId = sjrk.storyTelling.server.storyAuthoring.getParameterByName("story");
 //
