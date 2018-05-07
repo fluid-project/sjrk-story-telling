@@ -37,23 +37,51 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
         "storyExample": {
             "type": "story",
             "value": {
-                "title": "Test title",
-                "content": "This is the test story's content.",
-                "author": "Test Author",
-                "language": "English",
-                "tags": ["tag1", "tag2"],
-                "summary": "This is a summary of the test story."
-            }
-        },
-        "03040e30-8371-11e7-96f2-1fe98400f32b": {
-            "type": "story",
-            "value": {
-                "title": "This is a test",
-                "content": "test story modified from front end a second time, this time it's a little longer so the text-to-speech synthesizer voice can keep reading this run-on sentence and make a lot of noise, and we know it's working properly, and why are you still reading this anyway?",
-                "author": "Testauthor",
-                "language": "English",
-                "tags": ["test", "story"],
-                "summary": ""
+                "title": "Using This Site",
+                "content": [
+                  {
+                    "id": null,
+                    "language": null,
+                    "heading": "Using This Site - Part One",
+                    "blockType": "text",
+                    "text": "Click the icons above to add blocks of various types, such as text and images, to the story.",
+                    "simplifiedText": "",
+                    "contentString": "Using This Site - Part One. Click the icons above to add blocks of various types, such as text and images, to the story.. ",
+                    "languageFromSelect": "",
+                    "languageFromInput": ""
+                  },
+                  {
+                    "id": null,
+                    "language": null,
+                    "heading": "Using This Site - Part Two",
+                    "blockType": "text",
+                    "text": "When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.",
+                    "simplifiedText": null,
+                    "contentString": "Using This Site - Part Two. When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.. ",
+                    "languageFromSelect": "",
+                    "languageFromInput": ""
+                  }
+                ],
+                "contentString": "Using This Site - Part One. Click the icons above to add blocks of various types, such as text and images, to the story.. . Using This Site - Part Two. When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.. . ",
+                "author": "SJRK Team",
+                "language": "",
+                "images": [],
+                "tags": [
+                  "help",
+                  "example"
+                ],
+                "keywordString": "help, example",
+                "categories": [],
+                "summary": "",
+                "timestampCreated": null,
+                "timestampModified": null,
+                "requestedTranslations": [],
+                "translationOf": null,
+                "thumbnailUrl": "",
+                "thumbnailAltText": "",
+                "contentTypes": [],
+                "languageFromSelect": "",
+                "languageFromInput": ""
             }
         }
     },
