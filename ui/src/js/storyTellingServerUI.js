@@ -15,16 +15,11 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
                 selectors: {
                     storyShare: ".sjrkc-storyTelling-storyShare"
                 },
-                listeners: {                
+                listeners: {
                     "onReadyToBind.bindShareControl": {
                         "this": "{that}.dom.storyShare",
                         "method": "click",
                         "args": ["{that}.events.onShareRequested.fire"]
-                    },
-                    "onShareRequested.log": {
-                        "this": "console",
-                        "method": "log",
-                        "args": ["onShareRequest event fired"]
                     },
                     "onShareRequested.submitStory": {
                         funcName: "sjrk.storyTelling.server.learningReflections.submitStory",
