@@ -81,7 +81,7 @@ var testStoryModel = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 5,
+    expect: 8,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -139,11 +139,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         getUploadedImage: {
             type: "kettle.test.request.http",
             options: {
-                path: "%imageUrl",
+                path: "/%handlerPath/%imageFilename",
                 termMap: {
                     // We don't know this until after story is saved, so needs
                     // to be filled in at runtime
-                    imageUrl: null
+                    imageFilename: null,
+                    handlerPath: null
                 }
             }
         }
@@ -168,21 +169,19 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
         args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory", "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath", "{testCaseHolder}.events.onTestImageRetrieval"]
     },
-    // TODO: these three parts of the sequence need to be
-    // fixed to accomodate the recent change
-    // {
-    //     event: "{that}.events.onTestImageRetrieval",
-    //     args: ["{arguments}.0", "{getUploadedImage}"],
-    //     listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage"
-    // },
-    // {
-    //     event: "{getUploadedImage}.events.onComplete",
-    //     listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval"
-    // },
-    // {
-    //     func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-    //     args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
-    // }
+    {
+        event: "{that}.events.onTestImageRetrieval",
+        args: ["{arguments}.0", "{getUploadedImage}"],
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage"
+    },
+    {
+        event: "{getUploadedImage}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval"
+    },
+    {
+        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
+    }
     ]
 }];
 
@@ -235,7 +234,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest) {
-    getUploadedImageRequest.send(null, {termMap: {imageUrl: imageUrl}});
+    // TODO: this is fragile, find a better way
+    var imageFilename, handlerPath;
+    handlerPath = imageUrl.split("/")[1];
+    imageFilename = imageUrl.split("/")[2];
+
+    getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request) {
