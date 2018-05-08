@@ -28,7 +28,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                 port: 8081,
                 components: {
                     storyDataSource: {
-                        type: "sjrk.storyTelling.server.dataSource.story",
+                        type: "sjrk.storyTelling.server.dataSource.couch.story",
                         options: {
                             distributeOptions: {
                                 target: "{that}.options.host",

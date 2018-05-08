@@ -22,13 +22,17 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.base", {
     url: "@expand:{that}.getURL()",
     invokers: {
         getURL: {
-            funcName: "sjrk.storyTelling.server.dataSource.story.getURL",
+            funcName: "sjrk.storyTelling.server.dataSource.couch.base.getURL",
             args: ["{that}.options.host", "{that}.options.path"]
         }
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
+sjrk.storyTelling.server.dataSource.couch.base.getURL = function (host, path) {
+    return host + path;
+};
+
+fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base", "kettle.dataSource.CouchDB"],
     rules: {
         writePayload: {
@@ -49,7 +53,3 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
     },
     writable: true
 });
-
-sjrk.storyTelling.server.dataSource.story.getURL = function (host, path) {
-    return host + path;
-};

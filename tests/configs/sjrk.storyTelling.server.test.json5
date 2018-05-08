@@ -10,7 +10,7 @@
                     },
                     "components": {
                         "storyDataSource": {
-                            "type": "sjrk.storyTelling.server.dataSource.story",
+                            "type": "sjrk.storyTelling.server.dataSource.couch.story",
                             "options": {
                                 "host": "http://localhost:6789"
                             }
