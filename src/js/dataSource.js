@@ -18,7 +18,6 @@ var sjrk = fluid.registerNamespace("sjrk");
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.base", {
     gradeNames: ["kettle.dataSource.URL"],
     host: "http://localhost:5984",
-    path: "/stories/%storyId",
     url: "@expand:{that}.getURL()",
     invokers: {
         getURL: {
@@ -31,6 +30,19 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.base", {
 sjrk.storyTelling.server.dataSource.couch.base.getURL = function (host, path) {
     return host + path;
 };
+
+fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
+    gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base"],
+    host: "http://localhost:5984",
+    // TODO: this should be much more configurable, using termMap
+    // and the available configurations of a view, along with
+    // sensible defaults
+    path: "/stories/_design/stories/_view/%viewId?limit=%limit&reduce=false",
+    termMap: {
+        viewId: "%directViewId",
+        limit: "100"
+    }
+});
 
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base", "kettle.dataSource.CouchDB"],
@@ -48,6 +60,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
             "": "value"
         }
     },
+    path: "/stories/%storyId",
     termMap: {
         storyId: "%directStoryId"
     },

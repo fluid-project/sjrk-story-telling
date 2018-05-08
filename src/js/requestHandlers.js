@@ -20,13 +20,23 @@ fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleBrowseStories",
-            args: ["{request}", "{server}.storyDataSource", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
+            args: ["{request}", "{server}.viewDataSource"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleBrowseStories = function (request) {
-    request.events.onSuccess.fire("Browse!")
+sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource) {
+    var promise = viewDatasource.get({directViewId: "storyBrowse"});
+    promise.then(function (response) {
+        var responseAsJSON = JSON.stringify(response);
+        request.events.onSuccess.fire(responseAsJSON);
+    }, function (error) {
+        var errorAsJSON = JSON.stringify(error);
+        request.events.onError.fire({
+            message: errorAsJSON
+        });
+    });
+
 };
 
 fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
