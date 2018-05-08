@@ -106,7 +106,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
-                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
                     args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
@@ -125,7 +125,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
-                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
                     args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
                 },
                 {
@@ -144,7 +144,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
-                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
                     args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
@@ -238,21 +238,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.ui.storyEditorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
-    };
-
-    sjrk.storyTelling.ui.storyEditorTester.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
-
-        var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
-
-        // Verify the block is added to the manager's registry
-        jqUnit.assertNotNull("New block added to manager's registry", blockComponent);
-
-        // Verify the block's type is correct
-        jqUnit.assertEquals("Block's dynamicComponent type is expected " + expectedGrade, expectedGrade,  blockComponent.options.managedViewComponentRequiredConfig.type);
-
-        // Verify the block is added to the DOM
-        var newBlock = blockManager.container.find("." + addedBlockKey);
-        jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
     };
 
     fluid.defaults("sjrk.storyTelling.ui.storyEditorTest", {

@@ -74,33 +74,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Story Viewer UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 1,
+                expect: 5,
                 sequence: [{
                     "event": "{storyViewerTest storyViewer}.events.onControlsBound",
                     listener: "jqUnit.assert",
-                    args: ["Story editor's onControlsBound event fired"]
-                // },
-                // TODO: waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
-                // {
-                //     "event": "{storyViewer blockManager}.events.onCreate",
-                //     listener: "jqUnit.assert",
-                //     args: ["Block manager ready"]
-                // },
-                // TODO: verify blocks have been rendered in the correct order
-                // {
-                //     "event": "{storyViewer}.blockManager.events.viewComponentRegisteredWithManager",
-                //     listener: "sjrk.storyTelling.ui.storyViewerTester.verifyBlockAdded",
-                //     args: ["{storyViewer}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
-                // },
-                // {
-                //     func: "fluid.identity"
-                // },
+                    args: ["Story viewer's onControlsBound event fired"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                // verify blocks have been rendered in the correct order
+                {
+                    "event": "{storyViewerTest storyViewer blockManager}.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
+                    args: ["{storyViewer}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.textBlockViewer"]
+                },
+                {
+                    func: "fluid.identity"
+                },
                 // Wait for block to fully render
-                // {
-                //     "event": "{storyViewer}.events.onNewBlockTemplateRendered",
-                //     listener: "jqUnit.assert",
-                //     args: ["New block template fully rendered"]
-                }]
+                {
+                    "event": "{storyViewer}.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                }
+            ]
             },
             {
                 name: "Test buttons on page",

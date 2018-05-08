@@ -77,4 +77,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return element.selectorName || element.selector || element.toString();
     };
 
+    // TODO: document this function
+    sjrk.storyTelling.testUtils.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
+
+        var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
+
+        // Verify the block is added to the manager's registry
+        jqUnit.assertNotNull("New block added to manager's registry", blockComponent);
+
+        // Verify the block's type is correct
+        jqUnit.assertEquals("Block's dynamicComponent type is expected " + expectedGrade, expectedGrade,  blockComponent.options.managedViewComponentRequiredConfig.type);
+
+        // Verify the block is added to the DOM
+        var newBlock = blockManager.container.find("." + addedBlockKey);
+        jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
+    };
+
 })(jQuery, fluid);
