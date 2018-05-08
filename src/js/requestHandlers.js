@@ -15,6 +15,7 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// TODO: this needs tests
 fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
