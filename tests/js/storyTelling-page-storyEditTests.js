@@ -13,15 +13,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    fluid.defaults("sjrk.storyTelling.testUiManager", {
-        gradeNames: ["sjrk.storyTelling.uiManager"],
-        selectors: {
-            storyEditor: "#testStoryEditor",
-            storyPreviewer: "#testStoryPreviewer",
-            menu: "#testMenu"
-        },
+    fluid.defaults("sjrk.storyTelling.page.testStoryEdit", {
+        gradeNames: ["sjrk.storyTelling.page.storyEdit"],
         components: {
             menu: {
+                container: "#testMenu",
                 options: {
                     components: {
                         templateManager: {
@@ -35,6 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             storyEditor: {
+                container: "#testStoryEditor",
                 options: {
                     components: {
                         templateManager: {
@@ -48,6 +45,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             storyPreviewer: {
+                container: "#testStoryPreviewer",
                 options: {
                     components: {
                         templateManager: {
@@ -63,7 +61,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.uiManagerTester", {
+    fluid.defaults("sjrk.storyTelling.page.storyEditTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
             name: "Test combined story authoring interface",
@@ -71,108 +69,108 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test editor and previewer model binding and updating",
                 expect: 20,
                 sequence: [{
-                    "event": "{uiManagerTest uiManager}.events.onAllUiComponentsReady",
+                    "event": "{storyEditTest storyEdit}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired."
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     args: [
-                        ["{uiManager}.storyEditor.dom.storyEditorPage2", "{uiManager}.storyPreviewer.container"],
-                        ["{uiManager}.storyEditor.dom.storyEditorPage1"]
+                        ["{storyEdit}.storyEditor.dom.storyEditorPage2", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditorPage1"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyEditor.dom.storyEditorNext"
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
                 },
                 {
-                    "event": "{uiManager}.storyEditor.events.onVisibilityChanged",
+                    "event": "{storyEdit}.storyEditor.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.storyPreviewer.container"],
-                        ["{uiManager}.storyEditor.dom.storyEditorPage2"]
+                        ["{storyEdit}.storyEditor.dom.storyEditorPage1", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditorPage2"]
                     ]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{uiManager}.storyEditor","storyTitle","Initial test title"]
+                    args: ["{storyEdit}.storyEditor","storyTitle","Initial test title"]
                 },
                 {
-                    changeEvent: "{uiManager}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     listener: "jqUnit.assertEquals",
-                    args: ["Editor model updated to expected value", "Initial test title", "{uiManager}.storyEditor.story.model.title"]
+                    args: ["Editor model updated to expected value", "Initial test title", "{storyEdit}.storyEditor.story.model.title"]
                 },
                 {
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated to match editor","{uiManager}.storyEditor.story.model.title","{uiManager}.storyPreviewer.story.model.title"]
+                    args: ["Previewer model updated to match editor","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyEditor.dom.storySubmit"
+                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "event": "{storyEdit}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.storyEditor.container"],
-                        ["{uiManager}.storyPreviewer.container"]
+                        ["{storyEdit}.storyEditor.container"],
+                        ["{storyEdit}.storyPreviewer.container"]
                     ]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyPreviewer.dom.storyViewerPrevious"
+                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
                 },
                 {
-                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "event": "{storyEdit}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.storyEditor.dom.storyEditorPage1", "{uiManager}.storyPreviewer.container"],
-                        ["{uiManager}.storyEditor.dom.storyEditorPage2"]
+                        ["{storyEdit}.storyEditor.dom.storyEditorPage1", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditorPage2"]
                     ]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{uiManager}.storyEditor","storyTitle","New test title"]
+                    args: ["{storyEdit}.storyEditor","storyTitle","New test title"]
                 },
                 {
-                    changeEvent: "{uiManager}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated","{uiManager}.storyEditor.story.model.title","{uiManager}.storyPreviewer.story.model.title"]
+                    args: ["Previewer model updated","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyEditor.dom.storySubmit"
+                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{uiManager}.events.onVisibilityChanged",
+                    "event": "{storyEdit}.events.onVisibilityChanged",
                     "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
                     "args": [
-                        ["{uiManager}.storyEditor.container"],
-                        ["{uiManager}.storyPreviewer.container"]
+                        ["{storyEdit}.storyEditor.container"],
+                        ["{storyEdit}.storyPreviewer.container"]
                     ]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.assertElementText",
-                    args: ["{uiManager}.storyPreviewer.dom.storyTitle", "New test title"]
+                    args: ["{storyEdit}.storyPreviewer.dom.storyTitle", "New test title"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyEditor.dom.storyListenTo"
+                    "element": "{storyEdit}.storyPreviewer.dom.storyListenTo"
                 },
                 {
-                    "event": "{uiManager}.events.onStoryListenToRequested",
+                    "event": "{storyEdit}.events.onStoryListenToRequested",
                     "listener": "jqUnit.assert",
                     "args": "onStoryListenToRequested event fired from editor."
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{uiManager}.storyPreviewer.dom.storyListenTo"
+                    "element": "{storyEdit}.storyPreviewer.dom.storyListenTo"
                 },
                 {
-                    "event": "{uiManager}.events.onStoryListenToRequested",
+                    "event": "{storyEdit}.events.onStoryListenToRequested",
                     "listener": "jqUnit.assert",
                     "args": "onStoryListenToRequested event fired from previewer."
                 }]
@@ -184,46 +182,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test storySpeaker",
                 expect: 2,
                 sequence: [{
-                    func: "{uiManager}.storyEditor.story.applier.change",
+                    func: "{storyEdit}.storyEditor.story.applier.change",
                     args: ["author", "Rootbeer"]
                 },
                 {
-                    "changeEvent": "{uiManager}.storyEditor.story.applier.modelChanged",
+                    "changeEvent": "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "author",
                     listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. Keywords: . ", "{uiManager}.storySpeaker.model.ttsText"]
+                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 },
                 {
-                    func: "{uiManager}.storyEditor.story.applier.change",
+                    func: "{storyEdit}.storyEditor.story.applier.change",
                     args: ["title", "My brother Shyguy"]
                 },
                 {
-                    "changeEvent": "{uiManager}.storyEditor.story.applier.modelChanged",
+                    "changeEvent": "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{uiManager}.storySpeaker.model.ttsText"]
+                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 }]
             }]
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.uiManagerTest", {
+    fluid.defaults("sjrk.storyTelling.page.storyEditTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            uiManager: {
-                type: "sjrk.storyTelling.testUiManager",
-                container: "#testStoryUiManager",
-                createOnEvent: "{uiManagerTester}.events.onTestCaseStart"
+            storyEdit: {
+                type: "sjrk.storyTelling.page.testStoryEdit",
+                container: "#testStoryEdit",
+                createOnEvent: "{storyEditTester}.events.onTestCaseStart"
             },
-            uiManagerTester: {
-                type: "sjrk.storyTelling.uiManagerTester"
+            storyEditTester: {
+                type: "sjrk.storyTelling.page.storyEditTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.uiManagerTest"
+            "sjrk.storyTelling.page.storyEditTest"
         ]);
     });
 

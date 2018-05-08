@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -20,7 +20,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onStoryListenToRequested: null,
-            onAllUiComponentsReady: null,
+            onAllUiComponentsReady: {
+                events: {
+                    onMenuReady: "{menu}.events.onControlsBound"
+                }
+            },
             onContextChangeRequested: null // TODO: think of a better name
         },
         listeners: {
@@ -32,7 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modelListeners: {
             uiLanguage: [
                 {
-                    funcName: "sjrk.storyTelling.uiManager.renderAllUiTemplates",
+                    funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
                     args: ["{that}"]
                 },
                 {
@@ -87,5 +91,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.page.renderAllUiTemplates = function (component) {
+        fluid.each(component, function (subcomponent) {
+            if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui")) {
+                subcomponent.templateManager.events.onResourceLoadRequested.fire();
+            }
+        });
+    };
 
 })(jQuery, fluid);
