@@ -15,8 +15,21 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+fluid.defaults("sjrk.storyTelling.server.dataSource.couch.base", {
+    gradeNames: ["kettle.dataSource.URL"],
+    host: "http://localhost:5984",
+    path: "/stories/%storyId",
+    url: "@expand:{that}.getURL()",
+    invokers: {
+        getURL: {
+            funcName: "sjrk.storyTelling.server.dataSource.story.getURL",
+            args: ["{that}.options.host", "{that}.options.path"]
+        }
+    }
+});
+
 fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
-    gradeNames: ["kettle.dataSource.URL", "kettle.dataSource.CouchDB"],
+    gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base", "kettle.dataSource.CouchDB"],
     rules: {
         writePayload: {
             type: {
@@ -31,19 +44,10 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.story", {
             "": "value"
         }
     },
-    host: "http://localhost:5984",
-    path: "/stories/%storyId",
-    url: "@expand:{that}.getURL()",
     termMap: {
         storyId: "%directStoryId"
     },
-    writable: true,
-    invokers: {
-        getURL: {
-            funcName: "sjrk.storyTelling.server.dataSource.story.getURL",
-            args: ["{that}.options.host", "{that}.options.path"]
-        }
-    }
+    writable: true
 });
 
 sjrk.storyTelling.server.dataSource.story.getURL = function (host, path) {

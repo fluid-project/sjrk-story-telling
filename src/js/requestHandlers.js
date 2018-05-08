@@ -15,18 +15,32 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
+    gradeNames: "kettle.request.http",
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleBrowseStories",
+            args: ["{request}", "{server}.storyDataSource", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
+        }
+    }
+});
+
+sjrk.storyTelling.server.handleBrowseStories = function (request) {
+    request.events.onSuccess.fire("Browse!")
+};
+
 fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleStoryRequest",
+            funcName: "sjrk.storyTelling.server.handleGetStory",
             args: ["{request}", "{server}.storyDataSource", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
         }
     }
 });
 
 // TODO: the get handler will need to provide an expanded URL for the binary locations, based on the config
-sjrk.storyTelling.server.handleStoryRequest = function (request, dataSource, uploadedFilesHandlerPath) {
+sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploadedFilesHandlerPath) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
 

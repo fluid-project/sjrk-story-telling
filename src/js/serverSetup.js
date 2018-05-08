@@ -86,6 +86,11 @@ fluid.defaults("sjrk.storyTelling.server", {
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     gradeNames: ["kettle.app"],
     requestHandlers: {
+        browseStoriesHandler: {
+            type: "sjrk.storyTelling.server.browseStoriesHandler",
+            "route": "/stories/",
+            "method": "get"
+        },
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
             "route": "/stories/:id",
