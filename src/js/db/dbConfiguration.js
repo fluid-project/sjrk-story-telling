@@ -90,6 +90,9 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
             views: {
                 "storyTags": {
                     "map": "sjrk.storyTelling.server.storiesDb.storyTagsFunction"
+                },
+                "storyBrowse": {
+                    "map": "sjrk.storyTelling.server.storiesDb.storyBrowseFunction"
                 }
             },
             validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"
@@ -103,6 +106,11 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
             emit(doc.value.tags[idx], doc.value.title);
         }
     }
+};
+
+sjrk.storyTelling.server.storiesDb.storyBrowseFunction = function (doc) {
+
+  emit(doc._id, {"title": doc.value.title, "author": doc.value.author, "content": doc.value.content, "tags": doc.value.tags});
 };
 
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {

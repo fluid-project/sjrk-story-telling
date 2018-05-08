@@ -15,6 +15,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 // - stress-testing
 // - providing a certain amount of story content to work with when
 // developing
+// TODO: this code is very hacky right now and arguably misuses
+// the testing framework!
 
 var Chance = require("chance");
 var chance = new Chance();
@@ -85,14 +87,9 @@ fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest",
         }
 });
 
-sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest.generateStory = function (storyTemplate) {
-    console.log("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest.generateStory")
-    return JSON.stringify(storyTemplate);
-};
-
 jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
 
-    jqUnit.expect(5);
+    jqUnit.expect(1);
 
     var storyValues = {
         author: chance.name(),
@@ -117,10 +114,6 @@ jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
         },
         },
         listeners: {
-            "onComplete.log": {
-                "this": "console",
-                "method": "log"
-            },
             "onComplete.testDone": {
                 "this": "jqUnit",
                 "method": "assert",
