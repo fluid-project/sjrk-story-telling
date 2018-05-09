@@ -35,9 +35,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "args": ["es", "{that}.events.onInterfaceLanguageChangeRequested.fire"]
             }
         },
+        // Allows the browse link to be reconfigured
+        menuConfig: {
+            templateValues: {
+                "menu_browseLinkUrl": "/src/html/storyBrowse.html"
+            }
+        },
         components: {
             templateManager: {
                 options: {
+                    listeners: {
+                        "onAllResourcesLoaded.renderTemplateOnSelf": {
+                            funcName: "{that}.renderTemplateOnSelf",
+                            // Passes in menuConfig.templateValues to
+                            // the dynamicValues argument
+                            args: ["{menu}.options.menuConfig.templateValues"]
+                        }
+                    },
                     templateConfig: {
                         templatePath: "%resourcePrefix/src/templates/menu.handlebars"
                     }
