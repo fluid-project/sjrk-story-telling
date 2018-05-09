@@ -1,5 +1,12 @@
+fluid.defaults("sjrk.storyTelling.server.learningReflections.changeMenuLink", {
+    distributeOptions: {
+        target: "{that menu}.options.menuConfig.templateValues.menu_browseLinkUrl",
+        record: "/storyBrowse.html"
+    }
+});
+
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.learningReflections.storyEdit"],
+    gradeNames: ["sjrk.storyTelling.learningReflections.storyEdit", "sjrk.storyTelling.server.learningReflections.changeMenuLink"],
     distributeOptions: {
         target: "{that templateManager}.options.templateConfig.resourcePrefix",
         record: "/node_modules/sjrk-story-telling"
@@ -71,7 +78,7 @@ sjrk.storyTelling.server.learningReflections.submitStory = function (that) {
 };
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
-    gradeNames: ["sjrk.storyTelling.learningReflections.storyView"],
+    gradeNames: ["sjrk.storyTelling.learningReflections.storyView", "sjrk.storyTelling.server.learningReflections.changeMenuLink"],
     distributeOptions: {
         target: "{that templateManager}.options.templateConfig.resourcePrefix",
         record: "/node_modules/sjrk-story-telling"
@@ -123,7 +130,7 @@ sjrk.storyTelling.server.learningReflections.storyView.loadStoryFromParameter = 
 };
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.learningReflections.storyBrowse"],
+    gradeNames: ["sjrk.storyTelling.learningReflections.storyBrowse", "sjrk.storyTelling.server.learningReflections.changeMenuLink"],
     distributeOptions: {
         target: "{that templateManager}.options.templateConfig.resourcePrefix",
         record: "/node_modules/sjrk-story-telling"
