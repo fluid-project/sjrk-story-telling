@@ -27,9 +27,10 @@ fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
 });
 
 sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource) {
-    var promise = viewDatasource.get({directViewId: "storyBrowse"});
+    var promise = viewDatasource.get({directViewId: "storiesById"});
     promise.then(function (response) {
-        var responseAsJSON = JSON.stringify(response);
+        var extracted = sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse(response);
+        var responseAsJSON = JSON.stringify(extracted);
         request.events.onSuccess.fire(responseAsJSON);
     }, function (error) {
         var errorAsJSON = JSON.stringify(error);
@@ -39,6 +40,35 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource
     });
 
 };
+
+// TODO: might more appropriately be a transform
+sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse = function (response) {
+    var storyBrowse = {
+        totalResults: response.total_rows,
+        offset: response.offset,
+        stories: {}
+    };
+
+    fluid.each(response.rows, function (storyDoc) {
+        var story = storyDoc.value;
+
+        var contentTypes = {};
+
+        fluid.each(story.content, function (contentBlock) {
+            contentTypes[contentBlock.blockType] = true;
+        });
+
+        story.contentTypes = fluid.keys(contentTypes);
+
+        story = fluid.censorKeys(story, ["content"]);
+
+        storyBrowse.stories[storyDoc.id] = story;
+
+    });
+
+    return storyBrowse;
+};
+
 
 fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     gradeNames: "kettle.request.http",

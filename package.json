@@ -22,7 +22,7 @@
     "handlebars": "4.0.10",
     "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
     "kettle": "git+https://github.com/waharnum/kettle.git#KETTLE-66",
-    "sjrk-story-telling": "git+https://github.com/BlueSlug/sjrk-story-telling.git#SJRK-84",
+    "sjrk-story-telling": "git+https://github.com/BlueSlug/sjrk-story-telling.git#SJRK-49",
     "uuid": "3.1.0"
   },
   "devDependencies": {

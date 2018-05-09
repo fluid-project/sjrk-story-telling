@@ -36,7 +36,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
     host: "http://localhost:5984",
     // TODO: this should be more configurable, using termMap
     // and the available URL-based configurations of a view, along
-    // with sensible defaults    
+    // with sensible defaults
     path: "/%db/_design/%designDoc/_view/%viewId?limit=%limit&reduce=%reduce&skip=%skip",
     termMap: {
         viewId: "%directViewId",

@@ -104,7 +104,7 @@ sjrk.storyTelling.server.getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-sjrk.storyTelling.server.loadStoryFromParameter = function () {
+sjrk.storyTelling.server.learningReflections.storyView.loadStoryFromParameter = function () {
     var storyId = sjrk.storyTelling.server.getParameterByName("id");
     if (storyId) {
         var storyUrl = "/stories/" + storyId;
@@ -120,4 +120,35 @@ sjrk.storyTelling.server.loadStoryFromParameter = function () {
                 });
             });
     }
+};
+
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
+    gradeNames: ["sjrk.storyTelling.learningReflections.storyBrowse"],
+    distributeOptions: {
+        target: "{that templateManager}.options.templateConfig.resourcePrefix",
+        record: "/node_modules/sjrk-story-telling"
+    },
+    components: {
+        storyBrowser: {
+            options: {
+                model: {
+                    stories: null
+                }
+            }
+        }
+    }
+});
+
+sjrk.storyTelling.server.learningReflections.storyBrowse.loadBrowse = function () {
+    var browseUrl = "http://localhost:8081/stories";
+    $.get(browseUrl, function (data) {
+        var browseResponse = JSON.parse(data);
+
+        sjrk.storyTelling.server.learningReflections.storyBrowse({
+            distributeOptions: {
+                "target": "{that storyBrowser}.options.model",
+                "record": browseResponse
+            }
+        });
+    });
 };
