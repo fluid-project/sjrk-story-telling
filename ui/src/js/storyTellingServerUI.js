@@ -68,7 +68,10 @@ sjrk.storyTelling.server.learningReflections.submitStory = function (that) {
         processData : false,
         type        : 'POST',
         success     : function(data, textStatus, jqXHR){
-            console.log(data, textStatus, jqXHR);
+            var successResponse = JSON.parse(data);
+
+            var storyUrl = "/storyView.html?id=" + successResponse.id;
+            window.location.assign(storyUrl);
         },
         error       : function (jqXHR, textStatus, errorThrown) {
             console.log("Something went wrong");
