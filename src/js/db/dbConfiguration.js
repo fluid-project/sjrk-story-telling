@@ -121,7 +121,10 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 };
 
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
-    if (!newDoc.type) {
+    // checking !newDoc_deleted is important because
+    // otherwise validation can prevent deletion,
+    // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete    
+    if (!newDoc._deleted && !newDoc.type) {
         throw ({forbidden: "doc.type is required"});
     }
 };
