@@ -147,7 +147,7 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
 });
 
 sjrk.storyTelling.server.learningReflections.storyBrowse.loadBrowse = function () {
-    var browseUrl = "http://localhost:8081/stories";
+    var browseUrl = "/stories";
     $.get(browseUrl, function (data) {
         var browseResponse = JSON.parse(data);
 
