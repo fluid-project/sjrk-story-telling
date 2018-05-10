@@ -10,6 +10,15 @@ body {
     font-size: 1.2em;
 }
 
+
+.sjrk-prefsEditor-container {
+    display: grid;
+}
+
+.sjrk-toc-container {
+    padding-left: 3rem;
+}
+
 h1 {
     font-weight: normal;
 }
@@ -68,6 +77,22 @@ fieldset ul {
 
 .sjrk-storyTelling-link-container-right {
     text-align: right;
+}
+
+.sjrk-storyTelling-block-alternative-content input, .sjrk-storyblock-image-description, .sjrk-storyblock-image-alt-text {
+    background: var(--site-grey);
+}
+
+.sjrk-storyTelling-block-alternative-content .sjrk-storyblock-heading {
+    padding-right: 1.5rem;
+}
+
+.sjrk-storyblock-heading-view {
+    margin-bottom: 0.5rem;
+}
+
+.sjrk-storyblock-text-view {
+    margin: 0.5rem 0;
 }
 
 .sjrk-storyTelling-button-container {
@@ -151,8 +176,9 @@ fieldset ul {
 }
 
 .sjrk-storyblock-block {
-    border: solid 2px #000;
-    margin: 1em 0;
+    border: dashed 1px #000;
+    margin: 2rem 0;
+    position: relative;
 }
 
 .sjrk-storyblock-uploader-container, .sjrk-storyblock-camera-capture-container {
@@ -160,8 +186,36 @@ fieldset ul {
 }
 
 .sjrk-storyblock-image-preview {
+    display: block;
     max-width: 100%;
     max-height: 100%;
+}
+
+.sjrk-storyblock-image-preview-container {
+    margin: 0 auto;
+    background: var(--site-grey);
+}
+
+.sjrk-storyblock-image-preview[src=""], .sjrk-storyblock-image-preview:not([src]) {
+    display: block;
+    width: 15rem;
+    height: 13.5rem;
+}
+
+.sjrk-storyblock-selection-checkbox-container {
+    position: absolute;
+    top: -1.25rem;
+    right: -1.25rem;
+}
+
+.sjrk-storyblock-selection-checkbox {
+    height: 2.5rem;
+    width: 2.5rem;
+    display: inline-block;
+}
+
+.sjrk-storyTelling-label-container:not(:first-child) {
+    margin: 1em 0 .25em 0;
 }
 
 .sjrk-storyTelling-block-alternative-content {

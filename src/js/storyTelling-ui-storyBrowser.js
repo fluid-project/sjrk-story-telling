@@ -54,7 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         browserConfig: {
-            placeholderThumbnailUrl: "../img/icons/icon-heartBook-thumbnail.png"
+            placeholderThumbnailUrl: "../img/icons/icon-globe.png"
         },
         components: {
             templateManager: {
