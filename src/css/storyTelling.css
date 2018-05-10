@@ -1,6 +1,12 @@
+:root {
+    --site-white: #fff;
+    --site-grey: #f2f2f2;
+    --site-medium-grey: #e6e6e6;
+}
+
 body {
     font-family: sans-serif;
-    padding: 0 2em 0 2em;
+    /* padding: 0 2em 0 2em; */
     font-size: 1.2em;
 }
 
@@ -21,6 +27,11 @@ textarea {
 
 fieldset ul {
     list-style-type: none;
+}
+
+.sjrk-pageBody-container {
+    background-color: var(--site-white);
+    padding: 2rem;
 }
 
 .sjrk-storyTelling-menu-links {
@@ -61,6 +72,73 @@ fieldset ul {
 
 .sjrk-storyTelling-button-container {
     text-align: right;
+}
+
+.sjrk-storyTelling-button {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 8px;
+    border:2px solid #000;
+    background-size: cover;
+    background-origin: content-box;
+    padding: 0.1em;
+    background-repeat: no-repeat;
+    background-color: var(--site-white);
+}
+
+.sjrk-storyTelling-button-restore-blocks-container {
+    display: none;
+}
+
+.sjrk-storyTelling-button-restore-blocks {
+    border-style: dashed;
+    border-color: #CCC;
+}
+
+.sjrk-storyTelling-button-text-block-container {
+    grid-column: 1;
+}
+
+.sjrk-storyTelling-button-image-block-container {
+    grid-column: 2;
+}
+
+.sjrk-storyTelling-button-remove-blocks-container {
+    grid-column: 8;
+}
+
+.sjrk-storyTelling-button-restore-blocks-container {
+    /* grid-column: 8; */
+}
+
+/* Hidden, but accessible */
+.sjrk-storyTelling-button-text {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+.sjrk-storyTelling-button-text-block {
+    background-image: url("../img/icons/icon-textBlock.png");
+}
+
+.sjrk-storyTelling-button-image-block {
+    background-image: url("../img/icons/icon-imageBlock.png");
+}
+
+.sjrk-storyTelling-button-remove-blocks {
+    background-image: url("../img/icons/icon-removeBlocks.png");
+}
+
+.sjrk-storyTelling-button-restore-blocks {
+    background-image: url("../img/icons/icon-restoreBlocks.png");
+}
+
+.sjrk-storyTelling-storyListenTo {
+    background-image: url("../img/icons/icon-audioBlock.png");
 }
 
 .sjrk-storyTelling-label-container {
@@ -110,6 +188,21 @@ fieldset ul {
     margin-top: 1rem;
 }
 
+.sjrk-storyTelling-story-editor-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 0.3rem;
+}
+
+.sjrk-storyTelling-story-editor-content {
+    min-height: 20rem;
+    background: var(--site-grey); /* TODO: check contrast ratios */
+    margin: 1rem 0;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    padding: 1.5rem;
+}
+
 .sjrk-storyTelling-storyPreview {
     background: #fff;
     display: inline-block;
@@ -148,7 +241,6 @@ fieldset ul {
 
 .sjrk-storyTelling-browser-story-container {
     margin: 1rem 0;
-    background: var(--site-medium-grey);
 }
 
 .sjrk-storyTelling-browser-story-container:last-child {

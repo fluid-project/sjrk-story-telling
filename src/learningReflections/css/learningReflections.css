@@ -2,9 +2,6 @@
     --site-blue: #00a0cc;
     --site-medium-blue: #29abe2;
     --site-light-blue: #66c6e0;
-    --site-white: #fff;
-    --site-grey: #f2f2f2;
-    --site-medium-grey: #e6e6e6;
 }
 
 body {
@@ -13,88 +10,71 @@ body {
     background: var(--site-blue);
 }
 
-.sjrk-learningReflections-prefsEditor-container {
+.sjrk-prefsEditor-container {
     display: grid;
     background-color: var(--site-blue);
 }
 
-.sjrk-learningReflections-toc-container {
+.sjrk-toc-container {
     padding-left: 3rem;
 }
 
-.sjrk-learningReflections-pageHeading-container, .sjrk-learningReflections-pageFooter-container {
+.sjrk-pageHeading-container, .sjrk-pageFooter-container {
     background-color: var(--site-blue);
     color: var(--site-white);
 }
 
-.sjrk-learningReflections-pageHeading-container {
+.sjrk-pageHeading-container {
     padding: 0 3rem 2rem 3rem;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-gap: 1rem;
 }
 
-.sjrk-learningReflections-pageHeading {
+.sjrk-pageHeading {
     font-size: 2.5rem;
     font-weight: bold;
     align-self: center;
 }
 
-.sjrk-learningReflections-pageHeading-heartBook-container {
+.sjrk-pageHeading-heartBook-container {
     height: 6rem;
     align-self: center;
 }
 
-.sjrk-learningReflections-pageHeading-heartBook {
+.sjrk-pageHeading-heartBook {
     max-height: 6rem;
     width: auto;
 }
 
-.sjrk-learningReflections-pageHeading-mainTitle {
+.sjrk-pageHeading-mainTitle {
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
 
-.sjrk-learningReflections-pageBody-container {
-    background-color: var(--site-white);
-    padding: 2rem;
+.sjrk-pageBody-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 4rem;
 }
 
-.sjrk-learningReflections-pageBody-container-oneColumn {
+.sjrk-pageBody-container-oneColumn {
     display: block;
 }
 
-.sjrk-learningReflections-small-text {
+.sjrk-small-text {
     font-size: 1rem;
 }
 
-.sjrk-learningReflections-list-hearts li::before {
+.sjrk-list-hearts li::before {
     content: "\2764";
     color: var(--site-medium-blue);
     margin-right: 0.25rem;
 }
 
-.sjrk-learningReflections-list-hearts li {
+.sjrk-list-hearts li {
     list-style-type: none;
     padding-bottom: 1rem;
-}
-
-.sjrk-storyTelling-story-editor-content {
-    min-height: 20rem;
-    background: var(--site-grey); /* TODO: check contrast ratios */
-    margin: 1rem 0;
-    border-top: 2px solid;
-    border-bottom: 2px solid;
-    padding: 1.5rem;
-}
-
-.sjrk-storyTelling-story-editor-buttons-container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0.3rem;
 }
 
 .sjrk-storyTelling-block-alternative-content input, .sjrk-storyblock-image-description, .sjrk-storyblock-image-alt-text {
@@ -115,77 +95,18 @@ body {
 
 .sjrk-storyTelling-button {
     background-color: var(--site-light-blue);
-    width: 4rem;
-    height: 4rem;
-    border-radius: 8px;
-    border:2px solid #000;
-    background-size: cover;
-    background-origin: content-box;
-    padding: 0.1em;
-    background-repeat: no-repeat;
 }
 
 .sjrk-storyTelling-button-text-block, .sjrk-storyTelling-button-image-block {
     background-color: var(--site-light-blue);
 }
 
-.sjrk-storyTelling-button-text-block {
-    background-image: url("../img/icons/icon-textBlock.png");
-}
-
-.sjrk-storyTelling-button-image-block {
-    background-image: url("../img/icons/icon-imageBlock.png");
-}
-
-.sjrk-storyTelling-button-remove-blocks {
-    background-image: url("../img/icons/icon-removeBlocks.png");
-}
-
-.sjrk-storyTelling-button-restore-blocks {
-    background-image: url("../img/icons/icon-restoreBlocks.png");
-}
-
-.sjrk-storyTelling-storyListenTo {
-    background-image: url("../img/icons/icon-audioBlock.png");
-}
-
 .sjrk-storyTelling-button-restore-blocks-container {
     display: none;
 }
 
-.sjrk-storyTelling-button-remove-blocks, .sjrk-storyTelling-button-restore-blocks {
-    background-color: var(--site-white);
-}
-
-.sjrk-storyTelling-button-restore-blocks {
-    border-style: dashed;
-    border-color: #CCC;
-}
-
-.sjrk-storyTelling-button-text-block-container {
-    grid-column: 1;
-}
-
-.sjrk-storyTelling-button-image-block-container {
-    grid-column: 2;
-}
-
-.sjrk-storyTelling-button-remove-blocks-container {
-    grid-column: 7;
-}
-
-.sjrk-storyTelling-button-restore-blocks-container {
-    grid-column: 8;
-}
-
-/* Hidden, but accessible */
-.sjrk-storyTelling-button-text {
-    position:absolute;
-    left:-10000px;
-    top:auto;
-    width:1px;
-    height:1px;
-    overflow:hidden;
+.sjrk-storyTelling-browser-story-container {
+    background: var(--site-medium-grey);
 }
 
 .sjrk-storyTelling-browser-story-thumbnail-container {
@@ -229,7 +150,7 @@ body {
     margin: 1em 0 .25em 0;
 }
 
-.sjrk-learningReflections-pageFooter-container {
+.sjrk-pageFooter-container {
     font-size: 1.5rem;
     padding: 1rem 3rem;
     display: grid;
@@ -238,47 +159,47 @@ body {
     align-items: center;
 }
 
-.sjrk-learningReflections-pageFooter-oakLogo-container {
+.sjrk-pageFooter-oakLogo-container {
     background-color: var(--site-white);
     padding: 0.2rem 0;
     text-align: center;
 }
 
-.sjrk-learningReflections-pageFooter-hewlettLogo-container {
+.sjrk-pageFooter-hewlettLogo-container {
     background-color: var(--site-white);
     padding: 0.2rem 1rem;
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-learningReflections-pageHeading-container {
+    .sjrk-pageHeading-container {
         padding: 1rem;
     }
 
-    .sjrk-learningReflections-pageHeading,
-    .sjrk-learningReflections-pageHeading-heartBook-container {
+    .sjrk-pageHeading,
+    .sjrk-pageHeading-heartBook-container {
         font-size: 1.5rem;
     }
 
-    .sjrk-learningReflections-pageBody-container {
+    .sjrk-pageBody-container {
         grid-template-columns: repeat(1, minmax(250px, 1fr));
     }
 
-    .sjrk-learningReflections-pageFooter-container {
+    .sjrk-pageFooter-container {
         grid-template-columns: repeat(1, 1fr);
         margin-left: auto;
         margin-right: auto;
         padding: 1rem;
     }
 
-    .sjrk-learningReflections-pageFooter-text-container,
-    .sjrk-learningReflections-pageFooter-oakLogo-container,
-    .sjrk-learningReflections-pageFooter-hewlettLogo-container {
+    .sjrk-pageFooter-text-container,
+    .sjrk-pageFooter-oakLogo-container,
+    .sjrk-pageFooter-hewlettLogo-container {
         grid-column: auto;
     }
 
-    .sjrk-learningReflections-pageFooter-text-container img,
-    .sjrk-learningReflections-pageFooter-oakLogo-container img,
-    .sjrk-learningReflections-pageFooter-hewlettLogo-container img {
+    .sjrk-pageFooter-text-container img,
+    .sjrk-pageFooter-oakLogo-container img,
+    .sjrk-pageFooter-hewlettLogo-container img {
         max-width: 100%;
     }
 }
