@@ -16,7 +16,7 @@ body {
 
 .sjrk-pageHeading-container, .sjrk-pageFooter-container {
     background-color: var(--site-blue);
-    color: var(--site-white);
+    color: white;
 }
 
 .sjrk-pageHeading-container {
@@ -98,13 +98,13 @@ body {
 }
 
 .sjrk-pageFooter-oakLogo-container {
-    background-color: var(--site-white);
+    background-color: white;
     padding: 0.2rem 0;
     text-align: center;
 }
 
 .sjrk-pageFooter-hewlettLogo-container {
-    background-color: var(--site-white);
+    background-color: white;
     padding: 0.2rem 1rem;
 }
 

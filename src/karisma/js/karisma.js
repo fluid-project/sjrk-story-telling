@@ -161,6 +161,40 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            karismaSidebarLeft: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-sidebar-left-container",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-left.handlebars",
+                                    resourcePrefix: "../../.."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            karismaSidebarRight: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-sidebar-right-container",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-right.handlebars",
+                                    resourcePrefix: "../../.."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             storyEditor: {
                 options: {
                     components: {

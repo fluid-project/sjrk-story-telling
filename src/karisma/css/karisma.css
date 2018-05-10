@@ -2,5 +2,87 @@
     --site-rose: #f5e3df;
     --site-dark-rose: #e9c2b4;
     --site-lavender: #ecebf7;
+    --site-purple: #4f3aac;
     --site-yellow: #fbee06;
+}
+
+body {
+    background: var(--site-lavender);
+}
+
+.sjrk-prefsEditor-container {
+    background: var(--site-rose);
+}
+
+.sjrk-pageHeading-container {
+    padding: 0 1rem 1rem 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    background: var(--site-rose);
+    color: var(--site-purple);
+}
+
+.sjrk-pageHeading {
+    font-size: 3rem;
+    font-weight: bold;
+    align-self: center;
+}
+
+.sjrk-pageHeading-logo-container {
+    height: 6rem;
+    align-self: center;
+}
+
+.sjrk-pageHeading-logo {
+    max-height: 6rem;
+    width: auto;
+}
+
+.sjrk-pageHeading-mainTitle {
+    text-transform: uppercase;
+}
+
+.sjrk-pageBody-container {
+    background-color: inherit;
+}
+
+.sjrk-storyTelling-button {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 8px;
+    border: none;
+    background-size: cover;
+    background-origin: content-box;
+    padding: 0.1em;
+    background-repeat: no-repeat;
+    background-color: var(--site-dark-rose);
+}
+
+.sjrk-storyTelling-editor-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.sjrk-storyTelling-karisma-sidebar {
+}
+
+.sjrk-storyTelling-karisma-sidebar img {
+    max-height: 80%;
+    max-width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
+.sjrk-storyTelling-karisma-sidebar-left {
+
+}
+
+
+.sjrk-storyTelling-story-editor-content {
+    background: white;
+}
+
+.sjrk-storyTelling-menu-links a {
+    color: black;
 }

@@ -1,5 +1,4 @@
 :root {
-    --site-white: #fff;
     --site-grey: #f2f2f2;
     --site-medium-grey: #e6e6e6;
 }
@@ -39,7 +38,7 @@ fieldset ul {
 }
 
 .sjrk-pageBody-container {
-    background-color: var(--site-white);
+    background-color: white;
     padding: 2rem;
 }
 
@@ -108,7 +107,7 @@ fieldset ul {
     background-origin: content-box;
     padding: 0.1em;
     background-repeat: no-repeat;
-    background-color: var(--site-white);
+    background-color: white;
 }
 
 .sjrk-storyTelling-button-restore-blocks-container {
