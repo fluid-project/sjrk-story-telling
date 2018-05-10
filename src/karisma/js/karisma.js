@@ -128,7 +128,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyBrowser: {
                 options: {
                     browserConfig: {
-                        placeholderThumbnailUrl: "../../img/icons/icon-heartBook-thumbnail.png"
+                        placeholderThumbnailUrl: "/src/karisma/img/logo.png"
                     },
                     components: {
                         templateManager: {

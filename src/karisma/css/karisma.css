@@ -59,6 +59,11 @@ body {
     background-color: var(--site-dark-rose);
 }
 
+.sjrk-storyTelling-storyListenTo {
+    background-color: var(--site-yellow);
+    border: 2px black solid;
+}
+
 .sjrk-storyTelling-editor-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
