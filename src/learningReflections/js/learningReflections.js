@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     menuConfig: {
                         templateValues: {
-                            "menu_browseLinkUrl": "storyBrowse.html"
+                            "menu_browseLinkUrl": "/src/learningReflections/html/storyBrowse.html"
                         }
                     }
                 }
