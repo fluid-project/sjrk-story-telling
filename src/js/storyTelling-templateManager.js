@@ -115,7 +115,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{templateLoader}.resources.componentTemplate.resourceText",
                     "{that}.templateRenderer",
                     "{that}.options.templateStrings.localizedMessages",
-                    "{arguments}.0"
+                    "{arguments}"
                     ]
             }
         }
@@ -139,13 +139,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         templateName, templateContent, renderer, localizedMessages, dynamicValues) {
         renderer.templates.partials[templateName] = templateContent;
 
+        var combinedDynamicValues = undefined;
+
         if (dynamicValues) {
-            localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, dynamicValues);
+            fluid.each(dynamicValues, function (dynamicValue) {
+                combinedDynamicValues = $.extend(combinedDynamicValues, dynamicValue);
+            });
+
+            if (combinedDynamicValues) {
+                localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, combinedDynamicValues);
+            }
         }
 
         var renderedTemplate = renderer.render(templateName, {
             localizedMessages: localizedMessages,
-            dynamicValues: dynamicValues
+            dynamicValues: combinedDynamicValues
         });
 
         container.html(renderedTemplate);

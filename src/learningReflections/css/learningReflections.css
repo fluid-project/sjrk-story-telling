@@ -13,10 +13,6 @@ body {
     background: var(--site-blue);
 }
 
-textarea {
-    vertical-align: top;
-}
-
 .sjrk-learningReflections-prefsEditor-container {
     display: grid;
     background-color: var(--site-blue);
@@ -190,6 +186,10 @@ textarea {
     width:1px;
     height:1px;
     overflow:hidden;
+}
+
+.sjrk-storyTelling-browser-story-thumbnail-container {
+    background: var(--site-blue);
 }
 
 .sjrk-storyblock-block {

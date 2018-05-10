@@ -40,7 +40,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 story3: {
                     title: "Third story to try out a different thumbnail image",
                     tags: ["Dots","Yayoi Kusama"],
-                    thumbnailUrl: "../../tests/img/obliterationroom.jpg"
+                    thumbnailUrl: "/tests/img/obliterationroom.jpg"
                 },
                 story4: {
                     title: "Fourth story",
@@ -49,9 +49,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 story5: {
                     title: "Fifth story",
                     tags: ["Dots"],
-                    thumbnailUrl: "../../tests/img/obliterationroom.jpg"
+                    thumbnailUrl: "/tests/img/obliterationroom.jpg"
                 }
             }
+        },
+        browserConfig: {
+            placeholderThumbnailUrl: "../img/icons/icon-heartBook-thumbnail.png"
         },
         components: {
             templateManager: {
@@ -59,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onAllResourcesLoaded.renderTemplateOnSelf": {
                             funcName: "{that}.renderTemplateOnSelf",
-                            args: ["{storyBrowser}.model"]
+                            args: ["{storyBrowser}.model", "{storyBrowser}.options.browserConfig"]
                         }
                     },
                     templateConfig: {
@@ -68,8 +71,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             }
         }
-        // a place to hold multiple stories which will be listed, along with links to them
-        // that's it? do we need a dynamicViewComponentManager? handlebars can probably render them
     });
 
 })(jQuery, fluid);

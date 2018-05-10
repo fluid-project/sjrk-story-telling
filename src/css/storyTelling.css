@@ -16,6 +16,7 @@ input:not([type="checkbox"]) {
 textarea {
     width: 100%;
     box-sizing: border-box;
+    vertical-align: top;
 }
 
 fieldset ul {
@@ -162,7 +163,6 @@ fieldset ul {
 }
 
 .sjrk-storyTelling-browser-story-thumbnail-container {
-    background: var(--site-blue);
     margin: .25rem;
     height: 7rem;
     width: 7rem;
