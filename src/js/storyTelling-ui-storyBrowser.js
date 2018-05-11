@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -53,8 +53,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             }
         },
+        selectors: {
+            viewList: ".sjrkc-storyTelling-browser-stories",
+            gridViewLink: ".sjrkc-storyTelling-browser-view-control-grid",
+            listViewLink: ".sjrkc-storyTelling-browser-view-control-list"
+        },
+        events: {
+            onGridViewRequested: null,
+            onListViewRequested: null
+        },
+        listeners: {
+            "onReadyToBind.bindGridViewRequest": {
+                "this": "{that}.dom.gridViewLink",
+                "method": "click",
+                "args": ["{that}.events.onGridViewRequested.fire"]
+            },
+            "onReadyToBind.bindListViewRequest": {
+                "this": "{that}.dom.listViewLink",
+                "method": "click",
+                "args": ["{that}.events.onListViewRequested.fire"]
+            },
+            "onListViewRequested.changeView": {
+                "funcName": "sjrk.storyTelling.ui.storyBrowser.changeView",
+                args: ["{that}", "viewList", false, "{that}.options.browserConfig.gridViewClassName"]
+            },
+            "onGridViewRequested.changeView": {
+                "funcName": "sjrk.storyTelling.ui.storyBrowser.changeView",
+                args: ["{that}", "viewList", true, "{that}.options.browserConfig.gridViewClassName"]
+            }
+        },
         browserConfig: {
-            placeholderThumbnailUrl: "../img/icons/icon-globe.png"
+            placeholderThumbnailUrl: "../img/icons/icon-globe.png",
+            gridViewClassName: "grid"
         },
         components: {
             templateManager: {
@@ -72,5 +102,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.ui.storyBrowser.changeView = function (component, selector, showGrid, className) {
+        if (showGrid) {
+            component.locate(selector).addClass(className);
+        } else {
+            component.locate(selector).removeClass(className);
+        }
+    };
 
 })(jQuery, fluid);
