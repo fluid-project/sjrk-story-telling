@@ -101,3 +101,15 @@ a {
 .sjrk-storyTelling-browser-story-thumbnail-container {
     background: var(--site-dark-rose);
 }
+
+.sjrk-storyTelling-browser-story-thumnail-placeholder {
+    object-fit: contain;
+}
+
+.sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-thumnail-placeholder {
+    width: 80%;
+    height: 80%;
+    margin: 10%;
+    max-width: 16rem;
+    max-height: 10rem;
+}

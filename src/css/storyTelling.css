@@ -279,7 +279,7 @@ fieldset ul {
 
 .sjrk-storyTelling-view-separator {
     border: 0;
-    border-bottom: 1px dashed;
+    border-bottom: 2px dashed;
     margin: 2rem 0;
 }
 
@@ -305,6 +305,7 @@ fieldset ul {
     text-decoration: none;
     display: grid;
     grid-template-columns: auto 1fr;
+    height: 100%;
 }
 
 .sjrk-storyTelling-browser-story-thumbnail-container {
