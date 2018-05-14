@@ -172,6 +172,29 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     });
 };
 
+fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
+    gradeNames: "kettle.request.http",
+    requestMiddleware: {
+        "basicAuth": {
+            middleware: "{server}.basicAuth"
+        }
+    },
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleDeleteStory",
+            args: ["{arguments}.0"]
+        }
+    }
+});
+
+sjrk.storyTelling.server.handleDeleteStory = function (request) {
+
+    request.events.onSuccess.fire({
+        message: "DELETE request received successfully"
+    });
+
+};
+
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {

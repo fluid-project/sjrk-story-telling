@@ -9,9 +9,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 "use strict";
 
-var fluid = require("infusion");
-
-require("kettle");
+var fluid = require("infusion"),
+    sjrk = fluid.registerNamespace("sjrk"),
+    kettle = require("kettle");
 
 fluid.defaults("sjrk.storyTelling.server", {
     gradeNames: ["fluid.component"],
@@ -23,7 +23,16 @@ fluid.defaults("sjrk.storyTelling.server", {
                 // and are passed to the relevant components
                 globalConfig: {
                     binaryUploadDirectory: "./uploads",
-                    uploadedFilesHandlerPath: "/uploads"
+                    uploadedFilesHandlerPath: "/uploads",
+                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
+
+                },
+                listeners: {
+                    "onCreate.logConfig": {
+                        "this": "console",
+                        "method": "log",
+                        "args": "{that}.options.globalConfig"
+                    }
                 },
                 port: 8081,
                 components: {
@@ -55,6 +64,17 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
+                    },
+                    basicAuth: {
+                        type: "kettle.middleware.basicAuth",
+                        options: {
+                            middlewareOptions: {
+                                users: {
+                                    "admin": "{server}.options.globalConfig.secrets.adminPass"
+                                },
+                                challenge: true
+                            }
+                        }
                     },
                     nodeModulesFilter: {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
@@ -110,6 +130,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/stories/",
             "method": "post"
         },
+        deleteStoryHandler: {
+            type: "sjrk.storyTelling.server.deleteStoryHandler",
+            "route": "/stories/delete/:id",
+            "method": "get"
+        },
         nodeModulesHandler: {
             type: "sjrk.storyTelling.server.nodeModulesHandler",
             "route": "/*",
@@ -129,3 +154,10 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         }
     }
 });
+
+// Resolves a JSON file and parses it before
+// returning it
+sjrk.storyTelling.server.resolveJSONFile = function (jsonFilePath) {
+    var file = kettle.resolvers.file(jsonFilePath);
+    return JSON.parse(file);
+};

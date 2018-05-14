@@ -4,3 +4,4 @@ tests/uploads/*
 !tests/uploads/.gitkeep
 uploads/*
 !uploads/.gitkeep
+secrets.json
