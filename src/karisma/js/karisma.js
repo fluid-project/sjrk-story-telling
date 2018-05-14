@@ -264,10 +264,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Karisma shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.karisma.karismaWelcome", {
-        gradeNames: ["sjrk.storyTelling.page"],
+        gradeNames: ["sjrk.storyTelling.karisma"],
+        modelRelay: [
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{karismaWelcomer}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            }
+        ],
         components: {
             menu: {
                 options: {
+                    menuConfig: {
+                        templateValues: {
+                            "menu_browseLinkUrl": "/src/karisma/html/storyBrowse.html",
+                            "menu_editLinkUrl": "/src/karisma/html/storyEdit.html"
+                        }
+                    },
                     components: {
                         templateManager: {
                             options: {
@@ -280,7 +295,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            karismaWelcome: {
+            karismaWelcomer: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-storyTelling-welcome",
                 options: {
