@@ -262,4 +262,42 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Applies the Karisma shell to the storyBrowse page
+    fluid.defaults("sjrk.storyTelling.karisma.karismaWelcome", {
+        gradeNames: ["sjrk.storyTelling.page"],
+        components: {
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-menu.handlebars",
+                                    resourcePrefix: "../../.."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            karismaWelcome: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-storyTelling-welcome",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-welcome.handlebars",
+                                    resourcePrefix: "../../.."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
 })(jQuery, fluid);

@@ -1,4 +1,7 @@
 {
     "message_masthead_title": "The planet is the school",
-    "message_sidebarRightAltText": "a pair of bananas, a backpack, a pencil and an open book"
+    "message_sidebarRightAltText": "a pair of bananas, a backpack, a pencil and an open book",
+    "message_welcome": "Welcome!",
+    "message_tellAStory": "tell a story",
+    "message_browseStories": "browse stories"
 }

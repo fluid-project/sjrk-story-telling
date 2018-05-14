@@ -47,6 +47,15 @@ a {
     text-transform: uppercase;
 }
 
+.sjrk-storyTelling-karisma-welcome-container {
+    display: grid;
+    grid-template-columns: minmax(1rem, 20rem) auto;
+}
+
+.sjrk-storyTelling-karisma-welcome-mascot-container img {
+    max-width: 100%;
+}
+
 .sjrk-pageBody-container {
     background-color: inherit;
 }
