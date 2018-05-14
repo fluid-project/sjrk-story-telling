@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: "klaemo/couchdb"
+    image: "apache/couchdb"
   app:
     build: .
     environment:
