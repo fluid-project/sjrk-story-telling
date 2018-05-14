@@ -16,6 +16,7 @@ var fluid = require("infusion"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
 require("../src/js/staticHandlerBase");
+require("../src/js/middleware/basicAuth");
 require("../src/js/middleware/saveStoryWithBinaries");
 require("../src/js/middleware/staticMiddlewareSubdirectoryFilter");
 require("../src/js/dataSource");
@@ -223,6 +224,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
     // test on it
     var updatedModel = fluid.copy(testStoryModel);
     updatedModel.content[0].imageUrl = expectedUploadedFilesHandlerPath + binaryRenameMap[testStoryModel.content[0].imageUrl];
+
+    // Strip the _rev field from the parsedData
+    parsedData = fluid.censorKeys(parsedData, "_rev");
 
     jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
 

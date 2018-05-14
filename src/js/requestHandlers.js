@@ -206,9 +206,9 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
 
 };
 
-// TODO: Datasources should support Delete operations
-
 sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource) {
+    // TODO: get the revision ID from the record and set it
+    // dynamically
     var promise = deleteStoryDataSource.set({
         directStoryId: id,
         directRevisionId: "1-4803a72a26cb21988559267fba2c584b"

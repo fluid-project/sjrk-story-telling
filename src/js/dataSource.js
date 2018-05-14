@@ -60,6 +60,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
             value: ""
         },
         readPayload: {
+            "_rev": "_rev",
             "": "value"
         }
     },
@@ -70,6 +71,8 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     writable: true
 });
 
+// TODO: This is arguably an abuse of the dataSource, but
+// it works in the case of Couch
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.deleteStory", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base"],
     // TODO: this should be more configurable, using termMap
