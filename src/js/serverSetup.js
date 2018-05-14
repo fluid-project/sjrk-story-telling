@@ -27,13 +27,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                     secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
 
                 },
-                listeners: {
-                    "onCreate.logConfig": {
-                        "this": "console",
-                        "method": "log",
-                        "args": "{that}.options.globalConfig"
-                    }
-                },
                 port: 8081,
                 components: {
                     viewDataSource: {
@@ -47,6 +40,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     storyDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.story",
+                        options: {
+                            distributeOptions: {
+                                target: "{that}.options.host",
+                                record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
+                            }
+                        }
+                    },
+                    deleteStoryDataSource: {
+                        type: "sjrk.storyTelling.server.dataSource.couch.deleteStory",
                         options: {
                             distributeOptions: {
                                 target: "{that}.options.host",
@@ -132,7 +134,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         },
         deleteStoryHandler: {
             type: "sjrk.storyTelling.server.deleteStoryHandler",
-            "route": "/stories/delete/:id",
+            "route": "/admin/deleteStory/:id",
             "method": "get"
         },
         nodeModulesHandler: {

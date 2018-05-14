@@ -33,7 +33,6 @@ sjrk.storyTelling.server.dataSource.couch.base.getURL = function (host, path) {
 
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base"],
-    host: "http://localhost:5984",
     // TODO: this should be more configurable, using termMap
     // and the available URL-based configurations of a view, along
     // with sensible defaults
@@ -68,5 +67,19 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     termMap: {
         storyId: "%directStoryId"
     },
+    writable: true
+});
+
+fluid.defaults("sjrk.storyTelling.server.dataSource.couch.deleteStory", {
+    gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base"],
+    // TODO: this should be more configurable, using termMap
+    // and the available URL-based configurations of a view, along
+    // with sensible defaults
+    path: "/stories/%storyId?rev=%revisionId",
+    termMap: {
+        storyId: "%directStoryId",
+        revisionId: "%directRevisionId"
+    },
+    writeMethod: "DELETE",
     writable: true
 });

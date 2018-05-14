@@ -182,17 +182,39 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleDeleteStory",
-            args: ["{arguments}.0"]
+            args: ["{arguments}.0", "{server}.deleteStoryDataSource"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleDeleteStory = function (request) {
+sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource) {
 
-    request.events.onSuccess.fire({
-        message: "DELETE request received successfully"
+    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource);
+
+    promise.then(function (response) {
+        request.events.onSuccess.fire({
+            message: "DELETE request received successfully for story with id: " + request.req.params.id
+        });
+    }, function (error) {
+        var errorAsJSON = JSON.stringify(error);
+        request.events.onError.fire({
+            message: errorAsJSON
+        });
     });
 
+
+
+};
+
+// TODO: Datasources should support Delete operations
+
+sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource) {
+    var promise = deleteStoryDataSource.set({
+        directStoryId: id,
+        directRevisionId: "1-4803a72a26cb21988559267fba2c584b"
+    });
+
+    return promise;
 };
 
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
