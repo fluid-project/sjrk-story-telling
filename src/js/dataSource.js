@@ -9,7 +9,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 "use strict";
 
-
 var fluid = require("infusion");
 require("kettle");
 

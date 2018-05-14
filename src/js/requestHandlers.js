@@ -95,8 +95,6 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
             }
         });
 
-        // console.log(response);
-
         var responseAsJSON = JSON.stringify(response);
         request.events.onSuccess.fire(responseAsJSON);
     }, function (error) {
@@ -182,14 +180,14 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleDeleteStory",
-            args: ["{arguments}.0", "{server}.deleteStoryDataSource"]
+            args: ["{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource) {
+sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource, getStoryDataSource) {
 
-    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource);
+    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource, getStoryDataSource);
 
     promise.then(function (response) {
         request.events.onSuccess.fire({
@@ -201,17 +199,34 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
             message: errorAsJSON
         });
     });
-
-
-
 };
 
-sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource) {
+sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource, getStoryDataSource) {
+
     // TODO: get the revision ID from the record and set it
     // dynamically
-    var promise = deleteStoryDataSource.set({
-        directStoryId: id,
-        directRevisionId: "1-4803a72a26cb21988559267fba2c584b"
+
+    var promise = fluid.promise();
+
+    var getPromise = getStoryDataSource.get({
+        directStoryId: id
+    });
+
+    getPromise.then(function (response) {
+
+        var deletePromise = deleteStoryDataSource.set({
+            directStoryId: id,
+            directRevisionId: response._rev
+        });
+
+        deletePromise.then(function (response) {
+            promise.resolve(response);
+        }, function (error) {
+            promise.reject(error);
+        });
+    }, function (error) {
+
+        promise.reject(error);
     });
 
     return promise;
