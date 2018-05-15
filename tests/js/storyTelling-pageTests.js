@@ -16,6 +16,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.testPage", {
         gradeNames: ["sjrk.storyTelling.page"],
         components: {
+            uio: {
+                options: {
+                    terms: {
+                        "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
+                        "messagePrefix": "/src/messages/uio"
+                    },
+                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                }
+            },
             menu: {
                 container: "#testMenu",
                 options: {

@@ -42,20 +42,16 @@
                 args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.options.multilingualSettings.locale", "{that}.options.multilingualSettings.direction"]
             },
             // TODO: THIS IS A VERY HACKY WAY OF ACCESSING THESE DOM ELEMENTS
+            // TODO: THIS will move to the page js file
             "onPrefsEditorReady.registerEnglishButton": {
                 this: "@expand:$(.sjrkc-storyTelling-menu-languages-en)",
                 method: "click",
-                args: ["{that}.events.onInterfaceLanguageChangeRequested.fire"]
+                args: [{"lang": "en"}, "{that}.changeLanguage"]
             },
             "onPrefsEditorReady.registerSpanishButton": {
                 this: "@expand:$(.sjrkc-storyTelling-menu-languages-es)",
                 method: "click",
-                args: ["{that}.events.onInterfaceLanguageChangeRequested.fire"]
-            },
-            "onInterfaceLanguageChangeRequested.log": {
-                this: "console",
-                method: "log",
-                args: ["{that}"]
+                args: [{"lang": "es"}, "{that}.changeLanguage"]
             }
         },
         distributeOptions: {

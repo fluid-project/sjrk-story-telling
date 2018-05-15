@@ -88,6 +88,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     }
                 }
+            },
+            uio: {
+                type: "fluid.uiOptions.prefsEditor.multilingualDemo",
+                container: ".flc-prefsEditor-separatedPanel",
+                options: {
+                    // multilingualSettings: {
+                    //     locale: "es",
+                    //     tocHeader: "Table des matières"
+                    // },
+                    terms: {
+                        "templatePrefix": "node_modules/infusion/src/framework/preferences/html",
+                        "messagePrefix": "src/messages/uio"
+                    },
+                    "tocTemplate": "node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "ignoreForToC": {
+                        "overviewPanel": ".flc-overviewPanel"
+                    }
+                }
             }
         }
     });
