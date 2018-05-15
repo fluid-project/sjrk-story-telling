@@ -20,9 +20,11 @@ require("infusion");
 fluid.setLogging(true);
 var sjrk = fluid.registerNamespace("sjrk");
 
-require("./dbConfiguration");
+require("./singleNodeConfiguration");
+require("./story-dbConfiguration");
 
-sjrk.storyTelling.server.storiesDb({
+
+fluid.defaults("sjrk.storyTelling.server.dbSetup.base", {
     distributeOptions: {
         target: "{that}.options.couchOptions.couchUrl",
         record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
@@ -30,4 +32,20 @@ sjrk.storyTelling.server.storiesDb({
     listeners: {
         "onCreate.configureCouch": "{that}.configureCouch"
     }
+});
+
+sjrk.storyTelling.server.replicatorDb({
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+});
+
+sjrk.storyTelling.server.usersDb({
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+});
+
+sjrk.storyTelling.server.globalChangesDb({
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+});
+
+sjrk.storyTelling.server.storiesDb({
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
 });

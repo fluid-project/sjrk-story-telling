@@ -22,8 +22,6 @@ require("kettle");
 var sjrk = fluid.registerNamespace("sjrk");
 require("fluid-couch-config");
 
-// TODO: the examples should be removed
-// TODO: what additional views are needed?
 fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     couchOptions: {
@@ -123,7 +121,7 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
     // checking !newDoc_deleted is important because
     // otherwise validation can prevent deletion,
-    // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete    
+    // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete
     if (!newDoc._deleted && !newDoc.type) {
         throw ({forbidden: "doc.type is required"});
     }
