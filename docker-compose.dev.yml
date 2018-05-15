@@ -1,8 +1,6 @@
 version: '3'
 services:
   app:
-    volumes:
-     - "./secrets.json:/usr/src/app/secrets.json"
     ports:
       - "8081:8081"
   db:

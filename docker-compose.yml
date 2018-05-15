@@ -6,6 +6,8 @@ services:
     build: .
     environment:
       - COUCHDB_URL=http://db:5984
+    volumes:
+     - "${APP_SERVER_SECRETS_FILE:-./secrets.json}:/usr/src/app/secrets.json"
     links:
       - "db"
     depends_on:
