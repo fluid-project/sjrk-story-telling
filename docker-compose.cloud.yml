@@ -3,6 +3,8 @@ services:
   app:
     ports:
       - "${APP_SERVER_PORT}:8081"
+    volumes:
+      - "${APP_SERVER_SECRETS_FILE}:/usr/src/app/secrets.json"
   db:
     volumes:
-     - "${COUCHDB_DATADIR}:/opt/couchdb/data"
+      - "${COUCHDB_DATADIR}:/opt/couchdb/data"
