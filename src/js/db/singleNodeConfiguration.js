@@ -12,9 +12,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 fluid.defaults("sjrk.storyTelling.server.singleNodeDb.base", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
-    couchOptions: {
-        dbName: "_users"
-    },
     listeners: {
         "onSuccess.logSuccess": "fluid.log(SUCCESS)",
         "onError.logError": "fluid.log({arguments}.0.message)"
