@@ -13,6 +13,16 @@
             // own directory
             "templatePrefix": "./src/html"
         },
+        model: {
+            locale: "en"
+        },
+        selectors: {
+            englishButton: ".sjrkc-storyTelling-menu-languages-en",
+            spanishButton: ".sjrkc-storyTelling-menu-languages-es"
+        },
+        events: {
+            onInterfaceLanguageChangeRequested: null
+        },
         "tocTemplate": "src/js/lib/infusion/src/components/tableOfContents/html/TableOfContents.html",
         "ignoreForToC": {
             "overviewPanel": ".flc-overviewPanel"
@@ -30,6 +40,22 @@
             "onPrefsEditorReady.addLanguageAttributesToBody": {
                 func: "fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody",
                 args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.options.multilingualSettings.locale", "{that}.options.multilingualSettings.direction"]
+            },
+            // TODO: THIS IS A VERY HACKY WAY OF ACCESSING THESE DOM ELEMENTS
+            "onPrefsEditorReady.registerEnglishButton": {
+                this: "@expand:$(.sjrkc-storyTelling-menu-languages-en)",
+                method: "click",
+                args: ["{that}.events.onInterfaceLanguageChangeRequested.fire"]
+            },
+            "onPrefsEditorReady.registerSpanishButton": {
+                this: "@expand:$(.sjrkc-storyTelling-menu-languages-es)",
+                method: "click",
+                args: ["{that}.events.onInterfaceLanguageChangeRequested.fire"]
+            },
+            "onInterfaceLanguageChangeRequested.log": {
+                this: "console",
+                method: "log",
+                args: ["{that}"]
             }
         },
         distributeOptions: {
