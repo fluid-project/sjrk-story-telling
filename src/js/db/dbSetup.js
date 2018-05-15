@@ -24,11 +24,24 @@ require("./singleNodeConfiguration");
 require("./story-dbConfiguration");
 
 
+// Mix-in grade for all the couch configuration
+// components when actually used to configure
+// the DB
 fluid.defaults("sjrk.storyTelling.server.dbSetup.base", {
-    distributeOptions: {
-        target: "{that}.options.couchOptions.couchUrl",
-        record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-    },
+    distributeOptions: [
+        {
+            target: "{that}.options.couchOptions.couchUrl",
+            record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
+        },
+        {
+            target: "{that}.options.components.retryingBehaviour.options.retryOptions.maxRetries",
+            record: "@expand:kettle.resolvers.env(COUCHDB_CONFIG_MAX_RETRIES)"
+        },
+        {
+            target: "{that}.options.components.retryingBehaviour.options.retryOptions.retryDelay",
+            record: "@expand:kettle.resolvers.env(COUCHDB_CONFIG_RETRY_DELAY)"
+        }
+    ],
     listeners: {
         "onCreate.configureCouch": "{that}.configureCouch"
     }

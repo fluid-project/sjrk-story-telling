@@ -14,6 +14,8 @@ services:
     build: .
     entrypoint: "node ./src/js/db/dbSetup.js"
     environment:
+      - COUCHDB_CONFIG_MAX_RETRIES=10
+      - COUCHDB_CONFIG_RETRY_DELAY=10
       - COUCHDB_URL=http://db:5984
     links:
       - "db"
