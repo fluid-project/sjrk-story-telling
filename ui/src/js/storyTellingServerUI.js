@@ -174,12 +174,8 @@ sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
     }
 };
 
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.learningReflections.storyBrowse", "sjrk.storyTelling.server.learningReflections.changeMenuLink"],
-    distributeOptions: {
-        target: "{that templateManager}.options.templateConfig.resourcePrefix",
-        record: "/node_modules/sjrk-story-telling"
-    },
+fluid.defaults("sjrk.storyTelling.server.base.storyBrowse", {
+    gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
     components: {
         storyBrowser: {
             options: {
@@ -191,12 +187,16 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
     }
 });
 
-sjrk.storyTelling.server.learningReflections.storyBrowse.loadBrowse = function () {
+fluid.defaults("sjrk.storyTelling.server.karisma.storyBrowse", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.karisma.storyBrowse"]
+});
+
+sjrk.storyTelling.server.loadBrowse = function (theme) {
     var browseUrl = "/stories";
     $.get(browseUrl, function (data) {
         var browseResponse = JSON.parse(data);
 
-        sjrk.storyTelling.server.learningReflections.storyBrowse({
+        sjrk.storyTelling.server[theme].storyBrowse({
             distributeOptions: {
                 "target": "{that storyBrowser}.options.model",
                 "record": browseResponse

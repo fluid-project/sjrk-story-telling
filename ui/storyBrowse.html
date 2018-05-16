@@ -2,7 +2,7 @@
 <html>
 <head>
 <!-- TODO: update title for each language -->
-<title>Learning Reflections: a Storytelling Project</title>
+<title>El planeta es la escuela</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <script src="/node_modules/infusion/dist/infusion-all.js"></script>
@@ -48,6 +48,7 @@
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-ui-storyBrowser.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-uploader.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/transforms.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/UIOMultilingualDemo.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
 
@@ -57,15 +58,15 @@
 <link rel="stylesheet" href="/node_modules/sjrk-story-telling/src/css/storyTelling.css" />
 <link rel="stylesheet" href="/node_modules/infusion/src/framework/core/css/fluid.css">
 
-<script src="/node_modules/sjrk-story-telling/src/learningReflections/js/learningReflections.js"></script>
-<link rel="stylesheet" href="/node_modules/sjrk-story-telling/src/learningReflections/css/learningReflections.css" />
+<script src="/node_modules/sjrk-story-telling/src/karisma/js/karisma.js"></script>
+<link rel="stylesheet" href="/node_modules/sjrk-story-telling/src/karisma/css/karisma.css" />
 
 <script src="src/js/storyTellingServerUI.js"></script>
 
 </head>
 <body>
 
-<div class="sjrk-learningReflections-prefsEditor-container">
+<div class="sjrk-prefsEditor-container">
     <!-- BEGIN markup for Preference Editor -->
    <div class="flc-prefsEditor-separatedPanel fl-prefsEditor-separatedPanel">
 	   <!--
@@ -116,19 +117,7 @@
 
 <script>
     $(document).ready(function () {
-
-        sjrk.storyTelling.server.learningReflections.storyBrowse.loadBrowse();
-
-        var uio = fluid.uiOptions.prefsEditor(".flc-prefsEditor-separatedPanel", {
-            terms: {
-                "templatePrefix": "/node_modules/infusion/src/framework/preferences/html",
-                "messagePrefix": "/node_modules/infusion/src/framework/preferences/messages"
-            },
-            "tocTemplate": "/node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
-            "ignoreForToC": {
-                "overviewPanel": ".flc-overviewPanel"
-            }
-        });
+        sjrk.storyTelling.server.loadBrowse("karisma");
     });
 </script>
 
