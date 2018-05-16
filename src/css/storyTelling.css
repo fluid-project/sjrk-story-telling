@@ -359,3 +359,26 @@ fieldset ul {
 .sjrk-storyTelling-browser-story-contains {
      margin: 0.4rem 0rem;
 }
+
+@media only screen and (max-width: 50em) {
+    .sjrk-storyTelling-browser-stories.grid {
+        display: block;
+        grid-template-columns: initial;
+        grid-gap: initial;
+        margin-top: 0;
+    }
+
+    .sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-container {
+        margin: 1rem 0;
+    }
+
+    .sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-container a {
+        grid-template-columns: auto 1fr;
+    }
+
+    .sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-thumbnail-container {
+        margin: .25rem;
+        height: 7rem;
+        width: 7rem;
+    }
+}
