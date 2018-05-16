@@ -330,9 +330,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".sjrkc-storyTelling-welcome",
                 options: {
                     welcomerConfig: {
-                            templateValues: {
-                                "welcomer_browseLinkUrl": "/src/karisma/html/storyBrowse.html",
-                                "welcomer_editLinkUrl": "/src/karisma/html/storyEdit.html"
+                        templateValues: {
+                            "welcomer_browseLinkUrl": "/src/karisma/html/storyBrowse.html",
+                            "welcomer_editLinkUrl": "/src/karisma/html/storyEdit.html"
                         }
                     },
                     components: {

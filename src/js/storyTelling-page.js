@@ -35,23 +35,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onAllUiComponentsReady.registerEnglishButton": {
                 this: "{that}.menu.dom.languageLinkEnglish",
                 method: "click",
-                args: [{lang: "en"}, "{that}.changeUioLanguage"]
+                args: [{lang: "en"}, "{that}.reloadUioMessages"]
             },
             "onAllUiComponentsReady.registerSpanishButton": {
                 this: "{that}.menu.dom.languageLinkSpanish",
                 method: "click",
-                args: [{lang: "es"}, "{that}.changeUioLanguage"]
+                args: [{lang: "es"}, "{that}.reloadUioMessages"]
+            },
+            "onCreate.getUiLanguage": {
+                funcName: "sjrk.storyTelling.page.getUiLanguage",
+                args: ["{that}", "uiLanguage", "{cookieStore}"]
             }
         },
         invokers: {
-            changeUioLanguage: {
-                funcName: "sjrk.storyTelling.page.changeUioLanguage",
+            reloadUioMessages: {
+                funcName: "sjrk.storyTelling.page.reloadUioMessages",
                 args: [
                     "{arguments}.0.data.lang",
-                    "{that}",
                     "{uio}.prefsEditorLoader.messageLoader",
-                    "options.locale",
-                    "{uio}.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh"
+                    "options.locale"
                 ]
             }
         },
@@ -63,6 +65,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "{that}.events.onContextChangeRequested.fire"
+                },
+                {
+                    func: "{cookieStore}.set",
+                    args: [null, "{page}.model"],
+                    excludeSource: "init"
                 }
             ]
         },
@@ -76,6 +83,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         ],
         components: {
+            cookieStore: {
+                type: "fluid.prefs.cookieStore",
+                options: {
+                    gradeNames: ["fluid.dataSource.writable"],
+                    cookie: {
+                        name: "sjrk-storyTelling-settings",
+                        path: "/",
+                        expires: ""
+                    }
+                }
+            },
             // handles text to speech requests globally for the whole site
             storySpeaker: {
                 type: "fluid.textToSpeech",
@@ -126,7 +144,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "tocTemplate": "node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
                     "ignoreForToC": {
                         "overviewPanel": ".flc-overviewPanel"
-                    }
+                    },
+                    distributeOptions: [{
+                        record: {
+                            "{messageLoader}.events.onResourcesLoaded": [{
+                                func: "{that}.events.onPrefsEditorRefresh",
+                                namespace: "rerenderUIO"
+                            },
+                            {
+                                funcName: "sjrk.storyTelling.page.updateMessageBases",
+                                args: ["{prefsEditorLoader}", "{page}"],
+                                priority: "before:rerenderUIO",
+                                namespace: "updateMessageBases"
+                            }]
+                        },
+                        target: "{that fluid.prefs.prefsEditor}.options.listeners"
+                    }]
                 }
             }
         }
@@ -140,20 +173,48 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    // TODO: review this function, it could likely be implemented as listeners and modelListeners
-    sjrk.storyTelling.page.changeUioLanguage = function (lang, pageComponent, uioMessageLoaderComponent, uioMessageLoaderLocalePath, completionEvent) {
+    sjrk.storyTelling.page.getUiLanguage = function (pageComponent, modelPath, cookieStore) {
+        var result = cookieStore.get();
+        var language = fluid.get(result, "value." + modelPath);
+
+        pageComponent.applier.change(modelPath, language);
+    };
+
+    sjrk.storyTelling.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
         // Set the language in the resource loader
         fluid.set(uioMessageLoaderComponent, uioMessageLoaderLocalePath, lang);
 
         // If it’s not automatic when we fire refresh, then force the resource loader to get the new resources
-        uioMessageLoaderComponent.resolveResources();
+        fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
+    };
+
+    // TODO: review this function, it could likely be implemented as listeners and modelListeners
+    sjrk.storyTelling.page.updateMessageBases = function (prefsEditorLoaderComponent, pageComponent) {
+        var panels = [
+            "fluid_prefs_panel_contrast",
+            "fluid_prefs_panel_enhanceInputs",
+            "fluid_prefs_panel_layoutControls",
+            "fluid_prefs_panel_lineSpace",
+            "fluid_prefs_panel_textFont",
+            "fluid_prefs_panel_textSize"
+        ];
+
+        fluid.each(panels, function (panel) {
+            var panelComponent = prefsEditorLoaderComponent.prefsEditor[panel];
+            panelComponent.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[panel].resourceText;
+        });
 
         // Set the Toc Header String
+        var lang = pageComponent.model.uiLanguage;
+
+        var tocHeaders = {
+            "en": "Table of Contents",
+            "es": "Another thing"
+        };
+
+        pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[lang];
 
         // Set the language on the body
-
-        // Fire onPrefsEditorRefresh
-        completionEvent.fire();
     };
 
 })(jQuery, fluid);
