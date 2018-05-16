@@ -66,7 +66,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
                         "messagePrefix": "/src/messages/uio"
                     },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
             menu: {
@@ -127,7 +127,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
                         "messagePrefix": "/src/messages/uio"
                     },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
             menu: {
@@ -172,7 +172,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
                         "messagePrefix": "/src/messages/uio"
                     },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
             menu: {
@@ -308,7 +308,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
                         "messagePrefix": "/src/messages/uio"
                     },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
             menu: {

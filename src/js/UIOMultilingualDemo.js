@@ -16,10 +16,6 @@
         model: {
             locale: "en"
         },
-        selectors: {
-            englishButton: ".sjrkc-storyTelling-menu-languages-en",
-            spanishButton: ".sjrkc-storyTelling-menu-languages-es"
-        },
         events: {
             onInterfaceLanguageChangeRequested: null
         },
