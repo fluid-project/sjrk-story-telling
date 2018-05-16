@@ -65,12 +65,8 @@ fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.karisma.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.karisma.storyEdit"],
-});
 
 sjrk.storyTelling.server.base.submitStory = function (that) {
-    console.log("submitStory called");
 
     // TODO: add proper selector for form
     var form = that.container.find("form");
@@ -111,12 +107,16 @@ sjrk.storyTelling.server.base.submitStory = function (that) {
     });
 };
 
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
-    gradeNames: ["sjrk.storyTelling.learningReflections.storyView", "sjrk.storyTelling.server.learningReflections.changeMenuLink"],
-    distributeOptions: {
-        target: "{that templateManager}.options.templateConfig.resourcePrefix",
-        record: "/node_modules/sjrk-story-telling"
-    },
+fluid.defaults("sjrk.storyTelling.server.karisma.storyEdit", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.karisma.storyEdit"],
+});
+
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.learningReflections.storyEdit"],
+});
+
+fluid.defaults("sjrk.storyTelling.server.base.storyView", {
+    gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
     components: {
         storyViewer: {
             options: {
@@ -132,6 +132,17 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
     }
 });
 
+fluid.defaults("sjrk.storyTelling.server.karisma.storyView", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.karisma.storyView"],
+});
+
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.learningReflections.storyView"],
+});
+
+// "sjrk.storyTelling.learningReflections.storyView"
+// "sjrk.storyTelling.karisma.storyView"
+
 // classic query string parser via
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 
@@ -145,7 +156,7 @@ sjrk.storyTelling.server.getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-sjrk.storyTelling.server.learningReflections.storyView.loadStoryFromParameter = function () {
+sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
     var storyId = sjrk.storyTelling.server.getParameterByName("id");
     if (storyId) {
         var storyUrl = "/stories/" + storyId;
@@ -153,7 +164,7 @@ sjrk.storyTelling.server.learningReflections.storyView.loadStoryFromParameter = 
             $.get(storyUrl, function (data) {
                 var retrievedStory = JSON.parse(data);
 
-                sjrk.storyTelling.server.learningReflections.storyView({
+                sjrk.storyTelling.server[theme].storyView({
                     distributeOptions: {
                         "target": "{that story}.options.model",
                         "record": retrievedStory
