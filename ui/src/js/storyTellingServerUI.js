@@ -191,6 +191,10 @@ fluid.defaults("sjrk.storyTelling.server.karisma.storyBrowse", {
     gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.karisma.storyBrowse"]
 });
 
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.learningReflections.storyBrowse"]
+});
+
 sjrk.storyTelling.server.loadBrowse = function (theme) {
     var browseUrl = "/stories";
     $.get(browseUrl, function (data) {
