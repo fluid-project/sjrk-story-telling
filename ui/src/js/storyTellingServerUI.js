@@ -7,19 +7,37 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master/LICENSE.txt
 */
 
-fluid.defaults("sjrk.storyTelling.server.learningReflections.changeMenuLink", {
+fluid.defaults("sjrk.storyTelling.server.changeMenuLink", {
     distributeOptions: {
         target: "{that menu}.options.menuConfig.templateValues.menu_browseLinkUrl",
         record: "/storyBrowse.html"
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.learningReflections.storyEdit", "sjrk.storyTelling.server.learningReflections.changeMenuLink"],
+fluid.defaults("sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", {
     distributeOptions: {
         target: "{that templateManager}.options.templateConfig.resourcePrefix",
         record: "/node_modules/sjrk-story-telling"
-    },
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.changeUIOTermsMessagePrefix", {
+    distributeOptions: {
+        target: "{that uio}.options.terms.messagePrefix",
+        record: "/node_modules/sjrk-story-telling/src/messages/uio"
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.changeResourceLoadingPaths", {
+    gradeNames: ["sjrk.storyTelling.server.changeMenuLink", "sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.server.changeUIOTermsMessagePrefix"]
+});
+
+fluid.defaults("sjrk.storyTelling.server.karisma.karismaWelcome", {
+    gradeNames: ["sjrk.storyTelling.karisma.karismaWelcome", "sjrk.storyTelling.server.changeResourceLoadingPaths"]
+});
+
+fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
+    gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
     components: {
         storyPreviewer: {
             options: {
@@ -38,7 +56,7 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
                         "args": ["{that}.events.onShareRequested.fire"]
                     },
                     "onShareRequested.submitStory": {
-                        funcName: "sjrk.storyTelling.server.learningReflections.submitStory",
+                        funcName: "sjrk.storyTelling.server.base.submitStory",
                         args: ["{storyEditor}"]
                     }
                 }
@@ -47,7 +65,11 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
     }
 });
 
-sjrk.storyTelling.server.learningReflections.submitStory = function (that) {
+fluid.defaults("sjrk.storyTelling.server.karisma.storyEdit", {
+    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.karisma.storyEdit"],
+});
+
+sjrk.storyTelling.server.base.submitStory = function (that) {
     console.log("submitStory called");
 
     // TODO: add proper selector for form
