@@ -209,7 +209,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         var tocHeaders = {
             "en": "Table of Contents",
-            "es": "Another thing"
+            "es": "Tabla de contenido"
         };
 
         pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[lang];
