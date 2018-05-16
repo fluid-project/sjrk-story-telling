@@ -15,7 +15,7 @@
     "message_addTagsPlaceholder": "Palabra 1, Palabra 2",
     "message_submitButton": "Enviar",
     "message_continue": "Mas ❯",
-    "message_goBack": "❮ Retroceder",
+    "message_goBack": "❮ Atrás",
     "message_previewText": "Avance",
     "message_readMoreText": "Leer más",
     "message_listTagsLabelText": "Palabras",
@@ -27,7 +27,7 @@
     "message_browseGridText": "Cuadrícula",
     "message_browseThumbAltText": "Miniatura de la historia",
     "message_browseContainsText": "Contiene",
-    "message_menu_browseLinkText": "Navegar historias...",
+    "message_menu_browseLinkText": "Mostrar historias...",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
     "contentTypes": {
