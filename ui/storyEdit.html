@@ -62,9 +62,6 @@
 <link rel="stylesheet" href="/node_modules/sjrk-story-telling/src/css/storyTelling.css" />
 <link rel="stylesheet" href="/node_modules/infusion/src/framework/core/css/fluid.css">
 
-<script src="/node_modules/sjrk-story-telling/src/karisma/js/karisma.js"></script>
-<link rel="stylesheet" href="/node_modules/sjrk-story-telling/src/karisma/css/karisma.css" />
-
 <script src="src/js/storyTellingServerUI.js"></script>
 
 </head>
@@ -109,22 +106,17 @@
     <div class="flc-toc-tocContainer toc"> </div>
 </div>
 
-<div class="sjrk-pageBody-container sjrk-pageBody-with-sidebars">
-    <div class="sjrk-sidebar-left-container sjrkc-sidebar-left-container"></div>
-    <div class="sjrk-story-editor-container">
-        <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div>
-        <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div>
-        <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-previewer"></div>
-    </div>
-    <div class="sjrk-sidebar-right-container sjrkc-sidebar-right-container"></div>
-</div>
-
-<div class="sjrk-pageFooter-container sjrkc-pageFooter-container"></div>
+<div class="sjrkc-main-container"></div>
 
 <div class="sjrk-pageFooter-container sjrkc-pageFooter-container"></div>
 
 <script>
-    sjrk.storyTelling.server.karisma.storyEdit({});
+    $(document).ready(function () {
+        var theme = "karisma";
+        sjrk.storyTelling.server.loadThemedPage("edit", theme, function () {
+            sjrk.storyTelling.server[theme].storyEdit({});
+        });
+    });
 </script>
 
 </body>

@@ -208,3 +208,38 @@ sjrk.storyTelling.server.loadBrowse = function (theme) {
         });
     });
 };
+
+// TODO: this should be a proper Infusion component
+
+var templates = {
+    karisma: {
+        view: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-viewer"></div> </div> </div>',
+        edit: '<div class="sjrk-pageBody-container sjrk-pageBody-with-sidebars"> <div class="sjrk-sidebar-left-container sjrkc-sidebar-left-container"></div> <div class="sjrk-story-editor-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-previewer"></div> </div> <div class="sjrk-sidebar-right-container sjrkc-sidebar-right-container"></div> </div>',
+        browse: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-browser sjrkc-storyTelling-story-browser"></div></div></div>'
+    },
+    learningReflections: {
+        view: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-viewer"></div> </div> </div>',
+        edit: '<div class="sjrk-pageBody-container"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-previewer"></div> </div> </div>',
+        browse: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-browser sjrkc-storyTelling-story-browser"></div> </div> </div>'
+    }
+};
+
+sjrk.storyTelling.server.loadThemedPage = function (page, theme, callback) {
+
+    var mainContainer = $(".sjrkc-main-container");
+
+    mainContainer.html(templates[theme][page]);
+
+    var cssUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/css/%theme.css", {theme: theme}),
+        scriptUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/js/%theme.js", {theme: theme});
+
+    $('<link/>', {
+       rel: 'stylesheet',
+       type: 'text/css',
+       href: cssUrl
+       }).appendTo('head');
+
+    $.getScript(scriptUrl, function () {
+            callback(theme);
+    });
+};
