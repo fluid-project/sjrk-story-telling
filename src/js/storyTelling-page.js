@@ -28,6 +28,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onContextChangeRequested: null // TODO: think of a better name
         },
         listeners: {
+            "onCreate.getUiLanguage": {
+                funcName: "sjrk.storyTelling.page.getUiLanguage",
+                args: ["{that}", "uiLanguage", "{cookieStore}"]
+            },
+            "onCreate.reloadUioMessages": {
+                func: "{that}.reloadUioMessages",
+                args: [{data:"{that}.model.uiLanguage"}]
+            },
             "{menu}.events.onInterfaceLanguageChangeRequested": {
                 func: "{that}.applier.change",
                 args: ["uiLanguage", "{arguments}.0.data"]
@@ -35,23 +43,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onAllUiComponentsReady.registerEnglishButton": {
                 this: "{that}.menu.dom.languageLinkEnglish",
                 method: "click",
-                args: [{lang: "en"}, "{that}.reloadUioMessages"]
+                args: ["en", "{that}.reloadUioMessages"]
             },
             "onAllUiComponentsReady.registerSpanishButton": {
                 this: "{that}.menu.dom.languageLinkSpanish",
                 method: "click",
-                args: [{lang: "es"}, "{that}.reloadUioMessages"]
-            },
-            "onCreate.getUiLanguage": {
-                funcName: "sjrk.storyTelling.page.getUiLanguage",
-                args: ["{that}", "uiLanguage", "{cookieStore}"]
+                args: ["es", "{that}.reloadUioMessages"]
             }
         },
         invokers: {
             reloadUioMessages: {
                 funcName: "sjrk.storyTelling.page.reloadUioMessages",
                 args: [
-                    "{arguments}.0.data.lang",
+                    "{arguments}.0.data",
                     "{uio}.prefsEditorLoader.messageLoader",
                     "options.locale"
                 ]
@@ -133,10 +137,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",
                 options: {
-                    // multilingualSettings: {
-                    //     locale: "es",
-                    //     tocHeader: "Table des matières"
-                    // },
                     terms: {
                         "templatePrefix": "node_modules/infusion/src/framework/preferences/html",
                         "messagePrefix": "src/messages/uio"
@@ -178,6 +178,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var language = fluid.get(result, "value." + modelPath);
 
         pageComponent.applier.change(modelPath, language);
+        fluid.set(pageComponent, "uio.options.multilingualSettings.locale", language);
     };
 
     sjrk.storyTelling.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
@@ -204,7 +205,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             panelComponent.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[panel].resourceText;
         });
 
-        // Set the Toc Header String
         var lang = pageComponent.model.uiLanguage;
 
         var tocHeaders = {
@@ -212,6 +212,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "es": "Tabla de contenido"
         };
 
+        // Set the Toc Header String
         pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[lang];
 
         // Set the language on the body
