@@ -1,0 +1,15 @@
+{
+    "message_blockHeadingLabel": "Bloco de título",
+    "message_blockHeadingPlaceholder": "Adicione um título (opcional) — isso pode ajudar usuários de leitores de tela a navegar sua história mais facilmente.",
+    "message_textInputLabel": "Digite o texto na caixa de texto",
+    "message_textInputPlaceholder": "Começe digitando aqui",
+    "message_simplifiedTextInputLabel": "Texto simplificado",
+    "message_simplifiedTextInputPlaceholder": "Adicione um texto simplificado (opcional) — isso pode ser útil para pessoas aprendendo o idioma, com dificuldade de entender o texto, ou com pressa.",
+    "message_imageAltTextInputLabel": "Texto alternativo",
+    "message_imageAltTextInputPlaceholder": "Adicione o texto alternativo aqui",
+    "message_imageDescriptionInputLabel": "Descrição da imagem",
+    "message_imageDescriptionInputPlaceholder": "Digite a legenda aqui",
+    "message_imageUploadButton": "Adicionar imagem",
+    "message_imageCaptureButton": "Capturar imagem",
+    "message_blockSelectionCheckboxLabel": "Selecionar esse bloco"
+}
