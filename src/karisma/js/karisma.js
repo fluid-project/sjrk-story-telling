@@ -313,12 +313,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             menu: {
                 options: {
-                    menuConfig: {
-                        templateValues: {
-                            "menu_browseLinkUrl": "/src/karisma/html/storyBrowse.html",
-                            "menu_editLinkUrl": "/src/karisma/html/storyEdit.html"
-                        }
-                    },
                     components: {
                         templateManager: {
                             options: {
@@ -334,10 +328,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             karismaWelcomer: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-storyTelling-welcome",
+                welcomerConfig: {
+                    templateValues: {
+                        "welcomer_browseLinkUrl": "/src/karisma/html/storyBrowse.html",
+                        "welcomer_editLinkUrl": "/src/karisma/html/storyEdit.html"
+                    }
+                },
                 options: {
                     components: {
                         templateManager: {
                             options: {
+                                listeners: {
+                                    "onAllResourcesLoaded.renderTemplateOnSelf": {
+                                        funcName: "{that}.renderTemplateOnSelf",
+                                        args: ["{karismaWelcomer}.options.welcomerConfig.templateValues"]
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
                                     templatePath: "%resourcePrefix/src/karisma/templates/karisma-welcome.handlebars",
