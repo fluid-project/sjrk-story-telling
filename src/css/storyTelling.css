@@ -108,6 +108,7 @@ fieldset ul {
     padding: 0.1em;
     background-repeat: no-repeat;
     background-color: white;
+    cursor: pointer;
 }
 
 .sjrk-storyTelling-button-restore-blocks-container {
