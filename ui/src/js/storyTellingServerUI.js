@@ -33,7 +33,19 @@ fluid.defaults("sjrk.storyTelling.server.changeResourceLoadingPaths", {
 });
 
 fluid.defaults("sjrk.storyTelling.server.karisma.karismaWelcome", {
-    gradeNames: ["sjrk.storyTelling.karisma.karismaWelcome", "sjrk.storyTelling.server.changeResourceLoadingPaths"]
+    gradeNames: ["sjrk.storyTelling.karisma.karismaWelcome", "sjrk.storyTelling.server.changeResourceLoadingPaths"],
+    components: {
+        karismaWelcomer: {
+            options: {
+                welcomerConfig: {
+                    templateValues: {
+                        "welcomer_browseLinkUrl": "storyBrowse.html",
+                        "welcomer_editLinkUrl": "storyEdit.html"
+                    }
+                },
+            }
+        }
+    }
 });
 
 fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
