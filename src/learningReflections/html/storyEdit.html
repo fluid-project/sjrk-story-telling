@@ -52,6 +52,7 @@
 <script src="../../js/storyTelling-ui-storyViewer.js"></script>
 <script src="../../js/storyTelling-uploader.js"></script>
 <script src="../../js/transforms.js"></script>
+<script src="../../js/UIOMultilingualDemo.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
@@ -115,21 +116,8 @@
 <div class="sjrk-pageFooter-container sjrkc-pageFooter-container"></div>
 
 <script>
-    sjrk.storyTelling.learningReflections.storyEdit({});
-</script>
-
-<script>
     $(document).ready(function () {
-        var uio = fluid.uiOptions.prefsEditor(".flc-prefsEditor-separatedPanel", {
-            terms: {
-                "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                "messagePrefix": "../../../node_modules/infusion/src/framework/preferences/messages"
-            },
-            "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
-            "ignoreForToC": {
-                "overviewPanel": ".flc-overviewPanel"
-            }
-        });
+        sjrk.storyTelling.learningReflections.storyEdit({});
     });
 </script>
 

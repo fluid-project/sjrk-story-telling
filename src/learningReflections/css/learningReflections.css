@@ -72,7 +72,9 @@ body {
     padding-bottom: 1rem;
 }
 
-.sjrk-storyTelling-button-text-block, .sjrk-storyTelling-button-image-block {
+.sjrk-storyTelling-button-text-block,
+.sjrk-storyTelling-button-image-block,
+.sjrk-storyTelling-storyListenTo {
     background-color: var(--site-light-blue);
 }
 
