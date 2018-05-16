@@ -1,4 +1,16 @@
-# sjrk-storytelling-server
+# SJRK Story Telling Server
+
+## What Is This?
+
+## How Do I Use It?
+
+### Development
+
+### Using docker-compose 
+
+---
+
+OLD STUFF
 
 Kettle server intended eventually to be the server-side component of the storytelling tool.
 
@@ -17,4 +29,3 @@ Currently does the following:
    ```
    node .\src\js\dbSetup.js
    ```
-   
