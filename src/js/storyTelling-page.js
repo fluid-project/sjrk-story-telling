@@ -31,6 +31,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "{menu}.events.onInterfaceLanguageChangeRequested": {
                 func: "{that}.applier.change",
                 args: ["uiLanguage", "{arguments}.0.data"]
+            },
+            "onAllUiComponentsReady.registerEnglishButton": {
+                this: "{that}.menu.dom.languageLinkEnglish",
+                method: "click",
+                args: [{lang: "en"}, "{that}.changeUioLanguage"]
+            },
+            "onAllUiComponentsReady.registerSpanishButton": {
+                this: "{that}.menu.dom.languageLinkSpanish",
+                method: "click",
+                args: [{lang: "es"}, "{that}.changeUioLanguage"]
+            }
+        },
+        invokers: {
+            changeUioLanguage: {
+                funcName: "sjrk.storyTelling.page.changeUioLanguage",
+                args: [
+                    "{arguments}.0.data.lang",
+                    "{that}",
+                    "{uio}.prefsEditorLoader.messageLoader",
+                    "options.locale",
+                    "{uio}.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh"
+                ]
             }
         },
         modelListeners: {
@@ -116,6 +138,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 subcomponent.templateManager.events.onResourceLoadRequested.fire();
             }
         });
+    };
+
+    // TODO: review this function, it could likely be implemented as listeners and modelListeners
+    sjrk.storyTelling.page.changeUioLanguage = function (lang, pageComponent, uioMessageLoaderComponent, uioMessageLoaderLocalePath, completionEvent) {
+        // Set the language in the resource loader
+        fluid.set(uioMessageLoaderComponent, uioMessageLoaderLocalePath, lang);
+
+        // If it’s not automatic when we fire refresh, then force the resource loader to get the new resources
+        uioMessageLoaderComponent.resolveResources();
+
+        // Set the Toc Header String
+
+        // Set the language on the body
+
+        // Fire onPrefsEditorRefresh
+        completionEvent.fire();
     };
 
 })(jQuery, fluid);
