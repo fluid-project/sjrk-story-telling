@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- TODO: This file is copied from the Karisma theme. -->
+
 <!-- TODO: update title for each language -->
 <title>El planeta es la escuela</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -31,27 +33,11 @@
 <script src="node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
 <script src="node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-<script src="src/js/dynamicViewComponentManager.js"></script>
-<script src="src/js/storyTelling-binder.js"></script>
-<script src="src/js/storyTelling-block.js"></script>
-<script src="src/js/storyTelling-block-text.js"></script>
-<script src="src/js/storyTelling-block-image.js"></script>
-<script src="src/js/storyTelling-blockUi.js"></script>
-<script src="src/js/storyTelling-blockUi-editor.js"></script>
-<script src="src/js/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
-<script src="src/js/storyTelling-blockUi-editor-textBlockEditor.js"></script>
-<script src="src/js/storyTelling-blockUi-imageBlockViewer.js"></script>
-<script src="src/js/storyTelling-blockUi-textBlockViewer.js"></script>
-<script src="src/js/storyTelling-page-storyEdit.js"></script>
 <script src="src/js/storyTelling-page.js"></script>
 <script src="src/js/storyTelling-story.js"></script>
 <script src="src/js/storyTelling-templateManager.js"></script>
 <script src="src/js/storyTelling-ui.js"></script>
 <script src="src/js/storyTelling-ui-menu.js"></script>
-<script src="src/js/storyTelling-ui-storyEditor.js"></script>
-<script src="src/js/storyTelling-ui-storyViewer.js"></script>
-<script src="src/js/storyTelling-uploader.js"></script>
-<script src="src/js/transforms.js"></script>
 <script src="src/js/UIOMultilingualDemo.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
@@ -60,9 +46,11 @@
 <link rel="stylesheet" href="node_modules/infusion/src/framework/core/css/fluid.css">
 <link rel="stylesheet" href="src/css/storyTelling.css" />
 
-<script src="../src/karisma/js/karisma.js"></script>
-<link rel="stylesheet" href="../src/karisma/css/karisma.css" />
-
+<script src="src/karisma/js/karisma.js"></script>
+<link rel="stylesheet" href="src/karisma/css/karisma.css" />
+<!-- To make adjustments to CSS rules specifically for the 'welcome' page -->
+<!-- TODO: find a better way to organize the markup for this page, it's very hacky -->
+<link rel="stylesheet" href="src/karisma/css/karisma-welcome.css" />
 </head>
 <body>
 
@@ -97,28 +85,27 @@
    <!-- END markup for Preference Editor -->
 </div>
 
-
+<!-- TODO: review the use of this markup for the welcome page -->
+<div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div>
 <div class="sjrk-pageHeading-container sjrkc-pageHeading-container"></div>
 
 <!-- This div is for the table of contents feature provided by the Preferences Editor -->
 <div class="sjrk-toc-container">
     <div class="flc-toc-tocContainer toc"> </div>
 </div>
-<div class="sjrk-pageBody-container sjrk-pageBody-with-sidebars">
-    <div class="sjrk-sidebar-left-container sjrkc-sidebar-left-container"></div>
-    <div class="sjrk-story-editor-container">
-        <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div>
-        <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div>
-        <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-previewer"></div>
+<!-- TODO: review the use of the grid css rules here, as well as class names -->
+<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn">
+    <div class="sjrk-main-container">
+        <div class="sjrk-storyTelling-welcome sjrkc-storyTelling-welcome"></div>
     </div>
-    <div class="sjrk-sidebar-right-container sjrkc-sidebar-right-container"></div>
 </div>
 
 <div class="sjrk-pageFooter-container sjrkc-pageFooter-container"></div>
 
+
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.karisma.storyEdit({});
+        sjrk.storyTelling.karisma.karismaWelcome({});
     });
 </script>
 
