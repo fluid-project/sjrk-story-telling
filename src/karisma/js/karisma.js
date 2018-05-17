@@ -40,9 +40,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-pageHeading-container",
                 options: {
+                    mastheadConfig: {
+                        templateValues: {
+                            "homePageUrl": "/"
+                        }
+                    },
                     components: {
                         templateManager: {
                             options: {
+                                listeners: {
+                                    "onAllResourcesLoaded.renderTemplateOnSelf": {
+                                        funcName: "{that}.renderTemplateOnSelf",
+                                        args: ["{karismaMasthead}.options.mastheadConfig.templateValues"]
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
                                     templatePath: "%resourcePrefix/src/karisma/templates/karisma-masthead.handlebars",
