@@ -17,13 +17,14 @@
   },
   "homepage": "",
   "dependencies": {
+      "gpii-binder": "git+https://github.com/GPII/gpii-binder.git",
     "express-basic-auth": "1.1.5",
     "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
     "gpii-handlebars": "1.0.2",
     "handlebars": "4.0.10",
-    "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
+    "infusion": "3.0.0-dev.20180326T173646Z.8c6a109b1",
     "kettle": "git+https://github.com/waharnum/kettle.git#KETTLE-66",
-    "sjrk-story-telling": "git+https://github.com/BlueSlug/sjrk-story-telling.git#65893dc98aefc1b980bef6304d4ad264db169f8f",
+    "sjrk-story-telling": "git+https://github.com/BlueSlug/sjrk-story-telling.git#SJRK-91",
     "uuid": "3.1.0"
   },
   "devDependencies": {
