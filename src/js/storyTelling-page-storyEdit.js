@@ -140,6 +140,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         },
                         templateManager: {
                             options: {
+                                listeners: {
+                                    "onAllResourcesLoaded.renderTemplateOnSelf": {
+                                        funcName: "{that}.renderTemplateOnSelf",
+                                        args: ["{story}.model", {showFooter: true}]
+                                    }
+                                },
                                 templateConfig: {
                                     resourcePrefix: "../.."
                                 }
