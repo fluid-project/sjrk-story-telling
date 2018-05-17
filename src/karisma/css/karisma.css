@@ -77,6 +77,18 @@ a {
     background-color: var(--site-dark-rose);
 }
 
+.sjrk-storyTelling-button-text-block {
+    background-image: url("../img/icons/icon-textBlock.png");
+}
+
+.sjrk-storyTelling-button-image-block {
+    background-image: url("../img/icons/icon-imageBlock.png");
+}
+
+.sjrk-storyTelling-button-remove-blocks {
+    background-image: url("../img/icons/icon-removeBlocks.png");
+}
+
 .sjrk-storyTelling-storyListenTo {
     background-color: var(--site-yellow);
     border: 2px black solid;
