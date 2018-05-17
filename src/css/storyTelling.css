@@ -361,6 +361,10 @@ fieldset ul {
 }
 
 @media only screen and (max-width: 50em) {
+    .sjrk-storyTelling-browser-view-control-container {
+        display: none;
+    }
+
     .sjrk-storyTelling-browser-stories.grid {
         display: block;
         grid-template-columns: initial;

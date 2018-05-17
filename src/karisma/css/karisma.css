@@ -122,3 +122,17 @@ a {
     max-width: 16rem;
     max-height: 10rem;
 }
+
+@media only screen and (max-width: 50em) {
+    .sjrk-pageHeading {
+        font-size: 1.5rem;
+    }
+
+    .sjrk-pageBody-with-sidebars {
+        display: block;
+    }
+
+    .sjrk-storyTelling-karisma-sidebar {
+        display: none;
+    }
+}

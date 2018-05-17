@@ -33,6 +33,10 @@ body {
     color: var(--site-purple);
 }
 
+.sjrk-storyTelling-karisma-welcome-button-container {
+    display: grid;
+}
+
 .sjrk-storyTelling-karisma-welcome-button-container a {
     display: inline-block;
     color: white;
@@ -45,4 +49,22 @@ body {
     min-width: 20rem;
     max-width: 35rem;
     text-decoration: none;
+}
+
+@media only screen and (max-width: 50em) {
+    .sjrk-pageHeading {
+        margin: 0rem 1rem;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-container {
+        grid-template-columns: auto;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-mascot-container {
+        display: none;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-message {
+        margin: 0.5rem 0 2rem 0;
+    }
 }
