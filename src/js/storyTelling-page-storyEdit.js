@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // TODO: add namespaces for each event from a component?
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplateOnSelf",
-                args: ["{storyPreviewer}.story.model"]
+                args: ["{storyPreviewer}.story.model", {showFooter: true}]
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",

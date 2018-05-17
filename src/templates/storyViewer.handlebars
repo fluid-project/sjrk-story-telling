@@ -42,7 +42,7 @@
         </span>
     </div>
 </div>
-<div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-footer-container">
+{{#if dynamicValues.showFooter}}<div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-footer-container">
     <div>
         <a href="javascript:void(0)" class="sjrkc-storyTelling-storyViewerPrevious sjrk-storyTelling-storyViewerPrevious">{{localizedMessages.message_goBack}}</a>
     </div>
@@ -54,3 +54,4 @@
         <a href="#" class="sjrkc-storyTelling-storySaveNoShare sjrk-storyTelling-storySaveNoShare">{{localizedMessages.message_saveNoShareText}}</a>
     </div>
 </div>
+{{/if}}
