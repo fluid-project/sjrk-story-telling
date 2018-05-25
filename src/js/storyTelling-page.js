@@ -183,8 +183,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var result = cookieStore.get();
         var language = fluid.get(result, "value." + modelPath);
 
-        pageComponent.applier.change(modelPath, language);
-        fluid.set(pageComponent, "uio.options.multilingualSettings.locale", language);
+        if (language) {
+            pageComponent.applier.change(modelPath, language);
+            fluid.set(pageComponent, "uio.options.multilingualSettings.locale", language);
+        }
     };
 
     sjrk.storyTelling.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
