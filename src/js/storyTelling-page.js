@@ -68,6 +68,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{that}"]
                 },
                 {
+                    this: "console",
+                    method: "log",
+                    args: ["{change}"],
+                    excludeSource: "init"
+                },
+                {
                     funcName: "{that}.events.onContextChangeRequested.fire"
                 },
                 {
