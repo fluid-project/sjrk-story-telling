@@ -11,8 +11,12 @@
         <button class="sjrk-storyTelling-button sjrk-storyTelling-storyListenTo sjrkc-storyTelling-storyListenTo" type="button"><span class="sjrk-storyTelling-button-text">{{localizedMessages.message_listenToText}}</span></button>
     </div>
 
-    <h2 class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</h2>
-    <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_authorText}}</p>
+    {{#if dynamicValues.title}}
+        <h2 class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</h2>
+    {{/if}}
+    {{#if dynamicValues.author}}
+        <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_authorText}}</p>
+    {{/if}}
 
     <div hidden class="sjrk-storyTelling-link-container">
         <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_readMoreText}}</a>
@@ -24,11 +28,13 @@
         </span>
     </div>
 
-    <div class="sjrk-storyTelling-tags-container">
-        {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-storyTelling-storyListTags sjrk-storyTelling-storyListTags">
-            {{#each dynamicValues.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
-        </span>
-    </div>
+    {{#if dynamicValues.tags}}
+        <div class="sjrk-storyTelling-tags-container">
+            {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-storyTelling-storyListTags sjrk-storyTelling-storyListTags">
+                {{#each dynamicValues.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+            </span>
+        </div>
+    {{/if}}
 
     <hr class="sjrk-storyTelling-view-separator" />
 
