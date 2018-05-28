@@ -16,6 +16,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Karisma "El planeta es la escuela" framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.karisma", {
         gradeNames: ["sjrk.storyTelling.page"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         modelRelay: [
             {
                 source: "{that}.model.uiLanguage",
@@ -70,6 +73,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Karisma shell to the storyView page
     fluid.defaults("sjrk.storyTelling.karisma.storyView", {
         gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyView"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         components: {
             uio: {
                 options: {
@@ -78,51 +84,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "messagePrefix": "/src/messages/uio"
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyViewer: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -131,6 +92,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Karisma shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.karisma.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyBrowse"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         components: {
             uio: {
                 options: {
@@ -141,32 +105,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             storyBrowser: {
                 options: {
                     browserConfig: {
                         placeholderThumbnailUrl: "/src/karisma/img/logo.png"
-                    },
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -176,6 +118,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Karisma shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.karisma.storyEdit", {
         gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyEdit"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         components: {
             uio: {
                 options: {
@@ -184,19 +129,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "messagePrefix": "/src/messages/uio"
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
                 }
             },
             karismaSidebarLeft: {
@@ -208,8 +140,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-left.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-left.handlebars"
                                 }
                             }
                         }
@@ -225,72 +156,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-right.handlebars",
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyEditor: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyPreviewer: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-right.handlebars"
                                 }
                             }
                         }
@@ -303,6 +169,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Karisma shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.karisma.karismaWelcome", {
         gradeNames: ["sjrk.storyTelling.karisma"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         modelRelay: [
             {
                 source: "{that}.model.uiLanguage",
@@ -328,8 +197,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-menu.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-menu.handlebars"
                                 }
                             }
                         }
@@ -357,8 +225,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-welcome.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-welcome.handlebars"
                                 }
                             }
                         }

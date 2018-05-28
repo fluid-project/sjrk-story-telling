@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -158,7 +158,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 // Select the checkbox of the first block
                 {
-                    func: "sjrk.storyTelling.ui.storyEditorTester.checkFirstBlockCheckbox",
+                    func: "sjrk.storyTelling.testUtils.checkFirstBlockCheckbox",
                     args: ["{storyEditor}.blockManager"]
                 },
                 // Click the "remove selected blocks" button
@@ -169,7 +169,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // Verify removal
                 {
                     "event": "{storyEditor}.events.onRemoveBlocksCompleted",
-                    listener: "sjrk.storyTelling.ui.storyEditorTester.verifyBlocksRemoved",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
                     args: ["{storyEditor}.blockManager", "{arguments}.0", 2]
                 }]
             },
@@ -224,21 +224,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
-
-    // TODO: this doesn't work because of speed of execution and asynchronous
-    // template loading - need to delay on this until the blocks have loaded
-    // their content, because until then they don't have checkboxes!
-    sjrk.storyTelling.ui.storyEditorTester.checkFirstBlockCheckbox = function (blockManager) {
-        var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
-        var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
-
-        checkBox.prop("checked", true);
-    };
-
-    sjrk.storyTelling.ui.storyEditorTester.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
-        var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
-        jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
-    };
 
     fluid.defaults("sjrk.storyTelling.ui.storyEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],

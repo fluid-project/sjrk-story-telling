@@ -18,6 +18,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             uiLanguage: "en" //initial state is English (TODO: is there a better way?)
         },
+        pageSetup: {
+            resourcePrefix: "../.."
+        },
+        distributeOptions: [
+            {
+                source: "{that}.options.pageSetup.resourcePrefix",
+                target: "{that ui}.options.components.templateManager.options.templateConfig.resourcePrefix"
+            },
+            {
+                source: "{that}.options.pageSetup.resourcePrefix",
+                target: "{that ui blockManager}.options.dynamicComponents.managedViewComponents.options.components.templateManager.options.templateConfig.resourcePrefix"
+            }
+        ],
         events: {
             onStoryListenToRequested: null,
             onAllUiComponentsReady: {
@@ -66,12 +79,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
                     args: ["{that}"]
-                },
-                {
-                    this: "console",
-                    method: "log",
-                    args: ["{change}"],
-                    excludeSource: "init"
                 },
                 {
                     funcName: "{that}.events.onContextChangeRequested.fire"
@@ -126,18 +133,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: ".sjrkc-storyTelling-menu-links",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
+                container: ".sjrkc-storyTelling-menu-links"
             },
             uio: {
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",

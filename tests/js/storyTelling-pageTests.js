@@ -26,18 +26,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             menu: {
-                container: "#testMenu",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
+                container: "#testMenu"
             }
         }
     });

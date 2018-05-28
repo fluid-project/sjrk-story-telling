@@ -93,34 +93,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         onStorySubmitRequested: "{page}.events.onContextChangeRequested.fire",
                         onEditorNextRequested: "{page}.events.onContextChangeRequested.fire",
                         onEditorPreviousRequested: "{page}.events.onContextChangeRequested.fire"
-                    },
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -144,28 +116,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     "onAllResourcesLoaded.renderTemplateOnSelf": {
                                         funcName: "{that}.renderTemplateOnSelf",
                                         args: ["{story}.model", {showFooter: true}]
-                                    }
-                                },
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
                                     }
                                 }
                             }

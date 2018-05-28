@@ -16,6 +16,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections", {
         gradeNames: ["sjrk.storyTelling.page"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         modelRelay: [
             {
                 source: "{that}.model.uiLanguage",
@@ -52,8 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-masthead.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-masthead.handlebars"
                                 }
                             }
                         }
@@ -70,8 +72,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-footer.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-footer.handlebars"
                                 }
                             }
                         }
@@ -93,51 +94,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
-            },
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyViewer: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     });
@@ -153,35 +109,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "messagePrefix": "/src/messages/uio"
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyBrowser: {
-                options: {
-                    browserConfig: {
-                        placeholderThumbnailUrl: "../../img/icons/icon-heartBook-thumbnail.png"
-                    },
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -209,83 +136,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyEditor: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            storyPreviewer: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             // introductory content
             learningReflectionsIntro: {
                 type: "sjrk.storyTelling.ui",
@@ -296,8 +146,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-introduction.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-introduction.handlebars"
                                 }
                             }
                         }

@@ -16,28 +16,44 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.page.testStoryEdit", {
         gradeNames: ["sjrk.storyTelling.page.storyEdit"],
         components: {
-            menu: {
-                container: "#testMenu",
+            uio: {
                 options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
+                    terms: {
+                        "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
+                        "messagePrefix": "/src/messages/uio"
+                    },
+                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
+            },
+            menu: {
+                container: "#testMenu"
             },
             storyEditor: {
                 container: "#testStoryEditor",
                 options: {
+                    events: {
+                        onNewBlockTemplateRendered: null
+                    },
                     components: {
-                        templateManager: {
+                        blockManager: {
                             options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
+                                dynamicComponents: {
+                                    managedViewComponents: {
+                                        options: {
+                                            components: {
+                                                templateManager: {
+                                                    options: {
+                                                        listeners: {
+                                                            "onTemplateRendered.notifyTestStoryEditor": {
+                                                                func: "{storyEditor}.events.onNewBlockTemplateRendered.fire",
+                                                                args: ["{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -45,18 +61,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             storyPreviewer: {
-                container: "#testStoryPreviewer",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        }
-                    }
-                }
+                container: "#testStoryPreviewer"
             }
         }
     });
@@ -200,6 +205,113 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "title",
                     listener: "jqUnit.assertEquals",
                     args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
+                }]
+            }]
+        },
+        {
+            name: "Test block controls",
+            tests: [{
+                name: "Test block operations within the page context",
+                expect: 16,
+                sequence: [{
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onEditorNextRequested",
+                    listener: "jqUnit.assert",
+                    args: "onEditorNextRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onStorySubmitRequested",
+                    listener: "jqUnit.assert",
+                    args: "onStorySubmitRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onEditorPreviousRequested",
+                    listener: "jqUnit.assert",
+                    args: "onEditorPreviousRequested event fired."
+                },
+                // Click to add a text block
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddTextBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                // Wait for block to fully render
+                {
+                    "event": "{storyEdit > storyEditor}.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                },
+                // Click to add an image block
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddImageBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                // Wait for block to fully render
+                {
+                    "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                },
+                // Add a second text block
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddTextBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                // Wait for block to fully render
+                {
+                    "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["New block template fully rendered"]
+                },
+                // Select the checkbox of the first block
+                {
+                    func: "sjrk.storyTelling.testUtils.checkFirstBlockCheckbox",
+                    args: ["{storyEdit}.storyEditor.blockManager"]
+                },
+                // Click the "remove selected blocks" button
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyRemoveSelectedBlocks"
+                },
+                // Verify removal
+                {
+                    "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 2]
                 }]
             }]
         }]

@@ -53,32 +53,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".sjrkc-storyTelling-story-viewer",
                 options: {
                     components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    resourcePrefix: "../.."
-                                }
-                            }
-                        },
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        templateConfig: {
-                                                            resourcePrefix: "../.."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
                         // TODO: remove this section once tests have been added
                         story: {
                             options: {
