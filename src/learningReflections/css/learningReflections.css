@@ -90,6 +90,10 @@ body {
     background: var(--site-blue);
 }
 
+.sjrk-storyTelling-browser-story-thumnail-placeholder {
+    object-fit: contain;
+}
+
 .sjrk-pageFooter-container {
     font-size: 1.5rem;
     padding: 1rem 3rem;

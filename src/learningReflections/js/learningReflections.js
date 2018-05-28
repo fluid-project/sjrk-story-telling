@@ -85,6 +85,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         components: {
             uio: {
                 options: {
@@ -101,6 +104,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyBrowse"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         components: {
             uio: {
                 options: {
@@ -110,6 +116,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
+            },
+            storyBrowser: {
+                options: {
+                    browserConfig: {
+                        placeholderThumbnailUrl: "../img/icons/icon-heartBook.png"
+                    }
+                }
             }
         }
     });
@@ -117,6 +130,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
+        pageSetup: {
+            resourcePrefix: "../../.."
+        },
         modelRelay: [
             {
                 source: "{that}.model.uiLanguage",
