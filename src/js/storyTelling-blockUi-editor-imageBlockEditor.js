@@ -195,7 +195,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{editable}.updateImagePreview",
+                            func: "{imageBlockEditor}.updateImagePreview",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
