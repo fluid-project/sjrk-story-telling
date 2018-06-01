@@ -84,7 +84,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that, currentFile) {
         if (currentFile) {
-            // TODO: confirming this works should be part of the manual tests
             var fileDetails = {
                 lastModified: currentFile.lastModified,
                 lastModifiedDate: currentFile.lastModifiedDate,

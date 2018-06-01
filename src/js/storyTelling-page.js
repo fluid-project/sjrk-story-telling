@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            uiLanguage: "en" //initial state is English (TODO: is there a better way?)
+            uiLanguage: "en" //initial state is English
         },
         pageSetup: {
             resourcePrefix: "../.."
@@ -38,7 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onMenuReady: "{menu}.events.onControlsBound"
                 }
             },
-            onContextChangeRequested: null // TODO: think of a better name
+            onContextChangeRequested: null // this includes changes in visibility, language, etc.
         },
         listeners: {
             "onCreate.getUiLanguage": {
@@ -193,7 +193,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
     };
 
-    // TODO: review this function, it could likely be implemented as listeners and modelListeners
     sjrk.storyTelling.page.updateMessageBases = function (prefsEditorLoaderComponent, pageComponent) {
         var panels = [
             "fluid_prefs_panel_contrast",

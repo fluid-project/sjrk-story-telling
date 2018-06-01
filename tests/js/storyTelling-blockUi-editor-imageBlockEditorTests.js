@@ -65,7 +65,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "jqUnit.assert",
                     args: ["The onUploadRequested event fired"]
                 }
-                // TODO: make these context-aware tests
                //  {
                //     jQueryTrigger: "click",
                //     element: "{imageBlock}.dom.imageCaptureButton"

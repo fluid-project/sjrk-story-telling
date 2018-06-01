@@ -80,8 +80,6 @@
         }
     });
 
-    // TODO: review these function with Alan to confirm the documentation is correct
-
     /* Registers a new view component with the dynamicViewComponentManager and
      * fires a given event upon successful completion
      * - "that": the dynamicViewComponentManager itself

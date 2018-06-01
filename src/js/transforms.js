@@ -51,7 +51,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // TODO: should test coverage check for null values?
     sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
         return input.join(extraInputs.separator());
     };
@@ -80,7 +79,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return fluid.get(component, path)[index] || index;
     };
 
-    // TODO: consider combining with arrayToString (above)
     /* given a set of terms and a separator, will produce a concatenated string
      * of all the terms separated by the separator. Where a term is not truthy,
      * it simply won't appear in the final result.

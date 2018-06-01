@@ -50,40 +50,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story view context
             storyViewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
-                container: ".sjrkc-storyTelling-story-viewer",
-                options: {
-                    components: {
-                        // TODO: remove this section once tests have been added
-                        story: {
-                            options: {
-                                model: {
-                                    title: "A simple story",
-                                    content:
-                                    [
-                                        {
-                                            blockType: "text",
-                                            language: "en",
-                                            heading: "First block",
-                                            text: "Here are some story words that form a sentence",
-                                            simplifiedText: "Story words"
-                                        },
-                                        {
-                                            blockType: "image",
-                                            language: "de",
-                                            heading: "Second block",
-                                            imageUrl: "/tests/img/obliterationroom.jpg",
-                                            alternativeText: "The Obliteration Room at the Yayoi Kusama Infinity Rooms exhibit",
-                                            description: "This is a photo of the Obliteration Room at the Art Gallery of Ontario"
-                                        }
-                                    ],
-                                    author: "The usual author",
-                                    language: "en",
-                                    tags: ["test", "story", "simple"]
-                                }
-                            }
-                        }
-                    }
-                }
+                container: ".sjrkc-storyTelling-story-viewer"
             }
         }
     });

@@ -52,7 +52,6 @@ fieldset ul {
     text-align: right;
 }
 
-/* TODO: Initial visibility of the editor pages should not be set in CSS */
 .sjrk-storyTelling-storyEditorPage2, .sjrkc-storyTelling-story-previewer {
     display: none;
 }
@@ -250,7 +249,7 @@ fieldset ul {
 
 .sjrk-storyTelling-story-editor-content {
     min-height: 20rem;
-    background: var(--site-grey); /* TODO: check contrast ratios */
+    background: var(--site-grey);
     margin: 1rem 0;
     border-top: 2px solid;
     border-bottom: 2px solid;

@@ -77,10 +77,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return element.selectorName || element.selector || element.toString();
     };
 
-    // TODO: this doesn't work because of speed of execution and asynchronous
-    // template loading - need to delay on this until the blocks have loaded
-    // their content, because until then they don't have checkboxes!
-    // TODO: document this function
     sjrk.storyTelling.testUtils.checkFirstBlockCheckbox = function (blockManager) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
@@ -88,7 +84,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         checkBox.prop("checked", true);
     };
 
-    // TODO: document this function
     sjrk.storyTelling.testUtils.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
 
         var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
@@ -104,7 +99,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
     };
 
-    // TODO: document this function
     sjrk.storyTelling.testUtils.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);

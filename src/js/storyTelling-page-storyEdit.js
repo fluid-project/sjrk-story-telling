@@ -29,7 +29,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{storyEditor}.events.onUpdateStoryFromBlocksRequested.fire",
                 priority: "first"
             },
-            // TODO: add namespaces for each event from a component?
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplateOnSelf",
                 args: ["{storyPreviewer}.story.model", {showFooter: true}]
@@ -89,7 +88,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".sjrkc-storyTelling-story-editor",
                 options: {
                     listeners: {
-                        // TODO: determine if there is a better way to "register" these
                         onStorySubmitRequested: "{page}.events.onContextChangeRequested.fire",
                         onEditorNextRequested: "{page}.events.onContextChangeRequested.fire",
                         onEditorPreviousRequested: "{page}.events.onContextChangeRequested.fire"

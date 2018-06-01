@@ -111,45 +111,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
     });
 
-    // Abstract, see implementations below
-    // TODO: does this need to be abstract? could be defined within the generator function instead
-    fluid.defaults("sjrk.storyTelling.templateManagerTesterBase", {
-        gradeNames: ["fluid.test.testCaseHolder"],
-        modules: [{
-            name: "Test template manager localization.",
-            tests: [{
-                name: "Test locale translation",
-                expect: 1,
-                sequence: [{
-                    "event": "{templateManagerTestBase templateManagerLocalized}.events.onTemplateRendered",
-                    listener: "sjrk.storyTelling.templateManagerTesterBase.testLocalization",
-                    args: ["{templateManagerLocalized}", "testMessage", "{that}.options.expectedMessage"]
-                }]
-            }]
-        }]
-    });
-
-    sjrk.storyTelling.templateManagerTesterBase.testLocalization = function (component, selector, expected) {
+    sjrk.storyTelling.templateManagerTester.testLocalization = function (component, selector, expected) {
         var actual = component.locate(selector).text().trim();
         jqUnit.assertEquals("Selector text matches expected value", expected, actual);
     };
 
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest = function (languageCode, expected) {
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest = function (languageCode, expected) {
         fluid.defaults("sjrk.storyTelling.templateManagerTester." + languageCode, {
-            gradeNames: ["sjrk.storyTelling.templateManagerTesterBase"],
+            gradeNames: ["fluid.test.testCaseHolder"],
             expectedMessage: expected,
             modules: [{
+                name: "Test template manager localization.",
+                tests: [{
+                    name: "Test locale translation",
+                    expect: 1,
+                    sequence: [{
+                        "event": "{templateManagerTestBase templateManagerLocalized}.events.onTemplateRendered",
+                        listener: "sjrk.storyTelling.templateManagerTester.testLocalization",
+                        args: ["{templateManagerLocalized}", "testMessage", "{that}.options.expectedMessage"]
+                    }]
+                }]
+            },
+            {
                 name: "Test templated component with localization (" + languageCode + ")"
             }]
         });
     };
 
-    // TODO: Consider adding further languages that have differing
-    //       character sets or right-to-left scripts
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("en", "Hello, world!");
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("fr", "Bonjour le monde!");
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("chef", "bork bork bork!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("en", "Hello, world!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("fr", "Bonjour le monde!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("chef", "bork bork bork!");
 
     // Abstract, see factory function below for generating usable
     // test environment grades

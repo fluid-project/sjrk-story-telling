@@ -121,7 +121,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // TODO: this should be further decoupled from the specifics of gpii-handlebars at some point
     /* Renders a template into the specified container with a gpii.handlebars
      * client-side renderer, and fires completionEvent when done.
      * Values in localizedMessages are resolved against those in dynamicValues.
@@ -233,7 +232,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // TODO: write tests for this function
     /* Handlebars block helper function to replace all instances of one value
      * within a given string with another new value.
      * - "source": the source string to be modified

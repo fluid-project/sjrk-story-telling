@@ -93,7 +93,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "jqUnit.assert",
                     args: "onEditorPreviousRequested event fired."
                 },
-                // TODO: waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
+                // waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
                 {
                     "event": "{storyEditor blockManager}.events.onCreate",
                     listener: "jqUnit.assert",
@@ -150,7 +150,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "fluid.identity"
                 },
-                // Wait for block to fully render
+                // Wait for block to fully render because it doesn't have a
+                // checkbox for the next item in the sequence until then.
                 {
                     "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",

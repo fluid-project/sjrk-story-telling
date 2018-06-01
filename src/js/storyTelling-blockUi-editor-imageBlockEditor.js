@@ -38,8 +38,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "args": ["src", "{arguments}.0"]
             }
         },
-        // TODO: Discuss this event-listener setup with someone, it doesn't smell right
-        // Why can't we add a listener to singleFileUploader's onUploadRequested event?
         events: {
             imageUploadRequested: null
         },
@@ -136,7 +134,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // TODO: make this check more robust and reliable
     /* Determines whether the current user device has a "mobile" camera. */
     sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
         var userAgent = navigator.userAgent.toLowerCase();

@@ -6,10 +6,7 @@
 <div class="sjrk-storyTelling-browser-stories sjrkc-storyTelling-browser-stories">
     {{#each dynamicValues.stories}}
         <div class="sjrk-storyTelling-browser-story-container">
-            {{!-- TODO: the bottom of grid view boxes is not
-            always in line with the beginning of the link clickable area --}}
             <a class="sjrk-storyTelling-browser-story-link" href="storyView.html?id={{@key}}">
-                <!-- TODO: these class names are sooooo long -->
                 <div class="sjrk-storyTelling-browser-story-thumbnail-container">
                     {{#if thumbnailUrl}}
                         <img class="sjrk-storyTelling-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">

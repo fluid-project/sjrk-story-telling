@@ -25,7 +25,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         };
 
-        // TODO: THERE HAS TO BE A BETTER WAY
         var tagArray = fluid.model.transformWithRules(
             {inputString: "tag1,tag2"},
             {output: stringToArrayTransform}
@@ -52,7 +51,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         var expectedString = "tag1, tag2";
 
-        // TODO: THERE HAS TO BE A BETTER WAY
         var tagString = fluid.model.transformWithRules(
             {sourceArray: ["tag1", "tag2"]},
             {tagString: arrayToStringTransform}

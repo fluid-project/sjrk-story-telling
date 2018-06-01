@@ -52,6 +52,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // represents the story data
             story: {
                 type: "sjrk.storyTelling.story"
+                // This content is here to aid in work on styling/aesthetics
+                // options: {
+                //     model: {
+                //         title: "A simple story",
+                //         content:
+                //         [
+                //             {
+                //                 blockType: "text",
+                //                 language: "en",
+                //                 heading: "First block",
+                //                 text: "Here are some story words that form a sentence",
+                //                 simplifiedText: "Story words"
+                //             },
+                //             {
+                //                 blockType: "image",
+                //                 language: "de",
+                //                 heading: "Second block",
+                //                 imageUrl: "/tests/img/obliterationroom.jpg",
+                //                 alternativeText: "The Obliteration Room at the Yayoi Kusama Infinity Rooms exhibit",
+                //                 description: "This is a photo of the Obliteration Room at the Art Gallery of Ontario"
+                //             }
+                //         ],
+                //         author: "The usual author",
+                //         language: "en",
+                //         tags: ["test", "story", "simple"]
+                //     }
+                // }
             },
             templateManager: {
                 options: {
@@ -73,7 +100,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
                 options: {
                     listeners: {
-                        // TODO: the event being listened to for this step may change
                         "onCreate.createBlocksFromData": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
                             "args": ["{story}.model.content", "{storyViewer}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
