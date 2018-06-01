@@ -243,7 +243,7 @@ sjrk.storyTelling.server.loadThemedPage = function (page, theme, callback) {
     mainContainer.html(templates[theme][page]);
 
     var cssUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/css/%theme.css", {theme: theme}),
-        scriptUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/js/%theme.js", {theme: theme});
+    scriptUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/js/%theme.js", {theme: theme});
 
     $('<link/>', {
        rel: 'stylesheet',
