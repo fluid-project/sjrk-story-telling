@@ -238,7 +238,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest) {
-    // TODO: this is fragile, find a better way
+    // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
     var imageFilename, handlerPath;
     handlerPath = imageUrl.split("/")[1];
     imageFilename = imageUrl.split("/")[2];

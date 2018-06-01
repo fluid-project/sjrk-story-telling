@@ -80,7 +80,6 @@ fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
 
 sjrk.storyTelling.server.base.submitStory = function (that) {
 
-    // TODO: add proper selector for form
     var form = that.container.find("form");
 
     form.attr("action", "/stories/");
@@ -220,8 +219,6 @@ sjrk.storyTelling.server.loadBrowse = function (theme) {
         });
     });
 };
-
-// TODO: this should be a proper Infusion component
 
 var templates = {
     karisma: {

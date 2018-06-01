@@ -15,8 +15,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 // - stress-testing
 // - providing a certain amount of story content to work with when
 // developing
-// TODO: this code is very hacky right now and arguably misuses
-// the testing framework!
 
 var Chance = require("chance");
 var chance = new Chance();

@@ -32,9 +32,6 @@ sjrk.storyTelling.server.dataSource.couch.base.getURL = function (host, path) {
 
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base"],
-    // TODO: this should be more configurable, using termMap
-    // and the available URL-based configurations of a view, along
-    // with sensible defaults
     path: "/%db/_design/%designDoc/_view/%viewId?limit=%limit&reduce=%reduce&skip=%skip",
     termMap: {
         viewId: "%directViewId",
@@ -67,16 +64,11 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     termMap: {
         storyId: "%directStoryId"
     },
-    writable: true
+    writable: true    
 });
 
-// TODO: This is arguably an abuse of the dataSource, but
-// it works in the case of Couch
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.deleteStory", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.base"],
-    // TODO: this should be more configurable, using termMap
-    // and the available URL-based configurations of a view, along
-    // with sensible defaults
     path: "/stories/%storyId?rev=%revisionId",
     termMap: {
         storyId: "%directStoryId",

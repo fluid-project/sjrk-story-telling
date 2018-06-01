@@ -15,7 +15,6 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-// TODO: this needs tests
 fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
@@ -41,7 +40,6 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource
 
 };
 
-// TODO: might more appropriately be a transform
 sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse = function (response) {
     var storyBrowse = {
         totalResults: response.total_rows,
@@ -80,7 +78,6 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     }
 });
 
-// TODO: the get handler will need to provide an expanded URL for the binary locations, based on the config
 sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploadedFilesHandlerPath) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
@@ -88,7 +85,6 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
     promise.then(function (response) {
 
         fluid.transform(response.content, function (block) {
-            // fluid.log("BLOCK: ", block);
             if (block.blockType === "image") {
                 block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
                 return block;
@@ -127,8 +123,6 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
     var storyModel = JSON.parse(request.req.body.model);
 
-    // TODO: validation of model - via https://github.com/GPII/gpii-json-schema maybe?
-
     // key-value pairs of original filename : generated filename
     // this is used primarily by tests, but may be of use
     // to client-side components too
@@ -153,8 +147,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     });
 
     // Then persist that model to couch, with the updated
-    // references to where the binaries are saved
-    // TODO: remove fileDetails since it's not needed for persistence
+    // references to where the binaries are saved    
 
     var promise = dataSource.set({directStoryId: id}, storyModel);
 
@@ -202,9 +195,6 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
 };
 
 sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource, getStoryDataSource) {
-
-    // TODO: get the revision ID from the record and set it
-    // dynamically
 
     var promise = fluid.promise();
 
