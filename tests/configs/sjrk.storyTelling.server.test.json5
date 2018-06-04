@@ -1,0 +1,23 @@
+{
+    "type": "sjrk.storyTelling.server.testServer",
+    "options": {
+        "gradeNames": ["sjrk.storyTelling.server"],
+        "components": {
+            "server": {
+                "options": {
+                    "globalConfig": {
+                        "binaryUploadDirectory": "./tests/uploads"
+                    },
+                    "components": {
+                        "storyDataSource": {
+                            "type": "sjrk.storyTelling.server.dataSource.couch.story",
+                            "options": {
+                                "host": "http://localhost:6789"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -11,9 +11,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 var fluid = require("infusion");
 require("kettle");
+require("./src/js/staticHandlerBase");
+require("./src/js/middleware/basicAuth");
+require("./src/js/middleware/saveStoryWithBinaries");
+require("./src/js/middleware/staticMiddlewareSubdirectoryFilter");
 require("./src/js/dataSource");
 require("./src/js/serverSetup");
 require("./src/js/requestHandlers");
 
 var sjrk = fluid.registerNamespace("sjrk");
+
 sjrk.storyTelling.server();
