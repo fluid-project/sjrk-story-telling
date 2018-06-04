@@ -1,0 +1,7 @@
+node_modules
+tests
+npm-debug.log
+.git
+.gitignore
+secrets.json.example
+secrets.json
