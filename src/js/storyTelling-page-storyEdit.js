@@ -31,26 +31,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplateOnSelf",
-                args: ["{storyPreviewer}.story.model", {showFooter: true}]
+                args: ["{storyPreviewer}.story.model", {showFooter: true}],
+                namespace: "previewerRenderTemplateOnSelf"
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [
-                    ["{storyEditor}.container"],
-                    ["{storyPreviewer}.container"],
-                    "{that}.events.onVisibilityChanged"
-                ]
+                args: [["{storyEditor}.container"], ["{storyPreviewer}.container"], "{that}.events.onVisibilityChanged"],
+                namespace: "showPreviewerHideEditor"
             }],
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [
-                    ["{storyPreviewer}.container"],
-                    ["{storyEditor}.container"],
-                    "{that}.events.onVisibilityChanged"
-                ]
+                args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"],
+                namespace: "showEditorHidePreviewer"
             },
             "{storyPreviewer}.events.onStoryListenToRequested": {
-                func: "{that}.events.onStoryListenToRequested.fire"
+                func: "{that}.events.onStoryListenToRequested.fire",
+                namespace: "escalate"
             }
         },
         modelRelay: [
@@ -88,9 +84,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".sjrkc-storyTelling-story-editor",
                 options: {
                     listeners: {
-                        onStorySubmitRequested: "{page}.events.onContextChangeRequested.fire",
-                        onEditorNextRequested: "{page}.events.onContextChangeRequested.fire",
-                        onEditorPreviousRequested: "{page}.events.onContextChangeRequested.fire"
+                        "onStorySubmitRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
+                        "onEditorNextRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
+                        "onEditorPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire"
                     }
                 }
             },
@@ -100,7 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".sjrkc-storyTelling-story-previewer",
                 options: {
                     listeners: {
-                        onStoryViewerPreviousRequested: "{page}.events.onContextChangeRequested.fire"
+                        "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire"
                     },
                     components: {
                         story: {

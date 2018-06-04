@@ -51,7 +51,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": {
                 func: "{that}.applier.change",
-                args: ["uiLanguage", "{arguments}.0.data"]
+                args: ["uiLanguage", "{arguments}.0.data"],
+                namespace: "changeUiLanguage"
             },
             "onAllUiComponentsReady.registerEnglishButton": {
                 this: "{that}.menu.dom.languageLinkEnglish",
@@ -125,7 +126,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "{page}.events.onStoryListenToRequested": {
                             func: "{that}.queueSpeech",
-                            args: ["{that}.model.ttsText", true]
+                            args: ["{that}.model.ttsText", true],
+                            namespace: "queueSpeech"
                         }
                     }
                 }

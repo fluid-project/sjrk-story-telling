@@ -24,7 +24,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "{storyViewer}.events.onStoryListenToRequested": {
-                func: "{that}.events.onStoryListenToRequested.fire"
+                func: "{that}.events.onStoryListenToRequested.fire",
+                namespace: "escalate"
             }
         },
         modelRelay: [{

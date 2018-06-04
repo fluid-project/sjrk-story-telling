@@ -100,7 +100,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     listeners: {
                         "{imageBlockEditor}.events.imageUploadRequested": {
-                            func: "{that}.events.onUploadRequested.fire"
+                            func: "{that}.events.onUploadRequested.fire",
+                            namespace: "fireUploadForImageUpload"
                         }
                     },
                     modelListeners: {
@@ -187,7 +188,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     listeners: {
                         "{hasMobileCamera}.events.imageCaptureRequested": {
-                            func: "{that}.events.onUploadRequested.fire"
+                            func: "{that}.events.onUploadRequested.fire",
+                            namespace: "fireUploadForImageCapture"
                         }
                     },
                     modelListeners: {
