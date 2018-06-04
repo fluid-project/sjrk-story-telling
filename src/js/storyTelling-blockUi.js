@@ -27,8 +27,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json"
                     },
                     listeners: {
-                        "onAllResourcesLoaded.renderTemplateOnSelf": {
-                            funcName: "{that}.renderTemplateOnSelf",
+                        "onAllResourcesLoaded.renderTemplate": {
+                            funcName: "{that}.renderTemplate",
                             args: ["{block}.model"]
                         }
                     }

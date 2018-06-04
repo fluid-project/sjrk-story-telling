@@ -52,8 +52,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 listeners: {
-                                    "onAllResourcesLoaded.renderTemplateOnSelf": {
-                                        funcName: "{that}.renderTemplateOnSelf",
+                                    "onAllResourcesLoaded.renderTemplate": {
+                                        funcName: "{that}.renderTemplate",
                                         args: ["{karismaMasthead}.options.mastheadConfig.templateValues"]
                                     }
                                 },
@@ -218,8 +218,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 listeners: {
-                                    "onAllResourcesLoaded.renderTemplateOnSelf": {
-                                        funcName: "{that}.renderTemplateOnSelf",
+                                    "onAllResourcesLoaded.renderTemplate": {
+                                        funcName: "{that}.renderTemplate",
                                         args: ["{karismaWelcomer}.options.welcomerConfig.templateValues"]
                                     }
                                 },

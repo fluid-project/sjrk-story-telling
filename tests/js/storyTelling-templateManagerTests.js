@@ -37,9 +37,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>"]
                 },
                 {
-                    func: "{testTemplateManager}.renderTemplateOnSelf",
+                    func: "{testTemplateManager}.renderTemplate",
                     args: ["{testTemplateManager}.options.testValues"]
                 },
+                // {
+                //     func: "{testTemplateManager}.renderTemplateOnSelf",
+                //     args: ["{testTemplateManager}.options.testValues"]
+                // },
                 {
                     "event": "{testTemplateManager}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",

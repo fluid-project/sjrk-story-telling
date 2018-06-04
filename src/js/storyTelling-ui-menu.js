@@ -45,10 +45,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     listeners: {
-                        "onAllResourcesLoaded.renderTemplateOnSelf": {
-                            funcName: "{that}.renderTemplateOnSelf",
-                            // Passes in menuConfig.templateValues to
-                            // the dynamicValues argument
+                        "onAllResourcesLoaded.renderTemplate": {
+                            funcName: "{that}.renderTemplate",
                             args: ["{menu}.options.menuConfig.templateValues"]
                         }
                     },

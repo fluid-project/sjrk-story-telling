@@ -30,9 +30,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "first"
             },
             "{storyEditor}.events.onStorySubmitRequested": [{
-                func: "{storyPreviewer}.templateManager.renderTemplateOnSelf",
+                func: "{storyPreviewer}.templateManager.renderTemplate",
                 args: ["{storyPreviewer}.story.model", {showFooter: true}],
-                namespace: "previewerRenderTemplateOnSelf"
+                namespace: "previewerRenderTemplate"
             },
             {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
@@ -107,8 +107,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 listeners: {
-                                    "onAllResourcesLoaded.renderTemplateOnSelf": {
-                                        funcName: "{that}.renderTemplateOnSelf",
+                                    "onAllResourcesLoaded.renderTemplate": {
+                                        funcName: "{that}.renderTemplate",
                                         args: ["{story}.model", {showFooter: true}]
                                     }
                                 }

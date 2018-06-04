@@ -22,6 +22,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             locale: "en"
         },
         templateConfig: {
+            templateName: "templateName", // arbitrary value
             templatePath: null,
             messagesPath: null,
             resourcePrefix: "."
@@ -36,14 +37,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onMessagesLoaded: null,
             onTemplateRendered: null,
             onTemplateLoaded: null,
+            onTemplateInjected: null,
             onResourceLoadRequested: null
         },
         listeners: {
             "onCreate.loadResources": {
                 func: "{that}.events.onResourceLoadRequested.fire"
             },
-            "onAllResourcesLoaded.renderTemplateOnSelf": {
-                funcName: "{that}.renderTemplateOnSelf",
+            "onAllResourcesLoaded.renderTemplate": {
+                funcName: "{that}.renderTemplate",
                 args: [{}]
             }
         },
@@ -87,6 +89,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
                     },
                     listeners: {
+                        "onResourcesLoaded.injectTemplate": {
+                            funcName: "sjrk.storyTelling.templateManager.injectTemplate",
+                            args: ["{templateRenderer}",
+                                "{that}.resources.componentTemplate.resourceText",
+                                "{templateManager}.options.templateConfig.templateName",
+                                "{templateManager}.events.onTemplateInjected"],
+                            priority: "before:escalate"
+                        },
                         "onResourcesLoaded.escalate": "{templateManager}.events.onTemplateLoaded.fire"
                     }
                 }
@@ -107,12 +117,45 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         invokers: {
-            renderTemplateOnSelf: {
+            renderTemplate: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplate",
-                args: ["{that}", "{templateLoader}.resources.componentTemplate.resourceText", "{arguments}", "{that}.events.onTemplateRendered"]
+                args: ["{that}", "{that}.options.templateStrings.localizedMessages", "{arguments}"]
+            },
+            renderTemplateOnSelf: {
+                funcName: "sjrk.storyTelling.templateManager.renderTemplateOnSelf",
+                args: ["{that}", "{that}.options.templateConfig.templateName", "{that}.events.onTemplateRendered", "{arguments}.0", "{arguments}.1"]
             }
         }
     });
+
+    /* Injects the provided template content to the partial templates collection of the template renderer
+     * - "templateRenderer": the template renderer
+     * - "templateContent": the raw content of the template to be loaded at templateName
+     * - "templateName": the template's name
+     */
+    sjrk.storyTelling.templateManager.injectTemplate = function (templateRenderer, templateContent, templateName, completionEvent) {
+        templateRenderer.templates.partials[templateName] = templateContent;
+
+        completionEvent.fire();
+    };
+
+    /* Prepares the dynamic values and localized messages to be rendered into the
+     * template and then calls the renderTemplateOnSelf invoker. The invoker
+     * provides specifics about how to render the template.
+     * Values in localizedMessages are resolved against those in dynamicValues.
+     * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
+     * dynamicValues, the result is 'msg_auth:"Someone"'.
+     * - "templateManagerComponent": the templateManager component
+     * - "templateContent": the raw content of the template to be loaded at templateName
+     * - "dynamicValues": other values which are likely to change often.
+     * - "completionEvent": component even to fire when complete
+    */
+    sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, localizedMessages, dynamicValues) {
+        var combinedDynamicValues = sjrk.storyTelling.templateManager.combineDynamicValues(dynamicValues, localizedMessages);
+        localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, combinedDynamicValues);
+
+        templateManager.renderTemplateOnSelf(localizedMessages, combinedDynamicValues);
+    };
 
     /* Renders a template into the templateManager's container with a gpii.handlebars
      * client-side renderer, and fires completionEvent when done.
@@ -124,16 +167,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "dynamicValues": other values which are likely to change often.
      * - "completionEvent": component even to fire when complete
     */
-    sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, templateContent, dynamicValues, completionEvent) {
-        var combinedDynamicValues = sjrk.storyTelling.templateManager.combineDynamicValues(dynamicValues, localizedMessages);
-        var localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(templateManager.options.templateStrings.localizedMessages, combinedDynamicValues);
-
-        // inject a new template whose name is the templateManager's ID
-        templateManager.templateRenderer.templates.partials[templateManager.id] = templateContent;
-
-        templateManager.templateRenderer.html(templateManager.container, templateManager.id, {
+    sjrk.storyTelling.templateManager.renderTemplateOnSelf = function (templateManager, templateName, completionEvent, localizedMessages, dynamicValues) {
+        templateManager.templateRenderer.html(templateManager.container, templateName, {
             localizedMessages: localizedMessages,
-            dynamicValues: combinedDynamicValues
+            dynamicValues: dynamicValues
         });
 
         completionEvent.fire();
