@@ -127,12 +127,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/stories/:id",
             "method": "get"
         },
-        // This handler removed to put site in "read only" mode
-        // saveStoryWithBinariesHandler: {
-        //     type: "sjrk.storyTelling.server.saveStoryWithBinariesHandler",
-        //     "route": "/stories/",
-        //     "method": "post"
-        // },
+        saveStoryWithBinariesHandler: {
+            type: "sjrk.storyTelling.server.saveStoryWithBinariesHandler",
+            "route": "/stories/",
+            "method": "post"
+        },
         deleteStoryHandler: {
             type: "sjrk.storyTelling.server.deleteStoryHandler",
             "route": "/admin/deleteStory/:id",

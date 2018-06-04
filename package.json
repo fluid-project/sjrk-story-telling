@@ -17,7 +17,7 @@
   },
   "homepage": "",
   "dependencies": {
-      "gpii-binder": "git+https://github.com/GPII/gpii-binder.git",
+    "gpii-binder": "git+https://github.com/GPII/gpii-binder.git",
     "express-basic-auth": "1.1.5",
     "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
     "gpii-handlebars": "1.0.2",

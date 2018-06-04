@@ -23,7 +23,7 @@ require("../src/js/dataSource");
 require("../src/js/serverSetup");
 require("../src/js/requestHandlers");
 require("../src/js/serverSetup");
-require("../src/js/db/dbConfiguration");
+require("../src/js/db/story-dbConfiguration");
 
 kettle.loadTestingSupport();
 
