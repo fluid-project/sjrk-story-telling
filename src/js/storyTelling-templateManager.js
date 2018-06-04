@@ -109,54 +109,50 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplate",
-                args: ["{that}.events.onTemplateRendered",
-                    "{that}.container",
-                    "componentTemplate",
-                    "{templateLoader}.resources.componentTemplate.resourceText",
-                    "{that}.templateRenderer",
-                    "{that}.options.templateStrings.localizedMessages",
-                    "{arguments}"
-                    ]
+                args: ["{that}", "{templateLoader}.resources.componentTemplate.resourceText", "{arguments}", "{that}.events.onTemplateRendered"]
             }
         }
     });
 
-    /* Renders a template into the specified container with a gpii.handlebars
+    /* Renders a template into the templateManager's container with a gpii.handlebars
      * client-side renderer, and fires completionEvent when done.
      * Values in localizedMessages are resolved against those in dynamicValues.
      * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
      * dynamicValues, the result is 'msg_auth:"Someone"'.
-     * - "completionEvent": component even to fire when complete
-     * - "container": container to render the template into
-     * - "templateName": a handlebars template name
+     * - "templateManagerComponent": the templateManager component
      * - "templateContent": the raw content of the template to be loaded at templateName
-     * - "renderer": the gpii-handlebars client-side renderer component
-     * - "localizedMessages": localized UI strings
      * - "dynamicValues": other values which are likely to change often.
+     * - "completionEvent": component even to fire when complete
     */
-    sjrk.storyTelling.templateManager.renderTemplate = function (completionEvent, container,
-        templateName, templateContent, renderer, localizedMessages, dynamicValues) {
-        renderer.templates.partials[templateName] = templateContent;
+    sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, templateContent, dynamicValues, completionEvent) {
+        var combinedDynamicValues = sjrk.storyTelling.templateManager.combineDynamicValues(dynamicValues, localizedMessages);
+        var localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(templateManager.options.templateStrings.localizedMessages, combinedDynamicValues);
 
+        // inject a new template whose name is the templateManager's ID
+        templateManager.templateRenderer.templates.partials[templateManager.id] = templateContent;
+
+        templateManager.templateRenderer.html(templateManager.container, templateManager.id, {
+            localizedMessages: localizedMessages,
+            dynamicValues: combinedDynamicValues
+        });
+
+        completionEvent.fire();
+    };
+
+    /* Given a collection of values or objects, `dynamicValues`, combines them into
+     * a single endpoint. If dynamicValues is not truthy, then it returns undefined
+     * - "dynamicValues": a collection of objects/values to be combined
+     */
+    sjrk.storyTelling.templateManager.combineDynamicValues = function (dynamicValues) {
         var combinedDynamicValues = undefined;
 
         if (dynamicValues) {
             fluid.each(dynamicValues, function (dynamicValue) {
                 combinedDynamicValues = $.extend(combinedDynamicValues, dynamicValue);
             });
-
-            if (combinedDynamicValues) {
-                localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, combinedDynamicValues);
-            }
         }
 
-        var renderedTemplate = renderer.render(templateName, {
-            localizedMessages: localizedMessages,
-            dynamicValues: combinedDynamicValues
-        });
-
-        container.html(renderedTemplate);
-        completionEvent.fire();
+        return combinedDynamicValues;
     };
 
     /* Given a set of terms that may contain a mix of strings and references in
