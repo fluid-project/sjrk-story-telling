@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Image Block Editor.",
             tests: [{
                 name: "Test Image Block Editor",
-                expect: 4,
+                expect: 5,
                 sequence: [{
                     event: "{imageBlockEditorTest imageBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
@@ -57,25 +57,39 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "description",
                     listener: "jqUnit.assertEquals",
                     args: ["The model text has expected value", "Caption for image", "{imageBlockEditor}.block.model.description"]
-                }, {
+                },
+                {
                     jQueryTrigger: "click",
                     element: "{imageBlockEditor}.dom.imageUploadButton"
-                }, {
+                },
+                {
                     event: "{imageBlockEditor}.events.imageUploadRequested",
                     listener: "jqUnit.assert",
                     args: ["The onUploadRequested event fired"]
-                }
-               //  {
-               //     jQueryTrigger: "click",
-               //     element: "{imageBlock}.dom.imageCaptureButton"
-               // }, {
-               //     event: "{imageBlock}.events.imageCaptureRequested",
-               //     listener: "jqUnit.assert",
-               //     args: ["The imageUploadRequested event fired"]
-               // }
-                ]
+                },
+                {
+                    jQueryTrigger: "click",
+                    element: "{imageBlockEditor}.dom.imageCaptureButton"
+                },
+                {
+                    event: "{imageBlockEditor}.events.imageCaptureRequested",
+                    listener: "jqUnit.assert",
+                    args: ["The imageUploadRequested event fired"]
+                }]
             }]
         }]
+    });
+
+    /* Returns true in order to force the hasMobileCamera grade to be merged in */
+    sjrk.storyTelling.blockUi.editor.imageBlockEditorTester.hasMobileCamera = function () {
+        return true;
+    };
+
+    /* Using the function defined above, overrides the camera capture checking */
+    fluid.contextAware.makeChecks({
+        "fluid.platform.hasMobileCamera": {
+            funcName: "sjrk.storyTelling.blockUi.editor.imageBlockEditorTester.hasMobileCamera"
+        }
     });
 
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditorTest", {
