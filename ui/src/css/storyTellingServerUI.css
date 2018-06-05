@@ -1,6 +1,0 @@
-/* Hide the share button, since the handler is turned off  */
-
-.sjrk-storyTelling-storyShare {
-    display: none;
-    visibility: hidden;
-}
