@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage-noCamera.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
                     }
                 }
             },
@@ -168,8 +168,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             templateManager: {
                 options: {
-                    templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage-withCameraCapture.handlebars"
+                    listeners: {
+                        "onAllResourcesLoaded.renderTemplate": {
+                            funcName: "{that}.renderTemplate",
+                            args: [{hasMobileCamera: true}]
+                        }
                     }
                 }
             },
