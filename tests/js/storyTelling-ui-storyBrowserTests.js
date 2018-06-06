@@ -32,9 +32,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Story Browser UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 0,
+                expect: 3,
                 sequence: [{
-                    func: "fluid.identity"
+                    "event": "{storyBrowserTest storyBrowser}.events.onControlsBound",
+                    listener: "jqUnit.assert",
+                    args: ["Story browser's onControlsBound event fired"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyBrowser}.dom.gridViewLink"
+                },
+                {
+                    "event": "{storyBrowser}.events.onGridViewRequested",
+                    listener: "jqUnit.assert",
+                    args: "onGridViewRequested event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyBrowser}.dom.listViewLink"
+                },
+                {
+                    "event": "{storyBrowser}.events.onListViewRequested",
+                    listener: "jqUnit.assert",
+                    args: "onListViewRequested event fired."
                 }]
             }]
         }]
