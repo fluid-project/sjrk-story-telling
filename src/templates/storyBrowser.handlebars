@@ -3,7 +3,7 @@
     |
     <a class="sjrk-storyTelling-browser-view-control-grid sjrkc-storyTelling-browser-view-control-grid" href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
 </div>
-<div class="sjrk-storyTelling-browser-stories sjrkc-storyTelling-browser-stories">
+<div class="sjrk-storyTelling-browser-stories sjrkc-storyTelling-browser-stories {{dynamicValues.storyBrowseDisplayPreference}}">
     {{#each dynamicValues.stories}}
         <div class="sjrk-storyTelling-browser-story-container">
             <a class="sjrk-storyTelling-browser-story-link" href="storyView.html?id={{@key}}">

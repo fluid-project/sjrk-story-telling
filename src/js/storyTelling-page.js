@@ -38,12 +38,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onMenuReady: "{menu}.events.onControlsBound"
                 }
             },
+            onPreferencesLoaded: null,
             onContextChangeRequested: null // this includes changes in visibility, language, etc.
         },
         listeners: {
-            "onCreate.getUiLanguage": {
-                funcName: "sjrk.storyTelling.page.getUiLanguage",
-                args: ["{that}", "uiLanguage", "{cookieStore}"]
+            "onCreate.getStoredPreferences": {
+                funcName: "sjrk.storyTelling.page.getStoredPreferences",
+                args: ["{that}", "{cookieStore}"]
             },
             "onCreate.reloadUioMessages": {
                 func: "{that}.reloadUioMessages",
@@ -83,13 +84,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "{that}.events.onContextChangeRequested.fire"
-                },
-                {
-                    func: "{cookieStore}.set",
-                    args: [null, "{page}.model"],
-                    excludeSource: "init"
                 }
-            ]
+            ],
+            "*": {
+                func: "{cookieStore}.set",
+                args: [null, "{page}.model"],
+                excludeSource: "init"
+            }
         },
         modelRelay: [
             {
@@ -177,14 +178,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    sjrk.storyTelling.page.getUiLanguage = function (pageComponent, modelPath, cookieStore) {
+    sjrk.storyTelling.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var result = cookieStore.get();
-        var language = fluid.get(result, "value." + modelPath);
+        var preferences = fluid.get(result, "value");
 
-        if (language) {
-            pageComponent.applier.change(modelPath, language);
-            fluid.set(pageComponent, "uio.options.multilingualSettings.locale", language);
+        if (preferences) {
+            pageComponent.applier.change("", preferences);
+            fluid.set(pageComponent, "uio.options.multilingualSettings.locale", preferences.uiLanguage);
         }
+
+        pageComponent.events.onPreferencesLoaded.fire();
     };
 
     sjrk.storyTelling.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
