@@ -54,31 +54,39 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onGridViewRequested: null,
-            onListViewRequested: null
+            onListViewRequested: null,
+            onViewChangeRequested: null,
+            onViewChanged: null
         },
         listeners: {
             "onReadyToBind.bindGridViewRequest": {
                 "this": "{that}.dom.gridViewLink",
                 "method": "click",
-                "args": ["{that}.events.onGridViewRequested.fire"]
+                "args": ["grid", "{that}.events.onViewChangeRequested.fire"]
             },
             "onReadyToBind.bindListViewRequest": {
                 "this": "{that}.dom.listViewLink",
                 "method": "click",
-                "args": ["{that}.events.onListViewRequested.fire"]
+                "args": ["list", "{that}.events.onViewChangeRequested.fire"]
             },
-            "onListViewRequested.changeView": {
-                "funcName": "sjrk.storyTelling.ui.storyBrowser.changeView",
-                args: ["{that}", "viewList", false, "{that}.options.browserConfig.gridViewClassName"]
-            },
-            "onGridViewRequested.changeView": {
-                "funcName": "sjrk.storyTelling.ui.storyBrowser.changeView",
-                args: ["{that}", "viewList", true, "{that}.options.browserConfig.gridViewClassName"]
+            "onViewChangeRequested.changeView": {
+                func: "{that}.changeView",
+                args: ["{arguments}.0.data"]
             }
         },
         browserConfig: {
             placeholderThumbnailUrl: "../img/icons/icon-globe.png",
             gridViewClassName: "grid"
+        },
+        invokers: {
+            changeView: {
+                "funcName": "sjrk.storyTelling.ui.storyBrowser.changeView",
+                args: ["{that}",
+                    "viewList",
+                    "{arguments}.0",
+                    "{that}.options.browserConfig.gridViewClassName",
+                    "{that}.events.onViewChanged"]
+            }
         },
         components: {
             templateManager: {
@@ -97,12 +105,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.ui.storyBrowser.changeView = function (component, selector, showGrid, className) {
-        if (showGrid) {
+    sjrk.storyTelling.ui.storyBrowser.changeView = function (component, selector, displayPreference, className, completionEvent) {
+        if (displayPreference === "grid") {
             component.locate(selector).addClass(className);
         } else {
             component.locate(selector).removeClass(className);
         }
+
+        completionEvent.fire();
     };
 
 })(jQuery, fluid);
