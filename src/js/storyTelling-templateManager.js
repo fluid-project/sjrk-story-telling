@@ -178,7 +178,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /* Given a collection of values or objects, `dynamicValues`, combines them into
      * a single endpoint. If dynamicValues is not truthy, then it returns undefined
-     * - "dynamicValues": a collection of objects/values to be combined
+     * - "dynamicValues": a collection of objects/values to be combined. Every item
+     *   in this collection should have a key by which it may be addressed. Strings
+     *   passed directly in without being in a collection will be split up.
      */
     sjrk.storyTelling.templateManager.combineDynamicValues = function (dynamicValues) {
         var combinedDynamicValues = undefined;
