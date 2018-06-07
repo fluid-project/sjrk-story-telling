@@ -21,7 +21,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         testValues: {
             testValue: " a dynamic test value!"
-        }
+        },
+        testString: " a dynamic test string!"
     });
 
     fluid.defaults("sjrk.storyTelling.templateManagerTester", {
@@ -38,7 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "{testTemplateManager}.renderTemplate",
-                    args: ["{testTemplateManager}.options.testValues"]
+                    args: ["{testTemplateManager}.options.testValues", "{tesTemplateManager}.options.testString"]
                 },
                 // {
                 //     func: "{testTemplateManager}.renderTemplateOnSelf",

@@ -185,7 +185,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         if (dynamicValues) {
             fluid.each(dynamicValues, function (dynamicValue) {
-                combinedDynamicValues = $.extend(combinedDynamicValues, dynamicValue);
+                if (typeof dynamicValue === "string") {
+                    combinedDynamicValues.push(dynamicValue);
+                } else {
+                    combinedDynamicValues = $.extend(combinedDynamicValues, dynamicValue);
+                }
             });
         }
 
