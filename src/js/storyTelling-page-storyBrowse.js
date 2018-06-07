@@ -52,9 +52,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                         funcName: "{that}.renderTemplate",
                                         args: ["{storyBrowser}.model", "{storyBrowser}.options.browserConfig", "{storyBrowse}.model"]
                                     }
-                                },
-                                templateConfig: {
-                                    resourcePrefix: "../.."
                                 }
                             }
                         }

@@ -40,11 +40,44 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test browse stories page",
             tests: [{
                 name: "Test browser page events",
-                expect: 1,
+                expect: 4,
                 sequence: [{
+                    "event": "{storyBrowseTest storyBrowse}.events.onPreferencesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "onPreferencesLoaded event fired."
+                },
+                {
                     "event": "{storyBrowseTest storyBrowse}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyBrowse}.storyBrowser.dom.gridViewLink"
+                },
+                {
+                    "event": "{storyBrowse}.storyBrowser.events.onViewChangeRequested",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onViewChangeRequested event fired with expected arguments", "grid", "{arguments}.0.data"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyBrowse}.storyBrowser.dom.listViewLink"
+                },
+                {
+                    "event": "{storyBrowse}.storyBrowser.events.onViewChangeRequested",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onViewChangeRequested event fired with expected arguments", "list", "{arguments}.0.data"]
+                }]
+            }]
+        },
+        {
+            name: "Test browse stories page",
+            tests: [{
+                name: "Test loading and saving view preference",
+                expect: 0,
+                sequence: [{
+                    funcName: "fluid.identity"
                 }]
             }]
         }]
