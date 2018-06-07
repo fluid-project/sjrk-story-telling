@@ -19,10 +19,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templatePath: "../html/templates/testTemplate.handlebars",
             messagesPath: "../json/messages/testLocalizationMessages.json"
         },
-        testValues: {
+        testValue1: {
             testValue: " a dynamic test value!"
         },
-        testString: " a dynamic test string!"
+        testValue2: {
+            testString: " a dynamic test string!"
+        }
     });
 
     fluid.defaults("sjrk.storyTelling.templateManagerTester", {
@@ -39,7 +41,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "{testTemplateManager}.renderTemplate",
-                    args: ["{testTemplateManager}.options.testValues", "{tesTemplateManager}.options.testString"]
+                    args: ["{testTemplateManager}.options.testValue1", "{testTemplateManager}.options.testValue2"]
                 },
                 // {
                 //     func: "{testTemplateManager}.renderTemplateOnSelf",
@@ -48,7 +50,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{testTemplateManager}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
-                    args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world! a dynamic test value!</span>"]
+                    args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world! a dynamic test value! a dynamic test string!</span>"]
                 }]
             }]
         }]
