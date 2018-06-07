@@ -53,8 +53,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             listViewLink: ".sjrkc-storyTelling-browser-view-control-list"
         },
         events: {
-            onGridViewRequested: null,
-            onListViewRequested: null,
             onViewChangeRequested: null,
             onViewChanged: null
         },

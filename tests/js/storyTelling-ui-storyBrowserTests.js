@@ -50,8 +50,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyBrowser}.events.onViewChangeRequested",
-                    listener: "jqUnit.assert",
-                    args: "onViewChangeRequested event fired."
+                    listener: "jqUnit.assertEquals",
+                    args: ["onViewChangeRequested event fired with expected arguments", "grid", "{arguments}.0.data"]
                 },
                 {
                     func: "{that}.verifyViewSetting",
@@ -63,8 +63,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyBrowser}.events.onViewChangeRequested",
-                    listener: "jqUnit.assert",
-                    args: "onViewChangeRequested event fired."
+                    listener: "jqUnit.assertEquals",
+                    args: ["onViewChangeRequested event fired with expected arguments", "list", "{arguments}.0.data"]
                 },
                 {
                     func: "{that}.verifyViewSetting",
