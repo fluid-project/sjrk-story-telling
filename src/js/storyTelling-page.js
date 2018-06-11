@@ -44,7 +44,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         listeners: {
             "onCreate.getStoredPreferences": {
                 funcName: "sjrk.storyTelling.page.getStoredPreferences",
-                args: ["{that}", "{cookieStore}"]
+                args: ["{that}", "{cookieStore}"],
+                priority: "before:reloadUioMessages"
             },
             "onCreate.reloadUioMessages": {
                 func: "{that}.reloadUioMessages",
@@ -59,6 +60,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{that}.reloadUioMessages",
                 args: "{arguments}.0.data",
                 namespace: "reloadUioMessages"
+            },
+            {
+                func: "{that}.events.onContextChangeRequested.fire",
+                namespace: "onContextChangeRequested",
+                priority: "last"
             }]
         },
         invokers: {
@@ -72,16 +78,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         modelListeners: {
-            uiLanguage: [
-                {
-                    funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
-                    args: ["{that}"]
-                },
-                {
-                    funcName: "{that}.events.onContextChangeRequested.fire",
-                    priority: "last"
-                }
-            ],
+            uiLanguage: {
+                funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
+                args: ["{that}"]
+            },
             "*": {
                 func: "{cookieStore}.set",
                 args: [null, "{page}.model"],
