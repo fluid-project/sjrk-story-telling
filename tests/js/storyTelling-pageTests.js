@@ -34,14 +34,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.pageTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test combined story authoring interface",
+            name: "Test page grade",
             tests: [{
-                name: "Test editor and previewer model binding and updating",
-                expect: 1,
+                name: "Test events and timing",
+                expect: 6,
                 sequence: [{
+                    "event": "{pageTest page menu}.events.onControlsBound",
+                    "listener": "jqUnit.assert",
+                    "args": "menu onControlsBound event fired."
+                },
+                {
                     "event": "{pageTest page}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired."
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{page}.menu.dom.languageLinkEnglish"
+                },
+                {
+                    "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "UIO messages reloaded successfully for English button"
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{page}.menu.dom.languageLinkSpanish"
+                },
+                {
+                    "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "UIO messages reloaded successfully for Spanish button"
                 }]
             }]
         }]
