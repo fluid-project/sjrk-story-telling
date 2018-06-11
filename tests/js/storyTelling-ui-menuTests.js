@@ -14,19 +14,47 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     fluid.defaults("sjrk.storyTelling.ui.testMenu", {
-        gradeNames: ["sjrk.storyTelling.ui.menu"]
+        gradeNames: ["sjrk.storyTelling.ui.menu"],
+        components: {
+            templateManager: {
+                options: {
+                    templateConfig: {
+                        resourcePrefix: "../.."
+                    }
+                }
+            }
+        }
     });
 
     fluid.defaults("sjrk.storyTelling.ui.menuTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Story Viewer UI.",
+            name: "Test Menu UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 1,
+                expect: 3,
                 sequence: [{
-                    func: "jqUnit.assert",
-                    args: "There are no tests, currently"
+                    "event": "{menuTest menu}.events.onControlsBound",
+                    listener: "jqUnit.assert",
+                    args: ["Menu's onControlsBound event fired"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{menu}.dom.languageLinkEnglish"
+                },
+                {
+                    "event": "{menu}.events.onInterfaceLanguageChangeRequested",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onInterfaceLanguageChangeRequested event fired for English button with correct args", "en", "{arguments}.0.data"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{menu}.dom.languageLinkSpanish"
+                },
+                {
+                    "event": "{menu}.events.onInterfaceLanguageChangeRequested",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onInterfaceLanguageChangeRequested event fired for Spanish button with correct args", "es", "{arguments}.0.data"]
                 }]
             }]
         }]
