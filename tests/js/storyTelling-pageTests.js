@@ -37,25 +37,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 5,
+                expect: 7,
                 sequence: [{
                 //     "event": "{pageTest page menu}.events.onControlsBound",
                 //     "listener": "jqUnit.assert",
-                //     "args": "menu onControlsBound event fired."
+                //     "args": "menu onControlsBound event fired"
                 // },
                 // {
                     "event": "{pageTest page}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
-                    "args": "onAllUiComponentsReady event fired."
+                    "args": "onAllUiComponentsReady event fired"
+                },
+                // ensure the initial state is English
+                {
+                    func: "{page}.applier.change",
+                    args: ["uiLanguage", "en"]
                 },
                 {
                     "jQueryTrigger": "click",
                     "element": "{page}.menu.dom.languageLinkSpanish"
                 },
                 {
-                    "event": "{page menu}.events.onInterfaceLanguageChangeRequested",
+                    "event": "{page}.menu.events.onInterfaceLanguageChangeRequested",
                     listener: "jqUnit.assertEquals",
                     args: ["onInterfaceLanguageChangeRequested event fired for Spanish button with correct args", "es", "{arguments}.0.data"]
+                },
+                {
+                    "event": "{page}.menu.events.onControlsBound",
+                    "listener": "jqUnit.assert",
+                    "args": "menu onControlsBound event fired after uiLanguage change to Spanish"
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
@@ -67,9 +77,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{page}.menu.dom.languageLinkEnglish"
                 },
                 {
-                    "event": "{page menu}.events.onInterfaceLanguageChangeRequested",
+                    "event": "{page}.menu.events.onInterfaceLanguageChangeRequested",
                     listener: "jqUnit.assertEquals",
                     args: ["onInterfaceLanguageChangeRequested event fired for English button with correct args", "en", "{arguments}.0.data"]
+                },
+                {
+                    "event": "{page}.menu.events.onControlsBound",
+                    "listener": "jqUnit.assert",
+                    "args": "menu onControlsBound event fired after uiLanguage change to English"
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
