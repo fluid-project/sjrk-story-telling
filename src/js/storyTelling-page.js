@@ -48,29 +48,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onCreate.reloadUioMessages": {
                 func: "{that}.reloadUioMessages",
-                args: [{data:"{that}.model.uiLanguage"}]
+                args: ["{that}.model.uiLanguage"]
             },
-            "{menu}.events.onInterfaceLanguageChangeRequested": {
+            "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
                 args: ["uiLanguage", "{arguments}.0.data"],
                 namespace: "changeUiLanguage"
             },
-            "onAllUiComponentsReady.registerEnglishButton": {
-                this: "{that}.menu.dom.languageLinkEnglish",
-                method: "click",
-                args: ["en", "{that}.reloadUioMessages"]
-            },
-            "onAllUiComponentsReady.registerSpanishButton": {
-                this: "{that}.menu.dom.languageLinkSpanish",
-                method: "click",
-                args: ["es", "{that}.reloadUioMessages"]
-            }
+            {
+                func: "{that}.reloadUioMessages",
+                args: "{arguments}.0.data",
+                namespace: "reloadUioMessages"
+            }]
         },
         invokers: {
             reloadUioMessages: {
                 funcName: "sjrk.storyTelling.page.reloadUioMessages",
                 args: [
-                    "{arguments}.0.data",
+                    "{arguments}.0",
                     "{uio}.prefsEditorLoader.messageLoader",
                     "options.locale"
                 ]
@@ -83,7 +78,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{that}"]
                 },
                 {
-                    funcName: "{that}.events.onContextChangeRequested.fire"
+                    funcName: "{that}.events.onContextChangeRequested.fire",
+                    priority: "last"
                 }
             ],
             "*": {

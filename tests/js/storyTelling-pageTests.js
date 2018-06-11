@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 3,
+                expect: 5,
                 sequence: [{
                 //     "event": "{pageTest page menu}.events.onControlsBound",
                 //     "listener": "jqUnit.assert",
@@ -53,6 +53,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{page}.menu.dom.languageLinkSpanish"
                 },
                 {
+                    "event": "{page menu}.events.onInterfaceLanguageChangeRequested",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onInterfaceLanguageChangeRequested event fired for Spanish button with correct args", "es", "{arguments}.0.data"]
+                },
+                {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
                     "listener": "jqUnit.assert",
                     "args": "UIO messages reloaded successfully for Spanish button"
@@ -60,6 +65,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "jQueryTrigger": "click",
                     "element": "{page}.menu.dom.languageLinkEnglish"
+                },
+                {
+                    "event": "{page menu}.events.onInterfaceLanguageChangeRequested",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onInterfaceLanguageChangeRequested event fired for English button with correct args", "en", "{arguments}.0.data"]
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
