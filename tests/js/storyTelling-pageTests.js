@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 6,
+                expect: 4,
                 sequence: [{
                     "event": "{pageTest page menu}.events.onControlsBound",
                     "listener": "jqUnit.assert",
