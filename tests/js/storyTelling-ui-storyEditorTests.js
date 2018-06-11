@@ -60,7 +60,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Story Editor UI.",
             tests: [{
                 name: "Test UI controls",
-                expect: 18,
+                expect: 17,
                 sequence: [{
                     "event": "{storyEditorTest storyEditor}.events.onControlsBound",
                     listener: "jqUnit.assert",
@@ -92,12 +92,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyEditor}.events.onEditorPreviousRequested",
                     listener: "jqUnit.assert",
                     args: "onEditorPreviousRequested event fired."
-                },
-                // waiting for this seems necessary because the block manager isn't fully created by the time onControlsBound fires; this should be fixed
-                {
-                    "event": "{storyEditor blockManager}.events.onCreate",
-                    listener: "jqUnit.assert",
-                    args: ["Block manager ready"]
                 },
                 // Click to add a text block
                 {

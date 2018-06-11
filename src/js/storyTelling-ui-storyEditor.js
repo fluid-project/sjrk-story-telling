@@ -42,7 +42,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onRemoveBlocksCompleted: null,
             onRestoreBlocksRequested: null,
             onUpdateStoryFromBlocksRequested: null,
-            onStoryUpdatedFromBlocks: null
+            onStoryUpdatedFromBlocks: null,
+            onEditorTemplateRendered: null,
+            onBlockManagerCreated: null,
+            onReadyToBind: {
+                events: {
+                    onEditorTemplateRendered: "{that}.events.onEditorTemplateRendered",
+                    onBlockManagerCreated: "{that}.events.onBlockManagerCreated"
+                }
+            }
         },
         listeners: {
             "onReadyToBind.bindAddTextBlock": {
@@ -107,7 +115,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onAllResourcesLoaded.renderTemplate": {
                             funcName: "{that}.renderTemplate",
                             args: ["{story}.model"]
-                        }
+                        },
+                        "onTemplateRendered.escalate": "{ui}.events.onEditorTemplateRendered.fire"
                     },
                     templateConfig: {
                         templatePath: "%resourcePrefix/src/templates/storyEditor.handlebars"
@@ -124,6 +133,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onCreate.createBlocksFromData": {
                             "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
                             "args": ["{story}.model.content", "{storyEditor}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
+                        },
+                        "onCreate.escalate": {
+                            func: "{storyEditor}.events.onBlockManagerCreated.fire",
+                            priority: "last"
                         },
                         "{storyEditor}.events.onTextBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
