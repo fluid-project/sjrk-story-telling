@@ -50,21 +50,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{page}.menu.dom.languageLinkEnglish"
-                },
-                {
-                    "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
-                    "listener": "jqUnit.assert",
-                    "args": "UIO messages reloaded successfully for English button"
-                },
-                {
-                    "jQueryTrigger": "click",
                     "element": "{page}.menu.dom.languageLinkSpanish"
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
                     "listener": "jqUnit.assert",
                     "args": "UIO messages reloaded successfully for Spanish button"
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{page}.menu.dom.languageLinkEnglish"
+                },
+                {
+                    "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "UIO messages reloaded successfully for English button"
                 }]
             }]
         }]
