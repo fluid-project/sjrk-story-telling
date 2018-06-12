@@ -42,17 +42,40 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /* A transform to turn an array into a delimited string
-     * - "separator": the string delimiter to be inserted between each term
+     * Values can be optionally be
+     * included only if they are string value and are truthy (i.e. not an empty
+     * string). Values can also be accessed via a specific path relative to each
+     * term.
+     * - separator: the string delimiter to be inserted between each term
+     * - stringOnly (optional): flag to exclude all falsy or non-string values
+     * - path (optional): an EL path on each item in the terms collection
      */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
-            "separator": ", "
+            "separator": ", ",
+            "stringOnly": "",
+            "path": ""
         }
     });
 
     sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
-        return input.join(extraInputs.separator());
+        var contentString = "";
+        var separator = extraInputs.separator();
+        var stringOnly = extraInputs.stringOnly();
+        var path = extraInputs.path();
+
+        fluid.each(input, function (term) {
+            if (path) {
+                term = fluid.get(term, path) || term;
+            }
+
+            if (!stringOnly || (term && typeof term === "string")) {
+                contentString += term + (separator || "");
+            }
+        });
+
+        return contentString.substring(0, contentString.lastIndexOf(separator));
     };
 
     /* A transform which, given a collection and an index, will the value of the
@@ -77,29 +100,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var index = extraInputs.index();
 
         return fluid.get(component, path)[index] || index;
-    };
-
-    /* given a set of terms and a separator, will produce a concatenated string
-     * of all the terms separated by the separator. Where a term is not truthy,
-     * it simply won't appear in the final result.
-     * - terms: a collection of terms to be combined
-     * - separator: the string to be inserted after each term
-     * - path (optional): an EL path on each item in the terms collection
-     */
-    sjrk.storyTelling.transforms.combineTerms = function (terms, separator, path) {
-        var contentString = "";
-
-        fluid.each(terms, function (term) {
-            if (path) {
-                term = fluid.get(term, path) || term;
-            }
-
-            if (term && typeof term === "string") {
-                contentString += term + (separator || "");
-            }
-        });
-
-        return contentString;
     };
 
 })(jQuery, fluid);

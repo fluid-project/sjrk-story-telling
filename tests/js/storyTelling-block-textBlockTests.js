@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 4,
                 sequence: [{
                     funcName: "jqUnit.assertEquals", // 11
-                    args: ["Initial combined text is as expected", "Rootbeer's favourite things. Food. ", "{textBlock}.model.contentString"]
+                    args: ["Initial combined text is as expected", "Rootbeer's favourite things. Food", "{textBlock}.model.contentString"]
                 },
                 {
                     func: "{textBlock}.applier.change",
@@ -38,7 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 01
-                    args: ["Combined text is as expected", "Food. ", "{textBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "Food", "{textBlock}.model.contentString"]
                 },
                 {
                     func: "{textBlock}.applier.change",
@@ -54,7 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 10
-                    args: ["Combined text is as expected", "Shyguy's favourite things. ", "{textBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "Shyguy's favourite things", "{textBlock}.model.contentString"]
                 }]
             }]
         }]

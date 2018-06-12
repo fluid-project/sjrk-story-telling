@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 8,
                 sequence: [{
                     funcName: "jqUnit.assertEquals", // 111
-                    args: ["Initial combined text is as expected", "Picture of Shyguy. A picture of a cute kitty. This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
+                    args: ["Initial combined text is as expected", "Picture of Shyguy. A picture of a cute kitty. This is a picture of Shyguy", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
@@ -39,7 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 011
-                    args: ["Combined text is as expected", "A picture of a cute kitty. This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "A picture of a cute kitty. This is a picture of Shyguy", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
@@ -47,7 +47,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 001
-                    args: ["Combined text is as expected", "This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "This is a picture of Shyguy", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 101
-                    args: ["Combined text is as expected", "Picture of Rootbeer. This is a picture of Shyguy. ", "{imageBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "Picture of Rootbeer. This is a picture of Shyguy", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 100
-                    args: ["Combined text is as expected", "Picture of Rootbeer. ", "{imageBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "Picture of Rootbeer", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
@@ -71,7 +71,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 110
-                    args: ["Combined text is as expected", "Picture of Rootbeer. A picture of another cute kitty. ", "{imageBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "Picture of Rootbeer. A picture of another cute kitty", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",
@@ -79,7 +79,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals", // 010
-                    args: ["Combined text is as expected", "A picture of another cute kitty. ", "{imageBlock}.model.contentString"]
+                    args: ["Combined text is as expected", "A picture of another cute kitty", "{imageBlock}.model.contentString"]
                 },
                 {
                     func: "{imageBlock}.applier.change",

@@ -55,9 +55,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modelRelay: [{
             target: "contentString",
             singleTransform: {
-                type: "fluid.transforms.free",
-                func: "sjrk.storyTelling.transforms.combineTerms",
-                args: ["{that}.model.content", ". ", "contentString"]
+                type: "sjrk.storyTelling.transforms.arrayToString",
+                input: "{that}.model.content",
+                separator: ". ",
+                stringOnly: true,
+                path: "contentString"
             }
         },
         {

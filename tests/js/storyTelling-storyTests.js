@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["contentString is as expected", "Cats. ", "{story}.model.contentString"]
+                    args: ["contentString is as expected", "Cats", "{story}.model.contentString"]
                 },
                 {
                     func: "{story}.applier.change",
@@ -48,7 +48,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["contentString is as expected", "Shyguy is a grey Mackerel Tabby with Bengal spots. Rootbeer is an grey-orange Mackerel Tabby with a few spots.. ", "{story}.model.contentString"]
+                    args: ["contentString is as expected", "Shyguy is a grey Mackerel Tabby with Bengal spots. Rootbeer is an grey-orange Mackerel Tabby with a few spots.", "{story}.model.contentString"]
                 }]
             }]
         }]
