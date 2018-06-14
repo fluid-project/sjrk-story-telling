@@ -34,12 +34,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     events: {
                         onUiReadyToBind: "{templateManager}.events.onTemplateRendered"
-                    },
-                    listeners: {
-                        "onUiReadyToBind.applyBinding": {
-                            funcName: "gpii.binder.applyBinding",
-                            args: "{that}"
-                        }
                     }
                 }
             }
