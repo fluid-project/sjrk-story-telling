@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 9,
+                expect: 10,
                 sequence: [{
                 //     "event": "{pageTest page menu}.events.onControlsBound",
                 //     "listener": "jqUnit.assert",
@@ -47,6 +47,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{pageTest page}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired"
+                },
+                {
+                    "event": "{pageTest page storySpeaker}.events.onCreate",
+                    "listener": "jqUnit.assert",
+                    "args": "storySpeaker onCreate event fired"
                 },
                 // ensure the initial state is English
                 {
@@ -98,6 +103,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["uiLanguage value is as expected", "en", "{page}.model.uiLanguage"]
+                }]
+            },
+            {
+                name: "Test events and timing",
+                expect: 1,
+                sequence: [{
+                    func: "{page}.storySpeaker.applier.change",
+                    args: ["ttsText", "test speech value"]
+                },
+                {
+                    "changeEvent": "{page}.storySpeaker.applier.modelChanged",
+                    "path": "ttsText",
+                    "listener": "{page}.events.onStoryListenToRequested.fire"
+                },
+                {
+                    "event": "{page}.storySpeaker.events.onSpeechQueued",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["Speech queued with expected values", "test speech value", "{arguments}.0"]
                 }]
             }]
         }]
