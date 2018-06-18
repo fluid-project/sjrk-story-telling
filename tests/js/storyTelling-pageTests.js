@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 7,
+                expect: 9,
                 sequence: [{
                 //     "event": "{pageTest page menu}.events.onControlsBound",
                 //     "listener": "jqUnit.assert",
@@ -73,6 +73,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": "UIO messages reloaded successfully for Spanish button"
                 },
                 {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["uiLanguage value is as expected", "es", "{page}.model.uiLanguage"]
+                },
+                {
                     "jQueryTrigger": "click",
                     "element": "{page}.menu.dom.languageLinkEnglish"
                 },
@@ -90,6 +94,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
                     "listener": "jqUnit.assert",
                     "args": "UIO messages reloaded successfully for English button"
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["uiLanguage value is as expected", "en", "{page}.model.uiLanguage"]
                 }]
             }]
         }]
