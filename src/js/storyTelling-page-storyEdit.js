@@ -49,22 +49,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "escalate"
             }
         },
-        modelRelay: [
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{storyEditor}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{storyPreviewer}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            }
-        ],
         components: {
             storySpeaker: {
                 options: {

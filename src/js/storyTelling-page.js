@@ -95,6 +95,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 singleTransform: {
                     type: "fluid.transforms.identity"
                 }
+            },
+            {
+                source: "{that}.model.uiLanguage",
+                target: "{ui}.templateManager.model.locale",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
             }
         ],
         components: {

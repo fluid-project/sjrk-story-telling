@@ -25,13 +25,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             }
         },
-        modelRelay: [{
-            source: "{that}.model.uiLanguage",
-            target: "{storyBrowser}.templateManager.model.locale",
-            singleTransform: {
-                type: "fluid.transforms.identity"
-            }
-        }],
         components: {
             storyBrowser: {
                 type: "sjrk.storyTelling.ui.storyBrowser",
