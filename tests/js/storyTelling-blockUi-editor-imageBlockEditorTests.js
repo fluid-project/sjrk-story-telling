@@ -65,7 +65,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     event: "{imageBlockEditor}.events.imageUploadRequested",
                     listener: "jqUnit.assert",
-                    args: ["The onUploadRequested event fired"]
+                    args: ["The imageUploadButton event fired"]
                 },
                 {
                     jQueryTrigger: "click",
@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     event: "{imageBlockEditor}.events.imageCaptureRequested",
                     listener: "jqUnit.assert",
-                    args: ["The imageUploadRequested event fired"]
+                    args: ["The imageCaptureRequested event fired"]
                 }]
             }]
         }]
