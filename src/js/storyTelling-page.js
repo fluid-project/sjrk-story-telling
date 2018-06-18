@@ -190,7 +190,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // Set the language in the resource loader
         fluid.set(uioMessageLoaderComponent, uioMessageLoaderLocalePath, lang);
 
-        // If it’s not automatic when we fire refresh, then force the resource loader to get the new resources
+        // Force the resource loader to get the new resources
         fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
     };
 
