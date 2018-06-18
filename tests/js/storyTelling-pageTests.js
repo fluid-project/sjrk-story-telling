@@ -106,7 +106,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test events and timing",
+                name: "Test storySpeaker",
                 expect: 1,
                 sequence: [{
                     func: "{page}.storySpeaker.applier.change",
