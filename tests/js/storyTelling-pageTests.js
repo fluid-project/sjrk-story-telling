@@ -16,6 +16,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.testPage", {
         gradeNames: ["sjrk.storyTelling.page"],
         components: {
+            storySpeaker: {
+                options: {
+                    model: {
+                        utteranceOpts: {
+                            // not all speech synthesizers will respect this setting
+                            volume: 0
+                        }
+                    }
+                }
+            },
             uio: {
                 options: {
                     terms: {
@@ -65,7 +75,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{page}.menu.events.onControlsBound",
                     "listener": "jqUnit.assert",
-                    "args": "menu onControlsBound event fired after uiLanguage change to Spanish"
+                    "args": "menu re-rendered after uiLanguage change to Spanish"
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
@@ -88,7 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{page}.menu.events.onControlsBound",
                     "listener": "jqUnit.assert",
-                    "args": "menu onControlsBound event fired after uiLanguage change to English"
+                    "args": "menu re-rendered after uiLanguage change to English"
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
