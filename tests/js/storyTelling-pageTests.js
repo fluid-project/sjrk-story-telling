@@ -37,13 +37,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 10,
+                expect: 11,
                 sequence: [{
-                //     "event": "{pageTest page menu}.events.onControlsBound",
-                //     "listener": "jqUnit.assert",
-                //     "args": "menu onControlsBound event fired"
-                // },
-                // {
                     "event": "{pageTest page}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired"
@@ -103,6 +98,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["uiLanguage value is as expected", "en", "{page}.model.uiLanguage"]
+                },
+                {
+                    func: "{page}.menu.events.onInterfaceLanguageChangeRequested.fire",
+                    args: [{data:"en"}]
+                },
+                {
+                    "event": "{page}.events.onContextChangeRequested",
+                    "listener": "jqUnit.assert",
+                    "args": "onContextChangeRequested fired after menu language change"
                 }]
             },
             {
