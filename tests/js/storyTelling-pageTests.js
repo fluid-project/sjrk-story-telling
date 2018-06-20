@@ -74,8 +74,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{page}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assert",
-                    "args": "menu re-rendered after uiLanguage change to Spanish"
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["menu re-rendered in Spanish after uiLanguage change to Spanish", "es", "{page}.menu.templateManager.model.locale"]
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
@@ -97,8 +97,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{page}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assert",
-                    "args": "menu re-rendered after uiLanguage change to English"
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["menu re-rendered in English after uiLanguage change to English", "en", "{page}.menu.templateManager.model.locale"]
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
