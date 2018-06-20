@@ -139,15 +139,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test functions",
-                expect: 1,
+                expect: 3,
                 sequence: [{
-                    funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
-                    args: "{page}"
+                    "funcName": "sjrk.storyTelling.page.renderAllUiTemplates",
+                    "args": "{page}"
                 },
                 {
-                    listener: "{page menu}.templateManager.events.onResourceLoadRequested",
-                    funcName: "jqUnit.assert",
-                    args: "menu load requested after call to renderAllUiTemplates"
+                    "event": "{page menu}.events.onReadyToBind",
+                    "listener": "jqUnit.assert",
+                    "args": "menu reloaded call to renderAllUiTemplates"
+                },
+                {
+                    "funcName": "sjrk.storyTelling.page.getStoredPreferences",
+                    "args": ["{page}", "{page}.cookieStore"]
+                },
+                {
+                    "event": "{page}.events.onPreferencesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "onPreferencesLoaded fired after call to getStoredPreferences"
+                },
+                {
+                    "funcName": "sjrk.storyTelling.page.reloadUioMessages",
+                    "args": ["en", "{page}.uio.prefsEditorLoader.messageLoader", "options.locale"]
+                },
+                {
+                    "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["UIO messages reloaded successfully for English", "en", "{page}.uio.prefsEditorLoader.messageLoader.options.locale"]
                 }]
             }]
         }]
