@@ -1,5 +1,5 @@
 /*
-Copyright 2017 OCAD University
+Copyright 2018 OCAD University
 Licensed under the Educational Community License (ECL), Version 2.0 or the New
 BSD license. You may not use this file except in compliance with one these
 Licenses.
@@ -49,8 +49,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "expectedVisibility": the display state which is expected
      */
     sjrk.storyTelling.testUtils.assertElementVisibility = function (element, expectedVisibility) {
-        var friendlyName = element.selectorName || element.selector;
-        jqUnit.assertEquals("The element " + friendlyName + " has expected visibility", expectedVisibility, element.css("display"));
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected visibility", expectedVisibility, element.css("display"));
     };
 
     /* Asserts that an individual DOM element has a given text value
@@ -59,8 +58,50 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "expectedText": the expected text value of the element
      */
     sjrk.storyTelling.testUtils.assertElementText = function (element, expectedText) {
-        var friendlyName = element.selectorName || element.selector;
-        jqUnit.assertEquals("The element " + friendlyName + " has expected text", expectedText, element.text());
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected text", expectedText, element.text());
+    };
+
+    /* Asserts that an individual DOM element has a given value
+     * according to the jQuery val() function. Uses jqUnit for the assertion.
+     * - "element": the DOM element to be tested
+     * - "expectedValue": the expected value of the element
+     */
+    sjrk.storyTelling.testUtils.assertElementValue = function (element, expectedValue) {
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected value", expectedValue, element.val());
+    };
+
+    /* Returns a "friendly" name for the given element, when available
+     * - "element": the DOM element for which the friendly name is to be returned
+     */
+    sjrk.storyTelling.testUtils.getElementName = function (element) {
+        return element.selectorName || element.selector || element.toString();
+    };
+
+    sjrk.storyTelling.testUtils.checkFirstBlockCheckbox = function (blockManager) {
+        var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
+        var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
+
+        checkBox.prop("checked", true);
+    };
+
+    sjrk.storyTelling.testUtils.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
+
+        var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
+
+        // Verify the block is added to the manager's registry
+        jqUnit.assertNotNull("New block added to manager's registry", blockComponent);
+
+        // Verify the block's type is correct
+        jqUnit.assertEquals("Block's dynamicComponent type is expected " + expectedGrade, expectedGrade,  blockComponent.options.managedViewComponentRequiredConfig.type);
+
+        // Verify the block is added to the DOM
+        var newBlock = blockManager.container.find("." + addedBlockKey);
+        jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
+    };
+
+    sjrk.storyTelling.testUtils.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
+        var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
+        jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
     };
 
 })(jQuery, fluid);

@@ -1,5 +1,5 @@
 /*
-Copyright 2017 OCAD University
+Copyright 2018 OCAD University
 Licensed under the Educational Community License (ECL), Version 2.0 or the New
 BSD license. You may not use this file except in compliance with one these
 Licenses.
@@ -19,13 +19,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templatePath: "../html/templates/testTemplate.handlebars",
             messagesPath: "../json/messages/testLocalizationMessages.json"
         },
-        templateStrings: {
-            uiStrings: {
-                testClasses: "replacement-Value"
-            }
+        testValue1: {
+            testValue: " a dynamic test value!"
         },
-        selectors: {
-            testMessage: ".sjrkc-testTemplateManager-testMessage"
+        testValue2: {
+            testString: " a dynamic test string!"
         }
     });
 
@@ -35,18 +33,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test template manager.",
             tests: [{
                 name: "Test template manager template rendering",
-                expect: 1,
+                expect: 2,
                 sequence: [{
                     "event": "{templateManagerTest testTemplateManager}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
-                    args: ["{testTemplateManager}"]
+                    args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>"]
+                },
+                {
+                    func: "{testTemplateManager}.renderTemplate",
+                    args: ["{testTemplateManager}.options.testValue1", "{testTemplateManager}.options.testValue2"]
+                },
+                // {
+                //     func: "{testTemplateManager}.renderTemplateOnSelf",
+                //     args: ["{testTemplateManager}.options.testValues"]
+                // },
+                {
+                    "event": "{testTemplateManager}.events.onTemplateRendered",
+                    listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
+                    args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world! a dynamic test value! a dynamic test string!</span>"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager) {
-        var expectedContent = "<span class=\"replacement-Value\">Hello, world!</span>";
+    sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager, expectedContent) {
         var actualContent = templateManager.container.html().trim();
 
         jqUnit.assertEquals("Generated markup is inserted into specified container", expectedContent, actualContent);
@@ -108,54 +118,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
     });
 
-    // Abstract, see implementations below
-    fluid.defaults("sjrk.storyTelling.templateManagerTesterBase", {
-        gradeNames: ["fluid.test.testCaseHolder"],
-        // TODO: need to have a better sense of how to:
-        // - handle potential multilingual input (non-Latin character sets)
-        // - test multilingual input
-        // - store them - HTML entities, unicode, etc?
-        // Issues encountered already:
-        // - encoding between platforms (local vs server)
-        // - testability of multilingual strings when rendering
-        // message bundles to DOM
-        // Set by implementing tester grade
-        // expectedMessage: ""
-        modules: [{
-            name: "Test template manager localization.",
-            tests: [{
-                name: "Test locale translation",
-                expect: 1,
-                sequence: [{
-                    "event": "{templateManagerTestBase templateManagerLocalized}.events.onTemplateRendered",
-                    listener: "sjrk.storyTelling.templateManagerTesterBase.testLocalization",
-                    args: ["{templateManagerLocalized}", "testMessage", "{that}.options.expectedMessage"]
-                }]
-            }]
-        }]
-    });
-
-    sjrk.storyTelling.templateManagerTesterBase.testLocalization = function (component, selector, expected) {
+    sjrk.storyTelling.templateManagerTester.testLocalization = function (component, selector, expected) {
         var actual = component.locate(selector).text().trim();
         jqUnit.assertEquals("Selector text matches expected value", expected, actual);
     };
 
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest = function (languageCode, expected) {
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest = function (languageCode, expected) {
         fluid.defaults("sjrk.storyTelling.templateManagerTester." + languageCode, {
-            gradeNames: ["sjrk.storyTelling.templateManagerTesterBase"],
+            gradeNames: ["fluid.test.testCaseHolder"],
             expectedMessage: expected,
             modules: [{
+                name: "Test template manager localization.",
+                tests: [{
+                    name: "Test locale translation",
+                    expect: 1,
+                    sequence: [{
+                        "event": "{templateManagerTestBase templateManagerLocalized}.events.onTemplateRendered",
+                        listener: "sjrk.storyTelling.templateManagerTester.testLocalization",
+                        args: ["{templateManagerLocalized}", "testMessage", "{that}.options.expectedMessage"]
+                    }]
+                }]
+            },
+            {
                 name: "Test templated component with localization (" + languageCode + ")"
             }]
         });
     };
 
-    // TODO: Consider adding further languages that have differing
-    //       character sets or right-to-left scripts
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("en", "Hello, world!");
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("fr", "Bonjour le monde!");
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
-    sjrk.storyTelling.templateManagerTesterBase.generateLocalizationTest ("chef", "bork bork bork!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("en", "Hello, world!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("fr", "Bonjour le monde!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("es", "\u00A1Hola Mundo!");
+    sjrk.storyTelling.templateManagerTester.generateLocalizationTest ("chef", "bork bork bork!");
 
     // Abstract, see factory function below for generating usable
     // test environment grades
@@ -169,7 +162,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManagerTesterLocalized}.events.onTestCaseStart",
                 options: {
                     selectors: {
-                        testMessage: ".replacement-Value"
+                        testMessage: ".sjrkc-testTemplateManager-testMessage"
                     }
                 }
             }
@@ -183,7 +176,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 templateManagerLocalized: {
                     container: "#testTemplateManager_" + languageCode,
                     options: {
-                        templateConfig: {
+                        model: {
                             locale: languageCode
                         }
                     }

@@ -1,0 +1,15 @@
+{
+    "message_blockHeadingLabel": "Block heading",
+    "message_blockHeadingPlaceholder": "Add a descriptive header (optional) — this can help screen-reader users and others to navigate your story more easily.",
+    "message_textInputLabel": "Enter text in the box",
+    "message_textInputPlaceholder": "Begin typing here",
+    "message_simplifiedTextInputLabel": "Simplified text",
+    "message_simplifiedTextInputPlaceholder": "Add simplified text (optional) — this can be helpful for those who are learning the language, those with difficulty processing text, or those in a hurry.",
+    "message_imageAltTextInputLabel": "Alternative text",
+    "message_imageAltTextInputPlaceholder": "Enter alt text here",
+    "message_imageDescriptionInputLabel": "Image description",
+    "message_imageDescriptionInputPlaceholder": "Enter caption here",
+    "message_imageUploadButton": "Upload image",
+    "message_imageCaptureButton": "Capture image",
+    "message_blockSelectionCheckboxLabel": "Select this block"
+}

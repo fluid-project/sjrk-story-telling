@@ -1,5 +1,5 @@
 /*
-Copyright 2017 OCAD University
+Copyright 2018 OCAD University
 Licensed under the Educational Community License (ECL), Version 2.0 or the New
 BSD license. You may not use this file except in compliance with one these
 Licenses.
@@ -9,30 +9,67 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 /* global fluid */
 
-
 (function ($, fluid) {
 
     "use strict";
 
     // The data model for all stories
-    fluid.defaults("sjrk.storyTelling.story.base", {
+    fluid.defaults("sjrk.storyTelling.story", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            // TODO: add an ID field?
             title: "",
-            content: "",
+            content:
+            [
+                // a collection of sjrk.storyTelling.block data.
+                // blocks should contain the type of block and fields
+                // specific to and consistent with that type.
+                // e.g.
+                // {
+                //     blockType: "text",
+                //     id: "id-123",
+                //     language: "en-CA",
+                //     heading: "An appropriate header",
+                //     text: "This is the main text of this block",
+                //     simplifiedText: "Main text."
+                // }
+            ],
+            contentString: "", // a string representation of the story content
             author: "",
             language: "",
             images: [],
             tags: [],
+            keywordString: "", // a string representation of the tags
             categories: [],
             summary: "",
+            timestampCreated: null,
+            timestampModified: null,
             requestedTranslations: [
                 //"es": 2, // a list of language codes as keys with
                 //"fr": 5  // the number of requests for that language
             ],
-            translationOf: null
-        }
+            translationOf: null,
+            thumbnailUrl: "", // filename/url of the thumbnail image for this story
+            thumbnailAltText: "", // alternative text for the thumbnail image
+            contentTypes: [] // a collection of the types of block present in this story
+        },
+        modelRelay: [{
+            target: "contentString",
+            singleTransform: {
+                type: "sjrk.storyTelling.transforms.arrayToString",
+                input: "{that}.model.content",
+                separator: ". ",
+                stringOnly: true,
+                path: "contentString"
+            }
+        },
+        {
+            source: "tags",
+            target: "keywordString",
+            singleTransform: {
+                type: "sjrk.storyTelling.transforms.arrayToString",
+                separator: ", "
+            }
+        }]
     });
 
 })(jQuery, fluid);

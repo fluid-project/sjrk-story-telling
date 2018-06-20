@@ -1,5 +1,5 @@
 /*
-Copyright 2017 OCAD University
+Copyright 2018 OCAD University
 Licensed under the Educational Community License (ECL), Version 2.0 or the New
 BSD license. You may not use this file except in compliance with one these
 Licenses.
@@ -29,8 +29,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "gpii.binder.applyBinding",
                 args: "{that}"
             },
-            // TODO: determine if this listner is required
-            //       or listen for changes to binder's model
             "onUiReadyToBind.fireOnBindingApplied": {
                 func: "{that}.events.onBindingApplied.fire",
                 priority: "after:applyBinding"

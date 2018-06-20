@@ -1,5 +1,5 @@
 /*
-Copyright 2017 OCAD University
+Copyright 2018 OCAD University
 Licensed under the Educational Community License (ECL), Version 2.0 or the New
 BSD license. You may not use this file except in compliance with one these
 Licenses.
@@ -15,9 +15,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.registerNamespace("sjrk.storyTelling.transforms");
 
-    // A transform to turn a delimited string into an array.
-    // - "delimiter": the delimiter of terms within the given strings
-    // - "trim": if true, trims excess whitespace from each term, otherwise no
+    /* A transform to turn a delimited string into an array.
+     * - "delimiter": the delimiter of terms within the given strings
+     * - "trim": if true, trims excess whitespace from each term, otherwise no
+     */
     fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
@@ -40,24 +41,49 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    // A transform to turn an array into a delimited string
-    // - "separator": the string delimiter to be inserted between each term
+    /* A transform to turn an array into a delimited string
+     * Values can be optionally be
+     * included only if they are string value and are truthy (i.e. not an empty
+     * string). Values can also be accessed via a specific path relative to each
+     * term.
+     * - separator: the string delimiter to be inserted between each term
+     * - stringOnly (optional): flag to exclude all falsy or non-string values
+     * - path (optional): an EL path on each item in the terms collection
+     */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
-            "separator": ", "
+            "separator": ", ",
+            "stringOnly": "",
+            "path": ""
         }
     });
 
     sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
-        return input.join(extraInputs.separator());
+        var contentString = "";
+        var separator = extraInputs.separator();
+        var stringOnly = extraInputs.stringOnly();
+        var path = extraInputs.path();
+
+        fluid.each(input, function (term) {
+            if (path) {
+                term = fluid.get(term, path) || term;
+            }
+
+            if (!stringOnly || (term && typeof term === "string")) {
+                contentString += term + (separator || "");
+            }
+        });
+
+        return contentString.substring(0, contentString.lastIndexOf(separator));
     };
 
-    // A transform which, given a collection and an index, will the value of the
-    // collection at the specified index, or if that is not truthy, the index itself
-    // - "component": the component with the collection
-    // - "path": the EL path on the component where the collection resides
-    // - "index": the index value to be checked
+    /* A transform which, given a collection and an index, will the value of the
+     * collection at the specified index, or if that is not truthy, the index itself
+     * - "component": the component with the collection
+     * - "path": the EL path on the component where the collection resides
+     * - "index": the index value to be checked
+     */
     fluid.defaults("sjrk.storyTelling.transforms.valueOrIndex", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {

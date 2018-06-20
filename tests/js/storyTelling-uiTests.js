@@ -15,18 +15,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.testUi", {
         gradeNames: ["sjrk.storyTelling.ui"],
-        interfaceConfig: {
-            classPrefix: "test"
+        events: {
+            blockCreateEvent: null
         },
-        interfaceControlStrings: {
-            testClasses: "replacement-Value"
+        blockTypeLookup: {
+            "cat": "cat.grade.name",
+            "otherCat": "cat.other.grade.name"
         },
+        storyBlocks: [
+            {
+                blockType: "cat",
+                fur: "orange"
+            },
+            {
+                blockType: "cat",
+                fur: "spotted"
+            },
+            {
+                blockType: "otherCat",
+                fur: "none"
+            }
+        ],
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "../html/templates/testTemplate.handlebars",
-                        messagesPath: "../json/messages/testLocalizationMessages.json"
+                        templatePath: "%resourcePrefix/src/templates/storyViewer.handlebars",
+                        resourcePrefix: "../.."
                     }
                 }
             }
@@ -36,32 +51,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.uiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test UI.",
+            name: "Test Story UI.",
             tests: [{
-                name: "Test invoker version of getClasses",
-                expect: 1,
+                name: "Test createBlocksFromData function",
+                expect: 6,
                 sequence: [{
-                    funcName: "sjrk.storyTelling.uiTester.testGetClasses",
-                    args: ["{ui}"]
-                }]
-            },
-            {
-                name: "Test invoker version of getLabelId",
-                expect: 2,
-                sequence: [{
-                    funcName: "sjrk.storyTelling.uiTest.testGetLabelId",
-                    args: ["test"]
+                    funcName: "sjrk.storyTelling.ui.createBlocksFromData",
+                    args: ["{ui}.options.storyBlocks", "{ui}.options.blockTypeLookup", "{ui}.events.blockCreateEvent"]
+                },
+                {
+                    event: "{ui}.events.blockCreateEvent",
+                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
+                    args: ["{arguments}.0", "{arguments}.1", "cat.grade.name", {blockType: "cat", fur: "orange"}]
+                },
+                {
+                    event: "{ui}.events.blockCreateEvent",
+                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
+                    args: ["{arguments}.0", "{arguments}.1", "cat.grade.name", {blockType: "cat", fur: "spotted"}]
+                },
+                {
+                    event: "{ui}.events.blockCreateEvent",
+                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
+                    args: ["{arguments}.0", "{arguments}.1", "cat.other.grade.name", {blockType: "otherCat", fur: "none"}]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.uiTester.testGetClasses = function (component) {
-        var suffix = "testFunction";
-        var classes = component.getClasses(suffix);
-        var expectedClasses = "testc-testFunction test-testFunction";
-
-        jqUnit.assertEquals("Generated classes are expected value", expectedClasses, classes);
+    sjrk.storyTelling.uiTester.verifyBlocksCreated = function (gradeNames, blockData, expectedGradeNames, expectedModelValues) {
+        jqUnit.assertEquals("The grade names are as expected", expectedGradeNames, gradeNames);
+        jqUnit.assertDeepEq("The model values are as expected", expectedModelValues, blockData.modelValues);
     };
 
     fluid.defaults("sjrk.storyTelling.uiTest", {
@@ -69,38 +88,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             ui: {
                 type: "sjrk.storyTelling.testUi",
-                container: "#testUi"
+                container: "#testUi",
+                createOnEvent: "{uiTester}.events.onTestCaseStart"
             },
             uiTester: {
                 type: "sjrk.storyTelling.uiTester"
             }
         }
     });
-
-    jqUnit.test("Test getClasses function", function () {
-        jqUnit.expect(1);
-
-        var classes = sjrk.storyTelling.ui.getClasses("test", "testFunction");
-
-        jqUnit.assertEquals("Generated classes are expected value", "testc-testFunction test-testFunction", classes);
-    });
-
-    jqUnit.test("Test getLabelId function", function () {
-        jqUnit.expect(2);
-
-        var prefix = "test";
-
-        sjrk.storyTelling.uiTest.testGetLabelId(prefix);
-    });
-
-    sjrk.storyTelling.uiTest.testGetLabelId = function (prefix) {
-        var label1 = sjrk.storyTelling.ui.getLabelId(prefix);
-        var label2 = sjrk.storyTelling.ui.getLabelId(prefix);
-
-        jqUnit.assertNotEquals("Two generated labels are not identical", label1, label2);
-
-        jqUnit.assertEquals("Generated label begins with prefix and dash", 0, label1.indexOf(prefix + "-"));
-    };
 
     $(document).ready(function () {
         fluid.test.runTests([

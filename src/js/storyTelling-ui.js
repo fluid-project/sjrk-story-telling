@@ -1,5 +1,5 @@
 /*
-Copyright 2017 OCAD University
+Copyright 2018 OCAD University
 Licensed under the Educational Community License (ECL), Version 2.0 or the New
 BSD license. You may not use this file except in compliance with one these
 Licenses.
@@ -18,11 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // to represent the data and a templateManager to handle DOM interaction
     fluid.defaults("sjrk.storyTelling.ui", {
         gradeNames: ["fluid.viewComponent"],
-        interfaceConfig: {
-            // Used to supply both control and style classes
-            // by the getClasses invoker
-            classPrefix: "sjrk"
-        },
         // common selectors for all UI's
         selectors: {
             storyTitle: ".sjrkc-storyTelling-storyTitle",
@@ -34,29 +29,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
             storyCategories: ".sjrkc-storyTelling-storyCategories",
             storyTags: ".sjrkc-storyTelling-storyTags"
-        },
-        // TODO: at some point, css values will be hardcoded in the template(s)
-        interfaceControlStrings: {
-            storyListenToClasses: "@expand:{that}.getClasses(storyTelling-storyListenTo)",
-            storyTitleClasses: "@expand:{that}.getClasses(storyTelling-storyTitle)",
-            storyAuthorClasses: "@expand:{that}.getClasses(storyTelling-storyAuthor)",
-            storyContentClasses: "@expand:{that}.getClasses(storyTelling-storyContent)",
-            storySummaryClasses: "@expand:{that}.getClasses(storyTelling-storySummary)",
-            storyLanguageClasses: "@expand:{that}.getClasses(storyTelling-storyLanguage)",
-            storyCategoryClasses: "@expand:{that}.getClasses(storyTelling-storyCategories)"
-        },
-        invokers: {
-            // Invoker used to create a control and style class for
-            // insertion into the template; configured using the
-            // templateConfig.classPrefix option
-            getClasses: {
-                funcName: "sjrk.storyTelling.ui.getClasses",
-                args: ["{that}.options.interfaceConfig.classPrefix", "{arguments}.0"]
-            },
-            getLabelId: {
-                funcName: "sjrk.storyTelling.ui.getLabelId",
-                args: ["{arguments}.0"]
-            }
         },
         events: {
             onReadyToBind: null,
@@ -76,43 +48,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.container",
                 options: {
                     listeners: {
-                        "onAllResourcesLoaded.renderTemplateOnSelf": {
-                            funcName: "{that}.renderTemplateOnSelf",
-                            args: ["{story}.model"]
-                        },
                         "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyMessages.json"
-                    },
-                    templateStrings: {
-                        uiStrings: "{ui}.options.interfaceControlStrings"
                     }
                 }
-            },
-            // represents the story data
-            story: {
-                type: "sjrk.storyTelling.story.base"
             }
         }
     });
-
-    /* Returns a control and style class based on a prefix and classname
-     * Used for templating
-     * - "prefix": typically the first piece of the project namespace ("sjrk")
-     * - "className": classname to follow after the prefixes
-     */
-    sjrk.storyTelling.ui.getClasses = function (prefix, className) {
-        return prefix + "c-" + className + " " + prefix + "-" + className;
-    };
-
-    /* Generates a unique ID (GUID) for use in labeling form
-     * elements in the component template
-     * - "prefix": prefix to prepend before the GUID
-     */
-    sjrk.storyTelling.ui.getLabelId = function (prefix) {
-        return prefix + "-" + fluid.allocateGuid();
-    };
 
     /* Hides and shows DOM elements as specified, using jQuery hide() and show()
      * - "hideElements": the DOM elements to be hidden
@@ -127,6 +71,58 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.each(showElements, function (el) {
             el.show();
         });
+
+        completionEvent.fire();
+    };
+
+    /* Fabricates a grade based on the model values passed in from the event
+     * This roundabout approach is necessary to ensure that we can have
+     * model values from the event merged successfully with the base values
+     * of the block
+     */
+    sjrk.storyTelling.ui.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
+        var gradeName = "sjrk.storyTelling.block-" + fluid.allocateGuid();
+        fluid.defaults(gradeName, {
+            // TODO: this should test that modelValuesFromEvent is a legitimate
+            // model object, rather than simply existing
+            model: modelValuesFromEvent ? modelValuesFromEvent : {}
+        });
+        return gradeName;
+    };
+
+    /* Given a collection of story block data, will fire a creation event for each,
+     * specifying a grade name based on a lookup list. The format of the lookup list is:
+     *     {
+     *         "x": "the.full.x.block.grade.name",
+     *         "y": "the.full.y.block.grade.name",
+     *     }
+     * - "storyBlocks": a collection of story block data, the format of the data
+     *                  is as laid out in sjrk.storyTelling.story
+     * - "blockTypeLookup": the list of blockType names and associated grades
+     * - "createEvent": the event that is to be fired in order to create the blocks
+     */
+    sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
+        fluid.each(storyBlocks, function (blockData) {
+            var gradeNames = blockTypeLookup[blockData.blockType];
+            createEvent.fire(gradeNames, {modelValues: blockData});
+        });
+    };
+
+    /* Updates a story's model based on the individual models of all blocks,
+     * in the order in which they're stored.
+     * - "story": the story component
+     * - "blockUis": the individual block UI's
+     * - "completionEvent": the event to be fired upon successful completion
+     */
+    sjrk.storyTelling.ui.updateStoryFromBlocks = function (story, blockUis, completionEvent) {
+        var storyContent = [];
+
+        fluid.each(blockUis, function (ui) {
+            var blockData = ui.block.model;
+            storyContent.push(blockData);
+        });
+
+        story.applier.change("content", storyContent);
 
         completionEvent.fire();
     };

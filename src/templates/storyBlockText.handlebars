@@ -1,0 +1,43 @@
+<div lang="{{localizedMessages.language}}" class="sjrk-storyblock-block">
+    <!-- repeated markup start -->
+    {{#getIds "storySelectionCheckbox"}}
+        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
+        </div>
+        <div class="sjrk-storyblock-selection-checkbox-container">
+            <input id="$id" class="sjrk-storyblock-selection-checkbox sjrkc-storyblock-selection-checkbox" type="checkbox">
+        </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-storyTelling-block-alternative-content">
+            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+                <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-storyblock-heading sjrkc-storyblock-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            </div>
+        </div>
+    {{/getIds}}
+    <!-- repeated markup end -->
+
+    {{#getIds "storyBlockText"}}
+        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_textInputLabel}}</label>
+        </div>
+        <div>
+            <textarea id="$id" class="sjrk-storyblock-text sjrkc-storyblock-text" cols="30" rows="5" placeholder="{{../localizedMessages.message_textInputPlaceholder}}"></textarea>
+        </div>
+    {{/getIds}}
+
+    <div class="sjrk-storyTelling-block-alternative-content">
+        {{#getIds "storyBlockSimplifiedText"}}
+        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_simplifiedTextInputLabel}}</label>
+        </div>
+        <div class="sjrk-storyTelling-alternative-content-container">
+            <input id="$id" class="sjrk-storyblock-simplified-text sjrkc-storyblock-simplified-text" placeholder="{{../localizedMessages.message_simplifiedTextInputPlaceholder}}"></input>
+        </div>
+        {{/getIds}}
+    </div>
+</div>

@@ -1,0 +1,70 @@
+body {
+    background: var(--site-rose);
+}
+
+.sjrk-pageHeading-container {
+    padding: 0 1rem;
+    display: block;
+    text-align: center;
+}
+
+.sjrk-pageHeading-logo-container {
+    display: none;
+}
+
+.sjrk-storyTelling-menu-links {
+    display: block;
+    grid-template-columns: initial;
+    margin: 1rem;
+}
+
+.sjrk-storyTelling-menu-languages-container {
+    text-align: initial;
+}
+
+.sjrk-storyTelling-karisma-welcome-message-container {
+    text-align: center;
+}
+
+.sjrk-storyTelling-karisma-welcome-message {
+    font-size: 4rem;
+    font-weight: bold;
+    align-self: center;
+    color: var(--site-purple);
+}
+
+.sjrk-storyTelling-karisma-welcome-button-container {
+    display: grid;
+}
+
+.sjrk-storyTelling-karisma-welcome-button-container a {
+    display: inline-block;
+    color: white;
+    background: var(--site-purple);
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 2rem;
+    padding: 1rem;
+    margin: 0.5rem auto;
+    min-width: 20rem;
+    max-width: 35rem;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 50em) {
+    .sjrk-pageHeading {
+        margin: 0rem 1rem;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-container {
+        grid-template-columns: auto;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-mascot-container {
+        display: none;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-message {
+        margin: 0.5rem 0 2rem 0;
+    }
+}

@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- TODO: update title for each language -->
-<title>Social Justice Repair Kit Storytelling Project</title>
+<title>El planeta es la escuela</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <script src="node_modules/infusion/dist/infusion-all.js"></script>
+
+<!-- UIO stylesheets -->
+<link rel="stylesheet" type="text/css" href="node_modules/infusion/dist/assets/src/framework/preferences/css/Enactors.css" />
+<link rel="stylesheet" type="text/css" href="node_modules/infusion/dist/assets/src/framework/preferences/css/PrefsEditor.css" />
+<link rel="stylesheet" type="text/css" href="node_modules/infusion/dist/assets/src/framework/preferences/css/SeparatedPanelPrefsEditor.css" />
+
 <script src="node_modules/handlebars/dist/handlebars.js"></script>
 <script src="node_modules/pagedown/Markdown.Converter.js"></script>
 <script src="node_modules/pagedown/Markdown.Sanitizer.js"></script>
@@ -24,36 +30,75 @@
 <script src="node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
 <script src="node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-<script src="src/js/storyTelling-binder.js"></script>
+<script src="src/js/storyTelling-page.js"></script>
 <script src="src/js/storyTelling-story.js"></script>
 <script src="src/js/storyTelling-templateManager.js"></script>
 <script src="src/js/storyTelling-ui.js"></script>
-<script src="src/js/storyTelling-ui-editor.js"></script>
-<script src="src/js/storyTelling-ui-previewer.js"></script>
-<script src="src/js/storyTelling-uiManager.js"></script>
-<script src="src/js/transforms.js"></script>
+<script src="src/js/storyTelling-ui-menu.js"></script>
+<script src="src/js/UIOMultilingualDemo.js"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.4.0/gridlex.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+<link rel="stylesheet" href="node_modules/infusion/src/framework/core/css/fluid.css">
 <link rel="stylesheet" href="src/css/storyTelling.css" />
+
+<script src="src/karisma/js/karisma.js"></script>
+<link rel="stylesheet" href="src/karisma/css/karisma.css" />
+<link rel="stylesheet" href="src/karisma/css/karisma-welcome.css" />
 </head>
 <body>
-<h1>
-    Social Justice Repair Kit Storytelling Project
-</h1>
-<div class="grid-12">
-    <div class="col-6">
-        <a href="index_fr.html">FR</a> <a href="index_ja.html">JA</a> <a href="index_fa.html">FA</a>
+
+<div class="sjrk-prefsEditor-container">
+    <!-- BEGIN markup for Preference Editor -->
+   <div class="flc-prefsEditor-separatedPanel fl-prefsEditor-separatedPanel">
+	   <!--
+		   This div is for the sliding panel bar that shows and hides the Preference Editor controls in the mobile view.
+		   A separate panel bar for mobile displays is needed to preserver the correct tab order.
+	   -->
+	   <div class="fl-panelBar fl-panelBar-smallScreen">
+		   <span class="fl-prefsEditor-buttons">
+			   <button class="flc-slidingPanel-toggleButton fl-prefsEditor-showHide"> Show/Hide</button>
+			   <button class="flc-prefsEditor-reset fl-prefsEditor-reset"><span class="fl-icon-undo"></span> Reset</button>
+		   </span>
+	   </div>
+
+	   <!-- This is the div that will contain the Preference Editor component -->
+	   <div class="flc-slidingPanel-panel flc-prefsEditor-iframe"></div>
+
+	   <!--
+		   This div is for the sliding panel bar that shows and hides the Preference Editor controls in the desktop view.
+		   A separate panel bar for desktop displays is needed to preserver the correct tab order.
+	   -->
+	   <div class="fl-panelBar fl-panelBar-wideScreen">
+		   <span class="fl-prefsEditor-buttons">
+			   <button class="flc-slidingPanel-toggleButton fl-prefsEditor-showHide"> Show/Hide</button>
+			   <button class="flc-prefsEditor-reset fl-prefsEditor-reset"><span class="fl-icon-undo"></span> Reset</button>
+		   </span>
+	   </div>
+   </div>
+   <!-- END markup for Preference Editor -->
+</div>
+
+<div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div>
+<div class="sjrk-pageHeading-container sjrkc-pageHeading-container"></div>
+
+<!-- This div is for the table of contents feature provided by the Preferences Editor -->
+<div class="sjrk-toc-container">
+    <div class="flc-toc-tocContainer toc"> </div>
+</div>
+<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn">
+    <div class="sjrk-main-container">
+        <div class="sjrk-storyTelling-welcome sjrkc-storyTelling-welcome"></div>
     </div>
 </div>
 
-<div aria-live="polite" class="sjrkc-storyTelling sjrk-storyTelling">
-    <div class='sjrk-storyTelling-storyEditor sjrkc-storyTelling-storyEditor'></div>
-    <div class='sjrk-storyTelling-storyPreviewer sjrkc-storyTelling-storyPreviewer'></div>
-</div>
+<div class="sjrk-pageFooter-container sjrkc-pageFooter-container"></div>
 
 <script>
-    var storyTelling = sjrk.storyTelling.uiManager({});
+    $(document).ready(function () {
+        sjrk.storyTelling.karisma.karismaWelcome({});
+    });
 </script>
 
 </body>
