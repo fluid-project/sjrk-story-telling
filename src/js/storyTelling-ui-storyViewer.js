@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             story: {
                 type: "sjrk.storyTelling.story"
                 // This content is here to aid in work on styling/aesthetics
-                // options: {
+                // ,options: {
                 //     model: {
                 //         title: "A simple story",
                 //         content:
