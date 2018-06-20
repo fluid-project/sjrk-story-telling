@@ -19,15 +19,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageSetup: {
             resourcePrefix: "../../.."
         },
-        modelRelay: [
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{karismaMasthead}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            }
-        ],
         components: {
             menu: {
                 options: {
@@ -172,15 +163,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageSetup: {
             resourcePrefix: "../../.."
         },
-        modelRelay: [
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{karismaWelcomer}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            }
-        ],
         components: {
             uio: {
                 options: {

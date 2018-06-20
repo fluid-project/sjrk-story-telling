@@ -29,6 +29,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 source: "{that}.options.pageSetup.resourcePrefix",
                 target: "{that ui blockManager}.options.dynamicComponents.managedViewComponents.options.components.templateManager.options.templateConfig.resourcePrefix"
+            },
+            {
+                record: {
+                    source: "{page}.model.uiLanguage",
+                    target: "{that}.model.locale",
+                    singleTransform: {
+                        type: "fluid.transforms.identity"
+                    },
+                    namespace: "uiLanguage"
+                },
+                target: "{that sjrk.storyTelling.templateManager}.options.modelRelay"
             }
         ],
         events: {
@@ -88,22 +99,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 excludeSource: "init"
             }
         },
-        modelRelay: [
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{menu}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            {
-                source: "{that}.model.uiLanguage",
-                target: "{ui}.templateManager.model.locale",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            }
-        ],
         components: {
             cookieStore: {
                 type: "fluid.prefs.cookieStore",
@@ -175,7 +170,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.page.renderAllUiTemplates = function (component) {
         fluid.each(component, function (subcomponent) {
-            if (subcomponent && subcomponent.typeName && subcomponent.typeName.includes("sjrk.storyTelling.ui")) {
+            if (subcomponent &&
+                subcomponent.options &&
+                subcomponent.options.gradeNames &&
+                subcomponent.options.gradeNames.includes("sjrk.storyTelling.ui")) {
                 subcomponent.templateManager.events.onResourceLoadRequested.fire();
             }
         });
