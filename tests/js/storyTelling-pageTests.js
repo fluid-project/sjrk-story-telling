@@ -136,6 +136,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "jqUnit.assertEquals",
                     "args": ["Speech queued with expected values", "test speech value", "{arguments}.0"]
                 }]
+            },
+            {
+                name: "Test functions",
+                expect: 1,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
+                    args: "{page}"
+                },
+                {
+                    listener: "{page menu}.templateManager.events.onResourceLoadRequested",
+                    funcName: "jqUnit.assert",
+                    args: "menu load requested after call to renderAllUiTemplates"
+                }]
             }]
         }]
     });
