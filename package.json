@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "SJRK Storytelling Project",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
@@ -17,7 +16,7 @@
   "homepage": "https://github.com/fluid-project/sjrk-story-telling#readme",
   "dependencies": {
     "gpii-binder": "https://github.com/GPII/gpii-binder",
-    "gpii-handlebars": "1.0.2",
+    "gpii-handlebars": "^1.1.0",
     "handlebars": "4.0.10",
     "infusion": "3.0.0-dev.20171020T203359Z.17fbd6f",
     "pagedown": "1.1.0"
@@ -25,7 +24,7 @@
   "devDependencies": {
     "eslint-config-fluid": "1.1.0",
     "fluid-grunt-eslint": "18.1.2",
-    "grunt": "1.0.1",
+    "grunt": "^1.0.3",
     "grunt-eslint": "20.0.0",
     "grunt-jsonlint": "1.1.0"
   }
