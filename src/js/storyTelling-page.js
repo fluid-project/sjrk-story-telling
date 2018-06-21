@@ -50,7 +50,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             onPreferencesLoaded: null,
-            onContextChangeRequested: null // this includes changes in visibility, language, etc.
+            onContextChangeRequested: null, // this includes changes in visibility, language, etc.
+            onUioPanelsUpdated: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
@@ -200,19 +201,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.page.updateMessageBases = function (prefsEditorLoaderComponent, pageComponent) {
-        var panels = [
-            "fluid_prefs_panel_contrast",
-            "fluid_prefs_panel_enhanceInputs",
-            "fluid_prefs_panel_layoutControls",
-            "fluid_prefs_panel_lineSpace",
-            "fluid_prefs_panel_textFont",
-            "fluid_prefs_panel_textSize"
-        ];
-
-        fluid.each(panels, function (panel) {
-            var panelComponent = prefsEditorLoaderComponent.prefsEditor[panel];
-            panelComponent.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[panel].resourceText;
-        });
+        if (prefsEditorLoaderComponent && prefsEditorLoaderComponent.prefsEditor) {
+            fluid.each(prefsEditorLoaderComponent.prefsEditor, function (panel, key) {
+                if (key.startsWith("fluid_prefs_panel_")) {
+                    if (panel.msgResolver) {
+                        panel.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[key].resourceText;
+                    }
+                }
+            });
+        }
 
         var lang = pageComponent.model.uiLanguage;
 
@@ -225,6 +222,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[lang];
 
         // Set the language on the body
+
+
+        pageComponent.events.onUioPanelsUpdated.fire();
     };
 
 })(jQuery, fluid);
