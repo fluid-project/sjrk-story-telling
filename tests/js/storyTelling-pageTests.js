@@ -7,7 +7,7 @@ You may obtain a copy of the ECL 2.0 License and BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk, jqUnit */
 
 (function ($, fluid) {
 
@@ -139,15 +139,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test functions",
-                expect: 3,
+                expect: 16,
                 sequence: [{
                     "funcName": "sjrk.storyTelling.page.renderAllUiTemplates",
                     "args": "{page}"
                 },
                 {
-                    "event": "{page menu}.events.onReadyToBind",
+                    "event": "{page}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
-                    "args": "menu reloaded call to renderAllUiTemplates"
+                    "args": "onAllUiComponentsReady fired after call to renderAllUiTemplates"
                 },
                 {
                     "funcName": "sjrk.storyTelling.page.getStoredPreferences",
@@ -163,13 +163,39 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": ["en", "{page}.uio.prefsEditorLoader.messageLoader", "options.locale"]
                 },
                 {
-                    "event": "{page}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "event": "{page}.events.onUioPanelsUpdated",
+                    "listener": "sjrk.storyTelling.pageTester.verifyMessageBases",
+                    "args": "{page}"
+                },
+                {
+                    "event": "{page}.uio.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh",
                     "listener": "jqUnit.assertEquals",
                     "args": ["UIO messages reloaded successfully for English", "en", "{page}.uio.prefsEditorLoader.messageLoader.options.locale"]
+                },
+                {
+                    "funcName": "sjrk.storyTelling.page.updateMessageBases",
+                    "args": ["{page}.uio.prefsEditorLoader", "{page}"]
+                },
+                {
+                    "event": "{page}.events.onUioPanelsUpdated",
+                    "listener": "sjrk.storyTelling.pageTester.verifyMessageBases",
+                    "args": "{page}"
+                },
+                {
+                    "funcName": "jqUnit.assert",
+                    "args": "End of test sequence"
                 }]
             }]
         }]
     });
+
+    sjrk.storyTelling.pageTester.verifyMessageBases = function (pageComponent) {
+        fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
+            if (key.startsWith("fluid_prefs_panel_")) {
+                jqUnit.assert("No test yet");
+            }
+        });
+    };
 
     fluid.defaults("sjrk.storyTelling.pageTest", {
         gradeNames: ["fluid.test.testEnvironment"],
