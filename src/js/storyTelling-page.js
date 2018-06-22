@@ -46,11 +46,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onStoryListenToRequested: null,
             onAllUiComponentsReady: {
                 events: {
-                    onMenuReady: "{menu}.events.onControlsBound"
+                    onMenuReady: "{menu}.events.onControlsBound",
+                    onUioReady: "onUioReady"
                 }
             },
             onPreferencesLoaded: null,
             onContextChangeRequested: null, // this includes changes in visibility, language, etc.
+            onUioReady: null,
             onUioPanelsUpdated: null
         },
         listeners: {
@@ -149,21 +151,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "ignoreForToC": {
                         "overviewPanel": ".flc-overviewPanel"
                     },
-                    distributeOptions: [{
-                        record: {
-                            "{messageLoader}.events.onResourcesLoaded": [{
-                                func: "{that}.events.onPrefsEditorRefresh",
-                                namespace: "rerenderUIO"
-                            },
-                            {
-                                funcName: "sjrk.storyTelling.page.updateMessageBases",
-                                args: ["{prefsEditorLoader}", "{page}"],
-                                priority: "before:rerenderUIO",
-                                namespace: "updateMessageBases"
-                            }]
-                        },
-                        target: "{that fluid.prefs.prefsEditor}.options.listeners"
-                    }]
+                    components: {
+                        prefsEditorLoader: {
+                            options: {
+                                components: {
+                                    prefsEditor: {
+                                        options: {
+                                            listeners: {
+                                                "onCreate.escalate": "{page}.events.onUioReady.fire",
+                                                "{messageLoader}.events.onResourcesLoaded": [{
+                                                    func: "{that}.events.onPrefsEditorRefresh",
+                                                    namespace: "rerenderUIO"
+                                                },
+                                                {
+                                                    funcName: "sjrk.storyTelling.page.updateMessageBases",
+                                                    args: ["{prefsEditorLoader}", "{page}"],
+                                                    priority: "before:rerenderUIO",
+                                                    namespace: "updateMessageBases"
+                                                }]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
