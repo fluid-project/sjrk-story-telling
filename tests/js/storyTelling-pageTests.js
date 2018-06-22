@@ -139,15 +139,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test functions",
-                expect: 16,
+                expect: 15,
                 sequence: [{
                     "funcName": "sjrk.storyTelling.page.renderAllUiTemplates",
                     "args": "{page}"
                 },
                 {
-                    "event": "{page}.events.onAllUiComponentsReady",
+                    "event": "{page}.menu.events.onControlsBound",
                     "listener": "jqUnit.assert",
-                    "args": "onAllUiComponentsReady fired after call to renderAllUiTemplates"
+                    "args": "menu re-rendered after call to renderAllUiTemplates"
                 },
                 {
                     "funcName": "sjrk.storyTelling.page.getStoredPreferences",
@@ -180,21 +180,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{page}.events.onUioPanelsUpdated",
                     "listener": "sjrk.storyTelling.pageTester.verifyMessageBases",
                     "args": "{page}"
-                },
-                {
-                    "funcName": "jqUnit.assert",
-                    "args": "End of test sequence"
                 }]
             }]
         }]
     });
 
     sjrk.storyTelling.pageTester.verifyMessageBases = function (pageComponent) {
-        fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
-            if (key.startsWith("fluid_prefs_panel_")) {
-                jqUnit.assert("No test yet");
-            }
-        });
+        if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
+            fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
+                if (key.startsWith("fluid_prefs_panel_")) {
+                    jqUnit.assert("No test yet");
+                }
+            });
+        } else {
+            jqUnit.fail("prefsEditor component not available");
+        }
     };
 
     fluid.defaults("sjrk.storyTelling.pageTest", {
