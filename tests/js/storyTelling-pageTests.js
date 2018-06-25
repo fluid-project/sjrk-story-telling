@@ -164,8 +164,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{page}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.pageTester.verifyMessageBases",
-                    "args": "{page}"
+                    "listener": "sjrk.storyTelling.pageTester.verifyUioPanelLanguages",
+                    "args": ["{page}", "en"]
                 },
                 {
                     "event": "{page}.uio.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh",
@@ -173,23 +173,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": ["UIO messages reloaded successfully for English", "en", "{page}.uio.prefsEditorLoader.messageLoader.options.locale"]
                 },
                 {
-                    "funcName": "sjrk.storyTelling.page.updateMessageBases",
+                    "funcName": "sjrk.storyTelling.page.updateUioPanelLanguages",
                     "args": ["{page}.uio.prefsEditorLoader", "{page}"]
                 },
                 {
                     "event": "{page}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.pageTester.verifyMessageBases",
-                    "args": "{page}"
+                    "listener": "sjrk.storyTelling.pageTester.verifyUioPanelLanguages",
+                    "args": ["{page}", "en"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.pageTester.verifyMessageBases = function (pageComponent) {
+    sjrk.storyTelling.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
         if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
             fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
                 if (key.startsWith("fluid_prefs_panel_")) {
-                    jqUnit.assert("No test yet");
+                    jqUnit.assertEquals("Language of panel '" + key + "' is as expected", expectedLanguage, panel.msgResolver.messageLanguage);
                 }
             });
         } else {

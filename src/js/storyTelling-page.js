@@ -164,7 +164,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                                     namespace: "rerenderUIO"
                                                 },
                                                 {
-                                                    funcName: "sjrk.storyTelling.page.updateMessageBases",
+                                                    funcName: "sjrk.storyTelling.page.updateUioPanelLanguages",
                                                     args: ["{prefsEditorLoader}", "{page}"],
                                                     priority: "before:rerenderUIO",
                                                     namespace: "updateMessageBases"
@@ -212,18 +212,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
     };
 
-    sjrk.storyTelling.page.updateMessageBases = function (prefsEditorLoaderComponent, pageComponent) {
+    sjrk.storyTelling.page.updateUioPanelLanguages = function (prefsEditorLoaderComponent, pageComponent) {
         if (prefsEditorLoaderComponent && prefsEditorLoaderComponent.prefsEditor) {
             fluid.each(prefsEditorLoaderComponent.prefsEditor, function (panel, key) {
                 if (key.startsWith("fluid_prefs_panel_")) {
                     if (panel.msgResolver) {
+                        // language is stored in order to be verifiable
+                        panel.msgResolver.messageLanguage = pageComponent.model.uiLanguage;
                         panel.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[key].resourceText;
                     }
                 }
             });
         }
-
-        var lang = pageComponent.model.uiLanguage;
 
         var tocHeaders = {
             "en": "Table of Contents",
@@ -231,7 +231,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         };
 
         // Set the Toc Header String
-        pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[lang];
+        pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[pageComponent.model.uiLanguage];
 
         // Set the language on the body
 
