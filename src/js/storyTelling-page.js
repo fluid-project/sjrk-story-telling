@@ -94,12 +94,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modelListeners: {
             uiLanguage: {
                 funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
-                args: ["{that}"]
+                args: ["{that}"],
+                namespace: "renderAllUiTemplates"
             },
             "*": {
                 func: "{cookieStore}.set",
                 args: [null, "{page}.model"],
-                excludeSource: "init"
+                excludeSource: "init",
+                namespace: "setCookie"
             }
         },
         components: {
