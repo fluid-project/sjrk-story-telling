@@ -51,6 +51,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             onPreferencesLoaded: null,
+            onPreferenceLoadFailed: null,
             onContextChangeRequested: null, // this includes changes in visibility, language, etc.
             onUioReady: null,
             onUioPanelsUpdated: null
@@ -92,11 +93,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         modelListeners: {
-            uiLanguage: {
+            uiLanguage: [{
                 funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
                 args: ["{that}"],
                 namespace: "renderAllUiTemplates"
             },
+            {
+                funcName: "fluid.set",
+                args: ["{uio}", "options.multilingualSettings.locale", "{change}.value"],
+                namespace: "updateUioLanguage"
+            }],
             "*": {
                 func: "{cookieStore}.set",
                 args: [null, "{page}.model"],
@@ -195,15 +201,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.page.getStoredPreferences = function (pageComponent, cookieStore) {
-        var result = cookieStore.get();
-        var preferences = fluid.get(result, "value");
+        var promise = cookieStore.get();
 
-        if (preferences) {
-            pageComponent.applier.change("", preferences);
-            fluid.set(pageComponent, "uio.options.multilingualSettings.locale", preferences.uiLanguage);
-        }
-
-        pageComponent.events.onPreferencesLoaded.fire();
+        promise.then(function (response) {
+            pageComponent.applier.change("", response);
+            pageComponent.events.onPreferencesLoaded.fire();
+        }, function (error) {
+            pageComponent.events.onPreferenceLoadFailed.fire(error);
+        });
     };
 
     sjrk.storyTelling.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
