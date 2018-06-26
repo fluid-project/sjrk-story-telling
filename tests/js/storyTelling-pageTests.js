@@ -233,7 +233,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "jqUnit.assertEquals",
                     "args": ["Language is still as expected after cookie load", "meowish", "{page}.model.uiLanguage"]
                 },
-                // reset the cookie for subsequent test runs
+                // reset the cookie to its initial state for subsequent test runs
                 {
                     "funcName": "sjrk.storyTelling.pageTester.dropCookie",
                     "args": ["{page}.cookieStore.options.cookie.name", "{page}.events.onCookieDropped"]
@@ -247,6 +247,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{page}.events.onPreferencesLoaded",
                     "listener": "jqUnit.assertEquals",
                     "args": ["Language is still as expected after cookie load", undefined, "{page}.model"]
+                },
+                {
+                    "func": "{page}.applier.change",
+                    "args": ["uiLanguage", "en"]
                 }]
             }]
         }]
