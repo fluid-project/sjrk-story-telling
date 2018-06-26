@@ -15,6 +15,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.testPage", {
         gradeNames: ["sjrk.storyTelling.page"],
+        events: {
+            onCookieDropped: null
+        },
         components: {
             storySpeaker: {
                 options: {
@@ -173,8 +176,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{page}.events.onPreferencesLoaded",
-                    "listener": "jqUnit.assert",
-                    "args": "onPreferencesLoaded fired after call to getStoredPreferences"
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["UIO language is correct after call to getStoredPreferences", "en", "{page}.uio.options.multilingualSettings.locale"]
                 },
                 {
                     "funcName": "sjrk.storyTelling.page.reloadUioMessages",
@@ -199,9 +202,64 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "sjrk.storyTelling.pageTester.verifyUioPanelLanguages",
                     "args": ["{page}", "en"]
                 }]
+            },
+            {
+                name: "Test cookieStore",
+                expect: 4,
+                sequence: [{
+                    "func": "{page}.applier.change",
+                    "args": ["uiLanguage", "meowish"]
+                },
+                {
+                    "event": "{page}.cookieStore.events.onWriteResponse",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["Cookie was saved after uiLanguage change, cookie data is as expected", "meowish", "{arguments}.0.uiLanguage"]
+                },
+                {
+                    "func": "{page}.applier.change",
+                    "args": ["fuzzyCat", "yes please"]
+                },
+                {
+                    "event": "{page}.cookieStore.events.onWriteResponse",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["Cookie was saved after new value added, cookie data is as expected", "yes please", "{arguments}.0.fuzzyCat"]
+                },
+                {
+                    "funcName": "sjrk.storyTelling.page.getStoredPreferences",
+                    "args": ["{page}", "{page}.cookieStore"]
+                },
+                {
+                    "event": "{page}.events.onPreferencesLoaded",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["Language is still as expected after cookie load", "meowish", "{page}.model.uiLanguage"]
+                },
+                // reset the cookie for subsequent test runs
+                {
+                    "funcName": "sjrk.storyTelling.pageTester.dropCookie",
+                    "args": ["{page}.cookieStore.options.cookie.name", "{page}.events.onCookieDropped"]
+                },
+                {
+                    "event": "{page}.events.onCookieDropped",
+                    "listener": "sjrk.storyTelling.page.getStoredPreferences",
+                    "args": ["{page}", "{page}.cookieStore"]
+                },
+                {
+                    "event": "{page}.events.onPreferencesLoaded",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["Language is still as expected after cookie load", undefined, "{page}.model"]
+                }]
             }]
         }]
     });
+
+    /* Adapted from fluid.tests.prefs.store.dropCookie
+     * - "cookieName": the name of the cookie to be dropped
+     * - "completionEvent": the event to be fired upon dropping
+     */
+    sjrk.storyTelling.pageTester.dropCookie = function (cookieName, completionEvent) {
+        document.cookie = cookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        completionEvent.fire();
+    };
 
     sjrk.storyTelling.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
         if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
