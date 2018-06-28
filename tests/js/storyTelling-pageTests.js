@@ -247,10 +247,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{page}.events.onPreferencesLoaded",
                     "listener": "jqUnit.assertEquals",
                     "args": ["Language is still as expected after cookie load", undefined, "{page}.model"]
-                },
-                {
-                    "func": "{page}.applier.change",
-                    "args": ["uiLanguage", "en"]
                 }]
             }]
         }]
