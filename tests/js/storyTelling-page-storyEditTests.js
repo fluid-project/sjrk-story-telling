@@ -185,7 +185,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test storySpeaker",
             tests: [{
                 name: "Test storySpeaker",
-                expect: 2,
+                expect: 4,
                 sequence: [{
                     func: "{storyEdit}.storyEditor.story.applier.change",
                     args: ["author", "Rootbeer"]
@@ -213,7 +213,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onControlsBound",
                     listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value updated with language", "My brother Shyguy, de Rootbeer. Palabras claves: . ", "{storyEdit}.storySpeaker.model.ttsText"]
+                    args: ["ttsText value updated with language change", "My brother Shyguy, de Rootbeer. Palabras claves: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -222,7 +222,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onControlsBound",
                     listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
+                    args: ["ttsText value updated with language change", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 }]
             }]
         },
