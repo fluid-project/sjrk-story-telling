@@ -205,6 +205,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "title",
                     listener: "jqUnit.assertEquals",
                     args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.menu.dom.languageLinkSpanish"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onControlsBound",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Model ttsText value updated with language", "My brother Shyguy, de Rootbeer. Palabras claves: . ", "{storyEdit}.storySpeaker.model.ttsText"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.menu.dom.languageLinkEnglish"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onControlsBound",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 }]
             }]
         },
