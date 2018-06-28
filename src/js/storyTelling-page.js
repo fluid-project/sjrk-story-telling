@@ -32,10 +32,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 record: {
-                    source: "{page}.model.uiLanguage",
                     target: "{that}.model.locale",
                     singleTransform: {
-                        type: "fluid.transforms.identity"
+                        type: "fluid.transforms.condition",
+                        condition: "{page}.model.uiLanguage",
+                        true: "{page}.model.uiLanguage",
+                        false: undefined
                     },
                     namespace: "uiLanguage"
                 },
@@ -170,6 +172,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                                 "{messageLoader}.events.onResourcesLoaded": [{
                                                     func: "{that}.events.onPrefsEditorRefresh",
                                                     namespace: "rerenderUIO"
+                                                },
+                                                {
+                                                    func: "{page}.events.onUioReady.fire",
+                                                    namespace: "escalate"
                                                 },
                                                 {
                                                     funcName: "sjrk.storyTelling.page.updateUioPanelLanguages",
