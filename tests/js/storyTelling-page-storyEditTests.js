@@ -211,7 +211,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEdit}.menu.dom.languageLinkSpanish"
                 },
                 {
-                    "event": "{storyEdit}.storyEditor.events.onControlsBound",
+                    "event": "{storyEdit}.events.onAllUiComponentsReady",
                     listener: "jqUnit.assertEquals",
                     args: ["ttsText value updated with language change", "My brother Shyguy, de Rootbeer. Palabras claves: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 },
@@ -220,7 +220,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEdit}.menu.dom.languageLinkEnglish"
                 },
                 {
-                    "event": "{storyEdit}.storyEditor.events.onControlsBound",
+                    "event": "{storyEdit}.events.onAllUiComponentsReady",
                     listener: "jqUnit.assertEquals",
                     args: ["ttsText value updated with language change", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 }]
