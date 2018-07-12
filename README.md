@@ -54,6 +54,8 @@ The "base" JavaScript files included in this repository are intended to provide 
 - Add any custom assets required, such as new images, sounds, or fonts.
 - Create a common CSS file with all of the rules for the new theme
 - Add a link in each new HTML file for any applicable new CSS or JavaScript files
+- For each new HTML file, adjust the page component's creation function to use the new custom component
+    - e.g. update `sjrk.storyTelling.page.storyEdit` to `sjrk.storyTelling.myCustomTheme.storyEdit`
 
 ### Licenses
 The SJRK Storytelling Tool is provided under either the New BSD license or the Educational Community License, Version 2.0. Please see LICENSE.txt for more details.
