@@ -116,7 +116,8 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource) {
 
-
+    console.log("sjrk.storyTelling.server.handleSaveStoryWithBinaries");
+    console.log(request, dataSource);
     var id = uuidv1();
 
     var storyModel = JSON.parse(request.req.body.model);
@@ -145,7 +146,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     });
 
     // Then persist that model to couch, with the updated
-    // references to where the binaries are saved    
+    // references to where the binaries are saved
 
     var promise = dataSource.set({directStoryId: id}, storyModel);
 
@@ -180,7 +181,7 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
 
     var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource, getStoryDataSource);
 
-    promise.then(function (response) {
+    promise.then(function () {
         request.events.onSuccess.fire({
             message: "DELETE request received successfully for story with id: " + request.req.params.id
         });

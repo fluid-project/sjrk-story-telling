@@ -20,39 +20,41 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
         fileMaxCount: 10,
         uploadDirectory: "./binaryUploads"
     },
+    formFieldOptions: {
+        method: "fields",
+        fields: [
+            {name: "file", maxCount: "{that}.options.binaryUploadOptions.fileMaxCount"},
+            {name: "model", maxCount: 1}
+        ]
+    },
+    members: {
+        storage: "{that}.diskStorage"
+    },
     invokers: {
-        "getMiddlewareForFileStrategy": {
-            "funcName": "kettle.middleware.multer.getMiddlewareForFileStrategy",
-            "args": ["{that}", "fields", [
-                    {name: "file", maxCount: "{that}.options.binaryUploadOptions.fileMaxCount"},
-                    {name: "model", maxCount: 1}
-            ]]
+        "diskStorageDestination": {
+            func: {
+                expander: {
+                    "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.diskStorageDestination",
+                    "args": ["{that}.options.binaryUploadOptions.uploadDirectory"]
+                }
+            }
         },
-        "getStorage": {
-            "func": "{that}.getDiskStorage"
-        },
-        "getDiskStorageDestinationFunc": {
-            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc",
-            "args": ["{that}.options.binaryUploadOptions.uploadDirectory"]
-        },
-        "getDiskStorageFilenameFunc": {
-            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageFilenameFunc"
+        "diskStorageFilename": {
+            "funcName": "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.diskStorageFilename"
         }
     }
 });
 
-sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageDestinationFunc = function (uploadDirectory) {
+sjrk.storyTelling.server.middleware.saveStoryWithBinaries.diskStorageDestination = function (uploadDirectory) {
     return function (req, file, cb) {
         cb(null, uploadDirectory);
     };
 };
 
 // Renames any uploaded files to a pattern of uuid + extension
-sjrk.storyTelling.server.middleware.saveStoryWithBinaries.getDiskStorageFilenameFunc = function () {
-    return function (req, file, cb) {
-        var id = uuidv1();
-        var extension = path.extname(file.originalname);
-        var generatedFileName = id + extension;
-        cb(null, generatedFileName);
-    };
+sjrk.storyTelling.server.middleware.saveStoryWithBinaries.diskStorageFilename = function (req, file, cb) {
+    var id = uuidv1();
+    var extension = path.extname(file.originalname);
+    var generatedFileName = id + extension;
+    cb(null, generatedFileName);
 };

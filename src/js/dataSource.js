@@ -62,7 +62,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     termMap: {
         storyId: "%directStoryId"
     },
-    writable: true    
+    writable: true
 });
 
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.deleteStory", {

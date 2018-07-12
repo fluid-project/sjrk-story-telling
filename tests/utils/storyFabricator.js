@@ -14,10 +14,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 // - providing a certain amount of story content to work with when
 // developing
 
+"use strict";
+
 var Chance = require("chance");
 var chance = new Chance();
 var kettle = require("kettle");
-kettle.loadTestingSupport();
+kettle.loadTestingSupportQuiet();
 
 var sjrk = fluid.registerNamespace("sjrk");
 var jqUnit = fluid.registerNamespace("jqUnit");
@@ -74,13 +76,13 @@ var storyTemplate = {
 
 fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest", {
     gradeNames: ["kettle.test.request.formData"],
-        path: "/stories",
-        method: "POST",
-        formData: {
-            files: {
-                "file": ["./tests/binaries/logo_small_fluid_vertical.png"]
-            }
+    path: "/stories",
+    method: "POST",
+    formData: {
+        files: {
+            "file": ["./tests/binaries/logo_small_fluid_vertical.png"]
         }
+    }
 });
 
 jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
@@ -100,14 +102,14 @@ jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
 
     var req = sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest({
         formData: {
-        fields: {
-            "model": {
-                expander: {
-                    type: "fluid.noexpand",
-                    value: fabricatedStoryModel
+            fields: {
+                "model": {
+                    expander: {
+                        type: "fluid.noexpand",
+                        value: fabricatedStoryModel
+                    }
                 }
             }
-        },
         },
         listeners: {
             "onComplete.testDone": {

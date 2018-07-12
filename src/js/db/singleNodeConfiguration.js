@@ -8,6 +8,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 // Performs a single node configuration, per
 // documentation at http://docs.couchdb.org/en/latest/install/setup.html
 
+"use strict";
+
 fluid.defaults("sjrk.storyTelling.server.singleNodeDb.base", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     listeners: {

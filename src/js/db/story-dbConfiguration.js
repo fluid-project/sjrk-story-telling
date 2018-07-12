@@ -35,36 +35,36 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
             "value": {
                 "title": "Using This Site",
                 "content": [
-                  {
-                    "id": null,
-                    "language": null,
-                    "heading": "Using This Site - Part One",
-                    "blockType": "text",
-                    "text": "Click the icons above to add blocks of various types, such as text and images, to the story.",
-                    "simplifiedText": "",
-                    "contentString": "Using This Site - Part One. Click the icons above to add blocks of various types, such as text and images, to the story.. ",
-                    "languageFromSelect": "",
-                    "languageFromInput": ""
-                  },
-                  {
-                    "id": null,
-                    "language": null,
-                    "heading": "Using This Site - Part Two",
-                    "blockType": "text",
-                    "text": "When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.",
-                    "simplifiedText": null,
-                    "contentString": "Using This Site - Part Two. When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.. ",
-                    "languageFromSelect": "",
-                    "languageFromInput": ""
-                  }
+                    {
+                        "id": null,
+                        "language": null,
+                        "heading": "Using This Site - Part One",
+                        "blockType": "text",
+                        "text": "Click the icons above to add blocks of various types, such as text and images, to the story.",
+                        "simplifiedText": "",
+                        "contentString": "Using This Site - Part One. Click the icons above to add blocks of various types, such as text and images, to the story.. ",
+                        "languageFromSelect": "",
+                        "languageFromInput": ""
+                    },
+                    {
+                        "id": null,
+                        "language": null,
+                        "heading": "Using This Site - Part Two",
+                        "blockType": "text",
+                        "text": "When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.",
+                        "simplifiedText": null,
+                        "contentString": "Using This Site - Part Two. When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.. ",
+                        "languageFromSelect": "",
+                        "languageFromInput": ""
+                    }
                 ],
                 "contentString": "Using This Site - Part One. Click the icons above to add blocks of various types, such as text and images, to the story.. . Using This Site - Part Two. When you've added all the blocks you want, \"Continue\" to give your story a title, an author and some tags.. . ",
                 "author": "SJRK Team",
                 "language": "",
                 "images": [],
                 "tags": [
-                  "help",
-                  "example"
+                    "help",
+                    "example"
                 ],
                 "keywordString": "help, example",
                 "categories": [],
@@ -106,14 +106,14 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
 
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 
-  var browseDoc = {
-      "title": doc.value.title,
-      "author": doc.value.author,
-      "tags": doc.value.tags,
-      "content": doc.value.content
-  };
+    var browseDoc = {
+        "title": doc.value.title,
+        "author": doc.value.author,
+        "tags": doc.value.tags,
+        "content": doc.value.content
+    };
 
-  emit(doc._id, browseDoc);
+    emit(doc._id, browseDoc);
 };
 
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
