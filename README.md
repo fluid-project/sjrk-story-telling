@@ -41,5 +41,19 @@ You may use any webserver software that can run Node.js packages. E.g. using [Br
 ### Testing
 Testing is provided by [jqUnit](https://docs.fluidproject.org/infusion/development/jqUnit.html). If the site is being run at `http://localhost:3000/`, navigate to `http://localhost:3000/tests/all-tests.html` to see the results of all tests and see further details of individual tests.
 
+### Theme Customization
+The "base" JavaScript files included in this repository are intended to provide a bare-bones implementation of the Storytelling Tool. The interface is extensible and customizable to enable the creation of new experiences, themes and story contexts with the tool. To create a custom theme, follow these steps:
+- Create a new folder for code and assets associated with the new theme (for an example, please see the `karisma` or `learningReflections` folders)
+- Create duplicates of all of the HTML pages you would like to customize and place them in the new folder (e.g. storyEdit, storyView, etc.)
+- Create one or more JavaScript files which contain extensions of the page grades (e.g. for `sjrk.storyTelling.page.storyEdit`, add a new grade `sjrk.storyTelling.myCustomTheme.storyEdit` which has the former as one of its gradeNames)
+- Add any new associated handlebars templates to be used by each new page
+- If your new template file requires new message values (i.e. new wording), you can create new message bundle files or add them to the existing message files. Due to the nature of ui grades, each template may use only one message file at a time, so if new messages are added to an extended page, those may have to be duplicated in a new message file.
+- If there are some common changes that will be made to all pages, or shared values, create a 'base' page grade which includes these common changes and have every new page refer to that gradeName as well. For example:
+    - `sjrk.storyTelling.myCustomTheme.storyEdit` could have the following as a value for gradeNames: `["sjrk.storyTelling.myCustomTheme", "sjrk.storyTelling.page.storyEdit"]`
+    - if the folder structure for the new theme is different from the original location of these files, you could update the `pageSetup.resourcePrefix` option of each new page by putting it in the new base grade
+- Add any custom assets required, such as new images, sounds, or fonts.
+- Create a common CSS file with all of the rules for the new theme
+- Add a link in each new HTML file for any applicable new CSS or JavaScript files
+
 ### Licenses
 The SJRK Storytelling Tool is provided under either the New BSD license or the Educational Community License, Version 2.0. Please see LICENSE.txt for more details.
