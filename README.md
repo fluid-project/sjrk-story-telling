@@ -25,6 +25,13 @@ Custom themes can be added to the Storytelling Tool by a process detailed in the
             browse: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> YOUR CUSTOM CONTAINERS GO HERE</div>'
         }
         ```
+- In each of the HTML files in the `ui` directory, update the call to `sjrk.storyTelling.server.loadThemedPage` to use your desired theme
+    - e.g.
+        ```javascript
+        sjrk.storyTelling.server.loadThemedPage("browse", "myCustomTheme", function (theme) {
+            sjrk.storyTelling.server.loadBrowse(theme);
+        });
+        ```
 
 ### Using docker-compose
 
