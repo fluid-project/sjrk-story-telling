@@ -115,9 +115,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 });
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource) {
-
-    console.log("sjrk.storyTelling.server.handleSaveStoryWithBinaries");
-    console.log(request, dataSource);
+        
     var id = uuidv1();
 
     var storyModel = JSON.parse(request.req.body.model);

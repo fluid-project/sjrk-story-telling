@@ -57,9 +57,13 @@ fluid.defaults("sjrk.storyTelling.server", {
                     saveStoryWithBinaries: {
                         type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
                         options: {
-                            binaryUploadOptions: {
-                                uploadDirectory: "{server}.options.globalConfig.binaryUploadDirectory"
-                            }
+                            components: {
+                                storage: {
+                                    options: {
+                                        destination: "{server}.options.globalConfig.binaryUploadDirectory"
+                                    }
+                                }
+                            }    
                         }
                     },
                     app: {
