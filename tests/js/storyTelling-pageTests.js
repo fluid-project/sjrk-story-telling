@@ -140,10 +140,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test storySpeaker",
-                expect: 1,
+                expect: 3,
                 sequence: [{
                     func: "{page}.storySpeaker.applier.change",
-                    args: ["ttsText", "test speech value"]
+                    args: ["ttsText", "Shyguy is a cat"]
                 },
                 {
                     "changeEvent": "{page}.storySpeaker.applier.modelChanged",
@@ -153,7 +153,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{page}.storySpeaker.events.onSpeechQueued",
                     "listener": "jqUnit.assertEquals",
-                    "args": ["Speech queued with expected values", "test speech value", "{arguments}.0"]
+                    "args": ["Speech queued with expected values", "Shyguy is a cat", "{arguments}.0"]
+                },
+                {
+                    func: "{page}.applier.change",
+                    args: ["uiLanguage", "catspeak"]
+                },
+                {
+                    "changeEvent": "{page}.applier.modelChanged",
+                    "path": "uiLanguage",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["storySpeaker language is as expected" ,"catspeak", "{page}.storySpeaker.model.utteranceOpts.lang"]
+                },
+                {
+                    func: "{page}.applier.change",
+                    args: ["uiLanguage", "en"]
+                },
+                {
+                    "changeEvent": "{page}.applier.modelChanged",
+                    "path": "uiLanguage",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["storySpeaker language is as expected" ,"en", "{page}.storySpeaker.model.utteranceOpts.lang"]
                 }]
             },
             {
