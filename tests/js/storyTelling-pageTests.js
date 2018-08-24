@@ -177,8 +177,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test functions",
-                expect: 15,
+                name: "Test functions and invokers",
+                expect: 22,
                 sequence: [{
                     "funcName": "sjrk.storyTelling.page.renderAllUiTemplates",
                     "args": "{page}"
@@ -209,7 +209,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{page}.uio.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh",
                     "listener": "jqUnit.assertEquals",
-                    "args": ["UIO messages reloaded successfully for English", "en", "{page}.uio.prefsEditorLoader.messageLoader.options.locale"]
+                    "args": ["UIO messages reloaded successfully", "en", "{page}.uio.prefsEditorLoader.messageLoader.options.locale"]
+                },
+                {
+                    "funcName": "{page}.reloadUioMessages",
+                    "args": ["en"]
+                },
+                {
+                    "event": "{page}.events.onUioPanelsUpdated",
+                    "listener": "sjrk.storyTelling.pageTester.verifyUioPanelLanguages",
+                    "args": ["{page}", "en"]
+                },
+                {
+                    "event": "{page}.uio.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh",
+                    "listener": "jqUnit.assertEquals",
+                    "args": ["UIO messages reloaded successfully", "en", "{page}.uio.prefsEditorLoader.messageLoader.options.locale"]
                 },
                 {
                     "funcName": "sjrk.storyTelling.page.updateUioPanelLanguages",
