@@ -48,7 +48,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 23,
+                expect: 24,
                 sequence: [{
                     "event": "{pageTest page}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -136,6 +136,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{page}.events.onUioPanelsUpdated",
                     "listener": "sjrk.storyTelling.pageTester.verifyUioPanelLanguages",
                     "args": ["{page}", "en"]
+                },
+                {
+                    func: "{page}.menu.events.onInterfaceLanguageChangeRequested.fire",
+                    args: [{data:"cattish"}]
+                },
+                {
+                    "changeEvent": "{page}.applier.modelChanged",
+                    "path": "uiLanguage",
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"cattish", "{page}.model.uiLanguage"]
                 }]
             },
             {
