@@ -1,7 +1,7 @@
 # Contributing
 
 Thank you for your interest in contributing to and participating in the Fluid Community. A good first step is to get
-acquainted with the community, review the [Documentation](https://docs.fluidproject.org), and view the [source code](https://GitHub.com/fluid-project/sjrk-story-telling).
+acquainted with the community, review the [README file](README.md), and view the [source code](https://GitHub.com/fluid-project/sjrk-story-telling).
 
 The Fluid Community strives to create new community supports, open governance and recognition systems, and collaboration
 techniques that help make our community more open and welcoming to all. As such, all community members (contributors,
