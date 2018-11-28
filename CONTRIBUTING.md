@@ -12,9 +12,7 @@ participants and etc.) are expected to follow our
 
 ## Licensing
 
-Code contributions will be licensed under the [3-Clause BSD](https://opensource.org/licenses/BSD-3-Clause) license. Documentation contributions will be licensed
-under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
-Currently, the Fluid community asks each contributor to sign a Contributor License Agreement (CLA), which provides a
+Code contributions will be licensed under the [3-Clause BSD](https://opensource.org/licenses/BSD-3-Clause) license. Currently, the Fluid community asks each contributor to sign a Contributor License Agreement (CLA), which provides a
 clear agreement to share code under terms amenable to
 [Fluid's licensing strategy](https://wiki.fluidproject.org/display/fluid/Fluid+Licensing).
 
