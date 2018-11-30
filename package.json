@@ -9,11 +9,11 @@
     "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
   },
   "author": "Fluid Project",
-  "license": "(BSD-3-Clause OR ECL-2.0)",
+  "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://issues.fluidproject.org/browse/SJRK-39?jql=project%20%3D%20SJRK%20AND%20component%20%3D%20%22Storytelling%20Tool%20UI%22"
+    "url": "https://issues.fluidproject.org/projects/SJRK/issues"
   },
-  "homepage": "https://github.com/fluid-project/sjrk-story-telling#readme",
+  "homepage": "https://github.com/fluid-project/sjrk-story-telling",
   "dependencies": {
     "gpii-binder": "https://github.com/GPII/gpii-binder",
     "gpii-handlebars": "^1.1.0",
