@@ -63,7 +63,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                                         destination: "{server}.options.globalConfig.binaryUploadDirectory"
                                     }
                                 }
-                            }    
+                            }
                         }
                     },
                     app: {
