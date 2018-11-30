@@ -1,11 +1,11 @@
 The Storytelling Tool is available under the terms of the New BSD license.
 As a recipient of Storytelling Tool, you may choose which license to receive this
 code under (except as noted in per-module LICENSE files). All modules are
-Copyright 2018 OCAD University except where noted otherwise in the code itself,
+Copyright 2017-2018 OCAD University except where noted otherwise in the code itself,
 or if the modules reside in a separate directory, they may contain explicit
 declarations of copyright in both the LICENSE file in the directory in which they
 reside and in the code itself. No external contributions are allowed under
-licenses which are fundamentally incompatible with the ECL or BSD licenses that
+licenses which are fundamentally incompatible with the BSD license that
 the Storytelling Tool is distributed under.
 
 The text of the BSD license is reproduced below.
@@ -13,7 +13,7 @@ The text of the BSD license is reproduced below.
 The New BSD license
 **********************
 
-Copyright 2017 OCAD University
+Copyright 2017-2018 OCAD University
 
 All rights reserved.
 
