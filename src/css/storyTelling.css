@@ -371,6 +371,10 @@ fieldset ul {
         margin-top: 0;
     }
 
+    .sjrk-pageBody-container {
+        padding: 2rem 0;
+    }
+
     .sjrk-storyTelling-browser-stories.grid .sjrk-storyTelling-browser-story-container {
         margin: 1rem 0;
     }
