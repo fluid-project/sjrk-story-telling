@@ -16,8 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.modelComponent"],
         model: {
             title: "",
-            content:
-            [
+            content: [
                 // a collection of sjrk.storyTelling.block data.
                 // blocks should contain the type of block and fields
                 // specific to and consistent with that type.
@@ -33,22 +32,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             ],
             contentString: "", // a string representation of the story content
             author: "",
-            language: "",
-            images: [],
             tags: [],
             keywordString: "", // a string representation of the tags
-            categories: [],
             summary: "",
-            timestampCreated: null,
-            timestampModified: null,
-            requestedTranslations: [
-                //"es": 2, // a list of language codes as keys with
-                //"fr": 5  // the number of requests for that language
-            ],
-            translationOf: null,
             thumbnailUrl: "", // filename/url of the thumbnail image for this story
             thumbnailAltText: "", // alternative text for the thumbnail image
             contentTypes: [] // a collection of the types of block present in this story
+            // SJRK-132: commented out the following fields until needed
+            // timestampCreated: null,
+            // timestampModified: null,
+            // requestedTranslations: [
+            //     "es": 2, // a list of language codes as keys with
+            //     "fr": 5  // the number of requests for that language
+            // ],
+            // translationOf: null,
         },
         modelRelay: [{
             target: "contentString",
