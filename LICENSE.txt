@@ -5,7 +5,7 @@ Copyright 2017-2018 OCAD University except where noted otherwise in the code its
 or if the modules reside in a separate directory, they may contain explicit
 declarations of copyright in both the LICENSE file in the directory in which they
 reside and in the code itself. No external contributions are allowed under
-licenses which are fundamentally incompatible with the ECL or BSD licenses that
+licenses which are fundamentally incompatible with the BSD license that
 the Storytelling Tool is distributed under.
 
 The text of the BSD license is reproduced below.
