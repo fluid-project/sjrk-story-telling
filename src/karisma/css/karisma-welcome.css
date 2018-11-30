@@ -1,5 +1,5 @@
 body {
-    background: var(--site-rose);
+    background-color: var(--site-rose);
 }
 
 .sjrk-pageHeading-container {
@@ -40,7 +40,7 @@ body {
 .sjrk-storyTelling-karisma-welcome-button-container a {
     display: inline-block;
     color: white;
-    background: var(--site-purple);
+    background-color: var(--site-purple);
     border: none;
     border-radius: 0.25rem;
     font-size: 2rem;
@@ -66,5 +66,9 @@ body {
 
     .sjrk-storyTelling-karisma-welcome-message {
         margin: 0.5rem 0 2rem 0;
+    }
+
+    .sjrk-storyTelling-karisma-welcome-button-container a {
+        min-width: 16rem;
     }
 }

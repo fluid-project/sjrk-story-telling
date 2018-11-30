@@ -7,7 +7,7 @@
 }
 
 body {
-    background: var(--site-lavender);
+    background-color: var(--site-lavender);
 }
 
 a {
@@ -15,7 +15,7 @@ a {
 }
 
 .sjrk-prefsEditor-container {
-    background: var(--site-rose);
+    background-color: var(--site-rose);
 }
 
 .sjrk-pageHeading-container {
@@ -23,7 +23,7 @@ a {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 1rem;
-    background: var(--site-rose);
+    background-color: var(--site-rose);
     color: var(--site-purple);
 }
 
@@ -120,7 +120,7 @@ a {
 }
 
 .sjrk-storyTelling-browser-story-thumbnail-container {
-    background: var(--site-dark-rose);
+    background-color: var(--site-dark-rose);
 }
 
 .sjrk-storyTelling-browser-story-thumnail-placeholder {

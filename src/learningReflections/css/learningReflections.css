@@ -7,7 +7,7 @@
 body {
     font-family: 'Open Sans', sans-serif;
     padding: 0;
-    background: var(--site-blue);
+    background-color: var(--site-blue);
 }
 
 .sjrk-prefsEditor-container {
@@ -83,11 +83,11 @@ body {
 }
 
 .sjrk-storyTelling-browser-story-container {
-    background: var(--site-medium-grey);
+    background-color: var(--site-medium-grey);
 }
 
 .sjrk-storyTelling-browser-story-thumbnail-container {
-    background: var(--site-blue);
+    background-color: var(--site-blue);
 }
 
 .sjrk-storyTelling-browser-story-thumnail-placeholder {
