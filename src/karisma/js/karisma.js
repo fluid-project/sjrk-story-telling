@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // masthead/banner section
             karismaMasthead: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-pageHeading-container",
+                container: ".sjrkc-page-header-container",
                 options: {
                     mastheadConfig: {
                         templateValues: {

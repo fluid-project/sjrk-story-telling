@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // masthead/banner section
             learningReflectionsMasthead: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-pageHeading-container",
+                container: ".sjrkc-page-header-container",
                 options: {
                     components: {
                         templateManager: {

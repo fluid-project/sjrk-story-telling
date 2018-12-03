@@ -2,13 +2,13 @@ body {
     background-color: var(--site-rose);
 }
 
-.sjrk-pageHeading-container {
+.sjrk-page-header-container {
     padding: 0 1rem;
     display: block;
     text-align: center;
 }
 
-.sjrk-pageHeading-logo-container {
+.sjrk-page-header-logo-container {
     display: none;
 }
 
@@ -52,7 +52,7 @@ body {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-pageHeading {
+    .sjrk-page-header {
         margin: 0rem 1rem;
     }
 

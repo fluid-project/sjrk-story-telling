@@ -14,35 +14,36 @@ body {
     background-color: var(--site-blue);
 }
 
-.sjrk-pageHeading-container, .sjrk-pageFooter-container {
+.sjrk-page-header-container, .sjrk-pageFooter-container {
     background-color: var(--site-blue);
     color: white;
 }
 
-.sjrk-pageHeading-container {
+.sjrk-page-header-container {
     padding: 0 3rem 2rem 3rem;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-gap: 1rem;
 }
 
-.sjrk-pageHeading {
+.sjrk-page-header {
     font-size: 2.5rem;
     font-weight: bold;
     align-self: center;
+    margin: 2rem 0;
 }
 
-.sjrk-pageHeading-heartBook-container {
+.sjrk-page-header-heartBook-container {
     height: 6rem;
     align-self: center;
 }
 
-.sjrk-pageHeading-heartBook {
+.sjrk-page-header-heartBook {
     max-height: 6rem;
     width: auto;
 }
 
-.sjrk-pageHeading-mainTitle {
+.sjrk-page-header-mainTitle {
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
@@ -115,12 +116,12 @@ body {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-pageHeading-container {
+    .sjrk-page-header-container {
         padding: 1rem;
     }
 
-    .sjrk-pageHeading,
-    .sjrk-pageHeading-heartBook-container {
+    .sjrk-page-header,
+    .sjrk-page-header-heartBook-container {
         font-size: 1.5rem;
     }
 

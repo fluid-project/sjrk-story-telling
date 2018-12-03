@@ -18,7 +18,7 @@ a {
     background-color: var(--site-rose);
 }
 
-.sjrk-pageHeading-container {
+.sjrk-page-header-container {
     padding: 0 1rem 1rem 1rem;
     display: grid;
     grid-template-columns: auto 1fr;
@@ -27,23 +27,24 @@ a {
     color: var(--site-purple);
 }
 
-.sjrk-pageHeading {
+.sjrk-page-header {
     font-size: 3rem;
     font-weight: bold;
     align-self: center;
+    margin: 2rem 0;
 }
 
-.sjrk-pageHeading-logo-container {
+.sjrk-page-header-logo-container {
     height: 6rem;
     align-self: center;
 }
 
-.sjrk-pageHeading-logo {
+.sjrk-page-header-logo {
     max-height: 6rem;
     width: auto;
 }
 
-.sjrk-pageHeading-mainTitle {
+.sjrk-page-header-mainTitle {
     text-transform: uppercase;
 }
 
@@ -136,7 +137,7 @@ a {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-pageHeading {
+    .sjrk-page-header {
         font-size: 1.5rem;
     }
 
