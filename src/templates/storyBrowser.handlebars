@@ -1,35 +1,35 @@
-<div class="sjrk-storyTelling-browser-view-control-container">
-    {{localizedMessages.message_browseViewText}}: <a class="sjrk-storyTelling-browser-view-control-list sjrkc-storyTelling-browser-view-control-list" href="javascript:void(0);">{{localizedMessages.message_browseListText}}</a>
+<div class="sjrk-st-browser-view-control-container">
+    {{localizedMessages.message_browseViewText}}: <a class="sjrk-st-browser-view-control-list sjrkc-st-browser-view-control-list" href="javascript:void(0);">{{localizedMessages.message_browseListText}}</a>
     |
-    <a class="sjrk-storyTelling-browser-view-control-grid sjrkc-storyTelling-browser-view-control-grid" href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
+    <a class="sjrk-st-browser-view-control-grid sjrkc-st-browser-view-control-grid" href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
 </div>
-<div class="sjrk-storyTelling-browser-stories sjrkc-storyTelling-browser-stories {{dynamicValues.storyBrowseDisplayPreference}}">
+<div class="sjrk-st-browser-stories sjrkc-st-browser-stories {{dynamicValues.storyBrowseDisplayPreference}}">
     {{#each dynamicValues.stories}}
-        <div class="sjrk-storyTelling-browser-story-container">
-            <a class="sjrk-storyTelling-browser-story-link" href="storyView.html?id={{@key}}">
-                <div class="sjrk-storyTelling-browser-story-thumbnail-container">
+        <div class="sjrk-st-browser-story-container">
+            <a class="sjrk-st-browser-story-link" href="storyView.html?id={{@key}}">
+                <div class="sjrk-st-browser-story-thumbnail-container">
                     {{#if thumbnailUrl}}
-                        <img class="sjrk-storyTelling-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
+                        <img class="sjrk-st-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
                     {{else}}
-                        <img class="sjrk-storyTelling-browser-story-thumbnail sjrk-storyTelling-browser-story-thumnail-placeholder" src="{{../dynamicValues.placeholderThumbnailUrl}}" alt="{{../localizedMessages.message_browseListText}}">
+                        <img class="sjrk-st-browser-story-thumbnail sjrk-st-browser-story-thumnail-placeholder" src="{{../dynamicValues.placeholderThumbnailUrl}}" alt="{{../localizedMessages.message_browseListText}}">
                     {{/if}}
                 </div>
-                <div class="sjrk-storyTelling-browser-story-details">
-                    <h2 class="sjrk-storyTelling-browser-story-title">{{title}}</h2>
-                    <p class="sjrk-storyTelling-browser-story-author">
+                <div class="sjrk-st-browser-story-details">
+                    <h2 class="sjrk-st-browser-story-title">{{title}}</h2>
+                    <p class="sjrk-st-browser-story-author">
                         {{#if author}}
                             {{#replace ../localizedMessages.message_authorText "%author" author}}{{/replace}}
                         {{/if}}
                     </p>
                     {{#if tags}}
-                        <p class="sjrk-storyTelling-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}:
+                        <p class="sjrk-st-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}:
                             {{#each tags}}
                                 {{this}}{{#unless @last}}, {{/unless}}
                             {{/each}}
                         </p>
                     {{/if}}
                     {{#if contentTypes}}
-                        <p class="sjrk-storyTelling-browser-story-contains">{{../localizedMessages.message_browseContainsText}}:
+                        <p class="sjrk-st-browser-story-contains">{{../localizedMessages.message_browseContainsText}}:
                             {{#each contentTypes}}
                                 {{lookup ../../localizedMessages.contentTypes this}}{{#unless @last}}, {{/unless}}
                             {{/each}}

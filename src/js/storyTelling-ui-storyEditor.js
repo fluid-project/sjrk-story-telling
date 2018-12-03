@@ -15,16 +15,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
-            storySubmit: ".sjrkc-storyTelling-storySubmit",
-            storyEditorContent: ".sjrkc-storyTelling-story-editor-content",
-            storyEditorNext: ".sjrkc-storyTelling-storyEditorNext",
-            storyEditorPrevious: ".sjrkc-storyTelling-storyEditorPrevious",
-            storyEditorPage1: ".sjrkc-storyTelling-storyEditorPage1",
-            storyEditorPage2: ".sjrkc-storyTelling-storyEditorPage2",
-            storyAddTextBlock: ".sjrkc-storyTelling-button-text-block",
-            storyAddImageBlock: ".sjrkc-storyTelling-button-image-block",
-            storyRemoveSelectedBlocks: ".sjrkc-storyTelling-button-remove-blocks",
-            storyRestoreRemovedBlocks: ".sjrkc-storyTelling-button-restore-blocks"
+            storySubmit: ".sjrkc-st-storySubmit",
+            storyEditorContent: ".sjrkc-st-story-editor-content",
+            storyEditorNext: ".sjrkc-st-storyEditorNext",
+            storyEditorPrevious: ".sjrkc-st-storyEditorPrevious",
+            storyEditorPage1: ".sjrkc-st-storyEditorPage1",
+            storyEditorPage2: ".sjrkc-st-storyEditorPage2",
+            storyAddTextBlock: ".sjrkc-st-button-text-block",
+            storyAddImageBlock: ".sjrkc-st-button-image-block",
+            storyRemoveSelectedBlocks: ".sjrkc-st-button-remove-blocks",
+            storyRestoreRemovedBlocks: ".sjrkc-st-button-restore-blocks"
         },
         blockTypeLookup: {
             "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",

@@ -72,25 +72,25 @@ body {
     padding-bottom: 1rem;
 }
 
-.sjrk-storyTelling-button-text-block,
-.sjrk-storyTelling-button-image-block,
-.sjrk-storyTelling-storyListenTo {
+.sjrk-st-button-text-block,
+.sjrk-st-button-image-block,
+.sjrk-st-storyListenTo {
     background-color: var(--site-light-blue);
 }
 
-.sjrk-storyTelling-button-restore-blocks-container {
+.sjrk-st-button-restore-blocks-container {
     display: none;
 }
 
-.sjrk-storyTelling-browser-story-container {
+.sjrk-st-browser-story-container {
     background-color: var(--site-medium-grey);
 }
 
-.sjrk-storyTelling-browser-story-thumbnail-container {
+.sjrk-st-browser-story-thumbnail-container {
     background-color: var(--site-blue);
 }
 
-.sjrk-storyTelling-browser-story-thumnail-placeholder {
+.sjrk-st-browser-story-thumnail-placeholder {
     object-fit: contain;
 }
 

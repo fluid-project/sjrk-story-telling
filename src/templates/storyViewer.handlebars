@@ -1,63 +1,63 @@
-<div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-heading-container">
+<div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-heading-container">
     <div hidden>
-        <h2 class="sjrkc-storyTelling-story-heading sjrk-storyTelling-story-heading">{{localizedMessages.message_previewText}}</h2>
+        <h2 class="sjrkc-st-story-heading sjrk-st-story-heading">{{localizedMessages.message_previewText}}</h2>
     </div>
     <div hidden>
-        <a class="sjrkc-storyTelling-read-other-stories sjrk-storyTelling-read-other-stories " href="#">{{localizedMessages.message_translateText}}</a>
+        <a class="sjrkc-st-read-other-stories sjrk-st-read-other-stories " href="#">{{localizedMessages.message_translateText}}</a>
     </div>
 </div>
-<div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-main-container">
-    <div class="sjrk-storyTelling-link-container">
-        <button class="sjrk-storyTelling-button sjrk-storyTelling-storyListenTo sjrkc-storyTelling-storyListenTo" type="button"><span class="sjrk-storyTelling-button-text">{{localizedMessages.message_listenToText}}</span></button>
+<div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-main-container">
+    <div class="sjrk-st-link-container">
+        <button class="sjrk-st-button sjrk-st-storyListenTo sjrkc-st-storyListenTo" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_listenToText}}</span></button>
     </div>
 
     {{#if dynamicValues.title}}
-        <h2 class="sjrkc-storyTelling-storyTitle sjrk-storyTelling-storyTitle">{{dynamicValues.title}}</h2>
+        <h2 class="sjrkc-st-storyTitle sjrk-st-storyTitle">{{dynamicValues.title}}</h2>
     {{/if}}
     {{#if dynamicValues.author}}
-        <p class="sjrkc-storyTelling-storyAuthor sjrk-storyTelling-storyAuthor">{{localizedMessages.message_authorText}}</p>
+        <p class="sjrkc-st-storyAuthor sjrk-st-storyAuthor">{{localizedMessages.message_authorText}}</p>
     {{/if}}
 
-    <div hidden class="sjrk-storyTelling-link-container">
-        <a class="sjrkc-storyTelling-storyReadMore sjrk-storyTelling-storyReadMore" href="#">{{localizedMessages.message_readMoreText}}</a>
+    <div hidden class="sjrk-st-link-container">
+        <a class="sjrkc-st-storyReadMore sjrk-st-storyReadMore" href="#">{{localizedMessages.message_readMoreText}}</a>
     </div>
 
-    <div hidden class="sjrk-storyTelling-language-container">
-        {{localizedMessages.message_languageLabelText}}: <span class="sjrkc-storyTelling-storyLanguage sjrk-storyTelling-storyLanguage">
+    <div hidden class="sjrk-st-language-container">
+        {{localizedMessages.message_languageLabelText}}: <span class="sjrkc-st-storyLanguage sjrk-st-storyLanguage">
             {{lookup ../localizedMessages.availableLanguages dynamicValues.language}}
         </span>
     </div>
 
     {{#if dynamicValues.tags}}
-        <div class="sjrk-storyTelling-tags-container">
-            {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-storyTelling-storyListTags sjrk-storyTelling-storyListTags">
+        <div class="sjrk-st-tags-container">
+            {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-st-storyListTags sjrk-st-storyListTags">
                 {{#each dynamicValues.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
             </span>
         </div>
     {{/if}}
 
-    <hr class="sjrk-storyTelling-view-separator" />
+    <hr class="sjrk-st-view-separator" />
 
-    <div class="sjrkc-storyTelling-storyContent sjrk-storyTelling-storyContent"></div>
+    <div class="sjrkc-st-storyContent sjrk-st-storyContent"></div>
 
-    <div hidden class="sjrk-storyTelling-categories-container">
-        {{localizedMessages.message_listCategoriesLabelText}}: <span class="sjrkc-storyTelling-storyCategories sjrk-storyTelling-storyCategories">
+    <div hidden class="sjrk-st-categories-container">
+        {{localizedMessages.message_listCategoriesLabelText}}: <span class="sjrkc-st-storyCategories sjrk-st-storyCategories">
             {{#each dynamicValues.storyCategories}}
                 {{lookup ../localizedMessages.availableCategories this}}{{#unless @last}}, {{/unless}}
             {{/each}}
         </span>
     </div>
 </div>
-{{#if dynamicValues.showFooter}}<div lang="{{localizedMessages.language}}" class="sjrk-storyTelling-story-viewer-footer-container">
+{{#if dynamicValues.showFooter}}<div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-footer-container">
     <div>
-        <a href="javascript:void(0)" class="sjrkc-storyTelling-storyViewerPrevious sjrk-storyTelling-storyViewerPrevious">{{localizedMessages.message_goBack}}</a>
+        <a href="javascript:void(0)" class="sjrkc-st-storyViewerPrevious sjrk-st-storyViewerPrevious">{{localizedMessages.message_goBack}}</a>
     </div>
     <div>
-        {{!--<a href="#" class="sjrkc-storyTelling-storyShare sjrk-storyTelling-storyShare">{{localizedMessages.message_shareText}}</a>--}}
-        <button type="button" class="sjrkc-storyTelling-storyShare sjrk-storyTelling-storyShare">{{localizedMessages.message_shareText}}</button>
+        {{!--<a href="#" class="sjrkc-st-storyShare sjrk-st-storyShare">{{localizedMessages.message_shareText}}</a>--}}
+        <button type="button" class="sjrkc-st-storyShare sjrk-st-storyShare">{{localizedMessages.message_shareText}}</button>
     </div>
     <div hidden>
-        <a href="#" class="sjrkc-storyTelling-storySaveNoShare sjrk-storyTelling-storySaveNoShare">{{localizedMessages.message_saveNoShareText}}</a>
+        <a href="#" class="sjrkc-st-storySaveNoShare sjrk-st-storySaveNoShare">{{localizedMessages.message_saveNoShareText}}</a>
     </div>
 </div>
 {{/if}}

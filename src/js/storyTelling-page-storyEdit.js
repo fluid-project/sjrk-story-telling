@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: ".sjrkc-storyTelling-story-editor",
+                container: ".sjrkc-st-story-editor",
                 options: {
                     listeners: {
                         "onStorySubmitRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
@@ -75,7 +75,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story preview context
             storyPreviewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
-                container: ".sjrkc-storyTelling-story-previewer",
+                container: ".sjrkc-st-story-previewer",
                 options: {
                     listeners: {
                         "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire"

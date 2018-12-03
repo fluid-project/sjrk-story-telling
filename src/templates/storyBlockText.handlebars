@@ -1,7 +1,7 @@
 <div lang="{{localizedMessages.language}}" class="sjrk-storyblock-block">
     <!-- repeated markup start -->
     {{#getIds "storySelectionCheckbox"}}
-        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+        <div class="sjrk-st-label-container fl-hidden-accessible">
             <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
         </div>
         <div class="sjrk-storyblock-selection-checkbox-container">
@@ -10,8 +10,8 @@
     {{/getIds}}
 
     {{#getIds "storyBlockHeading"}}
-        <div class="sjrk-storyTelling-block-alternative-content">
-            <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+        <div class="sjrk-st-block-alternative-content">
+            <div class="sjrk-st-label-container fl-hidden-accessible">
                 <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
             </div>
             <div>
@@ -22,7 +22,7 @@
     <!-- repeated markup end -->
 
     {{#getIds "storyBlockText"}}
-        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+        <div class="sjrk-st-label-container fl-hidden-accessible">
             <label for="$id">{{../localizedMessages.message_textInputLabel}}</label>
         </div>
         <div>
@@ -30,12 +30,12 @@
         </div>
     {{/getIds}}
 
-    <div class="sjrk-storyTelling-block-alternative-content">
+    <div class="sjrk-st-block-alternative-content">
         {{#getIds "storyBlockSimplifiedText"}}
-        <div class="sjrk-storyTelling-label-container fl-hidden-accessible">
+        <div class="sjrk-st-label-container fl-hidden-accessible">
             <label for="$id">{{../localizedMessages.message_simplifiedTextInputLabel}}</label>
         </div>
-        <div class="sjrk-storyTelling-alternative-content-container">
+        <div class="sjrk-st-alternative-content-container">
             <input id="$id" class="sjrk-storyblock-simplified-text sjrkc-storyblock-simplified-text" placeholder="{{../localizedMessages.message_simplifiedTextInputPlaceholder}}"></input>
         </div>
         {{/getIds}}

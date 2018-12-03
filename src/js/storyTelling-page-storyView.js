@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story view context
             storyViewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",
-                container: ".sjrkc-storyTelling-story-viewer"
+                container: ".sjrkc-st-story-viewer"
             }
         }
     });

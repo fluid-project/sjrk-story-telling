@@ -46,9 +46,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            viewList: ".sjrkc-storyTelling-browser-stories",
-            gridViewLink: ".sjrkc-storyTelling-browser-view-control-grid",
-            listViewLink: ".sjrkc-storyTelling-browser-view-control-list"
+            viewList: ".sjrkc-st-browser-stories",
+            gridViewLink: ".sjrkc-st-browser-view-control-grid",
+            listViewLink: ".sjrkc-st-browser-view-control-list"
         },
         events: {
             onViewChangeRequested: null,

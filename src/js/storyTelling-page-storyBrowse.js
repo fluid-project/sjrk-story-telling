@@ -26,7 +26,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             storyBrowser: {
                 type: "sjrk.storyTelling.ui.storyBrowser",
-                container: ".sjrkc-storyTelling-story-browser",
+                container: ".sjrkc-st-story-browser",
                 options: {
                     listeners: {
                         "onViewChangeRequested.savePreference": {
