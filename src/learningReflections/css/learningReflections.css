@@ -47,13 +47,13 @@ body {
     letter-spacing: 0.1em;
 }
 
-.sjrk-pageBody-container {
+.sjrk-page-content-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 4rem;
 }
 
-.sjrk-pageBody-container-oneColumn {
+.sjrk-page-content-container-oneColumn {
     display: block;
 }
 
@@ -124,7 +124,7 @@ body {
         font-size: 1.5rem;
     }
 
-    .sjrk-pageBody-container {
+    .sjrk-page-content-container {
         grid-template-columns: repeat(1, minmax(250px, 1fr));
     }
 

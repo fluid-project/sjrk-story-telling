@@ -36,7 +36,7 @@ fieldset ul {
     padding-left: 3rem;
 }
 
-.sjrk-pageBody-container {
+.sjrk-page-content-container {
     background-color: white;
     padding: 2rem;
 }
@@ -359,6 +359,10 @@ fieldset ul {
 }
 
 @media only screen and (max-width: 50em) {
+    .sjrk-page-content-container {
+        padding: 0.5rem;
+    }
+
     .sjrk-st-browser-view-control-container {
         display: none;
     }
@@ -368,10 +372,6 @@ fieldset ul {
         grid-template-columns: initial;
         grid-gap: initial;
         margin-top: 0;
-    }
-
-    .sjrk-pageBody-container {
-        padding: 0.5rem;
     }
 
     .sjrk-st-browser-stories.grid .sjrk-st-browser-story-container {

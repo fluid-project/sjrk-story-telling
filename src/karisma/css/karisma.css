@@ -56,11 +56,11 @@ a {
     max-width: 100%;
 }
 
-.sjrk-pageBody-container {
+.sjrk-page-content-container {
     background-color: inherit;
 }
 
-.sjrk-pageBody-with-sidebars {
+.sjrk-page-content-with-sidebars {
     display: grid;
     grid-template-columns: minmax(1rem, 20rem) auto minmax(1rem, 20rem);
 }
@@ -140,7 +140,7 @@ a {
         font-size: 1.5rem;
     }
 
-    .sjrk-pageBody-with-sidebars {
+    .sjrk-page-content-with-sidebars {
         display: block;
     }
 
