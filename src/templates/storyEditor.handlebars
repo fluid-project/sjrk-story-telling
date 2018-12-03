@@ -1,5 +1,5 @@
 <form lang="{{localizedMessages.language}}" class="sjrk-st-story-editor-form sjrkc-st-story-editor-form">
-    <div class="sjrk-st-storyEditorPage1 sjrkc-st-storyEditorPage1">
+    <div class="sjrk-st-story-editor-page1 sjrkc-st-story-editor-page1">
         <div class="sjrk-st-story-editor-buttons-container">
             <div class="sjrk-st-button-text-block-container sjrk-st-image-button-container">
                 <button class="sjrk-st-button sjrk-st-button-text-block sjrkc-st-button-text-block" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_blockAddTextBlock}}</span></button>
@@ -17,11 +17,11 @@
         <!-- area where blocks will be added -->
         <div class="sjrk-st-story-editor-content sjrkc-st-story-editor-content"></div>
         <div class="sjrk-st-button-container">
-            <a href="javascript:void(0)" class="sjrk-st-storyEditorNext sjrkc-st-storyEditorNext">{{localizedMessages.message_continue}}</a>
+            <a href="javascript:void(0)" class="sjrk-st-story-editor-next sjrkc-st-story-editor-next">{{localizedMessages.message_continue}}</a>
         </div>
     </div>
 
-    <div class="sjrk-st-storyEditorPage2 sjrkc-st-storyEditorPage2">
+    <div class="sjrk-st-story-editor-page2 sjrkc-st-story-editor-page2">
         {{#getIds "title"}}
             <div class="sjrk-st-label-container">
                 <label for="$id">{{../localizedMessages.message_titleInputLabel}}</label>
@@ -51,7 +51,7 @@
 
         <div class="sjrk-st-story-editor-footer-container">
             <div>
-                <a href="javascript:void(0)" class="sjrk-st-storyEditorPrevious sjrkc-st-storyEditorPrevious">{{localizedMessages.message_goBack}}</a>
+                <a href="javascript:void(0)" class="sjrk-st-story-editor-previous sjrkc-st-story-editor-previous">{{localizedMessages.message_goBack}}</a>
             </div>
             <div class="sjrk-st-link-container-right">
                 <button class="sjrk-st-storySubmit sjrkc-st-storySubmit" type="button">{{localizedMessages.message_submitButton}}</button>
