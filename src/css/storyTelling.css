@@ -9,15 +9,6 @@ body {
     font-size: 1.2em;
 }
 
-
-.sjrk-prefsEditor-container {
-    display: grid;
-}
-
-.sjrk-toc-container {
-    padding-left: 3rem;
-}
-
 h1 {
     font-weight: normal;
 }
@@ -35,6 +26,14 @@ textarea {
 
 fieldset ul {
     list-style-type: none;
+}
+
+.sjrk-prefsEditor-container {
+    display: grid;
+}
+
+.sjrk-toc-container {
+    padding-left: 3rem;
 }
 
 .sjrk-pageBody-container {
