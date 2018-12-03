@@ -174,7 +174,7 @@ fieldset ul {
     font-weight: bold;
 }
 
-.sjrk-storyblock-block {
+.sjrk-st-block {
     border: dashed 1px #000;
     margin: 2rem 0;
     position: relative;
@@ -225,7 +225,7 @@ fieldset ul {
     background: #eee;
 }
 
-.sjrk-st-story-viewer .sjrk-storyblock-block {
+.sjrk-st-story-viewer .sjrk-st-block {
     border: none;
 }
 
