@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         selectors: {
             storyTitle: ".sjrkc-st-storyTitle",
             storyAuthor: ".sjrkc-st-storyAuthor",
-            storyContent: ".sjrkc-st-storyContent",
+            storyContent: ".sjrkc-st-story-content",
             storySummary: ".sjrkc-st-storySummary",
             storyListenTo: ".sjrkc-st-storyListenTo",
             storyLanguage: ".sjrkc-st-storyLanguage",

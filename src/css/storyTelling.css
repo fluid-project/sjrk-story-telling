@@ -55,16 +55,12 @@ fieldset ul {
     display: none;
 }
 
-.sjrk-st-story-headingRight {
-    text-align: right;
-}
-
 .sjrk-st-story-heading, .sjrk-st-readOtherStories {
     margin: 0;
     font-weight: normal;
 }
 
-.sjrk-st-storyContent {
+.sjrk-st-story-content {
     width: 100%;
 }
 
