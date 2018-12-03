@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.editor", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         selectors: {
-            selectedCheckbox: ".sjrkc-storyblock-selection-checkbox"
+            selectedCheckbox: ".sjrkc-st-block-selection-checkbox"
         },
         components: {
             // binds user input DOM elements to model values on the block
@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: "{block}.model",
                     selectors: {
-                        heading: ".sjrkc-storyblock-heading"
+                        heading: ".sjrkc-st-block-heading"
                     },
                     bindings: {
                         heading: "heading"
