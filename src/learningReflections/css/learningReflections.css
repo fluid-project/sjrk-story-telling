@@ -43,7 +43,7 @@ body {
     width: auto;
 }
 
-.sjrk-st-page-header-mainTitle {
+.sjrk-st-page-header-main-title {
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
@@ -58,17 +58,17 @@ body {
     display: block;
 }
 
-.sjrk-small-text {
+.sjrk-st-small-text {
     font-size: 1rem;
 }
 
-.sjrk-list-hearts li::before {
+.sjrk-st-list-hearts li::before {
     content: "\2764";
     color: var(--site-medium-blue);
     margin-right: 0.25rem;
 }
 
-.sjrk-list-hearts li {
+.sjrk-st-list-hearts li {
     list-style-type: none;
     padding-bottom: 1rem;
 }
@@ -104,13 +104,13 @@ body {
     align-items: center;
 }
 
-.sjrk-st-page-footer-oakLogo-container {
+.sjrk-st-page-footer-oak-logo-container {
     background-color: white;
     padding: 0.2rem 0;
     text-align: center;
 }
 
-.sjrk-st-page-footer-hewlettLogo-container {
+.sjrk-st-page-footer-hewlett-logo-container {
     background-color: white;
     padding: 0.2rem 1rem;
 }
@@ -137,14 +137,14 @@ body {
     }
 
     .sjrk-st-page-footer-text-container,
-    .sjrk-st-page-footer-oakLogo-container,
-    .sjrk-st-page-footer-hewlettLogo-container {
+    .sjrk-st-page-footer-oak-logo-container,
+    .sjrk-st-page-footer-hewlett-logo-container {
         grid-column: auto;
     }
 
     .sjrk-st-page-footer-text-container img,
-    .sjrk-st-page-footer-oakLogo-container img,
-    .sjrk-st-page-footer-hewlettLogo-container img {
+    .sjrk-st-page-footer-oak-logo-container img,
+    .sjrk-st-page-footer-hewlett-logo-container img {
         max-width: 100%;
     }
 }
