@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // masthead/banner section
             karismaMasthead: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-pageHeading-container",
+                container: ".sjrkc-st-page-header-container",
                 options: {
                     mastheadConfig: {
                         templateValues: {
@@ -186,7 +186,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             karismaWelcomer: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-storyTelling-welcome",
+                container: ".sjrkc-st-welcome",
                 options: {
                     welcomerConfig: {
                         templateValues: {

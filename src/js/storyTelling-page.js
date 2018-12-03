@@ -116,7 +116,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     gradeNames: ["fluid.dataSource.writable"],
                     cookie: {
-                        name: "sjrk-storyTelling-settings",
+                        name: "sjrk-st-settings",
                         path: "/",
                         expires: ""
                     }
@@ -145,7 +145,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: ".sjrkc-storyTelling-menu-links"
+                container: ".sjrkc-st-menu-links"
             },
             uio: {
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",

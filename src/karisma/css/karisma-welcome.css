@@ -2,42 +2,42 @@ body {
     background-color: var(--site-rose);
 }
 
-.sjrk-pageHeading-container {
+.sjrk-st-page-header-container {
     padding: 0 1rem;
     display: block;
     text-align: center;
 }
 
-.sjrk-pageHeading-logo-container {
+.sjrk-st-page-header-logo-container {
     display: none;
 }
 
-.sjrk-storyTelling-menu-links {
+.sjrk-st-menu-links {
     display: block;
     grid-template-columns: initial;
     margin: 1rem;
 }
 
-.sjrk-storyTelling-menu-languages-container {
+.sjrk-st-menu-languages-container {
     text-align: initial;
 }
 
-.sjrk-storyTelling-karisma-welcome-message-container {
+.sjrk-st-karisma-welcome-message-container {
     text-align: center;
 }
 
-.sjrk-storyTelling-karisma-welcome-message {
+.sjrk-st-karisma-welcome-message {
     font-size: 4rem;
     font-weight: bold;
     align-self: center;
     color: var(--site-purple);
 }
 
-.sjrk-storyTelling-karisma-welcome-button-container {
+.sjrk-st-karisma-welcome-button-container {
     display: grid;
 }
 
-.sjrk-storyTelling-karisma-welcome-button-container a {
+.sjrk-st-karisma-welcome-button-container a {
     display: inline-block;
     color: white;
     background-color: var(--site-purple);
@@ -52,23 +52,23 @@ body {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-pageHeading {
+    .sjrk-st-page-header {
         margin: 0rem 1rem;
     }
 
-    .sjrk-storyTelling-karisma-welcome-container {
+    .sjrk-st-karisma-welcome-container {
         grid-template-columns: auto;
     }
 
-    .sjrk-storyTelling-karisma-welcome-mascot-container {
+    .sjrk-st-karisma-welcome-mascot-container {
         display: none;
     }
 
-    .sjrk-storyTelling-karisma-welcome-message {
+    .sjrk-st-karisma-welcome-message {
         margin: 0.5rem 0 2rem 0;
     }
 
-    .sjrk-storyTelling-karisma-welcome-button-container a {
+    .sjrk-st-karisma-welcome-button-container a {
         min-width: 16rem;
     }
 }

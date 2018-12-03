@@ -14,87 +14,88 @@ body {
     background-color: var(--site-blue);
 }
 
-.sjrk-pageHeading-container, .sjrk-pageFooter-container {
+.sjrk-st-page-header-container, .sjrk-st-page-footer-container {
     background-color: var(--site-blue);
     color: white;
 }
 
-.sjrk-pageHeading-container {
+.sjrk-st-page-header-container {
     padding: 0 3rem 2rem 3rem;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-gap: 1rem;
 }
 
-.sjrk-pageHeading {
+.sjrk-st-page-header {
     font-size: 2.5rem;
     font-weight: bold;
     align-self: center;
+    margin: 2rem 0;
 }
 
-.sjrk-pageHeading-heartBook-container {
+.sjrk-st-page-header-heart-book-container {
     height: 6rem;
     align-self: center;
 }
 
-.sjrk-pageHeading-heartBook {
+.sjrk-st-page-header-heart-book {
     max-height: 6rem;
     width: auto;
 }
 
-.sjrk-pageHeading-mainTitle {
+.sjrk-st-page-header-main-title {
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
 
-.sjrk-pageBody-container {
+.sjrk-st-page-content-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 4rem;
 }
 
-.sjrk-pageBody-container-oneColumn {
+.sjrk-st-page-content-container-one-column {
     display: block;
 }
 
-.sjrk-small-text {
+.sjrk-st-small-text {
     font-size: 1rem;
 }
 
-.sjrk-list-hearts li::before {
+.sjrk-st-list-hearts li::before {
     content: "\2764";
     color: var(--site-medium-blue);
     margin-right: 0.25rem;
 }
 
-.sjrk-list-hearts li {
+.sjrk-st-list-hearts li {
     list-style-type: none;
     padding-bottom: 1rem;
 }
 
-.sjrk-storyTelling-button-text-block,
-.sjrk-storyTelling-button-image-block,
-.sjrk-storyTelling-storyListenTo {
+.sjrk-st-button-text-block,
+.sjrk-st-button-image-block,
+.sjrk-st-story-listen-to {
     background-color: var(--site-light-blue);
 }
 
-.sjrk-storyTelling-button-restore-blocks-container {
+.sjrk-st-button-restore-blocks-container {
     display: none;
 }
 
-.sjrk-storyTelling-browser-story-container {
+.sjrk-st-browser-story-container {
     background-color: var(--site-medium-grey);
 }
 
-.sjrk-storyTelling-browser-story-thumbnail-container {
+.sjrk-st-browser-story-thumbnail-container {
     background-color: var(--site-blue);
 }
 
-.sjrk-storyTelling-browser-story-thumnail-placeholder {
+.sjrk-st-browser-story-thumnail-placeholder {
     object-fit: contain;
 }
 
-.sjrk-pageFooter-container {
+.sjrk-st-page-footer-container {
     font-size: 1.5rem;
     padding: 1rem 3rem;
     display: grid;
@@ -103,47 +104,47 @@ body {
     align-items: center;
 }
 
-.sjrk-pageFooter-oakLogo-container {
+.sjrk-st-page-footer-oak-logo-container {
     background-color: white;
     padding: 0.2rem 0;
     text-align: center;
 }
 
-.sjrk-pageFooter-hewlettLogo-container {
+.sjrk-st-page-footer-hewlett-logo-container {
     background-color: white;
     padding: 0.2rem 1rem;
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-pageHeading-container {
+    .sjrk-st-page-header-container {
         padding: 1rem;
     }
 
-    .sjrk-pageHeading,
-    .sjrk-pageHeading-heartBook-container {
+    .sjrk-st-page-header,
+    .sjrk-st-page-header-heart-book-container {
         font-size: 1.5rem;
     }
 
-    .sjrk-pageBody-container {
+    .sjrk-st-page-content-container {
         grid-template-columns: repeat(1, minmax(250px, 1fr));
     }
 
-    .sjrk-pageFooter-container {
+    .sjrk-st-page-footer-container {
         grid-template-columns: repeat(1, 1fr);
         margin-left: auto;
         margin-right: auto;
         padding: 1rem;
     }
 
-    .sjrk-pageFooter-text-container,
-    .sjrk-pageFooter-oakLogo-container,
-    .sjrk-pageFooter-hewlettLogo-container {
+    .sjrk-st-page-footer-text-container,
+    .sjrk-st-page-footer-oak-logo-container,
+    .sjrk-st-page-footer-hewlett-logo-container {
         grid-column: auto;
     }
 
-    .sjrk-pageFooter-text-container img,
-    .sjrk-pageFooter-oakLogo-container img,
-    .sjrk-pageFooter-hewlettLogo-container img {
+    .sjrk-st-page-footer-text-container img,
+    .sjrk-st-page-footer-oak-logo-container img,
+    .sjrk-st-page-footer-hewlett-logo-container img {
         max-width: 100%;
     }
 }

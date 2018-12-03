@@ -18,15 +18,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.viewComponent"],
         // common selectors for all UI's
         selectors: {
-            storyTitle: ".sjrkc-storyTelling-storyTitle",
-            storyAuthor: ".sjrkc-storyTelling-storyAuthor",
-            storyContent: ".sjrkc-storyTelling-storyContent",
-            storySummary: ".sjrkc-storyTelling-storySummary",
-            storyListenTo: ".sjrkc-storyTelling-storyListenTo",
-            storyLanguage: ".sjrkc-storyTelling-storyLanguage",
-            storyLanguageList: ".sjrkc-storyTelling-storyLanguageList",
-            storyCategories: ".sjrkc-storyTelling-storyCategories",
-            storyTags: ".sjrkc-storyTelling-storyTags"
+            storyTitle: ".sjrkc-st-story-title",
+            storyAuthor: ".sjrkc-st-story-author",
+            storyContent: ".sjrkc-st-story-content",
+            storySummary: ".sjrkc-st-story-summary",
+            storyListenTo: ".sjrkc-st-story-listen-to",
+            storyLanguage: ".sjrkc-st-story-language",
+            storyLanguageList: ".sjrkc-st-story-language-list",
+            storyCategories: ".sjrkc-st-story-categories",
+            storyTags: ".sjrkc-st-story-tags"
         },
         events: {
             onReadyToBind: null,

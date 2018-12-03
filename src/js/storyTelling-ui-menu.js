@@ -15,8 +15,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.menu", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
-            languageLinkEnglish: ".sjrkc-storyTelling-menu-languages-en",
-            languageLinkSpanish: ".sjrkc-storyTelling-menu-languages-es"
+            languageLinkEnglish: ".sjrkc-st-menu-languages-en",
+            languageLinkSpanish: ".sjrkc-st-menu-languages-es"
         },
         events: {
             onInterfaceLanguageChangeRequested: null

@@ -15,9 +15,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
-            storySaveNoShare: ".sjrkc-storyTelling-storySaveNoShare",
-            storyTags: ".sjrkc-storyTelling-storyListTags",
-            storyViewerPrevious: ".sjrkc-storyTelling-storyViewerPrevious"
+            storySaveNoShare: ".sjrkc-st-story-save-no-share",
+            storyTags: ".sjrkc-st-story-list-tags",
+            storyViewerPrevious: ".sjrkc-st-story-viewer-previous"
         },
         blockTypeLookup: {
             "text": "sjrk.storyTelling.blockUi.textBlockViewer",
