@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
-            storySubmit: ".sjrkc-st-storySubmit",
+            storySubmit: ".sjrkc-st-story-submit",
             storyEditorContent: ".sjrkc-st-story-editor-content",
             storyEditorNext: ".sjrkc-st-story-editor-next",
             storyEditorPrevious: ".sjrkc-st-story-editor-previous",

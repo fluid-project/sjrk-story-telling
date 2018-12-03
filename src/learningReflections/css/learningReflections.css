@@ -33,12 +33,12 @@ body {
     margin: 2rem 0;
 }
 
-.sjrk-page-header-heartBook-container {
+.sjrk-page-header-heart-book-container {
     height: 6rem;
     align-self: center;
 }
 
-.sjrk-page-header-heartBook {
+.sjrk-page-header-heart-book {
     max-height: 6rem;
     width: auto;
 }
@@ -75,7 +75,7 @@ body {
 
 .sjrk-st-button-text-block,
 .sjrk-st-button-image-block,
-.sjrk-st-storyListenTo {
+.sjrk-st-story-listen-to {
     background-color: var(--site-light-blue);
 }
 
@@ -121,7 +121,7 @@ body {
     }
 
     .sjrk-page-header,
-    .sjrk-page-header-heartBook-container {
+    .sjrk-page-header-heart-book-container {
         font-size: 1.5rem;
     }
 
