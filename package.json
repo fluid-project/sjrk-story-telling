@@ -11,11 +11,11 @@
     "url": "git+https://github.com/fluid-project/sjrk-story-telling-server.git"
   },
   "author": "Fluid Project",
-  "license": "(BSD-3-Clause OR ECL-2.0)",
+  "license": "BSD-3-Clause",
   "bugs": {
-    "url": ""
+    "url": "https://issues.fluidproject.org/projects/SJRK/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/fluid-project/sjrk-story-telling-server",
   "dependencies": {
     "express-basic-auth": "1.1.5",
     "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
@@ -36,6 +36,6 @@
     "grunt-eslint": "20.0.0",
     "grunt-jsonlint": "1.1.0",
     "node-jqunit": "1.1.8",
-    "testem": "^2.8.1"
+    "testem": "2.8.1"
   }
 }
