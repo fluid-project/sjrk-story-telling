@@ -14,7 +14,7 @@ body {
     background-color: var(--site-blue);
 }
 
-.sjrk-page-header-container, .sjrk-pageFooter-container {
+.sjrk-page-header-container, .sjrk-page-footer-container {
     background-color: var(--site-blue);
     color: white;
 }
@@ -95,7 +95,7 @@ body {
     object-fit: contain;
 }
 
-.sjrk-pageFooter-container {
+.sjrk-page-footer-container {
     font-size: 1.5rem;
     padding: 1rem 3rem;
     display: grid;
@@ -104,13 +104,13 @@ body {
     align-items: center;
 }
 
-.sjrk-pageFooter-oakLogo-container {
+.sjrk-page-footer-oakLogo-container {
     background-color: white;
     padding: 0.2rem 0;
     text-align: center;
 }
 
-.sjrk-pageFooter-hewlettLogo-container {
+.sjrk-page-footer-hewlettLogo-container {
     background-color: white;
     padding: 0.2rem 1rem;
 }
@@ -129,22 +129,22 @@ body {
         grid-template-columns: repeat(1, minmax(250px, 1fr));
     }
 
-    .sjrk-pageFooter-container {
+    .sjrk-page-footer-container {
         grid-template-columns: repeat(1, 1fr);
         margin-left: auto;
         margin-right: auto;
         padding: 1rem;
     }
 
-    .sjrk-pageFooter-text-container,
-    .sjrk-pageFooter-oakLogo-container,
-    .sjrk-pageFooter-hewlettLogo-container {
+    .sjrk-page-footer-text-container,
+    .sjrk-page-footer-oakLogo-container,
+    .sjrk-page-footer-hewlettLogo-container {
         grid-column: auto;
     }
 
-    .sjrk-pageFooter-text-container img,
-    .sjrk-pageFooter-oakLogo-container img,
-    .sjrk-pageFooter-hewlettLogo-container img {
+    .sjrk-page-footer-text-container img,
+    .sjrk-page-footer-oakLogo-container img,
+    .sjrk-page-footer-hewlettLogo-container img {
         max-width: 100%;
     }
 }

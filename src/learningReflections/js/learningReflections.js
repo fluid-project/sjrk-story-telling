@@ -47,7 +47,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // footer section
             learningReflectionsFooter: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-pageFooter-container",
+                container: ".sjrkc-page-footer-container",
                 options: {
                     components: {
                         templateManager: {
