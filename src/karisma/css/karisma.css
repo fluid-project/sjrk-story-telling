@@ -18,7 +18,7 @@ a {
     background-color: var(--site-rose);
 }
 
-.sjrk-page-header-container {
+.sjrk-st-page-header-container {
     padding: 0 1rem 1rem 1rem;
     display: grid;
     grid-template-columns: auto 1fr;
@@ -27,24 +27,24 @@ a {
     color: var(--site-purple);
 }
 
-.sjrk-page-header {
+.sjrk-st-page-header {
     font-size: 3rem;
     font-weight: bold;
     align-self: center;
     margin: 2rem 0;
 }
 
-.sjrk-page-header-logo-container {
+.sjrk-st-page-header-logo-container {
     height: 6rem;
     align-self: center;
 }
 
-.sjrk-page-header-logo {
+.sjrk-st-page-header-logo {
     max-height: 6rem;
     width: auto;
 }
 
-.sjrk-page-header-mainTitle {
+.sjrk-st-page-header-mainTitle {
     text-transform: uppercase;
 }
 
@@ -57,11 +57,11 @@ a {
     max-width: 100%;
 }
 
-.sjrk-page-content-container {
+.sjrk-st-page-content-container {
     background-color: inherit;
 }
 
-.sjrk-page-content-with-sidebars {
+.sjrk-st-page-content-with-sidebars {
     display: grid;
     grid-template-columns: minmax(1rem, 20rem) auto minmax(1rem, 20rem);
 }
@@ -137,11 +137,11 @@ a {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-page-header {
+    .sjrk-st-page-header {
         font-size: 1.5rem;
     }
 
-    .sjrk-page-content-with-sidebars {
+    .sjrk-st-page-content-with-sidebars {
         display: block;
     }
 

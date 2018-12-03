@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // masthead/banner section
             learningReflectionsMasthead: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-page-header-container",
+                container: ".sjrkc-st-page-header-container",
                 options: {
                     components: {
                         templateManager: {
@@ -47,7 +47,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // footer section
             learningReflectionsFooter: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-page-footer-container",
+                container: ".sjrkc-st-page-footer-container",
                 options: {
                     components: {
                         templateManager: {

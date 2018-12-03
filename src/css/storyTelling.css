@@ -36,7 +36,7 @@ fieldset ul {
     padding-left: 3rem;
 }
 
-.sjrk-page-content-container {
+.sjrk-st-page-content-container {
     background-color: white;
     padding: 2rem;
 }
@@ -341,7 +341,7 @@ fieldset ul {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-page-content-container {
+    .sjrk-st-page-content-container {
         padding: 0.5rem;
     }
 
