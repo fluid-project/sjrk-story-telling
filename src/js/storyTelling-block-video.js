@@ -11,13 +11,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // the data model of an image-type block
-    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
+    // the data model of an video-type block
+    fluid.defaults("sjrk.storyTelling.block.videoBlock", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
-            blockType: "image",
-            imageUrl: null,
+            blockType: "video",
+            videoUrl: null,
             alternativeText: null,
+            transcript: null,
             description: null
         },
         modelRelay: {
