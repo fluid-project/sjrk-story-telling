@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // an editing interface for individual video-type blocks
     // provides additional capabilities depending on whether the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.mobileCameraAware.video", "sjrk.storyTelling.blockUi.editor"],
+        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.blockUi.editor"],
         contextAwareness: {
             technology: {
                 checks: {
@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            videoPreview: ".sjrkc-st-block-videp-preview",
+            videoPreview: ".sjrkc-st-block-video-preview",
             videoUploadButton: ".sjrkc-st-block-video-upload-button",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
@@ -113,39 +113,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             }
-        }
-    });
-
-    // TODO: move this to a centralized location that imageBlockEditor can use
-    // Grade used to detect and enhance if a mobile camera is available
-    // May not be super-reliable at this time
-    // Assumes anything on iPhone, iPad or Android is a mobile
-    // device with a camera
-    fluid.defaults("sjrk.storyTelling.mobileCameraAware.video", {
-        gradeNames: ["fluid.contextAware", "fluid.component"],
-        contextAwareness: {
-            technology: {
-                checks: {
-                    mobileCamera: {
-                        contextValue: "{fluid.platform.hasMobileCamera}"
-                        // gradeNames: supplied by implementation
-                    }
-                    // defaultGradeNames: supplied by implementation
-                }
-            }
-        }
-    });
-
-    /* Determines whether the current user device has a "mobile" camera. */
-    sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
-        var userAgent = navigator.userAgent.toLowerCase();
-        var hasMobileCamera = userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("android");
-        return hasMobileCamera;
-    };
-
-    fluid.contextAware.makeChecks({
-        "fluid.platform.hasMobileCamera": {
-            funcName: "sjrk.storyTelling.mobileCameraAware.hasMobileCamera"
         }
     });
 
