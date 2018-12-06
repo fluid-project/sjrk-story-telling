@@ -57,17 +57,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.contextAware.makeChecks({
-        "fluid.platform.hasMobileCamera": {
-            funcName: "sjrk.storyTelling.mobileCameraAware.hasMobileCamera"
-        }
-    });
-
     /* Determines whether the current user device has a "mobile" camera. */
     sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
         var userAgent = navigator.userAgent.toLowerCase();
         var hasMobileCamera = userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("android");
         return hasMobileCamera;
     };
+
+    fluid.contextAware.makeChecks({
+        "fluid.platform.hasMobileCamera": {
+            funcName: "sjrk.storyTelling.mobileCameraAware.hasMobileCamera"
+        }
+    });
 
 })(jQuery, fluid);
