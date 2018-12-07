@@ -203,9 +203,10 @@ fieldset ul {
     background-color: var(--site-grey);
 }
 
-.sjrk-st-block-image-preview[src=""], .sjrk-st-block-image-preview:not([src]) {
+.sjrk-st-block-image-preview[src=""], .sjrk-st-block-image-preview:not([src]),
+.sjrk-st-block-video-preview:empty {
     display: block;
-    width: 15rem;
+    /* width: 15rem; */
     height: 13.5rem;
 }
 

@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -31,9 +31,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         invokers: {
             "updateVideoPreview": {
-                "this": "{that}.dom.videoPreview",
-                "method": "attr",
-                "args": ["src", "{arguments}.0"]
+                "funcName": "sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview",
+                "args": ["{that}.dom.videoPreview", "{arguments}.0"]
             }
         },
         events: {
@@ -115,6 +114,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview = function (video, videoUrl) {
+        var videoMarkup = videoUrl ? "<source src=\"" + videoUrl + "\">\nThis is the video preview" : "";
+        video.html(videoMarkup);
+    };
 
     // the extra interface elements to be added if the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor.hasMobileCamera", {
