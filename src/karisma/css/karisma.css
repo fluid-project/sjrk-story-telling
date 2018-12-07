@@ -86,6 +86,10 @@ a {
     background-image: url("../img/icons/icon-imageBlock.png");
 }
 
+.sjrk-st-button-video-block {
+    background-image: url("../img/icons/icon-videoBlock.png");
+}
+
 .sjrk-st-button-remove-blocks {
     background-image: url("../img/icons/icon-removeBlocks.png");
 }

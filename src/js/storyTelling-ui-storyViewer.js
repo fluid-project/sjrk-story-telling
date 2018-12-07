@@ -21,7 +21,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         blockTypeLookup: {
             "text": "sjrk.storyTelling.blockUi.textBlockViewer",
-            "image": "sjrk.storyTelling.blockUi.imageBlockViewer"
+            "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
+            "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
         },
         events: {
             onSaveNoShareRequested: null,
