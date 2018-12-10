@@ -115,9 +115,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    /* Updates the HTML preview of a video associated with a given video block.
+     * If a video was playing in the editor, it will be stopped before loading.
+     * - "video": the jQueryable containing the HTML video element
+     * - "videoUrl": the URL of the video source file
+    */
     sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview = function (video, videoUrl) {
         var videoMarkup = videoUrl ? "<source src=\"" + videoUrl + "\">\nThis is the video preview" : "";
         video.html(videoMarkup);
+
+        if (videoMarkup && video[0]) {
+            video[0].pause();
+            video[0].load();
+        }
     };
 
     // the extra interface elements to be added if the device has a camera
