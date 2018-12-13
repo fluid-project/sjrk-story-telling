@@ -31,12 +31,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 record: {
                     "{page}.events.onContextChangeRequested": {
-                        namespace: "stopAllVideos",
                         funcName: "sjrk.storyTelling.page.stopAllVideos",
                         args: ["{that}.managedViewComponentRegistry"]
                     }
                 },
-                target: "{that storyEditor blockManager}.options.listeners"
+                target: "{that blockManager}.options.listeners"
             },
             {
                 record: {

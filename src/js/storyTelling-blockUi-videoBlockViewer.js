@@ -14,6 +14,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // an interface for viewing an individual video block
     fluid.defaults("sjrk.storyTelling.blockUi.videoBlockViewer", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
+        events: {
+            onVideoStop: null
+        },
+        selectors: {
+            videoPreview: ".sjrkc-st-block-video-view"
+        },
+        invokers: {
+            "stopVideo": {
+                "funcName": "sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo",
+                "args": ["{that}.dom.videoPreview"]
+            }
+        },
+        listeners: {
+            "onVideoStop.stopVideo": "{that}.stopVideo"
+        },
         components: {
             templateManager: {
                 options: {
