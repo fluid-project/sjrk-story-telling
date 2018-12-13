@@ -26,12 +26,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var tagArray = fluid.model.transformWithRules(
             {inputString: "tag1,tag2"},
             {output: stringToArrayTransform}
-            ).output;
+        ).output;
 
         var tagArrayNoSpace = fluid.model.transformWithRules(
             {inputString: "tag1, tag2"},
             {output: stringToArrayTransform}
-            ).output;
+        ).output;
 
         jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArray);
         jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArrayNoSpace);
@@ -52,7 +52,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var tagString = fluid.model.transformWithRules(
             {sourceArray: ["tag1", "tag2"]},
             {tagString: arrayToStringTransform}
-            ).tagString;
+        ).tagString;
 
         jqUnit.assertEquals("Generated array values are as expected", expectedString, tagString);
     });

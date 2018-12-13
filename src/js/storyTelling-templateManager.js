@@ -147,7 +147,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "templateContent": the raw content of the template to be loaded at templateName
      * - "dynamicValues": other values which are likely to change often.
      * - "completionEvent": component even to fire when complete
-    */
+     */
     sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, localizedMessages, dynamicValues) {
         var combinedDynamicValues = sjrk.storyTelling.templateManager.combineDynamicValues(dynamicValues, localizedMessages);
         localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, combinedDynamicValues);
@@ -164,7 +164,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "templateContent": the raw content of the template to be loaded at templateName
      * - "dynamicValues": other values which are likely to change often.
      * - "completionEvent": component even to fire when complete
-    */
+     */
     sjrk.storyTelling.templateManager.renderTemplateOnSelf = function (templateManager, templateName, completionEvent, localizedMessages, dynamicValues) {
         templateManager.templateRenderer.html(templateManager.container, templateName, {
             localizedMessages: localizedMessages,

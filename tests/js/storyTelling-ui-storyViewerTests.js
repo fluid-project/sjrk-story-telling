@@ -102,8 +102,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyViewer}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
-                }
-            ]
+                }]
             },
             {
                 name: "Test buttons on page",
