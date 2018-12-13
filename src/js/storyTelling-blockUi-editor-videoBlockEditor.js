@@ -33,10 +33,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "updateVideoPreview": {
                 "funcName": "sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview",
                 "args": ["{that}.dom.videoPreview", "{arguments}.0"]
+            },
+            "stopVideo": {
+                "funcName": "sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo",
+                "args": ["{that}.dom.videoPreview"]
             }
         },
         events: {
-            onVideoUploadRequested: null
+            onVideoUploadRequested: null,
+            onVideoStop: null
         },
         listeners: {
             "{templateManager}.events.onTemplateRendered": [
@@ -51,7 +56,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{that}.block.model.videoUrl"],
                     namespace: "updateVideoPreview"
                 }
-            ]
+            ],
+            "onVideoStop.stopVideo": "{that}.stopVideo"
         },
         components: {
             block: {
@@ -119,14 +125,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * If a video was playing in the editor, it will be stopped before loading.
      * - "video": the jQueryable containing the HTML video element
      * - "videoUrl": the URL of the video source file
-    */
+     */
     sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview = function (video, videoUrl) {
         var videoMarkup = videoUrl ? "<source src=\"" + videoUrl + "\">\nThis is the video preview" : "";
         video.html(videoMarkup);
 
-        if (videoMarkup && video[0]) {
-            video[0].pause();
+        if (videoUrl && video[0]) {
+            sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo(video);
             video[0].load();
+        }
+    };
+
+    /* Pauses and rewinds a given video
+     * If a video was playing in the editor, it will be stopped before loading.
+     * - "video": the jQueryable containing the HTML video element
+     */
+    sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo = function (video) {
+        if (video[0]) {
+            video[0].pause();
+            video[0].currentTime = 0;
         }
     };
 
