@@ -30,6 +30,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 record: {
+                    "{page}.events.onContextChangeRequested": {
+                        namespace: "stopAllVideos",
+                        funcName: "sjrk.storyTelling.page.stopAllVideos",
+                        args: ["{that}.managedViewComponentRegistry"]
+                    }
+                },
+                target: "{that storyEditor blockManager}.options.listeners"
+            },
+            {
+                record: {
                     target: "{that}.model.locale",
                     singleTransform: {
                         type: "fluid.transforms.condition",
@@ -248,6 +258,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 
         pageComponent.events.onUioPanelsUpdated.fire();
+    };
+
+    /* Stops playback for all video block editor previews held by a blockManager
+     * - "managedViewComponentRegistry": the registry of view components (aka blockManager)
+     */
+    sjrk.storyTelling.page.stopAllVideos = function (managedViewComponentRegistry)
+    {
+        fluid.each(managedViewComponentRegistry, function (managedComponent) {
+            if (fluid.componentHasGrade(managedComponent, "videoBlockViewer") || fluid.componentHasGrade(managedComponent, "videoBlockEditor")) {
+                managedComponent.events.onVideoStop.fire();
+            }
+        });
     };
 
 })(jQuery, fluid);
