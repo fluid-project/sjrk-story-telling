@@ -36,15 +36,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         events: {
-            videoUploadRequested: null
+            onVideoUploadRequested: null
         },
         listeners: {
             "{templateManager}.events.onTemplateRendered": [
                 {
                     this: "{that}.dom.videoUploadButton",
                     method: "click",
-                    args: ["{that}.events.videoUploadRequested.fire"],
-                    namespace: "bindVideoUploadRequested"
+                    args: ["{that}.events.onVideoUploadRequested.fire"],
+                    namespace: "bindOnVideoUploadRequested"
                 },
                 {
                     func: "{blockUi}.updateVideoPreview",
@@ -98,7 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileDetails: "{block}.model.fileDetails"
                     },
                     listeners: {
-                        "{videoBlockEditor}.events.videoUploadRequested": {
+                        "{videoBlockEditor}.events.onVideoUploadRequested": {
                             func: "{that}.events.onUploadRequested.fire",
                             namespace: "fireUploadForVideoUpload"
                         }
