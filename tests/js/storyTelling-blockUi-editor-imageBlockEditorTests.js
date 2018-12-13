@@ -61,7 +61,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     element: "{imageBlockEditor}.dom.imageUploadButton"
                 },
                 {
-                    event: "{imageBlockEditor}.events.imageUploadRequested",
+                    event: "{imageBlockEditor}.events.onImageUploadRequested",
                     listener: "jqUnit.assert",
                     args: ["The imageUploadButton event fired"]
                 },
