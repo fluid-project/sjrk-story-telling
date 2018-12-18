@@ -30,9 +30,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 record: {
-                    "{page}.events.onContextChangeRequested": "{that}.events.onVideoStop"
+                    "{page}.events.onContextChangeRequested": "{that}.events.onMediaPlayerStop"
                 },
-                target: "{that timeBased}.options.listeners"
+                target: "{that sjrk.storyTelling.blockUi.timeBased}.options.listeners"
             },
             {
                 record: {

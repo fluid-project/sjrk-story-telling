@@ -11,24 +11,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // the data model of an video-type block
+    // the data model of a video-type block
     fluid.defaults("sjrk.storyTelling.block.videoBlock", {
-        gradeNames: ["sjrk.storyTelling.block"],
+        gradeNames: ["sjrk.storyTelling.block.timeBased"],
         model: {
-            blockType: "video",
-            videoUrl: null,
-            alternativeText: null,
-            transcript: null,
-            description: null
-        },
-        modelRelay: {
-            target: "contentString",
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.arrayToString",
-                input: ["{that}.model.heading", "{that}.model.alternativeText", "{that}.model.description", "{that}.model.transcript"],
-                separator: ". ",
-                stringOnly: true
-            }
+            blockType: "video"
         }
     });
 

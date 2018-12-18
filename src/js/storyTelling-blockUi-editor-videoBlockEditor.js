@@ -44,7 +44,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.block.videoBlock",
                 options: {
                     model: {
-                        // videoURL: relayed from uploader
+                        // mediaUrl: relayed from uploader
                         // fileDetails: relayed from uploader
                     }
                 }
@@ -80,7 +80,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{block}.model.videoUrl",
+                        fileObjectURL: "{block}.model.mediaUrl",
                         fileDetails: "{block}.model.fileDetails"
                     },
                     listeners: {
@@ -91,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{timeBased}.updateVideoPreview",
+                            func: "{videoBlockEditor}.updateMediaPlayer",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
@@ -139,7 +139,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{videoBlock}.model.videoUrl",
+                        fileObjectURL: "{videoBlock}.model.mediaUrl",
                         fileDetails: "{videoBlock}.model.fileDetails"
                     },
                     listeners: {
@@ -150,7 +150,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{timeBased}.updateVideoPreview",
+                            func: "{videoBlockEditor}.updateMediaPlayer",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }

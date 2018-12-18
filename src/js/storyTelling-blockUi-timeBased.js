@@ -12,57 +12,56 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     "use strict";
 
     // the grade for any blockUi that has time-based media
-    // block, regardless of type.
     fluid.defaults("sjrk.storyTelling.blockUi.timeBased", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         selectors: {
-            videoPreview: ".sjrkc-st-block-video-preview"
+            mediaPlayerPreview: ".sjrkc-st-block-media-preview"
         },
         events: {
-            onVideoStop: null
+            onMediaPlayerStop: null
         },
         invokers: {
-            "updateVideoPreview": {
+            "updateMediaPlayer": {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer",
-                "args": ["{that}.dom.videoPreview", "{arguments}.0"]
+                "args": ["{that}.dom.mediaPlayerPreview", "{arguments}.0"]
             },
-            "stopVideo": {
-                "funcName": "sjrk.storyTelling.blockUi.timeBased.stopMediaPlayback",
-                "args": ["{that}.dom.videoPreview"]
+            "stopMediaPlayer": {
+                "funcName": "sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer",
+                "args": ["{that}.dom.mediaPlayerPreview"]
             }
         },
         listeners: {
             "{templateManager}.events.onTemplateRendered": {
-                func: "{that}.updateVideoPreview",
-                args: ["{that}.block.model.videoUrl"]
+                func: "{that}.updateMediaPlayer",
+                args: ["{that}.block.model.mediaUrl"]
             },
-            "onVideoStop.stopVideo": "{that}.stopVideo"
+            "onMediaPlayerStop.stopMediaPlayer": "{that}.stopMediaPlayer"
         }
     });
 
-    /* Updates the HTML preview of a video associated with a given video block.
-     * If a video was playing in the editor, it will be stopped before loading.
-     * - "video": the jQueryable containing the HTML video element
-     * - "videoUrl": the URL of the video source file
+    /* Updates the HTML preview of a media player associated with a given block.
+     * If a media player was playing, it will be stopped before loading.
+     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+     * - "mediaUrl": the URL of the media source file
      */
-    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (video, videoUrl) {
-        var videoMarkup = videoUrl ? "<source src=\"" + videoUrl + "\">\nThis is the video preview" : "";
-        video.html(videoMarkup);
+    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
+        var mediaPlayerMarkup = mediaUrl ? "<source src=\"" + mediaUrl + "\">\nThis is the media player preview" : "";
+        mediaPlayer.html(mediaPlayerMarkup);
 
-        if (videoUrl && video[0]) {
-            sjrk.storyTelling.blockUi.timeBased.stopMediaPlayback(video);
-            video[0].load();
+        if (mediaUrl && mediaPlayer[0]) {
+            sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
+            mediaPlayer[0].load();
         }
     };
 
-    /* Pauses and rewinds a given video
-     * If a video was playing in the editor, it will be stopped before loading.
-     * - "video": the jQueryable containing the HTML video element
+    /* Pauses and rewinds a given media player
+     * If a media player was playing, it will be stopped before loading.
+     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
-    sjrk.storyTelling.blockUi.timeBased.stopMediaPlayback = function (video) {
-        if (video[0]) {
-            video[0].pause();
-            video[0].currentTime = 0;
+    sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer = function (mediaPlayer) {
+        if (mediaPlayer[0]) {
+            mediaPlayer[0].pause();
+            mediaPlayer[0].currentTime = 0;
         }
     };
 
