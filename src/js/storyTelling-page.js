@@ -32,13 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 record: {
                     "{page}.events.onContextChangeRequested": "{that}.events.onVideoStop"
                 },
-                target: "{that videoBlockEditor}.options.listeners"
-            },
-            {
-                record: {
-                    "{page}.events.onContextChangeRequested": "{that}.events.onVideoStop"
-                },
-                target: "{that videoBlockViewer}.options.listeners"
+                target: "{that timeBased}.options.listeners"
             },
             {
                 record: {

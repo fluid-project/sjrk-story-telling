@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // an editing interface for individual video-type blocks
     // provides additional capabilities depending on whether the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.blockUi.editor"],
+        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.blockUi.editor", "sjrk.storyTelling.blockUi.timeBased"],
         contextAwareness: {
             technology: {
                 checks: {
@@ -25,39 +25,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            videoPreview: ".sjrkc-st-block-video-preview",
             videoUploadButton: ".sjrkc-st-block-video-upload-button",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
-        invokers: {
-            "updateVideoPreview": {
-                "funcName": "sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview",
-                "args": ["{that}.dom.videoPreview", "{arguments}.0"]
-            },
-            "stopVideo": {
-                "funcName": "sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo",
-                "args": ["{that}.dom.videoPreview"]
-            }
-        },
         events: {
-            onVideoUploadRequested: null,
-            onVideoStop: null
+            onVideoUploadRequested: null
         },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": [
-                {
-                    this: "{that}.dom.videoUploadButton",
-                    method: "click",
-                    args: ["{that}.events.onVideoUploadRequested.fire"],
-                    namespace: "bindOnVideoUploadRequested"
-                },
-                {
-                    func: "{blockUi}.updateVideoPreview",
-                    args: ["{that}.block.model.videoUrl"],
-                    namespace: "updateVideoPreview"
-                }
-            ],
-            "onVideoStop.stopVideo": "{that}.stopVideo"
+            "{templateManager}.events.onTemplateRendered": {
+                this: "{that}.dom.videoUploadButton",
+                method: "click",
+                args: ["{that}.events.onVideoUploadRequested.fire"],
+                namespace: "bindOnVideoUploadRequested"
+            }
         },
         components: {
             block: {
@@ -111,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{videoBlockEditor}.updateVideoPreview",
+                            func: "{timeBased}.updateVideoPreview",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
@@ -120,32 +100,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    /* Updates the HTML preview of a video associated with a given video block.
-     * If a video was playing in the editor, it will be stopped before loading.
-     * - "video": the jQueryable containing the HTML video element
-     * - "videoUrl": the URL of the video source file
-     */
-    sjrk.storyTelling.blockUi.editor.videoBlockEditor.updateVideoPreview = function (video, videoUrl) {
-        var videoMarkup = videoUrl ? "<source src=\"" + videoUrl + "\">\nThis is the video preview" : "";
-        video.html(videoMarkup);
-
-        if (videoUrl && video[0]) {
-            sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo(video);
-            video[0].load();
-        }
-    };
-
-    /* Pauses and rewinds a given video
-     * If a video was playing in the editor, it will be stopped before loading.
-     * - "video": the jQueryable containing the HTML video element
-     */
-    sjrk.storyTelling.blockUi.editor.videoBlockEditor.stopVideo = function (video) {
-        if (video[0]) {
-            video[0].pause();
-            video[0].currentTime = 0;
-        }
-    };
 
     // the extra interface elements to be added if the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor.hasMobileCamera", {
@@ -196,7 +150,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{videoBlockEditor}.updateVideoPreview",
+                            func: "{timeBased}.updateVideoPreview",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
