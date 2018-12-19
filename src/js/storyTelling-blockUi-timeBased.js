@@ -36,6 +36,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.block.model.mediaUrl"]
             },
             "onMediaPlayerStop.stopMediaPlayer": "{that}.stopMediaPlayer"
+        },
+        block: {
+            type: "sjrk.storyTelling.block.timeBased"
         }
     });
 
