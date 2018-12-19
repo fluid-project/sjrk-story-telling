@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.timeBased", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         selectors: {
-            mediaPlayerPreview: ".sjrkc-st-block-media-preview"
+            mediaPlayer: ".sjrkc-st-block-media-preview"
         },
         events: {
             onMediaPlayerStop: null
@@ -23,11 +23,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             "updateMediaPlayer": {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer",
-                "args": ["{that}.dom.mediaPlayerPreview", "{arguments}.0"]
+                "args": ["{that}.dom.mediaPlayer", "{arguments}.0"]
             },
             "stopMediaPlayer": {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer",
-                "args": ["{that}.dom.mediaPlayerPreview"]
+                "args": ["{that}.dom.mediaPlayer"]
             }
         },
         listeners: {
