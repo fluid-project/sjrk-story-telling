@@ -22,6 +22,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templatePath: "%resourcePrefix/src/templates/storyBlockVideoView.handlebars"
                     }
                 }
+            },
+            block: {
+                options: {
+                    model: {
+                        mediaUrl: "../video/shyguy_and_rootbeer.mp4"
+                    }
+                }
             }
         }
     });
@@ -34,8 +41,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test Image Block Editor",
                 expect: 1,
                 sequence: [{
-                    funcName: "jqUnit.assert",
-                    args: ["Empty test sequence"]
+                    event: "{timeBasedTest timeBased templateManager}.events.onTemplateRendered",
+                    listener: "jqUnit.assert",
+                    args: ["The template has been loaded and rendered"]
                 }]
             }]
         }]
