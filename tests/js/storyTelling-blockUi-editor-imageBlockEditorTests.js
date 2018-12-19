@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 (function ($, fluid) {
 
@@ -76,18 +76,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             }]
         }]
-    });
-
-    /* Returns true in order to force the hasMobileCamera grade to be merged in */
-    sjrk.storyTelling.blockUi.editor.imageBlockEditorTester.hasMobileCamera = function () {
-        return true;
-    };
-
-    /* Using the function defined above, overrides the camera capture checking */
-    fluid.contextAware.makeChecks({
-        "fluid.platform.hasMobileCamera": {
-            funcName: "sjrk.storyTelling.blockUi.editor.imageBlockEditorTester.hasMobileCamera"
-        }
     });
 
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditorTest", {

@@ -102,4 +102,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
     };
 
+    /* Returns true in order to force the hasMobileCamera grade to be merged in
+     * when it is applicable
+     */
+    sjrk.storyTelling.testUtils.forceMobileCamera = function () {
+        return true;
+    };
+
+    /* Using the function defined above, overrides the camera capture checking */
+    fluid.contextAware.makeChecks({
+        "fluid.platform.hasMobileCamera": {
+            funcName: "sjrk.storyTelling.testUtils.forceMobileCamera"
+        }
+    });
+
 })(jQuery, fluid);
