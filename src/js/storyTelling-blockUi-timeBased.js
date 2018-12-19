@@ -48,12 +48,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "mediaUrl": the URL of the media source file
      */
     sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
-        var mediaPlayerMarkup = mediaUrl ? "<source src=\"" + mediaUrl + "\">\nThis is the media player preview" : "";
-        mediaPlayer.html(mediaPlayerMarkup);
+        if (mediaPlayer) {
+            var mediaPlayerMarkup = mediaUrl ? "<source src=\"" + mediaUrl + "\">\nThis is the media player preview" : "";
+            mediaPlayer.html(mediaPlayerMarkup);
 
-        if (mediaUrl && mediaPlayer[0]) {
-            sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
-            mediaPlayer[0].load();
+            if (mediaUrl && mediaPlayer[0]) {
+                sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
+                mediaPlayer[0].load();
+            }
+        } else {
+            fluid.fail("The mediaPlayer is not valid");
         }
     };
 
