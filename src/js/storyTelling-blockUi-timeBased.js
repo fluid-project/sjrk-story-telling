@@ -18,12 +18,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             mediaPlayer: ".sjrkc-st-block-media-preview"
         },
         events: {
-            onMediaPlayerStop: null
+            onMediaPlayerStop: null,
+            onMediaLoaded: null
         },
         invokers: {
             "updateMediaPlayer": {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer",
-                "args": ["{that}.dom.mediaPlayer", "{arguments}.0"]
+                "args": ["{that}", "{that}.dom.mediaPlayer", "{arguments}.0"]
             },
             "stopMediaPlayer": {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer",
@@ -44,16 +45,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /* Updates the HTML preview of a media player associated with a given block.
      * If a media player was playing, it will be stopped before loading.
+     * - "component": the time-based block UI component
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      * - "mediaUrl": the URL of the media source file
      */
-    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
+    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (component, mediaPlayer, mediaUrl) {
         if (mediaPlayer) {
             var mediaPlayerMarkup = mediaUrl ? "<source src=\"" + mediaUrl + "\">\nThis is the media player preview" : "";
             mediaPlayer.html(mediaPlayerMarkup);
 
             if (mediaUrl && mediaPlayer[0]) {
                 sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
+
+                mediaPlayer[0].addEventListener("loadeddata", function () {
+                    component.events.onMediaLoaded.fire();
+                });
+
                 mediaPlayer[0].load();
             }
         } else {
