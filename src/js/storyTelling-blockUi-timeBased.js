@@ -34,16 +34,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": {
+            "{templateManager}.events.onTemplateRendered": [{
+                funcName: "sjrk.storyTelling.blockUi.timeBased.addEventListeners",
+                args: ["{that}", "{that}.dom.mediaPlayer"],
+                priority: "first"
+            },
+            {
                 func: "{that}.updateMediaPlayer",
                 args: ["{that}.block.model.mediaUrl"]
-            },
+            }],
             "onMediaPlayerStop.stopMediaPlayer": "{that}.stopMediaPlayer"
         },
         block: {
             type: "sjrk.storyTelling.block.timeBased"
         }
     });
+
+    /* Attaches infusion component events to native HTML audio/video events
+     * - "component": the time-based block UI component
+     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+     */
+    sjrk.storyTelling.blockUi.timeBased.addEventListeners = function (component, mediaPlayer) {
+        mediaPlayer[0].addEventListener("loadeddata", component.events.onMediaLoaded.fire());
+        mediaPlayer[0].addEventListener("play", component.events.onMediaPlay.fire());
+        mediaPlayer[0].addEventListener("ended", component.events.onMediaEnded.fire());
+    };
 
     /* Updates the HTML preview of a media player associated with a given block.
      * If a media player was playing, it will be stopped before loading.
@@ -57,23 +72,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             mediaPlayer.html(mediaPlayerMarkup);
 
             if (mediaUrl && mediaPlayer[0]) {
-                sjrk.storyTelling.blockUi.timeBased.addEventListeners(component, mediaPlayer[0]);
                 sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
                 mediaPlayer[0].load();
             }
         } else {
             fluid.fail("The mediaPlayer is not valid");
         }
-    };
-
-    /* Attaches infusion component events to native HTML audio/video events
-     * - "component": the time-based block UI component
-     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
-     */
-    sjrk.storyTelling.blockUi.timeBased.addEventListeners = function (component, element) {
-        element.addEventListener("loadeddata", component.events.onMediaLoaded.fire());
-        element.addEventListener("play", component.events.onMediaPlay.fire());
-        element.addEventListener("ended", component.events.onMediaEnded.fire());
     };
 
     /* Pauses and rewinds a given media player
