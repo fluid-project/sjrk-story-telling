@@ -19,7 +19,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onMediaPlayerStop: null,
-            onMediaLoaded: null
+            onMediaLoaded: null,
+            onMediaPlay: null,
+            onMediaEnded: null
         },
         invokers: {
             "updateMediaPlayer": {
@@ -55,17 +57,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             mediaPlayer.html(mediaPlayerMarkup);
 
             if (mediaUrl && mediaPlayer[0]) {
+                sjrk.storyTelling.blockUi.timeBased.addEventListeners(component, mediaPlayer[0]);
                 sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
-
-                mediaPlayer[0].addEventListener("loadeddata", function () {
-                    component.events.onMediaLoaded.fire();
-                });
-
                 mediaPlayer[0].load();
             }
         } else {
             fluid.fail("The mediaPlayer is not valid");
         }
+    };
+
+    /* Attaches infusion component events to native HTML audio/video events
+     * - "component": the time-based block UI component
+     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+     */
+    sjrk.storyTelling.blockUi.timeBased.addEventListeners = function (component, element) {
+        element.addEventListener("loadeddata", component.events.onMediaLoaded.fire());
+        element.addEventListener("play", component.events.onMediaPlay.fire());
+        element.addEventListener("ended", component.events.onMediaEnded.fire());
     };
 
     /* Pauses and rewinds a given media player
