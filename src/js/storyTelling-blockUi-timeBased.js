@@ -20,6 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onMediaPlayerStop: null,
             onMediaReady: null,
+            onMediaDurationChange: null,
             onMediaPlay: null,
             onMediaEnded: null
         },
@@ -60,6 +61,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.blockUi.timeBased.addEventListeners = function (component, mediaPlayer) {
         mediaPlayer[0].addEventListener("canplay", component.events.onMediaReady.fire());
+        mediaPlayer[0].addEventListener("durationchange", component.events.onMediaDurationChange.fire());
         mediaPlayer[0].addEventListener("play", component.events.onMediaPlay.fire());
         mediaPlayer[0].addEventListener("ended", component.events.onMediaEnded.fire());
     };
