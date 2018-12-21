@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onMediaPlayerStop: null,
-            onMediaLoaded: null,
+            onMediaReady: null,
             onMediaPlay: null,
             onMediaEnded: null
         },
@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
     sjrk.storyTelling.blockUi.timeBased.addEventListeners = function (component, mediaPlayer) {
-        mediaPlayer[0].addEventListener("loadeddata", component.events.onMediaLoaded.fire());
+        mediaPlayer[0].addEventListener("canplay", component.events.onMediaReady.fire());
         mediaPlayer[0].addEventListener("play", component.events.onMediaPlay.fire());
         mediaPlayer[0].addEventListener("ended", component.events.onMediaEnded.fire());
     };
