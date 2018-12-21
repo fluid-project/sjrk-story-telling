@@ -68,7 +68,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.mediaPlayer.0",
                 method: "pause"
             },
-            "onMediaPlayerStop.resetTime": {
+            "onMediaPlayerStop.resetMediaPlayerTime": {
                 funcName: "sjrk.storyTelling.blockUi.timeBased.resetMediaPlayerTime",
                 args: ["{that}.dom.mediaPlayer.0"],
                 priority: "after:pauseMediaPlayer"
@@ -79,21 +79,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // /* Attaches infusion component events to HTML audio/video events
-    //  * - "component": the time-based block UI component
-    //  * - "mediaPlayer": the jQueryable containing the HTML video or audio element
-    //  */
-    // sjrk.storyTelling.blockUi.timeBased.mediaReadinessListener = function (component, mediaPlayer) {
-    //     // It is possible that the media has loaded before these handlers can be attached
-    //     // therefore we check the current state of the player. If it's ready the event fires.
-    //     if (mediaPlayer[0].readyState > 3) { // 3 === HAVE_CURRENT_DATA value
-    //         component.events.onMediaReady.fire();
-    //     }
-    // };
-
     /* Updates the HTML preview of a media player associated with a given block.
      * If a media player was playing, it will be stopped before loading.
-     * - "component": the time-based block UI component
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      * - "mediaUrl": the URL of the media source file
      */
@@ -111,8 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mediaPlayer[0].load();
     };
 
-    /* Pauses and rewinds a given media player
-     * If a media player was playing, it will be stopped before loading.
+    /* Rewinds a given media player to the beginning
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
     sjrk.storyTelling.blockUi.timeBased.resetMediaPlayerTime = function (mediaPlayer) {
