@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Attaches infusion component events to native HTML audio/video events
+    /* Attaches infusion component events to HTML audio/video events
      * - "component": the time-based block UI component
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
@@ -64,6 +64,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mediaPlayer[0].addEventListener("durationchange", component.events.onMediaDurationChange.fire());
         mediaPlayer[0].addEventListener("play", component.events.onMediaPlay.fire());
         mediaPlayer[0].addEventListener("ended", component.events.onMediaEnded.fire());
+
+        // It is possible that the media has loaded before these handlers can be attached
+        // therefore we check the current state of the player. If it's ready the event fires.
+        if (mediaPlayer[0].readyState > 3) { // 3 === HAVE_CURRENT_DATA value
+            component.events.onMediaReady.fire();
+        }
     };
 
     /* Updates the HTML preview of a media player associated with a given block.
