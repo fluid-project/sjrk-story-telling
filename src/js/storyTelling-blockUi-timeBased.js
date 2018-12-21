@@ -95,8 +95,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    /* Plays a given media player, though this is currently not working as it
-     * does not conform with requirements laid out here: https://goo.gl/xX8pDD
+    /* Plays a given media player, though this will not work properly unless
+     * triggered by user action, in accordance with the requirements laid out,
+     * in the case of Chrome, here: https://goo.gl/xX8pDD
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
     sjrk.storyTelling.blockUi.timeBased.playMediaPlayer = function (mediaPlayer) {
