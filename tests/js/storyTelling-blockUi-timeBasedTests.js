@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 (function ($, fluid) {
 
@@ -43,29 +43,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 sequence: [{
                     event: "{timeBasedTest timeBased}.events.onMediaReady",
                     listener: "jqUnit.assert",
-                //},
                     args: ["Media player has been loaded and is ready to play"]
+                // },
                 // Autoplay is now disabled in most browsers, so testing the play
                 // invoker is not feasible at the time of writing (2018-12-20)
                 // {
                 //     func: "{timeBased}.playMediaPlayer"
                 // },
                 // {
-                //     event: "{timeBasedTest timeBased}.events.onMediaPlay",
+                //     event: "{timeBased}.events.onMediaPlay",
                 //     listener: "jqUnit.assert",
-                //     args: ["Media player played successfully"]
-                // },
-                // {
-                //     funcName: "fluid.identity"
-                // },
-                // {
-                //     event: "{timeBasedTest timeBased}.events.onMediaEnded",
-                //     listener: "jqUnit.assert",
-                //     args: ["Media player playback ended"]
+                //     args: ["Media player playback started successfully"]
                 }]
             }]
         }]
     });
+
+    sjrk.storyTelling.blockUi.timeBasedTester.advanceMediaPlayerTime = function (mediaPlayer) {
+        if (mediaPlayer[0]) {
+            mediaPlayer[0].currentTime = mediaPlayer[0].duration;
+        }
+    };
 
     fluid.defaults("sjrk.storyTelling.blockUi.timeBasedTest", {
         gradeNames: ["fluid.test.testEnvironment"],
