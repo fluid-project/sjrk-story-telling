@@ -38,12 +38,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modules: [{
             name: "Test Time Based Block UI.",
             tests: [{
-                name: "Test Image Block Editor",
+                name: "Test Time Based Block UI (video)",
                 expect: 1,
                 sequence: [{
-                    event: "{timeBasedTest timeBased templateManager}.events.onTemplateRendered",
+                    event: "{timeBasedTest timeBased}.events.onMediaLoaded",
                     listener: "jqUnit.assert",
-                    args: ["The template has been loaded and rendered"]
+                    args: ["Media player has been loaded"]
+                //},
+                // Autoplay is now disabled in most browsers, so testing the play
+                // invoker is not feasible at the time of writing (2018-12-20)
+                // {
+                //     func: "{timeBased}.playMediaPlayer"
+                // },
+                // {
+                //     event: "{timeBasedTest timeBased}.events.onMediaPlay",
+                //     listener: "jqUnit.assert",
+                //     args: ["Media player played successfully"]
+                // },
+                // {
+                //     funcName: "fluid.identity"
+                // },
+                // {
+                //     event: "{timeBasedTest timeBased}.events.onMediaEnded",
+                //     listener: "jqUnit.assert",
+                //     args: ["Media player playback ended"]
                 }]
             }]
         }]

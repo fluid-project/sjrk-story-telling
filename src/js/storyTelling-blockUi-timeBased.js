@@ -31,6 +31,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "stopMediaPlayer": {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer",
                 "args": ["{that}.dom.mediaPlayer"]
+            },
+            "playMediaPlayer": {
+                "funcName": "sjrk.storyTelling.blockUi.timeBased.playMediaPlayer",
+                "args": ["{that}.dom.mediaPlayer"]
             }
         },
         listeners: {
@@ -88,6 +92,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         if (mediaPlayer[0]) {
             mediaPlayer[0].pause();
             mediaPlayer[0].currentTime = 0;
+        }
+    };
+
+    /* Plays a given media player, though this is currently not working as it
+     * does not conform with requirements laid out here: https://goo.gl/xX8pDD
+     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+     */
+    sjrk.storyTelling.blockUi.timeBased.playMediaPlayer = function (mediaPlayer) {
+        var promise = mediaPlayer[0].play();
+
+        if (promise) {
+            promise.then(function () {
+                console.log("playing!");
+            }, function (error) {
+                console.log("error:", error, "message:", error.message);
+            });
         }
     };
 
