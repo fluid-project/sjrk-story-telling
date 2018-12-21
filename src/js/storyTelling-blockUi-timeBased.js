@@ -18,6 +18,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             mediaPlayer: ".sjrkc-st-block-media-preview"
         },
         events: {
+            onTemplateReady: "{that}.templateManager.events.onTemplateRendered",
             onMediaPlayerStop: null,
             onMediaReady: null,
             onMediaDurationChange: null,
@@ -25,52 +26,70 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onMediaEnded: null
         },
         invokers: {
-            "updateMediaPlayer": {
+            updateMediaPlayer: {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer",
-                "args": ["{that}", "{that}.dom.mediaPlayer", "{arguments}.0"]
+                "args": ["{that}.dom.mediaPlayer", "{arguments}.0"]
             },
-            "stopMediaPlayer": {
-                "funcName": "sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer",
-                "args": ["{that}.dom.mediaPlayer"]
+            stopMediaPlayer: {
+                func: "{that}.events.onMediaPlayerStop.fire",
+                args: ["{that}"]
             },
-            "playMediaPlayer": {
+            playMediaPlayer: {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.playMediaPlayer",
                 "args": ["{that}.dom.mediaPlayer"]
             }
         },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": [{
-                funcName: "sjrk.storyTelling.blockUi.timeBased.addEventListeners",
-                args: ["{that}", "{that}.dom.mediaPlayer"],
-                priority: "first"
-            },
-            {
+            "onTemplateReady.updateMediaPlayerUrl": {
                 func: "{that}.updateMediaPlayer",
                 args: ["{that}.block.model.mediaUrl"]
-            }],
-            "onMediaPlayerStop.stopMediaPlayer": "{that}.stopMediaPlayer"
+            },
+            "onTemplateReady.bindOnMediaReady": {
+                "this": "{that}.dom.mediaPlayer.0",
+                method: "addEventListener",
+                args: ["canplay", "{that}.events.onMediaReady.fire"]
+            },
+            "onTemplateReady.bindOnMediaDurationChange": {
+                "this": "{that}.dom.mediaPlayer.0",
+                method: "addEventListener",
+                args: ["durationchange", "{that}.events.onMediaDurationChange.fire"]
+            },
+            "onTemplateReady.bindOnMediaEnded": {
+                "this": "{that}.dom.mediaPlayer.0",
+                method: "addEventListener",
+                args: ["ended", "{that}.events.onMediaEnded.fire"]
+            },
+            "onTemplateReady.bindOnMediaPlay": {
+                "this": "{that}.dom.mediaPlayer.0",
+                method: "addEventListener",
+                args: ["play", "{that}.events.onMediaPlay.fire"]
+            },
+            "onMediaPlayerStop.pauseMediaPlayer": {
+                "this": "{that}.dom.mediaPlayer.0",
+                method: "pause"
+            },
+            "onMediaPlayerStop.resetTime": {
+                funcName: "sjrk.storyTelling.blockUi.timeBased.resetMediaPlayerTime",
+                args: ["{that}.dom.mediaPlayer.0"],
+                priority: "after:pauseMediaPlayer"
+            }
         },
         block: {
             type: "sjrk.storyTelling.block.timeBased"
         }
     });
 
-    /* Attaches infusion component events to HTML audio/video events
-     * - "component": the time-based block UI component
-     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
-     */
-    sjrk.storyTelling.blockUi.timeBased.addEventListeners = function (component, mediaPlayer) {
-        mediaPlayer[0].addEventListener("canplay", component.events.onMediaReady.fire());
-        mediaPlayer[0].addEventListener("durationchange", component.events.onMediaDurationChange.fire());
-        mediaPlayer[0].addEventListener("play", component.events.onMediaPlay.fire());
-        mediaPlayer[0].addEventListener("ended", component.events.onMediaEnded.fire());
-
-        // It is possible that the media has loaded before these handlers can be attached
-        // therefore we check the current state of the player. If it's ready the event fires.
-        if (mediaPlayer[0].readyState > 3) { // 3 === HAVE_CURRENT_DATA value
-            component.events.onMediaReady.fire();
-        }
-    };
+    // /* Attaches infusion component events to HTML audio/video events
+    //  * - "component": the time-based block UI component
+    //  * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+    //  */
+    // sjrk.storyTelling.blockUi.timeBased.mediaReadinessListener = function (component, mediaPlayer) {
+    //     // It is possible that the media has loaded before these handlers can be attached
+    //     // therefore we check the current state of the player. If it's ready the event fires.
+    //     if (mediaPlayer[0].readyState > 3) { // 3 === HAVE_CURRENT_DATA value
+    //         component.events.onMediaReady.fire();
+    //     }
+    // };
 
     /* Updates the HTML preview of a media player associated with a given block.
      * If a media player was playing, it will be stopped before loading.
@@ -78,29 +97,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      * - "mediaUrl": the URL of the media source file
      */
-    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (component, mediaPlayer, mediaUrl) {
-        if (mediaPlayer) {
-            var mediaPlayerMarkup = mediaUrl ? "<source src=\"" + mediaUrl + "\">\nThis is the media player preview" : "";
-            mediaPlayer.html(mediaPlayerMarkup);
-
-            if (mediaUrl && mediaPlayer[0]) {
-                sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer(mediaPlayer);
-                mediaPlayer[0].load();
-            }
-        } else {
-            fluid.fail("The mediaPlayer is not valid");
+    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
+        // TODO: This should be refactored. Probably we should have a selector registered
+        // for the source element of the mediaPlayer.
+        // Alternatively, we could go with something simpler based on directly using the
+        // src attribute of the video element.
+        var source = mediaPlayer.find("source");
+        if (source.length < 1) {
+            source = $("<source></source>").appendTo(mediaPlayer);
         }
+
+        source.attr("src", mediaUrl);
+        mediaPlayer[0].load();
     };
 
     /* Pauses and rewinds a given media player
      * If a media player was playing, it will be stopped before loading.
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
-    sjrk.storyTelling.blockUi.timeBased.stopMediaPlayer = function (mediaPlayer) {
-        if (mediaPlayer[0]) {
-            mediaPlayer[0].pause();
-            mediaPlayer[0].currentTime = 0;
-        }
+    sjrk.storyTelling.blockUi.timeBased.resetMediaPlayerTime = function (mediaPlayer) {
+        mediaPlayer.currentTime = 0;
     };
 
     /* Plays a given media player, though this will not work properly unless
