@@ -105,19 +105,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mediaPlayer.currentTime = 0;
     };
 
-    /* Plays a given media player, though this will not work properly unless
-     * triggered by user action, in accordance with the requirements laid out,
-     * in the case of Chrome, here: https://goo.gl/xX8pDD
+    /* Plays a given media player, though it must first mute the video to satisfy
+     * autoplay restrictions in several browsers. In the case of Chrome, please
+     * refer to this article: https://goo.gl/xX8pDD
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
      */
     sjrk.storyTelling.blockUi.timeBased.playMediaPlayer = function (mediaPlayer) {
-        var promise = mediaPlayer[0].play();
+        mediaPlayer.prop("muted", true);
 
+        var promise = mediaPlayer[0].play();
         if (promise) {
             promise.then(function () {
-                console.log("playing!");
+                fluid.log("Video playback triggered");
             }, function (error) {
-                console.log("error:", error, "message:", error.message);
+                console.error("Error:", error, "message:", error.message);
             });
         }
     };

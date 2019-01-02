@@ -39,21 +39,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Time Based Block UI.",
             tests: [{
                 name: "Test Time Based Block UI (video)",
-                expect: 1,
+                expect: 2,
                 sequence: [{
                     event: "{timeBasedTest timeBased}.events.onMediaReady",
                     listener: "jqUnit.assert",
                     args: ["Media player has been loaded and is ready to play"]
-                // },
-                // Autoplay is now disabled in most browsers, so testing the play
-                // invoker is not feasible at the time of writing (2018-12-20)
-                // {
-                //     func: "{timeBased}.playMediaPlayer"
-                // },
-                // {
-                //     event: "{timeBased}.events.onMediaPlay",
-                //     listener: "jqUnit.assert",
-                //     args: ["Media player playback started successfully"]
+                },
+                {
+                    func: "{timeBased}.playMediaPlayer"
+                },
+                {
+                    event: "{timeBased}.events.onMediaPlay",
+                    listener: "jqUnit.assert",
+                    args: ["Media player playback started successfully"]
                 }]
             }]
         }]
