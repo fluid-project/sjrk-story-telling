@@ -39,7 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Time Based Block UI.",
             tests: [{
                 name: "Test Time Based Block UI (video)",
-                expect: 3,
+                expect: 4,
                 sequence: [{
                     event: "{timeBasedTest timeBased}.events.onMediaReady",
                     listener: "jqUnit.assert",
@@ -60,6 +60,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{timeBased}.events.onMediaEnded",
                     listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
                     args: ["{timeBased}.dom.mediaPlayer", "{timeBased}.dom.mediaPlayer.0.duration"]
+                },
+                {
+                    func: "{timeBased}.stopMediaPlayer"
+                },
+                {
+                    event: "{timeBased}.events.onMediaPlayerStop",
+                    listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
+                    args: ["{timeBased}.dom.mediaPlayer", 0]
                 }]
             }]
         }]
