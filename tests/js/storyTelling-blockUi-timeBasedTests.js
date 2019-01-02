@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid, sjrk, jqUnit */
 
 (function ($, fluid) {
 
@@ -39,7 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Time Based Block UI.",
             tests: [{
                 name: "Test Time Based Block UI (video)",
-                expect: 2,
+                expect: 3,
                 sequence: [{
                     event: "{timeBasedTest timeBased}.events.onMediaReady",
                     listener: "jqUnit.assert",
@@ -52,15 +52,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{timeBased}.events.onMediaPlay",
                     listener: "jqUnit.assert",
                     args: ["Media player playback started successfully"]
+                },
+                {
+                    func: "fluid.identity"
+                },
+                {
+                    event: "{timeBased}.events.onMediaEnded",
+                    listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
+                    args: ["{timeBased}.dom.mediaPlayer", "{timeBased}.dom.mediaPlayer.0.duration"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.blockUi.timeBasedTester.advanceMediaPlayerTime = function (mediaPlayer) {
-        if (mediaPlayer[0]) {
-            mediaPlayer[0].currentTime = mediaPlayer[0].duration;
-        }
+    sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime = function (mediaPlayer, expectedCurrentTime) {
+        var actualCurrentTime = mediaPlayer[0].currentTime;
+        jqUnit.assertEquals("The current time of the media player is as expected", expectedCurrentTime, actualCurrentTime);
     };
 
     fluid.defaults("sjrk.storyTelling.blockUi.timeBasedTest", {
