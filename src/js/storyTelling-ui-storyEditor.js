@@ -21,23 +21,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditorPrevious: ".sjrkc-st-story-editor-previous",
             storyEditorPage1: ".sjrkc-st-story-editor-page1",
             storyEditorPage2: ".sjrkc-st-story-editor-page2",
-            storyAddTextBlock: ".sjrkc-st-button-text-block",
+            storyAddAudioBlock: ".sjrkc-st-button-audio-block",
             storyAddImageBlock: ".sjrkc-st-button-image-block",
+            storyAddTextBlock: ".sjrkc-st-button-text-block",
             storyAddVideoBlock: ".sjrkc-st-button-video-block",
             storyRemoveSelectedBlocks: ".sjrkc-st-button-remove-blocks",
             storyRestoreRemovedBlocks: ".sjrkc-st-button-restore-blocks"
         },
         blockTypeLookup: {
-            "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
+            "audio": "sjrk.storyTelling.blockUi.editor.audioBlockEditor",
             "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor",
+            "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
             "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
         },
         events: {
             onStorySubmitRequested: null,
             onEditorNextRequested: null,
             onEditorPreviousRequested: null,
-            onTextBlockAdditionRequested: null,
+            onAudioBlockAdditionRequested: null,
             onImageBlockAdditionRequested: null,
+            onTextBlockAdditionRequested: null,
             onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
@@ -54,15 +57,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         listeners: {
-            "onReadyToBind.bindAddTextBlock": {
-                "this": "{that}.dom.storyAddTextBlock",
+            "onReadyToBind.bindAddAudioBlock": {
+                "this": "{that}.dom.storyAddAudioBlock",
                 "method": "click",
-                "args": ["{that}.events.onTextBlockAdditionRequested.fire"]
+                "args": ["{that}.events.onAudioBlockAdditionRequested.fire"]
             },
             "onReadyToBind.bindAddImageBlock": {
                 "this": "{that}.dom.storyAddImageBlock",
                 "method": "click",
                 "args": ["{that}.events.onImageBlockAdditionRequested.fire"]
+            },
+            "onReadyToBind.bindAddTextBlock": {
+                "this": "{that}.dom.storyAddTextBlock",
+                "method": "click",
+                "args": ["{that}.events.onTextBlockAdditionRequested.fire"]
             },
             "onReadyToBind.bindAddVideoBlock": {
                 "this": "{that}.dom.storyAddVideoBlock",
@@ -144,15 +152,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{storyEditor}.events.onBlockManagerCreated.fire",
                             priority: "last"
                         },
-                        "{storyEditor}.events.onTextBlockAdditionRequested": {
+                        "{storyEditor}.events.onAudioBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
-                            namespace: "addTextBlock",
-                            args: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                            namespace: "addAudioBlock",
+                            args: ["sjrk.storyTelling.blockUi.editor.audioBlockEditor"]
                         },
                         "{storyEditor}.events.onImageBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
+                        },
+                        "{storyEditor}.events.onTextBlockAdditionRequested": {
+                            func: "{that}.events.viewComponentContainerRequested",
+                            namespace: "addTextBlock",
+                            args: ["sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                         },
                         "{storyEditor}.events.onVideoBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
