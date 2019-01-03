@@ -59,12 +59,44 @@
         </style>
     </head>
     <body id="body">
-        <h1 id="qunit-header">Video Block Editor - Tests</h1>
-        <h2 id="qunit-banner"></h2>
-        <div id="qunit-testrunner-toolbar"></div>
-        <h2 id="qunit-userAgent"></h2>
-        <ol id="qunit-tests"></ol>
+        <h1>Video Block Editor - Manual Tests</h1>
+        <h2>Instructions</h2>
+        <ol>
+            <li>
+                Upload an video file with the Upload Video button
+            </li>
+            <li>
+                Confirm the preview appears
+            </li>
+            <li>
+                Confirm the preview plays properly
+            </li>
+            <li>
+                Upload a different video file with the Upload Video button
+            </li>
+            <li>
+                Confirm the preview updates
+            </li>
+            <li>
+                Confirm the preview plays properly
+            </li>
+            <li>
+                Click the Upload Video button
+            </li>
+            <li>
+                Cancel out of the file choice dialog
+            </li>
+            <li>
+                Confirm the preview disappears
+            </li>
+        </ol>
+        <div id="testVideoBlockEditorManual"></div>
 
-        <div id="testVideoBlockEditor"></div>
+        <script>
+        $(document).ready(function () {
+            sjrk.storyTelling.blockUi.editor.testVideoBlockEditor("#testVideoBlockEditorManual");
+        });
+        </script>
+
     </body>
 </html>
