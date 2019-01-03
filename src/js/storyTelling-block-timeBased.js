@@ -11,20 +11,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // the data model of an image-type block
-    fluid.defaults("sjrk.storyTelling.block.imageBlock", {
+    // mixin grade providing model endpoints for time-based media
+    fluid.defaults("sjrk.storyTelling.block.timeBased", {
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
-            blockType: "image",
-            imageUrl: null,
+            mediaUrl: null,
             alternativeText: null,
+            transcript: null,
             description: null
         },
         modelRelay: {
             target: "contentString",
             singleTransform: {
                 type: "sjrk.storyTelling.transforms.arrayToString",
-                input: ["{that}.model.heading", "{that}.model.alternativeText", "{that}.model.description"],
+                input: ["{that}.model.heading", "{that}.model.alternativeText", "{that}.model.description", "{that}.model.transcript"],
                 separator: ". ",
                 stringOnly: true
             }

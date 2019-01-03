@@ -23,12 +23,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditorPage2: ".sjrkc-st-story-editor-page2",
             storyAddTextBlock: ".sjrkc-st-button-text-block",
             storyAddImageBlock: ".sjrkc-st-button-image-block",
+            storyAddVideoBlock: ".sjrkc-st-button-video-block",
             storyRemoveSelectedBlocks: ".sjrkc-st-button-remove-blocks",
             storyRestoreRemovedBlocks: ".sjrkc-st-button-restore-blocks"
         },
         blockTypeLookup: {
             "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
-            "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor"
+            "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor",
+            "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
         },
         events: {
             onStorySubmitRequested: null,
@@ -36,6 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onEditorPreviousRequested: null,
             onTextBlockAdditionRequested: null,
             onImageBlockAdditionRequested: null,
+            onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
             onRestoreBlocksRequested: null,
@@ -60,6 +63,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.storyAddImageBlock",
                 "method": "click",
                 "args": ["{that}.events.onImageBlockAdditionRequested.fire"]
+            },
+            "onReadyToBind.bindAddVideoBlock": {
+                "this": "{that}.dom.storyAddVideoBlock",
+                "method": "click",
+                "args": ["{that}.events.onVideoBlockAdditionRequested.fire"]
             },
             "onReadyToBind.bindRemoveSelectedBlocks": {
                 "this": "{that}.dom.storyRemoveSelectedBlocks",
@@ -145,6 +153,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addImageBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.imageBlockEditor"]
+                        },
+                        "{storyEditor}.events.onVideoBlockAdditionRequested": {
+                            func: "{that}.events.viewComponentContainerRequested",
+                            namespace: "addVideoBlock",
+                            args: ["sjrk.storyTelling.blockUi.editor.videoBlockEditor"]
                         },
                         "{storyEditor}.events.onUpdateStoryFromBlocksRequested": {
                             funcName: "sjrk.storyTelling.ui.updateStoryFromBlocks",

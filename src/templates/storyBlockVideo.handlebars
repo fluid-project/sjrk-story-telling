@@ -1,0 +1,72 @@
+<div lang="{{localizedMessages.language}}" class="sjrk-st-block">
+    <!-- repeated markup start -->
+    {{#getIds "storySelectionCheckbox"}}
+        <div class="sjrk-st-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
+        </div>
+        <div class="sjrk-st-block-selection-checkbox-container">
+            <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
+        </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-st-block-alternative-content">
+            <div class="sjrk-st-label-container fl-hidden-accessible">
+                <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            </div>
+        </div>
+    {{/getIds}}
+    <!-- repeated markup end -->
+
+    <div class="sjrk-st-block-video-preview-container">
+        <video class="sjrk-st-block-video-preview sjrkc-st-block-media-preview" controls></video>
+    </div>
+    <form>
+        <div class="sjrk-st-block-video-buttons-container">
+            <button type="button" class="sjrkc-st-block-video-upload-button sjrk-st-block-video-upload-button">{{localizedMessages.message_videoUploadButton}}</button>
+            {{#if dynamicValues.hasMobileCamera}}
+                <button type="button" class="sjrkc-st-block-video-capture-button sjrk-st-block-video-capture-button">{{localizedMessages.message_videoCaptureButton}}</button>
+            {{/if}}
+        </div>
+
+        <div class="sjrk-st-block-video-description-container">
+            {{#getIds "storyBlockVideoDescription"}}
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_videoDescriptionInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-st-block-video-description sjrk-st-block-video-description" placeholder="{{../localizedMessages.message_videoDescriptionInputPlaceholder}}"></textarea>
+            {{/getIds}}
+        </div>
+        <div class="sjrk-st-block-video-alt-text-container">
+            {{#getIds "storyBlockVideoAltText"}}
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_videoAltTextInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-st-block-video-alt-text sjrk-st-block-video-alt-text" placeholder="{{../localizedMessages.message_videoAltTextInputPlaceholder}}"></textarea>
+            {{/getIds}}
+        </div>
+        <div class="sjrk-st-block-video-transcript-container">
+            {{#getIds "storyBlockVideoTranscript"}}
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_videoTranscriptInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-st-block-video-transcript sjrk-st-block-video-transcript" placeholder="{{../localizedMessages.message_videoTranscriptInputPlaceholder}}"></textarea>
+            {{/getIds}}
+        </div>
+
+        <!-- Container for the uploader -->
+        <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
+            <input name="file" type="file" accept="video/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
+        </div>
+        {{#if dynamicValues.hasMobileCamera}}
+            <!-- Container for the camera capture -->
+            <div class="sjrkc-st-block-camera-capture-container sjrk-st-block-camera-capture-container">
+                <input name="file" type="file" accept="video/*" capture="camera" class="sjrkc-st-block-camera-capture-input sjrk-st-block-camera-capture-input" />
+            </div>
+        {{/if}}
+
+    </form>
+</div>

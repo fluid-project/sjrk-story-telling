@@ -11,55 +11,40 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // an editing interface for individual image-type blocks
+    // an editing interface for individual video-type blocks
     // provides additional capabilities depending on whether the device has a camera
-    fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.blockUi.editor"],
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor", {
+        gradeNames: ["sjrk.storyTelling.mobileCameraAware", "sjrk.storyTelling.blockUi.editor", "sjrk.storyTelling.blockUi.timeBased"],
         contextAwareness: {
             technology: {
                 checks: {
                     mobileCamera: {
-                        gradeNames: "sjrk.storyTelling.blockUi.editor.imageBlockEditor.hasMobileCamera"
+                        gradeNames: "sjrk.storyTelling.blockUi.editor.videoBlockEditor.hasMobileCamera"
                     }
                 }
             }
         },
         selectors: {
-            imagePreview: ".sjrkc-st-block-image-preview",
-            imageUploadButton: ".sjrkc-st-block-image-upload-button",
+            videoUploadButton: ".sjrkc-st-block-video-upload-button",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
-        invokers: {
-            "updateImagePreview": {
-                "this": "{that}.dom.imagePreview",
-                "method": "attr",
-                "args": ["src", "{arguments}.0"]
-            }
-        },
         events: {
-            onImageUploadRequested: null
+            onVideoUploadRequested: null
         },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": [
-                {
-                    this: "{that}.dom.imageUploadButton",
-                    method: "click",
-                    args: ["{that}.events.onImageUploadRequested.fire"],
-                    namespace: "bindOnImageUploadRequested"
-                },
-                {
-                    func: "{blockUi}.updateImagePreview",
-                    args: ["{that}.block.model.imageUrl"],
-                    namespace: "updateImagePreview"
-                }
-            ]
+            "{templateManager}.events.onTemplateRendered": {
+                this: "{that}.dom.videoUploadButton",
+                method: "click",
+                args: ["{that}.events.onVideoUploadRequested.fire"],
+                namespace: "bindOnVideoUploadRequested"
+            }
         },
         components: {
             block: {
-                type: "sjrk.storyTelling.block.imageBlock",
+                type: "sjrk.storyTelling.block.videoBlock",
                 options: {
                     model: {
-                        // imageURL: relayed from uploader
+                        // mediaUrl: relayed from uploader
                         // fileDetails: relayed from uploader
                     }
                 }
@@ -67,44 +52,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockVideo.handlebars"
                     }
                 }
             },
             binder: {
                 options: {
                     selectors: {
-                        imageAltText: ".sjrkc-st-block-image-alt-text",
-                        imageDescription: ".sjrkc-st-block-image-description"
+                        videoAltText: ".sjrkc-st-block-video-alt-text",
+                        videoDescription: ".sjrkc-st-block-video-description",
+                        videoTranscript: ".sjrkc-st-block-video-transcript"
                     },
                     bindings: {
-                        imageAltText: "alternativeText",
-                        imageDescription: "description"
+                        videoAltText: "alternativeText",
+                        videoDescription: "description",
+                        videoTranscript: "transcript"
                     }
                 }
             },
-            // handles previewing and uploading a single image for storage
+            // handles previewing and uploading a single video for storage
             singleFileUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{imageBlockEditor}.dom.singleFileUploader",
+                container: "{videoBlockEditor}.dom.singleFileUploader",
                 options: {
                     selectors: {
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{block}.model.imageUrl",
+                        fileObjectURL: "{block}.model.mediaUrl",
                         fileDetails: "{block}.model.fileDetails"
                     },
                     listeners: {
-                        "{imageBlockEditor}.events.onImageUploadRequested": {
+                        "{videoBlockEditor}.events.onVideoUploadRequested": {
                             func: "{that}.events.onUploadRequested.fire",
-                            namespace: "fireUploadForImageUpload"
+                            namespace: "fireUploadForVideoUpload"
                         }
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{imageBlockEditor}.updateImagePreview",
+                            func: "{videoBlockEditor}.updateMediaPlayer",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
@@ -115,20 +102,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     // the extra interface elements to be added if the device has a camera
-    fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor.hasMobileCamera", {
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor.hasMobileCamera", {
         selectors: {
-            imageCaptureButton: ".sjrkc-st-block-image-capture-button",
+            videoCaptureButton: ".sjrkc-st-block-video-capture-button",
             cameraCaptureUploader: ".sjrkc-st-block-camera-capture-input"
         },
         events: {
-            imageCaptureRequested: null
+            videoCaptureRequested: null
         },
         listeners: {
             "{templateManager}.events.onTemplateRendered": {
-                this: "{that}.dom.imageCaptureButton",
+                this: "{that}.dom.videoCaptureButton",
                 method: "click",
-                args: ["{that}.events.imageCaptureRequested.fire"],
-                namespace: "bindImageCaptureRequested"
+                args: ["{that}.events.videoCaptureRequested.fire"],
+                namespace: "bindVideoCaptureRequested"
             }
         },
         components: {
@@ -142,7 +129,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            // captures an image from the device, previews it and uploads it
+            // captures an video from the device, previews it and uploads it
             cameraCaptureUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
@@ -152,18 +139,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{imageBlock}.model.imageUrl",
-                        fileDetails: "{imageBlock}.model.fileDetails"
+                        fileObjectURL: "{videoBlock}.model.mediaUrl",
+                        fileDetails: "{videoBlock}.model.fileDetails"
                     },
                     listeners: {
-                        "{hasMobileCamera}.events.imageCaptureRequested": {
+                        "{hasMobileCamera}.events.videoCaptureRequested": {
                             func: "{that}.events.onUploadRequested.fire",
-                            namespace: "fireUploadForImageCapture"
+                            namespace: "fireUploadForVideoCapture"
                         }
                     },
                     modelListeners: {
                         "fileObjectURL": {
-                            func: "{imageBlockEditor}.updateImagePreview",
+                            func: "{videoBlockEditor}.updateMediaPlayer",
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }

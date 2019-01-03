@@ -1,8 +1,9 @@
 {
     "language": "en",
     "message_readStoryText": "%title, by %author. Keywords: %keywordString. %contentString",
-    "message_blockAddTextBlock": "Add a text block",
     "message_blockAddImageBlock": "Add an image block",
+    "message_blockAddTextBlock": "Add a text block",
+    "message_blockAddVideoBlock": "Add a video block",
     "message_blockRemoveBlocks": "Remove selected blocks",
     "message_blockRestoreBlocks": "Restore last removed blocks",
     "message_listenToText": "Listen to my story",
@@ -36,8 +37,9 @@
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
     "contentTypes": {
+        "image": "image",
         "text": "text",
-        "image": "image"
+        "video": "video"
     },
     "availableLanguages": {
         "fa": "Farsi",
