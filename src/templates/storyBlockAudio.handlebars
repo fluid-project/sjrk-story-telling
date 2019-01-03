@@ -1,0 +1,66 @@
+-<div lang="{{localizedMessages.language}}" class="sjrk-st-block">
+    <!-- repeated markup start -->
+    {{#getIds "storySelectionCheckbox"}}
+        <div class="sjrk-st-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
+        </div>
+        <div class="sjrk-st-block-selection-checkbox-container">
+            <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
+        </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-st-block-alternative-content">
+            <div class="sjrk-st-label-container fl-hidden-accessible">
+                <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+            </div>
+            <div>
+                <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            </div>
+        </div>
+    {{/getIds}}
+    <!-- repeated markup end -->
+
+    <div class="sjrk-st-block-audio-preview-container">
+        <audio class="sjrk-st-block-audio-preview sjrkc-st-block-media-preview" controls></audio>
+    </div>
+    <form>
+        <div class="sjrk-st-block-audio-buttons-container">
+            <button type="button" class="sjrkc-st-block-audio-upload-button sjrk-st-block-audio-upload-button">{{localizedMessages.message_audioUploadButton}}</button>
+            {{#if dynamicValues.hasMobileCamera}}
+                <button type="button" class="sjrkc-st-block-audio-capture-button sjrk-st-block-audio-capture-button">{{localizedMessages.message_audioCaptureButton}}</button>
+            {{/if}}
+        </div>
+
+        <div class="sjrk-st-block-audio-description-container">
+            {{#getIds "storyBlockAudioDescription"}}
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_audioDescriptionInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-st-block-audio-description sjrk-st-block-audio-description" placeholder="{{../localizedMessages.message_audioDescriptionInputPlaceholder}}"></textarea>
+            {{/getIds}}
+        </div>
+        <div class="sjrk-st-block-audio-alt-text-container">
+            {{#getIds "storyBlockAudioAltText"}}
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_audioAltTextInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-st-block-audio-alt-text sjrk-st-block-audio-alt-text" placeholder="{{../localizedMessages.message_audioAltTextInputPlaceholder}}"></textarea>
+            {{/getIds}}
+        </div>
+        <div class="sjrk-st-block-audio-transcript-container">
+            {{#getIds "storyBlockAudioTranscript"}}
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_audioTranscriptInputLabel}}</label>
+                </div>
+                <textarea id="$id" class="sjrkc-st-block-audio-transcript sjrk-st-block-audio-transcript" placeholder="{{../localizedMessages.message_audioTranscriptInputPlaceholder}}"></textarea>
+            {{/getIds}}
+        </div>
+
+        <!-- Container for the uploader -->
+        <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
+            <input name="file" type="file" accept="audio/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
+        </div>
+
+    </form>
+</div>

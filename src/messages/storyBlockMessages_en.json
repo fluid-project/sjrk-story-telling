@@ -19,5 +19,12 @@
     "message_videoTranscriptInputPlaceholder": "Enter transcript here",
     "message_videoUploadButton": "Upload video",
     "message_videoCaptureButton": "Capture video",
+    "message_audioAltTextInputLabel": "Alternative text",
+    "message_audioAltTextInputPlaceholder": "Enter alt text here",
+    "message_audioDescriptionInputLabel": "Audio description",
+    "message_audioDescriptionInputPlaceholder": "Enter caption here",
+    "message_audioTranscriptInputLabel": "Audio transcript",
+    "message_audioTranscriptInputPlaceholder": "Enter transcript here",
+    "message_audioUploadButton": "Upload audio",
     "message_blockSelectionCheckboxLabel": "Select this block"
 }
