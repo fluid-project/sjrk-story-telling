@@ -26,22 +26,19 @@
     </div>
     <form>
         <div class="sjrk-st-block-media-buttons-container">
-            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_audioUploadButton}}</button>
-            {{#if dynamicValues.hasMobileCamera}}
-                <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_audioCaptureButton}}</button>
-            {{/if}}
+            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButton}}</button>
         </div>
 
         <div class="sjrk-st-block-media-description-container">
-            {{#getIds "storyBlockAudioDescription"}}
+            {{#getIds "storyBlockDescription"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
-                    <label for="$id">{{../localizedMessages.message_audioDescriptionInputLabel}}</label>
+                    <label for="$id">{{../localizedMessages.message_descriptionInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-media-description sjrk-st-block-media-description" placeholder="{{../localizedMessages.message_audioDescriptionInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-description sjrk-st-block-media-description" placeholder="{{../localizedMessages.message_descriptionInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
         <div class="sjrk-st-block-media-alt-text-container">
-            {{#getIds "storyBlockAudioAltText"}}
+            {{#getIds "storyBlockAltText"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
@@ -49,11 +46,11 @@
             {{/getIds}}
         </div>
         <div class="sjrk-st-block-media-transcript-container">
-            {{#getIds "storyBlockAudioTranscript"}}
+            {{#getIds "storyBlockTranscript"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
-                    <label for="$id">{{../localizedMessages.message_audioTranscriptInputLabel}}</label>
+                    <label for="$id">{{../localizedMessages.message_transcriptInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_audioTranscriptInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_transcriptInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
 

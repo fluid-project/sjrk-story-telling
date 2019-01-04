@@ -8,8 +8,8 @@
     "message_simplifiedTextInputPlaceholder": "Adicione um texto simplificado (opcional) — isso pode ser útil para pessoas aprendendo o idioma, com dificuldade de entender o texto, ou com pressa.",
     "message_altTextInputLabel": "Texto alternativo",
     "message_altTextInputPlaceholder": "Adicione o texto alternativo aqui",
-    "message_imageDescriptionInputLabel": "Descrição da imagem",
-    "message_imageDescriptionInputPlaceholder": "Digite a legenda aqui",
-    "message_imageUploadButton": "Adicionar imagem",
-    "message_imageCaptureButton": "Capturar imagem"
+    "message_descriptionInputLabel": "Descrição",
+    "message_descriptionInputPlaceholder": "Digite a legenda aqui",
+    "message_uploadButton": "Adicionar",
+    "message_captureButton": "Capturar"
 }
