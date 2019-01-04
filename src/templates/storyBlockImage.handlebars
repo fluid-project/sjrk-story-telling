@@ -21,31 +21,31 @@
     {{/getIds}}
     <!-- repeated markup end -->
 
-    <div class="sjrk-st-block-image-preview-container">
-        <img class="sjrkc-st-block-image-preview sjrk-st-block-image-preview" src="" alt="" />
+    <div class="sjrk-st-block-media-preview-container">
+        <img class="sjrkc-st-block-media-preview sjrk-st-block-media-preview" src="" alt="" />
     </div>
     <form>
-        <div class="sjrk-st-block-image-buttons-container">
-            <button type="button" class="sjrkc-st-block-image-upload-button sjrk-st-block-image-upload-button">{{localizedMessages.message_imageUploadButton}}</button>
+        <div class="sjrk-st-block-media-buttons-container">
+            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_imageUploadButton}}</button>
             {{#if dynamicValues.hasMobileCamera}}
-                <button type="button" class="sjrkc-st-block-image-capture-button sjrk-st-block-image-capture-button">{{localizedMessages.message_imageCaptureButton}}</button>
+                <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_imageCaptureButton}}</button>
             {{/if}}
         </div>
 
-        <div class="sjrk-st-block-image-description-container">
+        <div class="sjrk-st-block-media-description-container">
             {{#getIds "storyBlockImageDescription"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_imageDescriptionInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-image-description sjrk-st-block-image-description" placeholder="{{../localizedMessages.message_imageDescriptionInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-description sjrk-st-block-media-description" placeholder="{{../localizedMessages.message_imageDescriptionInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
-        <div class="sjrk-st-block-image-alt-text-container">
+        <div class="sjrk-st-block-media-alt-text-container">
             {{#getIds "storyBlockImageAltText"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-image-alt-text sjrk-st-block-image-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
 

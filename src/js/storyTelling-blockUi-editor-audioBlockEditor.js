@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.editor.audioBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor", "sjrk.storyTelling.blockUi.timeBased"],
         selectors: {
-            audioUploadButton: ".sjrkc-st-block-audio-upload-button",
+            audioUploadButton: ".sjrkc-st-block-media-upload-button",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
         events: {
@@ -49,9 +49,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             binder: {
                 options: {
                     selectors: {
-                        audioAltText: ".sjrkc-st-block-audio-alt-text",
-                        audioDescription: ".sjrkc-st-block-audio-description",
-                        audioTranscript: ".sjrkc-st-block-audio-transcript"
+                        audioAltText: ".sjrkc-st-block-media-alt-text",
+                        audioDescription: ".sjrkc-st-block-media-description",
+                        audioTranscript: ".sjrkc-st-block-media-transcript"
                     },
                     bindings: {
                         audioAltText: "alternativeText",

@@ -21,39 +21,39 @@
     {{/getIds}}
     <!-- repeated markup end -->
 
-    <div class="sjrk-st-block-audio-preview-container">
-        <audio class="sjrk-st-block-audio-preview sjrkc-st-block-media-preview" controls></audio>
+    <div class="sjrk-st-block-media-preview-container">
+        <audio class="sjrk-st-block-media-preview sjrkc-st-block-media-preview" controls></audio>
     </div>
     <form>
-        <div class="sjrk-st-block-audio-buttons-container">
-            <button type="button" class="sjrkc-st-block-audio-upload-button sjrk-st-block-audio-upload-button">{{localizedMessages.message_audioUploadButton}}</button>
+        <div class="sjrk-st-block-media-buttons-container">
+            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_audioUploadButton}}</button>
             {{#if dynamicValues.hasMobileCamera}}
-                <button type="button" class="sjrkc-st-block-audio-capture-button sjrk-st-block-audio-capture-button">{{localizedMessages.message_audioCaptureButton}}</button>
+                <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_audioCaptureButton}}</button>
             {{/if}}
         </div>
 
-        <div class="sjrk-st-block-audio-description-container">
+        <div class="sjrk-st-block-media-description-container">
             {{#getIds "storyBlockAudioDescription"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_audioDescriptionInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-audio-description sjrk-st-block-audio-description" placeholder="{{../localizedMessages.message_audioDescriptionInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-description sjrk-st-block-media-description" placeholder="{{../localizedMessages.message_audioDescriptionInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
-        <div class="sjrk-st-block-audio-alt-text-container">
+        <div class="sjrk-st-block-media-alt-text-container">
             {{#getIds "storyBlockAudioAltText"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-audio-alt-text sjrk-st-block-audio-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
-        <div class="sjrk-st-block-audio-transcript-container">
+        <div class="sjrk-st-block-media-transcript-container">
             {{#getIds "storyBlockAudioTranscript"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_audioTranscriptInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-audio-transcript sjrk-st-block-audio-transcript" placeholder="{{../localizedMessages.message_audioTranscriptInputPlaceholder}}"></textarea>
+                <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_audioTranscriptInputPlaceholder}}"></textarea>
             {{/getIds}}
         </div>
 

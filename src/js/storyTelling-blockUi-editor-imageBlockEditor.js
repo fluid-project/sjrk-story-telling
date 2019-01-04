@@ -25,8 +25,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            imagePreview: ".sjrkc-st-block-image-preview",
-            imageUploadButton: ".sjrkc-st-block-image-upload-button",
+            imagePreview: ".sjrkc-st-block-media-preview",
+            imageUploadButton: ".sjrkc-st-block-media-upload-button",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
         invokers: {
@@ -74,8 +74,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             binder: {
                 options: {
                     selectors: {
-                        imageAltText: ".sjrkc-st-block-image-alt-text",
-                        imageDescription: ".sjrkc-st-block-image-description"
+                        imageAltText: ".sjrkc-st-block-media-alt-text",
+                        imageDescription: ".sjrkc-st-block-media-description"
                     },
                     bindings: {
                         imageAltText: "alternativeText",
@@ -117,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // the extra interface elements to be added if the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor.hasMobileCamera", {
         selectors: {
-            imageCaptureButton: ".sjrkc-st-block-image-capture-button",
+            imageCaptureButton: ".sjrkc-st-block-media-capture-button",
             cameraCaptureUploader: ".sjrkc-st-block-camera-capture-input"
         },
         events: {
