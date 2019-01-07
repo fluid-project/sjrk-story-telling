@@ -67,7 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockImage.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockMedia.handlebars"
                     }
                 }
             },
@@ -132,16 +132,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
-            templateManager: {
-                options: {
-                    listeners: {
-                        "onAllResourcesLoaded.renderTemplate": {
-                            funcName: "{that}.renderTemplate",
-                            args: [{hasMobileCamera: true}]
-                        }
-                    }
-                }
-            },
             // captures an image from the device, previews it and uploads it
             cameraCaptureUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
@@ -167,6 +157,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
+                    }
+                }
+            },
+            block: {
+                options: {
+                    model: {
+                        hasMobileCamera: true
                     }
                 }
             }
