@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // an interface for viewing an individual audio block
     fluid.defaults("sjrk.storyTelling.blockUi.audioBlockViewer", {
-        gradeNames: ["sjrk.storyTelling.blockUi", "sjrk.storyTelling.blockUi.timeBased"],
+        gradeNames: ["sjrk.storyTelling.blockUi.timeBased"],
         components: {
             templateManager: {
                 options: {
