@@ -88,7 +88,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // TODO: This should be refactored. Probably we should have a selector registered
         // for the source element of the mediaPlayer.
         // Alternatively, we could go with something simpler based on directly using the
-        // src attribute of the video element.
+        // src attribute of the video or audio element.
         var source = mediaPlayer.find("source");
         if (source.length < 1) {
             source = $("<source></source>").appendTo(mediaPlayer);
@@ -105,7 +105,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mediaPlayer.currentTime = 0;
     };
 
-    /* Plays a given media player, though it must first mute the video to satisfy
+    /* Plays a given media player, though it must first mute the player to satisfy
      * autoplay restrictions in several browsers. In the case of Chrome, please
      * refer to this article: https://goo.gl/xX8pDD
      * - "mediaPlayer": the jQueryable containing the HTML video or audio element
@@ -116,7 +116,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var promise = mediaPlayer[0].play();
         if (promise) {
             promise.then(function () {
-                fluid.log("Video playback triggered");
+                fluid.log("Media player playback triggered");
             }, function (error) {
                 console.error("Error:", error, "message:", error.message);
             });

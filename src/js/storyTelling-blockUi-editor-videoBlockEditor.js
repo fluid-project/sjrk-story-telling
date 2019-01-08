@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            videoUploadButton: ".sjrkc-st-block-video-upload-button",
+            videoUploadButton: ".sjrkc-st-block-media-upload-button",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
         events: {
@@ -52,16 +52,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockVideo.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockMediaEdit.handlebars"
                     }
                 }
             },
             binder: {
                 options: {
                     selectors: {
-                        videoAltText: ".sjrkc-st-block-video-alt-text",
-                        videoDescription: ".sjrkc-st-block-video-description",
-                        videoTranscript: ".sjrkc-st-block-video-transcript"
+                        videoAltText: ".sjrkc-st-block-media-alt-text",
+                        videoDescription: ".sjrkc-st-block-media-description",
+                        videoTranscript: ".sjrkc-st-block-media-transcript"
                     },
                     bindings: {
                         videoAltText: "alternativeText",
@@ -104,7 +104,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // the extra interface elements to be added if the device has a camera
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditor.hasMobileCamera", {
         selectors: {
-            videoCaptureButton: ".sjrkc-st-block-video-capture-button",
+            videoCaptureButton: ".sjrkc-st-block-media-capture-button",
             cameraCaptureUploader: ".sjrkc-st-block-camera-capture-input"
         },
         events: {
@@ -119,16 +119,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
-            templateManager: {
-                options: {
-                    listeners: {
-                        "onAllResourcesLoaded.renderTemplate": {
-                            funcName: "{that}.renderTemplate",
-                            args: [{hasMobileCamera: true}]
-                        }
-                    }
-                }
-            },
             // captures an video from the device, previews it and uploads it
             cameraCaptureUploader: {
                 type: "sjrk.storyTelling.block.singleFileUploader",
@@ -154,6 +144,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             args: "{that}.model.fileObjectURL",
                             excludeSource: "init"
                         }
+                    }
+                }
+            },
+            block: {
+                options: {
+                    model: {
+                        hasMobileCamera: true
                     }
                 }
             }

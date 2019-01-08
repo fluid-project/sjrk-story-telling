@@ -17,8 +17,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             mediaUrl: null,
             alternativeText: null,
+            description: null,
             transcript: null,
-            description: null
+            hasTranscript: true
         },
         modelRelay: {
             target: "contentString",

@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,19 +11,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     "use strict";
 
-    // an interface for viewing an individual video block
-    fluid.defaults("sjrk.storyTelling.blockUi.videoBlockViewer", {
+    // an interface for viewing an individual audio block
+    fluid.defaults("sjrk.storyTelling.blockUi.audioBlockViewer", {
         gradeNames: ["sjrk.storyTelling.blockUi.timeBased"],
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockVideoView.handlebars"
+                        templatePath: "%resourcePrefix/src/templates/storyBlockAudioView.handlebars"
                     }
                 }
             },
             block: {
-                type: "sjrk.storyTelling.block.videoBlock"
+                type: "sjrk.storyTelling.block.audioBlock"
             }
         }
     });

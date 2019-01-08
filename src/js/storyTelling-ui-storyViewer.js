@@ -20,8 +20,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyViewerPrevious: ".sjrkc-st-story-viewer-previous"
         },
         blockTypeLookup: {
-            "text": "sjrk.storyTelling.blockUi.textBlockViewer",
+            "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
             "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
+            "text": "sjrk.storyTelling.blockUi.textBlockViewer",
             "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
         },
         events: {
