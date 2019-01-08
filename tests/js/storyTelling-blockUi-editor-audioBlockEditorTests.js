@@ -38,7 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{audioBlockEditor}.binder", "audioAltText", "Alternative text for the audio"]
+                    args: ["{audioBlockEditor}.binder", "mediaAltText", "Alternative text for the audio"]
                 },
                 {
                     changeEvent: "{audioBlockEditor}.block.applier.modelChanged",
@@ -48,7 +48,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{audioBlockEditor}.binder", "audioDescription", "Description for audio"]
+                    args: ["{audioBlockEditor}.binder", "mediaDescription", "Description for audio"]
                 },
                 {
                     changeEvent: "{audioBlockEditor}.block.applier.modelChanged",
@@ -58,22 +58,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{audioBlockEditor}.binder", "audioTranscript", "Transcript for audio"]
+                    args: ["{audioBlockEditor}.binder", "mediaTranscript", "Transcript for audio"]
                 },
                 {
                     changeEvent: "{audioBlockEditor}.block.applier.modelChanged",
                     path: "transcript",
                     listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Transcript for audio", "{audioBlockEditor}.block.model.transcript"]
+                    args: ["The model text has expected value", "Transcript for audio", "{mediaBlockEditor}.block.model.transcript"]
                 },
                 {
                     jQueryTrigger: "click",
-                    element: "{audioBlockEditor}.dom.audioUploadButton"
+                    element: "{audioBlockEditor}.dom.mediaUploadButton"
                 },
                 {
-                    event: "{audioBlockEditor}.events.onAudioUploadRequested",
+                    event: "{audioBlockEditor}.events.onMediaUploadRequested",
                     listener: "jqUnit.assert",
-                    args: ["The audioUploadButton event fired"]
+                    args: ["The mediaUploadButton event fired"]
                 }]
             }]
         }]

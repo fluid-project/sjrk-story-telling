@@ -13,22 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // an editing interface for individual audio-type blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.audioBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.blockUi.editor", "sjrk.storyTelling.blockUi.timeBased"],
-        selectors: {
-            audioUploadButton: ".sjrkc-st-block-media-upload-button",
-            singleFileUploader: ".sjrkc-st-block-uploader-input"
-        },
-        events: {
-            onAudioUploadRequested: null
-        },
-        listeners: {
-            "{templateManager}.events.onTemplateRendered": {
-                this: "{that}.dom.audioUploadButton",
-                method: "click",
-                args: ["{that}.events.onAudioUploadRequested.fire"],
-                namespace: "bindOnAudioUploadRequested"
-            }
-        },
+        gradeNames: ["sjrk.storyTelling.blockUi.editor.mediaBlockEditor"],
         components: {
             block: {
                 type: "sjrk.storyTelling.block.audioBlock",
@@ -36,55 +21,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     model: {
                         // mediaUrl: relayed from uploader
                         // fileDetails: relayed from uploader
-                    }
-                }
-            },
-            templateManager: {
-                options: {
-                    templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyBlockMediaEdit.handlebars"
-                    }
-                }
-            },
-            binder: {
-                options: {
-                    selectors: {
-                        audioAltText: ".sjrkc-st-block-media-alt-text",
-                        audioDescription: ".sjrkc-st-block-media-description",
-                        audioTranscript: ".sjrkc-st-block-media-transcript"
-                    },
-                    bindings: {
-                        audioAltText: "alternativeText",
-                        audioDescription: "description",
-                        audioTranscript: "transcript"
-                    }
-                }
-            },
-            // handles previewing and uploading a single audio file for storage
-            singleFileUploader: {
-                type: "sjrk.storyTelling.block.singleFileUploader",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{audioBlockEditor}.dom.singleFileUploader",
-                options: {
-                    selectors: {
-                        fileInput: "{that}.container"
-                    },
-                    model: {
-                        fileObjectURL: "{block}.model.mediaUrl",
-                        fileDetails: "{block}.model.fileDetails"
-                    },
-                    listeners: {
-                        "{audioBlockEditor}.events.onAudioUploadRequested": {
-                            func: "{that}.events.onUploadRequested.fire",
-                            namespace: "fireUploadForAudioUpload"
-                        }
-                    },
-                    modelListeners: {
-                        "fileObjectURL": {
-                            func: "{audioBlockEditor}.updateMediaPlayer",
-                            args: "{that}.model.fileObjectURL",
-                            excludeSource: "init"
-                        }
                     }
                 }
             }
