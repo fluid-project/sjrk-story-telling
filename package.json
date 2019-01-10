@@ -31,7 +31,7 @@
     "chance": "1.0.16",
     "eslint-config-fluid": "1.1.0",
     "fluid-grunt-eslint": "18.1.2",
-    "gpii-pouchdb": "1.0.7",
+    "gpii-pouchdb": "1.0.14",
     "grunt": "1.0.1",
     "grunt-eslint": "20.0.0",
     "grunt-jsonlint": "1.1.0",
