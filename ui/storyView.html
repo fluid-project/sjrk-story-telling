@@ -12,8 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/node_modules/infusion/dist/assets/src/framework/preferences/css/SeparatedPanelPrefsEditor.css" />
 
 <script src="/node_modules/handlebars/dist/handlebars.js"></script>
-<script src="/node_modules/pagedown/Markdown.Converter.js"></script>
-<script src="/node_modules/pagedown/Markdown.Sanitizer.js"></script>
+<script src="/node_modules/markdown-it/dist/markdown-it.js"></script>
 <script src="/node_modules/gpii-binder/src/js/binder.js"></script>
 <script src="/node_modules/gpii-binder/src/js/transforms.js"></script>
 <script src="/node_modules/gpii-handlebars/src/js/common/equals.js"></script>
@@ -33,11 +32,17 @@
 <script src="/node_modules/sjrk-story-telling/src/js/dynamicViewComponentManager.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-binder.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block.js"></script>
-<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block-text.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block-audio.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block-image.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block-text.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block-video.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-block-timeBased.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-blockUi.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-blockUi-audioBlockViewer.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-blockUi-imageBlockViewer.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-blockUi-textBlockViewer.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-blockUi-videoBlockViewer.js"></script>
+<script src="/node_modules/sjrk-story-telling/src/js/storyTelling-blockUi-timeBased.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-page-storyView.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-page.js"></script>
 <script src="/node_modules/sjrk-story-telling/src/js/storyTelling-story.js"></script>
@@ -93,7 +98,7 @@
 </div>
 
 
-<div class="sjrk-pageHeading-container sjrkc-pageHeading-container"></div>
+<div class="sjrk-st-page-header-container sjrkc-st-page-header-container"></div>
 
 <!-- This div is for the table of contents feature provided by the Preferences Editor -->
 <div class="sjrk-toc-container">
@@ -101,7 +106,7 @@
 </div>
 <div class="sjrkc-main-container"></div>
 
-<div class="sjrk-pageFooter-container sjrkc-pageFooter-container"></div>
+<div class="sjrk-st-page-footer-container sjrkc-st-page-footer-container"></div>
 
 <script>
 

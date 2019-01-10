@@ -88,7 +88,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                                 "gpii-binder",
                                 "sjrk-story-telling",
                                 "handlebars",
-                                "pagedown",
+                                "markdown-it",
                                 "gpii-handlebars"]
                         }
                     },
