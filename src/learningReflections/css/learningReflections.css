@@ -93,13 +93,6 @@ body {
     padding-bottom: 1rem;
 }
 
-.sjrk-st-button-image-block,
-.sjrk-st-button-text-block,
-.sjrk-st-button-video-block,
-.sjrk-st-story-listen-to {
-    background-color: var(--site-light-blue);
-}
-
 .sjrk-st-button-restore-blocks-container {
     display: none;
 }

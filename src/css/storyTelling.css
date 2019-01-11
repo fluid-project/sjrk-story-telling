@@ -98,13 +98,12 @@ fieldset ul {
 .sjrk-st-button {
     width: 4rem;
     height: 4rem;
-    border-radius: 8px;
-    border:2px solid #000;
+    border: none;
     background-size: cover;
     background-origin: content-box;
-    padding: 0.1em;
     background-repeat: no-repeat;
-    background-color: white;
+    background-color: transparent;
+    padding: 0;
     cursor: pointer;
 }
 
@@ -152,23 +151,23 @@ fieldset ul {
 }
 
 .sjrk-st-button-text-block {
-    background-image: url("../img/icons/icon-textBlock.png");
+    background-image: url("../img/icons/icon-text.svg");
 }
 
 .sjrk-st-button-image-block {
-    background-image: url("../img/icons/icon-imageBlock.png");
+    background-image: url("../img/icons/icon-image.svg");
 }
 
 .sjrk-st-button-audio-block {
-    background-image: url("../img/icons/icon-audioBlock.png");
+    background-image: url("../img/icons/icon-voice.svg");
 }
 
 .sjrk-st-button-video-block {
-    background-image: url("../img/icons/icon-videoBlock.png");
+    background-image: url("../img/icons/icon-video.svg");
 }
 
 .sjrk-st-button-remove-blocks {
-    background-image: url("../img/icons/icon-removeBlocks.png");
+    background-image: url("../img/icons/icon-trashcan.svg");
 }
 
 .sjrk-st-button-restore-blocks {
@@ -176,7 +175,7 @@ fieldset ul {
 }
 
 .sjrk-st-story-listen-to {
-    background-image: url("../img/icons/icon-audioBlock.png");
+    background-image: url("../img/icons/icon-audio.svg");
 }
 
 .sjrk-st-label-container:not(:first-child) {
@@ -260,7 +259,7 @@ img.sjrk-st-block-media-preview:not([src]) {
 .sjrk-st-story-editor-buttons-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0.3rem;
+    grid-gap: 0.5rem;
 }
 
 .sjrk-st-story-editor-content {
