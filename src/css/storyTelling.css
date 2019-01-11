@@ -41,7 +41,7 @@ fieldset ul {
     padding: 2rem;
 }
 
-.sjrk-st-menu-links {
+.sjrk-st-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 1rem;

@@ -151,7 +151,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: ".sjrkc-st-menu-links"
+                container: ".sjrkc-st-menu"
             },
             uio: {
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
