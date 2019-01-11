@@ -133,6 +133,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
+                                linkConfig: {
+                                    templateValues: {
+                                        "contextLinkUrl": "/src/learningReflections/html/storyBrowse.html"
+                                    }
+                                },
+                                listeners: {
+                                    "onAllResourcesLoaded.renderTemplate": {
+                                        funcName: "{that}.renderTemplate",
+                                        args: ["{that}.options.linkConfig.templateValues"]
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-introduction.handlebars"

@@ -34,7 +34,8 @@
     "message_browseGridText": "Grid",
     "message_browseThumbAltText": "Story thumbnail",
     "message_browseContainsText": "Contains",
-    "message_menu_browseLinkText": "Browse stories...",
+    "message_menu_browseLinkText": "Browse stories",
+    "message_menu_storyBuilderText": "Story Builder",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
     "contentTypes": {

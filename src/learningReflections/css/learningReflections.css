@@ -73,19 +73,9 @@ body {
     display: block;
 }
 
-.sjrk-st-small-text {
-    font-size: 1rem;
-}
-
-.sjrk-st-list-hearts li::before {
-    content: "\2764";
-    color: var(--site-medium-blue);
-    margin-right: 0.25rem;
-}
-
-.sjrk-st-list-hearts li {
-    list-style-type: none;
-    padding-bottom: 1rem;
+.sjrk-introduction-container {
+    display: grid;
+    grid-template-rows: auto 4rem;
 }
 
 .sjrk-st-button-restore-blocks-container {
@@ -106,18 +96,36 @@ body {
 
 .sjrk-st-story-editor {
     border: 1px dashed;
-    padding: 1.3rem;
+    padding: 1rem;
+    position: relative;
+    background: white;
 }
 
+.sjrk-st-menu,
+.sjrk-st-menu a,
 .sjrk-st-story-editor-next {
-    background: none;
-    border: none;
+    position: relative;
     text-transform: uppercase;
     text-decoration: none;
     font-family: "source sans pro";
     font-weight: 800;
     font-size: .8rem;
     color: var(--site-blue);
+}
+
+.sjrk-st-menu-story-builder-title span {
+    position: relative;
+}
+
+.sjrk-st-menu-story-builder-title-background {
+    background: var(--site-light-blue);
+    border-radius: 1rem;
+    padding: 1rem;
+    position: absolute;
+    left: -0.85rem;
+    top: -0.5rem;
+    width: 7.5rem;
+    height: 6rem;
 }
 
 .sjrk-st-story-editor-next * {
@@ -128,6 +136,11 @@ body {
     display: inline-block;
     height: 2.5rem;
     width: 2.5rem;
+    margin-left: 0.25rem;
+}
+
+.sjrk-st-menu-languages-container a {
+    text-transform: none;
 }
 
 .sjrk-st-page-footer-container {

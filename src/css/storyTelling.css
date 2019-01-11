@@ -44,7 +44,7 @@ fieldset ul {
 .sjrk-st-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 }
 
 .sjrk-st-menu-languages-container {
@@ -96,8 +96,8 @@ fieldset ul {
 }
 
 .sjrk-st-button {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3rem;
+    height: 3rem;
     border: none;
     background-size: cover;
     background-origin: content-box;
@@ -133,11 +133,11 @@ fieldset ul {
 }
 
 .sjrk-st-button-remove-blocks-container {
-    grid-column: 8;
+    grid-column: 9;
 }
 
 .sjrk-st-button-restore-blocks-container {
-    /* grid-column: 8; */
+    /* grid-column: 9; */
 }
 
 /* Hidden, but accessible */
@@ -259,13 +259,13 @@ img.sjrk-st-block-media-preview:not([src]) {
 .sjrk-st-story-editor-buttons-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0.5rem;
+    grid-gap: 0.2rem;
 }
 
 .sjrk-st-story-editor-content {
     min-height: 20rem;
     background-color: var(--site-grey);
-    margin: 1rem 0;
+    margin: .5rem 0 1rem 0;
     border-top: 2px solid;
     border-bottom: 2px solid;
     padding: 1.5rem;
