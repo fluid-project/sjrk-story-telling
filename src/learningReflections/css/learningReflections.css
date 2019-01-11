@@ -55,7 +55,6 @@ body {
     display: inline-block;
     align-self: center;
     vertical-align: middle;
-    height: 6rem;
     margin: 0 1rem 0 0;
 }
 
@@ -106,12 +105,16 @@ body {
 }
 
 .sjrk-st-page-footer-container {
-    font-size: 1.5rem;
+    font-weight: 300;
     padding: 1rem 3rem;
     display: grid;
-    grid-template-columns: 3fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr;
     grid-gap: 0.5rem;
     align-items: center;
+}
+
+.sjrk-st-page-footer-container img {
+    vertical-align: middle;
 }
 
 .sjrk-st-page-footer-oak-logo-container {
@@ -119,8 +122,16 @@ body {
     text-align: center;
 }
 
+.sjrk-st-page-footer-oak-logo-container img {
+    height: 4rem;
+}
+
 .sjrk-st-page-footer-hewlett-logo-container {
     padding: 0.2rem 1rem;
+}
+
+.sjrk-st-page-footer-hewlett-logo-container img {
+    width: 15rem;
 }
 
 @media only screen and (max-width: 50em) {
@@ -131,6 +142,11 @@ body {
     .sjrk-st-page-header,
     .sjrk-st-page-header-heart-book-container {
         font-size: 1.5rem;
+    }
+
+    .sjrk-st-page-header-heart-book {
+        height: 4rem;
+        width: 4rem;
     }
 
     .sjrk-st-page-content-container {
@@ -148,6 +164,8 @@ body {
     .sjrk-st-page-footer-oak-logo-container,
     .sjrk-st-page-footer-hewlett-logo-container {
         grid-column: auto;
+        text-align: center;
+        padding-bottom: 1rem
     }
 
     .sjrk-st-page-footer-text-container img,
