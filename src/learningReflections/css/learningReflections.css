@@ -41,10 +41,6 @@ body {
     margin: 0;
 }
 
-.sjrk-st-page-header p {
-    margin: 0;
-}
-
 .sjrk-st-page-header-main-title {
     font-weight: 600;
 }
@@ -119,13 +115,11 @@ body {
 }
 
 .sjrk-st-page-footer-oak-logo-container {
-    background-color: white;
     padding: 0.2rem 0;
     text-align: center;
 }
 
 .sjrk-st-page-footer-hewlett-logo-container {
-    background-color: white;
     padding: 0.2rem 1rem;
 }
 
