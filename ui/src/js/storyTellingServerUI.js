@@ -57,7 +57,7 @@ fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
                 components: {
                 },
                 selectors: {
-                    storyShare: ".sjrkc-storyTelling-storyShare"
+                    storyShare: ".sjrkc-st-story-share"
                 },
                 listeners: {
                     "onReadyToBind.bindShareControl": {
@@ -220,9 +220,9 @@ sjrk.storyTelling.server.loadBrowse = function (theme) {
 
 var templates = {
     karisma: {
-        view: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-viewer"></div> </div> </div>',
-        edit: '<div class="sjrk-pageBody-container sjrk-pageBody-with-sidebars"> <div class="sjrk-sidebar-left-container sjrkc-sidebar-left-container"></div> <div class="sjrk-story-editor-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-previewer"></div> </div> <div class="sjrk-sidebar-right-container sjrkc-sidebar-right-container"></div> </div>',
-        browse: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-browser sjrkc-storyTelling-story-browser"></div></div></div>'
+        view: '<div class="sjrk-st-page-content-container sjrk-st-page-content-container-one-column"><div class="sjrk-introduction-container sjrkc-introduction-container"></div><div class="sjrk-main-container"><div class="sjrk-st-menu-links sjrkc-st-menu-links"></div><div class="sjrk-st-story-viewer sjrkc-st-story-viewer"></div></div></div>',
+        edit: '<div class="sjrk-st-page-content-container sjrk-st-page-content-with-sidebars"><div class="sjrk-sidebar-left-container sjrkc-sidebar-left-container"></div><div class="sjrk-story-editor-container"><div class="sjrk-st-menu-links sjrkc-st-menu-links"></div><div class="sjrk-st-story-editor sjrkc-st-story-editor"></div><div class="sjrk-st-story-viewer sjrkc-st-story-previewer"></div></div><div class="sjrk-sidebar-right-container sjrkc-sidebar-right-container"></div></div>',
+        browse: '<div class="sjrk-st-page-content-container sjrk-st-page-content-container-one-column"><div class="sjrk-introduction-container sjrkc-introduction-container"></div><div class="sjrk-main-container"><div class="sjrk-st-menu-links sjrkc-st-menu-links"></div><div class="sjrk-st-story-browser sjrkc-st-story-browser"></div></div></div>'
     },
     learningReflections: {
         view: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-viewer"></div> </div> </div>',
