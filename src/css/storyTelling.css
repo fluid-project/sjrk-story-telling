@@ -178,6 +178,10 @@ fieldset ul {
     background-image: url("../img/icons/icon-audio.svg");
 }
 
+.sjrk-st-label-container {
+    font-weight: 600;
+}
+
 .sjrk-st-label-container:not(:first-child) {
     margin: 1em 0 .25em 0;
 }
@@ -268,7 +272,7 @@ img.sjrk-st-block-media-preview:not([src]) {
     margin: .5rem 0 1rem 0;
     border-top: 2px solid;
     border-bottom: 2px solid;
-    padding: 1.5rem;
+    padding: 0 1.5rem;
 }
 
 .sjrk-st-story-viewer .sjrk-st-story-title {

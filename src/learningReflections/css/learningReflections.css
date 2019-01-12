@@ -5,6 +5,7 @@
     --site-green: #c7e198;
     --site-orange: #eec86b;
     --site-grey: #eeeeef;
+    --site-dark-grey: #d1d2d4;
 }
 
 body {
@@ -101,13 +102,20 @@ body {
     background: white;
 }
 
+.sjrk-st-story-editor input {
+    font-family: "Source Sans Pro";
+    padding: 0.25rem;
+    border: 1px solid var(--site-dark-grey);
+    background: var(--site-grey);
+}
+
 .sjrk-st-menu,
 .sjrk-st-menu a,
 .sjrk-st-story-editor-next {
     position: relative;
     text-transform: uppercase;
     text-decoration: none;
-    font-family: "source sans pro";
+    font-family: "Source Sans Pro";
     font-weight: 800;
     font-size: .8rem;
     color: var(--site-blue);
@@ -124,8 +132,8 @@ body {
     position: absolute;
     left: -0.85rem;
     top: -0.5rem;
-    width: 7.5rem;
-    height: 6rem;
+    width: 10.5rem;
+    height: 8rem;
 }
 
 .sjrk-st-story-editor-next * {
