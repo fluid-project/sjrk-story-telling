@@ -11,6 +11,7 @@ This is a Kettle-based server that uses the [SJRK Story Telling](https://github.
 * `npm install` to install dependencies
 * Run a CouchDB server on `localhost:5984` (Docker is an easy way to do this)
 * Run `src/js/db/dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB instance is set up in [single-node mode](http://docs.couchdb.org/en/latest/install/setup.html))
+    * If you have an [admin user](http://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB instance, you will need to provide the credentials to `dbSetup.js`. This can be done by setting the `COUCHDB_URL` environment variable. `dbSetup.js` will use the URL specified in `COUCHDB_URL` when connecting to CouchDB. For example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
 * Create a `secrets.json` file in the style of `secrets.json.example`
 * Run `node index.js` to launch the server
 
