@@ -102,11 +102,7 @@ body {
     background-color: var(--site-medium-grey);
 }
 
-.sjrk-st-browser-story-thumbnail-container {
-    background-color: var(--site-blue);
-}
-
-.sjrk-st-browser-story-thumnail-placeholder {
+.sjrk-st-browser-story-thumbnail-placeholder {
     object-fit: contain;
 }
 
@@ -166,9 +162,7 @@ textarea {
 .sjrk-st-story-viewer-previous,
 .sjrk-st-story-submit,
 .sjrk-st-story-share,
-.sjrk-st-context-link,
-.sjrk-st-browser-view-control-list,
-.sjrk-st-browser-view-control-grid {
+.sjrk-st-context-link {
     position: relative;
     text-transform: uppercase;
     text-decoration: none;
@@ -178,10 +172,29 @@ textarea {
     color: var(--site-blue);
 }
 
+.sjrk-st-browser-view-control-list,
+.sjrk-st-browser-view-control-grid {
+    position: relative;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: var(--site-font);
+    font-size: 1rem;
+    color: var(--site-blue);
+}
+
+
+/* .sjrk-st-browser-stories .sjrk-st-browser-view-control-list, */
+.sjrk-st-browser-view-control-container.grid .sjrk-st-browser-view-control-grid,
+.sjrk-st-browser-view-control-list,
 .sjrk-st-browser-view-control-list:hover,
 .sjrk-st-browser-view-control-grid:hover {
-    text-decoration: underline;
-    text-decoration-color: var(--site-green);
+    font-weight: 800;
+    border-bottom: 3px solid var(--site-green);
+}
+
+.sjrk-st-browser-view-control-container.grid .sjrk-st-browser-view-control-list {
+    font-weight: 400;
+    border: none;
 }
 
 .sjrk-st-menu-story-builder-title span {
@@ -258,7 +271,7 @@ textarea {
 }
 
 .sjrk-st-page-footer-oak-logo-container img {
-    height: 4rem;
+    height: 3rem;
 }
 
 .sjrk-st-page-footer-hewlett-logo-container {

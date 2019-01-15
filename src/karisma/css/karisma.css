@@ -128,11 +128,11 @@ a {
     background-color: var(--site-dark-rose);
 }
 
-.sjrk-st-browser-story-thumnail-placeholder {
+.sjrk-st-browser-story-thumbnail-placeholder {
     object-fit: contain;
 }
 
-.sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumnail-placeholder {
+.sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-placeholder {
     width: 80%;
     height: 80%;
     margin: 10%;

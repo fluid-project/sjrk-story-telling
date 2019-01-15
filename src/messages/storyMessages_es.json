@@ -1,8 +1,10 @@
 {
     "language": "es",
     "message_readStoryText": "%title, de %author. Palabras claves: %keywordString. %contentString",
-    "message_blockAddTextBlock": "Agrega un bloque de texto",
     "message_blockAddImageBlock": "Agrega un bloque de imagen",
+    "message_blockAddTextBlock": "Agrega un bloque de texto",
+    "message_blockAddAudioBlock": "Agrega un bloque de audio",
+    "message_blockAddVideoBlock": "Agrega un bloque de vídeo",
     "message_blockRemoveBlocks": "Eliminar bloques seleccionados",
     "message_blockRestoreBlocks": "Restaurar los últimos bloques eliminados",
     "message_listenToText": "Escucha mi historia",
@@ -27,11 +29,14 @@
     "message_browseGridText": "Cuadrícula",
     "message_browseThumbAltText": "Miniatura de la historia",
     "message_browseContainsText": "Contiene",
-    "message_menu_browseLinkText": "Mostrar historias...",
+    "message_menu_browseLinkText": "Mostrar historias",
+    "message_menu_storyBuilderText": "Constructor de historias",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
     "contentTypes": {
+        "audio": "audio",
+        "image": "imagen",
         "text": "texto",
-        "image": "imagen"
+        "video": "video"
     }
 }

@@ -317,7 +317,7 @@ img.sjrk-st-block-media-preview:not([src]) {
 }
 
 .sjrk-st-browser-story-thumbnail-container {
-    margin: .25rem;
+    margin: .5rem;
     height: 6rem;
     width: 7rem;
 }
@@ -328,8 +328,11 @@ img.sjrk-st-block-media-preview:not([src]) {
     width: 100%;
     display: block;
     background: white;
-    padding: 0.25rem .75rem;
     box-sizing: border-box;
+}
+
+.sjrk-st-browser-story-thumbnail-placeholder {
+    padding: 0.25rem .75rem;
 }
 
 .sjrk-st-browser-stories.grid {
@@ -348,8 +351,8 @@ img.sjrk-st-block-media-preview:not([src]) {
 }
 
 .sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-container {
-    margin: 0;
-    width: 100%;
+    margin: 0.75rem;
+    width: auto;
     height: auto;
 }
 
