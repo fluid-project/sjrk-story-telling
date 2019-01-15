@@ -62,7 +62,12 @@
                     <div class="sjrk-st-label-container fl-hidden-accessible">
                         <label for="$id">{{../localizedMessages.message_transcriptInputLabel}}</label>
                     </div>
-                    <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_transcriptInputPlaceholder}}"></textarea>
+                    {{#equals ../dynamicValues.blockType "audio"}}
+                        <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../../localizedMessages.message_transcriptInputPlaceholderAudio}}"></textarea>
+                    {{/equals}}
+                    {{#equals ../dynamicValues.blockType "video"}}
+                        <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../../localizedMessages.message_transcriptInputPlaceholderVideo}}"></textarea>
+                    {{/equals}}
                 {{/getIds}}
             </div>
         {{/if}}

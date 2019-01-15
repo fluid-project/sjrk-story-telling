@@ -1,15 +1,18 @@
 {
-    "message_blockHeadingLabel": "Encabezado de bloque",
-    "message_blockHeadingPlaceholder": "Agregue un encabezado descriptivo (opcional): esto puede ayudar a los usuarios del lector de pantalla y a otros a navegar su historia más fácilmente.",
+    "message_blockHeadingLabel": "Título de bloque",
+    "message_blockHeadingPlaceholder": "Añadir un título (opcional)",
     "message_blockSelectionCheckboxLabel": "Seleccione este bloque",
     "message_textInputLabel": "Ingrese texto en el cuadro",
     "message_textInputPlaceholder": "Comience a escribir aquí",
     "message_simplifiedTextInputLabel": "Texto simplificado",
-    "message_simplifiedTextInputPlaceholder": "Agregue texto simplificado (opcional): esto puede ser útil para aquellos que están aprendiendo el idioma, aquellos con dificultades para procesar el texto o aquellos que tienen prisa.",
+    "message_simplifiedTextInputPlaceholder": "Agregue un resumen simple de los puntos principales (opcional)",
     "message_altTextInputLabel": "Texto alternativo",
-    "message_altTextInputPlaceholder": "Ingresa el texto alternativo aquí",
-    "message_descriptionInputLabel": "Descripción",
-    "message_descriptionInputPlaceholder": "Ingrese la descripción aquí",
+    "message_altTextInputPlaceholder": "Ingresa una descripción de texto",
+    "message_descriptionInputLabel": "Subtítulos",
+    "message_descriptionInputPlaceholder": "Añadir subtítulos (opcional)",
     "message_uploadButton": "Cargar",
-    "message_captureButton": "Capturar"
+    "message_captureButton": "Capturar",
+    "message_transcriptInputLabel": "Transcripción",
+    "message_transcriptInputPlaceholderVideo": "Agregar una transcripción para las personas que no pueden escuchar el video",
+    "message_transcriptInputPlaceholderAudio": "Agregue una transcripción para las personas que no pueden escuchar el audio"
 }

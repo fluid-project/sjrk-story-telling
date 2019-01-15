@@ -1,14 +1,13 @@
 {
-    "message_mastheadTitle": "Learning Reflections",
-    "message_masthead_subtitle": "un proyecto de cuentacuentos",
-    "message_intro_p1": "<strong>Todos aprendemos de manera diferente.</strong> La mayoría de nosotros puede recordar un momento en el que tuvimos problemas para aprender algo nuevo, o tal vez un momento en que algo nos llegó fácilmente. ¿Qué pasó con la experiencia de aprendizaje que no funcionó para nosotros y qué funcionó bien?",
-    "message_intro_p2": "El objetivo de este sitio es recopilar historias sobre estilos de aprendizaje únicos. Nos gustaría escuchar tu historia sobre cómo aprendes mejor.",
-    "message_intro_list_description": "Es posible que desee considerar las siguientes ideas a medida que crea su historia:",
-    "message_intro_list_item_1": "Describe cómo aprendiste a hacer algo que ahora haces regularmente",
-    "message_intro_list_item_2": "Considere algo que haya tratado de aprender a hacer, pero que no haya podido aprender de una manera que lo satisfaga",
-    "message_intro_list_item_3": "Piense en un desafío que tuvo mientras aprendía algo nuevo",
-    "message_intro_list_item_4": "Describe cómo le enseñaste a alguien a hacer algo",
-    "message_intro_list_item_5": "Considera algo que te haya sorprendido y mdash; por ejemplo, algo que creías que no te ayudaría a aprender pero sí",
-    "message_intro_list_item_6": "Describe una vez que aprendiste algo cuando no esperabas",
-    "message_footer_text": "apoyado por la Fundación William and Flora Hewlett y la Fundación Oak"
+    "message_mastheadTitle": "El proyecto Storytelling",
+    "message_intro_p1": "<strong>Exprese su historia de aprendizaje a su manera</strong> en el proyecto Storytelling y compártala con otras personas: juntas, nuestras historias pueden contribuir a repensar nuestros sistemas de aprendizaje.",
+    "message_intro_p2": "Las historias nos conectan, ayudan a construir relaciones y comparten información que es importante para aprender sobre nosotros mismos, las personas y el mundo que nos rodea.",
+    "message_intro_p3": "El objetivo de este proyecto es crear conciencia a través de historias de barreras actuales, desafíos, éxitos y situaciones de exclusión que todos experimentamos en nuestros viajes de aprendizaje.",
+    "message_intro_p4": "<strong>¡Comienza a construir tu historia!</strong>",
+    "message_contextLink_browse": "Mostrar historias",
+    "message_contextLink_build": "Construye tu historia",
+    "message_footer_text1": "Este proyecto cuenta con el apoyo de [William and Flora Hewlett Foundation](https://www.hewlett.org/) y [Oak Foundation](http://www.oakfnd.org/).",
+    "message_footer_text2": "Las historias en este sitio se distribuyen bajo la [licencia CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Envíenos un [correo electrónico](mailto:noreply) si desea eliminar su historia de este sitio web.",
+    "message_menu_english": "English",
+    "message_menu_spanish": "Español"
 }

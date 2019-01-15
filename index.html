@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>El planeta es la escuela</title>
+<title>The StoryTelling Project</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <script src="node_modules/infusion/dist/infusion-all.js"></script>
@@ -29,22 +29,46 @@
 <script src="node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
 <script src="node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
+<script src="src/js/dynamicViewComponentManager.js"></script>
+<script src="src/js/storyTelling-binder.js"></script>
+<script src="src/js/storyTelling-block.js"></script>
+<script src="src/js/storyTelling-block-audio.js"></script>
+<script src="src/js/storyTelling-block-image.js"></script>
+<script src="src/js/storyTelling-block-text.js"></script>
+<script src="src/js/storyTelling-block-video.js"></script>
+<script src="src/js/storyTelling-block-timeBased.js"></script>
+<script src="src/js/storyTelling-blockUi.js"></script>
+<script src="src/js/storyTelling-blockUi-editor.js"></script>
+<script src="src/js/storyTelling-blockUi-editor-audioBlockEditor.js"></script>
+<script src="src/js/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
+<script src="src/js/storyTelling-blockUi-editor-mediaBlockEditor.js"></script>
+<script src="src/js/storyTelling-blockUi-editor-textBlockEditor.js"></script>
+<script src="src/js/storyTelling-blockUi-editor-videoBlockEditor.js"></script>
+<script src="src/js/storyTelling-blockUi-audioBlockViewer.js"></script>
+<script src="src/js/storyTelling-blockUi-imageBlockViewer.js"></script>
+<script src="src/js/storyTelling-blockUi-textBlockViewer.js"></script>
+<script src="src/js/storyTelling-blockUi-videoBlockViewer.js"></script>
+<script src="src/js/storyTelling-blockUi-timeBased.js"></script>
+<script src="src/js/storyTelling-page-storyEdit.js"></script>
 <script src="src/js/storyTelling-page.js"></script>
 <script src="src/js/storyTelling-story.js"></script>
 <script src="src/js/storyTelling-templateManager.js"></script>
 <script src="src/js/storyTelling-ui.js"></script>
 <script src="src/js/storyTelling-ui-menu.js"></script>
+<script src="src/js/storyTelling-ui-storyEditor.js"></script>
+<script src="src/js/storyTelling-ui-storyViewer.js"></script>
+<script src="src/js/storyTelling-uploader.js"></script>
+<script src="src/js/transforms.js"></script>
 <script src="src/js/UIOMultilingualDemo.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 
 <link rel="stylesheet" href="node_modules/infusion/src/framework/core/css/fluid.css">
 <link rel="stylesheet" href="src/css/storyTelling.css" />
 
-<script src="src/karisma/js/karisma.js"></script>
-<link rel="stylesheet" href="src/karisma/css/karisma.css" />
-<link rel="stylesheet" href="src/karisma/css/karisma-welcome.css" />
+<script src="src/learningReflections/js/learningReflections.js"></script>
+<link rel="stylesheet" href="src/learningReflections/css/learningReflections.css" />
 </head>
 <body>
 
@@ -79,16 +103,19 @@
    <!-- END markup for Preference Editor -->
 </div>
 
-<div class="sjrk-st-menu-links sjrkc-st-menu-links"></div>
+
 <div class="sjrk-st-page-header-container sjrkc-st-page-header-container"></div>
 
 <!-- This div is for the table of contents feature provided by the Preferences Editor -->
 <div class="sjrk-st-toc-container">
     <div class="flc-toc-tocContainer toc"> </div>
 </div>
-<div class="sjrk-st-page-content-container sjrk-st-page-content-container-one-column">
+<div class="sjrk-st-page-content-container">
+    <div class="sjrk-introduction-container sjrkc-introduction-container"></div>
     <div class="sjrk-main-container">
-        <div class="sjrk-st-welcome sjrkc-st-welcome"></div>
+        <div class="sjrk-st-menu sjrkc-st-menu"></div>
+        <div class="sjrk-st-story-editor sjrkc-st-story-editor"></div>
+        <div class="sjrk-st-story-viewer sjrkc-st-story-previewer"></div>
     </div>
 </div>
 
@@ -96,7 +123,7 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.karisma.karismaWelcome({});
+        sjrk.storyTelling.learningReflections.storyEdit({});
     });
 </script>
 

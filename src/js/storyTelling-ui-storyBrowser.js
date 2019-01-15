@@ -46,6 +46,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
+            linkList: ".sjrkc-st-browser-view-control-container",
             viewList: ".sjrkc-st-browser-stories",
             gridViewLink: ".sjrkc-st-browser-view-control-grid",
             listViewLink: ".sjrkc-st-browser-view-control-list"
@@ -104,8 +105,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.ui.storyBrowser.changeView = function (component, selector, displayPreference, className, completionEvent) {
         if (displayPreference === "grid") {
             component.locate(selector).addClass(className);
+            component.locate("linkList").addClass(className);
         } else {
             component.locate(selector).removeClass(className);
+            component.locate("linkList" ).removeClass(className);
         }
 
         completionEvent.fire();

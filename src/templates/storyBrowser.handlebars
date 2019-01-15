@@ -1,4 +1,4 @@
-<div class="sjrk-st-browser-view-control-container">
+<div class="sjrk-st-browser-view-control-container sjrkc-st-browser-view-control-container {{dynamicValues.storyBrowseDisplayPreference}}">
     {{localizedMessages.message_browseViewText}}: <a class="sjrk-st-browser-view-control-list sjrkc-st-browser-view-control-list" href="javascript:void(0);">{{localizedMessages.message_browseListText}}</a>
     |
     <a class="sjrk-st-browser-view-control-grid sjrkc-st-browser-view-control-grid" href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
@@ -11,7 +11,7 @@
                     {{#if thumbnailUrl}}
                         <img class="sjrk-st-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
                     {{else}}
-                        <img class="sjrk-st-browser-story-thumbnail sjrk-st-browser-story-thumnail-placeholder" src="{{../dynamicValues.placeholderThumbnailUrl}}" alt="{{../localizedMessages.message_browseListText}}">
+                        <img class="sjrk-st-browser-story-thumbnail sjrk-st-browser-story-thumbnail-placeholder" src="{{../dynamicValues.placeholderThumbnailUrl}}" alt="{{../localizedMessages.message_browseListText}}">
                     {{/if}}
                 </div>
                 <div class="sjrk-st-browser-story-details">

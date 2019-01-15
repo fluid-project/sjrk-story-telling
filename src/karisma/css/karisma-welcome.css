@@ -12,7 +12,7 @@ body {
     display: none;
 }
 
-.sjrk-st-menu-links {
+.sjrk-st-menu {
     display: block;
     grid-template-columns: initial;
     margin: 1rem;
