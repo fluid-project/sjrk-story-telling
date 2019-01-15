@@ -129,13 +129,6 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
     distributeOptions: {
         target: "{that learningReflectionsIntro templateManager}.options.linkConfig.templateValues.contextLinkUrl",
         record: "/storyBrowse.html"
-    },
-    listeners: {
-        "onCreate.log": {
-            this: "console",
-            method: "log",
-            args: "{that}"
-        }
     }
 });
 
