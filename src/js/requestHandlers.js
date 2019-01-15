@@ -86,6 +86,9 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
             if (block.blockType === "image") {
                 block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
                 return block;
+            } else if (block.blockType === "audio" || block.blockType === "video") {
+                block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
+                return block;
             }
         });
 
@@ -125,19 +128,23 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     // to client-side components too
     var binaryRenameMap = {};
 
-    // Update any image URLs to refer to the changed
+    // Update any media URLs to refer to the changed
     // file names
     fluid.transform(storyModel.content, function (block) {
         // fluid.log("BLOCK: ", block);
-        if (block.blockType === "image") {
-            var imageFile = fluid.find_if(request.req.files.file, function (singleFile) {
+        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+            var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
                 // fluid.log("SINGLEFILE: ", singleFile);
                 return singleFile.originalname === block.fileDetails.name;
             });
 
-            block.imageUrl = imageFile.filename;
+            if (block.blockType === "image") {
+                block.imageUrl = mediaFile.filename;
+            } else if (block.blockType === "audio" || block.blockType === "video") {
+                block.mediaUrl = mediaFile.filename;
+            }
 
-            binaryRenameMap[imageFile.originalname] = imageFile.filename;
+            binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
 
             return block;
         }

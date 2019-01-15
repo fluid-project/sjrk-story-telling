@@ -5,6 +5,10 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master/LICENSE.txt
 */
 
+/* global sjrk */
+
+"use strict";
+
 fluid.defaults("sjrk.storyTelling.server.changeMenuLink", {
     distributeOptions: {
         target: "{that menu}.options.menuConfig.templateValues.menu_browseLinkUrl",
@@ -40,7 +44,7 @@ fluid.defaults("sjrk.storyTelling.server.karisma.karismaWelcome", {
                         "welcomer_browseLinkUrl": "storyBrowse.html",
                         "welcomer_editLinkUrl": "storyEdit.html"
                     }
-                },
+                }
             }
         }
     }
@@ -102,26 +106,30 @@ sjrk.storyTelling.server.base.submitStory = function (that) {
         cache       : false,
         contentType : false,
         processData : false,
-        type        : 'POST',
-        success     : function(data, textStatus, jqXHR){
+        type        : "POST",
+        success     : function (data, textStatus, jqXHR) {
+            fluid.log(jqXHR, textStatus);
             var successResponse = JSON.parse(data);
-
             var storyUrl = "/storyView.html?id=" + successResponse.id;
             window.location.assign(storyUrl);
         },
         error       : function (jqXHR, textStatus, errorThrown) {
-            console.log("Something went wrong");
-            console.log(jqXHR, textStatus, errorThrown);
+            fluid.log("Something went wrong");
+            fluid.log(jqXHR, textStatus, errorThrown);
         }
     });
 };
 
 fluid.defaults("sjrk.storyTelling.server.karisma.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.karisma.storyEdit"],
+    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.karisma.storyEdit"]
 });
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
     gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.learningReflections.storyEdit"],
+    distributeOptions: {
+        target: "{that learningReflectionsIntro templateManager}.options.linkConfig.templateValues.contextLinkUrl",
+        record: "/storyBrowse.html"
+    }
 });
 
 fluid.defaults("sjrk.storyTelling.server.base.storyView", {
@@ -142,11 +150,15 @@ fluid.defaults("sjrk.storyTelling.server.base.storyView", {
 });
 
 fluid.defaults("sjrk.storyTelling.server.karisma.storyView", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.karisma.storyView"],
+    gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.karisma.storyView"]
 });
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
     gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.learningReflections.storyView"],
+    distributeOptions: {
+        target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
+        record: "/storyEdit.html"
+    }
 });
 
 // "sjrk.storyTelling.learningReflections.storyView"
@@ -156,12 +168,12 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 
 sjrk.storyTelling.server.getParameterByName = function (name, url) {
-    if (!url) url = window.location.href;
+    if (!url) { url = window.location.href; }
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
+    if (!results) { return null; }
+    if (!results[2]) { return ""; }
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
@@ -170,16 +182,16 @@ sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
     if (storyId) {
         var storyUrl = "/stories/" + storyId;
 
-            $.get(storyUrl, function (data) {
-                var retrievedStory = JSON.parse(data);
+        $.get(storyUrl, function (data) {
+            var retrievedStory = JSON.parse(data);
 
-                sjrk.storyTelling.server[theme].storyView({
-                    distributeOptions: {
-                        "target": "{that story}.options.model",
-                        "record": retrievedStory
-                    }
-                });
+            sjrk.storyTelling.server[theme].storyView({
+                distributeOptions: {
+                    "target": "{that story}.options.model",
+                    "record": retrievedStory
+                }
             });
+        });
     }
 };
 
@@ -201,7 +213,11 @@ fluid.defaults("sjrk.storyTelling.server.karisma.storyBrowse", {
 });
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.learningReflections.storyBrowse"]
+    gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.learningReflections.storyBrowse"],
+    distributeOptions: {
+        target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
+        record: "/storyEdit.html"
+    }
 });
 
 sjrk.storyTelling.server.loadBrowse = function (theme) {
@@ -220,14 +236,14 @@ sjrk.storyTelling.server.loadBrowse = function (theme) {
 
 var templates = {
     karisma: {
-        view: '<div class="sjrk-st-page-content-container sjrk-st-page-content-container-one-column"><div class="sjrk-introduction-container sjrkc-introduction-container"></div><div class="sjrk-main-container"><div class="sjrk-st-menu-links sjrkc-st-menu-links"></div><div class="sjrk-st-story-viewer sjrkc-st-story-viewer"></div></div></div>',
-        edit: '<div class="sjrk-st-page-content-container sjrk-st-page-content-with-sidebars"><div class="sjrk-sidebar-left-container sjrkc-sidebar-left-container"></div><div class="sjrk-story-editor-container"><div class="sjrk-st-menu-links sjrkc-st-menu-links"></div><div class="sjrk-st-story-editor sjrkc-st-story-editor"></div><div class="sjrk-st-story-viewer sjrkc-st-story-previewer"></div></div><div class="sjrk-sidebar-right-container sjrkc-sidebar-right-container"></div></div>',
-        browse: '<div class="sjrk-st-page-content-container sjrk-st-page-content-container-one-column"><div class="sjrk-introduction-container sjrkc-introduction-container"></div><div class="sjrk-main-container"><div class="sjrk-st-menu-links sjrkc-st-menu-links"></div><div class="sjrk-st-story-browser sjrkc-st-story-browser"></div></div></div>'
+        view: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu-links sjrkc-st-menu-links\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-viewer\"></div></div></div>",
+        edit: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-with-sidebars\"><div class=\"sjrk-sidebar-left-container sjrkc-sidebar-left-container\"></div><div class=\"sjrk-story-editor-container\"><div class=\"sjrk-st-menu-links sjrkc-st-menu-links\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div><div class=\"sjrk-sidebar-right-container sjrkc-sidebar-right-container\"></div></div>",
+        browse: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu-links sjrkc-st-menu-links\"></div><div class=\"sjrk-st-story-browser sjrkc-st-story-browser\"></div></div></div>"
     },
     learningReflections: {
-        view: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-viewer"></div> </div> </div>',
-        edit: '<div class="sjrk-pageBody-container"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-editor sjrkc-storyTelling-story-editor"></div> <div class="sjrk-storyTelling-story-viewer sjrkc-storyTelling-story-previewer"></div> </div> </div>',
-        browse: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> <div class="sjrk-introduction-container sjrkc-introduction-container"></div> <div class="sjrk-main-container"> <div class="sjrk-storyTelling-menu-links sjrkc-storyTelling-menu-links"></div> <div class="sjrk-storyTelling-story-browser sjrkc-storyTelling-story-browser"></div> </div> </div>'
+        view: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-viewer\"></div></div></div>",
+        edit: "<div class=\"sjrk-st-page-content-container\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div></div>",
+        browse: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-browser sjrkc-st-story-browser\"></div></div></div>"
     }
 };
 
@@ -237,16 +253,16 @@ sjrk.storyTelling.server.loadThemedPage = function (page, theme, callback) {
 
     mainContainer.html(templates[theme][page]);
 
-    var cssUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/css/%theme.css", {theme: theme}),
-    scriptUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/js/%theme.js", {theme: theme});
+    var cssUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/css/%theme.css", {theme: theme});
+    var scriptUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/js/%theme.js", {theme: theme});
 
-    $('<link/>', {
-       rel: 'stylesheet',
-       type: 'text/css',
-       href: cssUrl
-       }).appendTo('head');
+    $("<link/>", {
+        rel: "stylesheet",
+        type: "text/css",
+        href: cssUrl
+    }).appendTo("head");
 
     $.getScript(scriptUrl, function () {
-            callback(theme);
+        callback(theme);
     });
 };
