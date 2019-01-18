@@ -45,16 +45,12 @@
             {{/equals}}
 
             {{#if dynamicValues.hasMobileCamera}}
-                {{#equals dynamicValues.blockType "audio"}}
-                    <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonAudio}}</button>
-                {{/equals}}
                 {{#equals dynamicValues.blockType "image"}}
                     <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonImage}}</button>
                 {{/equals}}
                 {{#equals dynamicValues.blockType "video"}}
                     <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonVideo}}</button>
                 {{/equals}}
-
             {{/if}}
         </div>
 
@@ -71,13 +67,13 @@
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
-                {{#equals dynamicValues.blockType "audio"}}
+                {{#equals ../dynamicValues.blockType "audio"}}
                     <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
                 {{/equals}}
-                {{#equals dynamicValues.blockType "image"}}
+                {{#equals ../dynamicValues.blockType "image"}}
                     <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
                 {{/equals}}
-                {{#equals dynamicValues.blockType "video"}}
+                {{#equals ../dynamicValues.blockType "video"}}
                     <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
                 {{/equals}}
             {{/getIds}}
