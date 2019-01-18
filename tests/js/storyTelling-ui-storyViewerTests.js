@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onAllResourcesLoaded.renderTemplate": {
                             funcName: "{that}.renderTemplate",
                             // added to test viewer buttons
-                            args: ["{story}.model", {showFooter: true}]
+                            args: ["{story}.model", {isEditorPreview: true}]
                         }
                     },
                     templateConfig: {
