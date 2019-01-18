@@ -127,12 +127,11 @@ body {
 .sjrk-st-block-alternative-content input,
 .sjrk-st-block-media-description,
 .sjrk-st-block-media-alt-text,
-.sjrk-st-block-media-transcript,
-textarea {
+.sjrk-st-block-media-transcript {
     font-family: var(--site-font);
     font-size: 1rem;
     padding: 0.25rem;
-    background: #fff;
+    background: var(--site-grey);
     border: 1px solid var(--site-dark-grey);
     border-left: none;
     border-right: none;
@@ -249,9 +248,9 @@ textarea {
 
 .sjrk-st-page-footer-container {
     font-weight: 300;
-    padding: 1rem 3rem;
+    padding: 2.5rem 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-columns: 10rem 19rem 4fr;
     grid-gap: 0.5rem;
     align-items: center;
     font-size: .8rem;
@@ -271,7 +270,7 @@ textarea {
 }
 
 .sjrk-st-page-footer-oak-logo-container img {
-    height: 3rem;
+    width: 6rem;
 }
 
 .sjrk-st-page-footer-hewlett-logo-container {

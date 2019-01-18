@@ -34,9 +34,27 @@
     </div>
     <form>
         <div class="sjrk-st-block-media-buttons-container">
-            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButton}}</button>
+            {{#equals dynamicValues.blockType "audio"}}
+                <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonAudio}}</button>
+            {{/equals}}
+            {{#equals dynamicValues.blockType "image"}}
+                <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonImage}}</button>
+            {{/equals}}
+            {{#equals dynamicValues.blockType "video"}}
+                <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
+            {{/equals}}
+
             {{#if dynamicValues.hasMobileCamera}}
-                <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButton}}</button>
+                {{#equals dynamicValues.blockType "audio"}}
+                    <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonAudio}}</button>
+                {{/equals}}
+                {{#equals dynamicValues.blockType "image"}}
+                    <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonImage}}</button>
+                {{/equals}}
+                {{#equals dynamicValues.blockType "video"}}
+                    <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonVideo}}</button>
+                {{/equals}}
+
             {{/if}}
         </div>
 
@@ -53,7 +71,15 @@
                 <div class="sjrk-st-label-container fl-hidden-accessible">
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
-                <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholder}}"></textarea>
+                {{#equals dynamicValues.blockType "audio"}}
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+                {{/equals}}
+                {{#equals dynamicValues.blockType "image"}}
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
+                {{/equals}}
+                {{#equals dynamicValues.blockType "video"}}
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+                {{/equals}}
             {{/getIds}}
         </div>
         {{#if dynamicValues.hasTranscript}}
