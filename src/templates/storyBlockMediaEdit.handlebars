@@ -68,13 +68,13 @@
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
                 {{#equals ../dynamicValues.blockType "audio"}}
-                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
                 {{/equals}}
                 {{#equals ../dynamicValues.blockType "image"}}
-                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
                 {{/equals}}
                 {{#equals ../dynamicValues.blockType "video"}}
-                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
                 {{/equals}}
             {{/getIds}}
         </div>
