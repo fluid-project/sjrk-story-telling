@@ -84,10 +84,14 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
 
         fluid.transform(response.content, function (block) {
             if (block.blockType === "image") {
-                block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
+                if (block.imageUrl) {
+                    block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
+                }
                 return block;
             } else if (block.blockType === "audio" || block.blockType === "video") {
-                block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
+                if (block.mediaUrl) {
+                    block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
+                }
                 return block;
             }
         });
@@ -138,13 +142,15 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
                 return singleFile.originalname === block.fileDetails.name;
             });
 
-            if (block.blockType === "image") {
-                block.imageUrl = mediaFile.filename;
-            } else if (block.blockType === "audio" || block.blockType === "video") {
-                block.mediaUrl = mediaFile.filename;
-            }
+            if (mediaFile) {
+                if (block.blockType === "image") {
+                    block.imageUrl = mediaFile.filename;
+                } else if (block.blockType === "audio" || block.blockType === "video") {
+                    block.mediaUrl = mediaFile.filename;
+                }
 
-            binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+            }
 
             return block;
         }

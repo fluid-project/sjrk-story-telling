@@ -78,9 +78,103 @@ var testStoryModel = {
     "translationOf": null
 };
 
+var blankStory = {
+    "title": "",
+    "content": [],
+    "contentString": "",
+    "author": "",
+    "tags": [
+        ""
+    ],
+    "keywordString": "",
+    "summary": "",
+    "thumbnailUrl": "",
+    "thumbnailAltText": "",
+    "contentTypes": [],
+    "languageFromSelect": "",
+    "languageFromInput": ""
+};
+
+var blankStoryWithEmptyMediaBlocks = {
+    "title": "",
+    "content": [
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "blockType": "text",
+            "text": null,
+            "simplifiedText": null,
+            "contentString": "",
+            "languageFromSelect": "",
+            "languageFromInput": ""
+        },
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "blockType": "image",
+            "imageUrl": null,
+            "alternativeText": null,
+            "description": null,
+            "contentString": "",
+            "languageFromSelect": "",
+            "languageFromInput": "",
+            "fileDetails": null
+        },
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "mediaUrl": null,
+            "alternativeText": null,
+            "description": null,
+            "transcript": null,
+            "hasTranscript": true,
+            "blockType": "audio",
+            "contentString": "",
+            "languageFromSelect": "",
+            "languageFromInput": "",
+            "fileDetails": null
+        },
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "mediaUrl": null,
+            "alternativeText": null,
+            "description": null,
+            "transcript": null,
+            "hasTranscript": true,
+            "blockType": "video",
+            "contentString": "",
+            "languageFromSelect": "",
+            "languageFromInput": "",
+            "fileDetails": null
+        }
+    ],
+    "contentString": "",
+    "author": "",
+    "tags": [
+        ""
+    ],
+    "keywordString": "",
+    "summary": "",
+    "thumbnailUrl": "",
+    "thumbnailAltText": "",
+    "contentTypes": [],
+    "languageFromSelect": "",
+    "languageFromInput": ""
+};
+
+// TODO: Generalize story testing so that components (such as request
+// for retrieving saved story) and test sequences can be reused across
+// different story configurations. And use these generalized pieces to
+// test more story configurations.
+
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 8,
+    expect: 16,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -88,7 +182,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         "onStorySaveSuccessful": null,
         // Receives one argument:
         // - the filename of the image to retrieve
-        "onTestImageRetrieval": null
+        "onTestImageRetrieval": null,
+        // Receives two arguments:
+        // - the ID of the saved story
+        // - the binaryRenameMap
+        "onBlankStorySaveSuccessful": null,
+        // Receives two arguments:
+        // - the ID of the saved story
+        // - the binaryRenameMap
+        "onBlankStoryWithEmptyMediaBlocksSaveSuccessful": null
     },
     testUploadOptions: {
         testFile: "./tests/binaries/logo_small_fluid_vertical.png",
@@ -146,12 +248,69 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     handlerPath: null
                 }
             }
+        },
+        blankStorySave: {
+            type: "kettle.test.request.formData",
+            options: {
+                path: "/stories",
+                method: "POST",
+                formData: {
+                    fields: {
+                        "model": {
+                            expander: {
+                                type: "fluid.noexpand",
+                                value: JSON.stringify(blankStory)
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        getSavedBlankStory: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/stories/%id",
+                termMap: {
+                    // We don't know this until the story is saved, so needs
+                    // to be filled in at runtime
+                    id: null
+                }
+            }
+        },
+        blankStoryWithEmptyMediaBlocksSave: {
+            type: "kettle.test.request.formData",
+            options: {
+                path: "/stories",
+                method: "POST",
+                formData: {
+                    fields: {
+                        "model": {
+                            expander: {
+                                type: "fluid.noexpand",
+                                value: JSON.stringify(blankStoryWithEmptyMediaBlocks)
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        getSavedBlankStoryWithEmptyMediaBlocks: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/stories/%id",
+                termMap: {
+                    // We don't know this until the story is saved, so needs
+                    // to be filled in at runtime
+                    id: null
+                }
+            }
         }
     },
     sequence: [{
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
     },
+    // Story with an image
     {
         event: "{testDB}.dbConfiguration.events.onSuccess",
         listener: "{that}.storySave.send"
@@ -166,7 +325,17 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
-        args: ["{arguments}.0", "{arguments}.1", "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory", "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath", "{testCaseHolder}.events.onTestImageRetrieval"]
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            testStoryModel,
+            {
+                urlProp: "imageUrl",
+                expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
+                expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
+            },
+            "{testCaseHolder}.events.onTestImageRetrieval"
+        ]
     },
     {
         event: "{that}.events.onTestImageRetrieval",
@@ -180,8 +349,67 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
-    }
-    ]
+    },
+    // Blank story
+    {
+        func: "{that}.blankStorySave.send"
+    }, {
+        event: "{blankStorySave}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.events.onBlankStorySaveSuccessful"
+        ]
+    }, {
+        event: "{that}.events.onBlankStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{getSavedBlankStory}"
+        ]
+    }, {
+        event: "{getSavedBlankStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            blankStory,
+            null, // No file expected
+            null // No event needed
+        ]
+    },
+    // Blank story with empty media blocks
+    {
+        func: "{that}.blankStoryWithEmptyMediaBlocksSave.send"
+    }, {
+        event: "{blankStoryWithEmptyMediaBlocksSave}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful"
+        ]
+    }, {
+        event: "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{getSavedBlankStoryWithEmptyMediaBlocks}"
+        ]
+    }, {
+        event: "{getSavedBlankStoryWithEmptyMediaBlocks}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            blankStoryWithEmptyMediaBlocks,
+            null, // No file expected
+            null // No event needed
+        ]
+    }]
 }];
 
 sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = function (dirPath) {
@@ -213,26 +441,35 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedUploadDirectory, expectedUploadedFilesHandlerPath, completionEvent) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent) {
     var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
 
     // update the expected model to use the
     // dynamically-generated file name before we
     // test on it
-    var updatedModel = fluid.copy(testStoryModel);
-    updatedModel.content[0].imageUrl = expectedUploadedFilesHandlerPath + binaryRenameMap[testStoryModel.content[0].imageUrl];
+    var updatedModel = fluid.copy(expectedStory);
+    if (fileOptions) {
+        updatedModel.content[0][fileOptions.urlProp] =
+            fileOptions.expectedUploadedFilesHandlerPath
+            + binaryRenameMap[testStoryModel.content[0][fileOptions.urlProp]];
+    }
 
     // Strip the _rev field from the parsedData
     parsedData = fluid.censorKeys(parsedData, "_rev");
 
     jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
 
-    var exists = fs.existsSync(expectedUploadDirectory + binaryRenameMap[testStoryModel.content[0].imageUrl]);
+    if (fileOptions) {
+        var exists = fs.existsSync(fileOptions.expectedUploadDirectory
+            + binaryRenameMap[testStoryModel.content[0][fileOptions.urlProp]]);
 
-    jqUnit.assertTrue("Uploaded file exists", exists);
+        jqUnit.assertTrue("Uploaded file exists", exists);
+    }
 
-    completionEvent.fire(parsedData.content[0].imageUrl);
+    if (completionEvent && fileOptions) {
+        completionEvent.fire(parsedData.content[0][fileOptions.urlProp]);
+    }
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest) {
