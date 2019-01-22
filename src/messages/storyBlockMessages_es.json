@@ -7,7 +7,7 @@
     "message_simplifiedTextInputLabel": "Resumen",
     "message_simplifiedTextInputPlaceholder": "Añadir resumen",
     "message_altTextInputLabel": "Descripción",
-    "message_altTextInputPlaceholder": "Añadir descripción de la imagen",
+    "message_altTextInputPlaceholderImage": "Añadir descripción de la imagen",
     "message_altTextInputPlaceholderAudio": "Traducir el audio a texto",
     "message_descriptionInputLabel": "Subtítulo",
     "message_descriptionInputPlaceholder": "Añadir subtítulo",
