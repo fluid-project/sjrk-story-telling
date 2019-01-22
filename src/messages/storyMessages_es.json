@@ -33,6 +33,8 @@
     "message_menu_storyBuilderText": "Constructor de historias",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
+    "message_etiquette_title": "Seguridad y etiqueta de las historias",
+    "message_etiquette_body": "* Evite información identificativa como nombres y direcciones en su historia.\n* No publique fotos o videos de otras personas sin su consentimiento explícito.\n* Evite el contenido que amenace o intimide a cualquier persona o sugiera violencia, odio o discriminación hacia otras personas.",
     "contentTypes": {
         "audio": "audio",
         "image": "imagen",

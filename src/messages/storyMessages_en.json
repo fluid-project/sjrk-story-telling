@@ -38,6 +38,8 @@
     "message_menu_storyBuilderText": "Story Builder",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
+    "message_etiquette_title": "Storytelling safety & etiquette",
+    "message_etiquette_body": "* Avoid identifying information such as names and addresses in your story.\n* Don't publish photos or video of other people without their explicit consent.\n* Avoid content that threatens or intimidates any person or suggests violence, hatred or discrimination toward other people.",
     "contentTypes": {
         "audio": "audio",
         "image": "image",
