@@ -256,8 +256,8 @@ img.sjrk-st-block-media-preview:not([src]) {
 
 .sjrk-st-story-editor-buttons-container {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0.2rem;
+    grid-template-columns: repeat(7, 3rem) 1fr;
+    grid-gap: 0.8rem;
 }
 
 .sjrk-st-story-editor-content, .sjrk-st-story-content {
@@ -273,6 +273,10 @@ img.sjrk-st-block-media-preview:not([src]) {
     font-size: 1rem;
     line-height: 1.4;
     padding: 0.25rem;
+}
+
+.sjrk-st-story-editor-page2 input {
+    background: var(--site-grey);
 }
 
 .sjrk-st-story-viewer .sjrk-st-story-title {
