@@ -1,5 +1,4 @@
 <div lang="{{localizedMessages.language}}" class="sjrk-st-block">
-    <!-- repeated markup start -->
     {{#getIds "storySelectionCheckbox"}}
         <div class="sjrk-st-label-container fl-hidden-accessible">
             <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
@@ -8,18 +7,6 @@
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
         </div>
     {{/getIds}}
-
-    {{#getIds "storyBlockHeading"}}
-        <div class="sjrk-st-block-alternative-content">
-            <div class="sjrk-st-label-container fl-hidden-accessible">
-                <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
-            </div>
-            <div>
-                <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
-            </div>
-        </div>
-    {{/getIds}}
-    <!-- repeated markup end -->
 
     <div class="sjrk-st-block-media-preview-container">
         {{#equals dynamicValues.blockType "audio"}}
@@ -53,6 +40,17 @@
                 {{/equals}}
             {{/if}}
         </div>
+
+        {{#getIds "storyBlockHeading"}}
+            <div class="sjrk-st-block-alternative-content">
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+                </div>
+                <div>
+                    <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+                </div>
+            </div>
+        {{/getIds}}
 
         <div class="sjrk-st-block-media-description-container">
             {{#getIds "storyBlockDescription"}}
