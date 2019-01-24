@@ -9,6 +9,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 var fluid = require("infusion");
 var uuidv1 = require("uuid/v1");
+var fs = require("fs");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
@@ -181,14 +182,14 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleDeleteStory",
-            args: ["{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource"]
+            args: ["{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource, getStoryDataSource) {
+sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource, getStoryDataSource, uploadedFilesHandlerPath) {
 
-    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource, getStoryDataSource);
+    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource, getStoryDataSource, uploadedFilesHandlerPath);
 
     promise.then(function () {
         request.events.onSuccess.fire({
@@ -202,7 +203,7 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
     });
 };
 
-sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource, getStoryDataSource) {
+sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource, getStoryDataSource, uploadedFilesHandlerPath) {
 
     var promise = fluid.promise();
 
@@ -211,6 +212,9 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSou
     });
 
     getPromise.then(function (response) {
+        if (response.content) {
+            sjrk.storyTelling.server.deleteStoryFiles(response.content, uploadedFilesHandlerPath);
+        }
 
         var deletePromise = deleteStoryDataSource.set({
             directStoryId: id,
@@ -228,6 +232,32 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSou
     });
 
     return promise;
+};
+
+sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, uploadedFilesHandlerPath) {
+    var filesToDelete = [];
+
+    fluid.each(storyContent, function (block) {
+        if (block.blockType === "image") {
+            filesToDelete.push(block.imageUrl);
+        } else if (block.blockType === "audio" || block.blockType === "video") {
+            filesToDelete.push(block.mediaUrl);
+        }
+    });
+
+    // remove duplicate entries so we don't try to delete already-deleted files
+    filesToDelete = filesToDelete.filter(function (fileName, index, self) {
+        return self.indexOf(fileName) === index;
+    });
+
+    fluid.each(filesToDelete, function (fileToDelete) {
+        var filePath = "./" + uploadedFilesHandlerPath + "/" + fileToDelete;
+
+        fs.unlink(filePath, function (err) {
+            if (err) { throw err; }
+            fluid.log("Deleted file:", filePath);
+        });
+    });
 };
 
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
