@@ -134,14 +134,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
     // Update any media URLs to refer to the changed
     // file names
-    fluid.transform(storyModel.content, function (block) {
-        // fluid.log("BLOCK: ", block);
-        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+    fluid.each(storyModel.content, function (block) {
+        if ((block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") && block.fileDetails) {
+            // Look for the uploaded file matching this block
             var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                // fluid.log("SINGLEFILE: ", singleFile);
                 return singleFile.originalname === block.fileDetails.name;
             });
 
+            // If we find a match, update the media URL
             if (mediaFile) {
                 if (block.blockType === "image") {
                     block.imageUrl = mediaFile.filename;
@@ -151,8 +151,6 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
                 binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
             }
-
-            return block;
         }
     });
 
