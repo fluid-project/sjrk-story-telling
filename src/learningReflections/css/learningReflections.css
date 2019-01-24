@@ -4,6 +4,7 @@
     --site-light-blue: #9cd6d5;
     --site-green: #c7e198;
     --site-orange: #eec86b;
+    --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
 }
@@ -107,7 +108,7 @@ body {
 }
 
 .sjrk-st-story-editor,
-.sjrk-st-story-viewer {
+.sjrk-st-story-editor + .sjrk-st-story-viewer {
     border: 1px dashed;
     padding: 1.5rem;
     position: relative;
@@ -242,6 +243,15 @@ body {
     border-radius: 1.5rem;
 }
 
+.sjrk-st-important-notes {
+    font-size: 1rem;
+}
+
+.sjrk-st-important-notes h2 {
+    font-size: 1.25rem;
+    color: var(--site-red-orange);
+}
+
 .sjrk-st-menu-languages-container a {
     text-transform: none;
 }
@@ -311,6 +321,11 @@ body {
 
     .sjrk-introduction-container .sjrk-st-context-link-container {
         margin-top: 2rem;
+        margin-bottom: 0;
+    }
+
+    .sjrk-st-menu {
+        margin-top: 1rem;
     }
 
     .sjrk-st-page-footer-container {

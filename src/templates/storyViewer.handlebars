@@ -38,19 +38,24 @@
 
     <div class="sjrkc-st-story-content sjrk-st-story-content"></div>
 </div>
-{{#if dynamicValues.showFooter}}<div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-footer-container">
-    <div>
-        <a href="javascript:void(0)" class="sjrkc-st-story-viewer-previous sjrk-st-story-viewer-previous">
-            <img src="/src/img/icons/icon-back.svg" alt="left arrow icon">
-            <span>{{localizedMessages.message_goBack}}</span>
-        </a>
+{{#if dynamicValues.isEditorPreview}}
+    <div lang="{{localizedMessages.language}}" class="sjrk-st-important-notes">
+        <h2>{{localizedMessages.message_important_notes_title}}</h2>
+        {{{md localizedMessages.message_important_notes_body}}}
     </div>
-    <div>
-        {{!--<a href="#" class="sjrkc-st-storyShare sjrk-st-storyShare">{{localizedMessages.message_shareText}}</a>--}}
-        <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+    <div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-footer-container">
+        <div>
+            <a href="javascript:void(0)" class="sjrkc-st-story-viewer-previous sjrk-st-story-viewer-previous">
+                <img src="/src/img/icons/icon-back.svg" alt="left arrow icon">
+                <span>{{localizedMessages.message_goBack}}</span>
+            </a>
+        </div>
+        <div>
+            {{!--<a href="#" class="sjrkc-st-storyShare sjrk-st-storyShare">{{localizedMessages.message_shareText}}</a>--}}
+            <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+        </div>
+        <div hidden>
+            <a href="#" class="sjrkc-st-story-save-no-share sjrk-st-story-save-no-share">{{localizedMessages.message_saveNoShareText}}</a>
+        </div>
     </div>
-    <div hidden>
-        <a href="#" class="sjrkc-st-story-save-no-share sjrk-st-story-save-no-share">{{localizedMessages.message_saveNoShareText}}</a>
-    </div>
-</div>
 {{/if}}

@@ -33,6 +33,8 @@
     "message_menu_storyBuilderText": "Constructor de historias",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
+    "message_important_notes_title": "Notas importantes",
+    "message_important_notes_body": "* Su historia publicada será licenciada bajo CC BY 4.0.\n* No podrás realizar cambios en tu historia una vez que la publiques.\n* Puede eliminar su historia enviando un correo electrónico a stories@idrc.ocadu.ca",
     "contentTypes": {
         "audio": "audio",
         "image": "imagen",

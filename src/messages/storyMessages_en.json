@@ -38,6 +38,8 @@
     "message_menu_storyBuilderText": "Story Builder",
     "message_menu_english": "English",
     "message_menu_spanish": "Español",
+    "message_important_notes_title": "Important notes",
+    "message_important_notes_body": "* Your published story will be licensed under CC BY 4.0.\n* You won't be able to make changes to your story once you publish.\n* You can have your story removed by emailing stories@idrc.ocadu.ca",
     "contentTypes": {
         "audio": "audio",
         "image": "image",
