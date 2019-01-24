@@ -35,6 +35,8 @@
     "message_menu_spanish": "Español",
     "message_important_notes_title": "Notas importantes",
     "message_important_notes_body": "* Su historia publicada será licenciada bajo CC BY 4.0.\n* No podrás realizar cambios en tu historia una vez que la publiques.\n* Puede eliminar su historia enviando un correo electrónico a stories@idrc.ocadu.ca",
+    "message_etiquette_title": "Seguridad y etiqueta de las historias",
+    "message_etiquette_body": "* Evite información identificativa como nombres y direcciones en su historia.\n* No publique fotos o videos de otras personas sin su consentimiento explícito.\n* Evite el contenido que amenace o intimide a cualquier persona o sugiera violencia, odio o discriminación hacia otras personas.",
     "contentTypes": {
         "audio": "audio",
         "image": "imagen",

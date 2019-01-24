@@ -72,6 +72,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the story safety and etiquette notice
+            storyEtiquette: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-st-etiquette-container",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/templates/etiquette.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             // the story preview context
             storyPreviewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",

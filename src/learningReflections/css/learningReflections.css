@@ -7,6 +7,7 @@
     --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
+    --site-turquoise: #cbe2e1;
 }
 
 body {
@@ -256,6 +257,23 @@ body {
     text-transform: none;
 }
 
+.sjrk-st-etiquette {
+    background: var(--site-turquoise);
+    color: var(--site-blue);
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+.sjrk-st-etiquette p {
+    font-weight: 800;
+    margin-top: 0;
+}
+
+.sjrk-st-etiquette ul {
+    padding-inline-start: 1.25rem;
+    margin-bottom: 0;
+}
+
 .sjrk-st-page-footer-container {
     font-weight: 300;
     padding: 2.5rem 2rem;
@@ -292,7 +310,7 @@ body {
 }
 
 @media only screen and (max-width: 50em) {
-    .sjrk-st-page-header-container {
+    .sjrk-st-page-header-container, .sjrk-st-etiquette {
         padding: 1rem;
     }
 

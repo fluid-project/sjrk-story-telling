@@ -26,6 +26,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             menu: {
                 container: "#testMenu"
             },
+            storyEtiquette: {
+                container: "#testStoryEtiquette"
+            },
             storyEditor: {
                 container: "#testStoryEditor",
                 options: {
