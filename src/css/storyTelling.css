@@ -37,7 +37,12 @@ fieldset ul {
 }
 
 .sjrk-st-toc-container {
-    padding-left: 3rem;
+    padding: 1rem 2rem;
+    background: white;
+}
+
+.sjrk-st-toc-container h2 {
+    margin-top: 0;
 }
 
 .sjrk-st-page-content-container {
