@@ -1,5 +1,4 @@
 <div lang="{{localizedMessages.language}}" class="sjrk-st-block">
-    <!-- repeated markup start -->
     {{#getIds "storySelectionCheckbox"}}
         <div class="sjrk-st-label-container fl-hidden-accessible">
             <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
@@ -8,18 +7,6 @@
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
         </div>
     {{/getIds}}
-
-    {{#getIds "storyBlockHeading"}}
-        <div class="sjrk-st-block-alternative-content">
-            <div class="sjrk-st-label-container fl-hidden-accessible">
-                <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
-            </div>
-            <div>
-                <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
-            </div>
-        </div>
-    {{/getIds}}
-    <!-- repeated markup end -->
 
     <div class="sjrk-st-block-media-preview-container">
         {{#equals dynamicValues.blockType "audio"}}
@@ -54,6 +41,17 @@
             {{/if}}
         </div>
 
+        {{#getIds "storyBlockHeading"}}
+            <div class="sjrk-st-block-alternative-content">
+                <div class="sjrk-st-label-container fl-hidden-accessible">
+                    <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+                </div>
+                <div>
+                    <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+                </div>
+            </div>
+        {{/getIds}}
+
         <div class="sjrk-st-block-media-description-container">
             {{#getIds "storyBlockDescription"}}
                 <div class="sjrk-st-label-container fl-hidden-accessible">
@@ -68,13 +66,13 @@
                     <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
                 {{#equals ../dynamicValues.blockType "audio"}}
-                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+                    <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
                 {{/equals}}
                 {{#equals ../dynamicValues.blockType "image"}}
                     <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
                 {{/equals}}
                 {{#equals ../dynamicValues.blockType "video"}}
-                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+                    <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
                 {{/equals}}
             {{/getIds}}
         </div>
@@ -84,12 +82,7 @@
                     <div class="sjrk-st-label-container fl-hidden-accessible">
                         <label for="$id">{{../localizedMessages.message_transcriptInputLabel}}</label>
                     </div>
-                    {{#equals ../dynamicValues.blockType "audio"}}
-                        <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../../localizedMessages.message_transcriptInputPlaceholderAudio}}"></textarea>
-                    {{/equals}}
-                    {{#equals ../dynamicValues.blockType "video"}}
-                        <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../../localizedMessages.message_transcriptInputPlaceholderVideo}}"></textarea>
-                    {{/equals}}
+                    <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_transcriptInputPlaceholder}}"></textarea>
                 {{/getIds}}
             </div>
         {{/if}}

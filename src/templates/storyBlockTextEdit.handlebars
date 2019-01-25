@@ -1,11 +1,19 @@
 <div lang="{{localizedMessages.language}}" class="sjrk-st-block">
-    <!-- repeated markup start -->
     {{#getIds "storySelectionCheckbox"}}
         <div class="sjrk-st-label-container fl-hidden-accessible">
             <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
         </div>
         <div class="sjrk-st-block-selection-checkbox-container">
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
+        </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockText"}}
+        <div class="sjrk-st-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_textInputLabel}}</label>
+        </div>
+        <div>
+            <textarea id="$id" class="sjrk-st-block-text sjrkc-st-block-text" cols="30" rows="5" placeholder="{{../localizedMessages.message_textInputPlaceholder}}"></textarea>
         </div>
     {{/getIds}}
 
@@ -17,16 +25,6 @@
             <div>
                 <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
             </div>
-        </div>
-    {{/getIds}}
-    <!-- repeated markup end -->
-
-    {{#getIds "storyBlockText"}}
-        <div class="sjrk-st-label-container fl-hidden-accessible">
-            <label for="$id">{{../localizedMessages.message_textInputLabel}}</label>
-        </div>
-        <div>
-            <textarea id="$id" class="sjrk-st-block-text sjrkc-st-block-text" cols="30" rows="5" placeholder="{{../localizedMessages.message_textInputPlaceholder}}"></textarea>
         </div>
     {{/getIds}}
 
