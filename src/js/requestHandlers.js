@@ -252,11 +252,8 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, uploadedFile
 
     fluid.each(filesToDelete, function (fileToDelete) {
         var filePath = "./" + uploadedFilesHandlerPath + "/" + fileToDelete;
-
-        fs.unlink(filePath, function (err) {
-            if (err) { throw err; }
-            fluid.log("Deleted file:", filePath);
-        });
+        fs.unlinkSync(filePath);
+        fluid.log("Deleted file:", filePath);
     });
 };
 
