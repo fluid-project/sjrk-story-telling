@@ -10,6 +10,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 var fluid = require("infusion");
 var uuidv1 = require("uuid/v1");
 var fs = require("fs");
+var path = require("path");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
@@ -86,12 +87,12 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
         fluid.transform(response.content, function (block) {
             if (block.blockType === "image") {
                 if (block.imageUrl) {
-                    block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
+                    block.imageUrl = uploadedFilesHandlerPath + path.sep + block.imageUrl;
                 }
                 return block;
             } else if (block.blockType === "audio" || block.blockType === "video") {
                 if (block.mediaUrl) {
-                    block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
+                    block.mediaUrl = uploadedFilesHandlerPath + path.sep + block.mediaUrl;
                 }
                 return block;
             }
@@ -238,10 +239,16 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig
     var filesToDelete = [];
 
     fluid.each(storyContent, function (block) {
+        var blockFileName = "";
+
         if (block.blockType === "image") {
-            filesToDelete.push(block.imageUrl);
+            blockFileName = block.imageUrl;
         } else if (block.blockType === "audio" || block.blockType === "video") {
-            filesToDelete.push(block.mediaUrl);
+            blockFileName = block.mediaUrl;
+        }
+
+        if (sjrk.storyTelling.server.isValidMediaFilename(blockFileName)) {
+            filesToDelete.push(blockFileName);
         }
     });
 
@@ -255,9 +262,38 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig
     });
 };
 
+sjrk.storyTelling.server.isValidMediaFilename = function (fileName, serverConfig) {
+    try {
+        if (!fileName || fileName === "null" || fileName === "undefined")
+        {
+            throw "The filename is not valid: not truthy.";
+        }
+
+        if (sjrk.storyTelling.server.isValidUuidFileName(fileName)) {
+            throw "The filename is not valid: does not match UUID file name pattern.";
+        }
+
+        var fileWithFullPath = sjrk.storyTelling.server.getServerPathForFile(fileName, serverConfig.uploadedFilesHandlerPath);
+        fs.accessSync(fileWithFullPath, fs.constants.W_OK | fs.constants.R_OK);
+
+        return true; // it is a valid file name
+    } catch (err) {
+        return false; // it is not a valid file name
+    }
+};
+
+sjrk.storyTelling.server.isValidUuidFileName = function (fileName) {
+    var validUuid = /^\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/;
+    return !validUuid.test(path.basename(fileName));
+};
+
+sjrk.storyTelling.server.getServerPathForFile = function (fileName, directoryName) {
+    return "." + directoryName + path.sep + fileName;
+};
+
 sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, serverConfig) {
-    var recoveryPath = "." + serverConfig.deletedFilesRecoveryPath + "/" + fileToDelete;
-    var deletionPath = "." + serverConfig.uploadedFilesHandlerPath + "/" + fileToDelete;
+    var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.deletedFilesRecoveryPath);
+    var deletionPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.uploadedFilesHandlerPath);
 
     fs.renameSync(deletionPath, recoveryPath); // move it to the recovery dir
 
