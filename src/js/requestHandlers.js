@@ -87,12 +87,12 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
         fluid.transform(response.content, function (block) {
             if (block.blockType === "image") {
                 if (block.imageUrl) {
-                    block.imageUrl = uploadedFilesHandlerPath + path.sep + block.imageUrl;
+                    block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
                 }
                 return block;
             } else if (block.blockType === "audio" || block.blockType === "video") {
                 if (block.mediaUrl) {
-                    block.mediaUrl = uploadedFilesHandlerPath + path.sep + block.mediaUrl;
+                    block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
                 }
                 return block;
             }
@@ -262,29 +262,17 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig
     });
 };
 
-sjrk.storyTelling.server.isValidMediaFilename = function (fileName, serverConfig) {
-    try {
-        if (!fileName || fileName === "null" || fileName === "undefined")
-        {
-            throw "The filename is not valid: not truthy.";
-        }
+/*
+ * Verifies that a given file name follows the UUID format as laid out in
+ * RFC4122. A detailed description of the format can be found here:
+ * https://en.wikipedia.org/wiki/Universally_unique_identifier#Format
+ */
+sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
+    var fileNameWithoutExtension = path.basename(fileName, path.extname(fileName));
 
-        if (sjrk.storyTelling.server.isValidUuidFileName(fileName)) {
-            throw "The filename is not valid: does not match UUID file name pattern.";
-        }
-
-        var fileWithFullPath = sjrk.storyTelling.server.getServerPathForFile(fileName, serverConfig.uploadedFilesHandlerPath);
-        fs.accessSync(fileWithFullPath, fs.constants.W_OK | fs.constants.R_OK);
-
-        return true; // it is a valid file name
-    } catch (err) {
-        return false; // it is not a valid file name
-    }
-};
-
-sjrk.storyTelling.server.isValidUuidFileName = function (fileName) {
     var validUuid = /^\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/;
-    return !validUuid.test(path.basename(fileName));
+
+    return fileName && !validUuid.test(fileNameWithoutExtension);
 };
 
 sjrk.storyTelling.server.getServerPathForFile = function (fileName, directoryName) {
@@ -295,14 +283,20 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, s
     var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.deletedFilesRecoveryPath);
     var deletionPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.uploadedFilesHandlerPath);
 
-    fs.renameSync(deletionPath, recoveryPath); // move it to the recovery dir
-
-    // make sure it was moved
+    // make sure the file is in the uploads dir before we begin
     try {
+        fs.accessSync(deletionPath, fs.constants.W_OK | fs.constants.R_OK);
+    } catch (err) {
+        fluid.fail("File did not exist before deletion:", deletionPath, "Error detail:", err.toString());
+    }
+
+    // move it to the recovery dir and make sure it was moved
+    try {
+        fs.renameSync(deletionPath, recoveryPath);
         fs.accessSync(recoveryPath, fs.constants.W_OK | fs.constants.R_OK);
         fluid.log("Moved file to recovery dir:", recoveryPath);
     } catch (err) {
-        fluid.fail("File was not moved to recovery dir:", deletionPath, "Error detail:", err.toString());
+        fluid.fail("Error moving file to recover dir:", deletionPath, "Error detail:", err.toString());
     }
 
     // make sure it's gone from the uploads dir
