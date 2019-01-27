@@ -268,11 +268,15 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig
  * https://en.wikipedia.org/wiki/Universally_unique_identifier#Format
  */
 sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
-    var fileNameWithoutExtension = path.basename(fileName, path.extname(fileName));
+    if (fileName && typeof fileName === "string" ) {
+        var fileNameWithoutExtension = path.basename(fileName, path.extname(fileName));
 
-    var validUuid = /^\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/;
+        var validUuid = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/;
 
-    return fileName && !validUuid.test(fileNameWithoutExtension);
+        return validUuid.test(fileNameWithoutExtension);
+    } else {
+        return false;
+    }
 };
 
 sjrk.storyTelling.server.getServerPathForFile = function (fileName, directoryName) {

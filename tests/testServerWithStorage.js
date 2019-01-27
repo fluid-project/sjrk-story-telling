@@ -487,6 +487,52 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
     jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);
 };
 
+jqUnit.test("Test isValidMediaFilename function", function () {
+    jqUnit.expect(15);
+
+    var inputFileNames = [
+        null,
+        undefined,
+        0,
+        {},
+        [],
+        [0],
+        "",
+        "FailingFileName",
+        "FailingFileName.ext",
+        "1f4EAE4020CF11E9975C2103755D20B8.mp4",
+        "1f4eae4020cf11e9975c2103755d20b8.mp4",
+        "jpg.1f4845a0-20cf-11e9-975c-2103755d20b8",
+        "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg",
+        "/uploads/10c4e170-20d2-11e9-ad76-451a41995405.jpg",
+        "1f4845a0-20cf-11e9-975c-2103755d20b8.somethingVeryLong",
+    ];
+
+    var expectedResults = [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+    ];
+
+    fluid.each(inputFileNames, function (testFileName, index) {
+        var actualResult = sjrk.storyTelling.server.isValidMediaFilename(testFileName);
+        var message = "Filename validity is as expected: " + testFileName;
+        jqUnit.assertEquals(message, expectedResults[index], actualResult);
+    });
+});
+
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
     components: {
