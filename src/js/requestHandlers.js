@@ -137,21 +137,22 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     // Update any media URLs to refer to the changed
     // file names
     fluid.each(storyModel.content, function (block) {
-        if ((block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") && block.fileDetails) {
-            // Look for the uploaded file matching this block
-            var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                return singleFile.originalname === block.fileDetails.name;
-            });
+        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+            if (block.fileDetails) {
+                // Look for the uploaded file matching this block
+                var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
+                    return singleFile.originalname === block.fileDetails.name;
+                });
 
-            // If we find a match, update the media URL
-            if (mediaFile) {
-                if (block.blockType === "image") {
-                    block.imageUrl = mediaFile.filename;
-                } else if (block.blockType === "audio" || block.blockType === "video") {
-                    block.mediaUrl = mediaFile.filename;
+                // If we find a match, update the media URL. If not, clear it.
+                if (mediaFile) {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
+                    binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                } else {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
                 }
-
-                binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+            } else {
+                sjrk.storyTelling.server.setMediaBlockUrl(block, null);
             }
         }
     });
@@ -171,6 +172,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
             message: errorAsJSON
         });
     });
+};
+
+sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
+    if (block.blockType === "image") {
+        block.imageUrl = url;
+    } else if (block.blockType === "audio" || block.blockType === "video") {
+        block.mediaUrl = url;
+    }
 };
 
 fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
