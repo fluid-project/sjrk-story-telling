@@ -130,16 +130,32 @@ fieldset ul {
     background-image: url("../img/icons/Text.svg");
 }
 
+.sjrk-st-button-text-block:active {
+    background-image: url("../img/icons/Text-clicked.svg");
+}
+
 .sjrk-st-button-image-block {
     background-image: url("../img/icons/Image.svg");
+}
+
+.sjrk-st-button-image-block:active {
+    background-image: url("../img/icons/Image-clicked.svg");
 }
 
 .sjrk-st-button-audio-block {
     background-image: url("../img/icons/Voice.svg");
 }
 
+.sjrk-st-button-audio-block:active {
+    background-image: url("../img/icons/Voice-clicked.svg");
+}
+
 .sjrk-st-button-video-block {
     background-image: url("../img/icons/Video.svg");
+}
+
+.sjrk-st-button-video-block:active {
+    background-image: url("../img/icons/Video-clicked.svg");
 }
 
 .sjrk-st-button-remove-blocks {
@@ -152,6 +168,10 @@ fieldset ul {
 
 .sjrk-st-story-listen-to {
     background-image: url("../img/icons/Audio.svg");
+}
+
+.sjrk-st-story-listen-to:active {
+    background-image: url("../img/icons/Audio-clicked.svg");
 }
 
 .sjrk-st-label-container {
