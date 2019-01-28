@@ -269,11 +269,9 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig
  */
 sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
     if (fileName && typeof fileName === "string" ) {
-        var fileNameWithoutExtension = path.basename(fileName, path.extname(fileName));
+        var validUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\..*$/;
 
-        var validUuid = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/;
-
-        return validUuid.test(fileNameWithoutExtension);
+        return validUuid.test(fileName);
     } else {
         return false;
     }
