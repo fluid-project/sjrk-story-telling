@@ -490,46 +490,27 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
 jqUnit.test("Test isValidMediaFilename function", function () {
     jqUnit.expect(15);
 
-    var inputFileNames = [
-        null,
-        undefined,
-        0,
-        {},
-        [],
-        [0],
-        "",
-        "FailingFileName",
-        "FailingFileName.ext",
-        "1f4EAE4020CF11E9975C2103755D20B8.mp4",
-        "1f4eae4020cf11e9975c2103755d20b8.mp4",
-        "jpg.1f4845a0-20cf-11e9-975c-2103755d20b8",
-        "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg",
-        "/uploads/10c4e170-20d2-11e9-ad76-451a41995405.jpg",
-        "1f4845a0-20cf-11e9-975c-2103755d20b8.somethingVeryLong",
-    ];
+    var textCases = [
+        { input: null, expected: false },
+        { input: undefined, expected: false },
+        { input: 0, expected: false },
+        { input: {}, expected: false },
+        { input: [], expected: false },
+        { input: [0], expected: false },
+        { input: "", expected: false },
+        { input: "FailingFileName", expected: false },
+        { input: "FailingFileName.ext", expected: false },
+        { input: "1f4EAE4020CF11E9975C2103755D20B8.mp4", expected: false },
+        { input: "1f4eae4020cf11e9975c2103755d20b8.mp4", expected: false },
+        { input: "jpg.1f4845a0-20cf-11e9-975c-2103755d20b8", expected: false },
+        { input: "/uploads/10c4e170-20d2-11e9-ad76-451a41995405.jpg", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.somethingVeryLong", expected: true }];
 
-    var expectedResults = [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true,
-        true
-    ];
-
-    fluid.each(inputFileNames, function (testFileName, index) {
-        var actualResult = sjrk.storyTelling.server.isValidMediaFilename(testFileName);
-        var message = "Filename validity is as expected: " + testFileName;
-        jqUnit.assertEquals(message, expectedResults[index], actualResult);
+    fluid.each(textCases, function (testCase) {
+        var actualResult = sjrk.storyTelling.server.isValidMediaFilename(testCase.input);
+        var message = "Filename validity is as expected: " + testCase.input;
+        jqUnit.assertEquals(message, testCase.expected, actualResult);
     });
 });
 
