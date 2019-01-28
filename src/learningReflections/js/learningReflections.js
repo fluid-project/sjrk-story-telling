@@ -152,7 +152,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyBrowser: {
                 options: {
                     browserConfig: {
-                        placeholderThumbnailUrl: "/src/img/icons/icon-heartbook.svg"
+                        placeholderThumbnailUrl: "/src/img/icons/Book.svg"
                     }
                 }
             }
