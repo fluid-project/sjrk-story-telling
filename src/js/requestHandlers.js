@@ -285,13 +285,6 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, s
     var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.deletedFilesRecoveryPath);
     var deletionPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.uploadedFilesHandlerPath);
 
-    // make sure the file is in the uploads dir before we begin
-    try {
-        fs.accessSync(deletionPath, fs.constants.W_OK | fs.constants.R_OK);
-    } catch (err) {
-        fluid.fail("File did not exist before deletion:", deletionPath, "Error detail:", err.toString());
-    }
-
     // move it to the recovery dir and make sure it was moved
     try {
         fs.renameSync(deletionPath, recoveryPath);
