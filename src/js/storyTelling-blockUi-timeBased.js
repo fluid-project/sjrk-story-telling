@@ -89,12 +89,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // for the source element of the mediaPlayer.
         // Alternatively, we could go with something simpler based on directly using the
         // src attribute of the video or audio element.
-        var source = mediaPlayer.find("source");
-        if (source.length < 1) {
-            source = $("<source></source>").appendTo(mediaPlayer);
+
+        if (mediaUrl) {
+            mediaPlayer.prop("controls", true);
+        } else {
+            mediaPlayer.prop("controls", false);
         }
 
-        source.attr("src", mediaUrl);
+        mediaPlayer.attr("src", mediaUrl);
         mediaPlayer[0].load();
     };
 
