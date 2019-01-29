@@ -192,14 +192,25 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleDeleteStory",
-            args: ["{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource", "{server}.options.globalConfig"]
+            args: ["{that}", "{arguments}.0"]
+        },
+        deleteStoryFromCouch: {
+            funcName: "sjrk.storyTelling.server.deleteStoryFromCouch",
+            args: ["{that}", "{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource"]
+        },
+        deleteStoryFiles: {
+            funcName: "sjrk.storyTelling.server.deleteStoryFiles",
+            args: ["{that}", "{arguments}.0"]
+        },
+        deleteSingleFileRecoverable: {
+            funcName: "sjrk.storyTelling.server.deleteSingleFileRecoverable",
+            args: ["{arguments}.0", "{server}.options.globalConfig.deletedFilesRecoveryPath", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource, getStoryDataSource, serverConfig) {
-
-    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource, getStoryDataSource, serverConfig);
+sjrk.storyTelling.server.handleDeleteStory = function (handlerComponent, request) {
+    var promise = handlerComponent.deleteStoryFromCouch(request.req.params.id);
 
     promise.then(function () {
         request.events.onSuccess.fire({
@@ -213,8 +224,7 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
     });
 };
 
-sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource, getStoryDataSource, serverConfig) {
-
+sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, id, deleteStoryDataSource, getStoryDataSource) {
     var promise = fluid.promise();
 
     var getPromise = getStoryDataSource.get({
@@ -223,7 +233,7 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSou
 
     getPromise.then(function (response) {
         if (response.content) {
-            sjrk.storyTelling.server.deleteStoryFiles(response.content, serverConfig);
+            handlerComponent.deleteStoryFiles(response.content);
         }
 
         var deletePromise = deleteStoryDataSource.set({
@@ -244,7 +254,7 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSou
     return promise;
 };
 
-sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig) {
+sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyContent) {
     var filesToDelete = [];
 
     fluid.each(storyContent, function (block) {
@@ -267,7 +277,7 @@ sjrk.storyTelling.server.deleteStoryFiles = function (storyContent, serverConfig
     });
 
     fluid.each(filesToDelete, function (fileToDelete) {
-        sjrk.storyTelling.server.deleteSingleFileRecoverable(fileToDelete, serverConfig);
+        handlerComponent.deleteSingleFileRecoverable(fileToDelete);
     });
 };
 
@@ -290,9 +300,9 @@ sjrk.storyTelling.server.getServerPathForFile = function (fileName, directoryNam
     return "." + directoryName + path.sep + fileName;
 };
 
-sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, serverConfig) {
-    var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.deletedFilesRecoveryPath);
-    var deletionPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, serverConfig.uploadedFilesHandlerPath);
+sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, deletedFilesRecoveryPath, uploadedFilesHandlerPath) {
+    var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, deletedFilesRecoveryPath);
+    var deletionPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, uploadedFilesHandlerPath);
 
     // move it to the recovery dir and make sure it was moved
     try {
