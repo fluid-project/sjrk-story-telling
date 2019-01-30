@@ -192,25 +192,34 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleDeleteStory",
-            args: ["{that}", "{arguments}.0"]
+            args: ["{arguments}.0"] // request
         },
         deleteStoryFromCouch: {
             funcName: "sjrk.storyTelling.server.deleteStoryFromCouch",
-            args: ["{that}", "{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource"]
+            args: [
+                "{that}",
+                "{arguments}.0", // storyId
+                "{server}.deleteStoryDataSource",
+                "{server}.storyDataSource"
+            ]
         },
         deleteStoryFiles: {
             funcName: "sjrk.storyTelling.server.deleteStoryFiles",
-            args: ["{that}", "{arguments}.0"]
+            args: ["{that}", "{arguments}.0"] // storyContent
         },
         deleteSingleFileRecoverable: {
             funcName: "sjrk.storyTelling.server.deleteSingleFileRecoverable",
-            args: ["{arguments}.0", "{server}.options.globalConfig.deletedFilesRecoveryPath", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
+            args: [
+                "{arguments}.0", // fileName
+                "{server}.options.globalConfig.deletedFilesRecoveryPath",
+                "{server}.options.globalConfig.uploadedFilesHandlerPath"
+            ]
         }
     }
 });
 
-sjrk.storyTelling.server.handleDeleteStory = function (handlerComponent, request) {
-    var promise = handlerComponent.deleteStoryFromCouch(request.req.params.id);
+sjrk.storyTelling.server.handleDeleteStory = function (request) {
+    var promise = request.deleteStoryFromCouch(request.req.params.id);
 
     promise.then(function () {
         request.events.onSuccess.fire({
@@ -224,11 +233,11 @@ sjrk.storyTelling.server.handleDeleteStory = function (handlerComponent, request
     });
 };
 
-sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, id, deleteStoryDataSource, getStoryDataSource) {
+sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, storyId, deleteStoryDataSource, getStoryDataSource) {
     var promise = fluid.promise();
 
     var getPromise = getStoryDataSource.get({
-        directStoryId: id
+        directStoryId: storyId
     });
 
     getPromise.then(function (response) {
@@ -237,7 +246,7 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, id, 
         }
 
         var deletePromise = deleteStoryDataSource.set({
-            directStoryId: id,
+            directStoryId: storyId,
             directRevisionId: response._rev
         });
 
@@ -268,6 +277,8 @@ sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyCon
 
         if (sjrk.storyTelling.server.isValidMediaFilename(blockFileName)) {
             filesToDelete.push(blockFileName);
+        } else {
+            fluid.log("Invalid filename:", blockFileName);
         }
     });
 
@@ -288,7 +299,7 @@ sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyCon
  */
 sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
     if (fileName && typeof fileName === "string" ) {
-        var validUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\..*$/;
+        var validUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(\.\w+)?$/;
 
         return validUuid.test(fileName);
     } else {
@@ -310,7 +321,7 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, d
         fs.accessSync(recoveryPath, fs.constants.W_OK | fs.constants.R_OK);
         fluid.log("Moved file to recovery dir:", recoveryPath);
     } catch (err) {
-        fluid.fail("Error moving file to recover dir:", deletionPath, "Error detail:", err.toString());
+        fluid.fail("Error moving file ", deletionPath, " to recovery dir. Error detail: ", err.toString());
     }
 
     // make sure it's gone from the uploads dir

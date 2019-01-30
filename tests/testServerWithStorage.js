@@ -488,7 +488,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
 };
 
 jqUnit.test("Test isValidMediaFilename function", function () {
-    jqUnit.expect(17);
+    jqUnit.expect(21);
 
     var testCases = [
         { input: null, expected: false },
@@ -504,9 +504,13 @@ jqUnit.test("Test isValidMediaFilename function", function () {
         { input: "1f4EAE4020CF11E9975C2103755D20B8.mp4", expected: false },
         { input: "1f4eae4020cf11e9975c2103755d20b8.mp4", expected: false },
         { input: "jpg.1f4845a0-20cf-11e9-975c-2103755d20b8", expected: false },
-        { input: "/uploads/10c4e170-20d2-11e9-ad76-451a41995405.jpg", expected: false },
-        { input: "../10c4e170-20d2-11e9-ad76-451a41995405.jpg", expected: false },
+        { input: "/uploads/1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: false },
+        { input: "../1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: false },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg.exe", expected: false },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8", expected: true },
         { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.mp4", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8._jpg", expected: true },
         { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.somethingVeryLong", expected: true }
     ];
 
