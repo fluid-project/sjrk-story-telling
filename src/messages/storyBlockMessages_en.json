@@ -6,11 +6,11 @@
     "message_textInputPlaceholder": "Begin typing here",
     "message_simplifiedTextInputLabel": "Summary",
     "message_simplifiedTextInputPlaceholder": "Add summary",
-    "message_altTextInputLabel": "Description",
-    "message_altTextInputPlaceholderImage": "Add image description",
+    "message_altTextInputLabel": "Alt text",
+    "message_altTextInputPlaceholderImage": "Add alt text (for screen readers)",
     "message_altTextInputPlaceholderAudio": "Translate the audio to text",
-    "message_descriptionInputLabel": "Caption",
-    "message_descriptionInputPlaceholder": "Add caption",
+    "message_descriptionInputLabel": "Description",
+    "message_descriptionInputPlaceholder": "Add description",
     "message_uploadButtonAudio": "Upload audio",
     "message_uploadButtonImage": "Upload image",
     "message_uploadButtonVideo": "Upload video",
@@ -18,5 +18,5 @@
     "message_captureButtonImage": "Capture image",
     "message_captureButtonVideo": "Capture video",
     "message_transcriptInputLabel": "Transcript",
-    "message_transcriptInputPlaceholder": "Create text option"
+    "message_transcriptInputPlaceholder": "Add transcript"
 }
