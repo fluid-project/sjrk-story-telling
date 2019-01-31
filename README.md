@@ -35,16 +35,73 @@ Custom themes can be added to the Storytelling Tool by a process detailed in the
         });
         ```
 
+### Dockerfile
+
+The included `Dockerfile` is used within the `docker-compose` context and needs an associated CouchDB container to work. Refer to the Compose files for details.
+
 ### Using docker-compose
 
-#### Rebuilding the Containers
+Three files are used for the `docker-compose` definitions:
+
+- `docker-compose.yml`, the base configuration file
+- `docker-compose.dev.yml`, the stateless dev configuration
+- `docker-compose.cloud.yml`, the production configuration that persists the DB and binary uploads directories using the Docker [bind mounts](https://docs.docker.com/storage/bind-mounts/) approach.
+
+The Compose configuration defines three containers:
+- `app`: the story-telling-server app itself, built from the project `Dockerfile`
+- `db`: the official `apache/couchdb` image
+- `dbconfig`: also uses the project `Dockerfile`, but uses it to run the CouchDB configuration setup in `src/js/db/dbSetup.js` when launching - this is a idempotent operation that will not overwrite or replace an existing CouchDB database, but ensures the CouchDB instance running in the `db` container is properly configured for use by `app`
+
+#### Basic Local Development Configuration
+
+For testing the basics of container configuration, this can be used locally. Note that there will be no data persistence once the containers are removed.
+
+##### Rebuilding the Container Images
 
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache`
 
-#### Development (for local testing of the Docker-based setup)
+##### Bring the Service Up
 
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
-#### Cloud (for remote deployment usage)
+##### Remove the Stopped Containers
 
-* `docker-compose -f docker-compose.yml -f docker-compose.cloud.yml up`
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml rm`
+
+#### Cloud Configuration (for remote deployment usage)
+
+##### Running Locally
+
+The examples below can be used to test the production configuration on a local environment by replicating the persistence volumes approach.
+
+Refer to https://docs.docker.com/compose/environment-variables/ for other methods of passing the necessary environment variables to the `docker-compose` command.
+
+###### Rebuilding the Container Images
+
+```
+APP_SERVER_PORT=8081 \
+APP_SERVER_SECRETS_FILE=./secrets.json \
+APP_SERVER_UPLOADS_DIRECTORY=./uploads \
+COUCHDB_DATADIR=./couchdb \
+docker-compose -f docker-compose.yml -f docker-compose.cloud.yml build --no-cache
+```
+
+###### Bring the Service Up
+
+```
+APP_SERVER_PORT=8081 \
+APP_SERVER_SECRETS_FILE=./secrets.json \
+APP_SERVER_UPLOADS_DIRECTORY=./uploads \
+COUCHDB_DATADIR=./couchdb \
+docker-compose -f docker-compose.yml -f docker-compose.cloud.yml up
+```
+
+###### Remove the Stopped Containers
+
+```
+APP_SERVER_PORT=8081 \
+APP_SERVER_SECRETS_FILE=./secrets.json \
+APP_SERVER_UPLOADS_DIRECTORY=./uploads \
+COUCHDB_DATADIR=./couchdb \
+docker-compose -f docker-compose.yml -f docker-compose.cloud.yml rm
+```
