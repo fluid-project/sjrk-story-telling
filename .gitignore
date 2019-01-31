@@ -5,3 +5,4 @@ tests/uploads/*
 uploads/*
 !uploads/.gitkeep
 secrets.json
+couchdb
