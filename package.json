@@ -19,6 +19,7 @@
   "dependencies": {
     "express-basic-auth": "1.1.5",
     "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
+    "fs-extra": "7.0.1",
     "gpii-binder": "1.0.3",
     "gpii-handlebars": "1.1.0",
     "handlebars": "4.0.10",

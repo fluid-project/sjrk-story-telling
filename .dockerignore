@@ -6,4 +6,5 @@ npm-debug.log
 secrets.json.example
 secrets.json
 uploads/*
+deleted_uploads/*
 couchdb

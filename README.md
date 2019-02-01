@@ -82,6 +82,7 @@ Refer to https://docs.docker.com/compose/environment-variables/ for other method
 APP_SERVER_PORT=8081 \
 APP_SERVER_SECRETS_FILE=./secrets.json \
 APP_SERVER_UPLOADS_DIRECTORY=./uploads \
+APP_SERVER_DELETED_UPLOADS_DIRECTORY=./deleted_uploads \
 COUCHDB_DATADIR=./couchdb \
 docker-compose -f docker-compose.yml -f docker-compose.cloud.yml build --no-cache
 ```
@@ -92,6 +93,7 @@ docker-compose -f docker-compose.yml -f docker-compose.cloud.yml build --no-cach
 APP_SERVER_PORT=8081 \
 APP_SERVER_SECRETS_FILE=./secrets.json \
 APP_SERVER_UPLOADS_DIRECTORY=./uploads \
+APP_SERVER_DELETED_UPLOADS_DIRECTORY=./deleted_uploads \
 COUCHDB_DATADIR=./couchdb \
 docker-compose -f docker-compose.yml -f docker-compose.cloud.yml up
 ```
@@ -102,6 +104,7 @@ docker-compose -f docker-compose.yml -f docker-compose.cloud.yml up
 APP_SERVER_PORT=8081 \
 APP_SERVER_SECRETS_FILE=./secrets.json \
 APP_SERVER_UPLOADS_DIRECTORY=./uploads \
+APP_SERVER_DELETED_UPLOADS_DIRECTORY=./deleted_uploads \
 COUCHDB_DATADIR=./couchdb \
 docker-compose -f docker-compose.yml -f docker-compose.cloud.yml rm
 ```

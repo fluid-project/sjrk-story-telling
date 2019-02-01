@@ -9,7 +9,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 var fluid = require("infusion");
 var uuidv1 = require("uuid/v1");
-var fs = require("fs");
+var fse = require("fs-extra");
 var path = require("path");
 require("kettle");
 
@@ -317,8 +317,8 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, d
 
     // move it to the recovery dir and make sure it was moved
     try {
-        fs.renameSync(deletionPath, recoveryPath);
-        fs.accessSync(recoveryPath, fs.constants.W_OK | fs.constants.R_OK);
+        fse.moveSync(deletionPath, recoveryPath);
+        fse.accessSync(recoveryPath, fse.constants.W_OK | fse.constants.R_OK);
         fluid.log("Moved file to recovery dir:", recoveryPath);
     } catch (err) {
         fluid.fail("Error moving file ", deletionPath, " to recovery dir. Error detail: ", err.toString());
@@ -326,7 +326,7 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, d
 
     // make sure it's gone from the uploads dir
     try {
-        fs.accessSync(deletionPath);
+        fse.accessSync(deletionPath);
         fluid.fail("File was not deleted:", deletionPath);
     } catch (err) {
         fluid.log("Deleted file:", deletionPath);
