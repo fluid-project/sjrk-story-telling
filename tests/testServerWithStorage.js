@@ -487,6 +487,40 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
     jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);
 };
 
+jqUnit.test("Test isValidMediaFilename function", function () {
+    jqUnit.expect(21);
+
+    var testCases = [
+        { input: null, expected: false },
+        { input: undefined, expected: false },
+        { input: 0, expected: false },
+        { input: {}, expected: false },
+        { input: [], expected: false },
+        { input: [0], expected: false },
+        { input: "", expected: false },
+        { input: "../", expected: false },
+        { input: "FailingFileName", expected: false },
+        { input: "FailingFileName.ext", expected: false },
+        { input: "1f4EAE4020CF11E9975C2103755D20B8.mp4", expected: false },
+        { input: "1f4eae4020cf11e9975c2103755d20b8.mp4", expected: false },
+        { input: "jpg.1f4845a0-20cf-11e9-975c-2103755d20b8", expected: false },
+        { input: "/uploads/1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: false },
+        { input: "../1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: false },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg.exe", expected: false },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.mp4", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8._jpg", expected: true },
+        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.somethingVeryLong", expected: true }
+    ];
+
+    fluid.each(testCases, function (testCase) {
+        var actualResult = sjrk.storyTelling.server.isValidMediaFilename(testCase.input);
+        var message = "Filename validity is as expected: " + testCase.input;
+        jqUnit.assertEquals(message, testCase.expected, actualResult);
+    });
+});
+
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
     components: {

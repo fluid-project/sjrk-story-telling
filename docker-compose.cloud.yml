@@ -7,6 +7,7 @@ services:
     volumes:
       - "${APP_SERVER_SECRETS_FILE}:/usr/src/app/secrets.json"
       - "${APP_SERVER_UPLOADS_DIRECTORY}:/usr/src/app/uploads"
+      - "${APP_SERVER_DELETED_UPLOADS_DIRECTORY}:/usr/src/app/deleted_uploads"
   db:
     restart: always
     volumes:

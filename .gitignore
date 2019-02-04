@@ -4,4 +4,7 @@ tests/uploads/*
 !tests/uploads/.gitkeep
 uploads/*
 !uploads/.gitkeep
+deleted_uploads/*
+!deleted_uploads/.gitkeep
 secrets.json
+couchdb

@@ -1,5 +1,5 @@
 /*
-Copyright 2017-2018 OCAD University
+Copyright 2017-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master/LICENSE.txt
@@ -9,6 +9,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 var fluid = require("infusion");
 var uuidv1 = require("uuid/v1");
+var fse = require("fs-extra");
+var path = require("path");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
@@ -135,21 +137,22 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     // Update any media URLs to refer to the changed
     // file names
     fluid.each(storyModel.content, function (block) {
-        if ((block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") && block.fileDetails) {
-            // Look for the uploaded file matching this block
-            var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                return singleFile.originalname === block.fileDetails.name;
-            });
+        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+            if (block.fileDetails) {
+                // Look for the uploaded file matching this block
+                var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
+                    return singleFile.originalname === block.fileDetails.name;
+                });
 
-            // If we find a match, update the media URL
-            if (mediaFile) {
-                if (block.blockType === "image") {
-                    block.imageUrl = mediaFile.filename;
-                } else if (block.blockType === "audio" || block.blockType === "video") {
-                    block.mediaUrl = mediaFile.filename;
+                // If we find a match, update the media URL. If not, clear it.
+                if (mediaFile) {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
+                    binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                } else {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
                 }
-
-                binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+            } else {
+                sjrk.storyTelling.server.setMediaBlockUrl(block, null);
             }
         }
     });
@@ -171,6 +174,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     });
 };
 
+sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
+    if (block.blockType === "image") {
+        block.imageUrl = url;
+    } else if (block.blockType === "audio" || block.blockType === "video") {
+        block.mediaUrl = url;
+    }
+};
+
 fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     gradeNames: "kettle.request.http",
     requestMiddleware: {
@@ -181,14 +192,34 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleDeleteStory",
-            args: ["{arguments}.0", "{server}.deleteStoryDataSource", "{server}.storyDataSource"]
+            args: ["{arguments}.0"] // request
+        },
+        deleteStoryFromCouch: {
+            funcName: "sjrk.storyTelling.server.deleteStoryFromCouch",
+            args: [
+                "{that}",
+                "{arguments}.0", // storyId
+                "{server}.deleteStoryDataSource",
+                "{server}.storyDataSource"
+            ]
+        },
+        deleteStoryFiles: {
+            funcName: "sjrk.storyTelling.server.deleteStoryFiles",
+            args: ["{that}", "{arguments}.0"] // storyContent
+        },
+        deleteSingleFileRecoverable: {
+            funcName: "sjrk.storyTelling.server.deleteSingleFileRecoverable",
+            args: [
+                "{arguments}.0", // fileName
+                "{server}.options.globalConfig.deletedFilesRecoveryPath",
+                "{server}.options.globalConfig.uploadedFilesHandlerPath"
+            ]
         }
     }
 });
 
-sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataSource, getStoryDataSource) {
-
-    var promise = sjrk.storyTelling.server.deleteStoryFromCouch(request.req.params.id, deleteStoryDataSource, getStoryDataSource);
+sjrk.storyTelling.server.handleDeleteStory = function (request) {
+    var promise = request.deleteStoryFromCouch(request.req.params.id);
 
     promise.then(function () {
         request.events.onSuccess.fire({
@@ -202,18 +233,20 @@ sjrk.storyTelling.server.handleDeleteStory = function (request, deleteStoryDataS
     });
 };
 
-sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSource, getStoryDataSource) {
-
+sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, storyId, deleteStoryDataSource, getStoryDataSource) {
     var promise = fluid.promise();
 
     var getPromise = getStoryDataSource.get({
-        directStoryId: id
+        directStoryId: storyId
     });
 
     getPromise.then(function (response) {
+        if (response.content) {
+            handlerComponent.deleteStoryFiles(response.content);
+        }
 
         var deletePromise = deleteStoryDataSource.set({
-            directStoryId: id,
+            directStoryId: storyId,
             directRevisionId: response._rev
         });
 
@@ -228,6 +261,76 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (id, deleteStoryDataSou
     });
 
     return promise;
+};
+
+sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyContent) {
+    var filesToDelete = [];
+
+    fluid.each(storyContent, function (block) {
+        var blockFileName = "";
+
+        if (block.blockType === "image") {
+            blockFileName = block.imageUrl;
+        } else if (block.blockType === "audio" || block.blockType === "video") {
+            blockFileName = block.mediaUrl;
+        }
+
+        if (sjrk.storyTelling.server.isValidMediaFilename(blockFileName)) {
+            filesToDelete.push(blockFileName);
+        } else {
+            fluid.log("Invalid filename:", blockFileName);
+        }
+    });
+
+    // remove duplicate entries so we don't try to delete already-deleted files
+    filesToDelete = filesToDelete.filter(function (fileName, index, self) {
+        return self.indexOf(fileName) === index;
+    });
+
+    fluid.each(filesToDelete, function (fileToDelete) {
+        handlerComponent.deleteSingleFileRecoverable(fileToDelete);
+    });
+};
+
+/*
+ * Verifies that a given file name follows the UUID format as laid out in
+ * RFC4122. A detailed description of the format can be found here:
+ * https://en.wikipedia.org/wiki/Universally_unique_identifier#Format
+ */
+sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
+    if (fileName && typeof fileName === "string" ) {
+        var validUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(\.\w+)?$/;
+
+        return validUuid.test(fileName);
+    } else {
+        return false;
+    }
+};
+
+sjrk.storyTelling.server.getServerPathForFile = function (fileName, directoryName) {
+    return "." + directoryName + path.sep + fileName;
+};
+
+sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, deletedFilesRecoveryPath, uploadedFilesHandlerPath) {
+    var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, deletedFilesRecoveryPath);
+    var deletionPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, uploadedFilesHandlerPath);
+
+    // move it to the recovery dir and make sure it was moved
+    try {
+        fse.moveSync(deletionPath, recoveryPath);
+        fse.accessSync(recoveryPath, fse.constants.W_OK | fse.constants.R_OK);
+        fluid.log("Moved file to recovery dir:", recoveryPath);
+    } catch (err) {
+        fluid.fail("Error moving file ", deletionPath, " to recovery dir. Error detail: ", err.toString());
+    }
+
+    // make sure it's gone from the uploads dir
+    try {
+        fse.accessSync(deletionPath);
+        fluid.fail("File was not deleted:", deletionPath);
+    } catch (err) {
+        fluid.log("Deleted file:", deletionPath);
+    }
 };
 
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
