@@ -173,6 +173,11 @@ body {
     color: var(--site-blue);
 }
 
+.sjrk-st-context-link {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
 .sjrk-st-browser-view-control-list,
 .sjrk-st-browser-view-control-grid {
     position: relative;

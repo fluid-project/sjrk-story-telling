@@ -88,7 +88,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 linkConfig: {
                                     templateValues: {
-                                        "contextLinkUrl": "/src/learningReflections/html/storyEdit.html"
+                                        "contextLinkUrl": "/src/learningReflections/html/storyEdit.html",
+                                        "secondaryLinkUrl": "/src/learningReflections/html/storyBrowse.html"
                                     }
                                 }
                             }
