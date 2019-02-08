@@ -50,7 +50,7 @@ Three files are used for the `docker-compose` definitions:
 The Compose configuration defines three containers:
 - `app`: the story-telling-server app itself, built from the project `Dockerfile`
 - `db`: the official `apache/couchdb` image
-- `dbconfig`: also uses the project `Dockerfile`, but uses it to run the CouchDB configuration setup in `src/js/db/dbSetup.js` when launching - this is a idempotent operation that will not overwrite or replace an existing CouchDB database, but ensures the CouchDB instance running in the `db` container is properly configured for use by `app`
+- `dbconfig`: also uses the project `Dockerfile`, but uses it to run the CouchDB configuration setup in `src/js/db/dbSetup.js` when launching - this is an idempotent operation that will not overwrite or replace an existing CouchDB database, but ensures the CouchDB instance running in the `db` container is properly configured for use by `app`
 
 #### Basic Local Development Configuration
 
