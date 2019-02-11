@@ -67,6 +67,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    var expectedVisibility = {
+        prePublish: {
+            progressArea: false,
+            responseArea: false,
+            shareButton: false
+        },
+        duringPublish: {
+            progressArea: true,
+            responseArea: false,
+            shareButton: true
+        },
+        postPublish: {
+            progressArea: false,
+            responseArea: true,
+            shareButton: false
+        }
+    };
+
     fluid.defaults("sjrk.storyTelling.page.storyEditTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -333,8 +351,62 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 2]
                 }]
             }]
+        },
+        {
+            name: "Test progress and server response area",
+            tests: [{
+                name: "Test progress visibility",
+                expect: 10,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
+                    args: [expectedVisibility.prePublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyPreviewer.dom.storyShare"
+                },
+                {
+                    "event": "{storyEdit}.storyPreviewer.events.onShareRequested",
+                    listener: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
+                    args: [expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
+                },
+                {
+                    func: "{storyEdit}.storyPreviewer.events.onShareComplete.fire",
+                    args: ["Server response"]
+                },
+                {
+                    "event": "{storyEdit}.storyPreviewer.events.onShareComplete",
+                    listener: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
+                    args: [expectedVisibility.postPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.page.storyEditTester.verifyResponseText",
+                    args: ["{storyEdit}.storyPreviewer.dom.responseArea", "Server response"]
+                }]
+            }]
         }]
     });
+
+    sjrk.storyTelling.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
+        sjrk.storyTelling.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
+        sjrk.storyTelling.page.storyEditTester.verifyElementVisibility(responseArea, expectedStates.responseArea);
+        sjrk.storyTelling.page.storyEditTester.verifyElementDisabled(shareButton, expectedStates.shareButton);
+    };
+
+    sjrk.storyTelling.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
+        var isActuallyVisible = el.is(":visible");
+        jqUnit.assertEquals("The element's visibility is as expected", isExpectedVisible, isActuallyVisible);
+    };
+
+    sjrk.storyTelling.page.storyEditTester.verifyElementDisabled = function (el, isExpectedDisabled) {
+        var isActuallyDisabled = el.prop("disabled");
+        jqUnit.assertEquals("The element's 'disabled' value is as expected", isExpectedDisabled, isActuallyDisabled);
+    };
+
+    sjrk.storyTelling.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
+        var actualText = responseArea.text();
+        jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
+    };
 
     fluid.defaults("sjrk.storyTelling.page.storyEditTest", {
         gradeNames: ["fluid.test.testEnvironment"],
