@@ -231,6 +231,7 @@ img.sjrk-st-block-media-preview:not([src]) {
 .sjrk-st-story-share-progress {
     justify-self: center;
     grid-column: 1 / span 2;
+    display: none;
 }
 
 .sjrk-st-story-share-progress span {
@@ -254,6 +255,13 @@ img.sjrk-st-block-media-preview:not([src]) {
     100% {
         transform:rotate(360deg);
     }
+}
+
+.sjrk-st-story-share-response {
+  display: none;
+  grid-column: 1 / span 2;
+  margin-top: 1rem;
+  color: #ff0000;
 }
 
 .sjrk-st-story-share:disabled {
