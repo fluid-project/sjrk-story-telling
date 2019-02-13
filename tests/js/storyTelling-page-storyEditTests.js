@@ -366,22 +366,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEdit}.storyPreviewer.dom.storyShare"
                 },
                 {
-                    "event": "{storyEdit}.storyPreviewer.events.onShareRequested",
+                    "event": "{storyEdit}.events.onStoryShareRequested",
                     listener: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
                     args: [expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
-                    func: "{storyEdit}.storyPreviewer.events.onShareComplete.fire",
-                    args: ["Server response"]
+                    func: "{storyEdit}.events.onStoryShareComplete.fire",
+                    args: ["Story about Shyguy didn't save because Rootbeer got jealous"]
                 },
                 {
-                    "event": "{storyEdit}.storyPreviewer.events.onShareComplete",
+                    "event": "{storyEdit}.events.onStoryShareComplete",
                     listener: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
                     args: [expectedVisibility.postPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
                     funcName: "sjrk.storyTelling.page.storyEditTester.verifyResponseText",
-                    args: ["{storyEdit}.storyPreviewer.dom.responseArea", "Server response"]
+                    args: ["{storyEdit}.storyPreviewer.dom.responseArea", "Publishing failed: Story about Shyguy didn't save because Rootbeer got jealous"]
                 }]
             }]
         }]
@@ -404,7 +404,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
-        var actualText = responseArea.text();
+        var actualText = responseArea.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
     };
 

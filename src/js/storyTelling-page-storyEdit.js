@@ -20,7 +20,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onVisibilityChanged: null
+            onVisibilityChanged: null,
+            onStoryShareRequested: "{storyPreviewer}.events.onShareRequested",
+            onStoryShareComplete: "{storyPreviewer}.events.onShareComplete"
         },
         listeners: {
             "onContextChangeRequested.updateStoryFromBlocks": {
@@ -95,7 +97,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     selectors: {
                         progressArea: ".sjrkc-st-story-share-progress",
-                        responseArea: ".sjrkc-st-story-share-response"
+                        responseArea: ".sjrkc-st-story-share-response",
+                        responseText: ".sjrkc-st-story-share-response-text"
                     },
                     listeners: {
                         "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
@@ -159,7 +162,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             args: [0]
                         },
                         setServerResponse: {
-                            this: "{that}.dom.responseArea",
+                            this: "{that}.dom.responseText",
                             method: "text",
                             args: ["{arguments}.0"]
                         }
