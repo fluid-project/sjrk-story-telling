@@ -25,7 +25,8 @@ textarea {
     vertical-align: top;
     font-size: 1rem;
     line-height: 1.4;
-    font-family: var(--site-font)
+    font-family: var(--site-font);
+    border: none;
 }
 
 fieldset ul {
