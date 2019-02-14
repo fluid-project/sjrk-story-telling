@@ -52,35 +52,16 @@ fluid.defaults("sjrk.storyTelling.server.karisma.karismaWelcome", {
 
 fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
     gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
-    components: {
-        storyPreviewer: {
-            options: {
-                events: {
-                    onShareRequested: null
-                },
-                components: {
-                },
-                selectors: {
-                    storyShare: ".sjrkc-st-story-share"
-                },
-                listeners: {
-                    "onReadyToBind.bindShareControl": {
-                        "this": "{that}.dom.storyShare",
-                        "method": "click",
-                        "args": ["{that}.events.onShareRequested.fire"]
-                    },
-                    "onShareRequested.submitStory": {
-                        funcName: "sjrk.storyTelling.server.base.submitStory",
-                        args: ["{storyEditor}"]
-                    }
-                }
-            }
+    listeners: {
+        "onStoryShareRequested.submitStory": {
+            funcName: "sjrk.storyTelling.server.base.submitStory",
+            args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
         }
     }
 });
 
 
-sjrk.storyTelling.server.base.submitStory = function (that) {
+sjrk.storyTelling.server.base.submitStory = function (that, errorEvent) {
 
     var form = that.container.find("form");
 
@@ -116,6 +97,11 @@ sjrk.storyTelling.server.base.submitStory = function (that) {
         error       : function (jqXHR, textStatus, errorThrown) {
             fluid.log("Something went wrong");
             fluid.log(jqXHR, textStatus, errorThrown);
+            var errorMessage = "Internal server error";
+            if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                errorMessage = jqXHR.responseJSON.message;
+            }
+            errorEvent.fire(errorMessage);
         }
     });
 };
