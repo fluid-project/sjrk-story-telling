@@ -90,8 +90,10 @@ body {
 }
 
 .sjrk-st-context-link {
+    display: inline-block;
     background: #fff;
     border: 1px solid var(--site-blue);
+    margin-bottom: 0.5rem;
     padding: 0.75rem 1rem;
     border-radius: 1.5rem;
 }
@@ -171,11 +173,6 @@ body {
     font-weight: 800;
     font-size: 1rem;
     color: var(--site-blue);
-}
-
-.sjrk-st-context-link {
-    display: inline-block;
-    margin-bottom: 0.5rem;
 }
 
 .sjrk-st-browser-view-control-list,
