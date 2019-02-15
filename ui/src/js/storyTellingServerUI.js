@@ -155,10 +155,14 @@ fluid.defaults("sjrk.storyTelling.server.karisma.storyView", {
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
     gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.learningReflections.storyView"],
-    distributeOptions: {
+    distributeOptions: [{
         target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
         record: "/storyEdit.html"
-    }
+    },
+    {
+        target: "{that menu templateManager}.options.linkConfig.templateValues.secondaryLinkUrl",
+        record: "/storyBrowse.html"
+    }]
 });
 
 // "sjrk.storyTelling.learningReflections.storyView"
