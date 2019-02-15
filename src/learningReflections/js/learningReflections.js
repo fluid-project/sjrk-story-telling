@@ -35,6 +35,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
+                                listeners: {
+                                    "onAllResourcesLoaded.renderTemplate": {
+                                        funcName: "{that}.renderTemplate",
+                                        args: ["{that}.options.templateConfig"]
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-masthead.handlebars"
@@ -52,6 +58,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
+                                listeners: {
+                                    "onAllResourcesLoaded.renderTemplate": {
+                                        funcName: "{that}.renderTemplate",
+                                        args: ["{that}.options.templateConfig"]
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-footer.handlebars"
@@ -152,7 +164,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyBrowser: {
                 options: {
                     browserConfig: {
-                        placeholderThumbnailUrl: "/src/img/icons/icon-heartbook.svg"
+                        placeholderThumbnailUrl: "/src/img/icons/Book.svg"
                     }
                 }
             }
