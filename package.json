@@ -25,7 +25,7 @@
     "handlebars": "4.0.10",
     "infusion": "3.0.0-dev.20180326T173646Z.8c6a109b1",
     "kettle": "1.8.0",
-    "sjrk-story-telling": "git+https://github.com/fluid-project/sjrk-story-telling.git#c09d597f13924665f33f8cb6a058818c6a7c3a63",
+    "sjrk-story-telling": "git+https://github.com/fluid-project/sjrk-story-telling.git#db1546e74fd7febcba6bed0219a5b6bb742bf917",
     "uuid": "3.1.0"
   },
   "devDependencies": {
