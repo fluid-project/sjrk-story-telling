@@ -167,9 +167,9 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
         var responseAsJSON = JSON.stringify(response);
         request.events.onSuccess.fire(responseAsJSON);
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
+        var errorMessage = error.reason || "Unspecified server error";
         request.events.onError.fire({
-            message: errorAsJSON
+            message: errorMessage
         });
     });
 };
