@@ -265,6 +265,47 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
     border: none;
 }
 
+.sjrk-st-story-share-progress {
+    justify-self: center;
+    grid-column: 1 / span 2;
+    display: none;
+}
+
+.sjrk-st-story-share-progress span {
+    vertical-align: middle;
+}
+
+.sjrk-st-story-share-progress-indicator {
+    border: solid 0.25rem #ddd;
+    border-bottom-color: var(--site-blue);
+    border-radius: 50%;
+    content: "";
+    height: 3rem;
+    width: 3rem;
+    display: inline-block;
+    vertical-align: middle;
+    animation: spin 1.5s linear infinite;
+    margin-right: 1rem;
+}
+
+@keyframes spin {
+    100% {
+        transform:rotate(360deg);
+    }
+}
+
+.sjrk-st-story-share-response {
+  display: none;
+  grid-column: 1 / span 2;
+  margin-top: 1rem;
+  color: #ff0000;
+}
+
+.sjrk-st-story-share:disabled {
+    background: var(--site-grey);
+    color: var(--site-dark-grey);
+}
+
 /* .sjrk-st-story-viewer-heading-container, */
 .sjrk-st-story-viewer-footer-container,
 .sjrk-st-story-editor-footer-container {
