@@ -46,16 +46,22 @@
     <div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-footer-container">
         <div>
             <a href="javascript:void(0)" class="sjrkc-st-story-viewer-previous sjrk-st-story-viewer-previous">
-                <img src="/src/img/icons/icon-back.svg" alt="left arrow icon">
+                <img src="{{dynamicValues.resourcePrefix}}/src/img/icons/Back.svg" alt="{{localizedMessages.message_goBackIcon}}" aria-hidden="true">
                 <span>{{localizedMessages.message_goBack}}</span>
             </a>
         </div>
         <div>
-            {{!--<a href="#" class="sjrkc-st-storyShare sjrk-st-storyShare">{{localizedMessages.message_shareText}}</a>--}}
             <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
         </div>
         <div hidden>
             <a href="#" class="sjrkc-st-story-save-no-share sjrk-st-story-save-no-share">{{localizedMessages.message_saveNoShareText}}</a>
+        </div>
+        <div class="sjrkc-st-story-share-progress sjrk-st-story-share-progress" aria-live="assertive">
+            <div class="sjrk-st-story-share-progress-indicator" aria-labelledby="sjrkc-st-story-share-progress-text"></div>
+            <span id="sjrkc-st-story-share-progress-text">{{localizedMessages.message_shareProgressText}}</span>
+        </div>
+        <div class="sjrkc-st-story-share-response sjrk-st-story-share-response" aria-live="assertive">
+            {{localizedMessages.message_shareResponseText}}: <span class="sjrkc-st-story-share-response-text"></span>
         </div>
     </div>
 {{/if}}

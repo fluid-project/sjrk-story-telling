@@ -85,16 +85,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "mediaUrl": the URL of the media source file
      */
     sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
-        // TODO: This should be refactored. Probably we should have a selector registered
-        // for the source element of the mediaPlayer.
-        // Alternatively, we could go with something simpler based on directly using the
-        // src attribute of the video or audio element.
-        var source = mediaPlayer.find("source");
-        if (source.length < 1) {
-            source = $("<source></source>").appendTo(mediaPlayer);
-        }
-
-        source.attr("src", mediaUrl);
+        mediaPlayer.prop("controls", !!mediaUrl);
+        mediaPlayer.attr("src", mediaUrl);
         mediaPlayer[0].load();
     };
 

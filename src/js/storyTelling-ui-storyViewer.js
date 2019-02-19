@@ -15,6 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
+            storyShare: ".sjrkc-st-story-share",
             storySaveNoShare: ".sjrkc-st-story-save-no-share",
             storyTags: ".sjrkc-st-story-list-tags",
             storyViewerPrevious: ".sjrkc-st-story-viewer-previous"
@@ -26,12 +27,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
         },
         events: {
+            onShareRequested: null,
+            onShareComplete: null,
             onSaveNoShareRequested: null,
             onStoryViewerPreviousRequested: null,
             onStoryListenToRequested: null,
             onStoryUpdatedFromBlocks: null
         },
         listeners: {
+            "onReadyToBind.bindShareControl": {
+                "this": "{that}.dom.storyShare",
+                "method": "click",
+                "args": ["{that}.events.onShareRequested.fire"]
+            },
             "onReadyToBind.bindSaveNoShareControl": {
                 "this": "{that}.dom.storySaveNoShare",
                 "method": "click",

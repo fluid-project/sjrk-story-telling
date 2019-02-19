@@ -10,13 +10,14 @@
 
     <div class="sjrk-st-block-media-preview-container">
         {{#equals dynamicValues.blockType "audio"}}
-            <audio class="sjrkc-st-block-media-preview sjrk-st-block-media-preview" controls></audio>
+            <audio class="sjrkc-st-block-media-preview sjrk-st-block-media-preview"></audio>
+            <div class="sjrk-st-block-audio-preview-placeholder"></div>
         {{/equals}}
         {{#equals dynamicValues.blockType "image"}}
             <img class="sjrkc-st-block-media-preview sjrk-st-block-media-preview" src="" alt="" />
         {{/equals}}
         {{#equals dynamicValues.blockType "video"}}
-            <video class="sjrkc-st-block-media-preview sjrk-st-block-media-preview" controls></video>
+            <video class="sjrkc-st-block-media-preview sjrk-st-block-media-preview"></video>
         {{/equals}}
     </div>
     <form>

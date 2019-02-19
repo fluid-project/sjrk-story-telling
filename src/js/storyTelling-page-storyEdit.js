@@ -20,7 +20,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onVisibilityChanged: null
+            onVisibilityChanged: null,
+            onStoryShareRequested: "{storyPreviewer}.events.onShareRequested",
+            onStoryShareComplete: "{storyPreviewer}.events.onShareComplete"
         },
         listeners: {
             "onContextChangeRequested.updateStoryFromBlocks": {
@@ -29,7 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
-                args: ["{storyPreviewer}.story.model", {isEditorPreview: true}],
+                args: ["{storyPreviewer}.story.model", {isEditorPreview: true}, "{storyPreviewer}.templateManager.options.templateConfig"],
                 namespace: "previewerRenderTemplate"
             },
             {
@@ -93,8 +95,77 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.storyViewer",
                 container: ".sjrkc-st-story-previewer",
                 options: {
+                    selectors: {
+                        progressArea: ".sjrkc-st-story-share-progress",
+                        responseArea: ".sjrkc-st-story-share-response",
+                        responseText: ".sjrkc-st-story-share-response-text"
+                    },
                     listeners: {
-                        "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire"
+                        "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
+                        "onShareRequested": [{
+                            func: "{that}.showProgressArea",
+                            namespace: "showProgressArea"
+                        },{
+                            func: "{that}.disableShareButton",
+                            namespace: "disableShareButton"
+                        },{
+                            func: "{that}.hideServerResponse",
+                            namespace: "hideServerResponse"
+                        }],
+                        "onShareComplete": [{
+                            func: "{that}.hideProgressArea",
+                            namespace: "hideProgressArea"
+                        },{
+                            func: "{that}.enableShareButton",
+                            namespace: "enableShareButton"
+                        },{
+                            func: "{that}.setServerResponse",
+                            args: ["{arguments}.0"],
+                            namespace: "setServerResponse"
+                        },{
+                            func: "{that}.showServerResponse",
+                            namespace: "showServerResponse"
+                        }]
+                    },
+                    invokers: {
+                        setShareButtonDisabled: {
+                            this: "{that}.dom.storyShare",
+                            method: "prop",
+                            args: ["disabled", "{arguments}.0"]
+                        },
+                        enableShareButton: {
+                            func: "{that}.setShareButtonDisabled",
+                            args: [false]
+                        },
+                        disableShareButton: {
+                            func: "{that}.setShareButtonDisabled",
+                            args: [true]
+                        },
+                        showProgressArea: {
+                            this: "{that}.dom.progressArea",
+                            method: "show",
+                            args: [0]
+                        },
+                        hideProgressArea: {
+                            this: "{that}.dom.progressArea",
+                            method: "hide",
+                            args: [0]
+                        },
+                        showServerResponse: {
+                            this: "{that}.dom.responseArea",
+                            method: "show",
+                            args: [0]
+                        },
+                        hideServerResponse: {
+                            this: "{that}.dom.responseArea",
+                            method: "hide",
+                            args: [0]
+                        },
+                        setServerResponse: {
+                            this: "{that}.dom.responseText",
+                            method: "text",
+                            args: ["{arguments}.0"]
+                        }
                     },
                     components: {
                         story: {
@@ -107,7 +178,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 listeners: {
                                     "onAllResourcesLoaded.renderTemplate": {
                                         funcName: "{that}.renderTemplate",
-                                        args: ["{story}.model", {isEditorPreview: true}]
+                                        args: ["{story}.model", "{that}.options.templateConfig", {isEditorPreview: true}]
                                     }
                                 }
                             }
