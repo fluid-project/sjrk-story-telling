@@ -41,7 +41,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 listeners: {
                                     "onAllResourcesLoaded.renderTemplate": {
                                         funcName: "{that}.renderTemplate",
-                                        args: ["{storyBrowser}.model", "{storyBrowser}.options.browserConfig", "{storyBrowse}.model"]
+                                        args: ["{storyBrowser}.model", "{storyBrowser}.options.browserConfig", "{storyBrowse}.model", "{that}.options.templateConfig"]
                                     }
                                 }
                             }
