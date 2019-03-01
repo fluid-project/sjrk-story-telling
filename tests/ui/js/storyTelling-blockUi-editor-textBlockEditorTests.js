@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        resourcePrefix: "../.."
+                        resourcePrefix: "../../../ui"
                     }
                 }
             }

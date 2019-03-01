@@ -41,7 +41,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     templateConfig: {
-                        resourcePrefix: "../.."
+                        resourcePrefix: "../../../ui"
                     }
                 }
             },
@@ -54,7 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     templateManager: {
                                         options: {
                                             templateConfig: {
-                                                resourcePrefix: "../.."
+                                                resourcePrefix: "../../../ui"
                                             },
                                             listeners: {
                                                 "onTemplateRendered.notifyTestStoryViewer": {

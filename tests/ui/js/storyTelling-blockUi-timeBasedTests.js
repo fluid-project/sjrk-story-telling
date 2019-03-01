@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        resourcePrefix: "../..",
+                        resourcePrefix: "../../../ui",
                         templatePath: "%resourcePrefix/src/templates/storyBlockVideoView.handlebars"
                     }
                 }
@@ -26,7 +26,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             block: {
                 options: {
                     model: {
-                        mediaUrl: "../video/shyguy_and_rootbeer.mp4"
+                        mediaUrl: "../../binaries/shyguy_and_rootbeer.mp4"
                     }
                 }
             }

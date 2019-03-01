@@ -30,10 +30,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uio: {
                 options: {
                     terms: {
-                        "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
+                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
+                        "messagePrefix": "/ui/src/messages/uio"
                     },
-                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
+                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
             menu: {

@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en" //initial state is English
         },
         pageSetup: {
-            resourcePrefix: "../.."
+            resourcePrefix: "../../../ui"
         },
         distributeOptions: [
             {
