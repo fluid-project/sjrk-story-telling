@@ -15,14 +15,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections", {
         gradeNames: ["sjrk.storyTelling.page"],
         pageSetup: {
-            resourcePrefix: "../../.."
+            resourcePrefix: "../.."
         },
         components: {
             menu: {
                 options: {
                     menuConfig: {
                         templateValues: {
-                            "menu_browseLinkUrl": "/src/learningReflections/html/storyBrowse.html"
+                            "menu_browseLinkUrl": "storyBrowse.html"
                         }
                     }
                 }
@@ -80,7 +80,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
         pageSetup: {
-            resourcePrefix: "../../.."
+            resourcePrefix: "../.."
         },
         components: {
             menu: {
@@ -100,8 +100,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 linkConfig: {
                                     templateValues: {
-                                        "contextLinkUrl": "/src/learningReflections/html/storyEdit.html",
-                                        "secondaryLinkUrl": "/src/learningReflections/html/storyBrowse.html"
+                                        "contextLinkUrl": "storyEdit.html",
+                                        "secondaryLinkUrl": "storyBrowse.html"
                                     }
                                 }
                             }
@@ -113,7 +113,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     terms: {
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
+                        "messagePrefix": "src/messages/uio"
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
@@ -125,7 +125,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyBrowse"],
         pageSetup: {
-            resourcePrefix: "../../.."
+            resourcePrefix: "../.."
         },
         components: {
             menu: {
@@ -145,7 +145,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 linkConfig: {
                                     templateValues: {
-                                        "contextLinkUrl": "/src/learningReflections/html/storyEdit.html"
+                                        "contextLinkUrl": "storyEdit.html"
                                     }
                                 }
                             }
@@ -157,7 +157,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     terms: {
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
+                        "messagePrefix": "src/messages/uio"
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
@@ -165,7 +165,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyBrowser: {
                 options: {
                     browserConfig: {
-                        placeholderThumbnailUrl: "/src/img/icons/Book.svg"
+                        placeholderThumbnailUrl: "src/img/icons/Book.svg"
                     }
                 }
             }
@@ -176,14 +176,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
         pageSetup: {
-            resourcePrefix: "../../.."
+            resourcePrefix: "../.."
         },
         components: {
             uio: {
                 options: {
                     terms: {
                         "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
+                        "messagePrefix": "src/messages/uio"
                     },
                     "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
@@ -198,7 +198,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 linkConfig: {
                                     templateValues: {
-                                        "contextLinkUrl": "/src/learningReflections/html/storyBrowse.html"
+                                        "contextLinkUrl": "storyBrowse.html"
                                     }
                                 },
                                 listeners: {

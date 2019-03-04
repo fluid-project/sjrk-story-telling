@@ -12,21 +12,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 fluid.defaults("sjrk.storyTelling.server.changeMenuLink", {
     distributeOptions: {
         target: "{that menu}.options.menuConfig.templateValues.menu_browseLinkUrl",
-        record: "/storyBrowse.html"
+        record: "storyBrowse.html"
     }
 });
 
 fluid.defaults("sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", {
     distributeOptions: {
         target: "{that templateManager}.options.templateConfig.resourcePrefix",
-        record: "/node_modules/sjrk-story-telling"
+        record: ""
     }
 });
 
 fluid.defaults("sjrk.storyTelling.server.changeUIOTermsMessagePrefix", {
     distributeOptions: {
         target: "{that uio}.options.terms.messagePrefix",
-        record: "/node_modules/sjrk-story-telling/src/messages/uio"
+        record: "src/messages/uio"
     }
 });
 
@@ -114,7 +114,7 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
     gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.learningReflections.storyEdit"],
     distributeOptions: {
         target: "{that learningReflectionsIntro templateManager}.options.linkConfig.templateValues.contextLinkUrl",
-        record: "/storyBrowse.html"
+        record: "storyBrowse.html"
     }
 });
 
@@ -143,11 +143,11 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
     gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.learningReflections.storyView"],
     distributeOptions: [{
         target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
-        record: "/storyEdit.html"
+        record: "storyEdit.html"
     },
     {
         target: "{that menu templateManager}.options.linkConfig.templateValues.secondaryLinkUrl",
-        record: "/storyBrowse.html"
+        record: "storyBrowse.html"
     }]
 });
 
@@ -206,7 +206,7 @@ fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
     gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.learningReflections.storyBrowse"],
     distributeOptions: {
         target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
-        record: "/storyEdit.html"
+        record: "storyEdit.html"
     }
 });
 
@@ -243,8 +243,8 @@ sjrk.storyTelling.server.loadThemedPage = function (page, theme, callback) {
 
     mainContainer.html(templates[theme][page]);
 
-    var cssUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/css/%theme.css", {theme: theme});
-    var scriptUrl = fluid.stringTemplate("/node_modules/sjrk-story-telling/src/%theme/js/%theme.js", {theme: theme});
+    var cssUrl = fluid.stringTemplate("src/%theme/css/%theme.css", {theme: theme});
+    var scriptUrl = fluid.stringTemplate("src/%theme/js/%theme.js", {theme: theme});
 
     $("<link/>", {
         rel: "stylesheet",

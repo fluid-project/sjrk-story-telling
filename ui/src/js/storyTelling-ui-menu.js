@@ -35,7 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // Allows the browse link to be reconfigured
         menuConfig: {
             templateValues: {
-                "menu_browseLinkUrl": "/src/html/storyBrowse.html"
+                "menu_browseLinkUrl": "src/html/storyBrowse.html"
             }
         },
         components: {
