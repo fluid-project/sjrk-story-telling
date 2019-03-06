@@ -333,6 +333,15 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, d
     }
 };
 
+fluid.defaults("sjrk.storyTelling.server.testsHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.tests"
+        }
+    }
+});
+
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {

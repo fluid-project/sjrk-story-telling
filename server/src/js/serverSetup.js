@@ -104,6 +104,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                             "root": "{server}.options.globalConfig.binaryUploadDirectory"
                         }
                     },
+                    tests: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./tests/ui",
+                            middlewareOptions: {
+                                index: "all-tests.html"
+                            }
+                        }
+                    },
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
@@ -150,6 +159,12 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/*",
             "method": "get",
             "prefix": "{server}.options.globalConfig.uploadedFilesHandlerPath"
+        },
+        testsHandler: {
+            type: "sjrk.storyTelling.server.testsHandler",
+            "route": "/*",
+            "prefix": "/tests",
+            "method": "get"
         },
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
