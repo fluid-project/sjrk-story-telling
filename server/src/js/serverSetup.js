@@ -113,6 +113,12 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    testBinaries: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./tests/binaries"
+                        }
+                    },
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
@@ -164,6 +170,12 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.testsHandler",
             "route": "/*",
             "prefix": "/tests",
+            "method": "get"
+        },
+        testBinariesHandler: {
+            type: "sjrk.storyTelling.server.testBinariesHandler",
+            "route": "/*",
+            "prefix": "/binaries",
             "method": "get"
         },
         uiHandler: {

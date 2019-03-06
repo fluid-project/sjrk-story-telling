@@ -13,14 +13,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.page.testStoryBrowse", {
         gradeNames: ["sjrk.storyTelling.page.storyBrowse"],
+        pageSetup: {
+            resourcePrefix: "../.."
+        },
         components: {
             uio: {
                 options: {
                     terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/ui/src/messages/uio"
+                        "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
+                        "messagePrefix": "../../src/messages/uio"
                     },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
+                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
             menu: {

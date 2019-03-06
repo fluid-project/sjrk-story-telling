@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        resourcePrefix: "../../../ui",
+                        resourcePrefix: "../..",
                         templatePath: "%resourcePrefix/src/templates/storyBlockVideoView.handlebars"
                     }
                 }

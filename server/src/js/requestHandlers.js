@@ -342,6 +342,15 @@ fluid.defaults("sjrk.storyTelling.server.testsHandler", {
     }
 });
 
+fluid.defaults("sjrk.storyTelling.server.testBinariesHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.testBinaries"
+        }
+    }
+});
+
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {
