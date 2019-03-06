@@ -12,7 +12,7 @@ services:
       - "db"
   dbconfig:
     build: .
-    entrypoint: "node ./src/js/db/dbSetup.js"
+    entrypoint: "node ./server/src/js/db/dbSetup.js"
     environment:
       - COUCHDB_CONFIG_MAX_RETRIES=10
       - COUCHDB_CONFIG_RETRY_DELAY=10
