@@ -48,7 +48,7 @@ Three files are used for the `docker-compose` definitions:
 - `docker-compose.cloud.yml`, the production configuration that persists the DB and binary uploads directories using the Docker [bind mounts](https://docs.docker.com/storage/bind-mounts/) approach.
 
 The Compose configuration defines three containers:
-- `app`: the story-telling-server app itself, built from the project `Dockerfile`
+- `app`: the story-telling app itself, built from the project `Dockerfile`
 - `db`: the official `apache/couchdb` image
 - `dbconfig`: also uses the project `Dockerfile`, but uses it to run the CouchDB configuration setup in `src/js/db/dbSetup.js` when launching - this is an idempotent operation that will not overwrite or replace an existing CouchDB database, but ensures the CouchDB instance running in the `db` container is properly configured for use by `app`
 
