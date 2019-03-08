@@ -9,44 +9,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 "use strict";
 
-fluid.defaults("sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", {
-    distributeOptions: {
-        target: "{that templateManager}.options.templateConfig.resourcePrefix",
-        record: ""
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.karisma.karismaWelcome", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.karismaWelcome"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.karisma.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.storyEdit"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.karisma.storyView", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.storyView"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.karisma.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.storyBrowse"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.learningReflections.storyEdit"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.learningReflections.storyView"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.learningReflections.storyBrowse"]
-});
-
 // classic query string parser via
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-sjrk.storyTelling.server.getParameterByName = function (name, url) {
+sjrk.storyTelling.getParameterByName = function (name, url) {
     if (!url) { url = window.location.href; }
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
@@ -56,7 +21,7 @@ sjrk.storyTelling.server.getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
+sjrk.storyTelling.loadStoryFromParameter = function (theme) {
     var storyId = sjrk.storyTelling.server.getParameterByName("id");
     if (storyId) {
         var storyUrl = "/stories/" + storyId;
@@ -64,7 +29,7 @@ sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
         $.get(storyUrl, function (data) {
             var retrievedStory = JSON.parse(data);
 
-            sjrk.storyTelling.server[theme].storyView({
+            sjrk.storyTelling[theme].storyView({
                 distributeOptions: {
                     "target": "{that story}.options.model",
                     "record": retrievedStory
@@ -74,12 +39,12 @@ sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
     }
 };
 
-sjrk.storyTelling.server.loadBrowse = function (theme) {
+sjrk.storyTelling.loadBrowse = function (theme) {
     var browseUrl = "/stories";
     $.get(browseUrl, function (data) {
         var browseResponse = JSON.parse(data);
 
-        sjrk.storyTelling.server[theme].storyBrowse({
+        sjrk.storyTelling[theme].storyBrowse({
             distributeOptions: {
                 "target": "{that storyBrowser}.options.model",
                 "record": browseResponse
@@ -101,7 +66,7 @@ var templates = {
     }
 };
 
-sjrk.storyTelling.server.loadThemedPage = function (page, theme, callback) {
+sjrk.storyTelling.loadThemedPage = function (page, theme, callback) {
     var mainContainer = $(".sjrkc-main-container");
 
     mainContainer.html(templates[theme][page]);

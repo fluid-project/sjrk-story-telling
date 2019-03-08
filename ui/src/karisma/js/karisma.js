@@ -14,9 +14,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Karisma "El planeta es la escuela" framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.karisma", {
         gradeNames: ["sjrk.storyTelling.page"],
-        pageSetup: {
-            resourcePrefix: "../../.."
-        },
         components: {
             // masthead/banner section
             karismaMasthead: {
@@ -39,8 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-masthead.handlebars",
-                                    resourcePrefix: "../../.."
+                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-masthead.handlebars"
                                 }
                             }
                         }
@@ -52,18 +48,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Karisma shell to the storyView page
     fluid.defaults("sjrk.storyTelling.karisma.storyView", {
-        gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyView"],
-        pageSetup: {
-            resourcePrefix: "../../.."
-        }
+        gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyView"]
     });
 
     // Applies the Karisma shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.karisma.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyBrowse"],
-        pageSetup: {
-            resourcePrefix: "../../.."
-        },
         components: {
             storyBrowser: {
                 options: {
@@ -78,9 +68,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Karisma shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.karisma.storyEdit", {
         gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyEdit"],
-        pageSetup: {
-            resourcePrefix: "../../.."
-        },
         components: {
             karismaSidebarLeft: {
                 type: "sjrk.storyTelling.ui",
@@ -120,9 +107,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Karisma shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.karisma.karismaWelcome", {
         gradeNames: ["sjrk.storyTelling.karisma"],
-        pageSetup: {
-            resourcePrefix: "../../.."
-        },
         components: {
             menu: {
                 options: {

@@ -122,7 +122,10 @@ fluid.defaults("sjrk.storyTelling.server", {
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./ui"
+                            "root": "./ui",
+                            middlewareOptions: {
+                                index: "storyEdit.html"
+                            }
                         }
                     }
                 }

@@ -14,9 +14,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections", {
         gradeNames: ["sjrk.storyTelling.page"],
-        pageSetup: {
-            resourcePrefix: "../.."
-        },
         components: {
             // masthead/banner section
             learningReflectionsMasthead: {
@@ -70,9 +67,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
-        pageSetup: {
-            resourcePrefix: "../.."
-        },
         components: {
             menu: {
                 options: {
@@ -106,9 +100,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyBrowse"],
-        pageSetup: {
-            resourcePrefix: "../.."
-        },
         components: {
             menu: {
                 options: {
@@ -148,9 +139,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
-        pageSetup: {
-            resourcePrefix: "../.."
-        },
         components: {
             // introductory content
             learningReflectionsIntro: {

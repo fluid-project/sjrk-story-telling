@@ -110,10 +110,10 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.server.loadThemedPage("browse", "learningReflections", function (theme) {
-            sjrk.storyTelling.server.loadBrowse(theme);
+        var theme = "learningReflections";
+        sjrk.storyTelling.loadThemedPage("browse", theme, function (theme) {
+            sjrk.storyTelling.loadBrowse(theme);
         });
-
     });
 </script>
 

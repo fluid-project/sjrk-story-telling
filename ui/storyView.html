@@ -109,10 +109,10 @@
 <div class="sjrk-st-page-footer-container sjrkc-st-page-footer-container"></div>
 
 <script>
-
     $(document).ready(function () {
-        sjrk.storyTelling.server.loadThemedPage("view", "learningReflections", function (theme) {
-            sjrk.storyTelling.server.loadStoryFromParameter(theme);
+        var theme = "learningReflections";
+        sjrk.storyTelling.loadThemedPage("view", theme, function (theme) {
+            sjrk.storyTelling.loadStoryFromParameter(theme);
         });
     });
 </script>
