@@ -16,34 +16,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.ui"],
         model: {
             // the list of stories to be browsed (actually just models)
-            stories: {
-                // This content is here to aid in work on styling/aesthetics
-                // story1: {
-                //     title: "First story about something",
-                //     author: "First Author",
-                //     tags: ["Heart","Book"],
-                //     contentTypes: ["text","image"]
-                // },
-                // story2: {
-                //     title: "Second story about other things",
-                //     author: "Second Author",
-                //     tags: ["Cats"]
-                // },
-                // story3: {
-                //     title: "Third story to try out a different thumbnail image",
-                //     tags: ["Dots","Yayoi Kusama"],
-                //     thumbnailUrl: "/tests/img/obliterationroom.jpg"
-                // },
-                // story4: {
-                //     title: "Fourth story",
-                //     author: "Fourth Author"
-                // },
-                // story5: {
-                //     title: "Fifth story",
-                //     tags: ["Dots"],
-                //     thumbnailUrl: "/tests/img/obliterationroom.jpg"
-                // }
-            }
+            stories: null
+            // This content is here to aid in work on styling/aesthetics
+            // {
+            //     story1: {
+            //         title: "First story about something",
+            //         author: "First Author",
+            //         tags: ["Heart","Book"],
+            //         contentTypes: ["text","image"]
+            //     },
+            //     story2: {
+            //         title: "Second story about other things",
+            //         author: "Second Author",
+            //         tags: ["Cats"]
+            //     },
+            //     story3: {
+            //         title: "Third story to try out a different thumbnail image",
+            //         tags: ["Dots","Yayoi Kusama"],
+            //         thumbnailUrl: "/tests/img/obliterationroom.jpg"
+            //     },
+            //     story4: {
+            //         title: "Fourth story",
+            //         author: "Fourth Author"
+            //     },
+            //     story5: {
+            //         title: "Fifth story",
+            //         tags: ["Dots"],
+            //         thumbnailUrl: "/tests/img/obliterationroom.jpg"
+            //     }
+            // }
         },
         selectors: {
             linkList: ".sjrkc-st-browser-view-control-container",

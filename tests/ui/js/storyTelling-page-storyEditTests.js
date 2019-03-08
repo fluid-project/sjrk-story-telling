@@ -16,6 +16,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageSetup: {
             resourcePrefix: "../.."
         },
+        listeners: {
+            "onStoryShareRequested.submitStory": {
+                funcName: "fluid.identity"
+            }
+        },
         components: {
             uio: {
                 options: {

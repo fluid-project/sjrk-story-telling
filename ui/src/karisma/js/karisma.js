@@ -18,15 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../../.."
         },
         components: {
-            menu: {
-                options: {
-                    menuConfig: {
-                        templateValues: {
-                            "menu_browseLinkUrl": "storyBrowse.html"
-                        }
-                    }
-                }
-            },
             // masthead/banner section
             karismaMasthead: {
                 type: "sjrk.storyTelling.ui",
@@ -64,17 +55,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.karisma", "sjrk.storyTelling.page.storyView"],
         pageSetup: {
             resourcePrefix: "../../.."
-        },
-        components: {
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            }
         }
     });
 
@@ -85,15 +65,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../../.."
         },
         components: {
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
             storyBrowser: {
                 options: {
                     browserConfig: {
@@ -111,15 +82,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../../.."
         },
         components: {
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
             karismaSidebarLeft: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-sidebar-left-container",
@@ -162,15 +124,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../../.."
         },
         components: {
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "/src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
             menu: {
                 options: {
                     components: {

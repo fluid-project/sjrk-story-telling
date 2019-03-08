@@ -59,52 +59,53 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             // represents the story data
             story: {
-                type: "sjrk.storyTelling.story"
-                // This content is here to aid in work on styling/aesthetics
-                // ,options: {
-                //     model: {
-                //         title: "A simple story",
-                //         content:
-                //         [
-                //             {
-                //                 blockType: "text",
-                //                 language: "en",
-                //                 heading: "First block",
-                //                 text: "Here are some story words that form a sentence",
-                //                 simplifiedText: "Story words"
-                //             },
-                //             {
-                //                 blockType: "image",
-                //                 language: "de",
-                //                 heading: "Second block",
-                //                 imageUrl: "/tests/img/obliterationroom.jpg",
-                //                 alternativeText: "The Obliteration Room at the Yayoi Kusama Infinity Rooms exhibit",
-                //                 description: "This is a photo of the Obliteration Room at the Art Gallery of Ontario"
-                //             },
-                //             {
-                //                 blockType: "audio",
-                //                 language: "es",
-                //                 heading: "Third block",
-                //                 mediaUrl: "/tests/audio/Leslie_s_Strut_Sting.mp3",
-                //                 alternativeText: "Leslie's Strut Sting from the YouTube Audio Library",
-                //                 description: "A small band led by a guitar playing a 'sting' sound, then ending",
-                //                 transcript: "Musical notes"
-                //             },
-                //             {
-                //                 blockType: "video",
-                //                 language: "pt",
-                //                 heading: "Fourth block",
-                //                 mediaUrl: "/tests/video/shyguy_and_rootbeer.mp4",
-                //                 alternativeText: "Two cats sitting in a window on a sunny day, one of them grooming the other",
-                //                 description: "Shyguy and Rootbeer sitting in the window, Rootbeer grooming Shyguy, both seem happy",
-                //                 transcript: "Background noise"
-                //             }
-                //         ],
-                //         author: "The usual author",
-                //         language: "en",
-                //         tags: ["test", "story", "simple"]
-                //     }
-                // }
+                type: "sjrk.storyTelling.story",
+                options: {
+                    model: null
+                    // This content is here to aid in work on styling/aesthetics
+                    // model: {
+                    //     title: "A simple story",
+                    //     content:
+                    //     [
+                    //         {
+                    //             blockType: "text",
+                    //             language: "en",
+                    //             heading: "First block",
+                    //             text: "Here are some story words that form a sentence",
+                    //             simplifiedText: "Story words"
+                    //         },
+                    //         {
+                    //             blockType: "image",
+                    //             language: "de",
+                    //             heading: "Second block",
+                    //             imageUrl: "/tests/img/obliterationroom.jpg",
+                    //             alternativeText: "The Obliteration Room at the Yayoi Kusama Infinity Rooms exhibit",
+                    //             description: "This is a photo of the Obliteration Room at the Art Gallery of Ontario"
+                    //         },
+                    //         {
+                    //             blockType: "audio",
+                    //             language: "es",
+                    //             heading: "Third block",
+                    //             mediaUrl: "/tests/audio/Leslie_s_Strut_Sting.mp3",
+                    //             alternativeText: "Leslie's Strut Sting from the YouTube Audio Library",
+                    //             description: "A small band led by a guitar playing a 'sting' sound, then ending",
+                    //             transcript: "Musical notes"
+                    //         },
+                    //         {
+                    //             blockType: "video",
+                    //             language: "pt",
+                    //             heading: "Fourth block",
+                    //             mediaUrl: "/tests/video/shyguy_and_rootbeer.mp4",
+                    //             alternativeText: "Two cats sitting in a window on a sunny day, one of them grooming the other",
+                    //             description: "Shyguy and Rootbeer sitting in the window, Rootbeer grooming Shyguy, both seem happy",
+                    //             transcript: "Background noise"
+                    //         }
+                    //     ],
+                    //     author: "The usual author",
+                    //     language: "en",
+                    //     tags: ["test", "story", "simple"]
+                    // }
+                }
             },
             templateManager: {
                 options: {

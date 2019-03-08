@@ -9,13 +9,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling-server/master
 
 "use strict";
 
-fluid.defaults("sjrk.storyTelling.server.changeMenuLink", {
-    distributeOptions: {
-        target: "{that menu}.options.menuConfig.templateValues.menu_browseLinkUrl",
-        record: "storyBrowse.html"
-    }
-});
-
 fluid.defaults("sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", {
     distributeOptions: {
         target: "{that templateManager}.options.templateConfig.resourcePrefix",
@@ -23,140 +16,36 @@ fluid.defaults("sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", {
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.changeUIOTermsMessagePrefix", {
-    distributeOptions: {
-        target: "{that uio}.options.terms.messagePrefix",
-        record: "src/messages/uio"
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.changeResourceLoadingPaths", {
-    gradeNames: ["sjrk.storyTelling.server.changeMenuLink", "sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.server.changeUIOTermsMessagePrefix"]
-});
-
 fluid.defaults("sjrk.storyTelling.server.karisma.karismaWelcome", {
-    gradeNames: ["sjrk.storyTelling.karisma.karismaWelcome", "sjrk.storyTelling.server.changeResourceLoadingPaths"],
-    components: {
-        karismaWelcomer: {
-            options: {
-                welcomerConfig: {
-                    templateValues: {
-                        "welcomer_browseLinkUrl": "storyBrowse.html",
-                        "welcomer_editLinkUrl": "storyEdit.html"
-                    }
-                }
-            }
-        }
-    }
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.karismaWelcome"]
 });
-
-fluid.defaults("sjrk.storyTelling.server.base.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
-    listeners: {
-        "onStoryShareRequested.submitStory": {
-            funcName: "sjrk.storyTelling.server.base.submitStory",
-            args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
-        }
-    }
-});
-
-
-sjrk.storyTelling.server.base.submitStory = function (that, errorEvent) {
-
-    var form = that.container.find("form");
-
-    form.attr("action", "/stories/");
-    form.attr("method", "post");
-    form.attr("enctype", "multipart/form-data");
-
-    // This is the easiest way to be able to submit form
-    // content in the background via ajax
-    var formData = new FormData(form[0]);
-
-    // Stores the entire model as a JSON string in one
-    // field of the multipart form
-    var modelAsJSON = JSON.stringify(that.story.model);
-    formData.append("model", modelAsJSON);
-
-    // In the real implementation, this should have
-    // proper handling of feedback on success / failure,
-    // but currently it just logs to console
-    $.ajax({
-        url         : form.attr("action"),
-        data        : formData ? formData : form.serialize(),
-        cache       : false,
-        contentType : false,
-        processData : false,
-        type        : "POST",
-        success     : function (data, textStatus, jqXHR) {
-            fluid.log(jqXHR, textStatus);
-            var successResponse = JSON.parse(data);
-            var storyUrl = "/storyView.html?id=" + successResponse.id;
-            window.location.assign(storyUrl);
-        },
-        error       : function (jqXHR, textStatus, errorThrown) {
-            fluid.log("Something went wrong");
-            fluid.log(jqXHR, textStatus, errorThrown);
-            var errorMessage = "Internal server error";
-            if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                errorMessage = jqXHR.responseJSON.message;
-            }
-            errorEvent.fire(errorMessage);
-        }
-    });
-};
 
 fluid.defaults("sjrk.storyTelling.server.karisma.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.karisma.storyEdit"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyEdit", "sjrk.storyTelling.learningReflections.storyEdit"],
-    distributeOptions: {
-        target: "{that learningReflectionsIntro templateManager}.options.linkConfig.templateValues.contextLinkUrl",
-        record: "storyBrowse.html"
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.base.storyView", {
-    gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
-    components: {
-        storyViewer: {
-            options: {
-                components: {
-                    story: {
-                        options: {
-                            model: null
-                        }
-                    }
-                }
-            }
-        }
-    }
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.storyEdit"]
 });
 
 fluid.defaults("sjrk.storyTelling.server.karisma.storyView", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.karisma.storyView"]
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.storyView"]
+});
+
+fluid.defaults("sjrk.storyTelling.server.karisma.storyBrowse", {
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.karisma.storyBrowse"]
+});
+
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyEdit", {
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.learningReflections.storyEdit"]
 });
 
 fluid.defaults("sjrk.storyTelling.server.learningReflections.storyView", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyView", "sjrk.storyTelling.learningReflections.storyView"],
-    distributeOptions: [{
-        target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
-        record: "storyEdit.html"
-    },
-    {
-        target: "{that menu templateManager}.options.linkConfig.templateValues.secondaryLinkUrl",
-        record: "storyBrowse.html"
-    }]
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.learningReflections.storyView"]
 });
 
-// "sjrk.storyTelling.learningReflections.storyView"
-// "sjrk.storyTelling.karisma.storyView"
+fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
+    gradeNames: ["sjrk.storyTelling.server.changeTemplateConfigResourcePrefix", "sjrk.storyTelling.learningReflections.storyBrowse"]
+});
 
 // classic query string parser via
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-
 sjrk.storyTelling.server.getParameterByName = function (name, url) {
     if (!url) { url = window.location.href; }
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -184,31 +73,6 @@ sjrk.storyTelling.server.loadStoryFromParameter = function (theme) {
         });
     }
 };
-
-fluid.defaults("sjrk.storyTelling.server.base.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.server.changeResourceLoadingPaths"],
-    components: {
-        storyBrowser: {
-            options: {
-                model: {
-                    stories: null
-                }
-            }
-        }
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.karisma.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.karisma.storyBrowse"]
-});
-
-fluid.defaults("sjrk.storyTelling.server.learningReflections.storyBrowse", {
-    gradeNames: ["sjrk.storyTelling.server.base.storyBrowse", "sjrk.storyTelling.learningReflections.storyBrowse"],
-    distributeOptions: {
-        target: "{that menu templateManager}.options.linkConfig.templateValues.contextLinkUrl",
-        record: "storyEdit.html"
-    }
-});
 
 sjrk.storyTelling.server.loadBrowse = function (theme) {
     var browseUrl = "/stories";
@@ -238,7 +102,6 @@ var templates = {
 };
 
 sjrk.storyTelling.server.loadThemedPage = function (page, theme, callback) {
-
     var mainContainer = $(".sjrkc-main-container");
 
     mainContainer.html(templates[theme][page]);

@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 "use strict";
 
@@ -47,6 +47,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "{storyPreviewer}.events.onStoryListenToRequested": {
                 func: "{that}.events.onStoryListenToRequested.fire",
                 namespace: "escalate"
+            },
+            "onStoryShareRequested.submitStory": {
+                funcName: "sjrk.storyTelling.page.storyEdit.submitStory",
+                args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
             }
         },
         components: {
@@ -188,5 +192,49 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.page.storyEdit.submitStory = function (that, errorEvent) {
+        var form = that.container.find("form");
+
+        form.attr("action", "/stories/");
+        form.attr("method", "post");
+        form.attr("enctype", "multipart/form-data");
+
+        // This is the easiest way to be able to submit form
+        // content in the background via ajax
+        var formData = new FormData(form[0]);
+
+        // Stores the entire model as a JSON string in one
+        // field of the multipart form
+        var modelAsJSON = JSON.stringify(that.story.model);
+        formData.append("model", modelAsJSON);
+
+        // In the real implementation, this should have
+        // proper handling of feedback on success / failure,
+        // but currently it just logs to console
+        $.ajax({
+            url         : form.attr("action"),
+            data        : formData ? formData : form.serialize(),
+            cache       : false,
+            contentType : false,
+            processData : false,
+            type        : "POST",
+            success     : function (data, textStatus, jqXHR) {
+                fluid.log(jqXHR, textStatus);
+                var successResponse = JSON.parse(data);
+                var storyUrl = "/storyView.html?id=" + successResponse.id;
+                window.location.assign(storyUrl);
+            },
+            error       : function (jqXHR, textStatus, errorThrown) {
+                fluid.log("Something went wrong");
+                fluid.log(jqXHR, textStatus, errorThrown);
+                var errorMessage = "Internal server error";
+                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                    errorMessage = jqXHR.responseJSON.message;
+                }
+                errorEvent.fire(errorMessage);
+            }
+        });
+    };
 
 })(jQuery, fluid);

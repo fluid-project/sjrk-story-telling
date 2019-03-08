@@ -18,15 +18,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../.."
         },
         components: {
-            menu: {
-                options: {
-                    menuConfig: {
-                        templateValues: {
-                            "menu_browseLinkUrl": "storyBrowse.html"
-                        }
-                    }
-                }
-            },
             // masthead/banner section
             learningReflectionsMasthead: {
                 type: "sjrk.storyTelling.ui",
@@ -108,15 +99,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     }
                 }
-            },
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
             }
         }
     });
@@ -153,15 +135,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
             storyBrowser: {
                 options: {
                     browserConfig: {
@@ -179,15 +152,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../.."
         },
         components: {
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "src/messages/uio"
-                    },
-                    "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
             // introductory content
             learningReflectionsIntro: {
                 type: "sjrk.storyTelling.ui",
