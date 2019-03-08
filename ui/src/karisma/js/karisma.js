@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     menuConfig: {
                         templateValues: {
-                            "menu_browseLinkUrl": "/src/karisma/html/storyBrowse.html"
+                            "menu_browseLinkUrl": "storyBrowse.html"
                         }
                     }
                 }
@@ -190,8 +190,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     welcomerConfig: {
                         templateValues: {
-                            "welcomer_browseLinkUrl": "/src/karisma/html/storyBrowse.html",
-                            "welcomer_editLinkUrl": "/src/karisma/html/storyEdit.html"
+                            "welcomer_browseLinkUrl": "storyBrowse.html",
+                            "welcomer_editLinkUrl": "storyEdit.html"
                         }
                     },
                     components: {
