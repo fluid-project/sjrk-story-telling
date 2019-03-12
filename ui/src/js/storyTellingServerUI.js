@@ -22,7 +22,7 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
 };
 
 sjrk.storyTelling.loadStoryFromParameter = function (theme) {
-    var storyId = sjrk.storyTelling.server.getParameterByName("id");
+    var storyId = sjrk.storyTelling.getParameterByName("id");
     if (storyId) {
         var storyUrl = "/stories/" + storyId;
 
