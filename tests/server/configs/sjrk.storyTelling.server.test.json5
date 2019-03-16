@@ -6,7 +6,7 @@
             "server": {
                 "options": {
                     "globalConfig": {
-                        "binaryUploadDirectory": "./tests/uploads"
+                        "binaryUploadDirectory": "./tests/server/uploads"
                     },
                     "components": {
                         "storyDataSource": {

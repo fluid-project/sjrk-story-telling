@@ -12,14 +12,14 @@ var fluid = require("infusion"),
     kettle = require("kettle"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
-require("../server/src/js/staticHandlerBase");
-require("../server/src/js/middleware/basicAuth");
-require("../server/src/js/middleware/saveStoryWithBinaries");
-require("../server/src/js/middleware/staticMiddlewareSubdirectoryFilter");
-require("../server/src/js/dataSource");
-require("../server/src/js/serverSetup");
-require("../server/src/js/requestHandlers");
-require("../server/src/js/serverSetup");
+require("../../src/server/staticHandlerBase");
+require("../../src/server/middleware/basicAuth");
+require("../../src/server/middleware/saveStoryWithBinaries");
+require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
+require("../../src/server/dataSource");
+require("../../src/server/serverSetup");
+require("../../src/server/requestHandlers");
+require("../../src/server/serverSetup");
 
 kettle.loadTestingSupport();
 
@@ -30,7 +30,7 @@ sjrk.storyTelling.server.testServerDefs = [{
     expect: 2,
     config: {
         configName: "sjrk.storyTelling.server.test",
-        configPath: "./tests/configs"
+        configPath: "./tests/server/configs"
     },
     components: {
         validNodeModulesRequest: {

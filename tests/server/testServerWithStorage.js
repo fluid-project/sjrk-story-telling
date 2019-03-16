@@ -13,15 +13,15 @@ var fluid = require("infusion"),
     fs = require("fs"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
-require("../server/src/js/staticHandlerBase");
-require("../server/src/js/middleware/basicAuth");
-require("../server/src/js/middleware/saveStoryWithBinaries");
-require("../server/src/js/middleware/staticMiddlewareSubdirectoryFilter");
-require("../server/src/js/dataSource");
-require("../server/src/js/serverSetup");
-require("../server/src/js/requestHandlers");
-require("../server/src/js/serverSetup");
-require("../server/src/js/db/story-dbConfiguration");
+require("../../src/server/staticHandlerBase");
+require("../../src/server/middleware/basicAuth");
+require("../../src/server/middleware/saveStoryWithBinaries");
+require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
+require("../../src/server/dataSource");
+require("../../src/server/serverSetup");
+require("../../src/server/requestHandlers");
+require("../../src/server/serverSetup");
+require("../../src/server/db/story-dbConfiguration");
 
 kettle.loadTestingSupport();
 
@@ -193,14 +193,14 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         "onBlankStoryWithEmptyMediaBlocksSaveSuccessful": null
     },
     testUploadOptions: {
-        testFile: "./tests/binaries/logo_small_fluid_vertical.png",
-        testDirectory: "./tests/uploads/",
-        expectedUploadDirectory: "./tests/uploads/",
+        testFile: "./tests/testData/logo_small_fluid_vertical.png",
+        testDirectory: "./tests/server/uploads/",
+        expectedUploadDirectory: "./tests/server/uploads/",
         expectedUploadedFilesHandlerPath: "/uploads/"
     },
     config: {
         configName: "sjrk.storyTelling.server.test",
-        configPath: "./tests/configs"
+        configPath: "./tests/server/configs"
     },
     components: {
         testDB: {
