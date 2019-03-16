@@ -1,6 +1,6 @@
 {
-	“theme”: “learningReflections”,
-	“port”: “8081”,
-	“ip”: “127.0.0.1”, /* what does Kettle bind to by default? */
-	“adminPassword”: undefined /* this is the authentication password for deleting stories */
+	"theme": "learningReflections",
+	"port": "8081",
+	"ip": "127.0.0.1", /* what does Kettle bind to by default? */
+	"adminPassword": undefined /* this is the authentication password for deleting stories */
 }
