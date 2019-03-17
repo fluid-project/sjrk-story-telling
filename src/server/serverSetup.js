@@ -113,19 +113,22 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
-                    testBinaries: {
+                    testData: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./tests/binaries"
+                            "root": "./tests/testData"
                         }
                     },
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./ui",
-                            middlewareOptions: {
-                                index: "storyEdit.html"
-                            }
+                            "root": "./src/ui"
+                        }
+                    },
+                    baseTheme: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./themes/base"
                         }
                     }
                 }
@@ -175,14 +178,20 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "prefix": "/tests",
             "method": "get"
         },
-        testBinariesHandler: {
-            type: "sjrk.storyTelling.server.testBinariesHandler",
+        testDataHandler: {
+            type: "sjrk.storyTelling.server.testDataHandler",
             "route": "/*",
-            "prefix": "/binaries",
+            "prefix": "/testData",
             "method": "get"
         },
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
+            "route": "/*",
+            "prefix": "/ui",
+            "method": "get"
+        },
+        baseThemeHandler: {
+            type: "sjrk.storyTelling.server.baseThemeHandler",
             "route": "/*",
             "method": "get"
         }

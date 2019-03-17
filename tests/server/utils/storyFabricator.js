@@ -80,7 +80,7 @@ fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest",
     method: "POST",
     formData: {
         files: {
-            "file": ["./tests/binaries/logo_small_fluid_vertical.png"]
+            "file": ["./tests/testData/logo_small_fluid_vertical.png"]
         }
     }
 });

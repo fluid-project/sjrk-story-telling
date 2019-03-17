@@ -342,11 +342,11 @@ fluid.defaults("sjrk.storyTelling.server.testsHandler", {
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.testBinariesHandler", {
+fluid.defaults("sjrk.storyTelling.server.testDataHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {
         "static": {
-            middleware: "{server}.testBinaries"
+            middleware: "{server}.testData"
         }
     }
 });
@@ -356,6 +356,15 @@ fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     requestMiddleware: {
         "static": {
             middleware: "{server}.ui"
+        }
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.baseThemeHandler", {
+    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
+    requestMiddleware: {
+        "static": {
+            middleware: "{server}.baseTheme"
         }
     }
 });

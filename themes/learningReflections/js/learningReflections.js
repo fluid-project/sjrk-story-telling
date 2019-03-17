@@ -30,8 +30,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-masthead.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/themes/learningReflections/templates/learningReflections-masthead.handlebars"
                                 }
                             }
                         }
@@ -53,8 +53,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-footer.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/themes/learningReflections/templates/learningReflections-footer.handlebars"
                                 }
                             }
                         }
@@ -74,8 +74,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/themes/learningReflections/templates/learningReflections-menu.handlebars"
                                 },
                                 listeners: {
                                     "onAllResourcesLoaded.renderTemplate": {
@@ -107,8 +107,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/themes/learningReflections/templates/learningReflections-menu.handlebars"
                                 },
                                 listeners: {
                                     "onAllResourcesLoaded.renderTemplate": {
@@ -160,8 +160,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-introduction.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/themes/learningReflections/templates/learningReflections-introduction.handlebars"
                                 }
                             }
                         }

@@ -133,7 +133,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onTemplateRendered.escalate": "{ui}.events.onEditorTemplateRendered.fire"
                     },
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/storyEditor.handlebars"
+                        templatePath: "%resourcePrefix/templates/storyEditor.handlebars"
                     }
                 }
             },

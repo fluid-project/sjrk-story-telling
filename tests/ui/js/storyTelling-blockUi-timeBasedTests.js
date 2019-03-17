@@ -19,14 +19,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     templateConfig: {
                         resourcePrefix: "../..",
-                        templatePath: "%resourcePrefix/src/templates/storyBlockVideoView.handlebars"
+                        templatePath: "%resourcePrefix/templates/storyBlockVideoView.handlebars"
                     }
                 }
             },
             block: {
                 options: {
                     model: {
-                        mediaUrl: "../../binaries/shyguy_and_rootbeer.mp4"
+                        mediaUrl: "../../testData/shyguy_and_rootbeer.mp4"
                     }
                 }
             }

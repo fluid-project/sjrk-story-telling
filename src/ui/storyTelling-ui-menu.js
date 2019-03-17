@@ -48,7 +48,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     templateConfig: {
-                        templatePath: "%resourcePrefix/src/templates/menu.handlebars"
+                        templatePath: "%resourcePrefix/templates/menu.handlebars"
                     }
                 }
             }

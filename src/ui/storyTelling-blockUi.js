@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{blockUi}.container",
                 options: {
                     templateConfig: {
-                        messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json"
+                        messagesPath: "%resourcePrefix/messages/storyBlockMessages.json"
                     },
                     listeners: {
                         "onAllResourcesLoaded.renderTemplate": {

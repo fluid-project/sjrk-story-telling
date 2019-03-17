@@ -47,7 +47,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
                     },
                     templateConfig: {
-                        messagesPath: "%resourcePrefix/src/messages/storyMessages.json"
+                        messagesPath: "%resourcePrefix/messages/storyMessages.json"
                     }
                 }
             }

@@ -35,8 +35,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-masthead.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-masthead.handlebars"
                                 }
                             }
                         }
@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyBrowser: {
                 options: {
                     browserConfig: {
-                        placeholderThumbnailUrl: "/src/karisma/img/logo.png"
+                        placeholderThumbnailUrl: "/themes/karisma/img/logo.png"
                     }
                 }
             }
@@ -77,8 +77,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-left.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-sidebar-left.handlebars"
                                 }
                             }
                         }
@@ -93,8 +93,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-sidebar-right.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-sidebar-right.handlebars"
                                 }
                             }
                         }
@@ -114,7 +114,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-menu.handlebars"
+                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-menu.handlebars"
                                 }
                             }
                         }
@@ -141,8 +141,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/src/karisma/templates/karisma-welcome.handlebars"
+                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-welcome.handlebars"
                                 }
                             }
                         }
