@@ -85,8 +85,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 linkConfig: {
                                     templateValues: {
-                                        "contextLinkUrl": "storyEdit.html",
-                                        "secondaryLinkUrl": "storyBrowse.html"
+                                        "contextLinkUrl": "storyBrowse.html"
                                     }
                                 }
                             }
@@ -118,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 },
                                 linkConfig: {
                                     templateValues: {
-                                        "contextLinkUrl": "storyEdit.html"
+                                        // "contextLink": "storyEdit.html"
                                     }
                                 }
                             }
