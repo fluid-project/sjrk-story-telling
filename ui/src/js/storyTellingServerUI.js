@@ -61,7 +61,8 @@ var templates = {
     },
     learningReflections: {
         view: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-viewer\"></div></div></div>",
-        edit: "<div class=\"sjrk-st-page-content-container\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div></div>",
+        // edit: "<div class=\"sjrk-st-page-content-container\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div></div>",
+        edit: "<div style=\"display: grid;padding-top:0;grid-template: none;\" class=\"sjrk-st-page-content-container\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div hidden class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div></div>",
         browse: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-browser sjrkc-st-story-browser\"></div></div></div>"
     }
 };
