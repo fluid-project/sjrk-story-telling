@@ -50,7 +50,11 @@
                 <span>{{localizedMessages.message_goBack}}</span>
             </a>
         </div>
-        <div hidden>
+        {{#if dynamicValues.savingEnabled}}
+            <div>
+        {{else}}
+            <div hidden>
+        {{/if}}
             <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
         </div>
         <div hidden>

@@ -48,7 +48,16 @@ fieldset ul {
 
 .sjrk-st-page-content-container {
     background-color: #fff;
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
+}
+
+/* These sections are shown or hidden based on the theme's styling rules */
+.sjrk-st-page-header-container,
+.sjrk-edit-left-container,
+.sjrk-edit-right-container,
+.sjrk-st-etiquette-container,
+.sjrk-st-page-footer-container {
+    display: none;
 }
 
 .sjrk-st-menu {
@@ -59,6 +68,10 @@ fieldset ul {
 
 .sjrk-st-menu-languages-container {
     text-align: right;
+}
+
+.sjrk-edit-page-container {
+    padding-top: 1rem;
 }
 
 .sjrk-st-story-editor-page2, .sjrkc-st-story-previewer {

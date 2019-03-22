@@ -1,11 +1,11 @@
-<div class="sjrk-st-context-link-container">
-    {{#if dynamicValues.contextLinkUrl}}
+{{#if dynamicValues.contextLinkUrl}}
+    <div class="sjrk-st-context-link-container">
         <a href="{{dynamicValues.contextLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_contextLink_browse}}</a>
-    {{/if}}
-    {{#if dynamicValues.secondaryLinkUrl}}
-        <a hidden href="{{dynamicValues.secondaryLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_contextLink_build}}</a>
-    {{/if}}
-</div>
+        {{#if dynamicValues.secondaryLinkUrl}}
+            <a hidden href="{{dynamicValues.secondaryLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_contextLink_build}}</a>
+        {{/if}}
+    </div>
+{{/if}}
 <div hidden lang="{{localizedMessages.language}}" class="sjrk-st-menu-languages-container">
     <a href="javascript:void(0)" class="sjrk-st-menu-languages-en sjrkc-st-menu-languages-en">{{localizedMessages.message_menu_english}}</a> |
     <a href="javascript:void(0)" class="sjrk-st-menu-languages-es sjrkc-st-menu-languages-es" lang="es">{{localizedMessages.message_menu_spanish}}</a>

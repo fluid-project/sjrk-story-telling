@@ -71,7 +71,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             karismaSidebarLeft: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-sidebar-left-container",
+                container: ".sjrkc-edit-left-container",
                 options: {
                     components: {
                         templateManager: {
@@ -87,7 +87,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             karismaSidebarRight: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-sidebar-right-container",
+                container: ".sjrkc-edit-right-container",
                 options: {
                     components: {
                         templateManager: {

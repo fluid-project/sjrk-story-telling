@@ -17,9 +17,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en" //initial state is English
         },
         pageSetup: {
-            resourcePrefix: ""
+            resourcePrefix: "",
+            savingEnabled: true // should match the setting in sjrk.storyTelling.server.server.globalConfig
         },
         distributeOptions: [
+            {
+                source: "{that}.options.pageSetup.savingEnabled",
+                target: "{that ui}.options.model.savingEnabled"
+            },
             {
                 source: "{that}.options.pageSetup.resourcePrefix",
                 target: "{that ui}.options.components.templateManager.options.templateConfig.resourcePrefix"

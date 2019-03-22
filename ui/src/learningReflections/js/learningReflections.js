@@ -142,7 +142,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // introductory content
             learningReflectionsIntro: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-introduction-container",
+                container: ".sjrkc-edit-left-container",
                 options: {
                     components: {
                         templateManager: {
