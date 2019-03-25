@@ -20,7 +20,6 @@ require("../server/src/js/middleware/staticMiddlewareSubdirectoryFilter");
 require("../server/src/js/dataSource");
 require("../server/src/js/serverSetup");
 require("../server/src/js/requestHandlers");
-require("../server/src/js/serverSetup");
 require("../server/src/js/db/story-dbConfiguration");
 
 kettle.loadTestingSupport();
