@@ -116,6 +116,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "jqUnit.assert",
                     args: "onStorySubmitRequested event fired."
                 }]
+            },
+            {
+                name: "Test story content rendering",
+                expect: 2,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.assertElementText",
+                    args: ["{storyViewer}.dom.storyTitle", "A story about cats"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementText",
+                    args: ["{storyViewer}.dom.storyAuthor", "by Cat friend"]
+                }]
             }]
         }]
     });
