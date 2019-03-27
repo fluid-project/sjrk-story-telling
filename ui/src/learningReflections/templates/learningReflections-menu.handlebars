@@ -1,10 +1,18 @@
-{{#if dynamicValues.contextLinkUrl}}
+{{#if dynamicValues.savingEnabled}}
     <div class="sjrk-st-context-link-container">
-        <a href="{{dynamicValues.contextLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_contextLink_browse}}</a>
-        {{#if dynamicValues.secondaryLinkUrl}}
-            <a hidden href="{{dynamicValues.secondaryLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_contextLink_build}}</a>
+        {{#if dynamicValues.browseLinkUrl}}
+            <a href="{{dynamicValues.browseLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_browseLink}}</a>
+        {{/if}}
+        {{#if dynamicValues.buildLinkUrl}}
+            <a hidden href="{{dynamicValues.buildLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_buildLink}}</a>
         {{/if}}
     </div>
+{{else}}
+    {{#if dynamicValues.browseLinkUrl}}
+        <div class="sjrk-st-context-link-container">
+            <a href="{{dynamicValues.browseLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_browseLink}}</a>
+        </div>
+    {{/if}}
 {{/if}}
 <div hidden lang="{{localizedMessages.language}}" class="sjrk-st-menu-languages-container">
     <a href="javascript:void(0)" class="sjrk-st-menu-languages-en sjrkc-st-menu-languages-en">{{localizedMessages.message_menu_english}}</a> |

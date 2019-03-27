@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 "use strict";
 
@@ -23,10 +23,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{that}.options.templateConfig"]
+                                model: {
+                                    dynamicValues: {
+                                        resourcePrefix: "{that}.options.templateConfig.resourcePrefix"
                                     }
                                 },
                                 templateConfig: {
@@ -46,10 +45,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{that}.options.templateConfig"]
+                                model: {
+                                    dynamicValues: {
+                                        resourcePrefix: "{that}.options.templateConfig.resourcePrefix"
                                     }
                                 },
                                 templateConfig: {
@@ -67,26 +65,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
+        pageSetup: {
+            browseLinkUrl: "storyBrowse.html",
+            buildLinkUrl: "storyEdit.html"
+        },
         components: {
             menu: {
                 options: {
                     components: {
                         templateManager: {
                             options: {
+                                model: {
+                                    dynamicValues: {
+                                        browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl",
+                                        buildLinkUrl: "{page}.options.pageSetup.buildLinkUrl"
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
-                                },
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{that}.options.linkConfig.templateValues"]
-                                    }
-                                },
-                                linkConfig: {
-                                    templateValues: {
-                                        "contextLinkUrl": "storyBrowse.html"
-                                    }
                                 }
                             }
                         }
@@ -99,26 +96,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyBrowse"],
+        pageSetup: {
+            buildLinkUrl: "storyEdit.html"
+        },
         components: {
             menu: {
                 options: {
                     components: {
                         templateManager: {
                             options: {
+                                model: {
+                                    dynamicValues: {
+                                        buildLinkUrl: "{page}.options.pageSetup.buildLinkUrl"
+                                    }
+                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
-                                },
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{that}.options.linkConfig.templateValues"]
-                                    }
-                                },
-                                linkConfig: {
-                                    templateValues: {
-                                        // "contextLink": "storyEdit.html"
-                                    }
                                 }
                             }
                         }
@@ -138,6 +132,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
+        pageSetup: {
+            browseLinkUrl: "storyBrowse.html"
+        },
+        selectors: {
+            mainContainer: ".sjrkc-main-container",
+            pageContainer: ".sjrk-edit-page-container"
+        },
+        listeners: {
+            "onCreate.hideEditorMarkup": {
+                funcName: "sjrk.storyTelling.learningReflections.storyEdit.hideEditorMarkup",
+                args: ["{that}.options.pageSetup.savingEnabled", "{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer"]
+            }
+        },
         components: {
             // introductory content
             learningReflectionsIntro: {
@@ -147,15 +154,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
-                                linkConfig: {
-                                    templateValues: {
-                                        "contextLinkUrl": "storyBrowse.html"
-                                    }
-                                },
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{that}.options.linkConfig.templateValues"]
+                                model: {
+                                    dynamicValues: {
+                                        browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl"
                                     }
                                 },
                                 templateConfig: {
@@ -169,5 +170,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.learningReflections.storyEdit.hideEditorMarkup = function (savingEnabled, mainContainer, pageContainer) {
+        if (!savingEnabled) {
+            $(mainContainer).prop("hidden", true);
+            $(pageContainer).css({
+                "display": "grid",
+                "padding-top": "0",
+                "grid-template": "none"
+            });
+        }
+    };
 
 })(jQuery, fluid);

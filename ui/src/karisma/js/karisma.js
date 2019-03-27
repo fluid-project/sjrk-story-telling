@@ -20,18 +20,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-header-container",
                 options: {
-                    mastheadConfig: {
-                        templateValues: {
-                            "homePageUrl": "/"
-                        }
-                    },
                     components: {
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{karismaMasthead}.options.mastheadConfig.templateValues"]
+                                model: {
+                                    dynamicValues: {
+                                        homePageUrl: "/"
                                     }
                                 },
                                 templateConfig: {
@@ -125,19 +119,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-welcome",
                 options: {
-                    welcomerConfig: {
-                        templateValues: {
-                            "welcomer_browseLinkUrl": "storyBrowse.html",
-                            "welcomer_editLinkUrl": "storyEdit.html"
-                        }
-                    },
                     components: {
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{karismaWelcomer}.options.welcomerConfig.templateValues"]
+                                model: {
+                                    dynamicValues: {
+                                        welcomer_browseLinkUrl: "storyBrowse.html",
+                                        welcomer_editLinkUrl: "storyEdit.html"
                                     }
                                 },
                                 templateConfig: {

@@ -31,7 +31,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
-                args: ["{storyPreviewer}.story.model", {isEditorPreview: true}, "{storyPreviewer}.templateManager.options.templateConfig"],
                 namespace: "previewerRenderTemplate"
             },
             {
@@ -179,10 +178,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         },
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{story}.model", "{that}.options.templateConfig", {isEditorPreview: true}]
+                                model: {
+                                    dynamicValues: {
+                                        isEditorPreview: true
                                     }
                                 }
                             }

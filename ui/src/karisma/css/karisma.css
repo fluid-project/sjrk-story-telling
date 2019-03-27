@@ -18,11 +18,13 @@ a {
     background-color: var(--site-rose);
 }
 
+.sjrk-st-toc-container {
+    background: var(--site-lavender);
+}
+
 .sjrk-st-page-header-container,
 .sjrk-edit-left-container,
-.sjrk-edit-right-container,
-.sjrk-st-etiquette-container,
-.sjrk-st-page-footer-container {
+.sjrk-edit-right-container {
     display: block;
 }
 
@@ -69,7 +71,7 @@ a {
     background-color: inherit;
 }
 
-.sjrk-st-page-content-with-sidebars {
+.sjrk-edit-page-container {
     display: grid;
     grid-template-columns: minmax(1rem, 20rem) auto minmax(1rem, 20rem);
 }

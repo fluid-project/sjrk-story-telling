@@ -21,14 +21,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.templateManager",
                 container: "{blockUi}.container",
                 options: {
+                    model: {
+                        dynamicValues: "{block}.model"
+                    },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/src/messages/storyBlockMessages.json"
-                    },
-                    listeners: {
-                        "onAllResourcesLoaded.renderTemplate": {
-                            funcName: "{that}.renderTemplate",
-                            args: ["{block}.model"]
-                        }
                     }
                 }
             },

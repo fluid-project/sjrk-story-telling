@@ -222,24 +222,6 @@ body {
     height: 8rem;
 }
 
-.sjrk-st-story-editor-next *,
-.sjrk-st-story-editor-previous *,
-.sjrk-st-story-viewer-previous * {
-    vertical-align: middle;
-}
-
-.sjrk-st-story-editor-next img,
-.sjrk-st-story-editor-previous img,
-.sjrk-st-story-viewer-previous img {
-    display: inline-block;
-    height: 2.5rem;
-    width: 2.5rem;
-}
-
-.sjrk-st-story-editor-next img {
-    margin-left: 0.25rem;
-}
-
 .sjrk-st-story-editor-previous img,
 .sjrk-st-story-viewer-previous img {
     margin-right: 0.25rem;

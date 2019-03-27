@@ -278,6 +278,24 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
     border: none;
 }
 
+.sjrk-st-story-editor-next *,
+.sjrk-st-story-editor-previous *,
+.sjrk-st-story-viewer-previous * {
+    vertical-align: middle;
+}
+
+.sjrk-st-story-editor-next img,
+.sjrk-st-story-editor-previous img,
+.sjrk-st-story-viewer-previous img {
+    display: inline-block;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.sjrk-st-story-editor-next img {
+    margin-left: 0.25rem;
+}
+
 .sjrk-st-story-share-progress {
     justify-self: center;
     grid-column: 1 / span 2;
