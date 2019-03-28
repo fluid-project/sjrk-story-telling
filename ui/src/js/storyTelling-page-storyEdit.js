@@ -13,6 +13,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.page"],
+        pageSetup: {
+            editorCssRules: {
+                hide: {
+                    "padding-top": "0",
+                    "grid-template": "none"
+                },
+                show: {
+                    "padding-top": "1rem",
+                    "grid-template-columns": "2fr 3fr"
+                }
+            },
+            hideProperty: "hidden"
+        },
+        selectors: {
+            mainContainer: ".sjrkc-main-container",
+            pageContainer: ".sjrk-edit-page-container"
+        },
         events: {
             onAllUiComponentsReady: {
                 events: {
@@ -50,6 +67,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.page.storyEdit.submitStory",
                 args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
+            },
+            "onCreate.setEditorDisplay": {
+                func: "{that}.setEditorDisplay"
+            }
+        },
+        invokers: {
+            setEditorDisplay: {
+                funcName: "sjrk.storyTelling.page.storyEdit.setEditorDisplay",
+                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.editorCssRules", "{that}.options.pageSetup.hideProperty"]
             }
         },
         components: {
@@ -190,6 +216,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, editorCssRules, hideProperty) {
+        $(mainContainer).prop(hideProperty, !savingEnabled);
+        $(pageContainer).css(savingEnabled ? editorCssRules.show : editorCssRules.hide);
+    };
 
     sjrk.storyTelling.page.storyEdit.submitStory = function (that, errorEvent) {
         var form = that.container.find("form");

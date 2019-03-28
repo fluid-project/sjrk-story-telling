@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 "use strict";
 
@@ -133,33 +133,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
         pageSetup: {
-            browseLinkUrl: "storyBrowse.html",
-            editorCssRules: {
-                hide: {
-                    "padding-top": "0",
-                    "grid-template": "none"
-                },
-                show: {
-                    "padding-top": "1rem",
-                    "grid-template-columns": "2fr 3fr"
-                }
-            },
-            hideProperty: "hidden"
-        },
-        selectors: {
-            mainContainer: ".sjrkc-main-container",
-            pageContainer: ".sjrk-edit-page-container"
-        },
-        listeners: {
-            "onCreate.setEditorDisplay": {
-                func: "{that}.setEditorDisplay"
-            }
-        },
-        invokers: {
-            setEditorDisplay: {
-                funcName: "sjrk.storyTelling.learningReflections.storyEdit.setEditorDisplay",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.editorCssRules", "{that}.options.pageSetup.hideProperty"]
-            }
+            browseLinkUrl: "storyBrowse.html"
         },
         components: {
             // introductory content
@@ -186,10 +160,5 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    sjrk.storyTelling.learningReflections.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, editorCssRules, hideProperty) {
-        $(mainContainer).prop(hideProperty, !savingEnabled);
-        $(pageContainer).css(savingEnabled ? editorCssRules.show : editorCssRules.hide);
-    };
 
 })(jQuery, fluid);
