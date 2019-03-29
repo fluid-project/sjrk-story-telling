@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: "apache/couchdb:2.1.1"
+  app:
+    build: .
+    environment:
+      - COUCHDB_URL=http://db:5984
+    links:
+      - "db"
+    depends_on:
+      - "db"
+  dbconfig:
+    build: .
+    entrypoint: "node ./server/src/js/db/dbSetup.js"
+    environment:
+      - COUCHDB_CONFIG_MAX_RETRIES=10
+      - COUCHDB_CONFIG_RETRY_DELAY=10
+      - COUCHDB_URL=http://db:5984
+    links:
+      - "db"
+    depends_on:
+      - "db"

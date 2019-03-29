@@ -1,16 +1,16 @@
-FROM node:10-alpine as builder
+FROM node:10-alpine
 
-# Add OS-level dependencies
-RUN apk add --no-cache git
+WORKDIR /usr/src/app
 
-# Switch to regular user
-USER node
+COPY package*.json ./
 
-# Install npm dependencies
-COPY --chown=node package.json /app/package.json
-WORKDIR /app
-RUN npm install
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
 
-# Build final image
-FROM nginx:alpine
-COPY --from=builder /app /usr/share/nginx/html
+RUN npm install --only=production
+
+COPY . .
+
+EXPOSE 8081
+
+CMD ["node", "index.js"]
