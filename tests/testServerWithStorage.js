@@ -316,11 +316,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{storySave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful"]
+        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.savingEnabled"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}"]
+        args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}", "{that}.configuration.server.options.globalConfig.savingEnabled"]
     }, {
         event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
@@ -333,21 +333,27 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
                 expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
             },
-            "{testCaseHolder}.events.onTestImageRetrieval"
+            "{testCaseHolder}.events.onTestImageRetrieval",
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     },
     {
         event: "{that}.events.onTestImageRetrieval",
-        args: ["{arguments}.0", "{getUploadedImage}"],
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage"
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
+        args: ["{arguments}.0", "{getUploadedImage}", "{that}.configuration.server.options.globalConfig.savingEnabled"]
     },
     {
         event: "{getUploadedImage}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval"
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
+        ]
     },
     {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.savingEnabled"]
     },
     // Blank story
     {
@@ -358,7 +364,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: [
             "{arguments}.0",
             "{arguments}.1",
-            "{that}.events.onBlankStorySaveSuccessful"
+            "{that}.events.onBlankStorySaveSuccessful",
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     }, {
         event: "{that}.events.onBlankStorySaveSuccessful",
@@ -366,7 +373,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: [
             "{arguments}.0",
             "{arguments}.1",
-            "{getSavedBlankStory}"
+            "{getSavedBlankStory}",
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     }, {
         event: "{getSavedBlankStory}.events.onComplete",
@@ -376,7 +384,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.1",
             blankStory,
             null, // No file expected
-            null // No event needed
+            null, // No event needed
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     },
     // Blank story with empty media blocks
@@ -388,7 +397,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: [
             "{arguments}.0",
             "{arguments}.1",
-            "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful"
+            "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     }, {
         event: "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
@@ -396,7 +406,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: [
             "{arguments}.0",
             "{arguments}.1",
-            "{getSavedBlankStoryWithEmptyMediaBlocks}"
+            "{getSavedBlankStoryWithEmptyMediaBlocks}",
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     }, {
         event: "{getSavedBlankStoryWithEmptyMediaBlocks}.events.onComplete",
@@ -406,7 +417,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.1",
             blankStoryWithEmptyMediaBlocks,
             null, // No file expected
-            null // No event needed
+            null, // No event needed
+            "{that}.configuration.server.options.globalConfig.savingEnabled"
         ]
     }]
 }];
@@ -420,70 +432,98 @@ sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = f
     });
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful = function (data, request, completionEvent) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful = function (data, request, completionEvent, savingEnabled) {
     var parsedData = JSON.parse(data);
 
-    jqUnit.assertTrue("Response OK is true", parsedData.ok);
-
-    jqUnit.assertTrue("Response contains ID field", parsedData.id);
-
-    jqUnit.assertTrue("Response contains binaryRenameMap field", parsedData.binaryRenameMap);
-
-    completionEvent.fire(parsedData.id, parsedData.binaryRenameMap);
+    if (savingEnabled) {
+        jqUnit.assertTrue("Response OK is true", parsedData.ok);
+        jqUnit.assertTrue("Response contains ID field", parsedData.id);
+        jqUnit.assertTrue("Response contains binaryRenameMap field", parsedData.binaryRenameMap);
+        completionEvent.fire(parsedData.id, parsedData.binaryRenameMap);
+    } else {
+        jqUnit.assertTrue("Response isError is true", parsedData.isError);
+        jqUnit.assertFalse("Response does not contain ID field", parsedData.id);
+        jqUnit.assertFalse("Response does not contains binaryRenameMap field", parsedData.binaryRenameMap);
+        completionEvent.fire(0, undefined); // fire the completion event with a dummy ID
+    }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest) {
+sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest, savingEnabled) {
+    if (savingEnabled) {
+        // We store this material on the request so we can
+        // keep moving it forward; may be a better way
+        getSavedStoryRequest.binaryRenameMap = binaryRenameMap;
+    }
 
-    // We store this material on the request so we can
-    // keep moving it forward; may be a better way
-    getSavedStoryRequest.binaryRenameMap = binaryRenameMap;
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent, savingEnabled) {
     var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
 
-    // update the expected model to use the
-    // dynamically-generated file name before we
-    // test on it
-    var updatedModel = fluid.copy(expectedStory);
-    if (fileOptions) {
-        updatedModel.content[0][fileOptions.urlProp] =
-            fileOptions.expectedUploadedFilesHandlerPath
-            + binaryRenameMap[testStoryModel.content[0][fileOptions.urlProp]];
-    }
+    if (savingEnabled) {
+        // update the expected model to use the
+        // dynamically-generated file name before we
+        // test on it
+        var updatedModel = fluid.copy(expectedStory);
+        if (fileOptions) {
+            updatedModel.content[0][fileOptions.urlProp] =
+                fileOptions.expectedUploadedFilesHandlerPath
+                + binaryRenameMap[testStoryModel.content[0][fileOptions.urlProp]];
+        }
 
-    // Strip the _rev field from the parsedData
-    parsedData = fluid.censorKeys(parsedData, "_rev");
+        // Strip the _rev field from the parsedData
+        parsedData = fluid.censorKeys(parsedData, "_rev");
 
-    jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
+        jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
 
-    if (fileOptions) {
-        var exists = fs.existsSync(fileOptions.expectedUploadDirectory
-            + binaryRenameMap[testStoryModel.content[0][fileOptions.urlProp]]);
+        if (fileOptions) {
+            var exists = fs.existsSync(fileOptions.expectedUploadDirectory
+                + binaryRenameMap[testStoryModel.content[0][fileOptions.urlProp]]);
 
-        jqUnit.assertTrue("Uploaded file exists", exists);
-    }
+            jqUnit.assertTrue("Uploaded file exists", exists);
+        }
 
-    if (completionEvent && fileOptions) {
-        completionEvent.fire(parsedData.content[0][fileOptions.urlProp]);
+        if (completionEvent && fileOptions) {
+            completionEvent.fire(parsedData.content[0][fileOptions.urlProp]);
+        }
+    } else {
+        jqUnit.assert("Saved story data does not exist");
+
+        if (fileOptions) {
+            jqUnit.assert("Uploaded file does not exist");
+        }
+
+        if (completionEvent) {
+            completionEvent.fire(undefined);
+        }
     }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest) {
-    // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
-    var imageFilename, handlerPath;
-    handlerPath = imageUrl.split("/")[1];
-    imageFilename = imageUrl.split("/")[2];
+sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, savingEnabled) {
+    if (savingEnabled) {
+        // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
+        var imageFilename, handlerPath;
+        handlerPath = imageUrl.split("/")[1];
+        imageFilename = imageUrl.split("/")[2];
 
-    getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
+        getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
+    } else {
+        getUploadedImageRequest.send(null, {termMap: {imageFilename: savingEnabled, handlerPath: savingEnabled}});
+    }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request) {
-    jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
-    jqUnit.assertEquals("header.content-type is image/png", "image/png", request.nativeResponse.headers["content-type"]);
-    jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);
+sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request, savingEnabled) {
+    if (savingEnabled) {
+        jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
+        jqUnit.assertEquals("header.content-type is image/png", "image/png", request.nativeResponse.headers["content-type"]);
+        jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);
+    } else {
+        jqUnit.assertEquals("Status code from retrieving image is 404", 404, request.nativeResponse.statusCode);
+        jqUnit.assertNotEquals("header.content-type is not image/png", "image/png", request.nativeResponse.headers["content-type"]);
+        jqUnit.assertNotEquals("header.content-length is not 3719", "3719", request.nativeResponse.headers["content-length"]);
+    }
 };
 
 jqUnit.test("Test isValidMediaFilename function", function () {
