@@ -14,17 +14,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.page"],
         pageSetup: {
-            editorCssRules: {
-                hide: {
-                    "padding-top": "0",
-                    "grid-template": "none"
-                },
-                show: {
-                    "padding-top": "1rem",
-                    "grid-template-columns": "2fr 3fr"
-                }
-            },
-            hideProperty: "hidden"
+            hiddenEditorClass: "hidden",
+            hiddenEditorProperty: "hidden"
         },
         selectors: {
             mainContainer: ".sjrkc-main-container",
@@ -75,7 +66,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             setEditorDisplay: {
                 funcName: "sjrk.storyTelling.page.storyEdit.setEditorDisplay",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.editorCssRules", "{that}.options.pageSetup.hideProperty"]
+                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass", "{that}.options.pageSetup.hiddenEditorProperty"]
             }
         },
         components: {
@@ -217,9 +208,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, editorCssRules, hideProperty) {
-        $(mainContainer).prop(hideProperty, !savingEnabled);
-        $(pageContainer).css(savingEnabled ? editorCssRules.show : editorCssRules.hide);
+    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass, hiddenEditorProperty) {
+        $(mainContainer).prop(hiddenEditorProperty, !savingEnabled);
+        $(pageContainer).toggleClass(hiddenEditorClass, !savingEnabled);
     };
 
     sjrk.storyTelling.page.storyEdit.submitStory = function (that, errorEvent) {
