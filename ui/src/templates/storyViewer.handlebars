@@ -50,12 +50,12 @@
                 <span>{{localizedMessages.message_goBack}}</span>
             </a>
         </div>
-        {{#if dynamicValues.savingEnabled}}
-            <div>
-        {{else}}
-            <div hidden>
-        {{/if}}
-            <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+        <div>
+            {{#if dynamicValues.savingEnabled}}
+                <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+            {{else}}
+                <button hidden type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+            {{/if}}
         </div>
         <div hidden>
             <a href="#" class="sjrkc-st-story-save-no-share sjrk-st-story-save-no-share">{{localizedMessages.message_saveNoShareText}}</a>
