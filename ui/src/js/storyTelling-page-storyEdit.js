@@ -14,8 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.page"],
         pageSetup: {
-            hiddenEditorClass: "hidden",
-            hiddenEditorProperty: "hidden"
+            hiddenEditorClass: "hidden"
         },
         selectors: {
             mainContainer: ".sjrkc-main-container",
@@ -66,7 +65,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             setEditorDisplay: {
                 funcName: "sjrk.storyTelling.page.storyEdit.setEditorDisplay",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass", "{that}.options.pageSetup.hiddenEditorProperty"]
+                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
         components: {
@@ -208,8 +207,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass, hiddenEditorProperty) {
-        $(mainContainer).prop(hiddenEditorProperty, !savingEnabled);
+    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
+        $(mainContainer).prop("hidden", !savingEnabled);
         $(pageContainer).toggleClass(hiddenEditorClass, !savingEnabled);
     };
 
