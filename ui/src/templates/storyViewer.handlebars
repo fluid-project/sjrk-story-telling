@@ -11,10 +11,10 @@
         <button class="sjrk-st-button sjrk-st-story-listen-to sjrkc-st-story-listen-to" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_listenToText}}</span></button>
     </div>
 
-    {{#if dynamicValues.title}}
-        <h2 class="sjrkc-st-story-title sjrk-st-story-title">{{dynamicValues.title}}</h2>
+    {{#if dynamicValues.story.title}}
+        <h2 class="sjrkc-st-story-title sjrk-st-story-title">{{dynamicValues.story.title}}</h2>
     {{/if}}
-    {{#if dynamicValues.author}}
+    {{#if dynamicValues.story.author}}
         <p class="sjrkc-st-story-author sjrk-st-story-author">{{localizedMessages.message_authorText}}</p>
     {{/if}}
 
@@ -24,14 +24,14 @@
 
     <div hidden class="sjrk-st-language-container">
         {{localizedMessages.message_languageLabelText}}: <span class="sjrkc-st-story-language sjrk-st-story-language">
-            {{lookup ../localizedMessages.availableLanguages dynamicValues.language}}
+            {{lookup ../localizedMessages.availableLanguages dynamicValues.story.language}}
         </span>
     </div>
 
-    {{#if dynamicValues.tags}}
+    {{#if dynamicValues.story.tags}}
         <div class="sjrk-st-tags-container">
             {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-st-story-list-tags sjrk-st-story-list-tags">
-                {{#each dynamicValues.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+                {{#each dynamicValues.story.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
             </span>
         </div>
     {{/if}}
@@ -46,12 +46,16 @@
     <div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-footer-container">
         <div>
             <a href="javascript:void(0)" class="sjrkc-st-story-viewer-previous sjrk-st-story-viewer-previous">
-                <img src="{{dynamicValues.resourcePrefix}}/src/img/icons/Back.svg" alt="" role="none">
+                <img src="/src/img/icons/Back.svg" alt="" role="none">
                 <span>{{localizedMessages.message_goBack}}</span>
             </a>
         </div>
         <div>
-            <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+            {{#if dynamicValues.savingEnabled}}
+                <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+            {{else}}
+                <button hidden type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+            {{/if}}
         </div>
         <div hidden>
             <a href="#" class="sjrkc-st-story-save-no-share sjrk-st-story-save-no-share">{{localizedMessages.message_saveNoShareText}}</a>

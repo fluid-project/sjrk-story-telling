@@ -13,6 +13,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.page"],
+        pageSetup: {
+            hiddenEditorClass: "hidden"
+        },
+        selectors: {
+            mainContainer: ".sjrkc-main-container",
+            pageContainer: ".sjrk-edit-page-container"
+        },
         events: {
             onAllUiComponentsReady: {
                 events: {
@@ -31,7 +38,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
-                args: ["{storyPreviewer}.story.model", {isEditorPreview: true}, "{storyPreviewer}.templateManager.options.templateConfig"],
                 namespace: "previewerRenderTemplate"
             },
             {
@@ -51,6 +57,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.page.storyEdit.submitStory",
                 args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
+            },
+            "onCreate.setEditorDisplay": {
+                func: "{that}.setEditorDisplay"
+            }
+        },
+        invokers: {
+            setEditorDisplay: {
+                funcName: "sjrk.storyTelling.page.storyEdit.setEditorDisplay",
+                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
         components: {
@@ -179,10 +194,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         },
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{story}.model", "{that}.options.templateConfig", {isEditorPreview: true}]
+                                model: {
+                                    dynamicValues: {
+                                        isEditorPreview: true
                                     }
                                 }
                             }
@@ -192,6 +206,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
+        $(mainContainer).prop("hidden", !savingEnabled);
+        $(pageContainer).toggleClass(hiddenEditorClass, !savingEnabled);
+    };
 
     sjrk.storyTelling.page.storyEdit.submitStory = function (that, errorEvent) {
         var form = that.container.find("form");

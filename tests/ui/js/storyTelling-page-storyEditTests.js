@@ -14,7 +14,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.page.testStoryEdit", {
         gradeNames: ["sjrk.storyTelling.page.storyEdit"],
         pageSetup: {
-            resourcePrefix: "../.."
+            resourcePrefix: "../..",
+            savingEnabled: false
+        },
+        selectors: {
+            mainContainer: "#testMainContainer",
+            pageContainer: "#testPageContainer"
         },
         listeners: {
             "onStoryShareRequested.submitStory": {
@@ -205,6 +210,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyEdit}.events.onStoryListenToRequested",
                     "listener": "jqUnit.assert",
                     "args": "onStoryListenToRequested event fired from previewer."
+                }]
+            },
+            {
+                name: "Test saving enabled flag",
+                expect: 4,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.assertFromSelector",
+                    args: [
+                        "{storyEdit}.options.selectors.mainContainer",
+                        "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                        ["hidden", true]
+                    ]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertFromSelector",
+                    args: [
+                        "{storyEdit}.options.selectors.pageContainer",
+                        "sjrk.storyTelling.testUtils.assertElementHasClass",
+                        ["{storyEdit}.options.pageSetup.hiddenEditorClass", true]
+                    ]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{storyEdit}.storyEditor.dom.storyEditorForm", "hidden", true]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{storyEdit}.storyPreviewer.dom.storyShare", "hidden", true]
                 }]
             }]
         },

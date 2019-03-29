@@ -17,7 +17,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.templateManager", {
         gradeNames: "fluid.viewComponent",
         model: {
-            locale: "en"
+            locale: "en",
+            dynamicValues: {} // to be merged into the template
         },
         templateConfig: {
             templateName: "templateName", // arbitrary value
@@ -43,8 +44,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{that}.events.onResourceLoadRequested.fire"
             },
             "onAllResourcesLoaded.renderTemplate": {
-                funcName: "{that}.renderTemplate",
-                args: [{}]
+                funcName: "{that}.renderTemplate"
             }
         },
         templateStrings: {
@@ -117,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             renderTemplate: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplate",
-                args: ["{that}", "{that}.options.templateStrings.localizedMessages", "{arguments}"]
+                args: ["{that}", "{that}.options.templateStrings.localizedMessages", "{that}.model.dynamicValues"]
             },
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplateOnSelf",
@@ -149,10 +149,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "completionEvent": component even to fire when complete
      */
     sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, localizedMessages, dynamicValues) {
-        var combinedDynamicValues = sjrk.storyTelling.templateManager.combineDynamicValues(dynamicValues, localizedMessages);
-        localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, combinedDynamicValues);
-
-        templateManager.renderTemplateOnSelf(localizedMessages, combinedDynamicValues);
+        localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, dynamicValues.story);
+        templateManager.renderTemplateOnSelf(localizedMessages, dynamicValues);
     };
 
     /* Renders a template into the templateManager's container with a gpii.handlebars
@@ -172,24 +170,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
 
         completionEvent.fire();
-    };
-
-    /* Given a collection of values or objects, `dynamicValues`, combines them into
-     * a single endpoint. If dynamicValues is not truthy, then it returns undefined
-     * - "dynamicValues": a collection of objects/values to be combined. Every item
-     *   in this collection should have a key by which it may be addressed. Strings
-     *   passed directly in without being in a collection will be split up.
-     */
-    sjrk.storyTelling.templateManager.combineDynamicValues = function (dynamicValues) {
-        var combinedDynamicValues = undefined;
-
-        if (dynamicValues) {
-            fluid.each(dynamicValues, function (dynamicValue) {
-                combinedDynamicValues = $.extend(combinedDynamicValues, dynamicValue);
-            });
-        }
-
-        return combinedDynamicValues;
     };
 
     /* Given a set of terms that may contain a mix of strings and references in

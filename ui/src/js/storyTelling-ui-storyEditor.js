@@ -16,6 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
             storySubmit: ".sjrkc-st-story-submit",
+            storyEditorForm: ".sjrkc-st-story-editor-form",
             storyEditorContent: ".sjrkc-st-story-editor-content",
             storyEditorNext: ".sjrkc-st-story-editor-next",
             storyEditorPrevious: ".sjrkc-st-story-editor-previous",
@@ -125,11 +126,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             templateManager: {
                 options: {
+                    model: {
+                        dynamicValues: {
+                            story: "{story}.model"
+                        }
+                    },
                     listeners: {
-                        "onAllResourcesLoaded.renderTemplate": {
-                            funcName: "{that}.renderTemplate",
-                            args: ["{story}.model", "{that}.options.templateConfig"]
-                        },
                         "onTemplateRendered.escalate": "{ui}.events.onEditorTemplateRendered.fire"
                     },
                     templateConfig: {

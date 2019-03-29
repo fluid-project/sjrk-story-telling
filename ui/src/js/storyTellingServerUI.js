@@ -53,24 +53,7 @@ sjrk.storyTelling.loadBrowse = function (theme) {
     });
 };
 
-var templates = {
-    karisma: {
-        view: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-viewer\"></div></div></div>",
-        edit: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-with-sidebars\"><div class=\"sjrk-sidebar-left-container sjrkc-sidebar-left-container\"></div><div class=\"sjrk-story-editor-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div><div class=\"sjrk-sidebar-right-container sjrkc-sidebar-right-container\"></div></div>",
-        browse: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-browser sjrkc-st-story-browser\"></div></div></div>"
-    },
-    learningReflections: {
-        view: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-viewer\"></div></div></div>",
-        edit: "<div class=\"sjrk-st-page-content-container\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-editor sjrkc-st-story-editor\"></div><div class=\"sjrk-st-story-viewer sjrkc-st-story-previewer\"></div></div></div>",
-        browse: "<div class=\"sjrk-st-page-content-container sjrk-st-page-content-container-one-column\"><div class=\"sjrk-introduction-container sjrkc-introduction-container\"></div><div class=\"sjrk-main-container\"><div class=\"sjrk-st-menu sjrkc-st-menu\"></div><div class=\"sjrk-st-story-browser sjrkc-st-story-browser\"></div></div></div>"
-    }
-};
-
 sjrk.storyTelling.loadThemedPage = function (page, theme, callback) {
-    var mainContainer = $(".sjrkc-main-container");
-
-    mainContainer.html(templates[theme][page]);
-
     var cssUrl = fluid.stringTemplate("src/%theme/css/%theme.css", {theme: theme});
     var scriptUrl = fluid.stringTemplate("src/%theme/js/%theme.js", {theme: theme});
 
