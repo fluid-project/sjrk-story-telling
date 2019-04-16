@@ -68,6 +68,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
+        modelRelay: {
+            editorStoryToPreviewer: {
+                source: "{storyEditor}.story.model",
+                target: "{storyPreviewer}.story.model",
+                singleTransform: {
+                    type: "fluid.transforms.identity"
+                }
+            },
+            excludeEmptyBlocks: {
+                target: "{storyPreviewer}.story.model.content",
+                singleTransform: {
+                    type: "fluid.transforms.free",
+                    func: "sjrk.storyTelling.page.storyEdit.removeEmptyBlocks",
+                    args: ["{storyEditor}.story.model.content"]
+                }
+            }
+        },
         components: {
             storySpeaker: {
                 options: {
@@ -76,7 +93,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         singleTransform: {
                             type: "fluid.transforms.stringTemplate",
                             template: "{storyEditor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                            terms: "{storyEditor}.story.model"
+                            terms: "{storyPreviewer}.story.model"
                         }
                     }
                 }
@@ -187,11 +204,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     components: {
-                        story: {
-                            options: {
-                                model: "{storyEditor}.story.model"
-                            }
-                        },
                         templateManager: {
                             options: {
                                 model: {
@@ -206,6 +218,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    /* Removes all empty blocks from a given array of story blocks
+     * - "blocks": an array of story blocks
+     */
+    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (blocks) {
+        var nonEmptyBlocks = fluid.remove_if(blocks, function (block) {
+            return sjrk.storyTelling.page.storyEdit.isEmptyBlock(block);
+        });
+
+        return nonEmptyBlocks;
+    };
+
+    /* Returns true if a block is determined to be empty. Which values determine
+     * whether a block is emtpy depends on the particular block type, but in
+     * essence if they're all falsy then the block is considered empty.
+     * - "block": a story block
+     */
+    sjrk.storyTelling.page.storyEdit.isEmptyBlock = function (block) {
+        // consider making these values a configuration option in the block grade
+        // maybe even making the model relays based on them work from it somehow
+        switch (block.blockType) {
+        case "text":
+            return !block.heading && !block.text && !block.simplifiedText;
+        case "image":
+            return !block.imageUrl;
+        case "audio":
+        case "video":
+            return !block.mediaUrl;
+        }
+
+        return false;
+    };
 
     sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
         $(mainContainer).prop("hidden", !savingEnabled);
