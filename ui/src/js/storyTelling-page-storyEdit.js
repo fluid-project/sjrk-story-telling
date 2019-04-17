@@ -68,6 +68,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
+        /*
+            TODO: Come up with a better name for this collection. Consider
+            making these values a configuration option in each block grade,
+            maybe even making the block contentString model relays based on it
+        */
+        requiredBlockValues: {
+            "text": ["heading", "text", "simplifiedText"],
+            "image": ["imageUrl"],
+            "audio": ["mediaUrl"],
+            "video": ["mediaUrl"]
+        },
         modelRelay: {
             editorStoryToPreviewer: {
                 source: "{storyEditor}.story.model",
@@ -81,7 +92,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 singleTransform: {
                     type: "fluid.transforms.free",
                     func: "sjrk.storyTelling.page.storyEdit.removeEmptyBlocks",
-                    args: ["{storyEditor}.story.model.content"]
+                    args: ["{storyEditor}.story.model.content", "{that}.options.requiredBlockValues"]
                 }
             }
         },
@@ -221,34 +232,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /* Removes all empty blocks from a given array of story blocks
      * - "blocks": an array of story blocks
+     * - "requiredValuesLookup": a collection of arrays by block type which
+     *      outlines the values that, if at least one is truthy, will mean a
+     *      particular block is not empty
      */
-    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (blocks) {
+    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (blocks, requiredValuesLookup) {
         var nonEmptyBlocks = fluid.remove_if(blocks, function (block) {
-            return sjrk.storyTelling.page.storyEdit.isEmptyBlock(block);
+            return sjrk.storyTelling.page.storyEdit.isEmptyBlock(block, requiredValuesLookup[block.blockType]);
         });
 
         return nonEmptyBlocks;
     };
 
     /* Returns true if a block is determined to be empty. Which values determine
-     * whether a block is emtpy depends on the particular block type, but in
-     * essence if they're all falsy then the block is considered empty.
+     * whether a block is emtpy depends on the particular block type, but if
+     * they're all falsy then the block is considered empty. If at least one of
+     * those values is truthy, the block is not empty.
      * - "block": a story block
+     * - "requiredValues": an array of the "required" values of a block, according
+     *                     to the definition above
      */
-    sjrk.storyTelling.page.storyEdit.isEmptyBlock = function (block) {
-        // consider making these values a configuration option in the block grade
-        // maybe even making the model relays based on them work from it somehow
-        switch (block.blockType) {
-        case "text":
-            return !block.heading && !block.text && !block.simplifiedText;
-        case "image":
-            return !block.imageUrl;
-        case "audio":
-        case "video":
-            return !block.mediaUrl;
-        }
+    sjrk.storyTelling.page.storyEdit.isEmptyBlock = function (block, requiredValues) {
+        var isEmptyBlock = true; // assume the block is empty
 
-        return false;
+        fluid.each(requiredValues, function (requiredValue) {
+            if (block[requiredValue]) {
+                isEmptyBlock = false;
+            }
+        });
+
+        return isEmptyBlock;
     };
 
     sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
