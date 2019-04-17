@@ -290,7 +290,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test block controls",
             tests: [{
                 name: "Test block operations within the page context",
-                expect: 16,
+                expect: 17,
                 sequence: [{
                     "jQueryTrigger": "click",
                     "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
@@ -377,8 +377,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 // Select the checkbox of the first block
                 {
-                    func: "sjrk.storyTelling.testUtils.checkFirstBlockCheckbox",
-                    args: ["{storyEdit}.storyEditor.blockManager"]
+                    func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
+                    args: ["{storyEdit}.storyEditor.blockManager", {checkFirstBlock: true}]
                 },
                 // Click the "remove selected blocks" button
                 {
@@ -390,6 +390,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
                     args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 2]
+                },
+                // Remove the other two blocks and verify there are none left
+                {
+                    func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
+                    args: ["{storyEdit}.storyEditor.blockManager"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyRemoveSelectedBlocks"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
                 }]
             }]
         },
