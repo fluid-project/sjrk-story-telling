@@ -113,6 +113,36 @@ body {
 
 .sjrk-st-intro-heading-2 {
     color: var(--site-teal);
+    margin-bottom: 2rem;
+}
+
+.sjrk-st-intro-body img {
+    max-width: 100%
+}
+
+.sjrk-st-intro-body h2 {
+    font-size: 4rem;
+    margin: 0;
+    line-height: 4.5rem;
+}
+
+.sjrk-st-intro-body h3 {
+    color: var(--site-red);
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    margin: 0;
+}
+
+.sjrk-st-intro-heartbook {
+    height: 4rem;
+    width: 4rem;
+    display: block;
+    margin-top: 3rem;
+}
+
+.sjrk-st-intro-share {
+    max-width: 50rem !important;
+    margin-top: 3rem;
 }
 
 .sjrk-st-button-restore-blocks-container {
