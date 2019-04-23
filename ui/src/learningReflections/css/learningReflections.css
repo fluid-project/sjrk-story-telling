@@ -4,9 +4,11 @@
     --site-light-blue: #9cd6d5;
     --site-green: #c7e198;
     --site-orange: #eec86b;
+    --site-red: #d94540;
     --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
+    --site-teal: #0c7474;
     --site-turquoise: #cbe2e1;
 }
 
@@ -103,6 +105,14 @@ body {
     margin-bottom: 0.5rem;
     padding: 0.75rem 1rem;
     border-radius: 1.5rem;
+}
+
+.sjrk-st-intro-heading-1 {
+    color: var(--site-red);
+}
+
+.sjrk-st-intro-heading-2 {
+    color: var(--site-teal);
 }
 
 .sjrk-st-button-restore-blocks-container {
