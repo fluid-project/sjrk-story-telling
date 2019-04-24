@@ -20,16 +20,12 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.base", {
         getURL: {
             funcName: "sjrk.storyTelling.server.dataSource.couch.base.getURL",
             args: ["{that}.options.host", "{that}.options.path"]
-        },
-        logDataSourceError: {
-            funcName: "fluid.log",
-            args: [fluid.logLevel.WARN, "Datasource error: ", "{arguments}.0"]
         }
     },
     listeners: {
         "onError.logDataSourceError": {
-            func: "{that}.logDataSourceError",
-            args: ["{arguments}.0"]
+            funcName: "fluid.log",
+            args: [fluid.logLevel.WARN, "Couch DataSource error: ", "{arguments}.0"]
         }
     }
 });
