@@ -27,12 +27,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                     savingEnabled: true
                 },
                 port: 8081,
-                invokers: {
-                    logDataSourceError: {
-                        funcName: "fluid.log",
-                        args: [fluid.logLevel.WARN, "Datasource error in ", "{arguments}.0", "{arguments}.1"]
-                    }
-                },
                 components: {
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view",
@@ -40,12 +34,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                             distributeOptions: {
                                 target: "{that}.options.host",
                                 record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            },
-                            listeners: {
-                                "onError.logDataSourceError": {
-                                    func: "{server}.logDataSourceError",
-                                    args: ["viewDataSource: ", "{arguments}.0"]
-                                }
                             }
                         }
                     },
@@ -55,12 +43,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                             distributeOptions: {
                                 target: "{that}.options.host",
                                 record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            },
-                            listeners: {
-                                "onError.logDataSourceError": {
-                                    func: "{server}.logDataSourceError",
-                                    args: ["storyDataSource: ", "{arguments}.0"]
-                                }
                             }
                         }
                     },
@@ -70,12 +52,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                             distributeOptions: {
                                 target: "{that}.options.host",
                                 record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            },
-                            listeners: {
-                                "onError.logDataSourceError": {
-                                    func: "{server}.logDataSourceError",
-                                    args: ["deleteStoryDataSource: ", "{arguments}.0"]
-                                }
                             }
                         }
                     },
