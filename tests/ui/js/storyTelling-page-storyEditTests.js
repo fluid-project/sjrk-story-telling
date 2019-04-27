@@ -60,7 +60,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                                         listeners: {
                                                             "onTemplateRendered.notifyTestStoryEditor": {
                                                                 func: "{storyEditor}.events.onNewBlockTemplateRendered.fire",
-                                                                args: ["{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
+                                                                args: ["{editor}"]
                                                             }
                                                         }
                                                     }
@@ -100,6 +100,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.page.storyEditTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
+        members: {
+            currentBlock: null // to track dynamic blockUi components
+        },
         modules: [{
             name: "Test combined story authoring interface",
             tests: [{
@@ -405,6 +408,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
                     args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
                 }]
+            },
+            {
+                name: "Test block filtering model relay",
+                expect: 2,
+                sequence: [{
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Previewer story content is empty to begin with", "{storyEdit}.storyEditor.model.content", undefined]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddTextBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
+                    listener: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", "{arguments}.0"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Previewer story content is empty after adding text block", "{storyEdit}.storyPreviewer.model.content", undefined]
+                }]
             }]
         },
         {
@@ -461,6 +485,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
         var actualText = responseArea.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
+    };
+
+    sjrk.storyTelling.page.storyEditTester.setCurrentBlock = function (testCaseHolder, currentBlock) {
+        testCaseHolder.options.members.currentBlock = currentBlock;
     };
 
     fluid.defaults("sjrk.storyTelling.page.storyEditTest", {
