@@ -428,6 +428,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["Previewer story content is empty after adding text block", "{storyEdit}.storyPreviewer.model.content", undefined]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEditTester}.options.members.currentBlock.binder", "heading", "Rootbeer's text block"]
+                },
+                // {
+                //     funcName: "sjrk.storyTelling.testUtils.assertFromSelector",
+                //     args: ["{storyEditTester}.options.members.currentBlock.binder.dom.heading", "sjrk.storyTelling.testUtils.assertElementText", "Rootbeer's text block"]
+                // },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "content",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Editor model updated to expected value", "Rootbeer's text block", "{storyEdit}.storyEditor.story.model.content"]
                 }]
             }]
         },
