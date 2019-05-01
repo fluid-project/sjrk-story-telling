@@ -411,10 +411,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay",
-                expect: 2,
+                expect: 5,
                 sequence: [{
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Previewer story content is empty to begin with", "{storyEdit}.storyEditor.model.content", undefined]
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty to begin with", [], "{storyEdit}.storyEditor.story.model.content"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -426,22 +426,40 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{storyEditTester}", "{arguments}.0"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Previewer story content is empty after adding text block", "{storyEdit}.storyPreviewer.model.content", undefined]
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after adding text block", [], "{storyEdit}.storyEditor.story.model.content"]
                 },
                 {
-                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{storyEditTester}.options.members.currentBlock.binder", "heading", "Rootbeer's text block"]
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["heading", "Rootbeer's text block"]
                 },
-                // {
-                //     funcName: "sjrk.storyTelling.testUtils.assertFromSelector",
-                //     args: ["{storyEditTester}.options.members.currentBlock.binder.dom.heading", "sjrk.storyTelling.testUtils.assertElementText", "Rootbeer's text block"]
-                // },
+                {
+                    changeEvent: "{storyEditTester}.options.members.currentBlock.block.applier.modelChanged",
+                    path: "heading",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Text block model updated to expected value", "Rootbeer's text block", "{storyEditTester}.options.members.currentBlock.block.model.heading"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
                 {
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertEquals",
-                    args: ["Editor model updated to expected value", "Rootbeer's text block", "{storyEdit}.storyEditor.story.model.content"]
+                    args: ["Story model updated to expected value", "Rootbeer's text block", "{storyEdit}.storyEditor.story.model.content.0.heading"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["heading", ""]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "content",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Story model empty after removing heading", [], "{storyEdit}.storyEditor.story.model.content"]
                 }]
             }]
         },
@@ -484,6 +502,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         sjrk.storyTelling.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
         sjrk.storyTelling.page.storyEditTester.verifyElementVisibility(responseArea, expectedStates.responseArea);
         sjrk.storyTelling.page.storyEditTester.verifyElementDisabled(shareButton, expectedStates.shareButton);
+    };
+
+    sjrk.storyTelling.page.storyEditTester.verifyStoryContent = function (story, expectedStoryContent) {
+        var actualStoryContent = story.model.content;
+        jqUnit.assertEquals("Story content is as expected", expectedStoryContent, actualStoryContent);
     };
 
     sjrk.storyTelling.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
