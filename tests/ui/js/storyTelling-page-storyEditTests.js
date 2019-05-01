@@ -411,7 +411,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 10,
+                expect: 11,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Story content is empty to begin with", [], "{storyEdit}.storyPreviewer.story.model.content"]
@@ -529,6 +529,352 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
                     args: ["{storyEditTester}", undefined]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after removing text block", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                }]
+            },
+            {
+                name: "Test block filtering model relay: Image block",
+                expect: 11,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty to begin with", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddImageBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
+                    listener: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", "{arguments}.0"]
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after adding image block", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["heading", "Rootbeer's image block"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after heading update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["description", "A picture of my brother Shyguy"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after description update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["alternativeText", "A cute grey Mackerel Tabby with Bengal spots"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after alternativeText update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["imageUrl", "notarealcatphotosadly.jpg"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
+                    path: "content",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Story model block heading is as expected", "Rootbeer's image block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block description is as expected", "A picture of my brother Shyguy", "{storyEdit}.storyPreviewer.story.model.content.0.description"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block alternativeText is as expected", "A cute grey Mackerel Tabby with Bengal spots", "{storyEdit}.storyPreviewer.story.model.content.0.alternativeText"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block imageUrl is as expected", "notarealcatphotosadly.jpg", "{storyEdit}.storyPreviewer.story.model.content.0.imageUrl"]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
+                    args: ["{storyEdit}.storyEditor.blockManager"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyRemoveSelectedBlocks"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
+                },
+                {
+                    funcName: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", undefined]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after removing image block", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                }]
+            },
+            {
+                name: "Test block filtering model relay: Audio block",
+                expect: 13,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty to begin with", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddAudioBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
+                    listener: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", "{arguments}.0"]
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after adding audio block", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["heading", "Rootbeer's audio block"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after heading update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["description", "A recording of my brother Shyguy"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after description update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["alternativeText", "A cat meowing softly"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after alternativeText update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["transcript", "Mrraow"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after transcript update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["mediaUrl", "notarealmeowrecordingsadly.wav"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
+                    path: "content",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Story model block heading is as expected", "Rootbeer's audio block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block description is as expected", "A recording of my brother Shyguy", "{storyEdit}.storyPreviewer.story.model.content.0.description"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block alternativeText is as expected", "A cat meowing softly", "{storyEdit}.storyPreviewer.story.model.content.0.alternativeText"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block transcript is as expected", "Mrraow", "{storyEdit}.storyPreviewer.story.model.content.0.transcript"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block imageUrl is as expected", "notarealmeowrecordingsadly.wav", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
+                    args: ["{storyEdit}.storyEditor.blockManager"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyRemoveSelectedBlocks"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
+                },
+                {
+                    funcName: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", undefined]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after removing audio block", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                }]
+            },
+            {
+                name: "Test block filtering model relay: Video block",
+                expect: 13,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty to begin with", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyAddAudioBlock"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
+                    listener: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", "{arguments}.0"]
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after adding video block", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["heading", "Rootbeer's video block"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after heading update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["description", "A video of my brother Shyguy"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after description update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["alternativeText", "A cat stretching in the sunlight"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after alternativeText update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["transcript", "<No audio>"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story model remains empty after transcript update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+                },
+                {
+                    func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+                    args: ["mediaUrl", "notarealvideosadly.mp4"]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
+                    path: "content",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Story model block heading is as expected", "Rootbeer's video block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block description is as expected", "A video of my brother Shyguy", "{storyEdit}.storyPreviewer.story.model.content.0.description"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block alternativeText is as expected", "A cat stretching in the sunlight", "{storyEdit}.storyPreviewer.story.model.content.0.alternativeText"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block transcript is as expected", "<No audio>", "{storyEdit}.storyPreviewer.story.model.content.0.transcript"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["Story model block imageUrl is as expected", "notarealvideosadly.mp4", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
+                    args: ["{storyEdit}.storyEditor.blockManager"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyRemoveSelectedBlocks"
+                },
+                {
+                    "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
+                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
+                },
+                {
+                    funcName: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
+                    args: ["{storyEditTester}", undefined]
+                },
+                {
+                    func: "{storyEdit}.events.onContextChangeRequested.fire"
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story content is empty after removing audio block", [], "{storyEdit}.storyPreviewer.story.model.content"]
                 }]
             }]
         },
