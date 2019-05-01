@@ -410,11 +410,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test block filtering model relay",
+                name: "Test block filtering model relay: Text block",
                 expect: 10,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
-                    args: ["Story content is empty to begin with", [], "{storyEdit}.storyEditor.story.model.content"]
+                    args: ["Story content is empty to begin with", [], "{storyEdit}.storyPreviewer.story.model.content"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -427,7 +427,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertDeepEq",
-                    args: ["Story content is empty after adding text block", [], "{storyEdit}.storyEditor.story.model.content"]
+                    args: ["Story content is empty after adding text block", [], "{storyEdit}.storyPreviewer.story.model.content"]
                 },
                 {
                     func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
@@ -443,10 +443,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "{storyEdit}.events.onContextChangeRequested.fire"
                 },
                 {
-                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertEquals",
-                    args: ["Story model updated to expected value", "Rootbeer's text block", "{storyEdit}.storyEditor.story.model.content.0.heading"]
+                    args: ["Story model updated to expected value", "Rootbeer's text block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
                 },
                 {
                     func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
@@ -456,10 +456,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "{storyEdit}.events.onContextChangeRequested.fire"
                 },
                 {
-                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertDeepEq",
-                    args: ["Story model empty after removing heading", [], "{storyEdit}.storyEditor.story.model.content"]
+                    args: ["Story model empty after removing heading", [], "{storyEdit}.storyPreviewer.story.model.content"]
                 },
                 {
                     func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
@@ -469,10 +469,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "{storyEdit}.events.onContextChangeRequested.fire"
                 },
                 {
-                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertEquals",
-                    args: ["Story model updated to expected value", "A story about my brother Shyguy", "{storyEdit}.storyEditor.story.model.content.0.text"]
+                    args: ["Story model updated to expected value", "A story about my brother Shyguy", "{storyEdit}.storyPreviewer.story.model.content.0.text"]
                 },
                 {
                     func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
@@ -482,10 +482,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "{storyEdit}.events.onContextChangeRequested.fire"
                 },
                 {
-                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertDeepEq",
-                    args: ["Story model empty after removing text", [], "{storyEdit}.storyEditor.story.model.content"]
+                    args: ["Story model empty after removing text", [], "{storyEdit}.storyPreviewer.story.model.content"]
                 },
                 {
                     func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
@@ -495,10 +495,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "{storyEdit}.events.onContextChangeRequested.fire"
                 },
                 {
-                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertEquals",
-                    args: ["Story model updated to expected value", "My brother Shyguy", "{storyEdit}.storyEditor.story.model.content.0.simplifiedText"]
+                    args: ["Story model updated to expected value", "My brother Shyguy", "{storyEdit}.storyPreviewer.story.model.content.0.simplifiedText"]
                 },
                 {
                     func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
@@ -508,10 +508,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     func: "{storyEdit}.events.onContextChangeRequested.fire"
                 },
                 {
-                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
                     path: "content",
                     listener: "jqUnit.assertDeepEq",
-                    args: ["Story model empty after removing simplifiedText", [], "{storyEdit}.storyEditor.story.model.content"]
+                    args: ["Story model empty after removing simplifiedText", [], "{storyEdit}.storyPreviewer.story.model.content"]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
