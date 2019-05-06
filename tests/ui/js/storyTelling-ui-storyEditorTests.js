@@ -152,7 +152,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // Select the checkbox of the first block
                 {
                     func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
-                    args: ["{storyEditor}.blockManager", {checkFirstBlock: true}]
+                    args: ["{storyEditor}.blockManager", true]
                 },
                 // Click the "remove selected blocks" button
                 {

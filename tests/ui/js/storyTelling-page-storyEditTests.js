@@ -112,8 +112,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         {
             "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
-            listener: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
-            args: ["{storyEditTester}", "{arguments}.0"]
+            listener: "fluid.set",
+            args: ["{storyEditTester}", "currentBlock", "{arguments}.0"]
         },
         {
             funcName: "jqUnit.assertDeepEq",
@@ -126,7 +126,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // field: null, // to be supplied by the implementing test
         // value: null, // to be supplied by the implementing test
         sequence: [{
-            func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+            func: "{storyEditTester}.currentBlock.block.applier.change",
             args: ["{that}.options.field", "{that}.options.value"]
         },
         {
@@ -148,7 +148,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
         sequence: [{
-            func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+            func: "{storyEditTester}.currentBlock.block.applier.change",
             args: ["{that}.options.field", ""]
         },
         {
@@ -167,7 +167,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // field: null, // to be supplied by the implementing test
         // value: null, // to be supplied by the implementing test
         sequence: [{
-            func: "{storyEditTester}.options.members.currentBlock.block.applier.change",
+            func: "{storyEditTester}.currentBlock.block.applier.change",
             args: ["{that}.options.field", "{that}.options.value"]
         },
         {
@@ -195,8 +195,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
         },
         {
-            funcName: "sjrk.storyTelling.page.storyEditTester.setCurrentBlock",
-            args: ["{storyEditTester}", undefined]
+            funcName: "fluid.set",
+            args: ["{storyEditTester}", "currentBlock", undefined]
         },
         {
             func: "{storyEdit}.events.onContextChangeRequested.fire"
@@ -715,7 +715,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // Select the checkbox of the first block
                 {
                     func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
-                    args: ["{storyEdit}.storyEditor.blockManager", {checkFirstBlock: true}]
+                    args: ["{storyEdit}.storyEditor.blockManager", true]
                 },
                 // Click the "remove selected blocks" button
                 {
@@ -882,10 +882,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
         var actualText = responseArea.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
-    };
-
-    sjrk.storyTelling.page.storyEditTester.setCurrentBlock = function (testCaseHolder, currentBlock) {
-        testCaseHolder.options.members.currentBlock = currentBlock;
     };
 
     fluid.defaults("sjrk.storyTelling.page.storyEditTest", {

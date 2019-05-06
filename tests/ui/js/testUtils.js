@@ -114,10 +114,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return element.selectorName || element.selector || element.toString();
     };
 
-    sjrk.storyTelling.testUtils.checkBlockCheckboxes = function (blockManager, options) {
+    sjrk.storyTelling.testUtils.checkBlockCheckboxes = function (blockManager, checkFirstBlockOnly) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
 
-        if (options && options.checkFirstBlock) {
+        if (checkFirstBlockOnly) {
             sjrk.storyTelling.testUtils.checkSingleBlockCheckbox(managedComponentRegistryAsArray[0]);
         } else {
             fluid.each(managedComponentRegistryAsArray, function (managedComponent) {
