@@ -81,18 +81,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         modelRelay: {
             editorStoryToPreviewer: {
-                source: "{storyEditor}.story.model",
                 target: "{storyPreviewer}.story.model",
-                singleTransform: {
-                    type: "fluid.transforms.identity"
-                }
-            },
-            excludeEmptyBlocks: {
-                target: "{storyPreviewer}.story.model.content",
                 singleTransform: {
                     type: "fluid.transforms.free",
                     func: "sjrk.storyTelling.page.storyEdit.removeEmptyBlocks",
-                    args: ["{storyEditor}.story.model.content", "{that}.options.requiredBlockValues"]
+                    args: ["{storyEditor}.story.model", "{that}.options.requiredBlockValues"]
                 }
             }
         },
@@ -236,12 +229,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *      outlines the values that, if at least one is truthy, will mean a
      *      particular block is not empty
      */
-    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (blocks, requiredValuesLookup) {
-        var nonEmptyBlocks = fluid.remove_if(blocks, function (block) {
+    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (storyModel, requiredValuesLookup) {
+        var nonEmptyBlocks = fluid.remove_if(storyModel.content, function (block) {
             return sjrk.storyTelling.page.storyEdit.isEmptyBlock(block, requiredValuesLookup[block.blockType]);
         });
 
-        return nonEmptyBlocks;
+        storyModel.content = nonEmptyBlocks;
+
+        return storyModel;
     };
 
     /* Returns true if a block is determined to be empty. Which values determine
