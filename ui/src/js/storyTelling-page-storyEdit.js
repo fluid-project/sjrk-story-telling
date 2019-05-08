@@ -248,15 +248,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *                     to the definition above
      */
     sjrk.storyTelling.page.storyEdit.isEmptyBlock = function (block, requiredValues) {
-        var isEmptyBlock = true; // assume the block is empty
-
-        fluid.each(requiredValues, function (requiredValue) {
-            if (block[requiredValue]) {
-                isEmptyBlock = false;
-            }
+        return !fluid.find_if(requiredValues, function (requiredValue) {
+            return !!block[requiredValue];
         });
-
-        return isEmptyBlock;
     };
 
     sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
