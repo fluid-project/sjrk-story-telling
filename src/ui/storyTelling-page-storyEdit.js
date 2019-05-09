@@ -13,6 +13,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.defaults("sjrk.storyTelling.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.page"],
+        pageSetup: {
+            hiddenEditorClass: "hidden"
+        },
+        selectors: {
+            mainContainer: ".sjrkc-main-container",
+            pageContainer: ".sjrk-edit-page-container"
+        },
         events: {
             onAllUiComponentsReady: {
                 events: {
@@ -31,7 +38,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
-                args: ["{storyPreviewer}.story.model", {isEditorPreview: true}, "{storyPreviewer}.templateManager.options.templateConfig"],
                 namespace: "previewerRenderTemplate"
             },
             {
@@ -51,6 +57,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.page.storyEdit.submitStory",
                 args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
+            },
+            "onCreate.setEditorDisplay": {
+                func: "{that}.setEditorDisplay"
+            }
+        },
+        invokers: {
+            setEditorDisplay: {
+                funcName: "sjrk.storyTelling.page.storyEdit.setEditorDisplay",
+                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
+            }
+        },
+        /*
+            TODO: Come up with a better name for this collection. Consider
+            making these values a configuration option in each block grade,
+            maybe even making the block contentString model relays based on it
+        */
+        requiredBlockValues: {
+            "text": ["heading", "text", "simplifiedText"],
+            "image": ["imageUrl"],
+            "audio": ["mediaUrl"],
+            "video": ["mediaUrl"]
+        },
+        modelRelay: {
+            editorStoryToPreviewer: {
+                target: "{storyPreviewer}.story.model",
+                singleTransform: {
+                    type: "fluid.transforms.free",
+                    func: "sjrk.storyTelling.page.storyEdit.removeEmptyBlocks",
+                    args: ["{storyEditor}.story.model", "{that}.options.requiredBlockValues"]
+                }
             }
         },
         components: {
@@ -61,7 +97,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         singleTransform: {
                             type: "fluid.transforms.stringTemplate",
                             template: "{storyEditor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                            terms: "{storyEditor}.story.model"
+                            terms: "{storyPreviewer}.story.model"
                         }
                     }
                 }
@@ -172,17 +208,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     components: {
-                        story: {
-                            options: {
-                                model: "{storyEditor}.story.model"
-                            }
-                        },
                         templateManager: {
                             options: {
-                                listeners: {
-                                    "onAllResourcesLoaded.renderTemplate": {
-                                        funcName: "{that}.renderTemplate",
-                                        args: ["{story}.model", "{that}.options.templateConfig", {isEditorPreview: true}]
+                                model: {
+                                    dynamicValues: {
+                                        isEditorPreview: true
                                     }
                                 }
                             }
@@ -192,6 +222,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    /* Removes all empty blocks from a given array of story blocks
+     * - "blocks": an array of story blocks
+     * - "requiredValuesLookup": a collection of arrays by block type which
+     *      outlines the values that, if at least one is truthy, will mean a
+     *      particular block is not empty
+     */
+    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (storyModel, requiredValuesLookup) {
+        var nonEmptyBlocks = fluid.remove_if(storyModel.content, function (block) {
+            return sjrk.storyTelling.page.storyEdit.isEmptyBlock(block, requiredValuesLookup[block.blockType]);
+        });
+
+        storyModel.content = nonEmptyBlocks;
+
+        return storyModel;
+    };
+
+    /* Returns true if a block is determined to be empty. Which values determine
+     * whether a block is emtpy depends on the particular block type, but if
+     * they're all falsy then the block is considered empty. If at least one of
+     * those values is truthy, the block is not empty.
+     * - "block": a story block
+     * - "requiredValues": an array of the "required" values of a block, according
+     *                     to the definition above
+     */
+    sjrk.storyTelling.page.storyEdit.isEmptyBlock = function (block, requiredValues) {
+        return !fluid.find_if(requiredValues, function (requiredValue) {
+            return !!block[requiredValue];
+        });
+    };
+
+    sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
+        $(mainContainer).prop("hidden", !savingEnabled);
+        $(pageContainer).toggleClass(hiddenEditorClass, !savingEnabled);
+    };
 
     sjrk.storyTelling.page.storyEdit.submitStory = function (that, errorEvent) {
         var form = that.container.find("form");

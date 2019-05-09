@@ -18,6 +18,16 @@ a {
     background-color: var(--site-rose);
 }
 
+.sjrk-st-toc-container {
+    background: var(--site-lavender);
+}
+
+.sjrk-st-page-header-container,
+.sjrk-edit-left-container,
+.sjrk-edit-right-container {
+    display: block;
+}
+
 .sjrk-st-page-header-container {
     padding: 0 1rem 1rem 1rem;
     display: grid;
@@ -61,7 +71,7 @@ a {
     background-color: inherit;
 }
 
-.sjrk-st-page-content-with-sidebars {
+.sjrk-edit-page-container {
     display: grid;
     grid-template-columns: minmax(1rem, 20rem) auto minmax(1rem, 20rem);
 }
@@ -109,8 +119,8 @@ a {
     display: block;
 }
 
-.sjrk-sidebar-left-container,
-.sjrk-sidebar-right-container {
+.sjrk-edit-left-container,
+.sjrk-edit-right-container {
     justify-self: center;
     position: relative;
     top: 7rem;

@@ -19,7 +19,6 @@ require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
 require("../../src/server/requestHandlers");
-require("../../src/server/serverSetup");
 
 kettle.loadTestingSupport();
 

@@ -76,9 +76,9 @@ The "base" JavaScript files included in this repository, located in the `ui/src/
     - e.g.
         ```javascript
         cuteCats: {
-            view: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> YOUR CUSTOM CONTAINERS GO HERE </div>',
-            edit: '<div class="sjrk-pageBody-container sjrk-pageBody-with-sidebars"> YOUR CUSTOM CONTAINERS GO HERE </div>',
-            browse: '<div class="sjrk-pageBody-container sjrk-pageBody-container-oneColumn"> YOUR CUSTOM CONTAINERS GO HERE</div>'
+            view: '<div class="sjrk-st-page-content-container"> YOUR CUSTOM CONTAINERS GO HERE </div>',
+            edit: '<div class="sjrk-st-page-content-container sjrk-edit-page-container"> YOUR CUSTOM CONTAINERS GO HERE </div>',
+            browse: '<div class="sjrk-st-page-content-container"> YOUR CUSTOM CONTAINERS GO HERE</div>'
         }
         ```
 - In each of the HTML files in the `ui` directory, update the `theme` variable definition to use your desired theme

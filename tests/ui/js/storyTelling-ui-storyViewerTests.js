@@ -33,11 +33,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             templateManager: {
                 options: {
-                    listeners: {
-                        "onAllResourcesLoaded.renderTemplate": {
-                            funcName: "{that}.renderTemplate",
-                            // added to test viewer buttons
-                            args: ["{story}.model", {isEditorPreview: true}]
+                    model: {
+                        dynamicValues: {
+                            isEditorPreview: true // added to test viewer buttons
                         }
                     },
                     templateConfig: {
@@ -115,6 +113,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyViewer}.events.onStoryViewerPreviousRequested",
                     listener: "jqUnit.assert",
                     args: "onStorySubmitRequested event fired."
+                }]
+            },
+            {
+                name: "Test story content rendering",
+                expect: 2,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.assertElementText",
+                    args: ["{storyViewer}.dom.storyTitle", "A story about cats"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementText",
+                    args: ["{storyViewer}.dom.storyAuthor", "by Cat friend"]
                 }]
             }]
         }]

@@ -153,16 +153,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.ui.storyBrowserTester.verifyViewSetting = function (viewListElement, expectedViewSetting, gridViewClassName) {
-        var classesContainGridClass = false;
+        var containsGridClass = viewListElement.hasClass(gridViewClassName);
 
-        fluid.each(viewListElement.attr("class").split(" "), function (className) {
-            if (className === gridViewClassName) {
-                classesContainGridClass = true;
-            }
-        });
-
-        if ((classesContainGridClass && expectedViewSetting === gridViewClassName) ||
-            (!classesContainGridClass && expectedViewSetting !== gridViewClassName)) {
+        if ((containsGridClass && expectedViewSetting === gridViewClassName) ||
+            (!containsGridClass && expectedViewSetting !== gridViewClassName)) {
             jqUnit.assert("The view setting is as expected");
         } else {
             jqUnit.fail("The view setting is not as expected");

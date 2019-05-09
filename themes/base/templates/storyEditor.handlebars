@@ -1,4 +1,8 @@
-<form lang="{{localizedMessages.language}}" class="sjrk-st-story-editor-form sjrkc-st-story-editor-form">
+{{#if dynamicValues.savingEnabled}}
+    <form lang="{{localizedMessages.language}}" class="sjrk-st-story-editor-form sjrkc-st-story-editor-form">
+{{else}}
+    <form hidden lang="{{localizedMessages.language}}" class="sjrk-st-story-editor-form sjrkc-st-story-editor-form">
+{{/if}}
     <div class="sjrk-st-story-editor-page1 sjrkc-st-story-editor-page1">
         <div class="sjrk-st-story-editor-buttons-container">
             <div class="sjrk-st-button-text-block-container sjrk-st-image-button-container">

@@ -89,10 +89,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             templateManager: {
                 options: {
-                    listeners: {
-                        "onAllResourcesLoaded.renderTemplate": {
-                            funcName: "{that}.renderTemplate",
-                            args: ["{storyBrowser}.model", "{storyBrowser}.options.browserConfig"]
+                    model: {
+                        dynamicValues: {
+                            stories: "{storyBrowser}.model.stories",
+                            placeholderThumbnailUrl: "{storyBrowser}.options.browserConfig.placeholderThumbnailUrl",
+                            gridViewClassName: "{storyBrowser}.options.browserConfig.gridViewClassName"
                         }
                     },
                     templateConfig: {

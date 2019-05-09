@@ -118,60 +118,65 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
-            args: ["{arguments}.0", "{server}.storyDataSource"]
+            args: ["{arguments}.0", "{server}.storyDataSource", "{server}.options.globalConfig.savingEnabled"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource) {
+sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, savingEnabled) {
+    if (savingEnabled) {
+        var id = uuidv1();
 
-    var id = uuidv1();
+        var storyModel = JSON.parse(request.req.body.model);
 
-    var storyModel = JSON.parse(request.req.body.model);
+        // key-value pairs of original filename : generated filename
+        // this is used primarily by tests, but may be of use
+        // to client-side components too
+        var binaryRenameMap = {};
 
-    // key-value pairs of original filename : generated filename
-    // this is used primarily by tests, but may be of use
-    // to client-side components too
-    var binaryRenameMap = {};
+        // Update any media URLs to refer to the changed
+        // file names
+        fluid.each(storyModel.content, function (block) {
+            if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+                if (block.fileDetails) {
+                    // Look for the uploaded file matching this block
+                    var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
+                        return singleFile.originalname === block.fileDetails.name;
+                    });
 
-    // Update any media URLs to refer to the changed
-    // file names
-    fluid.each(storyModel.content, function (block) {
-        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
-            if (block.fileDetails) {
-                // Look for the uploaded file matching this block
-                var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                    return singleFile.originalname === block.fileDetails.name;
-                });
-
-                // If we find a match, update the media URL. If not, clear it.
-                if (mediaFile) {
-                    sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
-                    binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                    // If we find a match, update the media URL. If not, clear it.
+                    if (mediaFile) {
+                        sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
+                        binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                    } else {
+                        sjrk.storyTelling.server.setMediaBlockUrl(block, null);
+                    }
                 } else {
                     sjrk.storyTelling.server.setMediaBlockUrl(block, null);
                 }
-            } else {
-                sjrk.storyTelling.server.setMediaBlockUrl(block, null);
             }
-        }
-    });
-
-    // Then persist that model to couch, with the updated
-    // references to where the binaries are saved
-
-    var promise = dataSource.set({directStoryId: id}, storyModel);
-
-    promise.then(function (response) {
-        response.binaryRenameMap = binaryRenameMap;
-        var responseAsJSON = JSON.stringify(response);
-        request.events.onSuccess.fire(responseAsJSON);
-    }, function (error) {
-        var errorMessage = error.reason || "Unspecified server error";
-        request.events.onError.fire({
-            message: errorMessage
         });
-    });
+
+        // Then persist that model to couch, with the updated
+        // references to where the binaries are saved
+
+        var promise = dataSource.set({directStoryId: id}, storyModel);
+
+        promise.then(function (response) {
+            response.binaryRenameMap = binaryRenameMap;
+            var responseAsJSON = JSON.stringify(response);
+            request.events.onSuccess.fire(responseAsJSON);
+        }, function (error) {
+            var errorMessage = error.reason || "Unspecified server error";
+            request.events.onError.fire({
+                message: errorMessage
+            });
+        });
+    } else {
+        request.events.onError.fire({
+            message: "Saving is currently disabled."
+        });
+    }
 };
 
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {

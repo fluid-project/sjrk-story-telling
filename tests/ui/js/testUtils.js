@@ -50,6 +50,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected visibility", expectedVisibility, element.css("display"));
     };
 
+    /* Asserts that an individual DOM element has a given value for a given propery
+     * according to the jQuery prop() function. Uses jqUnit for the assertion.
+     * - "element": the DOM element to be tested
+     * - "propertyName": the property to be checked
+     * - "expectedValue": the expected value of the property
+     */
+    sjrk.storyTelling.testUtils.assertElementPropertyValue = function (element, propertyName, expectedVisibility) {
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected visibility", expectedVisibility, element.prop(propertyName));
+    };
+
     /* Asserts that an individual DOM element has a given text value
      * according to the jQuery text() function. Uses jqUnit for the assertion.
      * - "element": the DOM element to be tested
@@ -68,6 +78,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected value", expectedValue, element.val());
     };
 
+    /* Asserts that an individual DOM element has a given CSS class applied,
+     * according to the jQuery hasClass() function. Uses jqUnit for the assertion.
+     * - "element": the DOM element to be tested
+     * - "className": the name of the class for which to check
+     * - "isExpectedToHaveClass": true if the element is expected to have the class
+     */
+    sjrk.storyTelling.testUtils.assertElementHasClass = function (element, className, isExpectedToHaveClass) {
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected class", isExpectedToHaveClass, element.hasClass(className));
+    };
+
+    /* Runs a given assertion function for an element for which we only have
+     * a CSS selector. The assertion function is assumed to take an element
+     * as its first argument.
+     * - "selector": the CSS selector
+     * - "assertFunctionName": the name of the assertion function to call
+     * - "assertionArguments": arguments for the assertionFunction, except "el"
+     */
+    sjrk.storyTelling.testUtils.assertFromSelector = function (selector, assertFunctionName, assertionArguments) {
+        var el = $(selector);
+
+        assertionArguments.unshift(el); //make "el" the first argument
+
+        var assertFunction = fluid.getGlobalValue(assertFunctionName);
+
+        if (typeof assertFunction === "function") {
+            assertFunction.apply(null, assertionArguments);
+        }
+    };
+
     /* Returns a "friendly" name for the given element, when available
      * - "element": the DOM element for which the friendly name is to be returned
      */
@@ -75,10 +114,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return element.selectorName || element.selector || element.toString();
     };
 
-    sjrk.storyTelling.testUtils.checkFirstBlockCheckbox = function (blockManager) {
+    sjrk.storyTelling.testUtils.checkBlockCheckboxes = function (blockManager, checkFirstBlockOnly) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
-        var checkBox = managedComponentRegistryAsArray[0].locate("selectedCheckbox");
 
+        if (checkFirstBlockOnly) {
+            sjrk.storyTelling.testUtils.checkSingleBlockCheckbox(managedComponentRegistryAsArray[0]);
+        } else {
+            fluid.each(managedComponentRegistryAsArray, function (managedComponent) {
+                sjrk.storyTelling.testUtils.checkSingleBlockCheckbox(managedComponent);
+            });
+        }
+    };
+
+    sjrk.storyTelling.testUtils.checkSingleBlockCheckbox = function (block) {
+        var checkBox = block.locate("selectedCheckbox");
         checkBox.prop("checked", true);
     };
 

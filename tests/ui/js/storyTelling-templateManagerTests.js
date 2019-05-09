@@ -17,10 +17,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templatePath: "../html/templates/testTemplate.handlebars",
             messagesPath: "../messages/testLocalizationMessages.json"
         },
-        testValue1: {
-            testValue: " a dynamic test value!"
-        },
-        testValue2: {
+        testDynamicValues: {
+            testValue: " a dynamic test value!",
             testString: " a dynamic test string!"
         }
     });
@@ -38,13 +36,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>"]
                 },
                 {
-                    func: "{testTemplateManager}.renderTemplate",
-                    args: ["{testTemplateManager}.options.testValue1", "{testTemplateManager}.options.testValue2"]
+                    func: "{testTemplateManager}.applier.change",
+                    args: ["dynamicValues", "{testTemplateManager}.options.testDynamicValues"]
                 },
-                // {
-                //     func: "{testTemplateManager}.renderTemplateOnSelf",
-                //     args: ["{testTemplateManager}.options.testValues"]
-                // },
+                {
+                    changeEvent: "{testTemplateManager}.applier.modelChanged",
+                    path: "dynamicValues",
+                    listener: "{testTemplateManager}.renderTemplate"
+                },
                 {
                     "event": "{testTemplateManager}.events.onTemplateRendered",
                     listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
