@@ -125,7 +125,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         options: {
                             "root": "./ui",
                             middlewareOptions: {
-                                index: "storyEdit.html"
+                                index: "introduction.html"
                             }
                         }
                     }

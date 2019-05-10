@@ -14,6 +14,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections", {
         gradeNames: ["sjrk.storyTelling.page"],
+        pageSetup: {
+            browseLinkUrl: "storyBrowse.html",
+            buildLinkUrl: "storyEdit.html"
+        },
         components: {
             // masthead/banner section
             learningReflectionsMasthead: {
@@ -25,7 +29,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 model: {
                                     dynamicValues: {
-                                        resourcePrefix: "{that}.options.templateConfig.resourcePrefix"
+                                        resourcePrefix: "{that}.options.templateConfig.resourcePrefix",
+                                        browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl",
+                                        buildLinkUrl: "{page}.options.pageSetup.buildLinkUrl"
                                     }
                                 },
                                 templateConfig: {
@@ -65,22 +71,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
-        pageSetup: {
-            browseLinkUrl: "storyBrowse.html",
-            buildLinkUrl: "storyEdit.html"
-        },
         components: {
             menu: {
                 options: {
                     components: {
                         templateManager: {
                             options: {
-                                model: {
-                                    dynamicValues: {
-                                        browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl",
-                                        buildLinkUrl: "{page}.options.pageSetup.buildLinkUrl"
-                                    }
-                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
@@ -97,7 +93,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyBrowse"],
         pageSetup: {
-            buildLinkUrl: "storyEdit.html"
+            browseLinkUrl: "" // hide the Browse link on the Browse page
         },
         components: {
             menu: {
@@ -105,11 +101,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
-                                model: {
-                                    dynamicValues: {
-                                        buildLinkUrl: "{page}.options.pageSetup.buildLinkUrl"
-                                    }
-                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
@@ -133,25 +124,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
         pageSetup: {
-            browseLinkUrl: "storyBrowse.html"
-        },
+            buildLinkUrl: "" // hide the Edit link on the Edit page
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.learningReflections.introduction", {
+        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page"],
         components: {
             // introductory content
             learningReflectionsIntro: {
                 type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-edit-left-container",
+                container: ".sjrkc-st-introduction",
                 options: {
                     components: {
                         templateManager: {
                             options: {
-                                model: {
-                                    dynamicValues: {
-                                        browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl"
-                                    }
-                                },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-introduction.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
                                 }
                             }
                         }

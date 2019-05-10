@@ -1,25 +1,20 @@
-<div class="sjrk-st-context-link-container">
-    <a href="{{dynamicValues.browseLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.message_browseLink}}</a>
-</div>
 <div class="sjrk-st-intro-body">
-    <h2 class="sjrk-st-intro-heading-1">{{localizedMessages.message_intro_p1_heading1}}</h2>
-    <h2 class="sjrk-st-intro-heading-2">{{localizedMessages.message_intro_p1_heading2}}</h2>
-    {{{md localizedMessages.message_intro_p1_text}}}
-    <h4>{{localizedMessages.message_intro_p2_heading}}</h4>
+    <div class="sjrk-st-intro-p1-container">
+        <h2>{{localizedMessages.message_intro_heading1}}</h2>
+        <h2>{{localizedMessages.message_intro_heading2}}</h2>
+        <img class="sjrk-st-intro-caret" src="src/img/icons/Caret.svg" alt="">
+        {{{md localizedMessages.message_intro_p1_text}}}
+    </div>
+    <div class="sjrk-st-intro-story-thumbnails">
+        {{!-- this is set aside for the story thumbnails once that's ready --}}
+    </div>
+    <hr>
+    <h3>{{localizedMessages.message_intro_p2_heading}}</h3>
     {{{md localizedMessages.message_intro_p2_text}}}
-    <h2>{{localizedMessages.message_intro_p3_heading}}</h2>
+    <hr>
+    <h3>{{localizedMessages.message_intro_p3_heading}}</h3>
     {{{md localizedMessages.message_intro_p3_text}}}
-    <img class="sjrk-st-intro-heartbook" src="/src/learningReflections/img/icons/icon-heartBook_blue.svg" alt="">
+    <hr>
     <h3>{{localizedMessages.message_intro_p4_heading}}</h3>
     {{{md localizedMessages.message_intro_p4_text}}}
-    <img class="sjrk-st-intro-heartbook" src="/src/learningReflections/img/icons/icon-heartBook_blue.svg" alt="">
-    <h3>{{localizedMessages.message_intro_p5_heading}}</h3>
-    {{{md localizedMessages.message_intro_p5_text}}}
-    <img class="sjrk-st-intro-heartbook" src="/src/learningReflections/img/icons/icon-heartBook_blue.svg" alt="">
-    <h3>{{localizedMessages.message_intro_p6_heading}}</h3>
-    {{{md localizedMessages.message_intro_p6_text}}}
-    <img class="sjrk-st-intro-heartbook" src="/src/learningReflections/img/icons/icon-heartBook_blue.svg" alt="">
-    <h3>{{localizedMessages.message_intro_p7_heading}}</h3>
-    {{{md localizedMessages.message_intro_p7_text}}}
-    <img class="sjrk-st-intro-share" src="/src/learningReflections/img/share_a_story.svg" alt="">
 </div>
