@@ -122,6 +122,8 @@ body {
 
 .sjrk-st-intro-body h3 {
     color: var(--site-yellow);
+    position: relative;
+    left: -1rem;
 }
 
 .sjrk-st-intro-body hr {
