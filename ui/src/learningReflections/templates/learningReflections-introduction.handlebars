@@ -1,20 +1,47 @@
 <div class="sjrk-st-intro-body">
-    <div class="sjrk-st-intro-p1-container">
-        <h2>{{localizedMessages.message_intro_heading1}}</h2>
-        <h2>{{localizedMessages.message_intro_heading2}}</h2>
-        <img class="sjrk-st-intro-caret" src="src/img/icons/Caret.svg" alt="">
-        {{{md localizedMessages.message_intro_p1_text}}}
-    </div>
-    <div class="sjrk-st-intro-story-thumbnails">
-        {{!-- this is set aside for the story thumbnails once that's ready --}}
-    </div>
+    <section>
+        <div>
+            <h2>{{localizedMessages.intro_heading1}}</h2>
+            <h2>{{localizedMessages.intro_heading2}}</h2>
+            {{!-- <img class="sjrk-st-intro-caret" src="src/img/icons/Caret.svg" alt=""> --}}
+            {{{md localizedMessages.intro_p1_text}}}
+        </div>
+        <div>
+            {{!-- this is set aside for the story thumbnails once that's ready --}}
+        </div>
+    </section>
     <hr>
-    <h3>{{localizedMessages.message_intro_p2_heading}}</h3>
-    {{{md localizedMessages.message_intro_p2_text}}}
+    <section>
+        <div>
+            <h3>{{localizedMessages.intro_p2_heading}}</h3>
+            {{{md localizedMessages.intro_p2_text}}}
+            <div class="sjrk-st-intro-links">
+                <a href="workshops.html">{{localizedMessages.intro_link_workshops_text}}</a>
+                <a href="resources.html">{{localizedMessages.intro_link_resources_text}}</a>
+            </div>
+        </div>
+        <figure>
+            <img src="" alt="{{localizedMessages.intro_fig2_alt_text}}">
+            <figcaption>{{localizedMessages.intro_fig2_caption}}</figcaption>
+        </figure>
+    </section>
     <hr>
-    <h3>{{localizedMessages.message_intro_p3_heading}}</h3>
-    {{{md localizedMessages.message_intro_p3_text}}}
+    <section>
+        <div>
+            <h3>{{localizedMessages.intro_p3_heading}}</h3>
+            {{{md localizedMessages.intro_p3_text}}}
+            <div class="sjrk-st-intro-links">
+                <a href="">{{localizedMessages.intro_link_about_text}}</a>
+                <a href="storyEdit.html">{{localizedMessages.intro_link_edit_text}}</a>
+            </div>
+        </div>
+        <figure>
+            <img src="" alt="{{localizedMessages.intro_fig3_image1_alt_text}}">
+            <img src="" alt="{{localizedMessages.intro_fig3_image2_alt_text}}">
+            <figcaption>{{localizedMessages.intro_fig3_caption}}</figcaption>
+        </figure>
+    </section>
     <hr>
-    <h3>{{localizedMessages.message_intro_p4_heading}}</h3>
-    {{{md localizedMessages.message_intro_p4_text}}}
+    <h3>{{localizedMessages.intro_p4_heading}}</h3>
+    {{{md localizedMessages.intro_p4_text}}}
 </div>

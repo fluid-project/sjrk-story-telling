@@ -124,6 +124,7 @@ body {
     color: var(--site-yellow);
     position: relative;
     left: -1rem;
+    text-transform: uppercase;
 }
 
 .sjrk-st-intro-body hr {
@@ -133,6 +134,16 @@ body {
     width: calc(100% + 4rem);
     position: relative;
     left: -2rem;
+}
+
+.sjrk-st-intro-body section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.sjrk-st-intro-links a {
+    display: block;
+
 }
 
 .sjrk-st-intro-caret {
@@ -226,7 +237,20 @@ body {
     font-family: var(--site-font);
     font-weight: 800;
     font-size: 1rem;
-    color: var(--site-blue);
+}
+
+.sjrk-st-menu {
+    grid-template-columns: auto;
+    justify-items: right;
+}
+
+.sjrk-st-menu nav li {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.sjrk-st-menu nav a {
+    color: var(--site-light-blue);
 }
 
 .sjrk-st-browser-view-control-list,
@@ -275,7 +299,9 @@ body {
 }
 
 .sjrk-st-story-submit,
-.sjrk-st-story-share {
+.sjrk-st-story-share,
+.sjrk-st-intro-links a
+ {
     background: var(--site-light-blue);
     border: none;
     padding: 0.75rem 1rem;
