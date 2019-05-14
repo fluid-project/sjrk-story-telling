@@ -113,13 +113,17 @@ body {
     border-radius: 1.5rem;
 }
 
+.sjrk-st-intro-body {
+    font-size: 2rem;
+}
+
 .sjrk-st-intro-body img {
     max-width: 100%
 }
 
 .sjrk-st-intro-body h2 {
     font-size: 4rem;
-    margin: 1rem 0;
+    margin: 0 0 2rem 0;
 }
 
 .sjrk-st-intro-body h3 {
@@ -141,6 +145,11 @@ body {
 .sjrk-st-intro-body section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-items: center;
+}
+
+.sjrk-st-intro-collection {
+    max-height: 60rem;
 }
 
 .sjrk-st-intro-links a {
@@ -153,6 +162,7 @@ body {
 .sjrk-st-intro-caret {
     width: 3rem;
     display: block;
+    margin-bottom: 5rem;
 }
 
 .sjrk-st-intro-heartbook {
@@ -247,6 +257,7 @@ body {
 .sjrk-st-menu {
     grid-template-columns: auto;
     justify-items: right;
+    margin-bottom: 5rem;
 }
 
 .sjrk-st-menu nav li {
