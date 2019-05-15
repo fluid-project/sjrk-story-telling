@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -19,8 +19,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             buildLinkUrl: "storyEdit.html"
         },
         components: {
-            // masthead/banner section
-            learningReflectionsMasthead: {
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            masthead: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-header-container",
                 options: {
@@ -43,8 +56,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
-            // footer section
-            learningReflectionsFooter: {
+            footer: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-footer-container",
                 options: {
@@ -70,23 +82,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
-        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
-        components: {
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"]
     });
 
     // Applies the Learning Reflections shell to the storyBrowse page
@@ -96,20 +92,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             browseLinkUrl: "" // hide the Browse link on the Browse page
         },
         components: {
-            menu: {
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             storyBrowser: {
                 options: {
                     browserConfig: {
@@ -131,8 +113,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.learningReflections.introduction", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page"],
         components: {
-            // introductory content
-            learningReflectionsIntro: {
+            introduction: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-introduction",
                 options: {
@@ -147,15 +128,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     }
                 }
-            },
-            menu: {
+            }
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.learningReflections.workshops", {
+        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page"],
+        components: {
+            workshops: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-st-workshops",
                 options: {
                     components: {
                         templateManager: {
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
-                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-workshops.handlebars"
                                 }
                             }
                         }

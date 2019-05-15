@@ -117,11 +117,13 @@ body {
     font-size: 2rem;
 }
 
-.sjrk-st-intro-body img {
+.sjrk-st-intro-body img,
+.sjrk-st-workshops-body img {
     max-width: 100%
 }
 
-.sjrk-st-intro-body h2 {
+.sjrk-st-intro-body h2,
+.sjrk-st-workshops-body h2 {
     font-size: 4rem;
     margin: 0 0 2rem 0;
 }
@@ -142,7 +144,8 @@ body {
     left: -2rem;
 }
 
-.sjrk-st-intro-body section {
+.sjrk-st-intro-body section,
+.sjrk-st-workshops-body section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     justify-items: center;
