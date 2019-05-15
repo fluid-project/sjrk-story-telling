@@ -42,7 +42,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 model: {
                                     dynamicValues: {
-                                        resourcePrefix: "{that}.options.templateConfig.resourcePrefix",
                                         browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl",
                                         buildLinkUrl: "{page}.options.pageSetup.buildLinkUrl"
                                     }

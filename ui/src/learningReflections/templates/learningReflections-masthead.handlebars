@@ -1,19 +1,13 @@
 <div class="sjrk-st-page-header">
-    <span class="sjrk-st-page-header-main-title">{{localizedMessages.mastheadTitle}}</span>
+    <span class="sjrk-st-page-header-main-title">{{{localizedMessages.mastheadTitle}}}</span>
 </div>
-{{#if dynamicValues.savingEnabled}}
-    <div class="sjrk-st-context-link-container">
-        {{#if dynamicValues.browseLinkUrl}}
-            <a href="{{dynamicValues.browseLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.browseLink_text}}</a>
-        {{/if}}
-        {{#if dynamicValues.buildLinkUrl}}
-            <a hidden href="{{dynamicValues.buildLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.buildLink_text}}</a>
-        {{/if}}
-    </div>
-{{else}}
-    {{#if dynamicValues.browseLinkUrl}}
-        <div class="sjrk-st-context-link-container">
-            <a href="{{dynamicValues.browseLinkUrl}}" class="sjrk-st-context-link">{{localizedMessages.browseLink_text}}</a>
-        </div>
-    {{/if}}
-{{/if}}
+<div class="sjrk-st-top-menu">
+    <nav>
+        <ul>
+            <li><a href="workshops.html">{{localizedMessages.link_workshops_text}}</a></li>
+            <li><a href="resources.html">{{localizedMessages.link_resources_text}}</a></li>
+            <li><a href="storyBrowse.html">{{localizedMessages.link_browse_text}}</a></li>
+        </ul>
+    </nav>
+    <a class="sjrk-st-edit-link" href="http://staging-stories.floeproject.org/">{{localizedMessages.link_edit_text}}</a>
+</div>
