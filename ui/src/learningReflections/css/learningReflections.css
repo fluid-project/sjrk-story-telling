@@ -21,7 +21,6 @@ body {
 
 .sjrk-prefsEditor-container {
     background-color: #fff;
-    display: block;
 }
 
 .sjrk-st-toc-container {
@@ -45,7 +44,7 @@ body {
 }
 
 .sjrk-st-page-header-container {
-    padding: 0rem 2rem;
+    padding: 0 2rem 1rem 2rem;
     display: grid;
     grid-template-columns: auto auto;
 }
@@ -56,6 +55,7 @@ body {
     vertical-align: middle;
     font-size: 2.5rem;
     margin: 0;
+    line-height: 0.9;
 }
 
 .sjrk-st-page-header-main-title {
@@ -137,20 +137,15 @@ body {
     color: var(--site-orange);
 }
 
-.sjrk-st-page-body hr {
-    background-color: var(--site-light-blue);
-    border: 0;
-    height: 1px;
-    width: calc(100% + 4rem);
-    position: relative;
-    left: -2rem;
+.sjrk-st-page-body section {
+    margin: 0 0 4rem 0;
+    padding: 0 4rem;
 }
 
-.sjrk-st-page-body section {
+.sjrk-st-page-body section.sjrk-st-lr-2column {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     justify-items: center;
-    margin: 0 0 4rem 0;
 }
 
 .sjrk-st-lr-knockout {
@@ -265,6 +260,8 @@ body {
     display: block;
     justify-self: right;
     align-self: end;
+    position: relative;
+    top: 1.75rem;
 }
 
 .sjrk-st-top-menu nav {
@@ -285,6 +282,8 @@ body {
     border: 2px solid var(--site-blue);
     padding: 0.75rem 1rem;
     border-radius: 1.5rem;
+    background: #fff;
+    white-space: nowrap;
 }
 
 .sjrk-st-browser-view-control-list,
@@ -377,8 +376,8 @@ body {
     grid-template-columns: 10rem 19rem 4fr;
     grid-gap: 0.5rem;
     align-items: center;
-    background: var(--site-blue);
-    color: #fff;
+    background: var(--site-light-blue);
+    color: var(--site-blue);
 }
 
 .sjrk-st-page-footer-container img {
@@ -386,7 +385,7 @@ body {
 }
 
 .sjrk-st-page-footer-container a {
-    color: var(--site-light-blue);
+    color: var(--site-blue);
 }
 
 .sjrk-st-page-footer-oak-logo-container {
