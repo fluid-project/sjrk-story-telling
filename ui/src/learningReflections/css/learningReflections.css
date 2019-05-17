@@ -52,8 +52,6 @@ body {
 
 .sjrk-st-page-header {
     display: inline-block;
-    align-self: center;
-    vertical-align: middle;
     font-size: 2.5rem;
     margin: 0;
     line-height: 0.9;
@@ -65,22 +63,35 @@ body {
     text-transform: uppercase;
 }
 
-.sjrk-st-page-header-subtitle {
-    color: #fff;
-    font-size: 1.4rem;
-    font-weight: 300;
+.sjrk-st-top-menu {
+    display: block;
+    justify-self: right;
+    align-self: end;
+    position: relative;
+    top: 1.75rem;
 }
 
-.sjrk-st-page-header-heart-book-container {
+.sjrk-st-top-menu nav {
     display: inline-block;
-    align-self: center;
-    vertical-align: middle;
-    margin: 0 1rem 0 0;
 }
 
-.sjrk-st-page-header-heart-book {
-    height: 6rem;
-    width: 6rem;
+.sjrk-st-top-menu nav li {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.sjrk-st-top-menu nav a,
+.sjrk-st-edit-link {
+    color: var(--site-blue);
+}
+
+.sjrk-st-edit-link {
+    border: 2px solid var(--site-blue);
+    padding: 0.75rem 2rem;
+    border-radius: 1.5rem;
+    background: #fff;
+    white-space: nowrap;
+    text-transform: uppercase;
 }
 
 .sjrk-st-page-content-container {
@@ -123,7 +134,7 @@ body {
 
 .sjrk-st-page-body {
     font-size: 1.5rem;
-    line-height: 1.5;
+    line-height: 1.75;
 }
 
 .sjrk-st-page-body img {
@@ -263,35 +274,21 @@ body {
     display: none;
 }
 
-.sjrk-st-top-menu {
-    display: block;
-    justify-self: right;
-    align-self: end;
-    position: relative;
-    top: 1.75rem;
+.sjrk-st-lr-browser {
+    line-height: 1rem;
+    font-size: 1rem;
+    padding: 2rem 4rem !important;
 }
 
-.sjrk-st-top-menu nav {
-    display: inline-block;
+.sjrk-st-lr-browser h3 {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1rem;
 }
 
-.sjrk-st-top-menu nav li {
-    display: inline-block;
-    margin-right: 1rem;
-}
-
-.sjrk-st-top-menu nav a,
-.sjrk-st-edit-link {
+.sjrk-st-lr-browser h3,
+.sjrk-st-browser-story-container a {
     color: var(--site-blue);
-}
-
-.sjrk-st-edit-link {
-    border: 2px solid var(--site-blue);
-    padding: 0.75rem 2rem;
-    border-radius: 1.5rem;
-    background: #fff;
-    white-space: nowrap;
-    text-transform: uppercase;
 }
 
 .sjrk-st-browser-view-control-list,
@@ -300,10 +297,8 @@ body {
     text-transform: uppercase;
     text-decoration: none;
     font-family: var(--site-font);
-    font-size: 1rem;
     color: var(--site-blue);
 }
-
 
 /* .sjrk-st-browser-stories .sjrk-st-browser-view-control-list, */
 .sjrk-st-browser-view-control-container.grid .sjrk-st-browser-view-control-grid,
