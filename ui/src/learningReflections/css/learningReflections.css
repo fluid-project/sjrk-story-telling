@@ -12,6 +12,7 @@
     --site-turquoise: #cbe2e1;
     --site-yellow: #f2d17e;
     --site-font: "Work Sans";
+    --site-serif-font: "Vollkorn";
 }
 
 body {
@@ -121,7 +122,8 @@ body {
 }
 
 .sjrk-st-page-body {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
 }
 
 .sjrk-st-page-body img {
@@ -135,17 +137,30 @@ body {
 
 .sjrk-st-page-body h3 {
     color: var(--site-orange);
+    margin-top: 0;
+}
+
+.sjrk-st-page-body h4 {
+    margin: 0;
+}
+
+.sjrk-st-page-body p {
+    margin: 0;
 }
 
 .sjrk-st-page-body section {
-    margin: 0 0 4rem 0;
+    margin: 0 0 2rem 0;
     padding: 0 4rem;
 }
 
 .sjrk-st-page-body section.sjrk-st-lr-2column {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    justify-items: center;
+    column-gap: 5rem;
+}
+
+.sjrk-st-lr-serif {
+    font-family: var(--site-serif-font);
 }
 
 .sjrk-st-lr-knockout {
@@ -165,16 +180,9 @@ body {
 }
 
 .sjrk-st-intro-caret {
-    width: 3rem;
-    display: block;
-    margin-bottom: 5rem;
-}
-
-.sjrk-st-intro-heartbook {
-    height: 4rem;
     width: 4rem;
     display: block;
-    margin-top: 3rem;
+    margin-bottom: 5rem;
 }
 
 .sjrk-st-intro-share {
@@ -245,7 +253,6 @@ body {
 .sjrk-st-intro-links a,
 .sjrk-st-edit-link {
     position: relative;
-    text-transform: uppercase;
     text-decoration: none;
     font-family: var(--site-font);
     font-weight: 800;
@@ -280,10 +287,11 @@ body {
 
 .sjrk-st-edit-link {
     border: 2px solid var(--site-blue);
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 2rem;
     border-radius: 1.5rem;
     background: #fff;
     white-space: nowrap;
+    text-transform: uppercase;
 }
 
 .sjrk-st-browser-view-control-list,
@@ -373,36 +381,39 @@ body {
 .sjrk-st-page-footer-container {
     padding: 2.5rem 2rem;
     display: grid;
-    grid-template-columns: 10rem 19rem 4fr;
-    grid-gap: 0.5rem;
+    grid-template-columns: 4fr auto auto auto;
+    grid-gap: 1.5rem;
     align-items: center;
     background: var(--site-light-blue);
     color: var(--site-blue);
-}
-
-.sjrk-st-page-footer-container img {
-    vertical-align: middle;
 }
 
 .sjrk-st-page-footer-container a {
     color: var(--site-blue);
 }
 
-.sjrk-st-page-footer-oak-logo-container {
-    padding: 0.2rem 0;
-    text-align: center;
+.sjrk-st-page-footer-text-container {
+    border-right: 1px solid var(--site-blue);
+    padding-right: 2rem;
+    margin-right: 2rem;
+}
+
+.sjrk-st-page-footer-oak-logo-container,
+.sjrk-st-page-footer-hewlett-logo-container,
+.sjrk-st-page-footer-idrc-logo-container {
+    align-self: end;
 }
 
 .sjrk-st-page-footer-oak-logo-container img {
     width: 6rem;
 }
 
-.sjrk-st-page-footer-hewlett-logo-container {
-    padding: 0.2rem 1rem;
-}
-
 .sjrk-st-page-footer-hewlett-logo-container img {
     width: 15rem;
+}
+
+.sjrk-st-page-footer-idrc-logo-container img {
+    width: 12rem;
 }
 
 @media only screen and (max-width: 50em) {
@@ -449,9 +460,16 @@ body {
         padding: 1rem;
     }
 
+    .sjrk-st-page-footer-text-container {
+        border-right: 0;
+        padding-right: 0;
+        margin-right: 0;
+    }
+
     .sjrk-st-page-footer-text-container,
     .sjrk-st-page-footer-oak-logo-container,
-    .sjrk-st-page-footer-hewlett-logo-container {
+    .sjrk-st-page-footer-hewlett-logo-container,
+    .sjrk-st-page-footer-idrc-logo-container {
         grid-column: auto;
         text-align: center;
         padding-bottom: 1rem
@@ -459,7 +477,8 @@ body {
 
     .sjrk-st-page-footer-text-container img,
     .sjrk-st-page-footer-oak-logo-container img,
-    .sjrk-st-page-footer-hewlett-logo-container img {
+    .sjrk-st-page-footer-hewlett-logo-container img,
+    .sjrk-st-page-footer-idrc-logo-container img {
         max-width: 100%;
     }
 }

@@ -153,4 +153,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    fluid.defaults("sjrk.storyTelling.learningReflections.resources", {
+        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page"],
+        components: {
+            resources: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-st-resources",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-resources.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
 })(jQuery, fluid);
