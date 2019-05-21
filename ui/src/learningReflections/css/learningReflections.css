@@ -8,7 +8,7 @@
     --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
-    --site-teal: #0c7474;
+    --site-teal: #007d94;
     --site-turquoise: #cbe2e1;
     --site-yellow: #f2d17e;
     --site-font: "Work Sans";
@@ -47,7 +47,7 @@ body {
 .sjrk-st-page-header-container {
     padding: 0 2rem 1rem 2rem;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .sjrk-st-page-header {
@@ -65,14 +65,21 @@ body {
 
 .sjrk-st-top-menu {
     display: block;
+    /* display: grid; */
+    /* grid-template-columns: auto auto; */
     justify-self: right;
     align-self: end;
     position: relative;
-    top: 1.75rem;
+    top: 0.75rem;
 }
 
 .sjrk-st-top-menu nav {
     display: inline-block;
+}
+
+.sjrk-st-top-menu nav ul {
+    margin: 0;
+    padding: 0;
 }
 
 .sjrk-st-top-menu nav li {
@@ -141,22 +148,48 @@ body {
     max-width: 100%
 }
 
-.sjrk-st-page-body h2 {
+.sjrk-st-page-body h1 {
     font-size: 4rem;
+    font-weight: bold;
     margin: 0 0 2rem 0;
 }
 
-.sjrk-st-page-body h3 {
+.sjrk-st-page-body h2 {
     color: var(--site-orange);
-    margin-top: 0;
+    margin: 0 0 0.5rem 0;
 }
 
-.sjrk-st-page-body h4 {
+.sjrk-st-page-body h3 {
     margin: 0;
 }
 
 .sjrk-st-page-body p {
+    margin: 0 0 .5rem 0;
+}
+
+.sjrk-st-page-body a {
+    color: var(--site-blue);
+}
+
+.sjrk-st-page-body ul {
+    padding-left: 0;
+    margin-top: 0.5rem;
+}
+
+.sjrk-st-page-body li {
+    list-style-position: inside;
+    margin-bottom: 0.5rem;
+}
+
+.sjrk-st-page-body figure {
     margin: 0;
+}
+
+.sjrk-st-page-body figcaption {
+    color: var(--site-teal);
+    font-size: 2rem;
+    font-family: var(--site-serif-font);
+    font-weight: bold;
 }
 
 .sjrk-st-page-body section {
@@ -412,6 +445,39 @@ body {
 }
 
 @media only screen and (max-width: 50em) {
+    .sjrk-st-top-menu {
+        display: block;
+        justify-self: auto;
+        align-self: auto;
+        top: 0;
+    }
+
+    .sjrk-st-top-menu nav {
+        display: block;
+    }
+
+    .sjrk-st-top-menu nav li {
+        display: block;
+        margin: 1rem 0;
+    }
+
+    .sjrk-st-top-menu nav li a {
+        margin: 0 auto;
+    }
+
+    .sjrk-st-top-menu .sjrk-st-edit-link {
+        display: inline-block;
+    }
+
+    .sjrk-st-lr-browser {
+        padding: 0 1rem !important;
+    }
+
+    .sjrk-st-page-body section {
+        margin: 0 0 1rem 0;
+        padding: 0 1rem;
+    }
+
     .sjrk-st-page-header-container, .sjrk-st-etiquette {
         padding: 1rem;
     }
@@ -442,10 +508,6 @@ body {
     .sjrk-edit-left-container .sjrk-st-context-link-container {
         margin-top: 2rem;
         margin-bottom: 0;
-    }
-
-    .sjrk-st-top-menu {
-        margin-top: 1rem;
     }
 
     .sjrk-st-page-footer-container {

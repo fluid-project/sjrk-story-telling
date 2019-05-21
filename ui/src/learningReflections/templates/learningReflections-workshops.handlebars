@@ -1,6 +1,6 @@
 <div class="sjrk-st-page-body">
     <section class="sjrk-st-lr-knockout">
-        <h2>{{localizedMessages.workshops_title}}</h2>
+        <h1>{{localizedMessages.workshops_title}}</h1>
     </section>
     <section class="sjrk-st-lr-2column sjrk-st-lr-serif">
         {{{md localizedMessages.workshops_p1_text}}}
@@ -8,7 +8,7 @@
     </section>
     <section class="sjrk-st-lr-2column">
         <div>
-            <h3>{{localizedMessages.workshops_p2_heading}}</h3>
+            <h2>{{localizedMessages.workshops_p2_heading}}</h2>
             <div class="sjrk-st-lr-serif">
                 {{{md localizedMessages.workshops_p2_text}}}
             </div>
@@ -16,15 +16,12 @@
         <img src="src/learningReflections/img/storytelling_workshop_6.png" alt="{{localizedMessages.workshops_fig2_alt_text}}">
     </section>
     <section class="sjrk-st-lr-2column">
-        <div>
-            <h4>{{localizedMessages.workshops_p3_heading}}</h4>
-            <div class="sjrk-st-lr-serif">
-                {{{md localizedMessages.workshops_p3_text}}}
-            </div>
-            <h4>{{localizedMessages.workshops_p4_heading}}</h4>
-            <div class="sjrk-st-lr-serif">
-                {{{md localizedMessages.workshops_p4_text}}}
-            </div>
+        <div class="sjrk-st-lr-serif">
+            <h3>{{localizedMessages.workshops_p3_heading}}</h3>
+            {{{md localizedMessages.workshops_p3_text}}}
+            <br>
+            <h3>{{localizedMessages.workshops_p4_heading}}</h3>
+            {{{md localizedMessages.workshops_p4_text}}}
         </div>
         <figure>
             <img src="src/learningReflections/img/storytelling_workshop_7.png" alt="{{localizedMessages.workshops_fig3_alt_text}}">
@@ -33,14 +30,20 @@
     </section>
     <section class="sjrk-st-lr-2column">
         <div>
-            <h3>{{localizedMessages.workshops_p5_heading}}</h3>
+            <h2>{{localizedMessages.workshops_p5_heading}}</h2>
             <div class="sjrk-st-lr-serif">
                 {{{md localizedMessages.workshops_p5_text}}}
             </div>
-            <h4>{{localizedMessages.workshops_p6_heading}}</h4>
-            <div class="sjrk-st-lr-serif">
-                {{{md localizedMessages.workshops_p6_text}}}
-            </div>
+        </div>
+        <div>{{!-- placeholder div to maintain two-column layout --}}</div>
+    </section>
+    <section class="sjrk-st-lr-2column">
+        <div class="sjrk-st-lr-serif">
+            <h3>{{localizedMessages.workshops_p6_heading}}</h3>
+            {{{md localizedMessages.workshops_p6_text}}}
+            <br>
+            <h3>{{localizedMessages.workshops_p7_heading}}</h3>
+            {{{md localizedMessages.workshops_p7_text}}}
         </div>
         <figure>
             <img src="src/learningReflections/img/storytelling_workshop_8.png" alt="{{localizedMessages.workshops_fig4_alt_text}}">
