@@ -242,16 +242,21 @@ body {
 
 .sjrk-st-story-editor .sjrk-st-lr-padding,
 .sjrk-st-story-editor+.sjrk-st-story-viewer .sjrk-st-lr-padding {
-    border: 1px dashed;
-    padding: 1.5rem !important;
+    padding: 0 !important;
     margin: 4rem 7rem;
     position: relative;
-    background: #fff;
 }
 
 .sjrk-st-story-editor,
 .sjrk-st-story-viewer {
     color: var(--site-blue);
+}
+
+.sjrk-st-story-editor-form, .sjrk-st-story-previewer {
+    border: 1px dashed;
+    padding: 1.5rem !important;
+    position: relative;
+    background: #fff;
 }
 
 .sjrk-st-story-editor .sjrk-st-block {
@@ -344,6 +349,9 @@ body {
 
 .sjrk-st-menu-story-builder-title span {
     position: relative;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 2;
 }
 
 .sjrk-st-menu-story-builder-title-background {
@@ -352,8 +360,7 @@ body {
     padding: 1rem;
     position: absolute;
     left: -0.85rem;
-    top: -0.5rem;
-    width: 8.5rem;
+    width: 10rem;
     height: 8rem;
 }
 
