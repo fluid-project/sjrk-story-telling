@@ -26,10 +26,14 @@ body {
 
 .sjrk-st-toc-container {
     background: var(--site-orange);
+    color: #fff;
+}
+
+.sjrk-st-toc-container a {
+    color: #fff;
 }
 
 .sjrk-st-page-header-container,
-.sjrk-edit-left-container,
 .sjrk-st-etiquette-container,
 .sjrk-st-page-footer-container {
     display: block;
@@ -61,6 +65,7 @@ body {
     font-weight: 600;
     color: var(--site-blue);
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 .sjrk-st-top-menu {
@@ -84,7 +89,7 @@ body {
 
 .sjrk-st-top-menu nav li {
     display: inline-block;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 
 .sjrk-st-top-menu nav a,
@@ -106,25 +111,6 @@ body {
     padding: 0;
 }
 
-.sjrk-edit-page-container {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    grid-gap: 4rem;
-}
-
-.sjrk-edit-left-container {
-    font-size: 1rem;
-    line-height: 1.4;
-}
-
-.sjrk-edit-left-container p:first-child {
-    margin-top: 0;
-}
-
-.sjrk-edit-left-container .sjrk-st-context-link-container {
-    margin-bottom: 5rem;
-}
-
 .sjrk-st-context-link-container {
     text-align: right;
 }
@@ -135,7 +121,7 @@ body {
     display: inline-block;
     background: #fff;
     border: 1px solid var(--site-blue);
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 2rem;
     border-radius: 1.5rem;
 }
 
@@ -152,11 +138,14 @@ body {
     font-size: 4rem;
     font-weight: bold;
     margin: 0 0 2rem 0;
+    padding: 1rem 0;
+    line-height: 1;
 }
 
 .sjrk-st-page-body h2 {
     color: var(--site-orange);
     margin: 0 0 0.5rem 0;
+    line-height: 1.25;
 }
 
 .sjrk-st-page-body h3 {
@@ -201,6 +190,11 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     column-gap: 5rem;
+    row-gap: 1rem;
+}
+
+.sjrk-st-page-body section.sjrk-st-lr-2column>*:nth-child(odd) {
+    grid-column-end: span 2;
 }
 
 .sjrk-st-lr-serif {
@@ -246,10 +240,11 @@ body {
     object-fit: contain;
 }
 
-.sjrk-st-story-editor,
-.sjrk-st-story-editor + .sjrk-st-story-viewer {
+.sjrk-st-story-editor .sjrk-st-lr-padding,
+.sjrk-st-story-editor+.sjrk-st-story-viewer .sjrk-st-lr-padding {
     border: 1px dashed;
-    padding: 1.5rem;
+    padding: 1.5rem !important;
+    margin: 4rem 7rem;
     position: relative;
     background: #fff;
 }
@@ -307,19 +302,19 @@ body {
     display: none;
 }
 
-.sjrk-st-lr-browser {
+.sjrk-st-lr-padding {
     line-height: 1rem;
     font-size: 1rem;
     padding: 2rem 4rem !important;
 }
 
-.sjrk-st-lr-browser h3 {
+.sjrk-st-lr-padding h3 {
     font-weight: bold;
     font-size: 1rem;
     margin-bottom: 1rem;
 }
 
-.sjrk-st-lr-browser h3,
+.sjrk-st-lr-padding h3,
 .sjrk-st-browser-story-container a {
     color: var(--site-blue);
 }
@@ -390,7 +385,6 @@ body {
 }
 
 .sjrk-st-etiquette {
-    background: var(--site-turquoise);
     color: var(--site-blue);
     padding: 1rem 2rem;
     font-size: 1rem;
@@ -450,6 +444,7 @@ body {
         justify-self: auto;
         align-self: auto;
         top: 0;
+        text-align: center;
     }
 
     .sjrk-st-top-menu nav {
@@ -469,13 +464,26 @@ body {
         display: inline-block;
     }
 
-    .sjrk-st-lr-browser {
+    .sjrk-st-lr-padding {
         padding: 0 1rem !important;
+    }
+
+    .sjrk-st-story-editor .sjrk-st-lr-padding,
+    .sjrk-st-story-editor+.sjrk-st-story-viewer .sjrk-st-lr-padding {
+        margin: 0 0.5rem;
     }
 
     .sjrk-st-page-body section {
         margin: 0 0 1rem 0;
         padding: 0 1rem;
+    }
+
+    .sjrk-st-page-body h1 {
+        font-size: 3rem;
+    }
+
+    .sjrk-st-page-body figcaption {
+        display: none;
     }
 
     .sjrk-st-page-header-container, .sjrk-st-etiquette {
@@ -496,18 +504,13 @@ body {
         grid-template-columns: repeat(1, minmax(250px, 1fr));
     }
 
-    .sjrk-st-story-editor {
-        padding: 0.5rem;
-    }
-
-    .sjrk-st-story-editor,
-    .sjrk-st-story-viewer {
-        padding: 0.5rem;
-    }
-
     .sjrk-edit-left-container .sjrk-st-context-link-container {
         margin-top: 2rem;
         margin-bottom: 0;
+    }
+
+    .sjrk-st-menu-story-builder-title {
+        display: none;
     }
 
     .sjrk-st-page-footer-container {
@@ -521,9 +524,10 @@ body {
         border-right: 0;
         padding-right: 0;
         margin-right: 0;
+        padding-bottom: 1rem
+        grid-column: auto;
     }
 
-    .sjrk-st-page-footer-text-container,
     .sjrk-st-page-footer-oak-logo-container,
     .sjrk-st-page-footer-hewlett-logo-container,
     .sjrk-st-page-footer-idrc-logo-container {

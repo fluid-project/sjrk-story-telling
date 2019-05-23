@@ -1,49 +1,42 @@
-<div class="sjrk-st-page-body">
-    <section class="sjrk-st-lr-knockout">
-        <h1>{{localizedMessages.message_browseTitleText}}</h1>
-    </section>
-    <section class="sjrk-st-lr-browser">
-        <div class="sjrk-st-browser-view-control-container sjrkc-st-browser-view-control-container {{dynamicValues.storyBrowseDisplayPreference}}">
-            {{localizedMessages.message_browseViewText}}: <a class="sjrk-st-browser-view-control-list sjrkc-st-browser-view-control-list" href="javascript:void(0);">{{localizedMessages.message_browseListText}}</a>
-            |
-            <a class="sjrk-st-browser-view-control-grid sjrkc-st-browser-view-control-grid" href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
-        </div>
-        <div class="sjrk-st-browser-stories sjrkc-st-browser-stories {{dynamicValues.storyBrowseDisplayPreference}}">
-            {{#each dynamicValues.stories}}
-                <div class="sjrk-st-browser-story-container">
-                    <a class="sjrk-st-browser-story-link" href="storyView.html?id={{@key}}">
-                        <div class="sjrk-st-browser-story-thumbnail-container">
-                            {{#if thumbnailUrl}}
-                                <img class="sjrk-st-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
-                            {{else}}
-                                <img class="sjrk-st-browser-story-thumbnail sjrk-st-browser-story-thumbnail-placeholder" src="{{../dynamicValues.placeholderThumbnailUrl}}" alt="{{../localizedMessages.message_browseListText}}">
-                            {{/if}}
-                        </div>
-                        <div class="sjrk-st-browser-story-details">
-                            <h3 class="sjrk-st-browser-story-title">{{title}}</h3>
-                            <p class="sjrk-st-browser-story-author">
-                                {{#if author}}
-                                    {{#replace ../localizedMessages.message_authorText "%author" author}}{{/replace}}
-                                {{/if}}
-                            </p>
-                            {{#if tags}}
-                                <p class="sjrk-st-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}:
-                                    {{#each tags}}
-                                        {{this}}{{#unless @last}}, {{/unless}}
-                                    {{/each}}
-                                </p>
-                            {{/if}}
-                            {{#if contentTypes}}
-                                <p class="sjrk-st-browser-story-contains">{{../localizedMessages.message_browseContainsText}}:
-                                    {{#each contentTypes}}
-                                        {{lookup ../../localizedMessages.contentTypes this}}{{#unless @last}}, {{/unless}}
-                                    {{/each}}
-                                </p>
-                            {{/if}}
-                        </div>
-                    </a>
+<div class="sjrk-st-browser-view-control-container sjrkc-st-browser-view-control-container {{dynamicValues.storyBrowseDisplayPreference}}">
+    {{localizedMessages.message_browseViewText}}: <a class="sjrk-st-browser-view-control-list sjrkc-st-browser-view-control-list" href="javascript:void(0);">{{localizedMessages.message_browseListText}}</a>
+    |
+    <a class="sjrk-st-browser-view-control-grid sjrkc-st-browser-view-control-grid" href="javascript:void(0);">{{localizedMessages.message_browseGridText}}</a>
+</div>
+<div class="sjrk-st-browser-stories sjrkc-st-browser-stories {{dynamicValues.storyBrowseDisplayPreference}}">
+    {{#each dynamicValues.stories}}
+        <div class="sjrk-st-browser-story-container">
+            <a class="sjrk-st-browser-story-link" href="storyView.html?id={{@key}}">
+                <div class="sjrk-st-browser-story-thumbnail-container">
+                    {{#if thumbnailUrl}}
+                        <img class="sjrk-st-browser-story-thumbnail" src="{{thumbnailUrl}}" alt="{{thumbnailAltText}}">
+                    {{else}}
+                        <img class="sjrk-st-browser-story-thumbnail sjrk-st-browser-story-thumbnail-placeholder" src="{{../dynamicValues.placeholderThumbnailUrl}}" alt="{{../localizedMessages.message_browseListText}}">
+                    {{/if}}
                 </div>
-            {{/each}}
+                <div class="sjrk-st-browser-story-details">
+                    <h2 class="sjrk-st-browser-story-title">{{title}}</h2>
+                    <p class="sjrk-st-browser-story-author">
+                        {{#if author}}
+                            {{#replace ../localizedMessages.message_authorText "%author" author}}{{/replace}}
+                        {{/if}}
+                    </p>
+                    {{#if tags}}
+                        <p class="sjrk-st-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}:
+                            {{#each tags}}
+                                {{this}}{{#unless @last}}, {{/unless}}
+                            {{/each}}
+                        </p>
+                    {{/if}}
+                    {{#if contentTypes}}
+                        <p class="sjrk-st-browser-story-contains">{{../localizedMessages.message_browseContainsText}}:
+                            {{#each contentTypes}}
+                                {{lookup ../../localizedMessages.contentTypes this}}{{#unless @last}}, {{/unless}}
+                            {{/each}}
+                        </p>
+                    {{/if}}
+                </div>
+            </a>
         </div>
-    </section>
+    {{/each}}
 </div>

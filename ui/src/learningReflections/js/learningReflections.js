@@ -25,7 +25,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/src/learningReflections/messages/learningReflectionMessages.json",
                                     templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-menu.handlebars"
                                 }
                             }
@@ -81,7 +80,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyView", {
-        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"]
+        gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyView"],
+        components: {
+            storyViewer: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-storyViewer.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     });
 
     // Applies the Learning Reflections shell to the storyBrowse page
@@ -95,6 +109,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     browserConfig: {
                         placeholderThumbnailUrl: "src/img/icons/Book.svg"
+                    },
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-storyBrowser.handlebars"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -106,6 +129,52 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
         pageSetup: {
             buildLinkUrl: "" // hide the Edit link on the Edit page
+        },
+        components: {
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/templates/menu.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            storyEditor: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-storyEditor.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            storyPreviewer: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                dynamicValues: {
+                                    story: {
+                                        testy: "WHATEVER MAN"
+                                    }
+                                },
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/src/learningReflections/templates/learningReflections-storyViewer.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     });
 
