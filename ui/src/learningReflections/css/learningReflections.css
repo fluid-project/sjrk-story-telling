@@ -8,6 +8,7 @@
     --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
+    --site-medium-grey: #5a5b5e;
     --site-teal: #007d94;
     --site-turquoise: #cbe2e1;
     --site-yellow: #f2d17e;
@@ -362,6 +363,40 @@ body {
     left: -0.85rem;
     width: 10rem;
     height: 8rem;
+}
+
+.sjrk-st-story-editor-no-content {
+    min-height: 20rem;
+    background-color: var(--site-grey);
+    margin: .5rem 0 1rem 0;
+    border: none;
+    padding: 1.5rem;
+}
+
+.sjrk-st-story-editor-content:empty {
+    display: none;
+}
+
+.sjrk-st-story-editor-content + .sjrk-st-story-editor-no-content {
+    display: none;
+}
+
+.sjrk-st-story-editor-content:empty + .sjrk-st-story-editor-no-content {
+    display: grid;
+    grid-template-rows: auto max-content;
+}
+
+.sjrk-st-story-editor-instructions {
+    align-self: center;
+    width: 50%;
+    justify-self: center;
+    text-align: center;
+    color: var(--site-medium-grey);
+}
+
+.sjrk-st-story-editor-notice {
+    align-self: end;
+    color: var(--site-orange);
 }
 
 .sjrk-st-story-editor-previous img,
