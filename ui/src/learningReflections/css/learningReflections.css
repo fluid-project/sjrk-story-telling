@@ -52,7 +52,8 @@ body {
 .sjrk-st-page-header-container {
     padding: 0 2rem 1rem 2rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    grid-column-gap: 5rem;
 }
 
 .sjrk-st-page-header {
@@ -70,13 +71,14 @@ body {
 }
 
 .sjrk-st-top-menu {
-    display: block;
-    /* display: grid; */
-    /* grid-template-columns: auto auto; */
+    display: flex;
     justify-self: right;
     align-self: end;
+    align-items: center;
     position: relative;
-    top: 0.75rem;
+    flex-wrap: wrap;
+    top: 1.75rem;
+    justify-content: flex-end;
 }
 
 .sjrk-st-top-menu nav {
