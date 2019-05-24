@@ -14,10 +14,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections", {
         gradeNames: ["sjrk.storyTelling.page"],
-        pageSetup: {
-            browseLinkUrl: "storyBrowse.html",
-            buildLinkUrl: "storyEdit.html"
-        },
         components: {
             menu: {
                 options: {
@@ -101,9 +97,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyBrowse"],
-        pageSetup: {
-            browseLinkUrl: "" // hide the Browse link on the Browse page
-        },
         components: {
             storyBrowser: {
                 options: {
@@ -127,9 +120,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the Learning Reflections shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.learningReflections.storyEdit", {
         gradeNames: ["sjrk.storyTelling.learningReflections", "sjrk.storyTelling.page.storyEdit"],
-        pageSetup: {
-            buildLinkUrl: "" // hide the Edit link on the Edit page
-        },
         components: {
             menu: {
                 options: {

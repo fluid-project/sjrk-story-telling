@@ -8,7 +8,7 @@
     --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
-    --site-medium-grey: #5a5b5e;
+    --site-dark-grey-2: #5a5b5e;
     --site-teal: #007d94;
     --site-turquoise: #cbe2e1;
     --site-yellow: #f2d17e;
@@ -393,7 +393,7 @@ body {
     width: 50%;
     justify-self: center;
     text-align: center;
-    color: var(--site-medium-grey);
+    color: var(--site-dark-grey-2);
 }
 
 .sjrk-st-story-editor-notice {
