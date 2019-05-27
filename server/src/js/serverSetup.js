@@ -24,7 +24,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     uploadedFilesHandlerPath: "/uploads",
                     deletedFilesRecoveryPath: "/deleted_uploads",
                     secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)",
-                    savingEnabled: true
+                    savingEnabled: false
                 },
                 port: 8081,
                 components: {
@@ -125,7 +125,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         options: {
                             "root": "./ui",
                             middlewareOptions: {
-                                index: "storyEdit.html"
+                                index: "introduction.html"
                             }
                         }
                     }
