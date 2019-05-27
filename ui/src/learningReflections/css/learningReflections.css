@@ -454,12 +454,12 @@ body {
 
 .sjrk-st-page-footer-container {
     padding: 2.5rem 2rem;
-    display: grid;
-    grid-template-columns: 4fr auto auto auto;
-    grid-gap: 1.5rem;
-    align-items: center;
     background: var(--site-light-blue);
     color: var(--site-blue);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
 .sjrk-st-page-footer-container a {
@@ -470,23 +470,31 @@ body {
     border-right: 1px solid var(--site-blue);
     padding-right: 2rem;
     margin-right: 2rem;
+    flex: 1 40%;
 }
 
-.sjrk-st-page-footer-oak-logo-container,
-.sjrk-st-page-footer-hewlett-logo-container,
-.sjrk-st-page-footer-idrc-logo-container {
-    align-self: end;
+.sjrk-st-page-footer-logo-container {
+    align-self: flex-end;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-top: 1.5rem;
 }
 
-.sjrk-st-page-footer-oak-logo-container img {
+.sjrk-st-page-footer-oak-logo img {
     width: 6rem;
 }
 
-.sjrk-st-page-footer-hewlett-logo-container img {
-    width: 15rem;
+.sjrk-st-page-footer-hewlett-logo {
+    margin: 0 1.5rem;
 }
 
-.sjrk-st-page-footer-idrc-logo-container img {
+.sjrk-st-page-footer-hewlett-logo img {
+    width: 15rem;
+    margin: 0 1.5rem;
+}
+
+.sjrk-st-page-footer-idrc-logo img {
     width: 12rem;
 }
 
@@ -497,6 +505,7 @@ body {
         align-self: auto;
         top: 0;
         text-align: center;
+        width: 100%;
     }
 
     .sjrk-st-top-menu nav {
@@ -573,25 +582,30 @@ body {
     }
 
     .sjrk-st-page-footer-text-container {
+        flex-basis: auto;
         border-right: 0;
         padding-right: 0;
         margin-right: 0;
-        padding-bottom: 1rem
-        grid-column: auto;
+        padding-bottom: 1rem;
+        max-height: none;
     }
 
-    .sjrk-st-page-footer-oak-logo-container,
-    .sjrk-st-page-footer-hewlett-logo-container,
-    .sjrk-st-page-footer-idrc-logo-container {
-        grid-column: auto;
+    .sjrk-st-page-footer-logo-container {
+        margin-top: 0;
+        display: block;
+    }
+
+    .sjrk-st-page-footer-oak-logo,
+    .sjrk-st-page-footer-hewlett-logo,
+    .sjrk-st-page-footer-idrc-logo {
+        display: block;
         text-align: center;
         padding-bottom: 1rem
     }
 
-    .sjrk-st-page-footer-text-container img,
-    .sjrk-st-page-footer-oak-logo-container img,
-    .sjrk-st-page-footer-hewlett-logo-container img,
-    .sjrk-st-page-footer-idrc-logo-container img {
+    .sjrk-st-page-footer-oak-logo img,
+    .sjrk-st-page-footer-hewlett-logo img,
+    .sjrk-st-page-footer-idrc-logo img {
         max-width: 100%;
     }
 }
