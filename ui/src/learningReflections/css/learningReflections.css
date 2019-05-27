@@ -51,9 +51,9 @@ body {
 
 .sjrk-st-page-header-container {
     padding: 0 2rem 1rem 2rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
-    grid-column-gap: 5rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .sjrk-st-page-header {
@@ -70,10 +70,18 @@ body {
     text-decoration: none;
 }
 
+/* fixes UIO contrast theme related background issues */
+:not(.fl-theme-default) .sjrk-st-page-header-main-title,
+:not(.fl-theme-default) .sjrk-st-top-menu nav a,
+:not(.fl-theme-default) .sjrk-st-toc-container a
+{
+    background: none !important;
+}
+
 .sjrk-st-top-menu {
     display: flex;
-    justify-self: right;
-    align-self: end;
+    justify-self: flex-end;
+    align-self: flex-end;
     align-items: center;
     position: relative;
     flex-wrap: wrap;
