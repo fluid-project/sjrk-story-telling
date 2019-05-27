@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         pageSetup: {
             resourcePrefix: "",
-            savingEnabled: false // should match the setting in sjrk.storyTelling.server.server.globalConfig
+            savingEnabled: true // should match the setting in sjrk.storyTelling.server.server.globalConfig
         },
         distributeOptions: [
             {
