@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -68,6 +68,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
+        /*
+         * For a block of a given type, a block is considered empty unless any
+         * one of the values listed in the corresponding array is truthy
+         */
+        blockContentValues: {
+            "text": ["heading", "text", "simplifiedText"],
+            "image": ["imageUrl"],
+            "audio": ["mediaUrl"],
+            "video": ["mediaUrl"]
+        },
+        modelRelay: {
+            editorStoryToPreviewer: {
+                target: "{storyPreviewer}.story.model",
+                singleTransform: {
+                    type: "fluid.transforms.free",
+                    func: "sjrk.storyTelling.page.storyEdit.removeEmptyBlocks",
+                    args: ["{storyEditor}.story.model", "{that}.options.blockContentValues"]
+                }
+            }
+        },
         components: {
             storySpeaker: {
                 options: {
@@ -76,7 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         singleTransform: {
                             type: "fluid.transforms.stringTemplate",
                             template: "{storyEditor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                            terms: "{storyEditor}.story.model"
+                            terms: "{storyPreviewer}.story.model"
                         }
                     }
                 }
@@ -187,11 +207,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     components: {
-                        story: {
-                            options: {
-                                model: "{storyEditor}.story.model"
-                            }
-                        },
                         templateManager: {
                             options: {
                                 model: {
@@ -206,6 +221,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    /* Removes all empty blocks from a given array of story blocks
+     * - "blocks": an array of story blocks
+     * - "blockContentValues": a collection of arrays which outline the values
+     *      that, if at least one is truthy, means a particular block is not empty
+     */
+    sjrk.storyTelling.page.storyEdit.removeEmptyBlocks = function (storyModel, blockContentValues) {
+        storyModel.content = fluid.remove_if(storyModel.content, function (block) {
+            return sjrk.storyTelling.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType]);
+        });
+
+        return storyModel;
+    };
+
+    /* Returns true if a block is determined to be empty, based on the values
+     * listed in blockContentValues. If at least one of those values is truthy,
+     * the block is not empty.
+     * - "block": a story block
+     * - "blockContentValues": an array of the values as described above
+     */
+    sjrk.storyTelling.page.storyEdit.isEmptyBlock = function (block, blockContentValues) {
+        return !fluid.find_if(blockContentValues, function (blockContentValues) {
+            return !!block[blockContentValues];
+        });
+    };
 
     sjrk.storyTelling.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
         $(mainContainer).prop("hidden", !savingEnabled);

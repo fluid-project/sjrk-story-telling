@@ -13,8 +13,6 @@
 
 <script src="/node_modules/handlebars/dist/handlebars.js"></script>
 <script src="/node_modules/markdown-it/dist/markdown-it.js"></script>
-<script src="/node_modules/gpii-binder/src/js/binder.js"></script>
-<script src="/node_modules/gpii-binder/src/js/transforms.js"></script>
 <script src="/node_modules/gpii-handlebars/src/js/common/equals.js"></script>
 <script src="/node_modules/gpii-handlebars/src/js/common/helper.js"></script>
 <script src="/node_modules/gpii-handlebars/src/js/common/jsonify.js"></script>
@@ -29,29 +27,10 @@
 <script src="/node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
 <script src="/node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-<script src="src/js/dynamicViewComponentManager.js"></script>
-<script src="src/js/storyTelling-binder.js"></script>
-<script src="src/js/storyTelling-block.js"></script>
-<script src="src/js/storyTelling-block-audio.js"></script>
-<script src="src/js/storyTelling-block-image.js"></script>
-<script src="src/js/storyTelling-block-text.js"></script>
-<script src="src/js/storyTelling-block-video.js"></script>
-<script src="src/js/storyTelling-block-timeBased.js"></script>
-<script src="src/js/storyTelling-blockUi.js"></script>
-<script src="src/js/storyTelling-blockUi-audioBlockViewer.js"></script>
-<script src="src/js/storyTelling-blockUi-imageBlockViewer.js"></script>
-<script src="src/js/storyTelling-blockUi-textBlockViewer.js"></script>
-<script src="src/js/storyTelling-blockUi-videoBlockViewer.js"></script>
-<script src="src/js/storyTelling-blockUi-timeBased.js"></script>
-<script src="src/js/storyTelling-page-storyView.js"></script>
 <script src="src/js/storyTelling-page.js"></script>
-<script src="src/js/storyTelling-story.js"></script>
 <script src="src/js/storyTelling-templateManager.js"></script>
 <script src="src/js/storyTelling-ui.js"></script>
 <script src="src/js/storyTelling-ui-menu.js"></script>
-<script src="src/js/storyTelling-ui-storyViewer.js"></script>
-<script src="src/js/storyTelling-uploader.js"></script>
-<script src="src/js/transforms.js"></script>
 <script src="src/js/UIOMultilingualDemo.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
@@ -107,7 +86,7 @@
 <main class="sjrk-st-page-content-container">
     <div class="sjrk-main-container">
         <div class="sjrk-st-menu sjrkc-st-menu"></div>
-        <div class="sjrk-st-story-viewer sjrkc-st-story-viewer"></div>
+        <div class="sjrk-st-introduction sjrkc-st-introduction"></div>
     </div>
 </main>
 
@@ -116,8 +95,8 @@
 <script>
     $(document).ready(function () {
         var theme = "learningReflections";
-        sjrk.storyTelling.loadThemedPage("view", theme, function (theme) {
-            sjrk.storyTelling.loadStoryFromParameter(theme);
+        sjrk.storyTelling.loadThemedPage("introduction", theme, function (theme) {
+            sjrk.storyTelling[theme].introduction({});
         });
     });
 </script>

@@ -1,7 +1,7 @@
 {
   "name": "sjrk-story-telling",
   "version": "0.2.0",
-  "description": "The StoryTelling Project with Kettle-based server and CouchDB interface",
+  "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
