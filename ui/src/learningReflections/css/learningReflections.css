@@ -248,7 +248,14 @@ body {
 }
 
 .sjrk-st-browser-story-thumbnail-placeholder {
-    object-fit: contain;
+    background: #ffffff url("../../img/icons/Book.svg") no-repeat;
+    background-position: 0.75rem .5rem;
+    background-size: calc(100% - 1.5rem) calc(100% - 1rem);
+}
+
+.sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-placeholder {
+    width: auto;
+    height: 15.75rem;
 }
 
 .sjrk-st-story-editor .sjrk-st-lr-padding,
@@ -481,21 +488,27 @@ body {
     margin-top: 1.5rem;
 }
 
-.sjrk-st-page-footer-oak-logo img {
+.sjrk-st-page-footer-oak-logo,
+.sjrk-st-page-footer-hewlett-logo,
+.sjrk-st-page-footer-idrc-logo {
+    margin: 0 1.5rem;
+    display: block;
+    height: 3.25rem;
+}
+
+.sjrk-st-page-footer-oak-logo {
     width: 6rem;
+    background: url(../../img/logo_oak.svg) no-repeat;
 }
 
 .sjrk-st-page-footer-hewlett-logo {
-    margin: 0 1.5rem;
-}
-
-.sjrk-st-page-footer-hewlett-logo img {
     width: 15rem;
-    margin: 0 1.5rem;
+    background: url(../../img/logo_hewlett.svg) no-repeat;
 }
 
-.sjrk-st-page-footer-idrc-logo img {
+.sjrk-st-page-footer-idrc-logo {
     width: 12rem;
+    background: url(../../img/logo_idrc.svg) no-repeat;
 }
 
 @media only screen and (max-width: 50em) {
@@ -551,14 +564,17 @@ body {
         padding: 1rem;
     }
 
-    .sjrk-st-page-header,
-    .sjrk-st-page-header-heart-book-container {
+    .sjrk-st-page-header {
         font-size: 1.5rem;
     }
 
-    .sjrk-st-page-header-heart-book {
-        height: 4rem;
-        width: 4rem;
+    .sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-placeholder {
+        height: 100%;
+    }
+
+    .sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-container {
+        margin: .5rem;
+        height: 6rem;
     }
 
     .sjrk-st-page-content-container {
@@ -600,12 +616,8 @@ body {
     .sjrk-st-page-footer-idrc-logo {
         display: block;
         text-align: center;
-        padding-bottom: 1rem
-    }
-
-    .sjrk-st-page-footer-oak-logo img,
-    .sjrk-st-page-footer-hewlett-logo img,
-    .sjrk-st-page-footer-idrc-logo img {
+        padding-bottom: 1rem;
+        margin: 0 auto;
         max-width: 100%;
     }
 }
