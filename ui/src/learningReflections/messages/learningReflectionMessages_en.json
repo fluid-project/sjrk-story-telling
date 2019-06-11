@@ -51,5 +51,8 @@
     "link_browse_text": "Browse Stories",
     "link_edit_text": "Explore tool",
     "footer_text1": "The Storytelling Project is led by the [Inclusive Design Research Centre](https://idrc.ocadu.ca/) at OCAD University with an open community of contributors. Supported by the [William and Flora Hewlett Foundation](https://www.hewlett.org/) and the [Oak Foundation](http://www.oakfnd.org/).",
-    "footer_text2": "Stories on this site are distributed under the [CC BY 4.0 licence](https://creativecommons.org/licenses/by/4.0/). Please email us at [stories@idrc.ocadu.ca](mailto:stories@idrc.ocadu.ca) if you wish to remove your story from this website."
+    "footer_text2": "Stories on this site are distributed under the [CC BY 4.0 licence](https://creativecommons.org/licenses/by/4.0/). Please email us at [stories@idrc.ocadu.ca](mailto:stories@idrc.ocadu.ca) if you wish to remove your story from this website.",
+    "footer_logo_oak_alt_text": "Oak Foundation Website",
+    "footer_logo_hewlett_alt_text": "William and Flora Hewlett Foundation Website",
+    "footer_logo_idrc_alt_text": "Inclusive Design Research Centre Website"
 }

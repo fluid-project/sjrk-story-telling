@@ -14,6 +14,12 @@
     --site-yellow: #f2d17e;
     --site-font: "Work Sans";
     --site-serif-font: "Vollkorn";
+    --uio-yellow: #ffff00;
+    --uio-black: #000000;
+    --uio-white: #ffffff;
+    --uio-grey-light: #bdbdbb;
+    --uio-grey: #888888;
+    --uio-grey-dark: #6c6c6c;
 }
 
 body {
@@ -229,9 +235,11 @@ body {
 }
 
 .sjrk-st-intro-caret {
-    width: 4rem;
+    width: 4.3rem;
+    height: 2.4rem;
     display: block;
     margin-bottom: 5rem;
+    background: url("../img/icons/caret.svg") no-repeat;
 }
 
 .sjrk-st-intro-share {
@@ -248,7 +256,14 @@ body {
 }
 
 .sjrk-st-browser-story-thumbnail-placeholder {
-    object-fit: contain;
+    background: #ffffff url("../../img/icons/Book.svg") no-repeat;
+    background-position: 0.75rem .5rem;
+    background-size: calc(100% - 1.5rem) calc(100% - 1rem);
+}
+
+.sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-placeholder {
+    width: auto;
+    height: 15.75rem;
 }
 
 .sjrk-st-story-editor .sjrk-st-lr-padding,
@@ -481,21 +496,27 @@ body {
     margin-top: 1.5rem;
 }
 
-.sjrk-st-page-footer-oak-logo img {
+.sjrk-st-page-footer-oak-logo,
+.sjrk-st-page-footer-hewlett-logo,
+.sjrk-st-page-footer-idrc-logo {
+    margin: 0 1.5rem;
+    display: block;
+    height: 3.25rem;
+}
+
+.sjrk-st-page-footer-oak-logo {
     width: 6rem;
+    background: url(../../img/logo_oak.svg) no-repeat;
 }
 
 .sjrk-st-page-footer-hewlett-logo {
-    margin: 0 1.5rem;
-}
-
-.sjrk-st-page-footer-hewlett-logo img {
     width: 15rem;
-    margin: 0 1.5rem;
+    background: url(../../img/logo_hewlett.svg) no-repeat;
 }
 
-.sjrk-st-page-footer-idrc-logo img {
+.sjrk-st-page-footer-idrc-logo {
     width: 12rem;
+    background: url(../../img/logo_idrc.svg) no-repeat;
 }
 
 @media only screen and (max-width: 50em) {
@@ -551,14 +572,17 @@ body {
         padding: 1rem;
     }
 
-    .sjrk-st-page-header,
-    .sjrk-st-page-header-heart-book-container {
+    .sjrk-st-page-header {
         font-size: 1.5rem;
     }
 
-    .sjrk-st-page-header-heart-book {
-        height: 4rem;
-        width: 4rem;
+    .sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-placeholder {
+        height: 100%;
+    }
+
+    .sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-container {
+        margin: .5rem;
+        height: 6rem;
     }
 
     .sjrk-st-page-content-container {
@@ -600,12 +624,54 @@ body {
     .sjrk-st-page-footer-idrc-logo {
         display: block;
         text-align: center;
-        padding-bottom: 1rem
-    }
-
-    .sjrk-st-page-footer-oak-logo img,
-    .sjrk-st-page-footer-hewlett-logo img,
-    .sjrk-st-page-footer-idrc-logo img {
+        padding-bottom: 1rem;
+        margin: 0 auto;
         max-width: 100%;
     }
 }
+
+/* ********* UIO rules ********* */
+.fl-theme-bw .sjrk-st-intro-caret { background-image: url("../img/icons/caret_black.svg"); }
+.fl-theme-wb .sjrk-st-intro-caret { background-image: url("../img/icons/caret_white.svg"); }
+.fl-theme-by .sjrk-st-intro-caret { background-image: url("../img/icons/caret_black.svg"); }
+.fl-theme-yb .sjrk-st-intro-caret { background-image: url("../img/icons/caret_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-intro-caret { background-image: url("../img/icons/caret_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-intro-caret { background-image: url("../img/icons/caret_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-intro-caret { background-image: url("../img/icons/caret_grey.svg"); }
+.fl-theme-bbr .sjrk-st-intro-caret { background-image: url("../img/icons/caret_black.svg"); }
+
+.fl-theme-bw .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_black.svg"); }
+.fl-theme-wb .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_white.svg"); }
+.fl-theme-by .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_black.svg"); }
+.fl-theme-yb .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_grey.svg"); }
+.fl-theme-bbr .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_black.svg"); }
+
+.fl-theme-bw .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_black.svg"); }
+.fl-theme-wb .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_white.svg"); }
+.fl-theme-by .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_black.svg"); }
+.fl-theme-yb .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_grey.svg"); }
+.fl-theme-bbr .sjrk-st-page-footer-oak-logo { background-image: url("../../img/logo_oak_black.svg"); }
+
+.fl-theme-bw .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_black.svg"); }
+.fl-theme-wb .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_white.svg"); }
+.fl-theme-by .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_black.svg"); }
+.fl-theme-yb .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_grey.svg"); }
+.fl-theme-bbr .sjrk-st-page-footer-idrc-logo { background-image: url("../../img/logo_idrc_black.svg"); }
+
+.fl-theme-bw .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_black.svg"); }
+.fl-theme-wb .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_white.svg"); }
+.fl-theme-by .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_black.svg"); }
+.fl-theme-yb .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_grey.svg"); }
+.fl-theme-bbr .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_black.svg"); }
