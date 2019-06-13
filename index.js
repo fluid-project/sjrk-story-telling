@@ -8,7 +8,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 "use strict";
 
 var fluid = require("infusion");
-require("kettle");
+var kettle = require("kettle");
 require("./src/server/staticHandlerBase");
 require("./src/server/middleware/basicAuth");
 require("./src/server/middleware/saveStoryWithBinaries");
@@ -17,6 +17,9 @@ require("./src/server/dataSource");
 require("./src/server/serverSetup");
 require("./src/server/requestHandlers");
 
-var sjrk = fluid.registerNamespace("sjrk");
+fluid.registerNamespace("sjrk");
 
-sjrk.storyTelling.server();
+kettle.config.loadConfig({
+    configName: "sjrk.storyTelling.server.config",
+    configPath: "."
+});

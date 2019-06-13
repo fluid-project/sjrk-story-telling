@@ -1,0 +1,20 @@
+{
+    "type": "sjrk.storyTelling.server.config",
+    "options": {
+        "gradeNames": ["sjrk.storyTelling.server"],
+        "components": {
+            "server": {
+                "options": {
+                    "globalConfig": {
+                        "port": "8081",
+                        "theme": "learningReflections",
+						"binaryUploadDirectory": "./uploads",
+						"uploadedFilesHandlerPath": "/uploads",
+						"deletedFilesRecoveryPath": "/deleted_uploads",
+                        "savingEnabled": true
+                    }
+                }
+            }
+        }
+    }
+}

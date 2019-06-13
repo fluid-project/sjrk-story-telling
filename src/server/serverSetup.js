@@ -17,16 +17,20 @@ fluid.defaults("sjrk.storyTelling.server", {
         server: {
             type: "kettle.server",
             options: {
-                // All globally configured elements go here
-                // and are passed to the relevant components
                 globalConfig: {
-                    binaryUploadDirectory: "./uploads",
-                    uploadedFilesHandlerPath: "/uploads",
-                    deletedFilesRecoveryPath: "/deleted_uploads",
-                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)",
-                    savingEnabled: true
+                    // Config values, except the secrets file, are stored in the
+                    // external config file sjrk.storyTelling.server.themed.json5
+                    // and are merged in on server startup
+                    // ip: "",
+                    // port: "",
+                    // theme: "",
+                    // binaryUploadDirectory: "",
+                    // uploadedFilesHandlerPath: "",
+                    // deletedFilesRecoveryPath: "",
+                    // savingEnabled: true
+                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
                 },
-                port: 8081,
+                port: "{that}.options.globalConfig.port",
                 components: {
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view",

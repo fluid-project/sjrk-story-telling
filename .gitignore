@@ -8,5 +8,5 @@ deleted_uploads/*
 !deleted_uploads/.gitkeep
 secrets.json
 couchdb
-serverConfig.json*
-!serverConfig.json*.example
+sjrk.storyTelling.server.config.json*
+!sjrk.storyTelling.server.config.json*.example
