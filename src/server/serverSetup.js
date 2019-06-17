@@ -127,16 +127,31 @@ fluid.defaults("sjrk.storyTelling.server", {
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./src/ui",
+                            "root": "./src/ui"
+                        }
+                    },
+                    // the default theme and base pages for the site
+                    baseTheme: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            root: "./themes/base"
+                        }
+                    },
+                    // the "Storytelling Project" theme for the site
+                    learningReflections: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            root: "./themes/learningReflections",
                             middlewareOptions: {
                                 index: "introduction.html"
                             }
                         }
                     },
-                    baseTheme: {
+                    // the Karisma "El planeta es la escuela" theme for the site
+                    karisma: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "./themes/base"
+                            root: "./themes/karisma"
                         }
                     }
                 }
@@ -168,6 +183,23 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/admin/deleteStory/:id",
             "method": "get"
         },
+        testDataHandler: {
+            type: "sjrk.storyTelling.server.testDataHandler",
+            "route": "/*",
+            "prefix": "/testData",
+            "method": "get"
+        },
+        uiHandler: {
+            type: "sjrk.storyTelling.server.uiHandler",
+            "route": "/*",
+            "prefix": "/ui",
+            "method": "get"
+        },
+        themeHandler: {
+            type: "sjrk.storyTelling.server.themeHandler",
+            "route": "/*",
+            "method": "get"
+        },
         nodeModulesHandler: {
             type: "sjrk.storyTelling.server.nodeModulesHandler",
             "route": "/*",
@@ -184,23 +216,6 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.testsHandler",
             "route": "/*",
             "prefix": "/tests",
-            "method": "get"
-        },
-        testDataHandler: {
-            type: "sjrk.storyTelling.server.testDataHandler",
-            "route": "/*",
-            "prefix": "/testData",
-            "method": "get"
-        },
-        uiHandler: {
-            type: "sjrk.storyTelling.server.uiHandler",
-            "route": "/*",
-            "prefix": "/ui",
-            "method": "get"
-        },
-        baseThemeHandler: {
-            type: "sjrk.storyTelling.server.baseThemeHandler",
-            "route": "/*",
             "method": "get"
         }
     }

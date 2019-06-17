@@ -365,11 +365,17 @@ fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     }
 });
 
-fluid.defaults("sjrk.storyTelling.server.baseThemeHandler", {
+fluid.defaults("sjrk.storyTelling.server.themeHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {
-        "static": {
+        "baseTheme": {
             middleware: "{server}.baseTheme"
+        },
+        "learningReflections": {
+            middleware: "{server}.learningReflections"
+        },
+        "karisma": {
+            middleware: "{server}.karisma"
         }
     }
 });
