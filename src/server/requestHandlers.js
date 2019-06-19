@@ -372,10 +372,12 @@ fluid.defaults("sjrk.storyTelling.server.themeHandler", {
             middleware: "{server}.baseTheme"
         },
         "learningReflections": {
-            middleware: "{server}.learningReflections"
+            middleware: "{server}.learningReflections",
+            priority: "before:baseTheme"
         },
         "karisma": {
-            middleware: "{server}.karisma"
+            middleware: "{server}.karisma",
+            priority: "before:baseTheme"
         }
     }
 });
