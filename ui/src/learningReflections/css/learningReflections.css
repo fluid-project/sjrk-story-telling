@@ -27,6 +27,10 @@ body {
     padding: 0;
 }
 
+h3:empty {
+    display: none;
+}
+
 .sjrk-prefsEditor-container {
     background-color: #fff;
 }
@@ -203,11 +207,22 @@ body {
     padding: 0 4rem;
 }
 
+.sjrk-st-story-editor-content, .sjrk-st-story-content {
+    line-height: 1.5;
+}
+
 .sjrk-st-page-body section.sjrk-st-lr-2column {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     column-gap: 5rem;
     row-gap: 1rem;
+}
+
+.sjrk-st-introduction .sjrk-st-page-body section:not(.sjrk-st-lr-knockout),
+.sjrk-st-workshops .sjrk-st-page-body section:not(.sjrk-st-lr-knockout),
+.sjrk-st-resources .sjrk-st-page-body section:not(.sjrk-st-lr-knockout) {
+    max-width: 1087px !important;
+    margin: 0 auto 2rem auto !important;
 }
 
 .sjrk-st-page-body section.sjrk-st-lr-2column>*:nth-child(odd) {
@@ -331,6 +346,12 @@ body {
 
 .sjrk-st-menu {
     display: none;
+}
+
+.sjrk-st-story-viewer .sjrk-st-lr-padding,
+.sjrk-st-story-editor .sjrk-st-lr-padding {
+    max-width: 765px;
+    margin: 0 auto 2rem auto !important;
 }
 
 .sjrk-st-lr-padding {
@@ -520,6 +541,11 @@ body {
 }
 
 @media only screen and (max-width: 50em) {
+    .sjrk-st-story-content {
+        padding: 1.5rem;
+        margin: 1.5rem 0 1rem 0;
+    }
+
     .sjrk-st-top-menu {
         display: block;
         justify-self: auto;
