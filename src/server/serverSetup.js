@@ -192,12 +192,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
             "route": "/*",
-            "prefix": "/ui",
-            "method": "get"
-        },
-        themeHandler: {
-            type: "sjrk.storyTelling.server.themeHandler",
-            "route": "/*",
+            "prefix": "/src/ui",
             "method": "get"
         },
         nodeModulesHandler: {
@@ -216,6 +211,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.testsHandler",
             "route": "/*",
             "prefix": "/tests",
+            "method": "get"
+        },
+        themeHandler: {
+            type: "sjrk.storyTelling.server.themeHandler",
+            "route": "/*",
             "method": "get"
         }
     }
