@@ -192,7 +192,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
             "route": "/*",
-            "prefix": "/src/ui",
+            "prefix": "/src",
             "method": "get"
         },
         nodeModulesHandler: {

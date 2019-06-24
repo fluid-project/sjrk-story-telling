@@ -54,8 +54,8 @@ sjrk.storyTelling.loadBrowse = function (theme) {
 };
 
 sjrk.storyTelling.loadThemedPage = function (page, theme, callback) {
-    var cssUrl = fluid.stringTemplate("src/%theme/css/%theme.css", {theme: theme});
-    var scriptUrl = fluid.stringTemplate("src/%theme/js/%theme.js", {theme: theme});
+    var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: theme});
+    var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: theme});
 
     $("<link/>", {
         rel: "stylesheet",
