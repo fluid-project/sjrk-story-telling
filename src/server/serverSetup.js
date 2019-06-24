@@ -134,24 +134,20 @@ fluid.defaults("sjrk.storyTelling.server", {
                     baseTheme: {
                         type: "kettle.middleware.static",
                         options: {
-                            root: "./themes/base"
-                        }
-                    },
-                    // the "Storytelling Project" theme for the site
-                    learningReflections: {
-                        type: "kettle.middleware.static",
-                        options: {
-                            root: "./themes/learningReflections",
+                            root: "./themes/base",
                             middlewareOptions: {
-                                index: "introduction.html"
+                                index: "storyBrowse.html"
                             }
                         }
                     },
-                    // the Karisma "El planeta es la escuela" theme for the site
-                    karisma: {
+                    // the custom theme for the site, loaded in "on top" of base
+                    currentTheme: {
                         type: "kettle.middleware.static",
                         options: {
-                            root: "./themes/karisma"
+                            root: "{server}.options.globalConfig.themeRootDirectory",
+                            middlewareOptions: {
+                                index: "{server}.options.globalConfig.themeIndexFile",
+                            }
                         }
                     }
                 }

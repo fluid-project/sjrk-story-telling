@@ -371,12 +371,8 @@ fluid.defaults("sjrk.storyTelling.server.themeHandler", {
         "baseTheme": {
             middleware: "{server}.baseTheme"
         },
-        "learningReflections": {
-            middleware: "{server}.learningReflections",
-            priority: "before:baseTheme"
-        },
-        "karisma": {
-            middleware: "{server}.karisma",
+        "currentTheme": {
+            middleware: "{server}.currentTheme",
             priority: "before:baseTheme"
         }
     }
