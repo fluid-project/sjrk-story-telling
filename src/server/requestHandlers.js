@@ -338,6 +338,30 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, d
     }
 };
 
+fluid.defaults("sjrk.storyTelling.server.clientConfigHandler", {
+    gradeNames: "kettle.request.http",
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.getClientConfig",
+            args: ["{arguments}.0", "{server}.options.globalConfig"]
+        }
+    }
+});
+
+// Returns a collection of values which are "safe" to share
+// with the client side of the application
+sjrk.storyTelling.server.getClientConfig = function (request, globalConfig) {
+    var clientConfig = {
+        theme: globalConfig.theme,
+        savingEnabled: globalConfig.savingEnabled
+    };
+
+    request.events.onSuccess.fire({
+        message: "Client configuration request successfully received",
+        clientConfig: clientConfig
+    });
+};
+
 fluid.defaults("sjrk.storyTelling.server.testsHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {

@@ -53,17 +53,22 @@ sjrk.storyTelling.loadBrowse = function (theme) {
     });
 };
 
-sjrk.storyTelling.loadThemedPage = function (page, theme, callback) {
-    var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: theme});
-    var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: theme});
+sjrk.storyTelling.loadThemedPage = function (page, callback) {
+    var clientConfigUrl = "/clientConfig";
 
-    $("<link/>", {
-        rel: "stylesheet",
-        type: "text/css",
-        href: cssUrl
-    }).appendTo("head");
+    $.get(clientConfigUrl, function (data) {
+        var clientConfig = data.clientConfig;
+        var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: clientConfig.theme});
+        var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: clientConfig.theme});
 
-    $.getScript(scriptUrl, function () {
-        callback(theme);
+        $("<link/>", {
+            rel: "stylesheet",
+            type: "text/css",
+            href: cssUrl
+        }).appendTo("head");
+
+        $.getScript(scriptUrl, function () {
+            callback(clientConfig.theme);
+        });
     });
 };

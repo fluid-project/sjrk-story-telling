@@ -21,7 +21,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                     // Config values, except the secrets file, are stored in the
                     // external config file sjrk.storyTelling.server.themed.json5
                     // and are merged in on server startup
-                    // ip: "",
                     // port: "",
                     // theme: "",
                     // binaryUploadDirectory: "",
@@ -146,7 +145,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         options: {
                             root: "{server}.options.globalConfig.themeRootDirectory",
                             middlewareOptions: {
-                                index: "{server}.options.globalConfig.themeIndexFile",
+                                index: "{server}.options.globalConfig.themeIndexFile"
                             }
                         }
                     }
@@ -208,6 +207,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/*",
             "prefix": "/tests",
             "method": "get"
+        },
+        clientConfigHandler: {
+            type: "sjrk.storyTelling.server.clientConfigHandler",
+            route: "/clientConfig",
+            method: "get"
         },
         themeHandler: {
             type: "sjrk.storyTelling.server.themeHandler",
