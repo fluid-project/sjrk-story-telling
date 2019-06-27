@@ -127,8 +127,7 @@
 
 <script>
     $(document).ready(function () {
-        var theme = "learningReflections";
-        sjrk.storyTelling.loadThemedPage("edit", theme, function () {
+        sjrk.storyTelling.loadThemedPage("edit", function (theme) {
             sjrk.storyTelling[theme].storyEdit({});
         });
     });
