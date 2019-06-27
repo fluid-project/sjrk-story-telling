@@ -29,8 +29,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-masthead.handlebars"
+                                    messagesPath: "%resourcePrefix/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/templates/karisma-masthead.handlebars"
                                 }
                             }
                         }
@@ -52,7 +52,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyBrowser: {
                 options: {
                     browserConfig: {
-                        placeholderThumbnailUrl: "/themes/karisma/img/logo.png"
+                        placeholderThumbnailUrl: "img/logo.png"
                     }
                 }
             }
@@ -71,8 +71,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-sidebar-left.handlebars"
+                                    messagesPath: "%resourcePrefix/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/templates/karisma-sidebar-left.handlebars"
                                 }
                             }
                         }
@@ -87,8 +87,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-sidebar-right.handlebars"
+                                    messagesPath: "%resourcePrefix/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/templates/karisma-sidebar-right.handlebars"
                                 }
                             }
                         }
@@ -108,7 +108,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-menu.handlebars"
+                                    templatePath: "%resourcePrefix/templates/karisma-menu.handlebars"
                                 }
                             }
                         }
@@ -129,8 +129,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 },
                                 templateConfig: {
-                                    messagesPath: "%resourcePrefix/themes/karisma/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/themes/karisma/templates/karisma-welcome.handlebars"
+                                    messagesPath: "%resourcePrefix/messages/karismaMessages.json",
+                                    templatePath: "%resourcePrefix/templates/karisma-welcome.handlebars"
                                 }
                             }
                         }
