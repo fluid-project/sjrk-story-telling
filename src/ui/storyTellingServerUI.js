@@ -1,5 +1,5 @@
 /*
-Copyright 2017-2018 OCAD University
+Copyright 2017-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 sjrk.storyTelling.getParameterByName = function (name, url) {
     if (!url) { url = window.location.href; }
-    name = name.replace(/[\[\]]/g, "\\$&");
+    if (name) { name = name.replace(/[\[\]]/g, "\\$&"); }
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
     if (!results) { return null; }
