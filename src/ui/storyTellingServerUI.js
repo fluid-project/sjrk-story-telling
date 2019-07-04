@@ -58,17 +58,22 @@ sjrk.storyTelling.loadThemedPage = function (page, callback) {
 
     $.get(clientConfigUrl, function (data) {
         var clientConfig = data.clientConfig;
-        var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: clientConfig.theme});
-        var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: clientConfig.theme});
+        if (clientConfig.theme) {
+            var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: clientConfig.theme});
+            var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: clientConfig.theme});
 
-        $("<link/>", {
-            rel: "stylesheet",
-            type: "text/css",
-            href: cssUrl
-        }).appendTo("head");
+            $("<link/>", {
+                rel: "stylesheet",
+                type: "text/css",
+                href: cssUrl
+            }).appendTo("head");
 
-        $.getScript(scriptUrl, function () {
-            callback(clientConfig.theme);
-        });
+            $.getScript(scriptUrl, function () {
+                callback(clientConfig.theme);
+            });
+        } else {
+            //load the base page when no theme is provided
+            callback("page");
+        }
     });
 };
