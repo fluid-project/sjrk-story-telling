@@ -70,27 +70,29 @@ sjrk.storyTelling.loadBrowse = function (theme) {
  * - "themeOverride": allows overriding of the theme stored in the configuration
  */
 sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
-    var togo = fluid.promise();
-    var getPromise = $.get("/clientConfig");
+    var loadPromise = fluid.promise();
 
     var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
 
-    getPromise.then(function (data) {
+    $.get("/clientConfig").then(function (data) {
         var theme = themeOverride ? themeOverride : data.clientConfig ? data.clientConfig.theme : "base";
 
         if (theme && theme !== "base") {
-            sjrk.storyTelling.loadCustomThemeFiles(theme, callbackFunction);
+            return sjrk.storyTelling.loadCustomThemeFiles(theme, callbackFunction).then(function () {
+                loadPromise.resolve(theme);
+            }, function (error) {
+                loadPromise.reject(error);
+            });
         } else {
             callbackFunction("page");
+            loadPromise.resolve(theme);
         }
-
-        togo.resolve(theme);
     }, function () {
         callbackFunction("page");
-        togo.reject();
+        loadPromise.reject();
     });
 
-    return togo;
+    return loadPromise;
 };
 
 /* Loads CSS and JavaScript files for the provided theme into the page markup.
@@ -99,8 +101,10 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
  * - "callback": a function to call once everything has completed
  */
 sjrk.storyTelling.loadCustomThemeFiles = function (theme, callback) {
-    var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: theme});
-    var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: theme});
+    var loadPromise = fluid.promise();
+
+    var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: theme});
+    var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: theme});
 
     $("<link/>", {
         rel: "stylesheet",
@@ -111,6 +115,11 @@ sjrk.storyTelling.loadCustomThemeFiles = function (theme, callback) {
     $.getScript(scriptUrl, function () {
         if (typeof callback === "function") {
             callback(theme);
+            loadPromise.resolve(theme);
         }
+    }).fail(function (error) {
+        loadPromise.reject(error);
     });
+
+    return loadPromise;
 };

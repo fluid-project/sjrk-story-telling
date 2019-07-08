@@ -59,12 +59,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         fluid.each(testCases, function (testCase, index) {
             if (index === 4) {
-                // URL altered without pageload via code from StackOverflow
-                // https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
-                if (history.pushState) {
-                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?testParameterFromUrl=testValue&emptyTestParameterFromUrl=";
-                    window.history.pushState({ path:newurl }, "", newurl);
-                }
+                sjrk.storyTelling.storyTellingServerUiTester.setQueryString("testParameterFromUrl=testValue&emptyTestParameterFromUrl=");
             }
 
             var actualResult = sjrk.storyTelling.getParameterByName(testCase.parameter, testCase.url);
@@ -85,13 +80,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 2,
+                expect: 6,
                 sequence: [{
                     // call the load themed page function, forcing the base theme
                     task: "sjrk.storyTelling.loadThemedPage",
                     args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", "base"],
                     resolve: "jqUnit.assertEquals",
-                    resolveArgs: ["The themed page load resolved as expected", "{arguments}.0", "base"]
+                    resolveArgs: ["The themed page load resolved as expected", "base", "{arguments}.0"]
+                },{
+                    // call the load themed page function, forcing the Learning Reflections theme
+                    task: "sjrk.storyTelling.loadThemedPage",
+                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", "learningReflections"],
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
+                },{
+                    // call the load themed page function, forcing a falsy theme
+                    task: "sjrk.storyTelling.loadThemedPage",
+                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", null],
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
                 }]
             }]
         }]
@@ -100,6 +107,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction = function (value) {
         if (value) {
             jqUnit.assert("Callback was successfully called with value: " + value);
+        }
+    };
+
+    // Alters URL without pageload, via code from StackOverflow
+    // https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
+    sjrk.storyTelling.storyTellingServerUiTester.setQueryString = function (queryString) {
+        if (history.pushState) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + queryString;
+            window.history.pushState({ path:newurl }, "", newurl);
         }
     };
 
