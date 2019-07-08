@@ -80,7 +80,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 6,
+                expect: 7,
                 sequence: [{
                     // call the load themed page function, forcing the base theme
                     task: "sjrk.storyTelling.loadThemedPage",
@@ -99,6 +99,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", null],
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
+                },{
+                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
+                    args: ["learningReflections.css"]
                 }]
             }]
         }]
@@ -108,6 +111,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         if (value) {
             jqUnit.assert("Callback was successfully called with value: " + value);
         }
+    };
+
+    sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedThemeUrl) {
+        var cssFilesLinked = fluid.transform(fluid.getMembers($("link"), "href"), function (fileUrl) {
+            return fileUrl.split("/css/")[1];
+        });
+
+        jqUnit.assertTrue("Linked CSS files include the expected custom theme file", fluid.contains(cssFilesLinked, expectedThemeUrl));
     };
 
     // Alters URL without pageload, via code from StackOverflow
