@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.expect(testCases.length);
 
         fluid.each(testCases, function (testCase, index) {
-            if (index === 6) {
+            if (index === 4) {
                 // URL altered without pageload via code from StackOverflow
                 // https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
                 if (history.pushState) {
