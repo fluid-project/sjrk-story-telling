@@ -53,27 +53,46 @@ sjrk.storyTelling.loadBrowse = function (theme) {
     });
 };
 
-sjrk.storyTelling.loadThemedPage = function (page, callback) {
-    var clientConfigUrl = "/clientConfig";
+// Load custom theme files iff one of either the override or client
+// config theme are specified AND it is not set to the base theme
+// otherwise load the base page
+sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
+    var togo = fluid.promise();
+    var getPromise = $.get("/clientConfig");
 
-    $.get(clientConfigUrl, function (data) {
-        var clientConfig = data.clientConfig;
-        if (clientConfig.theme) {
-            var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: clientConfig.theme});
-            var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: clientConfig.theme});
+    var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
 
-            $("<link/>", {
-                rel: "stylesheet",
-                type: "text/css",
-                href: cssUrl
-            }).appendTo("head");
+    getPromise.then(function (data) {
+        var theme = themeOverride ? themeOverride : data.clientConfig ? data.clientConfig.theme : "base";
 
-            $.getScript(scriptUrl, function () {
-                callback(clientConfig.theme);
-            });
+        if (theme && theme !== "base") {
+            sjrk.storyTelling.loadCustomThemeFiles(theme, callbackFunction);
         } else {
-            //load the base page when no theme is provided
-            callback("page");
+            callbackFunction("page");
+        }
+
+        togo.resolve(theme);
+    }, function () {
+        callbackFunction("page");
+        togo.reject();
+    });
+
+    return togo;
+};
+
+sjrk.storyTelling.loadCustomThemeFiles = function (theme, callback) {
+    var cssUrl = fluid.stringTemplate("css/%theme.css", {theme: theme});
+    var scriptUrl = fluid.stringTemplate("js/%theme.js", {theme: theme});
+
+    $("<link/>", {
+        rel: "stylesheet",
+        type: "text/css",
+        href: cssUrl
+    }).appendTo("head");
+
+    $.getScript(scriptUrl, function () {
+        if (typeof callback === "function") {
+            callback(theme);
         }
     });
 };
