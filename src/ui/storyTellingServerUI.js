@@ -78,7 +78,7 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
         var theme = themeOverride ? themeOverride : data.clientConfig ? data.clientConfig.theme : "base";
 
         if (theme && theme !== "base") {
-            return sjrk.storyTelling.loadCustomThemeFiles(theme, callbackFunction).then(function () {
+            return sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, theme).then(function () {
                 loadPromise.resolve(theme);
             }, function (error) {
                 loadPromise.reject(error);
@@ -100,7 +100,7 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
  * - "theme": the theme of the story Browse page (pass "page" in for base theme)
  * - "callback": a function to call once everything has completed
  */
-sjrk.storyTelling.loadCustomThemeFiles = function (theme, callback) {
+sjrk.storyTelling.loadCustomThemeFiles = function (callback, theme) {
     var loadPromise = fluid.promise();
 
     var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: theme});

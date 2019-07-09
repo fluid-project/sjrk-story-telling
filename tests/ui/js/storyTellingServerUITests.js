@@ -80,7 +80,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 7,
+                expect: 8,
                 sequence: [{
                     // call the load themed page function, forcing the base theme
                     task: "sjrk.storyTelling.loadThemedPage",
@@ -101,7 +101,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
-                    args: ["learningReflections.css"]
+                    args: ["learningReflections.css", 2]
+                },{
+                    // test the CSS/JS injection function directly
+                    funcName: "sjrk.storyTelling.loadCustomThemeFiles",
+                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", "learningReflections"]
+                },{
+                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
+                    args: ["learningReflections.css", 3]
                 }]
             }]
         }]
@@ -113,12 +120,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedThemeUrl) {
+    sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedFileName, expectedInstanceCount) {
         var cssFilesLinked = fluid.transform(fluid.getMembers($("link"), "href"), function (fileUrl) {
             return fileUrl.split("/css/")[1];
         });
 
-        jqUnit.assertTrue("Linked CSS files include the expected custom theme file", fluid.contains(cssFilesLinked, expectedThemeUrl));
+        var actualInstanceCount = 0;
+
+        fluid.each(cssFilesLinked, function (fileName) {
+            if (fileName === expectedFileName) {
+                actualInstanceCount++;
+            }
+        });
+
+        jqUnit.assertEquals("Linked CSS files include the expected custom theme file the expected number of instances", expectedInstanceCount, actualInstanceCount);
     };
 
     // Alters URL without pageload, via code from StackOverflow
