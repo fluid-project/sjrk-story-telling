@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         fluid.each(testCases, function (testCase, index) {
             if (index === 4) {
-                sjrk.storyTelling.storyTellingServerUiTester.setQueryString("testParameterFromUrl=testValue&emptyTestParameterFromUrl=");
+                sjrk.storyTelling.testUtils.setQueryString("testParameterFromUrl=testValue&emptyTestParameterFromUrl=");
             }
 
             var actualResult = sjrk.storyTelling.getParameterByName(testCase.parameter, testCase.url);
@@ -84,19 +84,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 sequence: [{
                     // call the load themed page function, forcing the base theme
                     task: "sjrk.storyTelling.loadThemedPage",
-                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", "base"],
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "base"],
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The themed page load resolved as expected", "base", "{arguments}.0"]
                 },{
                     // call the load themed page function, forcing the Learning Reflections theme
                     task: "sjrk.storyTelling.loadThemedPage",
-                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", "learningReflections"],
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "learningReflections"],
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
                 },{
                     // call the load themed page function, forcing a falsy theme
                     task: "sjrk.storyTelling.loadThemedPage",
-                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", null],
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", null],
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
                 },{
@@ -105,7 +105,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },{
                     // test the CSS/JS injection function directly
                     funcName: "sjrk.storyTelling.loadCustomThemeFiles",
-                    args: ["sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction", "learningReflections"]
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "learningReflections"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["learningReflections.css", 3]
@@ -113,12 +113,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
-
-    sjrk.storyTelling.storyTellingServerUiTester.callbackVerificationFunction = function (value) {
-        if (value) {
-            jqUnit.assert("Callback was successfully called with value: " + value);
-        }
-    };
 
     sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedFileName, expectedInstanceCount) {
         var cssFilesLinked = fluid.transform(fluid.getMembers($("link"), "href"), function (fileUrl) {
@@ -134,15 +128,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
 
         jqUnit.assertEquals("Linked CSS files include the expected custom theme file the expected number of instances", expectedInstanceCount, actualInstanceCount);
-    };
-
-    // Alters URL without pageload, via code from StackOverflow
-    // https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
-    sjrk.storyTelling.storyTellingServerUiTester.setQueryString = function (queryString) {
-        if (history.pushState) {
-            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + queryString;
-            window.history.pushState({ path:newurl }, "", newurl);
-        }
     };
 
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTest", {
