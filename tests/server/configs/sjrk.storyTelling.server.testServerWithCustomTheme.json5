@@ -1,0 +1,25 @@
+{
+    "type": "sjrk.storyTelling.server.testServerWithCustomTheme",
+    "options": {
+        "gradeNames": ["sjrk.storyTelling.server"],
+        "components": {
+            "server": {
+                "options": {
+                    "globalConfig": {
+                        "theme": "learningReflections",
+                        "themeRootDirectory": "./themes/learningReflections",
+                        "binaryUploadDirectory": "./tests/server/uploads"
+                    },
+                    "components": {
+                        "storyDataSource": {
+                            "type": "sjrk.storyTelling.server.dataSource.couch.story",
+                            "options": {
+                                "host": "http://localhost:6789"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
