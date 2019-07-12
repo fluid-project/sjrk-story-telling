@@ -26,40 +26,58 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
 
 /* Loads a story View page and a particular story from a story ID from the query string
  * - "theme": the theme of the story View page (pass "page" in for base theme)
+ * - "options": additional options to merge into the View page
  */
-sjrk.storyTelling.loadStoryFromParameter = function (theme) {
-    var storyId = sjrk.storyTelling.getParameterByName("id");
-    if (storyId) {
-        var storyUrl = "/stories/" + storyId;
+sjrk.storyTelling.loadStoryFromParameter = function (theme, options) {
+    var storyPromise = fluid.promise();
 
-        $.get(storyUrl, function (data) {
+    var storyId = sjrk.storyTelling.getParameterByName("id");
+
+    if (storyId) {
+        $.get("/stories/" + storyId, function (data) {
             var retrievedStory = JSON.parse(data);
 
-            sjrk.storyTelling[theme].storyView({
-                distributeOptions: {
-                    "target": "{that story}.options.model",
-                    "record": retrievedStory
-                }
-            });
-        });
+            options = options || {};
+            options.distributeOptions = {
+                "target": "{that story}.options.model",
+                "record": retrievedStory
+            };
+
+            var storyViewComponent = sjrk.storyTelling[theme].storyView(options);
+            storyPromise.resolve(storyViewComponent);
+        }).fail(function (error) {
+            storyPromise.reject(error);
+        });;
+    } else {
+        storyPromise.reject();
     }
+
+    return storyPromise;
 };
 
 /* Loads a story Browse page and populates it with a set of stories
  * - "theme": the theme of the story Browse page (pass "page" in for base theme)
+ * - "options": additional options to merge into the Browse page
  */
-sjrk.storyTelling.loadBrowse = function (theme) {
-    var browseUrl = "/stories";
-    $.get(browseUrl, function (data) {
+sjrk.storyTelling.loadBrowse = function (theme, options) {
+    var storiesPromise = fluid.promise();
+
+    $.get("/stories", function (data) {
         var browseResponse = JSON.parse(data);
 
-        sjrk.storyTelling[theme].storyBrowse({
-            distributeOptions: {
-                "target": "{that storyBrowser}.options.model",
-                "record": browseResponse
-            }
-        });
+        options = options || {};
+        options.distributeOptions = {
+            "target": "{that storyBrowser}.options.model",
+            "record": browseResponse
+        };
+
+        var storyBrowseComponent = sjrk.storyTelling[theme].storyBrowse(options);
+        storiesPromise.resolve(storyBrowseComponent);
+    }).fail(function (error) {
+        storiesPromise.reject(error);
     });
+
+    return storiesPromise;
 };
 
 /* Loads custom theme files if and only if one of either the theme override or
@@ -114,8 +132,8 @@ sjrk.storyTelling.loadCustomThemeFiles = function (callback, theme) {
 
     $.getScript(scriptUrl, function () {
         if (typeof callback === "function") {
-            callback(theme);
-            loadPromise.resolve(theme);
+            var callbackResult = callback(theme);
+            loadPromise.resolve(callbackResult);
         }
     }).fail(function (error) {
         loadPromise.reject(error);
