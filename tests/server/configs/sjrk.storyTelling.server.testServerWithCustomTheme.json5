@@ -7,8 +7,9 @@
                 "options": {
                     "globalConfig": {
                         "theme": "learningReflections",
-                        "themeRootDirectory": "./themes/learningReflections",
-                        "binaryUploadDirectory": "./tests/server/uploads"
+                        "themeRootDirectory": "./testData",
+                        "binaryUploadDirectory": "./tests/server/uploads",
+                        "uploadedFilesHandlerPath": "./tests/server/uploads"
                     },
                     "components": {
                         "storyDataSource": {
