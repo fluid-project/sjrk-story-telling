@@ -67,13 +67,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     });
 
-    // test the clientConfig server URL
-    // test the "loading" of a set theme from the config
-
-    fluid.defaults("sjrk.storyTelling.testStoryTellingServerUi", {
-        gradeNames: ["fluid.component"]
-    });
-
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -133,10 +126,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            ui: {
-                type: "sjrk.storyTelling.testStoryTellingServerUi",
-                createOnEvent: "{storyTellingServerUiTester}.events.onTestCaseStart"
-            },
             storyTellingServerUiTester: {
                 type: "sjrk.storyTelling.storyTellingServerUiTester"
             }
