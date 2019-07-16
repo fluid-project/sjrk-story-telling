@@ -9,7 +9,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 var fluid = require("infusion"),
     sjrk = fluid.registerNamespace("sjrk"),
-    kettle = require("kettle");
+    kettle = require("kettle"),
+    fs = require("fs");
 
 fluid.defaults("sjrk.storyTelling.server", {
     gradeNames: ["fluid.component"],
@@ -129,6 +130,16 @@ fluid.defaults("sjrk.storyTelling.server", {
                             "root": "./src/ui"
                         }
                     },
+                    // the custom theme for the site, loaded in "on top" of base
+                    currentTheme: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            root: "@expand:sjrk.storyTelling.server.getCustomThemeFolder({server}.options.globalConfig.theme, ./themes/%theme)",
+                            middlewareOptions: {
+                                index: "{server}.options.globalConfig.themeIndexFile"
+                            }
+                        }
+                    },
                     // the default theme and base pages for the site
                     baseTheme: {
                         type: "kettle.middleware.static",
@@ -136,16 +147,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                             root: "./themes/base",
                             middlewareOptions: {
                                 index: "storyBrowse.html"
-                            }
-                        }
-                    },
-                    // the custom theme for the site, loaded in "on top" of base
-                    currentTheme: {
-                        type: "kettle.middleware.static",
-                        options: {
-                            root: "{server}.options.globalConfig.themeRootDirectory",
-                            middlewareOptions: {
-                                index: "{server}.options.globalConfig.themeIndexFile"
                             }
                         }
                     }
@@ -226,4 +227,20 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
 sjrk.storyTelling.server.resolveJSONFile = function (jsonFilePath) {
     var file = kettle.resolvers.file(jsonFilePath);
     return JSON.parse(file);
+};
+
+sjrk.storyTelling.server.getCustomThemeFolder = function (theme, themeFolder) {
+    var folder = ".";
+
+    if (theme) {
+        var resolvedFolder = fluid.stringTemplate(themeFolder, { theme: theme });
+        // ensure the folder exists, otherwise return an error
+        if (fs.existsSync(resolvedFolder)) {
+            folder = resolvedFolder;
+        } else {
+            folder = undefined;
+        }
+    }
+
+    return folder;
 };

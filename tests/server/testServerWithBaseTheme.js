@@ -24,11 +24,11 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
-    name: "Custom theme server tests",
+sjrk.storyTelling.server.testServerWithBaseThemeDefs = [{
+    name: "Base theme server tests",
     expect: 10,
     config: {
-        configName: "sjrk.storyTelling.server.testServerWithCustomTheme",
+        configName: "sjrk.storyTelling.server.testServerWithBaseTheme",
         configPath: "./tests/server/configs"
     },
     components: {
@@ -39,28 +39,28 @@ sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
                 method: "GET"
             }
         },
-        customThemeFileBothExistRequest: {
+        baseThemeFileBothExistRequest: {
             type: "kettle.test.request.http",
             options: {
                 path: "/testFile.txt",
                 method: "GET"
             }
         },
-        customThemeFileBaseOnlyRequest: {
+        baseThemeFileBaseOnlyRequest: {
             type: "kettle.test.request.http",
             options: {
                 path: "/testBaseFile.txt",
                 method: "GET"
             }
         },
-        customThemeFileCustomOnlyRequest: {
+        baseThemeFileCustomOnlyRequest: {
             type: "kettle.test.request.http",
             options: {
                 path: "/testCustomFile.txt",
                 method: "GET"
             }
         },
-        customThemeFileMissingRequest: {
+        baseThemeFileMissingRequest: {
             type: "kettle.test.request.http",
             options: {
                 path: "/notARealFile.txt",
@@ -74,36 +74,36 @@ sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
     }, {
         event: "{clientConfigRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.verifyGetClientConfigSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "learningReflections"]
+        args: ["{arguments}.0", "{arguments}.1", undefined]
     }, {
-        // test getting a file that exists for both base and custom theme, with custom theme specified
-        func: "{customThemeFileBothExistRequest}.send"
+        // test getting a file that exists for both base and custom theme, with no custom theme specified
+        func: "{baseThemeFileBothExistRequest}.send"
     }, {
-        event: "{customThemeFileBothExistRequest}.events.onComplete",
+        event: "{baseThemeFileBothExistRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.verifyGetThemeFileSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "This is the custom test file"]
+        args: ["{arguments}.0", "{arguments}.1", "This is the base test file"]
     }, {
-        // test getting a file that exists only for base theme, with custom theme specified
-        func: "{customThemeFileBaseOnlyRequest}.send"
+        // test getting a file that exists only for base theme, with no custom theme specified
+        func: "{baseThemeFileBaseOnlyRequest}.send"
     }, {
-        event: "{customThemeFileBaseOnlyRequest}.events.onComplete",
+        event: "{baseThemeFileBaseOnlyRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.verifyGetThemeFileSuccessful",
         args: ["{arguments}.0", "{arguments}.1", "Test file that isn't in the custom theme"]
     }, {
-        // test getting a file that exists only for custom theme, with custom theme specified
-        func: "{customThemeFileCustomOnlyRequest}.send"
+        // test getting a file that exists only for custom theme, with no custom theme specified
+        func: "{baseThemeFileCustomOnlyRequest}.send"
     }, {
-        event: "{customThemeFileCustomOnlyRequest}.events.onComplete",
-        listener: "sjrk.storyTelling.server.verifyGetThemeFileSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "Test file that isn't in the base theme"]
+        event: "{baseThemeFileCustomOnlyRequest}.events.onComplete",
+        listener: "sjrk.storyTelling.server.verifyGetThemeFileUnsuccessful",
+        args: ["{arguments}.0", "{arguments}.1"]
     }, {
-        // test getting a file that exists only for custom theme, with custom theme specified
-        func: "{customThemeFileMissingRequest}.send"
+        // test getting a file that exists only for custom theme, with no custom theme specified
+        func: "{baseThemeFileMissingRequest}.send"
     }, {
-        event: "{customThemeFileMissingRequest}.events.onComplete",
+        event: "{baseThemeFileMissingRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.verifyGetThemeFileUnsuccessful",
         args: ["{arguments}.0", "{arguments}.1"]
     }]
 }];
 
-kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithCustomThemeDefs);
+kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithBaseThemeDefs);

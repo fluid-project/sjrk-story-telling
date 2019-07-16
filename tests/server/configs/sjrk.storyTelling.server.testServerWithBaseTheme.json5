@@ -6,7 +6,6 @@
             "server": {
                 "options": {
                     "globalConfig": {
-                        "theme": "learningReflections",
                         "binaryUploadDirectory": "./tests/server/uploads",
                         "uploadedFilesHandlerPath": "./tests/server/uploads"
                     },
@@ -17,14 +16,9 @@
                                 "host": "http://localhost:6789"
                             }
                         },
-                        "currentTheme": {
-                            "options": {
-                                "root": "./tests/testData/testTheme"
-                            }
-                        },
                         "baseTheme": {
-                            "options": {
-                                "root": "./tests/testData/mockBaseTheme",
+                            options: {
+                                root: "./tests/testData/mockBaseTheme",
                             }
                         }
                     }

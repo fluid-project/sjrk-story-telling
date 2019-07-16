@@ -6,7 +6,6 @@
             "server": {
                 "options": {
                     "globalConfig": {
-                        "themeRootDirectory": ".",
                         "binaryUploadDirectory": "./tests/server/uploads"
                     },
                     "components": {
