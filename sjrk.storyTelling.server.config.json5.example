@@ -8,9 +8,7 @@
                     "globalConfig": {
                         "port": "8081",
                         "theme": "learningReflections",
-						"binaryUploadDirectory": "./uploads",
-						"uploadedFilesHandlerPath": "/uploads",
-						"deletedFilesRecoveryPath": "/deleted_uploads",
+                        "themeIndexFile": "introduction.html",
                         "savingEnabled": true
                     }
                 }

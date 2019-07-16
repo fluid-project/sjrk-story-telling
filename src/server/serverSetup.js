@@ -24,10 +24,11 @@ fluid.defaults("sjrk.storyTelling.server", {
                     // and are merged in on server startup
                     // port: "",
                     // theme: "",
-                    // binaryUploadDirectory: "",
-                    // uploadedFilesHandlerPath: "",
-                    // deletedFilesRecoveryPath: "",
+                    // themeIndexFile": "",
                     // savingEnabled: true
+                    binaryUploadDirectory: "./uploads",
+                    uploadedFilesHandlerPath: "/uploads",
+                    deletedFilesRecoveryPath: "/deleted_uploads",
                     secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
                 },
                 port: "{that}.options.globalConfig.port",
