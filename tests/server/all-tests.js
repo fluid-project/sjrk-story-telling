@@ -14,7 +14,9 @@ var fluid = require("infusion"),
 kettle.loadTestingSupport();
 
 var testIncludes = [
+    "./testServerWithBaseTheme.js",
     "./testServer.js",
+    "./testServerWithCustomTheme.js",
     "./testServerWithStorage.js"
 ];
 
