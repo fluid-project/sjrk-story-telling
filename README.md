@@ -12,11 +12,22 @@ This repository represents the Storytelling Tool, a project which anyone can use
 
 This project also uses [Node.js](https://nodejs.org), [Kettle](https://github.com/fluid-project/kettle) and [CouchDB](http://couchdb.apache.org/) to build the web-hosting environment that drives the tool.
 
-## How Do I Use It?
+## How do I use it?
 
 ### Development
+The tool is split up into two main pieces: a webserver to manage communication with the CouchDB database, and an HTML interface for creating and sharing stories.
 * Server code can be found in `src/server`
 * Common JavaScript code can be found in `src/ui`, though a significant portion of the code may be present in the theme folders (see [Theme Customization](#Theme-Customization)).
+
+## Configuring the application
+While Infusion allows for just about any possible extension you can imagine and implement, there are a few handy configuration settings provided as part of the code which allow you, for instance, to customize the current theme or configure a new one. The server will load a file named `sjrk.storyTelling.server.config.json5`, and the `globalConfig` collection is where you will find the following settings:
+
+| Setting | Description |
+|---------|-------------|
+| `port`  | _(Optional)_ The HTTP port the server will be hosted on. The default value is 8081. |
+| `savingEnabled` | Specifies whether editing and saving are allowed. If the value is set to `false`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. |
+| `theme` | _(Optional)_ The theme to load the site with. If this isn't specified, a base theme will be loaded. More on this in [Theme Customization](#Theme-Customization). |
+| `themeIndexFile` | _(Optional)_ The file to serve at the site root. E.g. `"themeIndexFile": "index2.html"`. The default is `storyBrowse.html` |
 
 ### Running the site
 * `npm install` to install dependencies
@@ -24,17 +35,14 @@ This project also uses [Node.js](https://nodejs.org), [Kettle](https://github.co
     * Docker is an easy way to do this, we recommend the `apache/couchdb` image. To use that image via Docker, run this command: `docker run -p 5984:5984 -d apache/couchdb`
 * Run `node .\src\server\db\dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB instance is set up in [single-node mode](https://docs.couchdb.org/en/stable/setup/single-node.html))
     * If you have an [admin user](https://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB instance, you will need to provide the credentials to `dbSetup.js`. This can be done by setting the `COUCHDB_URL` environment variable. `dbSetup.js` will use the URL specified in `COUCHDB_URL` when connecting to CouchDB. For example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
-* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example`. This file configures the server and allows you to customize the current theme or configure a new one. Edit the values in the `globalConfig` section to do this. More on this in [Theme Customization](#Theme-Customization).
-    * `port` specifies the HTTP port the server will be hosted on
-    * `savingEnabled` specifies whether editing and saving are allowed
-* Create a `secrets.json` file in the style of `secrets.json.example`
-    * `secrets.json` specifies credentials for the story deletion endpoint
+* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example`. See [Configuring the application](#configuring-the-application) for more information on configuring the application.
+* Create a `secrets.json` file in the style of `secrets.json.example`. This file specifies credentials for the story deletion endpoint
 * Run `node .\index.js` to launch the server
 
-### Theme Customization
-The "base" files included in this repository, located in the `themes/base` directory, are intended to provide a bare-bones implementation of the Storytelling Tool. The interface is extensible and customizable to enable the creation of new experiences, themes and story contexts with the tool. To create a custom theme, follow these steps:
-- Set the `theme` value in the server config file (see [Running the site](#Running-the-site)) to the name of your new theme. For the sake of this example, we'll use `cuteCats`.
-- Create a new folder for code and assets associated with the new theme (for examples, please see the `themes/karisma` or `themes/learningReflections` folders)
+### Theme customization
+The "base" files included in this repository, located in the `themes/base` directory, are intended to provide a bare-bones implementation of the Storytelling Tool without any project- or organization-specific branding or other bells and whistles. The interface is extensible and customizable to enable the creation of new experiences, themes and story contexts within the tool. To create a custom theme, follow these steps:
+- Set the `theme` value in the server config file (see [Configuring the application](#configuring-the-application)) to the name of your new theme. For the sake of this example, we'll use `cuteCats`.
+- Create a new folder for code and assets associated with the new theme (for examples, please see the `themes/karisma` or `themes/learningReflections` folders). The folder name **must** be the same as the `theme` value in the config file.
 - Create a JavaScript file which contains extensions of the `page` grades (e.g. for `sjrk.storyTelling.page.storyEdit`, add a new grade `sjrk.storyTelling.cuteCats.storyEdit` which has the former as one of its gradeNames). These extensions could include new `ui` components for new sections of the page, new events or other functionality. The name of the JavaScript file must match the folder and theme name, e.g. `themes/cuteCats/js/cuteCats.js`
 - Create a CSS file in the `css` directory with all of the styling rules specific to the new theme. The CSS file, like the JavaScript file, should have the same name as the theme and theme folder: `themes/cuteCats/css/cuteCats.css`
 - Add any new associated [handlebars](https://handlebarsjs.com/) templates to be used by new UI components
@@ -66,26 +74,26 @@ The Compose configuration defines three containers:
 - `db`: the official `apache/couchdb` image
 - `dbconfig`: also uses the project `Dockerfile`, but uses it to run the CouchDB configuration setup in `server/src/js/db/dbSetup.js` when launching - this is an idempotent operation that will not overwrite or replace an existing CouchDB database, but ensures the CouchDB instance running in the `db` container is properly configured for use by `app`
 
-#### Basic Local Development Configuration
+#### Basic local development configuration
 For testing the basics of container configuration, this can be used locally. Note that there will be no data persistence once the containers are removed.
 
-##### Rebuilding the Container Images
+##### Rebuilding the container images
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache`
 
-##### Bring the Service Up
+##### Bring the service up
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
-##### Remove the Stopped Containers
+##### Remove the stopped containers
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml rm`
 
-#### Cloud Configuration (for remote deployment usage)
+#### Cloud configuration (for remote deployment usage)
 
-##### Running Locally
+##### Running locally
 The examples below can be used to test the production configuration on a local environment by replicating the persistence volumes approach.
 
 Refer to https://docs.docker.com/compose/environment-variables/ for other methods of passing the necessary environment variables to the `docker-compose` command.
 
-###### Rebuilding the Container Images
+###### Rebuilding the container images
 ```
 APP_SERVER_PORT=8081 \
 APP_SERVER_SECRETS_FILE=./secrets.json \
@@ -95,7 +103,7 @@ COUCHDB_DATADIR=./couchdb \
 docker-compose -f docker-compose.yml -f docker-compose.cloud.yml build --no-cache
 ```
 
-###### Bring the Service Up
+###### Bring the service up
 ```
 APP_SERVER_PORT=8081 \
 APP_SERVER_SECRETS_FILE=./secrets.json \
@@ -105,7 +113,7 @@ COUCHDB_DATADIR=./couchdb \
 docker-compose -f docker-compose.yml -f docker-compose.cloud.yml up
 ```
 
-###### Remove the Stopped Containers
+###### Remove the stopped containers
 ```
 APP_SERVER_PORT=8081 \
 APP_SERVER_SECRETS_FILE=./secrets.json \
