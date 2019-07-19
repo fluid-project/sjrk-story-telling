@@ -43,13 +43,25 @@ sjrk.storyTelling.loadStoryFromParameter = function (theme, options) {
                 "record": retrievedStory
             };
 
-            var storyViewComponent = sjrk.storyTelling[theme].storyView(options);
+            var storyViewComponent;
+            if (theme === "base") {
+                storyViewComponent = sjrk.storyTelling.page.storyView(options);
+            } else {
+                storyViewComponent = sjrk.storyTelling[theme].storyView(options);
+            }
+
             storyPromise.resolve(storyViewComponent);
-        }).fail(function (error) {
-            storyPromise.reject(error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            storyPromise.reject({
+                isError: true,
+                message: errorThrown
+            });
         });;
     } else {
-        storyPromise.reject();
+        storyPromise.reject({
+            isError: true,
+            message: "No story ID provided"
+        });
     }
 
     return storyPromise;
@@ -71,10 +83,19 @@ sjrk.storyTelling.loadBrowse = function (theme, options) {
             "record": browseResponse
         };
 
-        var storyBrowseComponent = sjrk.storyTelling[theme].storyBrowse(options);
+        var storyBrowseComponent;
+        if (theme === "base") {
+            storyBrowseComponent = sjrk.storyTelling.page.storyBrowse(options);
+        } else {
+            storyBrowseComponent = sjrk.storyTelling[theme].storyBrowse(options);
+        }
+
         storiesPromise.resolve(storyBrowseComponent);
-    }).fail(function (error) {
-        storiesPromise.reject(error);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        storiesPromise.reject({
+            isError: true,
+            message: errorThrown
+        });
     });
 
     return storiesPromise;
@@ -82,7 +103,8 @@ sjrk.storyTelling.loadBrowse = function (theme, options) {
 
 /* Loads custom theme files if and only if one of either the theme override or
  * server configuration theme are present AND not set to the base theme.
- * Once complete, the provided callback function is called.
+ * Once complete, the provided callback function is called and the theme name is
+ * passed into it. If custom theme files are not loaded, the "base" theme is passed.
  * - "callback": a function to call once everything has completed. Will be called
  *               regardless of whether theme information was specified or retrieved
  * - "themeOverride": allows overriding of the theme stored in the configuration
@@ -98,16 +120,23 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
         if (theme && theme !== "base") {
             return sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, theme).then(function () {
                 loadPromise.resolve(theme);
-            }, function (error) {
-                loadPromise.reject(error);
+            }, function (jqXHR, textStatus, errorThrown) {
+                loadPromise.reject({
+                    isError: true,
+                    message: errorThrown
+                });
             });
         } else {
-            callbackFunction("page");
+            theme = "base";
+            callbackFunction(theme);
             loadPromise.resolve(theme);
         }
-    }, function () {
-        callbackFunction("page");
-        loadPromise.reject();
+    }, function (jqXHR, textStatus, errorThrown) {
+        callbackFunction("base"); //default to the base theme page
+        loadPromise.reject({
+            isError: true,
+            message: errorThrown
+        });
     });
 
     return loadPromise;
@@ -135,8 +164,11 @@ sjrk.storyTelling.loadCustomThemeFiles = function (callback, theme) {
             var callbackResult = callback(theme);
             loadPromise.resolve(callbackResult);
         }
-    }).fail(function (error) {
-        loadPromise.reject(error);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        loadPromise.reject({
+            isError: true,
+            message: errorThrown
+        });
     });
 
     return loadPromise;

@@ -34,6 +34,7 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource
     }, function (error) {
         var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
+            isError: true,
             message: errorAsJSON
         });
     });
@@ -103,6 +104,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
     }, function (error) {
         var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
+            isError: true,
             message: errorAsJSON
         });
     });
@@ -169,11 +171,13 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
         }, function (error) {
             var errorMessage = error.reason || "Unspecified server error";
             request.events.onError.fire({
+                isError: true,
                 message: errorMessage
             });
         });
     } else {
         request.events.onError.fire({
+            isError: true,
             message: "Saving is currently disabled."
         });
     }
@@ -233,6 +237,7 @@ sjrk.storyTelling.server.handleDeleteStory = function (request) {
     }, function (error) {
         var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
+            isError: true,
             message: errorAsJSON
         });
     });
@@ -261,7 +266,6 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, stor
             promise.reject(error);
         });
     }, function (error) {
-
         promise.reject(error);
     });
 
