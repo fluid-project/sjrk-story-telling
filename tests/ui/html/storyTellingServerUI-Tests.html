@@ -25,12 +25,15 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
+        <script src="../../src/dynamicViewComponentManager.js"></script>
         <script src="../../src/storyTelling-page.js"></script>
+        <script src="../../src/storyTelling-page-storyBrowse.js"></script>
         <script src="../../src/storyTelling-templateManager.js"></script>
         <script src="../../src/storyTelling-ui.js"></script>
         <script src="../../src/storyTelling-ui-menu.js"></script>
-        <script src="../../src/UIOMultilingualDemo.js"></script>
+        <script src="../../src/storyTelling-ui-storyBrowser.js"></script>
         <script src="../../src/storyTellingServerUI.js"></script>
+        <script src="../../src/UIOMultilingualDemo.js"></script>
 
         <script src="../js/storyTellingServerUITests.js"></script>
         <script src="../js/testUtils.js"></script>
@@ -43,5 +46,50 @@
         <div id="qunit-testrunner-toolbar"></div>
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests"></ol>
+
+        <!-- Markup to hold various bits of pages that are loaded in -->
+        <div id="testStoryBrowse">
+            <div id="testMenu"></div>
+            <div id="testStoryBrowser"></div>
+            <div id="testStoryPreviewer" class="sjrkc-st-story-previewer"></div>
+        </div>
+
+        <header class="sjrk-st-page-header-container sjrkc-st-page-header-container"></header>
+        <footer class="sjrk-st-page-footer-container sjrkc-st-page-footer-container"></footer>
+
+        <div class="sjrk-prefsEditor-container">
+            <!-- BEGIN markup for Preference Editor -->
+            <div class="flc-prefsEditor-separatedPanel fl-prefsEditor-separatedPanel">
+                <!--
+                This div is for the sliding panel bar that shows and hides the Preference Editor controls in the mobile view.
+                A separate panel bar for mobile displays is needed to preserver the correct tab order.
+                -->
+                <div class="fl-panelBar fl-panelBar-smallScreen">
+                    <span class="fl-prefsEditor-buttons">
+                        <button class="flc-slidingPanel-toggleButton fl-prefsEditor-showHide"> Show/Hide</button>
+                        <button class="flc-prefsEditor-reset fl-prefsEditor-reset"><span class="fl-icon-undo"></span> Reset</button>
+                    </span>
+                </div>
+
+                <!-- This is the div that will contain the Preference Editor component -->
+                <div class="flc-slidingPanel-panel flc-prefsEditor-iframe"></div>
+
+                <!--
+                This div is for the sliding panel bar that shows and hides the Preference Editor controls in the desktop view.
+                A separate panel bar for desktop displays is needed to preserver the correct tab order.
+                -->
+                <div class="fl-panelBar fl-panelBar-wideScreen">
+                    <span class="fl-prefsEditor-buttons">
+                        <button class="flc-slidingPanel-toggleButton fl-prefsEditor-showHide"> Show/Hide</button>
+                        <button class="flc-prefsEditor-reset fl-prefsEditor-reset"><span class="fl-icon-undo"></span> Reset</button>
+                    </span>
+                </div>
+            </div>
+            <!-- END markup for Preference Editor -->
+        </div>
+        <!-- This div is for the table of contents feature provided by the Preferences Editor -->
+        <div class="sjrk-st-toc-container">
+            <div class="flc-toc-tocContainer toc"> </div>
+        </div>
     </body>
 </html>

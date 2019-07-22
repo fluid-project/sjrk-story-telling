@@ -5,7 +5,7 @@
     fluid.defaults("fluid.uiOptions.prefsEditor.multilingualDemo", {
         gradeNames: ["fluid.uiOptions.prefsEditor"],
         terms: {
-            "messagePrefix": "src/messages/uio",
+            "messagePrefix": "messages/uio",
             // We need to add some additional CSS to the
             // 'SeparatedPanelPrefsEditorFrame' template,
             // but since we can't specify multiple template
