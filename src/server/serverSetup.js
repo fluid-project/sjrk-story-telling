@@ -135,7 +135,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     currentTheme: {
                         type: "kettle.middleware.static",
                         options: {
-                            root: "@expand:sjrk.storyTelling.server.getCustomThemeFolder({server}.options.globalConfig.theme, ./themes/%theme)",
+                            root: "@expand:sjrk.storyTelling.server.getCustomThemePath({server}.options.globalConfig.theme, ./themes/%theme)",
                             middlewareOptions: {
                                 index: "{server}.options.globalConfig.themeIndexFile"
                             }
@@ -223,25 +223,32 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     }
 });
 
-// Resolves a JSON file and parses it before
-// returning it
+/* Resolves a JSON file and parses it before returning it
+ * - "jsonFilePath": the path to the JSON file to parse
+ */
 sjrk.storyTelling.server.resolveJSONFile = function (jsonFilePath) {
     var file = kettle.resolvers.file(jsonFilePath);
     return JSON.parse(file);
 };
 
-sjrk.storyTelling.server.getCustomThemeFolder = function (theme, themeFolder) {
-    var folder = ".";
+/* Returns the path to the custom theme folder. The theme folder's name is
+ * expected to match the theme name being passed in. If the theme is not
+ * specified, the path returend will be the current directory ("."). If the
+ * theme is specified but the resolved folder doesn't exist within themeFolder,
+ * an error will be reported.
+ * - "theme": The name of the theme for which to find the path
+ * - "themeFolder": The folder/path that contains the theme being retrieved
+ */
+sjrk.storyTelling.server.getCustomThemePath = function (theme, themeFolder) {
+    var themePath = ".";
 
     if (theme) {
-        var resolvedFolder = fluid.stringTemplate(themeFolder, { theme: theme });
-        // ensure the folder exists, otherwise return an error
-        if (fs.existsSync(resolvedFolder)) {
-            folder = resolvedFolder;
-        } else {
-            folder = undefined;
+        themePath = fluid.stringTemplate(themeFolder, { theme: theme });
+
+        if (!fs.existsSync(themePath)) {
+            fluid.fail("The custom theme folder " + themePath + " does not exist. Please verify that the theme name is configured properly.");
         }
     }
 
-    return folder;
+    return themePath;
 };

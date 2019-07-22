@@ -6,9 +6,16 @@
             "server": {
                 "options": {
                     "globalConfig": {
+                        // the HTTP port the server will hosted from, default is 8081
                         "port": "8081",
+
+                        // the custom theme to load in on top of the base theme
                         "theme": "learningReflections",
+                        
+                        // a default file to load at the site root (e.g. index.html)
                         "themeIndexFile": "introduction.html",
+
+                        // if true, saving stories to the database will be enabled
                         "savingEnabled": true
                     }
                 }

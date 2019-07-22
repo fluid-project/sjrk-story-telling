@@ -26,8 +26,8 @@ While Infusion allows for just about any possible extension you can imagine and 
 |---------|-------------|
 | `port`  | _(Optional)_ The HTTP port the server will be hosted on. The default value is 8081. |
 | `savingEnabled` | Specifies whether editing and saving are allowed. If the value is set to `false`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. |
-| `theme` | _(Optional)_ The theme to load the site with. If this isn't specified, a base theme will be loaded. More on this in [Theme Customization](#Theme-Customization). |
-| `themeIndexFile` | _(Optional)_ The file to serve at the site root. E.g. `"themeIndexFile": "index2.html"`. The default is `storyBrowse.html` |
+| `theme` | _(Optional)_ The theme to load the site with. If this isn't specified, a base theme will be loaded. More info on this can be found in [Theme Customization](#Theme-Customization). |
+| `themeIndexFile` | _(Optional)_ The file to serve at the site root. E.g. `"themeIndexFile": "index2.html"`. The default is `storyBrowse.html`. If `theme` is not provided, this setting will be ignored and the default will be served. |
 
 ### Running the site
 * `npm install` to install dependencies
@@ -40,7 +40,14 @@ While Infusion allows for just about any possible extension you can imagine and 
 * Run `node .\index.js` to launch the server
 
 ### Theme customization
-The "base" files included in this repository, located in the `themes/base` directory, are intended to provide a bare-bones implementation of the Storytelling Tool without any project- or organization-specific branding or other bells and whistles. The interface is extensible and customizable to enable the creation of new experiences, themes and story contexts within the tool. To create a custom theme, follow these steps:
+#### Provided themes
+The "base" files included in this repository, located in the `themes/base` directory, are intended to provide a bare-bones implementation of the Storytelling Tool without any project- or organization-specific branding or other bells and whistles. The interface is extensible and customizable to enable the creation of new experiences, themes and story contexts within the tool.
+The site comes with two custom themes already available: `karisma` and `learningReflections`.
+* `learningReflections` Has a few extra pages with content and is styled to illustrate the support of the Storytelling Project by the [William and Flora Hewlett Foundation](https://www.hewlett.org/) and the [Oak Foundation](http://www.oakfnd.org/).
+* `karisma` is a fun theme with some hand-drawn illustrations on a welcome page and was created for use as part of the SJRK work being done by the [Fundación Karisma](https://karisma.org.co).
+
+#### Creating a new theme
+To create new a custom theme, follow these steps:
 - Set the `theme` value in the server config file (see [Configuring the application](#configuring-the-application)) to the name of your new theme. For the sake of this example, we'll use `cuteCats`.
 - Create a new folder for code and assets associated with the new theme (for examples, please see the `themes/karisma` or `themes/learningReflections` folders). The folder name **must** be the same as the `theme` value in the config file.
 - Create a JavaScript file which contains extensions of the `page` grades (e.g. for `sjrk.storyTelling.page.storyEdit`, add a new grade `sjrk.storyTelling.cuteCats.storyEdit` which has the former as one of its gradeNames). These extensions could include new `ui` components for new sections of the page, new events or other functionality. The name of the JavaScript file must match the folder and theme name, e.g. `themes/cuteCats/js/cuteCats.js`

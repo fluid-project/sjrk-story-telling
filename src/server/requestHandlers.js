@@ -263,10 +263,16 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, stor
         deletePromise.then(function (response) {
             promise.resolve(response);
         }, function (error) {
-            promise.reject(error);
+            promise.reject({
+                isError: true,
+                message: error
+            });
         });
     }, function (error) {
-        promise.reject(error);
+        promise.reject({
+            isError: true,
+            message: error
+        });
     });
 
     return promise;
