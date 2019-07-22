@@ -74,7 +74,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleGetStory",
-            args: ["{request}", "{server}.storyDataSource", "{server}.options.globalConfig.uploadedFilesHandlerPath"]
+            args: ["{request}", "{server}.storyDataSource", "{server}.options.secureConfig.uploadedFilesHandlerPath"]
         }
     }
 });
@@ -220,8 +220,8 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
             funcName: "sjrk.storyTelling.server.deleteSingleFileRecoverable",
             args: [
                 "{arguments}.0", // fileName
-                "{server}.options.globalConfig.deletedFilesRecoveryPath",
-                "{server}.options.globalConfig.uploadedFilesHandlerPath"
+                "{server}.options.secureConfig.deletedFilesRecoveryPath",
+                "{server}.options.secureConfig.uploadedFilesHandlerPath"
             ]
         }
     }

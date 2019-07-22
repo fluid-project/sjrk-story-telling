@@ -19,13 +19,16 @@ fluid.defaults("sjrk.storyTelling.server", {
             type: "kettle.server",
             options: {
                 globalConfig: {
-                    // Config values, except the secrets file, are stored in the
-                    // external config file sjrk.storyTelling.server.themed.json5
+                    // Config values are stored in the external config file
+                    // named "sjrk.storyTelling.server.themed.json5"
                     // and are merged in on server startup
                     // port: "",
                     // theme: "",
                     // themeIndexFile": "",
                     // savingEnabled: true
+                },
+                secureConfig: {
+                    themesPath: "./themes/%theme",
                     binaryUploadDirectory: "./uploads",
                     uploadedFilesHandlerPath: "/uploads",
                     deletedFilesRecoveryPath: "/deleted_uploads",
@@ -66,7 +69,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                             components: {
                                 storage: {
                                     options: {
-                                        destination: "{server}.options.globalConfig.binaryUploadDirectory"
+                                        destination: "{server}.options.secureConfig.binaryUploadDirectory"
                                     }
                                 }
                             }
@@ -80,7 +83,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         options: {
                             middlewareOptions: {
                                 users: {
-                                    "admin": "{server}.options.globalConfig.secrets.adminPass"
+                                    "admin": "{server}.options.secureConfig.secrets.adminPass"
                                 },
                                 challenge: true
                             }
@@ -107,7 +110,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     uploads: {
                         type: "kettle.middleware.static",
                         options: {
-                            "root": "{server}.options.globalConfig.binaryUploadDirectory"
+                            "root": "{server}.options.secureConfig.binaryUploadDirectory"
                         }
                     },
                     tests: {
@@ -135,7 +138,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     currentTheme: {
                         type: "kettle.middleware.static",
                         options: {
-                            root: "@expand:sjrk.storyTelling.server.getCustomThemePath({server}.options.globalConfig.theme, ./themes/%theme)",
+                            root: "@expand:sjrk.storyTelling.server.getThemePath({server}.options.globalConfig.theme, {server}.options.secureConfig.themesPath)",
                             middlewareOptions: {
                                 index: "{server}.options.globalConfig.themeIndexFile"
                             }
@@ -145,7 +148,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     baseTheme: {
                         type: "kettle.middleware.static",
                         options: {
-                            root: "./themes/base",
+                            root: "@expand:sjrk.storyTelling.server.getThemePath(base, {server}.options.secureConfig.themesPath)",
                             middlewareOptions: {
                                 index: "storyBrowse.html"
                             }
@@ -202,7 +205,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.uploadsHandler",
             "route": "/*",
             "method": "get",
-            "prefix": "{server}.options.globalConfig.uploadedFilesHandlerPath"
+            "prefix": "{server}.options.secureConfig.uploadedFilesHandlerPath"
         },
         testsHandler: {
             type: "sjrk.storyTelling.server.testsHandler",
@@ -239,7 +242,7 @@ sjrk.storyTelling.server.resolveJSONFile = function (jsonFilePath) {
  * - "theme": The name of the theme for which to find the path
  * - "themeFolder": The folder/path that contains the theme being retrieved
  */
-sjrk.storyTelling.server.getCustomThemePath = function (theme, themeFolder) {
+sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     var themePath = ".";
 
     if (theme) {
