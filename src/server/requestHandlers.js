@@ -362,7 +362,7 @@ fluid.defaults("sjrk.storyTelling.server.clientConfigHandler", {
 // with the client side of the application
 sjrk.storyTelling.server.getClientConfig = function (request, globalConfig) {
     var clientConfig = {
-        theme: globalConfig.theme,
+        theme: globalConfig.theme || "base",
         savingEnabled: globalConfig.savingEnabled
     };
 

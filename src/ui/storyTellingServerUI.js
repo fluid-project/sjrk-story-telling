@@ -115,7 +115,7 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
     var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
 
     $.get("/clientConfig").then(function (data) {
-        var theme = themeOverride ? themeOverride : data.clientConfig ? data.clientConfig.theme : "base";
+        var theme = themeOverride ? themeOverride : data.clientConfig.theme;
 
         if (theme && theme !== "base") {
             return sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, theme).then(function () {
