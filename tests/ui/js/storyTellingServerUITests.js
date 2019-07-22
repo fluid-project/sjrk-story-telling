@@ -67,28 +67,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     });
 
-    var browsePageOptions = {
-        pageSetup: {
-            // resourcePrefix: "../.."
-        },
-        components: {
-            uio: {
-                options: {
-                    terms: {
-                        "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "../../messages/uio"
-                    },
-                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-                }
-            },
-            menu: {
-                container: "#testMenu"
-            },
-            storyBrowser: {
-                container: "#testStoryBrowser"
-            }
-        }
-    };
+    // var browsePageOptions = {
+    //     components: {
+    //         uio: {
+    //             options: {
+    //                 terms: {
+    //                     "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
+    //                     "messagePrefix": "../../messages/uio"
+    //                 },
+    //                 "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
+    //             }
+    //         },
+    //         menu: {
+    //             container: "#testMenu"
+    //         },
+    //         storyBrowser: {
+    //             container: "#testStoryBrowser"
+    //         }
+    //     }
+    // };
 
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
@@ -96,7 +93,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 10,
+                expect: 8,
                 sequence: [{
                     // call the load themed page function, forcing the base theme
                     task: "sjrk.storyTelling.loadThemedPage",
@@ -125,18 +122,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["learningReflections.css", 3]
-                },{
-                    // load a base Browse page and check that the stories are present
-                    task: "sjrk.storyTelling.loadBrowse",
-                    args: ["page", browsePageOptions],
-                    resolve: "jqUnit.assertNotUndefined",
-                    resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
-                },{
-                    // load a learningReflections Browse page and check that the stories are present
-                    task: "sjrk.storyTelling.loadBrowse",
-                    args: ["learningReflections", browsePageOptions],
-                    resolve: "jqUnit.assertNotUndefined",
-                    resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
+                // },{
+                //     // load a base Browse page and check that the stories are present
+                //     task: "sjrk.storyTelling.loadBrowse",
+                //     args: ["page", browsePageOptions],
+                //     resolve: "jqUnit.assertNotUndefined",
+                //     resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
+                // },{
+                //     // load a learningReflections Browse page and check that the stories are present
+                //     task: "sjrk.storyTelling.loadBrowse",
+                //     args: ["learningReflections", browsePageOptions],
+                //     resolve: "jqUnit.assertNotUndefined",
+                //     resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
                 }]
             }]
         }]
