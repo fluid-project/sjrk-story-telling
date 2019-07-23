@@ -24,8 +24,8 @@ While Infusion allows for just about any possible extension you can imagine and 
 
 | Setting | Description |
 |---------|-------------|
-| `port`  | _(Optional)_ The HTTP port the server will be hosted on. The default value is 8081. |
-| `savingEnabled` | Specifies whether editing and saving are allowed. If the value is set to `false`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. |
+| `port`  | _(Optional)_ The HTTP port the server will be hosted on. The default value is 8081. If this is changed, it should also be updated in `Dockerfile`, `docker-compose.dev.yml` and `docker-compose.cloud.yml` |
+| `savingEnabled` | Specifies whether saving stories to the database is allowed. If the value is set to `false` and the matching option in `sjrk.storyTelling.page`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. For best results, the values in this config file and the `page` grade should match each other. |
 | `theme` | _(Optional)_ The theme to load the site with. If this isn't specified, a base theme will be loaded. More info on this can be found in [Theme Customization](#Theme-Customization). |
 | `themeIndexFile` | _(Optional)_ The file to serve at the site root. E.g. `"themeIndexFile": "index2.html"`. The default is `storyBrowse.html`. If `theme` is not provided, this setting will be ignored and the default will be served. |
 
@@ -35,8 +35,8 @@ While Infusion allows for just about any possible extension you can imagine and 
     * Docker is an easy way to do this, we recommend the `apache/couchdb` image. To use that image via Docker, run this command: `docker run -p 5984:5984 -d apache/couchdb`
 * Run `node .\src\server\db\dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB instance is set up in [single-node mode](https://docs.couchdb.org/en/stable/setup/single-node.html))
     * If you have an [admin user](https://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB instance, you will need to provide the credentials to `dbSetup.js`. This can be done by setting the `COUCHDB_URL` environment variable. `dbSetup.js` will use the URL specified in `COUCHDB_URL` when connecting to CouchDB. For example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
-* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example`. See [Configuring the application](#configuring-the-application) for more information on configuring the application.
-* Create a `secrets.json` file in the style of `secrets.json.example`. This file specifies credentials for the story deletion endpoint
+* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example` and place it in the application root (where the example file is located). See [Configuring the application](#configuring-the-application) for more information on configuring the application.
+* Create a `secrets.json` file in the style of `secrets.json.example`, also in the application root. This file specifies credentials for the story deletion endpoint
 * Run `node .\index.js` to launch the server
 
 ### Theme customization
@@ -52,7 +52,7 @@ To create new a custom theme, follow these steps:
 - Create a new folder for code and assets associated with the new theme (for examples, please see the `themes/karisma` or `themes/learningReflections` folders). The folder name **must** be the same as the `theme` value in the config file.
 - Create a JavaScript file which contains extensions of the `page` grades (e.g. for `sjrk.storyTelling.page.storyEdit`, add a new grade `sjrk.storyTelling.cuteCats.storyEdit` which has the former as one of its gradeNames). These extensions could include new `ui` components for new sections of the page, new events or other functionality. The name of the JavaScript file must match the folder and theme name, e.g. `themes/cuteCats/js/cuteCats.js`
 - Create a CSS file in the `css` directory with all of the styling rules specific to the new theme. The CSS file, like the JavaScript file, should have the same name as the theme and theme folder: `themes/cuteCats/css/cuteCats.css`
-- Add any new associated [handlebars](https://handlebarsjs.com/) templates to be used by new UI components
+- Add any new associated [handlebars](https://handlebarsjs.com/) templates to be used by new UI components, and be sure to set the path for these templates. It is recommended to put them in the `templates` directory. E.g. `themes/cuteCats/templates/newTemplateName.handlebars`
 - If your new content contains any new wording, you can create new message bundle files (in the `themes/cuteCats/messages` directory) and refer to those message names in the handlebars template(s). Please note that a `ui` component specifies and loads _only one_ message bundle at a time.
 - If there are some common changes that will be made to all pages, or shared values, consider creating a 'base' grade which includes these common changes and have every new `page` or `ui` grade refer to that `gradeName` as well. For example:
     - `sjrk.storyTelling.cuteCats.storyEdit` could have the following as a value for `gradeNames`: `["sjrk.storyTelling.cuteCats.baseValues", "sjrk.storyTelling.page.storyEdit"]`
