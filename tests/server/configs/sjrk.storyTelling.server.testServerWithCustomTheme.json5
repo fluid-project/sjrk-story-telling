@@ -7,16 +7,8 @@
                 "options": {
                     "globalConfig": {
                         "theme": "learningReflections",
-                        "binaryUploadDirectory": "./tests/server/uploads",
-                        "uploadedFilesHandlerPath": "./tests/server/uploads"
                     },
                     "components": {
-                        "storyDataSource": {
-                            "type": "sjrk.storyTelling.server.dataSource.couch.story",
-                            "options": {
-                                "host": "http://localhost:6789"
-                            }
-                        },
                         "currentTheme": {
                             "options": {
                                 "root": "./tests/testData/testTheme"

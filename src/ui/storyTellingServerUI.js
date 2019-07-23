@@ -117,7 +117,7 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
     $.get("/clientConfig").then(function (data) {
         var theme = themeOverride ? themeOverride : data.clientConfig.theme;
 
-        if (theme && theme !== "base") {
+        if (theme !== "base") {
             return sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, theme).then(function () {
                 loadPromise.resolve(theme);
             }, function (jqXHR, textStatus, errorThrown) {
@@ -127,7 +127,6 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
                 });
             });
         } else {
-            theme = "base";
             callbackFunction(theme);
             loadPromise.resolve(theme);
         }
