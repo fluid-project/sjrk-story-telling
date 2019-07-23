@@ -1,0 +1,15 @@
+{
+    "type": "sjrk.storyTelling.server.testServerWithMissingTheme",
+    "options": {
+        "gradeNames": ["sjrk.storyTelling.server"],
+        "components": {
+            "server": {
+                "options": {
+                    "globalConfig": {
+                        "theme": "aThemeThatIsntReal",
+                    }
+                }
+            }
+        }
+    }
+}
