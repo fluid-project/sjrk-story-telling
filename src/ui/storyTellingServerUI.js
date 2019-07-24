@@ -131,7 +131,6 @@ sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
             loadPromise.resolve(theme);
         }
     }, function (jqXHR, textStatus, errorThrown) {
-        callbackFunction("base"); //default to the base theme page
         loadPromise.reject({
             isError: true,
             message: errorThrown

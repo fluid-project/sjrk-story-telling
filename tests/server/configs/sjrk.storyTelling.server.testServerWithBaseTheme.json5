@@ -8,7 +8,7 @@
                     "components": {
                         "baseTheme": {
                             options: {
-                                root: "./tests/testData/mockBaseTheme",
+                                root: "./tests/testData/mockBaseTheme"
                             }
                         }
                     }

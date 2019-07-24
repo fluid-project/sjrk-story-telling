@@ -6,7 +6,7 @@
             "server": {
                 "options": {
                     "globalConfig": {
-                        "theme": "learningReflections",
+                        "theme": "learningReflections"
                     },
                     "components": {
                         "currentTheme": {
@@ -16,7 +16,7 @@
                         },
                         "baseTheme": {
                             "options": {
-                                "root": "./tests/testData/mockBaseTheme",
+                                "root": "./tests/testData/mockBaseTheme"
                             }
                         }
                     }

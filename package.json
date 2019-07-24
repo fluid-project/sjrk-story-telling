@@ -1,41 +1,42 @@
 {
-  "name": "sjrk-story-telling",
-  "version": "0.2.0",
-  "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
-  },
-  "author": "Fluid Project",
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://issues.fluidproject.org/projects/SJRK/issues"
-  },
-  "homepage": "https://github.com/fluid-project/sjrk-story-telling",
-  "dependencies": {
-    "express-basic-auth": "1.1.5",
-    "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
-    "fs-extra": "7.0.1",
-    "gpii-binder": "1.0.3",
-    "gpii-handlebars": "1.1.0",
-    "handlebars": "4.0.10",
-    "infusion": "3.0.0-dev.20180326T173646Z.8c6a109b1",
-    "kettle": "1.8.0",
-    "uuid": "3.1.0"
-  },
-  "devDependencies": {
-    "chance": "1.0.16",
-    "eslint-config-fluid": "1.1.0",
-    "fluid-grunt-eslint": "18.1.2",
-    "gpii-pouchdb": "1.0.14",
-    "grunt": "1.0.3",
-    "grunt-eslint": "20.0.0",
-    "grunt-jsonlint": "1.1.0",
-    "node-jqunit": "1.1.8",
-    "testem": "2.8.1"
-  }
+    "name": "sjrk-story-telling",
+    "version": "0.2.0",
+    "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
+    },
+    "author": "Fluid Project",
+    "license": "BSD-3-Clause",
+    "bugs": {
+        "url": "https://issues.fluidproject.org/projects/SJRK/issues"
+    },
+    "homepage": "https://github.com/fluid-project/sjrk-story-telling",
+    "dependencies": {
+        "express-basic-auth": "1.1.5",
+        "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
+        "fs-extra": "7.0.1",
+        "gpii-binder": "1.0.3",
+        "gpii-handlebars": "1.1.0",
+        "handlebars": "4.0.10",
+        "infusion": "3.0.0-dev.20180326T173646Z.8c6a109b1",
+        "kettle": "1.8.0",
+        "uuid": "3.1.0"
+    },
+    "devDependencies": {
+        "chance": "1.0.16",
+        "eslint-config-fluid": "1.1.0",
+        "fluid-grunt-eslint": "18.1.2",
+        "gpii-grunt-lint-all": "^1.0.5",
+        "gpii-pouchdb": "1.0.14",
+        "grunt": "1.0.3",
+        "grunt-eslint": "20.0.0",
+        "grunt-jsonlint": "1.1.0",
+        "node-jqunit": "1.1.8",
+        "testem": "2.8.1"
+    }
 }
