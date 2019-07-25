@@ -11,8 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    fluid.defaults("sjrk.storyTelling.page.testStoryBrowse", {
-        gradeNames: ["sjrk.storyTelling.page.storyBrowse"],
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.testStoryBrowse", {
+        gradeNames: ["sjrk.storyTelling.baseTheme.page.storyBrowse"],
         pageSetup: {
             resourcePrefix: "../.."
         },
@@ -35,7 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyBrowseTester", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyBrowseTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
             name: "Test browse stories page",
@@ -84,23 +84,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyBrowseTest", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyBrowseTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
             storyBrowse: {
-                type: "sjrk.storyTelling.page.testStoryBrowse",
+                type: "sjrk.storyTelling.baseTheme.page.testStoryBrowse",
                 container: "#testStoryBrowse",
                 createOnEvent: "{storyBrowseTester}.events.onTestCaseStart"
             },
             storyBrowseTester: {
-                type: "sjrk.storyTelling.page.storyBrowseTester"
+                type: "sjrk.storyTelling.baseTheme.page.storyBrowseTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.page.storyBrowseTest"
+            "sjrk.storyTelling.baseTheme.page.storyBrowseTest"
         ]);
     });
 

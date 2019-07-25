@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    fluid.defaults("sjrk.storyTelling.page", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
             uiLanguage: "en" //initial state is English
@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "onCreate.getStoredPreferences": {
-                funcName: "sjrk.storyTelling.page.getStoredPreferences",
+                funcName: "sjrk.storyTelling.baseTheme.page.getStoredPreferences",
                 args: ["{that}", "{cookieStore}"],
                 priority: "before:reloadUioMessages"
             },
@@ -95,7 +95,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         invokers: {
             reloadUioMessages: {
-                funcName: "sjrk.storyTelling.page.reloadUioMessages",
+                funcName: "sjrk.storyTelling.baseTheme.page.reloadUioMessages",
                 args: [
                     "{arguments}.0",
                     "{uio}.prefsEditorLoader.messageLoader",
@@ -105,7 +105,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         modelListeners: {
             uiLanguage: [{
-                funcName: "sjrk.storyTelling.page.renderAllUiTemplates",
+                funcName: "sjrk.storyTelling.baseTheme.page.renderAllUiTemplates",
                 args: ["{that}"],
                 namespace: "renderAllUiTemplates"
             },
@@ -179,7 +179,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                                     namespace: "escalate"
                                                 },
                                                 {
-                                                    funcName: "sjrk.storyTelling.page.updateUioPanelLanguages",
+                                                    funcName: "sjrk.storyTelling.baseTheme.page.updateUioPanelLanguages",
                                                     args: ["{prefsEditorLoader}", "{page}"],
                                                     priority: "before:rerenderUIO",
                                                     namespace: "updateMessageBases"
@@ -196,7 +196,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    sjrk.storyTelling.page.renderAllUiTemplates = function (component) {
+    sjrk.storyTelling.baseTheme.page.renderAllUiTemplates = function (component) {
         fluid.each(component, function (subcomponent) {
             if (subcomponent &&
                 subcomponent.options &&
@@ -207,7 +207,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    sjrk.storyTelling.page.getStoredPreferences = function (pageComponent, cookieStore) {
+    sjrk.storyTelling.baseTheme.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
 
         promise.then(function (response) {
@@ -218,7 +218,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    sjrk.storyTelling.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
+    sjrk.storyTelling.baseTheme.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
         // Set the language in the resource loader
         fluid.set(uioMessageLoaderComponent, uioMessageLoaderLocalePath, lang);
 
@@ -226,7 +226,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
     };
 
-    sjrk.storyTelling.page.updateUioPanelLanguages = function (prefsEditorLoaderComponent, pageComponent) {
+    sjrk.storyTelling.baseTheme.page.updateUioPanelLanguages = function (prefsEditorLoaderComponent, pageComponent) {
         if (prefsEditorLoaderComponent && prefsEditorLoaderComponent.prefsEditor) {
             fluid.each(prefsEditorLoaderComponent.prefsEditor, function (panel, key) {
                 if (key.startsWith("fluid_prefs_panel_")) {

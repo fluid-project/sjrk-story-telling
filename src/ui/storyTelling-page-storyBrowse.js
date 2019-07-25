@@ -11,8 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    fluid.defaults("sjrk.storyTelling.page.storyBrowse", {
-        gradeNames: ["sjrk.storyTelling.page"],
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyBrowse", {
+        gradeNames: ["sjrk.storyTelling.baseTheme.page"],
         model: {
             storyBrowseDisplayPreference: ""
         },

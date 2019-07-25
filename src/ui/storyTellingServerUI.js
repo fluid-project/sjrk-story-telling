@@ -25,10 +25,10 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
 };
 
 /* Loads a story View page and a particular story from a story ID from the query string
-* - "clientConfig": a collection of client config values consisting of
-*     - "theme": the current theme of the site
-*     - "baseTheme": the base theme of the site
-*     - "savingEnabled": indicates whether saving and editing are enabled
+ * - "clientConfig": a collection of client config values consisting of
+ *     - "theme": the current theme of the site
+ *     - "baseTheme": the base theme of the site
+ *     - "savingEnabled": indicates whether saving and editing are enabled
  * - "options": additional options to merge into the View page
  */
 sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
@@ -41,17 +41,15 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
             var retrievedStory = JSON.parse(data);
 
             options = options || {};
-            options.distributeOptions = {
+            options.distributeOptions = [{
                 "target": "{that story}.options.model",
                 "record": retrievedStory
-            };
+            },{
+                "target": "{that}.options.pageSetup.savingEnabled",
+                "record": clientConfig.savingEnabled
+            }];
 
-            var storyViewComponent;
-            if (clientConfig.theme === clientConfig.baseTheme) {
-                storyViewComponent = sjrk.storyTelling.page.storyView(options);
-            } else {
-                storyViewComponent = sjrk.storyTelling[clientConfig.theme].storyView(options);
-            }
+            var storyViewComponent = sjrk.storyTelling[clientConfig.theme].page.storyView(options);
 
             storyPromise.resolve(storyViewComponent);
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -71,10 +69,10 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
 };
 
 /* Loads a story Browse page and populates it with a set of stories
-* - "clientConfig": a collection of client config values consisting of
-*     - "theme": the current theme of the site
-*     - "baseTheme": the base theme of the site
-*     - "savingEnabled": indicates whether saving and editing are enabled
+ * - "clientConfig": a collection of client config values consisting of
+ *     - "theme": the current theme of the site
+ *     - "baseTheme": the base theme of the site
+ *     - "savingEnabled": indicates whether saving and editing are enabled
  * - "options": additional options to merge into the Browse page
  */
 sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
@@ -84,17 +82,15 @@ sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
         var browseResponse = JSON.parse(data);
 
         options = options || {};
-        options.distributeOptions = {
+        options.distributeOptions = [{
             "target": "{that storyBrowser}.options.model",
             "record": browseResponse
-        };
+        },{
+            "target": "{that}.options.pageSetup.savingEnabled",
+            "record": clientConfig.savingEnabled
+        }];
 
-        var storyBrowseComponent;
-        if (clientConfig.theme === clientConfig.baseTheme) {
-            storyBrowseComponent = sjrk.storyTelling.page.storyBrowse(options);
-        } else {
-            storyBrowseComponent = sjrk.storyTelling[clientConfig.theme].storyBrowse(options);
-        }
+        var storyBrowseComponent = sjrk.storyTelling[clientConfig.theme].page.storyBrowse(options);
 
         storiesPromise.resolve(storyBrowseComponent);
     }).fail(function (jqXHR, textStatus, errorThrown) {

@@ -11,8 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    fluid.defaults("sjrk.storyTelling.page.testStoryEdit", {
-        gradeNames: ["sjrk.storyTelling.page.storyEdit"],
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.testStoryEdit", {
+        gradeNames: ["sjrk.storyTelling.baseTheme.page.storyEdit"],
         pageSetup: {
             resourcePrefix: "../..",
             savingEnabled: false
@@ -98,7 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.addBlock", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.addBlock", {
         gradeNames: "fluid.test.sequenceElement",
         // blockAddButtonSelector: null, // to be supplied by the implementing test
         sequence: [{
@@ -107,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         {
             // there is a bug when using an expander here for the jQueryTrigger args
-            funcName: "sjrk.storyTelling.page.storyEditTester.triggerButtonClick",
+            funcName: "sjrk.storyTelling.baseTheme.page.storyEditTester.triggerButtonClick",
             args: ["{storyEdit}.storyEditor", "{that}.options.blockAddButtonSelector"]
         },
         {
@@ -121,7 +121,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify", {
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
         // value: null, // to be supplied by the implementing test
@@ -139,12 +139,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: [
                 "Story model updated to expected value",
                 "{that}.options.value",
-                "@expand:sjrk.storyTelling.page.storyEditTester.getModelValueFromFieldName({storyEdit}.storyEditor,{that}.options.field)"
+                "@expand:sjrk.storyTelling.baseTheme.page.storyEditTester.getModelValueFromFieldName({storyEdit}.storyEditor,{that}.options.field)"
             ]
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.removeValueAndWaitToVerify", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.removeValueAndWaitToVerify", {
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
         sequence: [{
@@ -162,7 +162,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange", {
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
         // value: null, // to be supplied by the implementing test
@@ -179,7 +179,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.clearStoryBlocks", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.clearStoryBlocks", {
         gradeNames: "fluid.test.sequenceElement",
         sequence: [{
             func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
@@ -207,18 +207,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.textBlockModelRelaySequence", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.textBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
             addBlock: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.addBlock",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.addBlock",
                 options: {
                     blockAddButtonSelector: "storyAddTextBlock"
                 },
                 priority: "before:sequence"
             },
             changeHeadingAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "heading",
                     value: "Rootbeer's text block"
@@ -226,14 +226,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:addBlock"
             },
             removeHeadingAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.removeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.removeValueAndWaitToVerify",
                 options: {
                     field: "heading"
                 },
                 priority: "after:changeHeadingAndWaitToVerify"
             },
             changeTextAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "text",
                     value: "A story about my brother Shyguy"
@@ -241,14 +241,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:removeHeadingAndWaitToVerify"
             },
             removeTextAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.removeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.removeValueAndWaitToVerify",
                 options: {
                     field: "text"
                 },
                 priority: "after:changeTextAndWaitToVerify"
             },
             changeSimplifiedTextAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "simplifiedText",
                     value: "My brother Shyguy"
@@ -256,31 +256,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:removeTextAndWaitToVerify"
             },
             removeSimplifiedTextAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.removeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.removeValueAndWaitToVerify",
                 options: {
                     field: "simplifiedText"
                 },
                 priority: "after:changeSimplifiedTextAndWaitToVerify"
             },
             clearStoryBlocks: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.clearStoryBlocks",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.clearStoryBlocks",
                 priority: "after:removeSimplifiedTextAndWaitToVerify"
             }
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.imageBlockModelRelaySequence", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.imageBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
             addBlock: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.addBlock",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.addBlock",
                 options: {
                     blockAddButtonSelector: "storyAddImageBlock"
                 },
                 priority: "before:sequence"
             },
             changeHeadingAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "heading",
                     value: "Rootbeer's image block"
@@ -288,7 +288,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:addBlock"
             },
             changeDescriptionAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "description",
                     value: "A picture of my brother Shyguy"
@@ -296,7 +296,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeHeadingAndConfirmNoChange"
             },
             changeAlternativeTextAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "alternativeText",
                     value: "A cute grey Mackerel Tabby with Bengal spots"
@@ -304,7 +304,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeDescriptionAndConfirmNoChange"
             },
             changeImageUrlAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "imageUrl",
                     value: "notarealcatphotosadly.jpg"
@@ -312,24 +312,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeAlternativeTextAndConfirmNoChange"
             },
             clearStoryBlocks: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.clearStoryBlocks",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.clearStoryBlocks",
                 priority: "after:sequence"
             }
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.audioBlockModelRelaySequence", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.audioBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
             addBlock: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.addBlock",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.addBlock",
                 options: {
                     blockAddButtonSelector: "storyAddAudioBlock"
                 },
                 priority: "before:sequence"
             },
             changeHeadingAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "heading",
                     value: "Rootbeer's audio block"
@@ -337,7 +337,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:addBlock"
             },
             changeDescriptionAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "description",
                     value: "A recording of my brother Shyguy"
@@ -345,7 +345,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeHeadingAndConfirmNoChange"
             },
             changeAlternativeTextAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "alternativeText",
                     value: "A cat meowing softly"
@@ -353,7 +353,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeDescriptionAndConfirmNoChange"
             },
             changeTranscriptAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "transcript",
                     value: "Mrraow"
@@ -361,7 +361,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeAlternativeTextAndConfirmNoChange"
             },
             changeMediaUrlAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "mediaUrl",
                     value: "notarealmeowrecordingsadly.wav"
@@ -369,24 +369,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeTranscriptAndConfirmNoChange"
             },
             clearStoryBlocks: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.clearStoryBlocks",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.clearStoryBlocks",
                 priority: "after:sequence"
             }
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester.videoBlockModelRelaySequence", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester.videoBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
             addBlock: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.addBlock",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.addBlock",
                 options: {
                     blockAddButtonSelector: "storyAddVideoBlock"
                 },
                 priority: "before:sequence"
             },
             changeHeadingAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "heading",
                     value: "Rootbeer's video block"
@@ -394,7 +394,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:addBlock"
             },
             changeDescriptionAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "description",
                     value: "A video of my brother Shyguy"
@@ -402,7 +402,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeHeadingAndConfirmNoChange"
             },
             changeAlternativeTextAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "alternativeText",
                     value: "A cat stretching in the sunlight"
@@ -410,7 +410,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeDescriptionAndConfirmNoChange"
             },
             changeTranscriptAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeBlockAndConfirmNoChange",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeBlockAndConfirmNoChange",
                 options: {
                     field: "transcript",
                     value: "<No audio>"
@@ -418,7 +418,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeAlternativeTextAndConfirmNoChange"
             },
             changeMediaUrlAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.changeValueAndWaitToVerify",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "mediaUrl",
                     value: "notarealvideosadly.mp4"
@@ -426,13 +426,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "after:changeTranscriptAndConfirmNoChange"
             },
             clearStoryBlocks: {
-                gradeNames: "sjrk.storyTelling.page.storyEditTester.clearStoryBlocks",
+                gradeNames: "sjrk.storyTelling.baseTheme.page.storyEditTester.clearStoryBlocks",
                 priority: "after:sequence"
             }
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTester", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         members: {
             currentBlock: null // to track dynamic blockUi components
@@ -746,12 +746,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 name: "Test block filtering model relay: Text block",
                 expect: 10,
-                sequenceGrade: "sjrk.storyTelling.page.storyEditTester.textBlockModelRelaySequence"
+                sequenceGrade: "sjrk.storyTelling.baseTheme.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
                 name: "Test block filtering model relay: Image block",
                 expect: 12,
-                sequenceGrade: "sjrk.storyTelling.page.storyEditTester.imageBlockModelRelaySequence",
+                sequenceGrade: "sjrk.storyTelling.baseTheme.page.storyEditTester.imageBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
                     args: ["Story model block heading is as expected", "Rootbeer's image block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
@@ -772,7 +772,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 name: "Test block filtering model relay: Audio block",
                 expect: 14,
-                sequenceGrade: "sjrk.storyTelling.page.storyEditTester.audioBlockModelRelaySequence",
+                sequenceGrade: "sjrk.storyTelling.baseTheme.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
                     args: ["Story model block heading is as expected", "Rootbeer's audio block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
@@ -797,7 +797,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 name: "Test block filtering model relay: Video block",
                 expect: 14,
-                sequenceGrade: "sjrk.storyTelling.page.storyEditTester.videoBlockModelRelaySequence",
+                sequenceGrade: "sjrk.storyTelling.baseTheme.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
                     args: ["Story model block heading is as expected", "Rootbeer's video block", "{storyEdit}.storyPreviewer.story.model.content.0.heading"]
@@ -826,7 +826,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test progress visibility",
                 expect: 10,
                 sequence: [{
-                    funcName: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
+                    funcName: "sjrk.storyTelling.baseTheme.page.storyEditTester.verifyPublishStates",
                     args: [expectedVisibility.prePublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
@@ -835,7 +835,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEdit}.events.onStoryShareRequested",
-                    listener: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
+                    listener: "sjrk.storyTelling.baseTheme.page.storyEditTester.verifyPublishStates",
                     args: [expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
@@ -844,63 +844,63 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEdit}.events.onStoryShareComplete",
-                    listener: "sjrk.storyTelling.page.storyEditTester.verifyPublishStates",
+                    listener: "sjrk.storyTelling.baseTheme.page.storyEditTester.verifyPublishStates",
                     args: [expectedVisibility.postPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
-                    funcName: "sjrk.storyTelling.page.storyEditTester.verifyResponseText",
+                    funcName: "sjrk.storyTelling.baseTheme.page.storyEditTester.verifyResponseText",
                     args: ["{storyEdit}.storyPreviewer.dom.responseArea", "Publishing failed: Story about Shyguy didn't save because Rootbeer got jealous"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.page.storyEditTester.triggerButtonClick = function (component, buttonSelector) {
+    sjrk.storyTelling.baseTheme.page.storyEditTester.triggerButtonClick = function (component, buttonSelector) {
         component.locate(buttonSelector).click();
     };
 
-    sjrk.storyTelling.page.storyEditTester.getModelValueFromFieldName = function (component, fieldName) {
+    sjrk.storyTelling.baseTheme.page.storyEditTester.getModelValueFromFieldName = function (component, fieldName) {
         return fluid.get(component, "story.model.content.0." + fieldName);
     };
 
-    sjrk.storyTelling.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
-        sjrk.storyTelling.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
-        sjrk.storyTelling.page.storyEditTester.verifyElementVisibility(responseArea, expectedStates.responseArea);
-        sjrk.storyTelling.page.storyEditTester.verifyElementDisabled(shareButton, expectedStates.shareButton);
+    sjrk.storyTelling.baseTheme.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
+        sjrk.storyTelling.baseTheme.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
+        sjrk.storyTelling.baseTheme.page.storyEditTester.verifyElementVisibility(responseArea, expectedStates.responseArea);
+        sjrk.storyTelling.baseTheme.page.storyEditTester.verifyElementDisabled(shareButton, expectedStates.shareButton);
     };
 
-    sjrk.storyTelling.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
+    sjrk.storyTelling.baseTheme.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
         var isActuallyVisible = el.is(":visible");
         jqUnit.assertEquals("The element's visibility is as expected", isExpectedVisible, isActuallyVisible);
     };
 
-    sjrk.storyTelling.page.storyEditTester.verifyElementDisabled = function (el, isExpectedDisabled) {
+    sjrk.storyTelling.baseTheme.page.storyEditTester.verifyElementDisabled = function (el, isExpectedDisabled) {
         var isActuallyDisabled = el.prop("disabled");
         jqUnit.assertEquals("The element's 'disabled' value is as expected", isExpectedDisabled, isActuallyDisabled);
     };
 
-    sjrk.storyTelling.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
+    sjrk.storyTelling.baseTheme.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
         var actualText = responseArea.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
     };
 
-    fluid.defaults("sjrk.storyTelling.page.storyEditTest", {
+    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEditTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
             storyEdit: {
-                type: "sjrk.storyTelling.page.testStoryEdit",
+                type: "sjrk.storyTelling.baseTheme.page.testStoryEdit",
                 container: "#testStoryEdit",
                 createOnEvent: "{storyEditTester}.events.onTestCaseStart"
             },
             storyEditTester: {
-                type: "sjrk.storyTelling.page.storyEditTester"
+                type: "sjrk.storyTelling.baseTheme.page.storyEditTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.page.storyEditTest"
+            "sjrk.storyTelling.baseTheme.page.storyEditTest"
         ]);
     });
 
