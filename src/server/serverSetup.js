@@ -28,6 +28,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     // savingEnabled: true
                 },
                 secureConfig: {
+                    baseThemeName: "base",
                     themesPath: "./themes/%theme",
                     binaryUploadDirectory: "./uploads",
                     uploadedFilesHandlerPath: "/uploads",
@@ -79,12 +80,12 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
-                                "infusion",
                                 "gpii-binder",
-                                "sjrk-story-telling",
+                                "gpii-handlebars",
                                 "handlebars",
+                                "infusion",
                                 "markdown-it",
-                                "gpii-handlebars"]
+                                "sinon"]
                         }
                     },
                     nodeModules: {
@@ -134,7 +135,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     baseTheme: {
                         type: "kettle.middleware.static",
                         options: {
-                            root: "@expand:sjrk.storyTelling.server.getThemePath(base, {server}.options.secureConfig.themesPath)",
+                            root: "@expand:sjrk.storyTelling.server.getThemePath({server}.options.secureConfig.baseThemeName, {server}.options.secureConfig.themesPath)",
                             middlewareOptions: {
                                 index: "storyBrowse.html"
                             }

@@ -5,11 +5,13 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, jqUnit, sjrk */
+/* global fluid, jqUnit, sjrk, sinon */
 
 "use strict";
 
 (function ($, fluid) {
+
+    var mockServer;
 
     jqUnit.test("Test getParameterByName function", function () {
         var testCases = [
@@ -93,35 +95,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 8,
+                expect: 6,
                 sequence: [{
-                    // call the load themed page function, forcing the base theme
-                    task: "sjrk.storyTelling.loadThemedPage",
+                    // call the load themed page function, forcing the base theme response
+                    task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
                     args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "base"],
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The themed page load resolved as expected", "base", "{arguments}.0"]
                 },{
-                    // call the load themed page function, forcing the Learning Reflections theme
-                    task: "sjrk.storyTelling.loadThemedPage",
+                    // call the load themed page function, forcing the Learning Reflections theme response
+                    task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
                     args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "learningReflections"],
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
                 },{
-                    // call the load themed page function, forcing a falsy theme
-                    task: "sjrk.storyTelling.loadThemedPage",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", null],
-                    resolve: "jqUnit.assertEquals",
-                    resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
-                },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
-                    args: ["learningReflections.css", 2]
+                    args: ["learningReflections.css", 1]
                 },{
                     // test the CSS/JS injection function directly
                     funcName: "sjrk.storyTelling.loadCustomThemeFiles",
                     args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "learningReflections"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
-                    args: ["learningReflections.css", 3]
+                    args: ["learningReflections.css", 2]
                 // },{
                 //     // load a base Browse page and check that the stories are present
                 //     task: "sjrk.storyTelling.loadBrowse",
@@ -138,6 +134,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
+
+    sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest = function (callback, themeToTest) {
+        var loadPromise = fluid.promise();
+
+        sjrk.storyTelling.storyTellingServerUiTester.setupMockServer("/clientConfig", JSON.stringify({
+            clientConfig: {
+                theme: themeToTest
+            }
+        }));
+
+        sjrk.storyTelling.loadThemedPage(callback).then(function (theme) {
+            loadPromise.resolve(theme);
+        }, function () {
+            loadPromise.reject();
+        });
+
+        sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer();
+
+        return loadPromise;
+    };
+
+    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, responseData) {
+        mockServer = sinon.createFakeServer();
+        mockServer.respondImmediately = true;
+
+        mockServer.respondWith(url, [200, { "Content-Type": "application/json" }, responseData]);
+    };
+
+    sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {
+        mockServer.restore();
+    };
 
     sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedFileName, expectedInstanceCount) {
         var cssFilesLinked = fluid.transform(fluid.getMembers($("link"), "href"), function (fileUrl) {

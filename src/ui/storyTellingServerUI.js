@@ -60,7 +60,7 @@ sjrk.storyTelling.loadStoryFromParameter = function (theme, options) {
     } else {
         storyPromise.reject({
             isError: true,
-            message: "No story ID provided"
+            message: "Story not loaded: no story ID provided"
         });
     }
 
@@ -101,21 +101,19 @@ sjrk.storyTelling.loadBrowse = function (theme, options) {
     return storiesPromise;
 };
 
-/* Loads custom theme files if and only if one of either the theme override or
- * server configuration theme are present AND not set to the base theme.
- * Once complete, the provided callback function is called and the theme name is
- * passed into it. If custom theme files are not loaded, the "base" theme is passed.
+/* Gets the current theme from the server and loads associated  files if and
+ * only if the current theme is not set to the base theme. Once complete, the
+ * provided callback function is called and the theme name is passed into it.
  * - "callback": a function to call once everything has completed. Will be called
  *               regardless of whether theme information was specified or retrieved
- * - "themeOverride": allows overriding of the theme stored in the configuration
  */
-sjrk.storyTelling.loadThemedPage = function (callback, themeOverride) {
+sjrk.storyTelling.loadThemedPage = function (callback) {
     var loadPromise = fluid.promise();
 
     var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
 
     $.get("/clientConfig").then(function (data) {
-        var theme = themeOverride ? themeOverride : data.clientConfig.theme;
+        var theme = data.clientConfig.theme;
 
         if (theme !== "base") {
             return sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, theme).then(function () {
