@@ -353,16 +353,17 @@ fluid.defaults("sjrk.storyTelling.server.clientConfigHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.getClientConfig",
-            args: ["{arguments}.0", "{server}.options.globalConfig"]
+            args: ["{arguments}.0", "{server}.options.globalConfig", "{server}.options.secureConfig"]
         }
     }
 });
 
 // Returns a collection of values which are "safe" to share
 // with the client side of the application
-sjrk.storyTelling.server.getClientConfig = function (request, globalConfig) {
+sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secureConfig) {
     var clientConfig = {
-        theme: globalConfig.theme || "base",
+        theme: globalConfig.theme || secureConfig.baseThemeName,
+        baseTheme: secureConfig.baseThemeName,
         savingEnabled: globalConfig.savingEnabled
     };
 

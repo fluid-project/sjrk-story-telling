@@ -89,6 +89,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     //     }
     // };
 
+    var loadThemedPageTestCases = {
+        base: {
+            theme: "base",
+            baseTheme: "base",
+            savingEnabled: true
+        },
+        learningReflections: {
+            theme: "learningReflections",
+            baseTheme: "base",
+            savingEnabled: true
+        }
+    };
+
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -99,22 +112,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 sequence: [{
                     // call the load themed page function, forcing the base theme response
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "base"],
-                    resolve: "jqUnit.assertEquals",
-                    resolveArgs: ["The themed page load resolved as expected", "base", "{arguments}.0"]
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", loadThemedPageTestCases.base.theme],
+                    resolve: "jqUnit.assertDeepEq",
+                    resolveArgs: ["The themed page load resolved as expected", loadThemedPageTestCases.base, "{arguments}.0"]
                 },{
                     // call the load themed page function, forcing the Learning Reflections theme response
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "learningReflections"],
-                    resolve: "jqUnit.assertEquals",
-                    resolveArgs: ["The themed page load resolved as expected", "learningReflections", "{arguments}.0"]
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", loadThemedPageTestCases.learningReflections.theme],
+                    resolve: "jqUnit.assertDeepEq",
+                    resolveArgs: ["The themed page load resolved as expected", loadThemedPageTestCases.learningReflections, "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["learningReflections.css", 1]
                 },{
                     // test the CSS/JS injection function directly
                     funcName: "sjrk.storyTelling.loadCustomThemeFiles",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "learningReflections"]
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", {"theme": "learningReflections"}]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["learningReflections.css", 2]
@@ -135,17 +148,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest = function (callback, themeToTest) {
+    sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest = function (callback, expectedTheme) {
         var loadPromise = fluid.promise();
 
         sjrk.storyTelling.storyTellingServerUiTester.setupMockServer("/clientConfig", JSON.stringify({
             clientConfig: {
-                theme: themeToTest
+                theme: expectedTheme,
+                baseTheme: "base",
+                savingEnabled: true
             }
         }));
 
-        sjrk.storyTelling.loadThemedPage(callback).then(function (theme) {
-            loadPromise.resolve(theme);
+        sjrk.storyTelling.loadThemedPage(callback).then(function (clientConfig) {
+            loadPromise.resolve(clientConfig);
         }, function () {
             loadPromise.reject();
         });

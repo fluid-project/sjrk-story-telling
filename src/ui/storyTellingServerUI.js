@@ -25,10 +25,13 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
 };
 
 /* Loads a story View page and a particular story from a story ID from the query string
- * - "theme": the theme of the story View page (pass "page" in for base theme)
+* - "clientConfig": a collection of client config values consisting of
+*     - "theme": the current theme of the site
+*     - "baseTheme": the base theme of the site
+*     - "savingEnabled": indicates whether saving and editing are enabled
  * - "options": additional options to merge into the View page
  */
-sjrk.storyTelling.loadStoryFromParameter = function (theme, options) {
+sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
     var storyPromise = fluid.promise();
 
     var storyId = sjrk.storyTelling.getParameterByName("id");
@@ -44,10 +47,10 @@ sjrk.storyTelling.loadStoryFromParameter = function (theme, options) {
             };
 
             var storyViewComponent;
-            if (theme === "base") {
+            if (clientConfig.theme === clientConfig.baseTheme) {
                 storyViewComponent = sjrk.storyTelling.page.storyView(options);
             } else {
-                storyViewComponent = sjrk.storyTelling[theme].storyView(options);
+                storyViewComponent = sjrk.storyTelling[clientConfig.theme].storyView(options);
             }
 
             storyPromise.resolve(storyViewComponent);
@@ -68,10 +71,13 @@ sjrk.storyTelling.loadStoryFromParameter = function (theme, options) {
 };
 
 /* Loads a story Browse page and populates it with a set of stories
- * - "theme": the theme of the story Browse page (pass "page" in for base theme)
+* - "clientConfig": a collection of client config values consisting of
+*     - "theme": the current theme of the site
+*     - "baseTheme": the base theme of the site
+*     - "savingEnabled": indicates whether saving and editing are enabled
  * - "options": additional options to merge into the Browse page
  */
-sjrk.storyTelling.loadBrowse = function (theme, options) {
+sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
     var storiesPromise = fluid.promise();
 
     $.get("/stories", function (data) {
@@ -84,10 +90,10 @@ sjrk.storyTelling.loadBrowse = function (theme, options) {
         };
 
         var storyBrowseComponent;
-        if (theme === "base") {
+        if (clientConfig.theme === clientConfig.baseTheme) {
             storyBrowseComponent = sjrk.storyTelling.page.storyBrowse(options);
         } else {
-            storyBrowseComponent = sjrk.storyTelling[theme].storyBrowse(options);
+            storyBrowseComponent = sjrk.storyTelling[clientConfig.theme].storyBrowse(options);
         }
 
         storiesPromise.resolve(storyBrowseComponent);
@@ -113,11 +119,9 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
     var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
 
     $.get("/clientConfig").then(function (data) {
-        var theme = data.clientConfig.theme;
-
-        if (theme !== "base") {
-            return sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, theme).then(function () {
-                loadPromise.resolve(theme);
+        if (data.clientConfig.theme !== data.clientConfig.baseTheme) {
+            sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, data.clientConfig).then(function () {
+                loadPromise.resolve(data.clientConfig);
             }, function (jqXHR, textStatus, errorThrown) {
                 loadPromise.reject({
                     isError: true,
@@ -125,8 +129,8 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
                 });
             });
         } else {
-            callbackFunction(theme);
-            loadPromise.resolve(theme);
+            callbackFunction(data.clientConfig);
+            loadPromise.resolve(data.clientConfig);
         }
     }, function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({
@@ -140,14 +144,17 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
 
 /* Loads CSS and JavaScript files for the provided theme into the page markup.
  * If JavaScript file loading is successful, the callback function is called.
- * - "theme": the theme of the story Browse page (pass "page" in for base theme)
  * - "callback": a function to call once everything has completed
+ * - "clientConfig": a collection of client config values consisting of
+ *     - "theme": the current theme of the site
+ *     - "baseTheme": the base theme of the site
+ *     - "savingEnabled": indicates whether saving and editing are enabled
  */
-sjrk.storyTelling.loadCustomThemeFiles = function (callback, theme) {
+sjrk.storyTelling.loadCustomThemeFiles = function (callback, clientConfig) {
     var loadPromise = fluid.promise();
 
-    var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: theme});
-    var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: theme});
+    var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: clientConfig.theme});
+    var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: clientConfig.theme});
 
     $("<link/>", {
         rel: "stylesheet",
@@ -157,7 +164,7 @@ sjrk.storyTelling.loadCustomThemeFiles = function (callback, theme) {
 
     $.getScript(scriptUrl, function () {
         if (typeof callback === "function") {
-            var callbackResult = callback(theme);
+            var callbackResult = callback(clientConfig);
             loadPromise.resolve(callbackResult);
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {

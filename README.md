@@ -14,6 +14,16 @@ This project also uses [Node.js](https://nodejs.org), [Kettle](https://github.co
 
 ## How do I use it?
 
+### Running the site
+* `npm install` to install dependencies
+* Run a CouchDB server on `localhost:5984`
+    * Docker is an easy way to do this, we recommend the `apache/couchdb` image. To use that image via Docker, run this command: `docker run -p 5984:5984 -d apache/couchdb`
+* Run `node .\src\server\db\dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB instance is set up in [single-node mode](https://docs.couchdb.org/en/stable/setup/single-node.html))
+    * If you have an [admin user](https://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB instance, you will need to provide the credentials to `dbSetup.js`. This can be done by setting the `COUCHDB_URL` environment variable. `dbSetup.js` will use the URL specified in `COUCHDB_URL` when connecting to CouchDB. For example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
+* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example` and place it in the application root (where the example file is located). See [Configuring the application](#configuring-the-application) for more information on configuring the application.
+* Create a `secrets.json` file in the style of `secrets.json.example`, also in the application root. This file specifies credentials for the story deletion endpoint
+* Run `node .\index.js` to launch the server
+
 ### Development
 The tool is split up into two main pieces: a webserver to manage communication with the CouchDB database, and an HTML interface for creating and sharing stories.
 * Server code can be found in `src/server`
@@ -28,16 +38,6 @@ While Infusion allows for just about any possible extension you can imagine and 
 | `savingEnabled` | Specifies whether saving stories to the database is allowed. If the value is set to `false` and the matching option in `sjrk.storyTelling.page`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. For best results, the values in this config file and the `page` grade should match each other. |
 | `theme` | _(Optional)_ The theme to load the site with. If this isn't specified, a base theme will be loaded. More info on this can be found in [Theme Customization](#Theme-Customization). |
 | `themeIndexFile` | _(Optional)_ The file to serve at the site root. E.g. `"themeIndexFile": "index2.html"`. The default is `storyBrowse.html`. If `theme` is not provided, this setting will be ignored and the default will be served. |
-
-### Running the site
-* `npm install` to install dependencies
-* Run a CouchDB server on `localhost:5984`
-    * Docker is an easy way to do this, we recommend the `apache/couchdb` image. To use that image via Docker, run this command: `docker run -p 5984:5984 -d apache/couchdb`
-* Run `node .\src\server\db\dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB instance is set up in [single-node mode](https://docs.couchdb.org/en/stable/setup/single-node.html))
-    * If you have an [admin user](https://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB instance, you will need to provide the credentials to `dbSetup.js`. This can be done by setting the `COUCHDB_URL` environment variable. `dbSetup.js` will use the URL specified in `COUCHDB_URL` when connecting to CouchDB. For example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
-* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example` and place it in the application root (where the example file is located). See [Configuring the application](#configuring-the-application) for more information on configuring the application.
-* Create a `secrets.json` file in the style of `secrets.json.example`, also in the application root. This file specifies credentials for the story deletion endpoint
-* Run `node .\index.js` to launch the server
 
 ### Theme customization
 #### Provided themes

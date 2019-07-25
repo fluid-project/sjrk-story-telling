@@ -190,7 +190,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.testUtils.callbackVerificationFunction = function (value) {
         if (value) {
-            jqUnit.assert("Callback was successfully called with value: " + value);
+            jqUnit.assert("Callback was successfully called with value: " + JSON.stringify(value));
         }
     };
 
