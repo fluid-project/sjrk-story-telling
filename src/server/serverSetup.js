@@ -35,33 +35,19 @@ fluid.defaults("sjrk.storyTelling.server", {
                     secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
                 },
                 port: "{that}.options.globalConfig.port",
+                distributeOptions: {
+                    record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
+                    target: "{that sjrk.storyTelling.server.dataSource.couch.base}.options.host"
+                },
                 components: {
                     viewDataSource: {
-                        type: "sjrk.storyTelling.server.dataSource.couch.view",
-                        options: {
-                            distributeOptions: {
-                                target: "{that}.options.host",
-                                record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            }
-                        }
+                        type: "sjrk.storyTelling.server.dataSource.couch.view"
                     },
                     storyDataSource: {
-                        type: "sjrk.storyTelling.server.dataSource.couch.story",
-                        options: {
-                            distributeOptions: {
-                                target: "{that}.options.host",
-                                record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            }
-                        }
+                        type: "sjrk.storyTelling.server.dataSource.couch.story"
                     },
                     deleteStoryDataSource: {
-                        type: "sjrk.storyTelling.server.dataSource.couch.deleteStory",
-                        options: {
-                            distributeOptions: {
-                                target: "{that}.options.host",
-                                record: "@expand:kettle.resolvers.env(COUCHDB_URL)"
-                            }
-                        }
+                        type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
                     },
                     saveStoryWithBinaries: {
                         type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
