@@ -120,13 +120,13 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
-            args: ["{arguments}.0", "{server}.storyDataSource", "{server}.options.globalConfig.savingEnabled"]
+            args: ["{arguments}.0", "{server}.storyDataSource", "{server}.options.globalConfig.authoringEnabled"]
         }
     }
 });
 
-sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, savingEnabled) {
-    if (savingEnabled) {
+sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
+    if (authoringEnabled) {
         var id = uuidv1();
 
         var storyModel = JSON.parse(request.req.body.model);
@@ -364,7 +364,7 @@ sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secu
     var clientConfig = {
         theme: globalConfig.theme || secureConfig.baseThemeName,
         baseTheme: secureConfig.baseThemeName,
-        savingEnabled: globalConfig.savingEnabled
+        authoringEnabled: globalConfig.authoringEnabled
     };
 
     request.events.onSuccess.fire({

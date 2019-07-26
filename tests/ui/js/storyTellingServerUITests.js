@@ -93,12 +93,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         base: {
             theme: "base",
             baseTheme: "base",
-            savingEnabled: true
+            authoringEnabled: true
         },
         learningReflections: {
             theme: "learningReflections",
             baseTheme: "base",
-            savingEnabled: true
+            authoringEnabled: true
         }
     };
 
@@ -155,7 +155,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             clientConfig: {
                 theme: expectedTheme,
                 baseTheme: "base",
-                savingEnabled: true
+                authoringEnabled: true
             }
         }));
 

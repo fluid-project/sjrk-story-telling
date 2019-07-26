@@ -18,12 +18,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         pageSetup: {
             resourcePrefix: "",
-            savingEnabled: true // should match the setting in sjrk.storyTelling.server.config.json5
+            authoringEnabled: true // should match the setting in sjrk.storyTelling.server.config.json5
         },
         distributeOptions: [
             {
-                source: "{that}.options.pageSetup.savingEnabled",
-                target: "{that ui templateManager}.options.model.dynamicValues.savingEnabled"
+                source: "{that}.options.pageSetup.authoringEnabled",
+                target: "{that ui templateManager}.options.model.dynamicValues.authoringEnabled"
             },
             {
                 source: "{that}.options.pageSetup.resourcePrefix",

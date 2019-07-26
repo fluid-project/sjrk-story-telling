@@ -65,7 +65,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             setEditorDisplay: {
                 funcName: "sjrk.storyTelling.baseTheme.page.storyEdit.setEditorDisplay",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.savingEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
+                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
         /*
@@ -247,9 +247,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    sjrk.storyTelling.baseTheme.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, savingEnabled, hiddenEditorClass) {
-        $(mainContainer).prop("hidden", !savingEnabled);
-        $(pageContainer).toggleClass(hiddenEditorClass, !savingEnabled);
+    sjrk.storyTelling.baseTheme.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
+        $(mainContainer).prop("hidden", !authoringEnabled);
+        $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
     sjrk.storyTelling.baseTheme.page.storyEdit.submitStory = function (that, errorEvent) {

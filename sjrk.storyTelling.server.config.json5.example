@@ -16,7 +16,7 @@
                         "themeIndexFile": "introduction.html",
 
                         // if true, saving stories to the database will be enabled
-                        "savingEnabled": true
+                        "authoringEnabled": true
                     }
                 }
             }

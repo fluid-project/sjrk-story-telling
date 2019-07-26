@@ -316,11 +316,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{storySave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.savingEnabled"]
+        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}", "{that}.configuration.server.options.globalConfig.savingEnabled"]
+        args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{getSavedStory}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
@@ -334,13 +334,13 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
             },
             "{testCaseHolder}.events.onTestImageRetrieval",
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     },
     {
         event: "{that}.events.onTestImageRetrieval",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
-        args: ["{arguments}.0", "{getUploadedImage}", "{that}.configuration.server.options.globalConfig.savingEnabled"]
+        args: ["{arguments}.0", "{getUploadedImage}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
     {
         event: "{getUploadedImage}.events.onComplete",
@@ -348,12 +348,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: [
             "{arguments}.0",
             "{arguments}.1",
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     },
     {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.savingEnabled"]
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
     // Blank story
     {
@@ -365,7 +365,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.0",
             "{arguments}.1",
             "{that}.events.onBlankStorySaveSuccessful",
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     }, {
         event: "{that}.events.onBlankStorySaveSuccessful",
@@ -374,7 +374,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.0",
             "{arguments}.1",
             "{getSavedBlankStory}",
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     }, {
         event: "{getSavedBlankStory}.events.onComplete",
@@ -385,7 +385,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             blankStory,
             null, // No file expected
             null, // No event needed
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     },
     // Blank story with empty media blocks
@@ -398,7 +398,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.0",
             "{arguments}.1",
             "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     }, {
         event: "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
@@ -407,7 +407,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.0",
             "{arguments}.1",
             "{getSavedBlankStoryWithEmptyMediaBlocks}",
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     }, {
         event: "{getSavedBlankStoryWithEmptyMediaBlocks}.events.onComplete",
@@ -418,7 +418,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             blankStoryWithEmptyMediaBlocks,
             null, // No file expected
             null, // No event needed
-            "{that}.configuration.server.options.globalConfig.savingEnabled"
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     }]
 }];
@@ -432,10 +432,10 @@ sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = f
     });
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful = function (data, request, completionEvent, savingEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful = function (data, request, completionEvent, authoringEnabled) {
     var parsedData = JSON.parse(data);
 
-    if (savingEnabled) {
+    if (authoringEnabled) {
         jqUnit.assertTrue("Response OK is true", parsedData.ok);
         jqUnit.assertTrue("Response contains ID field", parsedData.id);
         jqUnit.assertTrue("Response contains binaryRenameMap field", parsedData.binaryRenameMap);
@@ -448,8 +448,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessfu
     }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest, savingEnabled) {
-    if (savingEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest, authoringEnabled) {
+    if (authoringEnabled) {
         // We store this material on the request so we can
         // keep moving it forward; may be a better way
         getSavedStoryRequest.binaryRenameMap = binaryRenameMap;
@@ -458,11 +458,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent, savingEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent, authoringEnabled) {
     var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
 
-    if (savingEnabled) {
+    if (authoringEnabled) {
         // update the expected model to use the
         // dynamically-generated file name before we
         // test on it
@@ -501,8 +501,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
     }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, savingEnabled) {
-    if (savingEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, authoringEnabled) {
+    if (authoringEnabled) {
         // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
         var imageFilename, handlerPath;
         handlerPath = imageUrl.split("/")[1];
@@ -510,12 +510,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = funct
 
         getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
     } else {
-        getUploadedImageRequest.send(null, {termMap: {imageFilename: savingEnabled, handlerPath: savingEnabled}});
+        getUploadedImageRequest.send(null, {termMap: {imageFilename: authoringEnabled, handlerPath: authoringEnabled}});
     }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request, savingEnabled) {
-    if (savingEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request, authoringEnabled) {
+    if (authoringEnabled) {
         jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
         jqUnit.assertEquals("header.content-type is image/png", "image/png", request.nativeResponse.headers["content-type"]);
         jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);

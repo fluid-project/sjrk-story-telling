@@ -25,7 +25,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     // port: "",
                     // theme: "",
                     // themeIndexFile": "",
-                    // savingEnabled: true
+                    // authoringEnabled: true
                 },
                 secureConfig: {
                     baseThemeName: "base",

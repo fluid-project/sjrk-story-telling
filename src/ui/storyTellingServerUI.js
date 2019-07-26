@@ -28,7 +28,7 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
  * - "clientConfig": a collection of client config values consisting of
  *     - "theme": the current theme of the site
  *     - "baseTheme": the base theme of the site
- *     - "savingEnabled": indicates whether saving and editing are enabled
+ *     - "authoringEnabled": indicates whether story saving and editing are enabled
  * - "options": additional options to merge into the View page
  */
 sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
@@ -45,8 +45,8 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
                 "target": "{that story}.options.model",
                 "record": retrievedStory
             },{
-                "target": "{that}.options.pageSetup.savingEnabled",
-                "record": clientConfig.savingEnabled
+                "target": "{that}.options.pageSetup.authoringEnabled",
+                "record": clientConfig.authoringEnabled
             }];
 
             var storyViewComponent = sjrk.storyTelling[clientConfig.theme].page.storyView(options);
@@ -72,7 +72,7 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
  * - "clientConfig": a collection of client config values consisting of
  *     - "theme": the current theme of the site
  *     - "baseTheme": the base theme of the site
- *     - "savingEnabled": indicates whether saving and editing are enabled
+ *     - "authoringEnabled": indicates whether story saving and editing are enabled
  * - "options": additional options to merge into the Browse page
  */
 sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
@@ -86,8 +86,8 @@ sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
             "target": "{that storyBrowser}.options.model",
             "record": browseResponse
         },{
-            "target": "{that}.options.pageSetup.savingEnabled",
-            "record": clientConfig.savingEnabled
+            "target": "{that}.options.pageSetup.authoringEnabled",
+            "record": clientConfig.authoringEnabled
         }];
 
         var storyBrowseComponent = sjrk.storyTelling[clientConfig.theme].page.storyBrowse(options);
@@ -144,7 +144,7 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
  * - "clientConfig": a collection of client config values consisting of
  *     - "theme": the current theme of the site
  *     - "baseTheme": the base theme of the site
- *     - "savingEnabled": indicates whether saving and editing are enabled
+ *     - "authoringEnabled": indicates whether story saving and editing are enabled
  */
 sjrk.storyTelling.loadCustomThemeFiles = function (callback, clientConfig) {
     var loadPromise = fluid.promise();

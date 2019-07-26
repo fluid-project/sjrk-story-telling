@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.baseTheme.page.storyEdit"],
         pageSetup: {
             resourcePrefix: "../..",
-            savingEnabled: false
+            authoringEnabled: false
         },
         selectors: {
             mainContainer: "#testMainContainer",
