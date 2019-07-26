@@ -11,8 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    fluid.defaults("sjrk.storyTelling.baseTheme.page.storyEdit", {
-        gradeNames: ["sjrk.storyTelling.baseTheme.page"],
+    fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
+        gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
             hiddenEditorClass: "hidden"
         },
@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "escalate"
             },
             "onStoryShareRequested.submitStory": {
-                funcName: "sjrk.storyTelling.baseTheme.page.storyEdit.submitStory",
+                funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
             },
             "onCreate.setEditorDisplay": {
@@ -64,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         invokers: {
             setEditorDisplay: {
-                funcName: "sjrk.storyTelling.baseTheme.page.storyEdit.setEditorDisplay",
+                funcName: "sjrk.storyTelling.base.page.storyEdit.setEditorDisplay",
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             }
         },
@@ -83,7 +83,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 target: "{storyPreviewer}.story.model",
                 singleTransform: {
                     type: "fluid.transforms.free",
-                    func: "sjrk.storyTelling.baseTheme.page.storyEdit.removeEmptyBlocks",
+                    func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
                     args: ["{storyEditor}.story.model", "{that}.options.blockContentValues"]
                 }
             }
@@ -227,9 +227,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "blockContentValues": a collection of arrays which outline the values
      *      that, if at least one is truthy, means a particular block is not empty
      */
-    sjrk.storyTelling.baseTheme.page.storyEdit.removeEmptyBlocks = function (storyModel, blockContentValues) {
+    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (storyModel, blockContentValues) {
         storyModel.content = fluid.remove_if(storyModel.content, function (block) {
-            return sjrk.storyTelling.baseTheme.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType]);
+            return sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType]);
         });
 
         return storyModel;
@@ -241,18 +241,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "block": a story block
      * - "blockContentValues": an array of the values as described above
      */
-    sjrk.storyTelling.baseTheme.page.storyEdit.isEmptyBlock = function (block, blockContentValues) {
+    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValues) {
         return !fluid.find_if(blockContentValues, function (blockContentValues) {
             return !!block[blockContentValues];
         });
     };
 
-    sjrk.storyTelling.baseTheme.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
+    sjrk.storyTelling.base.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
         $(mainContainer).prop("hidden", !authoringEnabled);
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
-    sjrk.storyTelling.baseTheme.page.storyEdit.submitStory = function (that, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (that, errorEvent) {
         var form = that.container.find("form");
 
         form.attr("action", "/stories/");

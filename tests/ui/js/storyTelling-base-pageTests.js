@@ -11,8 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    fluid.defaults("sjrk.storyTelling.baseTheme.page.testPage", {
-        gradeNames: ["sjrk.storyTelling.baseTheme.page"],
+    fluid.defaults("sjrk.storyTelling.base.page.testPage", {
+        gradeNames: ["sjrk.storyTelling.base.page"],
         events: {
             onCookieDropped: null
         },
@@ -45,7 +45,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.baseTheme.page.pageTester", {
+    fluid.defaults("sjrk.storyTelling.base.page.pageTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
             name: "Test page grade",
@@ -128,7 +128,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.baseTheme.page.pageTester.verifyUioPanelLanguages",
+                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
                     "args": ["{testPage}", "es"]
                 },
                 {
@@ -137,7 +137,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.baseTheme.page.pageTester.verifyUioPanelLanguages",
+                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
                     "args": ["{testPage}", "en"]
                 },
                 {
@@ -193,7 +193,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test functions and invokers",
                 expect: 22,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.baseTheme.page.renderAllUiTemplates",
+                    "funcName": "sjrk.storyTelling.base.page.renderAllUiTemplates",
                     "args": "{testPage}"
                 },
                 {
@@ -202,7 +202,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": "menu re-rendered after call to renderAllUiTemplates"
                 },
                 {
-                    "funcName": "sjrk.storyTelling.baseTheme.page.getStoredPreferences",
+                    "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
                 },
                 {
@@ -211,12 +211,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": ["UIO language is correct after call to getStoredPreferences", "en", "{testPage}.uio.options.multilingualSettings.locale"]
                 },
                 {
-                    "funcName": "sjrk.storyTelling.baseTheme.page.reloadUioMessages",
+                    "funcName": "sjrk.storyTelling.base.page.reloadUioMessages",
                     "args": ["en", "{testPage}.uio.prefsEditorLoader.messageLoader", "options.locale"]
                 },
                 {
                     "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.baseTheme.page.pageTester.verifyUioPanelLanguages",
+                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
                     "args": ["{testPage}", "en"]
                 },
                 {
@@ -230,7 +230,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.baseTheme.page.pageTester.verifyUioPanelLanguages",
+                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
                     "args": ["{testPage}", "en"]
                 },
                 {
@@ -239,12 +239,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": ["UIO messages reloaded successfully", "en", "{testPage}.uio.prefsEditorLoader.messageLoader.options.locale"]
                 },
                 {
-                    "funcName": "sjrk.storyTelling.baseTheme.page.updateUioPanelLanguages",
+                    "funcName": "sjrk.storyTelling.base.page.updateUioPanelLanguages",
                     "args": ["{testPage}.uio.prefsEditorLoader", "{testPage}"]
                 },
                 {
                     "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.baseTheme.page.pageTester.verifyUioPanelLanguages",
+                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
                     "args": ["{testPage}", "en"]
                 }]
             },
@@ -270,7 +270,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": ["Cookie was saved after new value added, cookie data is as expected", "yes please", "{arguments}.0.fuzzyCat"]
                 },
                 {
-                    "funcName": "sjrk.storyTelling.baseTheme.page.getStoredPreferences",
+                    "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
                 },
                 {
@@ -280,12 +280,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 // reset the cookie to its initial state for subsequent test runs
                 {
-                    "funcName": "sjrk.storyTelling.baseTheme.page.pageTester.dropCookie",
+                    "funcName": "sjrk.storyTelling.base.page.pageTester.dropCookie",
                     "args": ["{testPage}.cookieStore.options.cookie.name", "{testPage}.events.onCookieDropped"]
                 },
                 {
                     "event": "{testPage}.events.onCookieDropped",
-                    "listener": "sjrk.storyTelling.baseTheme.page.getStoredPreferences",
+                    "listener": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
                 },
                 {
@@ -301,12 +301,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "cookieName": the name of the cookie to be dropped
      * - "completionEvent": the event to be fired upon dropping
      */
-    sjrk.storyTelling.baseTheme.page.pageTester.dropCookie = function (cookieName, completionEvent) {
+    sjrk.storyTelling.base.page.pageTester.dropCookie = function (cookieName, completionEvent) {
         document.cookie = cookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         completionEvent.fire();
     };
 
-    sjrk.storyTelling.baseTheme.page.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
+    sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
         if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
             fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
                 if (key.startsWith("fluid_prefs_panel_")) {
@@ -318,23 +318,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    fluid.defaults("sjrk.storyTelling.baseTheme.page.pageTest", {
+    fluid.defaults("sjrk.storyTelling.base.page.pageTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
             testPage: {
-                type: "sjrk.storyTelling.baseTheme.page.testPage",
+                type: "sjrk.storyTelling.base.page.testPage",
                 container: "#testPage",
                 createOnEvent: "{pageTester}.events.onTestCaseStart"
             },
             pageTester: {
-                type: "sjrk.storyTelling.baseTheme.page.pageTester"
+                type: "sjrk.storyTelling.base.page.pageTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.baseTheme.page.pageTest"
+            "sjrk.storyTelling.base.page.pageTest"
         ]);
     });
 

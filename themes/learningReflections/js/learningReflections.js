@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.learningReflections.page", {
-        gradeNames: ["sjrk.storyTelling.baseTheme.page"],
+        gradeNames: ["sjrk.storyTelling.base.page"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/learningReflections-menu.handlebars"
@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Learning Reflections shell to the storyView page
     fluid.defaults("sjrk.storyTelling.learningReflections.page.storyView", {
-        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.baseTheme.page.storyView"],
+        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyView"],
         distributeOptions: {
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/learningReflections-storyViewer.handlebars"
@@ -68,7 +68,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Learning Reflections shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.learningReflections.page.storyBrowse", {
-        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.baseTheme.page.storyBrowse"],
+        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyBrowse"],
         distributeOptions: {
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/learningReflections-storyBrowser.handlebars"
@@ -86,7 +86,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // Applies the Learning Reflections shell to the storyEdit page
     fluid.defaults("sjrk.storyTelling.learningReflections.page.storyEdit", {
-        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.baseTheme.page.storyEdit"],
+        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyEdit"],
         distributeOptions: [{
             target: "{that > storyEditor > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/learningReflections-storyEditor.handlebars"

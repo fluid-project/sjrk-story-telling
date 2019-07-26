@@ -36,12 +36,12 @@
 - `sjrk.storyTelling.ui.storyEditor` is an editing interface for a `story` (which it has as a component). It has a handlebars template associated with it called `storyEditor.handlebars`, and a `binder` to connect the title, author and keywords fields to their respective model values in the `story`. It makes use of a `dynamicViewComponentManager` called **blockManager** to add blocks of varying types on demand.
 - `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.handlebars`.
 - `sjrk.storyTelling.ui.storyBrowser` shows a list of all the stories in the database. Its handlebars template is `storyBrowse.handlebars`.
-- `sjrk.storyTelling.baseTheme.page` represents a single HTML page, including all interactions within that page. It is the highest-level interface management grade. It has:
+- `sjrk.storyTelling.base.page` represents a single HTML page, including all interactions within that page. It is the highest-level interface management grade. It has:
     - a `fluid.textToSpeech` component called **storySpeaker** for reading out various content on demand,
     - a `fluid.prefs.cookieStore` for storing site preferences,
     - a `ui` grade called **menu** for top-level links and controls, with an associated template called `menu.handlebars`.
     - a component for [User Interface Options](https://wiki.fluidproject.org/pages/viewpage.action?pageId=29959408) with some associated events to dynamically redraw the page contents when the language is changed, and
     - a component for each `ui` in the tool and wiring for communication of relevant information between them.
-- `sjrk.storyTelling.baseTheme.page.storyBrowse` represents the Browse page and has a `storyBrowser`
-- `sjrk.storyTelling.baseTheme.page.storyView` represents the View page, has a `storyViewer`
-- `sjrk.storyTelling.baseTheme.page.storyEdit` represents the Edit page, has a `storyEditor` and a `storyViewer` which together form the story authoring environment. This grade also contains some events, listeners and functions to handle story submission to the server
+- `sjrk.storyTelling.base.page.storyBrowse` represents the Browse page and has a `storyBrowser`
+- `sjrk.storyTelling.base.page.storyView` represents the View page, has a `storyViewer`
+- `sjrk.storyTelling.base.page.storyEdit` represents the Edit page, has a `storyEditor` and a `storyViewer` which together form the story authoring environment. This grade also contains some events, listeners and functions to handle story submission to the server
