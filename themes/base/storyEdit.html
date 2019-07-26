@@ -49,8 +49,8 @@
 <script src="src/storyTelling-blockUi-textBlockViewer.js"></script>
 <script src="src/storyTelling-blockUi-videoBlockViewer.js"></script>
 <script src="src/storyTelling-blockUi-timeBased.js"></script>
-<script src="src/storyTelling-page-storyEdit.js"></script>
-<script src="src/storyTelling-page.js"></script>
+<script src="src/storyTelling-baseTheme-page-storyEdit.js"></script>
+<script src="src/storyTelling-baseTheme-page.js"></script>
 <script src="src/storyTelling-story.js"></script>
 <script src="src/storyTelling-templateManager.js"></script>
 <script src="src/storyTelling-ui.js"></script>
@@ -127,8 +127,12 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.loadThemedPage(function (theme) {
-            sjrk.storyTelling[theme].storyEdit({});
+        sjrk.storyTelling.loadThemedPage(function (clientConfig) {
+            sjrk.storyTelling[clientConfig.theme].page.storyEdit({
+                pageSetup: {
+                    savingEnabled: clientConfig.savingEnabled
+                }
+            });
         });
     });
 </script>

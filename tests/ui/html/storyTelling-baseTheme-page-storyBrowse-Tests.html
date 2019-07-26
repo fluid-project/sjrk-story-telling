@@ -1,7 +1,6 @@
 <html>
     <head>
         <link rel="stylesheet" media="screen" href="../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
-        <link rel="stylesheet" href="../../css/storyTelling.css">
 
         <script src="../../node_modules/infusion/dist/infusion-all.js"></script>
 
@@ -9,9 +8,6 @@
         <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
         <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
         <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
-
-        <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
-        <script src="../../node_modules/gpii-binder/src/js/transforms.js"></script>
 
         <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
@@ -30,55 +26,32 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
         <script src="../../src/dynamicViewComponentManager.js"></script>
-        <script src="../../src/storyTelling-binder.js"></script>
-        <script src="../../src/storyTelling-block.js"></script>
-        <script src="../../src/storyTelling-block-audio.js"></script>
-        <script src="../../src/storyTelling-block-image.js"></script>
-        <script src="../../src/storyTelling-block-text.js"></script>
-        <script src="../../src/storyTelling-block-timeBased.js"></script>
-        <script src="../../src/storyTelling-block-video.js"></script>
-        <script src="../../src/storyTelling-blockUi.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-audioBlockEditor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-mediaBlockEditor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-textBlockEditor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-videoBlockEditor.js"></script>
-        <script src="../../src/storyTelling-blockUi-timeBased.js"></script>
         <script src="../../src/storyTelling-templateManager.js"></script>
-        <script src="../../src/storyTelling-page.js"></script>
-        <script src="../../src/storyTelling-page-storyEdit.js"></script>
-        <script src="../../src/storyTelling-story.js"></script>
+        <script src="../../src/storyTelling-baseTheme-page.js"></script>
+        <script src="../../src/storyTelling-baseTheme-page-storyBrowse.js"></script>
         <script src="../../src/storyTelling-ui.js"></script>
         <script src="../../src/storyTelling-ui-menu.js"></script>
-        <script src="../../src/storyTelling-ui-storyEditor.js"></script>
-        <script src="../../src/storyTelling-ui-storyViewer.js"></script>
-        <script src="../../src/storyTelling-uploader.js"></script>
-        <script src="../../src/transforms.js"></script>
+        <script src="../../src/storyTelling-ui-storyBrowser.js"></script>
         <script src="../../src/UIOMultilingualDemo.js"></script>
 
-        <script src="../js/storyTelling-page-storyEditTests.js"></script>
-        <script src="../js/testUtils.js"></script>
+        <script src="../js/storyTelling-baseTheme-page-storyBrowseTests.js"></script>
 
-        <title>Story Edit Page - Tests</title>
+        <title>Story Browse Page - Tests</title>
     </head>
     <body id="body">
-        <h1 id="qunit-header">Story Edit Page - Tests</h1>
+        <h1 id="qunit-header">Story Browse Page - Tests</h1>
         <h2 id="qunit-banner"></h2>
         <div id="qunit-testrunner-toolbar"></div>
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests"></ol>
 
-        <div id="testStoryEdit">
+        <div id="testStoryBrowse">
             <div id="testMenu"></div>
-            <div id="testStoryEditor"></div>
+            <div id="testStoryBrowser"></div>
             <div id="testStoryPreviewer" class="sjrkc-st-story-previewer"></div>
-            <div id="testStoryEtiquette"></div>
-            <div id="testMainContainer"></div>
-            <div id="testPageContainer"></div>
         </div>
 
-        <div class="sjrk-prefsEditor-container">
+        <div class="sjrk-prefsBrowser-container">
             <!-- BEGIN markup for Preference Editor -->
            <div class="flc-prefsEditor-separatedPanel fl-prefsEditor-separatedPanel">
         	   <!--
@@ -109,14 +82,6 @@
            <!-- END markup for Preference Editor -->
         </div>
         <!-- This div is for the table of contents feature provided by the Preferences Editor -->
-        <style>
-            .sjrk-st-story-editor-next img,
-            .sjrk-st-story-editor-previous img,
-            .sjrk-st-story-viewer-previous img {
-                height: 3rem;
-                width: 3rem;
-            }
-        </style>
         <div class="sjrk-st-toc-container">
             <div class="flc-toc-tocContainer toc"> </div>
         </div>
