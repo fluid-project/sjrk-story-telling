@@ -23,7 +23,7 @@ These request handlers do a bit more heavy lifting, including communication with
 - `sjrk.storyTelling.server.themeHandler` controls the fallback rules for themes, which will load files for a custom theme where they exist, and then fall back to the base theme
 
 ## Data sources
-- `sjrk.storyTelling.server.dataSource.couch.base` is the "base" CouchDB datasource, setting up the common bits used by each other one
+- `sjrk.storyTelling.server.dataSource.couch.core` is the "base" CouchDB datasource, setting up the common bits used by each other one
 - `sjrk.storyTelling.server.dataSource.couch.view` gets the list of all stories from CouchDB
 - `sjrk.storyTelling.server.dataSource.couch.story` handles reading and writing a single story to CouchDB
 - `sjrk.storyTelling.server.dataSource.couch.deleteStory` deletes a story from the database

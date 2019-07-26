@@ -25,7 +25,7 @@ require("./story-dbConfiguration");
 // Mix-in grade for all the couch configuration
 // components when actually used to configure
 // the DB
-fluid.defaults("sjrk.storyTelling.server.dbSetup.base", {
+fluid.defaults("sjrk.storyTelling.server.dbSetup.core", {
     distributeOptions: [
         {
             target: "{that}.options.couchOptions.couchUrl",
@@ -46,17 +46,17 @@ fluid.defaults("sjrk.storyTelling.server.dbSetup.base", {
 });
 
 sjrk.storyTelling.server.replicatorDb({
-    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
 sjrk.storyTelling.server.usersDb({
-    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
 sjrk.storyTelling.server.globalChangesDb({
-    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
 sjrk.storyTelling.server.storiesDb({
-    gradeNames: ["sjrk.storyTelling.server.dbSetup.base"]
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });

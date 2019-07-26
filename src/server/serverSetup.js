@@ -38,7 +38,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                 port: "{that}.options.globalConfig.port",
                 distributeOptions: {
                     record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
-                    target: "{that sjrk.storyTelling.server.dataSource.couch.base}.options.host"
+                    target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
                 },
                 components: {
                     viewDataSource: {
