@@ -15,7 +15,7 @@ sjrk.storyTelling.server.verifyGetClientConfigSuccessful = function (data, that,
     jqUnit.assertEquals("Successful GET request for clientConfig endpoint", 200, that.nativeResponse.statusCode);
 
     var responseData = JSON.parse(data);
-    jqUnit.assertEquals("Retrieved theme is as expected", responseData.clientConfig.theme, expectedTheme);
+    jqUnit.assertEquals("Retrieved theme is as expected", responseData.theme, expectedTheme);
 };
 
 sjrk.storyTelling.server.verifyGetThemeFileSuccessful = function (data, that, expectedMarkup) {

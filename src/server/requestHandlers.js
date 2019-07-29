@@ -361,15 +361,10 @@ fluid.defaults("sjrk.storyTelling.server.clientConfigHandler", {
 // Returns a collection of values which are "safe" to share
 // with the client side of the application
 sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secureConfig) {
-    var clientConfig = {
+    request.events.onSuccess.fire({
         theme: globalConfig.theme || secureConfig.baseThemeName,
         baseTheme: secureConfig.baseThemeName,
         authoringEnabled: globalConfig.authoringEnabled
-    };
-
-    request.events.onSuccess.fire({
-        message: "Client configuration request successfully received",
-        clientConfig: clientConfig
     });
 };
 

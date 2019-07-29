@@ -152,11 +152,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var loadPromise = fluid.promise();
 
         sjrk.storyTelling.storyTellingServerUiTester.setupMockServer("/clientConfig", JSON.stringify({
-            clientConfig: {
-                theme: expectedTheme,
-                baseTheme: "base",
-                authoringEnabled: true
-            }
+            theme: expectedTheme,
+            baseTheme: "base",
+            authoringEnabled: true
         }));
 
         sjrk.storyTelling.loadThemedPage(callback).then(function (clientConfig) {

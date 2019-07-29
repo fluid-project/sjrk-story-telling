@@ -115,9 +115,9 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
     var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
 
     $.get("/clientConfig").then(function (data) {
-        if (data.clientConfig.theme !== data.clientConfig.baseTheme) {
-            sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, data.clientConfig).then(function () {
-                loadPromise.resolve(data.clientConfig);
+        if (data.theme !== data.baseTheme) {
+            sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, data).then(function () {
+                loadPromise.resolve(data);
             }, function (jqXHR, textStatus, errorThrown) {
                 loadPromise.reject({
                     isError: true,
@@ -125,8 +125,8 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
                 });
             });
         } else {
-            callbackFunction(data.clientConfig);
-            loadPromise.resolve(data.clientConfig);
+            callbackFunction(data);
+            loadPromise.resolve(data);
         }
     }, function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({
