@@ -27,29 +27,27 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-        <script src="../../src/storyTelling-binder.js"></script>
-        <script src="../../src/storyTelling-uploader.js"></script>
-        <script src="../../src/storyTelling-block.js"></script>
-        <script src="../../src/storyTelling-block-timeBased.js"></script>
-        <script src="../../src/storyTelling-block-video.js"></script>
-        <script src="../../src/storyTelling-blockUi.js"></script>
-        <script src="../../src/storyTelling-blockUi-timeBased.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-videoBlockEditor.js"></script>
-        <script src="../../src/storyTelling-templateManager.js"></script>
+        <script src="../../src/binder.js"></script>
+        <script src="../../src/uploader.js"></script>
+        <script src="../../src/block.js"></script>
+        <script src="../../src/block-image.js"></script>
+        <script src="../../src/blockUi.js"></script>
+        <script src="../../src/blockUi-editor.js"></script>
+        <script src="../../src/blockUi-editor-imageBlockEditor.js"></script>
+        <script src="../../src/templateManager.js"></script>
         <script src="../../src/transforms.js"></script>
 
-        <script src="../js/storyTelling-blockUi-editor-videoBlockEditorTests.js"></script>
+        <script src="../js/blockUi-editor-imageBlockEditorTests.js"></script>
         <script src="../js/testUtils.js"></script>
 
-        <title>Video Block Editor - Tests</title>
+        <title>Image Block Editor - Tests</title>
         <style>
             .sjrk-st-block-uploader-container, .sjrk-st-block-camera-capture-container {
                 display: none;
             }
 
             .sjrk-st-block-media-preview-container {
-                width: 20em;
+                width: 10em;
             }
 
             .sjrk-st-block-media-preview {
@@ -59,12 +57,12 @@
         </style>
     </head>
     <body id="body">
-        <h1 id="qunit-header">Video Block Editor - Tests</h1>
+        <h1 id="qunit-header">Image Block Editor - Tests</h1>
         <h2 id="qunit-banner"></h2>
         <div id="qunit-testrunner-toolbar"></div>
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests"></ol>
 
-        <div id="testVideoBlockEditor"></div>
+        <div id="testImageBlockEditor"></div>
     </body>
 </html>

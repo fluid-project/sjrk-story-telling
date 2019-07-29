@@ -27,68 +27,27 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-        <script src="../../src/storyTelling-binder.js"></script>
-        <script src="../../src/storyTelling-uploader.js"></script>
-        <script src="../../src/storyTelling-block.js"></script>
-        <script src="../../src/storyTelling-block-timeBased.js"></script>
-        <script src="../../src/storyTelling-block-audio.js"></script>
-        <script src="../../src/storyTelling-blockUi.js"></script>
-        <script src="../../src/storyTelling-blockUi-timeBased.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-audioBlockEditor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-mediaBlockEditor.js"></script>
-        <script src="../../src/storyTelling-templateManager.js"></script>
+        <script src="../../src/binder.js"></script>
+        <script src="../../src/block.js"></script>
+        <script src="../../src/block-text.js"></script>
+        <script src="../../src/blockUi.js"></script>
+        <script src="../../src/blockUi-editor.js"></script>
+        <script src="../../src/blockUi-editor-textBlockEditor.js"></script>
+        <script src="../../src/templateManager.js"></script>
         <script src="../../src/transforms.js"></script>
 
-        <script src="../js/storyTelling-blockUi-editor-audioBlockEditorTests.js"></script>
+        <script src="../js/blockUi-editor-textBlockEditorTests.js"></script>
         <script src="../js/testUtils.js"></script>
 
-        <title>Audio Block Editor - Tests</title>
-        <style>
-            .sjrk-st-block-uploader-container {
-                display: none;
-            }
-        </style>
+        <title>Text Block Editor - Tests</title>
     </head>
     <body id="body">
-        <h1>Audio Block Editor - Manual Tests</h1>
-        <h2>Instructions</h2>
-        <ol>
-            <li>
-                Upload an audio file with the Upload Audio button
-            </li>
-            <li>
-                Confirm the preview appears
-            </li>
-            <li>
-                Confirm the preview plays properly
-            </li>
-            <li>
-                Upload a different audio file with the Upload Audio button
-            </li>
-            <li>
-                Confirm the preview updates
-            </li>
-            <li>
-                Confirm the preview plays properly
-            </li>
-            <li>
-                Click the Upload Audio button
-            </li>
-            <li>
-                Cancel out of the file choice dialog
-            </li>
-            <li>
-                Confirm the preview disappears
-            </li>
-        </ol>
-        <div id="testAudioBlockEditorManual"></div>
+        <h1 id="qunit-header">Text Block Editor - Tests</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
 
-        <script>
-        $(document).ready(function () {
-            sjrk.storyTelling.blockUi.editor.testAudioBlockEditor("#testAudioBlockEditorManual");
-        });
-        </script>
-
+        <div id="testTextBlockEditor"></div>
     </body>
 </html>

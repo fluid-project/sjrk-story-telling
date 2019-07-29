@@ -10,6 +10,7 @@
         <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
 
         <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
+        <script src="../../node_modules/gpii-binder/src/js/transforms.js"></script>
 
         <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
@@ -27,68 +28,34 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-        <script src="../../src/storyTelling-binder.js"></script>
-        <script src="../../src/storyTelling-uploader.js"></script>
-        <script src="../../src/storyTelling-block.js"></script>
-        <script src="../../src/storyTelling-block-image.js"></script>
-        <script src="../../src/storyTelling-blockUi.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor.js"></script>
-        <script src="../../src/storyTelling-blockUi-editor-imageBlockEditor.js"></script>
-        <script src="../../src/storyTelling-templateManager.js"></script>
+        <script src="../../src/dynamicViewComponentManager.js"></script>
+        <script src="../../src/binder.js"></script>
+        <script src="../../src/block.js"></script>
+        <script src="../../src/block-text.js"></script>
+        <script src="../../src/block-image.js"></script>
+        <script src="../../src/blockUi.js"></script>
+        <script src="../../src/blockUi-editor.js"></script>
+        <script src="../../src/blockUi-editor-imageBlockEditor.js"></script>
+        <script src="../../src/blockUi-editor-textBlockEditor.js"></script>
+        <script src="../../src/story.js"></script>
+        <script src="../../src/templateManager.js"></script>
+        <script src="../../src/ui.js"></script>
+        <script src="../../src/ui-storyEditor.js"></script>
+        <script src="../../src/uploader.js"></script>
         <script src="../../src/transforms.js"></script>
 
-        <script src="../js/storyTelling-blockUi-editor-imageBlockEditorTests.js"></script>
+        <script src="../js/ui-storyEditorTests.js"></script>
         <script src="../js/testUtils.js"></script>
 
-        <title>Image Block Editor - Tests</title>
-        <style>
-            .sjrk-st-block-uploader-container, .sjrk-st-block-camera-capture-container {
-                display: none;
-            }
-
-            .sjrk-st-block-media-preview-container {
-                width: 10em;
-            }
-
-            .sjrk-st-block-media-preview {
-                max-width: 100%;
-                height: auto;
-            }
-        </style>
+        <title>Story Editor UI - Tests</title>
     </head>
     <body id="body">
-        <h1>Image Block Editor - Manual Tests</h1>
-        <h2>Instructions</h2>
-        <ol>
-            <li>
-                Upload an image file with the Upload Image button
-            </li>
-            <li>
-                Confirm the preview appears
-            </li>
-            <li>
-                Upload a different image file with the Upload Image button
-            </li>
-            <li>
-                Confirm the preview updates
-            </li>
-            <li>
-                Click the Upload Image button
-            </li>
-            <li>
-                Cancel out of the file choice dialog
-            </li>
-            <li>
-                Confirm the preview disappears
-            </li>
-        </ol>
-        <div id="testImageBlockEditorManual"></div>
+        <h1 id="qunit-header">Story Editor UI - Tests</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
 
-        <script>
-        $(document).ready(function () {
-            sjrk.storyTelling.blockUi.editor.testImageBlockEditor("#testImageBlockEditorManual");
-        });
-        </script>
-
+        <div id="testStoryEditor"></div>
     </body>
 </html>

@@ -9,6 +9,8 @@
         <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
         <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
 
+        <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
+
         <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/common/equals.js"></script>
@@ -25,20 +27,31 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-        <script src="../../src/storyTelling-templateManager.js"></script>
-        <script src="../../src/storyTelling-ui.js"></script>
+        <script src="../../src/binder.js"></script>
+        <script src="../../src/block.js"></script>
+        <script src="../../src/block-timeBased.js"></script>
+        <script src="../../src/blockUi.js"></script>
+        <script src="../../src/blockUi-timeBased.js"></script>
+        <script src="../../src/templateManager.js"></script>
 
-        <script src="../js/storyTelling-uiTests.js"></script>
+        <script src="../js/blockUi-timeBasedTests.js"></script>
 
-        <title>UI - Tests</title>
+        <title>Time-based Block UI - Tests</title>
+        <style>
+            .sjrk-st-block-media-preview {
+                width: 20em;
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
     </head>
     <body id="body">
-        <h1 id="qunit-header">UI - Tests</h1>
+        <h1 id="qunit-header">Time-based Block UI - Tests</h1>
         <h2 id="qunit-banner"></h2>
         <div id="qunit-testrunner-toolbar"></div>
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests"></ol>
 
-        <div id="testUi"></div>
+        <div id="testTimeBased"></div>
     </body>
 </html>
