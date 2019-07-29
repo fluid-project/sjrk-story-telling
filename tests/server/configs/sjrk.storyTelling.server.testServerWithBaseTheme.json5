@@ -1,16 +1,13 @@
 {
-    "type": "sjrk.storyTelling.server.testServerWithCustomTheme",
+    "type": "sjrk.storyTelling.server.testServerWithBaseTheme",
     "options": {
         "gradeNames": ["sjrk.storyTelling.server"],
         "components": {
             "server": {
                 "options": {
-                    "components": {
-                        "baseTheme": {
-                            options: {
-                                root: "./tests/testData/mockBaseTheme"
-                            }
-                        }
+                    "secureConfig": {
+                        "baseThemeName": "mockBaseTheme",
+                        "themesPath": "./tests/testData/%theme"
                     }
                 }
             }

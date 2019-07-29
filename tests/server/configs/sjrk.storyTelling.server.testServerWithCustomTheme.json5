@@ -6,19 +6,11 @@
             "server": {
                 "options": {
                     "globalConfig": {
-                        "theme": "learningReflections"
+                        "theme": "testTheme"
                     },
-                    "components": {
-                        "currentTheme": {
-                            "options": {
-                                "root": "./tests/testData/testTheme"
-                            }
-                        },
-                        "baseTheme": {
-                            "options": {
-                                "root": "./tests/testData/mockBaseTheme"
-                            }
-                        }
+                    "secureConfig": {
+                        "baseThemeName": "mockBaseTheme",
+                        "themesPath": "./tests/testData/%theme"
                     }
                 }
             }

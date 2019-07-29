@@ -31,5 +31,5 @@ jqUnit.test("Config with missing theme folder", function () {
             configName: "sjrk.storyTelling.server.testServerWithMissingTheme",
             configPath: "./tests/server/configs"
         });
-    }, "The custom theme folder");
+    }, "The custom theme folder ./themes/aThemeThatIsntReal does not exist. Please verify that the theme name is configured properly.");
 });

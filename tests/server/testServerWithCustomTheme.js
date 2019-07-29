@@ -74,7 +74,7 @@ sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
     }, {
         event: "{clientConfigRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.verifyGetClientConfigSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "learningReflections"]
+        args: ["{arguments}.0", "{arguments}.1", "testTheme"]
     }, {
         // test getting a file that exists for both base and custom theme, with custom theme specified
         func: "{customThemeFileBothExistRequest}.send"
