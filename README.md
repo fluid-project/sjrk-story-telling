@@ -74,7 +74,7 @@ bells and whistles. The interface is extensible and customizable to enable the c
 story contexts within the tool.
 The site comes with two custom themes already available: `karisma` and `learningReflections`.
 
-* `learningReflections` Has a few extra pages with content and is styled to illustrate the support of the Storytelling
+* `learningReflections` has a few extra pages with content and is styled to illustrate the support of the Storytelling
   Project by the [William and Flora Hewlett Foundation](https://www.hewlett.org/) and the [Oak Foundation](http://www.oakfnd.org/).
 * `karisma` is a fun theme with some hand-drawn illustrations on a welcome page and was created for use as part of the
   SJRK work being done by the [Fundación Karisma](https://karisma.org.co).
