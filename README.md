@@ -35,7 +35,7 @@ While Infusion allows for just about any possible extension you can imagine and 
 | Setting | Description |
 |---------|-------------|
 | `port`  | _(Optional)_ The HTTP port the server will be hosted on. The default value is 8081. If this is changed, it should also be updated in `Dockerfile`, `docker-compose.dev.yml` and `docker-compose.cloud.yml` |
-| `authoringEnabled` | Specifies whether creating and saving stories to the database is allowed. If the value is set to `false` and the matching option in `sjrk.storyTelling.base.page`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. For best results, the values all `page` grades should be derived from this config file (this is the case in `storyEdit.html`). |
+| `authoringEnabled` | Specifies whether creating and saving stories to the database is allowed. If the value is set to `false`, then the site is effectively in "read-only" mode and will behave as a collection of stories rather than an authoring tool. |
 | `theme` | _(Optional)_ The theme to load the site with. If this isn't specified, a base theme will be loaded. More info on this can be found in [Theme Customization](#Theme-Customization). |
 | `themeIndexFile` | _(Optional)_ The file to serve at the site root. E.g. `"themeIndexFile": "index2.html"`. The default is `storyBrowse.html`. If `theme` is not provided, this setting will be ignored and the default will be served. |
 

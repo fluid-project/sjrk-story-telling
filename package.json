@@ -31,12 +31,9 @@
     "devDependencies": {
         "chance": "1.0.16",
         "eslint-config-fluid": "1.1.0",
-        "fluid-grunt-eslint": "18.1.2",
         "gpii-grunt-lint-all": "1.0.5",
         "gpii-pouchdb": "1.0.14",
         "grunt": "1.0.3",
-        "grunt-eslint": "20.0.0",
-        "grunt-jsonlint": "1.1.0",
         "node-jqunit": "1.1.8",
         "testem": "2.8.1"
     }
