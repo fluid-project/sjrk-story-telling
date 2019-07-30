@@ -17,8 +17,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uiLanguage: "en" //initial state is English
         },
         pageSetup: {
-            resourcePrefix: "",
-            authoringEnabled: true // should match the setting in sjrk.storyTelling.server.config.json5
+            resourcePrefix: ""
+            // "authoringEnabled" is retrieved from sjrk.storyTelling.server.config.json5
+            // via a request to "/clientConfig". It enables and disables the
+            // authoring capabilities of the tool and must be present.
+            //authoringEnabled: true
         },
         distributeOptions: [
             {
