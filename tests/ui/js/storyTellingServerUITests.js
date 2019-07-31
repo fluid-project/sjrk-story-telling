@@ -69,26 +69,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     });
 
-    // var browsePageOptions = {
-    //     components: {
-    //         uio: {
-    //             options: {
-    //                 terms: {
-    //                     "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-    //                     "messagePrefix": "../../messages/uio"
-    //                 },
-    //                 "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
-    //             }
-    //         },
-    //         menu: {
-    //             container: "#testMenu"
-    //         },
-    //         storyBrowser: {
-    //             container: "#testStoryBrowser"
-    //         }
-    //     }
-    // };
-
     var loadThemedPageTestCases = {
         base: {
             theme: "base",
@@ -131,18 +111,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["learningReflections.css", 2]
-                // },{
-                //     // load a base Browse page and check that the stories are present
-                //     task: "sjrk.storyTelling.loadBrowse",
-                //     args: ["page", browsePageOptions],
-                //     resolve: "jqUnit.assertNotUndefined",
-                //     resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
-                // },{
-                //     // load a learningReflections Browse page and check that the stories are present
-                //     task: "sjrk.storyTelling.loadBrowse",
-                //     args: ["learningReflections", browsePageOptions],
-                //     resolve: "jqUnit.assertNotUndefined",
-                //     resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
                 }]
             }]
         }]
