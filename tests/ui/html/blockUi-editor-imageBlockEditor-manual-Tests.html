@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <link rel="stylesheet" media="screen" href="../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
+
+        <script src="../../node_modules/infusion/dist/infusion-all.js"></script>
+
+        <script src="../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
+        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
+        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
+        <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
+
+        <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
+
+        <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
+        <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/equals.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/helper.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/jsonify.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/md-common.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/ajaxCapable.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/md-client.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateFormControl.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateManager.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
+
+        <script src="../../src/binder.js"></script>
+        <script src="../../src/uploader.js"></script>
+        <script src="../../src/block.js"></script>
+        <script src="../../src/block-image.js"></script>
+        <script src="../../src/blockUi.js"></script>
+        <script src="../../src/blockUi-editor.js"></script>
+        <script src="../../src/blockUi-editor-imageBlockEditor.js"></script>
+        <script src="../../src/templateManager.js"></script>
+        <script src="../../src/transforms.js"></script>
+
+        <script src="../js/blockUi-editor-imageBlockEditorTests.js"></script>
+        <script src="../js/testUtils.js"></script>
+
+        <title>Image Block Editor - Tests</title>
+        <style>
+            .sjrk-st-block-uploader-container, .sjrk-st-block-camera-capture-container {
+                display: none;
+            }
+
+            .sjrk-st-block-media-preview-container {
+                width: 10em;
+            }
+
+            .sjrk-st-block-media-preview {
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body id="body">
+        <h1>Image Block Editor - Manual Tests</h1>
+        <h2>Instructions</h2>
+        <ol>
+            <li>
+                Upload an image file with the Upload Image button
+            </li>
+            <li>
+                Confirm the preview appears
+            </li>
+            <li>
+                Upload a different image file with the Upload Image button
+            </li>
+            <li>
+                Confirm the preview updates
+            </li>
+            <li>
+                Click the Upload Image button
+            </li>
+            <li>
+                Cancel out of the file choice dialog
+            </li>
+            <li>
+                Confirm the preview disappears
+            </li>
+        </ol>
+        <div id="testImageBlockEditorManual"></div>
+
+        <script>
+        $(document).ready(function () {
+            sjrk.storyTelling.blockUi.editor.testImageBlockEditor("#testImageBlockEditorManual");
+        });
+        </script>
+
+    </body>
+</html>

@@ -5,32 +5,33 @@ acquainted with the community, review the [README file](README.md), and view the
 
 The Fluid Community strives to create new community supports, open governance and recognition systems, and collaboration
 techniques that help make our community more open and welcoming to all. As such, all community members (contributors,
-participants and etc.) are expected to follow our
-[Code of Conduct](https://wiki.fluidproject.org/display/fluid/Inclusion+in+the+Fluid+Community).
+participants and etc.) are expected to follow our [Code of Conduct](https://wiki.fluidproject.org/display/fluid/Inclusion+in+the+Fluid+Community).
 
 (See: [Get Involved](https://wiki.fluidproject.org/display/fluid/Get+Involved)).
 
 ## Licensing
 
-Code contributions will be licensed under the [3-Clause BSD](https://opensource.org/licenses/BSD-3-Clause) license. Currently, the Fluid community asks each contributor to sign a Contributor License Agreement (CLA), which provides a
-clear agreement to share code under terms amenable to
-[Fluid's licensing strategy](https://wiki.fluidproject.org/display/fluid/Fluid+Licensing).
+Code contributions will be licensed under the [3-Clause BSD](https://opensource.org/licenses/BSD-3-Clause) license.
+Currently, the Fluid community asks each contributor to sign a Contributor License Agreement (CLA), which provides a
+clear agreement to share code under terms amenable to [Fluid's licensing strategy](https://wiki.fluidproject.org/display/fluid/Fluid+Licensing).
 
 ## Process/Workflow
 
-The SJRK Storytelling Tool [source code](https://github.com/fluid-project/sjrk-story-telling) is hosted on GitHub. All of the code that is included in a Storytelling Tool release lives in the master branch.
+The SJRK Storytelling Tool [source code](https://github.com/fluid-project/sjrk-story-telling) is hosted on GitHub. All
+of the code that is included in a Storytelling Tool release lives in the master branch.
 [Continuous Integration Builds](https://build.fluidproject.org) are generated and releases are all cut from the master
 branch of the project repository. The project repository should always be in a working state.
 
-The SJRK Storytelling Tool uses a workflow where contributors fork the project repository, work in a branch created off of master, and submit a pull request against the project repo's master branch to merge their contributions.
+The SJRK Storytelling Tool uses a workflow where contributors fork the project repository, work in a branch created off
+of master, and submit a pull request against the project repo's master branch to merge their contributions.
 
 (See: [Coding and Commit Standards](https://wiki.fluidproject.org/display/fluid/Coding+and+Commit+Standards) for more
 details on expectations for code contributions).
 
 ### JIRA and GitHub
 
-The SJRK Storytelling Tool uses a [JIRA](https://issues.fluidproject.org) issue tracker. All work should be associated with a
-specific JIRA issue. Fluid's GitHub repositories are integrated with our JIRA instance, allowing us to easily
+The SJRK Storytelling Tool uses a [JIRA](https://issues.fluidproject.org) issue tracker. All work should be associated
+with a specific JIRA issue. Fluid's GitHub repositories are integrated with our JIRA instance, allowing us to easily
 cross-reference specific code commits with issues in JIRA. This is accomplished by the inclusion of a JIRA issue number
 in front of every commit log. JIRA can then automatically associate the change with the bug, so that watchers of an
 issue can stay apprised of its progress.  The branch containing your contribution should be named after the JIRA issue.

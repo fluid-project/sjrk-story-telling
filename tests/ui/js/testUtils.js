@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -114,6 +114,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return element.selectorName || element.selector || element.toString();
     };
 
+    /* Checks the "select block" checkboxes for blockUi's in a given blockManager.
+     * It will select either all of the blocks or only the first one.
+     * - "blockManager": the dynamicViewComponentManager managing the blockUi's
+     * - "checkFirstBlockOnly": if truthy, only checks the first block's box
+     */
     sjrk.storyTelling.testUtils.checkBlockCheckboxes = function (blockManager, checkFirstBlockOnly) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
 
@@ -126,11 +131,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    /* Checks the "select block" checkbox for a given blockUi
+     * - "block": the blockUi whose checkbox we wish to become checked
+     */
     sjrk.storyTelling.testUtils.checkSingleBlockCheckbox = function (block) {
         var checkBox = block.locate("selectedCheckbox");
         checkBox.prop("checked", true);
     };
 
+    /* Verifies that a given blockUi was indeed added to the blockManager
+     * - "blockManager": the dynamicViewComponentManager managing the blockUi's
+     * - "addedBlockKey": a unique key which is provided when a new block is added
+     * - "expectedGrade": the expected grade/type of the newly-added blockUi
+     */
     sjrk.storyTelling.testUtils.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
 
         var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
@@ -146,6 +159,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertTrue("New block added to DOM", newBlock.length > 0);
     };
 
+    /* Verifies that the blockManager has the expected number of blocks after a
+     * call to remove blocks was made
+     * - "blockManager": the dynamicViewComponentManager managing the blockUi's
+     * - "removedBlockKeys": [UNUSED] a collection of keys for blocks which were removed
+     * - "expectedNumberOfBlocks": the expected number of blocks after removal
+     */
     sjrk.storyTelling.testUtils.verifyBlocksRemoved = function (blockManager, removedBlockKeys, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
@@ -164,5 +183,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             funcName: "sjrk.storyTelling.testUtils.forceMobileCamera"
         }
     });
+
+    /* A simple function that asserts that it was called with a truthy value,
+     * intended for use as a callback
+     * - "value": a value (hopefully truthy)
+     */
+    sjrk.storyTelling.testUtils.callbackVerificationFunction = function (value) {
+        if (value) {
+            jqUnit.assert("Callback was successfully called with value: " + JSON.stringify(value));
+        }
+    };
+
+    /* Alters URL without pageload, via code from StackOverflow
+     * https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
+     * - "queryString": the query string to append to the current page URL
+     */
+    sjrk.storyTelling.testUtils.setQueryString = function (queryString) {
+        if (history.pushState) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + queryString;
+            window.history.pushState({ path:newurl }, "", newurl);
+        }
+    };
 
 })(jQuery, fluid);
