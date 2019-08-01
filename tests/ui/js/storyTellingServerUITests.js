@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     });
 
-    var loadThemedPageTestCases = {
+    var themedPageTestCases = {
         base: {
             theme: "base",
             baseTheme: "base",
@@ -108,19 +108,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 6,
+                expect: 8,
                 sequence: [{
                     // call the load themed page function, forcing the base theme response
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", loadThemedPageTestCases.base.theme],
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", themedPageTestCases.base.theme],
                     resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["The themed page load resolved as expected", loadThemedPageTestCases.base, "{arguments}.0"]
+                    resolveArgs: ["The themed page load resolved as expected", themedPageTestCases.base, "{arguments}.0"]
                 },{
                     // call the load themed page function, forcing the Learning Reflections theme response
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", loadThemedPageTestCases.learningReflections.theme],
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", themedPageTestCases.learningReflections.theme],
                     resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["The themed page load resolved as expected", loadThemedPageTestCases.learningReflections, "{arguments}.0"]
+                    resolveArgs: ["The themed page load resolved as expected", themedPageTestCases.learningReflections, "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["learningReflections.css", 1]
@@ -134,13 +134,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },{
                     // load a base Browse page and check that the stories are present
                     task: "sjrk.storyTelling.loadBrowse",
-                    args: ["page", browsePageOptions],
+                    args: [themedPageTestCases.base, browsePageOptions],
                     resolve: "jqUnit.assertNotUndefined",
                     resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
                 },{
                     // load a learningReflections Browse page and check that the stories are present
                     task: "sjrk.storyTelling.loadBrowse",
-                    args: ["learningReflections", browsePageOptions],
+                    args: [themedPageTestCases.learningReflections, browsePageOptions],
                     resolve: "jqUnit.assertNotUndefined",
                     resolveArgs: ["The stories collection for the Browse page was loaded as expected", "{arguments}.0.storyBrowser.model.stories"]
                 }]
