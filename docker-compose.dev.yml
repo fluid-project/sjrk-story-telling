@@ -3,6 +3,7 @@ services:
   app:
     volumes:
       - "./secrets.json:/usr/src/app/secrets.json"
+      - "./sjrk.storyTelling.server.config.json5:/usr/src/app/sjrk.storyTelling.server.config.json5"
     ports:
       - "8081:8081"
   db:
