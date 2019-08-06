@@ -14,9 +14,6 @@
     "message_uploadButtonAudio": "Upload audio",
     "message_uploadButtonImage": "Upload image",
     "message_uploadButtonVideo": "Upload video",
-    "message_captureButtonAudio": "Capture audio",
-    "message_captureButtonImage": "Capture image",
-    "message_captureButtonVideo": "Capture video",
     "message_transcriptInputLabel": "Transcript",
     "message_transcriptInputPlaceholder": "Add transcript"
 }

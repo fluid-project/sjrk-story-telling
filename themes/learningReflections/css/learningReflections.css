@@ -318,8 +318,7 @@ h3:empty {
     border-right: none;
 }
 
-.sjrk-st-block-media-upload-button,
-.sjrk-st-block-media-capture-button {
+.sjrk-st-block-media-upload-button {
     background: var(--site-dark-grey);
     border: none;
     font-size: 1rem;

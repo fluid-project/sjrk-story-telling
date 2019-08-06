@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Video Block Editor.",
             tests: [{
                 name: "Test Video Block Editor",
-                expect: 6,
+                expect: 5,
                 sequence: [{
                     event: "{videoBlockEditorTest videoBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
@@ -74,15 +74,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{videoBlockEditor}.events.onVideoUploadRequested",
                     listener: "jqUnit.assert",
                     args: ["The videoUploadButton event fired"]
-                },
-                {
-                    jQueryTrigger: "click",
-                    element: "{videoBlockEditor}.dom.videoCaptureButton"
-                },
-                {
-                    event: "{videoBlockEditor}.events.videoCaptureRequested",
-                    listener: "jqUnit.assert",
-                    args: ["The videoCaptureRequested event fired"]
                 }]
             }]
         }]
