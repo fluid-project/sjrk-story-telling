@@ -101,9 +101,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "sjrk.storyTelling.base.page.reloadUioMessages",
                 args: [
                     "{arguments}.0",
-                    "{uio}.prefsEditorLoader.messageLoader",
-                    "options.locale"
-                ]
+                    "{uio}.prefsEditorLoader.messageLoader.resourceFetcher"
+                 ]
             }
         },
         modelListeners: {
@@ -214,34 +213,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var promise = cookieStore.get();
 
         promise.then(function (response) {
-            pageComponent.applier.change("", response);
+            if (response !== undefined) {
+                pageComponent.applier.change("", response);
+            }
             pageComponent.events.onPreferencesLoaded.fire();
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
     };
 
-    sjrk.storyTelling.base.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
+    sjrk.storyTelling.base.page.reloadUioMessages = function (lang, resourceFetcher) {
         // Set the language in the resource loader
-        fluid.set(uioMessageLoaderComponent, uioMessageLoaderLocalePath, lang);
-
-        // Force the resource loader to get the new resources
-        fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
+        resourceFetcher.options.locale = lang;
+        resourceFetcher.refetchAll();
     };
 
     sjrk.storyTelling.base.page.updateUioPanelLanguages = function (prefsEditorLoaderComponent, pageComponent) {
-        if (prefsEditorLoaderComponent && prefsEditorLoaderComponent.prefsEditor) {
-            fluid.each(prefsEditorLoaderComponent.prefsEditor, function (panel, key) {
-                if (key.startsWith("fluid_prefs_panel_")) {
-                    if (panel.msgResolver) {
-                        // language is stored in order to be verifiable
-                        panel.msgResolver.messageLanguage = pageComponent.model.uiLanguage;
-                        panel.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[key].resourceText;
-                    }
-                }
-            });
-        }
-
         var tocHeaders = {
             "en": "Table of Contents",
             "es": "Tabla de contenido"
@@ -251,7 +238,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[pageComponent.model.uiLanguage];
 
         // Set the language on the body
-
 
         pageComponent.events.onUioPanelsUpdated.fire();
     };
