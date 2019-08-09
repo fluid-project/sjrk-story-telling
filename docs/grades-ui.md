@@ -37,15 +37,12 @@
 * `sjrk.storyTelling.blockUi.timeBased` provides common shared controls related to playback of audio and video blocks
   and is used for both viewing and editing.
 * `sjrk.storyTelling.blockUi.editor` is for editing a block, providing the common elements for the various individual
-  editor types. This file also contains some basic configuration to enable the detection of cameras on mobile devices,
-  with specific implementations being handled by the particular editor grades. The `editor` grades are:
+  editor types. The `editor` grades are:
   * `sjrk.storyTelling.blockUi.editor.textBlockEditor` for text blocks
-  * `sjrk.storyTelling.blockUi.editor.imageBlockEditor` for image blocks. This grade also has some additional
-      configuration which uses context awareness to determine whether to load a slightly different editor that can
-      capture from a camera.
+  * `sjrk.storyTelling.blockUi.editor.imageBlockEditor` for image blocks
   * `sjrk.storyTelling.blockUi.editor.mediaBlockEditor` for time-based media types:
     * `sjrk.storyTelling.blockUi.editor.audioBlockEditor` for audio blocks
-  * `sjrk.storyTelling.blockUi.editor.videoBlockEditor` for video blocks. Also contains mobile camera detection
+  * `sjrk.storyTelling.blockUi.editor.videoBlockEditor` for video blocks
 
 ## User interfaces and Pages
 

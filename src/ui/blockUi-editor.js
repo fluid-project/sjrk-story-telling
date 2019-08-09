@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 "use strict";
 
@@ -35,38 +35,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             }
-        }
-    });
-
-    // Grade used to detect and enhance if a mobile camera is available
-    // May not be super-reliable at this time
-    // Assumes anything on iPhone, iPad or Android is a mobile
-    // device with a camera
-    fluid.defaults("sjrk.storyTelling.mobileCameraAware", {
-        gradeNames: ["fluid.contextAware", "fluid.component"],
-        contextAwareness: {
-            technology: {
-                checks: {
-                    mobileCamera: {
-                        contextValue: "{fluid.platform.hasMobileCamera}"
-                        // gradeNames: supplied by implementation
-                    }
-                    // defaultGradeNames: supplied by implementation
-                }
-            }
-        }
-    });
-
-    /* Determines whether the current user device has a "mobile" camera. */
-    sjrk.storyTelling.mobileCameraAware.hasMobileCamera = function () {
-        var userAgent = navigator.userAgent.toLowerCase();
-        var hasMobileCamera = userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("android");
-        return hasMobileCamera;
-    };
-
-    fluid.contextAware.makeChecks({
-        "fluid.platform.hasMobileCamera": {
-            funcName: "sjrk.storyTelling.mobileCameraAware.hasMobileCamera"
         }
     });
 
