@@ -10,6 +10,5 @@
     "message_altTextInputPlaceholder": "Adicione o texto alternativo aqui",
     "message_descriptionInputLabel": "Descrição",
     "message_descriptionInputPlaceholder": "Digite a legenda aqui",
-    "message_uploadButton": "Adicionar",
-    "message_captureButton": "Capturar"
+    "message_uploadButton": "Adicionar"
 }
