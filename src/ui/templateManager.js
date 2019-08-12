@@ -67,7 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onResourcesLoaded.loadLocalizationMessages": {
                             "func": "sjrk.storyTelling.templateManager.loadLocalizedMessages",
-                            "args": ["{that}.resources.componentMessages.resourceText",
+                            "args": ["{that}.resources.componentMessages.parsed",
                                 "{templateManager}",
                                 "options.templateStrings.localizedMessages"]
                         },
@@ -90,7 +90,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "onResourcesLoaded.injectTemplate": {
                             funcName: "sjrk.storyTelling.templateManager.injectTemplate",
                             args: ["{templateRenderer}",
-                                "{that}.resources.componentTemplate.resourceText",
+                                "{that}.resources.componentTemplate.parsed",
                                 "{templateManager}.options.templateConfig.templateName",
                                 "{templateManager}.events.onTemplateInjected"],
                             priority: "before:escalate"
