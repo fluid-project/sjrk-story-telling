@@ -102,7 +102,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [
                     "{arguments}.0",
                     "{uio}.prefsEditorLoader.messageLoader.resourceFetcher"
-                 ]
+                ]
             }
         },
         modelListeners: {

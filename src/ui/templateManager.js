@@ -59,10 +59,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resources: {
                         componentMessages: "{templateManager}.options.templateConfig.messagesPath"
                     },
-                    locale: "{templateManager}.model.locale",
-                    defaultLocale: "en",
-                    terms: {
-                        resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                    resourceOptions: {
+                        locale: "{templateManager}.model.locale",
+                        defaultLocale: "en",
+                        terms: {
+                            resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                        }
                     },
                     listeners: {
                         "onResourcesLoaded.loadLocalizationMessages": {
@@ -83,8 +85,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resources: {
                         componentTemplate: "{templateManager}.options.templateConfig.templatePath"
                     },
-                    terms: {
-                        resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                    resourceOptions: {
+                        terms: {
+                            resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                        }
                     },
                     listeners: {
                         "onResourcesLoaded.injectTemplate": {
@@ -132,7 +136,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "templateName": the template's name
      */
     sjrk.storyTelling.templateManager.injectTemplate = function (templateRenderer, templateContent, templateName, completionEvent) {
-        templateRenderer.templates.partials[templateName] = templateContent;
+        templateRenderer.applier.change(["templates", "pages", templateName], templateContent);
 
         completionEvent.fire();
     };

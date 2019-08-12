@@ -26,7 +26,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockTester", {
+    fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
             name: "Test Text Block Editor.",
@@ -119,7 +119,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{textBlockEditorTester}.events.onTestCaseStart"
             },
             textBlockEditorTester: {
-                type: "sjrk.storyTelling.blockUi.editor.textBlockTester"
+                type: "sjrk.storyTelling.blockUi.editor.textBlockEditorTester"
             }
         }
     });
