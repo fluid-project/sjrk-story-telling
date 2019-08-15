@@ -56,7 +56,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
+                args: ["{storyPreviewer}", "{that}.events.onStoryShareComplete"]
             },
             "onCreate.setEditorDisplay": {
                 func: "{that}.setEditorDisplay"
