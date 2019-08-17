@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Image Block Editor.",
             tests: [{
                 name: "Test Image Block Editor",
-                expect: 5,
+                expect: 4,
                 sequence: [{
                     event: "{imageBlockEditorTest imageBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
@@ -64,15 +64,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{imageBlockEditor}.events.onImageUploadRequested",
                     listener: "jqUnit.assert",
                     args: ["The imageUploadButton event fired"]
-                },
-                {
-                    jQueryTrigger: "click",
-                    element: "{imageBlockEditor}.dom.imageCaptureButton"
-                },
-                {
-                    event: "{imageBlockEditor}.events.imageCaptureRequested",
-                    listener: "jqUnit.assert",
-                    args: ["The imageCaptureRequested event fired"]
                 }]
             }]
         }]

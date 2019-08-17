@@ -31,15 +31,6 @@
             {{#equals dynamicValues.blockType "video"}}
                 <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
             {{/equals}}
-
-            {{#if dynamicValues.hasMobileCamera}}
-                {{#equals dynamicValues.blockType "image"}}
-                    <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonImage}}</button>
-                {{/equals}}
-                {{#equals dynamicValues.blockType "video"}}
-                    <button type="button" class="sjrkc-st-block-media-capture-button sjrk-st-block-media-capture-button">{{localizedMessages.message_captureButtonVideo}}</button>
-                {{/equals}}
-            {{/if}}
         </div>
 
         {{#getIds "storyBlockHeading"}}
@@ -92,12 +83,6 @@
         <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
             <input name="file" type="file" accept="{{dynamicValues.blockType}}/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
         </div>
-        {{#if dynamicValues.hasMobileCamera}}
-            <!-- Container for the camera capture -->
-            <div class="sjrkc-st-block-camera-capture-container sjrk-st-block-camera-capture-container">
-                <input name="file" type="file" accept="{{dynamicValues.blockType}}/*" capture="camera" class="sjrkc-st-block-camera-capture-input sjrk-st-block-camera-capture-input" />
-            </div>
-        {{/if}}
 
     </form>
 </div>
