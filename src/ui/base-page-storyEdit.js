@@ -56,7 +56,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: ["{storyPreviewer}", "{that}.events.onStoryShareComplete"]
+                args: ["{storyEditor}", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
             },
             "onCreate.setEditorDisplay": {
                 func: "{that}.setEditorDisplay"
@@ -258,8 +258,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (that, errorEvent) {
-        var form = that.container.find("form");
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditor, storyModel, errorEvent) {
+        var form = storyEditor.container.find("form");
 
         form.attr("action", "/stories/");
         form.attr("method", "post");
@@ -271,7 +271,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         // Stores the entire model as a JSON string in one
         // field of the multipart form
-        var modelAsJSON = JSON.stringify(that.story.model);
+        var modelAsJSON = JSON.stringify(storyModel);
         formData.append("model", modelAsJSON);
 
         // In the real implementation, this should have
