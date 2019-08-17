@@ -44,9 +44,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * included only if they are string value and are truthy (i.e. not an empty
      * string). Values can also be accessed via a specific path relative to each
      * term.
-     * - separator: the string delimiter to be inserted between each term
-     * - stringOnly (optional): flag to exclude all falsy or non-string values
-     * - path (optional): an EL path on each item in the terms collection
+     * - "separator": the string delimiter to be inserted between each term
+     * - "stringOnly" (optional): flag to exclude all falsy or non-string values
+     * - "path" (optional): an EL path on each item in the terms collection
      */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
@@ -58,10 +58,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
-        var contentString = "";
-        var separator = extraInputs.separator();
-        var stringOnly = extraInputs.stringOnly();
-        var path = extraInputs.path();
+        var combinedString = "";
+        var separator = extraInputs.separator(),
+            stringOnly = extraInputs.stringOnly(),
+            path = extraInputs.path();
 
         fluid.each(input, function (term) {
             if (path) {
@@ -69,11 +69,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
 
             if (!stringOnly || (term && typeof term === "string")) {
-                contentString += term + (separator || "");
+                combinedString += term + (separator || "");
             }
         });
 
-        return contentString.substring(0, contentString.lastIndexOf(separator));
+        return combinedString.substring(0, combinedString.lastIndexOf(separator));
     };
 
     /* A transform which, given a collection and an index, will the value of the

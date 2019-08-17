@@ -78,16 +78,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]
         },
-        modelRelay: {
-            editorStoryToPreviewer: {
-                target: "{storyPreviewer}.story.model",
-                singleTransform: {
-                    type: "fluid.transforms.free",
-                    func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
-                    args: ["{storyEditor}.story.model", "{that}.options.blockContentValues"]
-                }
-            }
-        },
         components: {
             storySpeaker: {
                 options: {
@@ -215,6 +205,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 }
                             }
+                        },
+                        story: {
+                            options: {
+                                model: "{storyEditor}.story.model",
+                                modelRelay: {
+                                    contentEmptyBlockFilter: {
+                                        target: "content",
+                                        singleTransform: {
+                                            type: "fluid.transforms.free",
+                                            func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
+                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockContentValues"]
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -222,24 +227,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all empty blocks from a given array of story blocks
-     * - "blocks": an array of story blocks
-     * - "blockContentValues": a collection of arrays which outline the values
+    /* Removes all empty blocks from a given collection of story blocks
+     * - "blocks": a collection of story blocks (sjrk.storyTelling.block)
+     * - "blockContentValues": a hash map of block types which outlines the values
      *      that, if at least one is truthy, means a particular block is not empty
      */
-    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (storyModel, blockContentValues) {
-        storyModel.content = fluid.remove_if(storyModel.content, function (block) {
+    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
+        var filteredBlocks = fluid.remove_if(blocks, function (block) {
             return sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType]);
         });
 
-        return storyModel;
+        return filteredBlocks;
     };
 
     /* Returns true if a block is determined to be empty, based on the values
      * listed in blockContentValues. If at least one of those values is truthy,
      * the block is not empty.
-     * - "block": a story block
-     * - "blockContentValues": an array of the values as described above
+     * - "block": a single story block (sjrk.storyTelling.block)
+     * - "blockContentValues": a hash map of block types which outlines the values
+     *      that, if at least one is truthy, means a particular block is not empty
      */
     sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValues) {
         return !fluid.find_if(blockContentValues, function (blockContentValues) {

@@ -47,24 +47,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // ],
             // translationOf: null,
         },
-        modelRelay: [{
-            target: "contentString",
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.arrayToString",
-                input: "{that}.model.content",
-                separator: ". ",
-                stringOnly: true,
-                path: "contentString"
+        modelRelay: {
+            contentToContentString: {
+                target: "contentString",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.arrayToString",
+                    input: "{that}.model.content",
+                    separator: ". ",
+                    stringOnly: true,
+                    path: "contentString"
+                }
+            },
+            tagsToKeywordString: {
+                source: "tags",
+                target: "keywordString",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.arrayToString",
+                    separator: ", "
+                }
             }
-        },
-        {
-            source: "tags",
-            target: "keywordString",
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.arrayToString",
-                separator: ", "
-            }
-        }]
+        }
     });
 
 })(jQuery, fluid);
