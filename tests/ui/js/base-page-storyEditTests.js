@@ -139,7 +139,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: [
                 "Story model updated to expected value",
                 "{that}.options.value",
-                "@expand:sjrk.storyTelling.base.page.storyEditTester.getModelValueFromFieldName({storyEdit}.storyEditor,{that}.options.field)"
+                "@expand:sjrk.storyTelling.base.page.storyEditTester.getModelValueFromFieldName({storyEdit}.storyEditor, {that}.options.field)"
             ]
         }]
     });
@@ -159,6 +159,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             path: "content",
             listener: "jqUnit.assertDeepEq",
             args: ["Story model empty after removing value", [], "{storyEdit}.storyPreviewer.story.model.content"]
+        },
+        {
+            func: "jqUnit.assertEquals",
+            args: ["Story content string empty after removing value", "", "{storyEdit}.storyPreviewer.story.model.contentString"]
         }]
     });
 
@@ -176,6 +180,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         {
             funcName: "jqUnit.assertDeepEq",
             args: ["Story model remains empty after update", [], "{storyEdit}.storyPreviewer.story.model.content"]
+        },
+        {
+            func: "jqUnit.assertEquals",
+            args: ["Story content string remains empty after update", "", "{storyEdit}.storyPreviewer.story.model.contentString"]
         }]
     });
 
@@ -745,12 +753,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 10,
+                expect: 13,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
                 name: "Test block filtering model relay: Image block",
-                expect: 12,
+                expect: 15,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.imageBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -771,7 +779,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Audio block",
-                expect: 14,
+                expect: 18,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -796,7 +804,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Video block",
-                expect: 14,
+                expect: 18,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
