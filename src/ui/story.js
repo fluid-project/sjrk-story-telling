@@ -49,10 +49,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         modelRelay: {
             contentToContentString: {
+                source: "{that}.model.content",
                 target: "contentString",
                 singleTransform: {
                     type: "sjrk.storyTelling.transforms.arrayToString",
-                    input: "{that}.model.content",
                     separator: ". ",
                     stringOnly: true,
                     path: "contentString"

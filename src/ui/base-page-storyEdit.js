@@ -233,8 +233,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *      that, if at least one is truthy, means a particular block is not empty
      */
     sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
-        var filteredBlocks = fluid.remove_if(blocks, function (block) {
-            return sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType]);
+        var filteredBlocks = [];
+
+        fluid.each(blocks, function (block) {
+            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType])) {
+              filteredBlocks.push(block);
+            }
         });
 
         return filteredBlocks;
