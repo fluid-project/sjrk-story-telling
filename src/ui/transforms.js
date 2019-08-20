@@ -40,19 +40,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /* A transform to turn an array into a delimited string
-     * Values can be optionally be
-     * included only if they are string value and are truthy (i.e. not an empty
-     * string). Values can also be accessed via a specific path relative to each
-     * term.
-     * - "separator": the string delimiter to be inserted between each term
-     * - "stringOnly" (optional): flag to exclude all falsy or non-string values
+     * Values can also be accessed via a specific object path relative to each term.
+     * - "separator" (optional): the delimiter to be inserted between each term
+     * - "trailingSeparator" (optional): flag to include the separator at the end
+     * - "stringOnly" (optional): flag to allow only non-empty strings
      * - "path" (optional): an EL path on each item in the terms collection
      */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
         "inputVariables": {
             "separator": ", ",
-            "stringOnly": "",
+            "trailingSeparator": false,
+            "stringOnly": true,
             "path": ""
         }
     });
@@ -60,6 +59,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
         var combinedString = "";
         var separator = extraInputs.separator(),
+            trailingSeparator = extraInputs.trailingSeparator(),
             stringOnly = extraInputs.stringOnly(),
             path = extraInputs.path();
 
@@ -71,7 +71,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
 
-        return combinedString.substring(0, combinedString.lastIndexOf(separator));
+        if (!trailingSeparator) {
+            combinedString = combinedString.substring(0, combinedString.lastIndexOf(separator));
+        }
+
+        return combinedString;
     };
 
     /* A transform which, given a collection and an index, will the value of the
