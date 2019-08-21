@@ -56,7 +56,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: ["{storyEditor}", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
+                args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
             },
             "onCreate.setEditorDisplay": {
                 func: "{that}.setEditorDisplay"
@@ -237,7 +237,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         fluid.each(blocks, function (block) {
             if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType])) {
-              filteredBlocks.push(block);
+                filteredBlocks.push(block);
             }
         });
 
@@ -262,16 +262,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditor, storyModel, errorEvent) {
-        var form = storyEditor.container.find("form");
-
-        form.attr("action", "/stories/");
-        form.attr("method", "post");
-        form.attr("enctype", "multipart/form-data");
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
+        storyEditorForm.attr("action", "/stories/");
+        storyEditorForm.attr("method", "post");
+        storyEditorForm.attr("enctype", "multipart/form-data");
 
         // This is the easiest way to be able to submit form
         // content in the background via ajax
-        var formData = new FormData(form[0]);
+        var formData = new FormData(storyEditorForm[0]);
 
         // Stores the entire model as a JSON string in one
         // field of the multipart form
@@ -282,8 +280,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // proper handling of feedback on success / failure,
         // but currently it just logs to console
         $.ajax({
-            url         : form.attr("action"),
-            data        : formData ? formData : form.serialize(),
+            url         : storyEditorForm.attr("action"),
+            data        : formData || storyEditorForm.serialize(),
             cache       : false,
             contentType : false,
             processData : false,
@@ -297,11 +295,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             error       : function (jqXHR, textStatus, errorThrown) {
                 fluid.log("Something went wrong");
                 fluid.log(jqXHR, textStatus, errorThrown);
-                var errorMessage = "Internal server error";
-                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                    errorMessage = jqXHR.responseJSON.message;
-                }
-                errorEvent.fire(errorMessage);
+
+                errorEvent.fire(fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error");
             }
         });
     };
