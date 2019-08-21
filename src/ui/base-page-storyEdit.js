@@ -245,15 +245,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /* Returns true if a block is determined to be empty, based on the values
-     * listed in blockContentValues. If at least one of those values is truthy,
-     * the block is not empty.
+     * listed in blockContentValuesForType. If at least one of those values is
+     * truthy, the block is not empty. If the values are empty or otherwise can't
+     * be iterated over, then the block is also empty regardless of its contents.
      * - "block": a single story block (sjrk.storyTelling.block)
-     * - "blockContentValues": a hash map of block types which outlines the values
-     *      that, if at least one is truthy, means a particular block is not empty
+     * - "blockContentValuesForType": an array of values for the block's type
+     *      that, if at least one is truthy, mean the block is not empty
      */
-    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValues) {
-        return !fluid.find_if(blockContentValues, function (blockContentValues) {
-            return !!block[blockContentValues];
+    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValuesForType) {
+        return !fluid.find_if(blockContentValuesForType, function (blockContentValue) {
+            return !!block[blockContentValue];
         });
     };
 

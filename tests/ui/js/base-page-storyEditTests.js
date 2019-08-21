@@ -752,6 +752,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
+                name: "Test isEmptyBlock function",
+                expect: 51,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock",
+                    args: ["{storyEdit}.options.blockContentValues"]
+                }]
+            },
+            {
                 name: "Test block filtering model relay: Text block",
                 expect: 13,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
@@ -869,6 +877,303 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.base.page.storyEditTester.getModelValueFromFieldName = function (component, fieldName) {
         return fluid.get(component, "story.model.content.0." + fieldName);
+    };
+
+    var isEmptyBlockTestCases = [
+        { block: {},            blockContentValues: "default",  expectedEmpty: true },
+        { block: [],            blockContentValues: "default",  expectedEmpty: true },
+        { block: "",            blockContentValues: "default",  expectedEmpty: true },
+        { block: "Not a block", blockContentValues: "default",  expectedEmpty: true },
+        { block: 0,             blockContentValues: "default",  expectedEmpty: true },
+        { block: 1,             blockContentValues: "default",  expectedEmpty: true },
+        { block: true,          blockContentValues: "default",  expectedEmpty: true },
+        { block: false,         blockContentValues: "default",  expectedEmpty: true },
+        { block: {},            blockContentValues: [],         expectedEmpty: true },
+        { block: [],            blockContentValues: [],         expectedEmpty: true },
+        { block: "",            blockContentValues: [],         expectedEmpty: true },
+        { block: "Not a block", blockContentValues: [],         expectedEmpty: true },
+        { block: 0,             blockContentValues: [],         expectedEmpty: true },
+        { block: 1,             blockContentValues: [],         expectedEmpty: true },
+        { block: true,          blockContentValues: [],         expectedEmpty: true },
+        { block: false,         blockContentValues: [],         expectedEmpty: true },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "An actual text value",
+                simplifiedText: ""
+            },                  blockContentValues: [],         expectedEmpty: true
+        },
+        { block: {},            blockContentValues: 0,          expectedEmpty: true },
+        { block: {},            blockContentValues: 1,          expectedEmpty: true },
+        { block: {},            blockContentValues: true,       expectedEmpty: true },
+        { block: {},            blockContentValues: false,      expectedEmpty: true },
+        { block: {},            blockContentValues: "",         expectedEmpty: true },
+        { block: {},            blockContentValues: "Useless",  expectedEmpty: true },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "An actual text value",
+                simplifiedText: ""
+            },                  blockContentValues: {},         expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "An actual text value",
+                simplifiedText: ""
+            },                  blockContentValues: 0,          expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "An actual text value",
+                simplifiedText: ""
+            },                  blockContentValues: 1,          expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "text"
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "",
+                simplifiedText: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "An actual text value",
+                simplifiedText: ""
+            },                  blockContentValues: "default",  expectedEmpty: false
+        },
+        {
+            block: {
+                blockType: "text",
+                heading: "An actual heading",
+                text: "",
+                simplifiedText: ""
+            },                  blockContentValues: "default",  expectedEmpty: false
+        },
+        {
+            block: {
+                blockType: "text",
+                heading: "",
+                text: "",
+                simplifiedText: "A value"
+            },                  blockContentValues: "default",  expectedEmpty: false
+        },
+        {
+            block: {
+                blockType: "image",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                imageUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "image",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                imageUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "image",
+                heading: "An actual heading",
+                alternativeText: "",
+                description: "",
+                imageUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "image",
+                heading: "",
+                alternativeText: "Some alternative text",
+                description: "",
+                imageUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "image",
+                heading: "",
+                alternativeText: "",
+                description: "A real description",
+                imageUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "image",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                imageUrl: "Not really a URL"
+            },                  blockContentValues: "default",  expectedEmpty: false
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "An actual heading",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "Some alternative text",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "",
+                description: "A real description",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "A real transcript",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: "Not really a URL"
+            },                  blockContentValues: "default",  expectedEmpty: false
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "An actual heading",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "",
+                alternativeText: "Some alternative text",
+                description: "",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "",
+                alternativeText: "",
+                description: "A real description",
+                transcript: "",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "A real transcript",
+                mediaUrl: ""
+            },                  blockContentValues: "default",  expectedEmpty: true
+        },
+        {
+            block: {
+                blockType: "video",
+                heading: "",
+                alternativeText: "",
+                description: "",
+                transcript: "",
+                mediaUrl: "Not really a URL"
+            },                  blockContentValues: "default",  expectedEmpty: false
+        }
+    ];
+
+    sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock = function (blockContentValues) {
+        fluid.each(isEmptyBlockTestCases, function (testCase, index) {
+            var blockContentValuesToUse = testCase.blockContentValues === "default" ? blockContentValues : testCase.blockContentValues;
+
+            var actuallyEmpty = sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(testCase.block, blockContentValuesToUse[testCase.block.blockType]);
+            jqUnit.assertEquals("Block emptiness state for test case " + index + " is as expected", testCase.expectedEmpty, actuallyEmpty);
+        });
     };
 
     sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
