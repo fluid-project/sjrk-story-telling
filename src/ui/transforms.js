@@ -25,19 +25,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.transforms.stringToArray = function (input, transformSpec) {
-        var sourceString = input,
-            delimiter = transformSpec.delimiter || ",",
+        var delimiter = transformSpec.delimiter || ",",
             trim = transformSpec.trim;
 
         trim = trim === undefined ? true : trim;
 
-        return typeof sourceString === "string" ? fluid.transform(sourceString.split(delimiter), function (tag) {
+        if (typeof input !== "string" || input === "") {
+            return [];
+        }
+
+        return fluid.transform(input.split(delimiter), function (tag) {
             if (trim) {
                 return tag.trim();
             } else {
                 return tag;
             }
-        }) : [];
+        });
     };
 
     sjrk.storyTelling.transforms.stringToArray.invert = function (transformSpec) {

@@ -47,17 +47,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             expectedResult: ["Shyguy", "Rootbeer"]
         },
         {
+            input: ["Shyguy ,Rootbeer"],
+            rules: {},
+            expectedResult: []
+        },
+        {
             input: 0,
             rules: {},
             expectedResult: []
         },
         {
             input: {},
-            rules: {},
-            expectedResult: []
-        },
-        {
-            input: ["Shyguy ,Rootbeer"],
             rules: {},
             expectedResult: []
         },
@@ -70,6 +70,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             input: false,
             rules: {},
             expectedResult: []
+        },
+        {
+            input: "",
+            rules: {},
+            expectedResult: []
+        },
+        {
+            input: null,
+            rules: {},
+            expectedResult: []
+        },
+        {
+            input: undefined,
+            rules: {},
+            expectedResult: undefined
         }
     ];
 
@@ -99,6 +114,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     var arrayToStringTransformTestCases = [
         {
             input: ["Shyguy", "Rootbeer"],
+            rules: {},
+            expectedResult: "Shyguy, Rootbeer"
+        },
+        {
+            input: {cat1: "Shyguy", cat2: "Rootbeer"},
             rules: {},
             expectedResult: "Shyguy, Rootbeer"
         },
@@ -171,6 +191,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             input: [],
             rules: {},
             expectedResult: ""
+        },
+        {
+            input: 0,
+            rules: {},
+            expectedResult: ""
+        },
+        {
+            input: {},
+            rules: {},
+            expectedResult: ""
+        },
+        {
+            input: "",
+            rules: {},
+            expectedResult: ""
+        },
+        {
+            input: null,
+            rules: {},
+            expectedResult: ""
+        },
+        {
+            input: undefined,
+            rules: {},
+            expectedResult: undefined
         }
     ];
 
