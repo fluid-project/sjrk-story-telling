@@ -13,69 +13,73 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.registerNamespace("sjrk.storyTelling.transforms");
 
-    /* A transform to turn a delimited string into an array.
+    /* A transform to turn a delimited string into an array. If input is not a
+     * string, then it will return an empty array.
+     * It is partly invertible via "sjrk.storyTelling.transforms.arrayToString".
      * - "delimiter": the delimiter of terms within the given strings
      * - "trim": if true, trims excess whitespace from each term, otherwise no
      */
     fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
-        "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
-        "inputVariables": {
-            "delimiter": ",",
-            "trim": true
-        }
+        gradeNames: ["fluid.standardTransformFunction"],
+        invertConfiguration: "sjrk.storyTelling.transforms.stringToArray.invert"
     });
 
-    sjrk.storyTelling.transforms.stringToArray = function (input, extraInputs) {
+    sjrk.storyTelling.transforms.stringToArray = function (input, transformSpec) {
         var sourceString = input,
-            delimiter = extraInputs.delimiter(),
-            trim = extraInputs.trim();
+            delimiter = transformSpec.delimiter || ",",
+            trim = transformSpec.trim;
 
-        return fluid.transform(sourceString.split(delimiter), function (tag) {
+        trim = trim === undefined ? true : trim;
+
+        return typeof sourceString === "string" ? fluid.transform(sourceString.split(delimiter), function (tag) {
             if (trim) {
                 return tag.trim();
             } else {
                 return tag;
             }
-        });
+        }) : [];
     };
 
-    /* A transform to turn an array into a delimited string
+    sjrk.storyTelling.transforms.stringToArray.invert = function (transformSpec) {
+        transformSpec.type = "sjrk.storyTelling.transforms.arrayToString";
+        return transformSpec;
+    };
+
+    /* A transform to turn an array into a delimited string.
      * Values can also be accessed via a specific object path relative to each term.
-     * - "separator" (optional): the delimiter to be inserted between each term
-     * - "trailingSeparator" (optional): flag to include the separator at the end
+     * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
+     * - "delimiter" (optional): the delimiter to be inserted between each term
      * - "stringOnly" (optional): flag to allow only non-empty strings
      * - "path" (optional): an EL path on each item in the terms collection
      */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
-        "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
-        "inputVariables": {
-            "separator": ", ",
-            "trailingSeparator": false,
-            "stringOnly": true,
-            "path": ""
-        }
+        gradeNames: ["fluid.standardTransformFunction"],
+        invertConfiguration: "sjrk.storyTelling.transforms.arrayToString.invert"
     });
 
-    sjrk.storyTelling.transforms.arrayToString = function (input, extraInputs) {
-        var combinedString = "";
-        var separator = extraInputs.separator(),
-            trailingSeparator = extraInputs.trailingSeparator(),
-            stringOnly = extraInputs.stringOnly(),
-            path = extraInputs.path();
+    sjrk.storyTelling.transforms.arrayToString = function (input, transformSpec) {
+        var delimiter = transformSpec.delimiter || ", ",
+            stringOnly = transformSpec.stringOnly,
+            path = transformSpec.path || "";
+
+        stringOnly = stringOnly === undefined ? true : stringOnly;
+
+        var terms = [];
 
         fluid.each(input, function (term) {
             term = fluid.get(term, path);
 
-            if (!stringOnly || (term && typeof term === "string")) {
-                combinedString += term + (separator || "");
+            if (!stringOnly || (term !== "" && typeof term === "string")) {
+                terms.push(term);
             }
         });
 
-        if (!trailingSeparator) {
-            combinedString = combinedString.substring(0, combinedString.lastIndexOf(separator));
-        }
+        return terms.join(delimiter || "");
+    };
 
-        return combinedString;
+    sjrk.storyTelling.transforms.arrayToString.invert = function (transformSpec) {
+        transformSpec.type = "sjrk.storyTelling.transforms.stringToArray";
+        return transformSpec;
     };
 
     /* A transform which, given a collection and an index, will the value of the
@@ -85,7 +89,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "index": the index value to be checked
      */
     fluid.defaults("sjrk.storyTelling.transforms.valueOrIndex", {
-        "gradeNames": [ "fluid.standardTransformFunction", "fluid.multiInputTransformFunction" ],
+        "gradeNames": ["fluid.standardTransformFunction"],
         "inputVariables": {
             "component": null,
             "path": null,

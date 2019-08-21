@@ -11,87 +11,139 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    var stringToArrayTransformTestCases = [
+        {
+            input: "Shyguy,Rootbeer",
+            rules: {},
+            expectedResult: ["Shyguy", "Rootbeer"],
+            expectedInverseResult: "Shyguy, Rootbeer"
+        },
+        {
+            input: "Shyguy, Rootbeer",
+            rules: {},
+            expectedResult: ["Shyguy", "Rootbeer"],
+            expectedInverseResult: "Shyguy, Rootbeer"
+        },
+        {
+            input: "Shyguy   , Rootbeer",
+            rules: {
+                trim: false
+            },
+            expectedResult: ["Shyguy   ", " Rootbeer"],
+            expectedInverseResult: "Shyguy   , Rootbeer"
+        },
+        {
+            input: "Shyguy, Rootbeer",
+            rules: {
+                delimiter: "."
+            },
+            expectedResult: ["Shyguy, Rootbeer"]
+        },
+        {
+            input: "Shyguy. Rootbeer",
+            rules: {
+                delimiter: "."
+            },
+            expectedResult: ["Shyguy", "Rootbeer"]
+        },
+        {
+            input: 0,
+            rules: {},
+            expectedResult: []
+        },
+        {
+            input: {},
+            rules: {},
+            expectedResult: []
+        },
+        {
+            input: ["Shyguy ,Rootbeer"],
+            rules: {},
+            expectedResult: []
+        },
+        {
+            input: [],
+            rules: {},
+            expectedResult: []
+        },
+        {
+            input: false,
+            rules: {},
+            expectedResult: []
+        }
+    ];
+
     jqUnit.test("Test stringToArray transform function", function () {
-        jqUnit.expect(2);
+        jqUnit.expect(stringToArrayTransformTestCases.length);
 
-        var expectedArray = ["tag1","tag2"];
-
-        var stringToArrayTransform = {
-            transform: {
+        fluid.each(stringToArrayTransformTestCases, function (testCase, index) {
+            var transformRules = $.extend({}, testCase.rules, {
                 type: "sjrk.storyTelling.transforms.stringToArray",
                 inputPath: "inputString"
-            }
-        };
+            });
 
-        var tagArray = fluid.model.transformWithRules(
-            {inputString: "tag1,tag2"},
-            {output: stringToArrayTransform}
-        ).output;
+            var transform = {
+                transform: transformRules
+            };
 
-        var tagArrayNoSpace = fluid.model.transformWithRules(
-            {inputString: "tag1, tag2"},
-            {output: stringToArrayTransform}
-        ).output;
+            var output = fluid.model.transformWithRules(
+                { inputString: testCase.input },
+                { output: transform }
+            ).output;
 
-        jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArray);
-        jqUnit.assertDeepEq("Generated array values are as expected", expectedArray, tagArrayNoSpace);
+            jqUnit.assertDeepEq("Generated array values for test case " + index + " are as expected", testCase.expectedResult, output);
+
+        });
     });
 
     var arrayToStringTransformTestCases = [
         {
-            sourceArray: ["Shyguy", "Rootbeer"],
+            input: ["Shyguy", "Rootbeer"],
             rules: {},
             expectedResult: "Shyguy, Rootbeer"
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer"],
+            input: ["Shyguy", "Rootbeer"],
             rules: {
-                separator: ". "
+                delimiter: ". "
             },
             expectedResult: "Shyguy. Rootbeer"
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer"],
+            input: ["Shyguy", "Rootbeer"],
             rules: {
-                separator: true
+                delimiter: true
             },
             expectedResult: "ShyguytrueRootbeer"
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer"],
+            input: ["Shyguy", "Rootbeer"],
             rules: {
-                separator: 1
+                delimiter: 1
             },
             expectedResult: "Shyguy1Rootbeer"
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer"],
-            rules: {
-                trailingSeparator: true
-            },
-            expectedResult: "Shyguy, Rootbeer, "
-        },
-        {
-            sourceArray: ["Shyguy", "Rootbeer", 0, {somethingElse: ""}, ["a string in an array"]],
+            input: ["Shyguy", "Rootbeer", 0, {somethingElse: ""}, ["a string in an array"]],
             rules: {},
             expectedResult: "Shyguy, Rootbeer"
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer", 0, {somethingElse: ""}, ["a string in an array"]],
+            input: ["Shyguy", "Rootbeer", 0, {somethingElse: ""}, ["a string in an array"]],
             rules: {
                 stringOnly: false
             },
             expectedResult: "Shyguy, Rootbeer, 0, [object Object], a string in an array"
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer"],
+            input: ["Shyguy", "Rootbeer"],
             rules: {
                 path: "innerPath"
             },
             expectedResult: ""
         },
         {
-            sourceArray: [
+            input: [
                 { innerPath: "Shyguy", ignoredValue: "Not a cat" },
                 { innerPath: "Rootbeer", ignoredValue: "Also not a cat" }
             ],
@@ -101,7 +153,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             expectedResult: "Shyguy, Rootbeer"
         },
         {
-            sourceArray: [
+            input: [
                 { innerPath: "Shyguy", ignoredValue: "Not a cat" },
                 { innerPath: "Rootbeer", ignoredValue: "Also not a cat" }
             ],
@@ -111,9 +163,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             expectedResult: ""
         },
         {
-            sourceArray: ["Shyguy", "Rootbeer", "", false, {}, []],
+            input: ["Shyguy", "Rootbeer", "", false, {}, []],
             rules: {},
             expectedResult: "Shyguy, Rootbeer"
+        },
+        {
+            input: [],
+            rules: {},
+            expectedResult: ""
         }
     ];
 
@@ -123,15 +180,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.each(arrayToStringTransformTestCases, function (testCase, index) {
             var transformRules = $.extend({}, testCase.rules, {
                 type: "sjrk.storyTelling.transforms.arrayToString",
-                inputPath: "sourceArray",
-            })
+                inputPath: "sourceArray"
+            });
 
             var resultString = fluid.model.transformWithRules(
-                { sourceArray: testCase.sourceArray },
+                { sourceArray: testCase.input },
                 { resultString: { transform: transformRules }}
             ).resultString;
 
-            jqUnit.assertEquals("Generated array values for test case " + index + " are as expected", testCase.expectedResult, resultString);
+            jqUnit.assertEquals("Generated string value for test case " + index + " is as expected", testCase.expectedResult, resultString);
         });
     });
 
