@@ -16,8 +16,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /* A transform to turn a delimited string into an array. If input is not a
      * string, then it will return an empty array.
      * It is partly invertible via "sjrk.storyTelling.transforms.arrayToString".
-     * - "delimiter": the delimiter of terms within the given strings
-     * - "trim": if true, trims excess whitespace from each term, otherwise no
+     * - "delimiter" (optional): the delimiter of terms within the given strings, defaults to ","
+     * - "trim" (optional): flag to trim excess whitespace from each term. defaults to true
      */
     fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
         gradeNames: ["fluid.standardTransformFunction"],
@@ -25,16 +25,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     sjrk.storyTelling.transforms.stringToArray = function (input, transformSpec) {
-        var delimiter = transformSpec.delimiter || ",",
-            trim = transformSpec.trim;
-
-        trim = trim === undefined ? true : trim;
-
-        if (typeof input !== "string" || input === "") {
+        if (!input || typeof input !== "string") {
             return [];
         }
 
-        return fluid.transform(input.split(delimiter), function (tag) {
+        return fluid.transform(input.split(transformSpec.delimiter || ","), function (tag) {
+            var trim = fluid.isValue(transformSpec.trim) ? transformSpec.trim : true;
+
             if (trim) {
                 return tag.trim();
             } else {
@@ -51,8 +48,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /* A transform to turn an array into a delimited string.
      * Values can also be accessed via a specific object path relative to each term.
      * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
-     * - "delimiter" (optional): the delimiter to be inserted between each term
-     * - "stringOnly" (optional): flag to allow only non-empty strings
+     * - "delimiter" (optional): the delimiter to be inserted between each term. defaults to ", "
+     * - "stringOnly" (optional): flag to allow only non-empty strings. defaults to true
      * - "path" (optional): an EL path on each item in the terms collection
      */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
@@ -62,10 +59,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.transforms.arrayToString = function (input, transformSpec) {
         var delimiter = transformSpec.delimiter || ", ",
-            stringOnly = transformSpec.stringOnly,
+            stringOnly = fluid.isValue(transformSpec.stringOnly) ? transformSpec.stringOnly : true,
             path = transformSpec.path || "";
-
-        stringOnly = stringOnly === undefined ? true : stringOnly;
 
         var terms = [];
 
@@ -77,7 +72,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
 
-        return terms.join(delimiter || "");
+        return terms.join(delimiter);
     };
 
     sjrk.storyTelling.transforms.arrayToString.invert = function (transformSpec) {

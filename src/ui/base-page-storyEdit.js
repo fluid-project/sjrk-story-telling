@@ -264,9 +264,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
-        storyEditorForm.attr("action", "/stories/");
-        storyEditorForm.attr("method", "post");
-        storyEditorForm.attr("enctype", "multipart/form-data");
+        storyEditorForm.attr({
+            action: "/stories/",
+            method: "post",
+            enctype: "multipart/form-data"
+        });
 
         // This is the easiest way to be able to submit form
         // content in the background via ajax
