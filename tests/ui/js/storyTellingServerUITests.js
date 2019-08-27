@@ -69,61 +69,90 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     });
 
-    var loadThemedPageTestCases = {
-        base: {
-            theme: "base",
-            baseTheme: "base",
-            authoringEnabled: true
-        },
-        learningReflections: {
-            theme: "learningReflections",
-            baseTheme: "base",
-            authoringEnabled: true
-        }
-    };
-
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTester", {
-        gradeNames: ["fluid.test.testCaseHolder"],
+        gradeNames: ["fluid.modelComponent", "fluid.test.testCaseHolder"],
+        baseTestCase: {
+            clientConfig: {
+                theme: "base",
+                baseTheme: "base",
+                authoringEnabled: true
+            }
+        },
+        model: {
+            clientConfig: {
+                theme: "customTheme",
+                baseTheme: "base",
+                authoringEnabled: true
+            }
+        },
         modules: [{
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions",
-                expect: 6,
+                expect: 7,
                 sequence: [{
-                    // call the load themed page function, forcing the base theme response
-                    task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", loadThemedPageTestCases.base.theme],
-                    resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["The themed page load resolved as expected", loadThemedPageTestCases.base, "{arguments}.0"]
+                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.setupMockServer",
+                    args: ["/clientConfig", "{that}.options.baseTestCase", "application/json"]
                 },{
-                    // call the load themed page function, forcing the Learning Reflections theme response
-                    task: "sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", loadThemedPageTestCases.learningReflections.theme],
+                    // call the load themed page function, forcing the base theme response
+                    task: "sjrk.storyTelling.loadThemedPage",
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction"],
                     resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["The themed page load resolved as expected", loadThemedPageTestCases.learningReflections, "{arguments}.0"]
+                    resolveArgs: ["The themed page load resolved as expected", "{that}.options.baseTestCase.clientConfig", "{arguments}.0"]
+                },{
+                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer"
+                },{
+                    // load clientConfig and store that value somewhere
+                    task: "sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer",
+                    args: ["/clientConfig", "{that}", "clientConfig.theme"],
+                    resolve: "jqUnit.assertDeepEq",
+                    resolveArgs: ["Custom theme was loaded successfully", "{that}.model.clientConfig", "{arguments}.0"]
+                },{
+                    // call the load themed page function, forcing the custom theme response
+                    task: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeLoading",
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction"],
+                    resolve: "jqUnit.assertDeepEq",
+                    resolveArgs: ["The themed page load resolved as expected", "{that}.model.clientConfig", "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
-                    args: ["learningReflections.css", 1]
+                    args: ["{that}.model.clientConfig.theme", 1]
                 },{
                     // test the CSS/JS injection function directly
                     funcName: "sjrk.storyTelling.loadCustomThemeFiles",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", {"theme": "learningReflections"}]
+                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "{that}.model.clientConfig"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
-                    args: ["learningReflections.css", 2]
+                    args: ["{that}.model.clientConfig.theme", 2]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.storyTellingServerUiTester.loadThemedPageSingleTest = function (callback, expectedTheme) {
-        var loadPromise = fluid.promise();
+    sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer = function (url, component, clientConfigPath) {
+        var configPromise = fluid.promise();
 
-        sjrk.storyTelling.storyTellingServerUiTester.setupMockServer("/clientConfig", JSON.stringify({
-            theme: expectedTheme,
-            baseTheme: "base",
-            authoringEnabled: true
-        }));
+        $.get(url).then(function (data) {
+            if (data.theme !== data.baseTheme) {
+                fluid.set(component.model, clientConfigPath, data.theme);
+                configPromise.resolve(data);
+            } else {
+                configPromise.reject({
+                    isError: true,
+                    message: "Custom theme was not set in the server configuration."
+                });
+            }
+        }, function (jqXHR, textStatus, errorThrown) {
+            configPromise.reject({
+                isError: true,
+                message: errorThrown
+            });
+        });
+
+        return configPromise;
+    };
+
+    sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeLoading = function (callback) {
+        var loadPromise = fluid.promise();
 
         sjrk.storyTelling.loadThemedPage(callback).then(function (clientConfig) {
             loadPromise.resolve(clientConfig);
@@ -131,23 +160,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             loadPromise.reject();
         });
 
-        sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer();
-
         return loadPromise;
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, responseData) {
+    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, testCase, responseType) {
         mockServer = sinon.createFakeServer();
         mockServer.respondImmediately = true;
-
-        mockServer.respondWith(url, [200, { "Content-Type": "application/json" }, responseData]);
+        mockServer.respondWith(url, [200, { "Content-Type": responseType }, JSON.stringify(testCase.clientConfig)]);
     };
 
     sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {
         mockServer.restore();
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedFileName, expectedInstanceCount) {
+    sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded = function (expectedTheme, expectedInstanceCount) {
+        var expectedFileName = expectedTheme + ".css";
+
         var cssFilesLinked = fluid.transform(fluid.getMembers($("link"), "href"), function (fileUrl) {
             return fileUrl.split("/css/")[1];
         });
