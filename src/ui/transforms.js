@@ -29,15 +29,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             return [];
         }
 
-        return fluid.transform(input.split(transformSpec.delimiter || ","), function (tag) {
-            var trim = fluid.isValue(transformSpec.trim) ? transformSpec.trim : true;
+        var resultArray = input.split(transformSpec.delimiter || ",");
 
-            if (trim) {
-                return tag.trim();
-            } else {
-                return tag;
-            }
-        });
+        var trimTerms = fluid.isValue(transformSpec.trim) ? transformSpec.trim : true;
+        if (trimTerms) {
+            return fluid.transform(resultArray, function (term) {
+                return term.trim();
+            });
+        }
+
+        return resultArray;
     };
 
     sjrk.storyTelling.transforms.stringToArray.invert = function (transformSpec) {

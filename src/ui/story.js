@@ -56,9 +56,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     delimiter: ". ",
                     path: "contentString"
                 },
-                backward: {
-                    excludeSource: "*"
-                }
+                backward: "never"
             },
             tagsToKeywordString: {
                 source: "tags",
