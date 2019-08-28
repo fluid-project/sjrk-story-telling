@@ -88,38 +88,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         modules: [{
             name: "Test Storytelling Server UI code",
             tests: [{
-                name: "Test themed page loading functions",
-                expect: 7,
+                name: "Test themed page loading functions with mock values",
+                expect: 1,
                 sequence: [{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.setupMockServer",
-                    args: ["/clientConfig", "{that}.options.baseTestCase", "application/json"]
+                    args: ["/clientConfig", "{that}.options.baseTestCase.clientConfig", "application/json"]
                 },{
-                    // call the load themed page function, forcing the base theme response
-                    task: "sjrk.storyTelling.loadThemedPage",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction"],
+                    task: "sjrk.storyTelling.loadTheme",
                     resolve: "jqUnit.assertDeepEq",
                     resolveArgs: ["The themed page load resolved as expected", "{that}.options.baseTestCase.clientConfig", "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer"
-                },{
-                    // load clientConfig and store that value somewhere
+                }]
+            },{
+                name: "Test themed page loading functions with server config values",
+                expect: 4,
+                sequence: [{
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer",
                     args: ["/clientConfig", "{that}", "clientConfig.theme"],
                     resolve: "jqUnit.assertDeepEq",
                     resolveArgs: ["Custom theme was loaded successfully", "{that}.model.clientConfig", "{arguments}.0"]
                 },{
-                    // call the load themed page function, forcing the custom theme response
-                    task: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeLoading",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction"],
+                    task: "sjrk.storyTelling.loadTheme",
                     resolve: "jqUnit.assertDeepEq",
                     resolveArgs: ["The themed page load resolved as expected", "{that}.model.clientConfig", "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["{that}.model.clientConfig.theme", 1]
                 },{
-                    // test the CSS/JS injection function directly
                     funcName: "sjrk.storyTelling.loadCustomThemeFiles",
-                    args: ["sjrk.storyTelling.testUtils.callbackVerificationFunction", "{that}.model.clientConfig"]
+                    args: ["{that}.model.clientConfig"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.assertCustomCssLoaded",
                     args: ["{that}.model.clientConfig.theme", 2]
@@ -151,22 +149,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return configPromise;
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeLoading = function (callback) {
-        var loadPromise = fluid.promise();
-
-        sjrk.storyTelling.loadThemedPage(callback).then(function (clientConfig) {
-            loadPromise.resolve(clientConfig);
-        }, function () {
-            loadPromise.reject();
-        });
-
-        return loadPromise;
-    };
-
-    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, testCase, responseType) {
+    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, clientConfig, responseType) {
         mockServer = sinon.createFakeServer();
         mockServer.respondImmediately = true;
-        mockServer.respondWith(url, [200, { "Content-Type": responseType }, JSON.stringify(testCase.clientConfig)]);
+        mockServer.respondWith(url, [200, { "Content-Type": responseType }, JSON.stringify(clientConfig)]);
     };
 
     sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {

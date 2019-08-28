@@ -115,7 +115,7 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.loadThemedPage(function (clientConfig) {
+        sjrk.storyTelling.loadTheme().then(function (clientConfig) {
             sjrk.storyTelling.loadStoryFromParameter(clientConfig);
         });
     });
