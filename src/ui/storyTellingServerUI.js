@@ -112,14 +112,7 @@ sjrk.storyTelling.loadTheme = function () {
 
     $.get("/clientConfig").then(function (data) {
         if (data.theme !== data.baseTheme) {
-            sjrk.storyTelling.loadCustomThemeFiles(data).then(function () {
-                loadPromise.resolve(data);
-            }, function (jqXHR, textStatus, errorThrown) {
-                loadPromise.reject({
-                    isError: true,
-                    message: errorThrown
-                });
-            });
+            fluid.promise.follow(sjrk.storyTelling.loadCustomThemeFiles(data), loadPromise);
         } else {
             loadPromise.resolve(data);
         }
@@ -152,7 +145,9 @@ sjrk.storyTelling.loadCustomThemeFiles = function (clientConfig) {
         href: cssUrl
     }).appendTo("head");
 
+
     $.getScript(scriptUrl, function () {
+        window.customThemeScriptLoaded = true;
         loadPromise.resolve(clientConfig);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({
