@@ -147,7 +147,7 @@ sjrk.storyTelling.loadCustomThemeFiles = function (clientConfig) {
 
 
     $.getScript(scriptUrl, function () {
-        window.customThemeScriptLoaded = true;
+        sjrk.storyTelling.customThemeScriptLoaded = true;
         loadPromise.resolve(clientConfig);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({

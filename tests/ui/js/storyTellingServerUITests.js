@@ -78,7 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 authoringEnabled: true
             }
         },
-        model: {
+        members: {
             clientConfig: {
                 theme: "customTheme",
                 baseTheme: "base",
@@ -105,32 +105,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 6,
                 sequence: [{
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer",
-                    args: ["/clientConfig", "{that}", "clientConfig.theme"],
+                    args: ["/clientConfig", "{that}"],
                     resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["Custom theme was loaded successfully", "{that}.model.clientConfig", "{arguments}.0"]
+                    resolveArgs: ["Custom theme was loaded successfully", "{that}.clientConfig", "{arguments}.0"]
                 },{
                     task: "sjrk.storyTelling.loadTheme",
                     resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["The themed page load resolved as expected", "{that}.model.clientConfig", "{arguments}.0"]
+                    resolveArgs: ["The themed page load resolved as expected", "{that}.clientConfig", "{arguments}.0"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeFilesLoaded",
-                    args: ["{that}.model.clientConfig.theme", 1]
+                    args: ["{that}.clientConfig.theme", 1]
                 },{
                     task: "sjrk.storyTelling.loadCustomThemeFiles",
-                    args: ["{that}.model.clientConfig"],
+                    args: ["{that}.clientConfig"],
                     resolve: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeFilesLoaded",
-                    resolveArgs: ["{that}.model.clientConfig.theme", 2]
+                    resolveArgs: ["{that}.clientConfig.theme", 2]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer = function (url, testerComponent, clientConfigPath) {
+    sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer = function (url, testerComponent) {
         var configPromise = fluid.promise();
 
         $.get(url).then(function (data) {
             if (data.theme !== data.baseTheme) {
-                testerComponent.applier.change(clientConfigPath, data.theme);
+                testerComponent.clientConfig.theme = data.theme;
                 configPromise.resolve(data);
             } else {
                 configPromise.reject({
@@ -162,7 +162,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var actualInstanceCount = $("link[href$=\"" + expectedTheme + ".css\"]").length;
         jqUnit.assertEquals("Custom theme CSS file is linked the expected number of instances", expectedCssInstanceCount, actualInstanceCount);
 
-        jqUnit.assertTrue("The custom theme JS file has been loaded", window.customThemeScriptLoaded);
+        jqUnit.assertTrue("The custom theme JS file has been loaded", sjrk.storyTelling.customThemeScriptLoaded);
     };
 
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTest", {
