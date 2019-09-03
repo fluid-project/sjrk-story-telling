@@ -102,7 +102,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },{
                 name: "Test themed page loading functions with server config values",
-                expect: 6,
+                expect: 4,
                 sequence: [{
                     task: "sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer",
                     args: ["/clientConfig", "{that}"],
@@ -113,12 +113,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resolve: "jqUnit.assertDeepEq",
                     resolveArgs: ["The themed page load resolved as expected", "{that}.clientConfig", "{arguments}.0"]
                 },{
-                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeFilesLoaded",
+                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
                     args: ["{that}.clientConfig.theme", 1]
                 },{
                     task: "sjrk.storyTelling.loadCustomThemeFiles",
                     args: ["{that}.clientConfig"],
-                    resolve: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeFilesLoaded",
+                    resolve: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
                     resolveArgs: ["{that}.clientConfig.theme", 2]
                 }]
             }]
@@ -158,11 +158,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mockServer.restore();
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.verifyCustomThemeFilesLoaded = function (expectedTheme, expectedCssInstanceCount) {
+    sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded = function (expectedTheme, expectedCssInstanceCount) {
         var actualInstanceCount = $("link[href$=\"" + expectedTheme + ".css\"]").length;
         jqUnit.assertEquals("Custom theme CSS file is linked the expected number of instances", expectedCssInstanceCount, actualInstanceCount);
-
-        jqUnit.assertTrue("The custom theme JS file has been loaded", sjrk.storyTelling.customThemeScriptLoaded);
     };
 
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTest", {

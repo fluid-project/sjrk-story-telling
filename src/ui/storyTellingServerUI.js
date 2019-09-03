@@ -145,9 +145,9 @@ sjrk.storyTelling.loadCustomThemeFiles = function (clientConfig) {
         href: cssUrl
     }).appendTo("head");
 
-
+    // TODO: This method of loading produces a potential race condition
+    // See SJRK-272: https://issues.fluidproject.org/browse/SJRK-272
     $.getScript(scriptUrl, function () {
-        sjrk.storyTelling.customThemeScriptLoaded = true;
         loadPromise.resolve(clientConfig);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({
