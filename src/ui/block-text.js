@@ -24,8 +24,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             singleTransform: {
                 type: "sjrk.storyTelling.transforms.arrayToString",
                 input: ["{that}.model.heading", "{that}.model.text"],
-                separator: ". ",
-                stringOnly: true
+                delimiter: ". "
             }
         }
     });
