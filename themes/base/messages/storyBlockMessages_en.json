@@ -1,7 +1,10 @@
 {
     "message_blockHeadingLabel": "Block heading",
     "message_blockHeadingPlaceholder": "Add block heading",
-    "message_blockSelectionCheckboxLabel": "Select this block",
+    "message_blockSelectionCheckboxLabelText": "Select this text block",
+    "message_blockSelectionCheckboxLabelAudio": "Select this audio block",
+    "message_blockSelectionCheckboxLabelImage": "Select this image block",
+    "message_blockSelectionCheckboxLabelVideo": "Select this video block",
     "message_textInputLabel": "Text content",
     "message_textInputPlaceholder": "Begin typing here",
     "message_simplifiedTextInputLabel": "Summary",

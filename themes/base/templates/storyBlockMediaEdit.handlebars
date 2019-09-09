@@ -1,7 +1,15 @@
 <div lang="{{localizedMessages.language}}" class="sjrk-st-block">
     {{#getIds "storySelectionCheckbox"}}
         <div class="sjrk-st-label-container fl-hidden-accessible">
-            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
+            {{#equals ../dynamicValues.blockType "audio"}}
+                <label for="$id">{{../../localizedMessages.message_blockSelectionCheckboxLabelAudio}}</label>
+            {{/equals}}
+            {{#equals ../dynamicValues.blockType "image"}}
+                <label for="$id">{{../../localizedMessages.message_blockSelectionCheckboxLabelImage}}</label>
+            {{/equals}}
+            {{#equals ../dynamicValues.blockType "video"}}
+                <label for="$id">{{../../localizedMessages.message_blockSelectionCheckboxLabelVideo}}</label>
+            {{/equals}}
         </div>
         <div class="sjrk-st-block-selection-checkbox-container">
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
