@@ -312,8 +312,8 @@ h3:empty {
     font-family: var(--site-font);
     font-size: 1rem;
     padding: 0.25rem;
-    background: var(--site-grey);
     border: 1px solid var(--site-dark-grey);
+    border-bottom: none;
     border-left: none;
     border-right: none;
 }
