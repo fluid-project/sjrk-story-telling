@@ -31,7 +31,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onShareComplete: null,
             onSaveNoShareRequested: null,
             onStoryViewerPreviousRequested: null,
-            onStoryListenToRequested: null,
             onStoryUpdatedFromBlocks: null
         },
         listeners: {
@@ -49,11 +48,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "this": "{that}.dom.storyViewerPrevious",
                 "method": "click",
                 "args": ["{that}.events.onStoryViewerPreviousRequested.fire"]
-            },
-            "onReadyToBind.bindListenToControl": {
-                "this": "{that}.dom.storyListenTo",
-                "method": "click",
-                "args": ["{that}.events.onStoryListenToRequested.fire"]
             }
         },
         components: {
@@ -105,6 +99,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     //     language: "en",
                     //     tags: ["test", "story", "simple"]
                     // }
+                }
+            },
+            orator: {
+                type: "fluid.orator",
+                container: "{that}.dom.storyContainer",
+                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                options: {
+                    selectors: {
+                        content: ".sjrkc-st-story-details"
+                    }
                 }
             },
             templateManager: {

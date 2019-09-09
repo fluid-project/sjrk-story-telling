@@ -6,37 +6,35 @@
         <a class="sjrkc-st-read-other-stories sjrk-st-read-other-stories " href="#">{{localizedMessages.message_translateText}}</a>
     </div>
 </div>
-<div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-main-container">
-    <div class="sjrk-st-link-container">
-        <button class="sjrk-st-button sjrk-st-story-listen-to sjrkc-st-story-listen-to" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_listenToText}}</span></button>
-    </div>
+<div lang="{{localizedMessages.language}}" class="sjrkc-st-story-viewer-main-container sjrk-st-story-viewer-main-container">
+    <div class="sjrkc-st-story-details">
+        {{#if dynamicValues.story.title}}
+            <h2 class="sjrkc-st-story-title sjrk-st-story-title">{{dynamicValues.story.title}}</h2>
+        {{/if}}
+        {{#if dynamicValues.story.author}}
+            <p class="sjrkc-st-story-author sjrk-st-story-author">{{localizedMessages.message_authorText}}</p>
+        {{/if}}
 
-    {{#if dynamicValues.story.title}}
-        <h2 class="sjrkc-st-story-title sjrk-st-story-title">{{dynamicValues.story.title}}</h2>
-    {{/if}}
-    {{#if dynamicValues.story.author}}
-        <p class="sjrkc-st-story-author sjrk-st-story-author">{{localizedMessages.message_authorText}}</p>
-    {{/if}}
+        <div hidden class="sjrk-st-link-container">
+            <a class="sjrkc-st-story-read-more sjrk-st-story-read-more" href="#">{{localizedMessages.message_readMoreText}}</a>
+        </div>
 
-    <div hidden class="sjrk-st-link-container">
-        <a class="sjrkc-st-story-read-more sjrk-st-story-read-more" href="#">{{localizedMessages.message_readMoreText}}</a>
-    </div>
-
-    <div hidden class="sjrk-st-language-container">
-        {{localizedMessages.message_languageLabelText}}: <span class="sjrkc-st-story-language sjrk-st-story-language">
-            {{lookup ../localizedMessages.availableLanguages dynamicValues.story.language}}
-        </span>
-    </div>
-
-    {{#if dynamicValues.story.tags}}
-        <div class="sjrk-st-tags-container">
-            {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-st-story-list-tags sjrk-st-story-list-tags">
-                {{#each dynamicValues.story.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+        <div hidden class="sjrk-st-language-container">
+            {{localizedMessages.message_languageLabelText}}: <span class="sjrkc-st-story-language sjrk-st-story-language">
+                {{lookup ../localizedMessages.availableLanguages dynamicValues.story.language}}
             </span>
         </div>
-    {{/if}}
 
-    <div class="sjrkc-st-story-content sjrk-st-story-content"></div>
+        {{#if dynamicValues.story.tags}}
+            <div class="sjrk-st-tags-container">
+                {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-st-story-list-tags sjrk-st-story-list-tags">
+                    {{#each dynamicValues.story.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+                </span>
+            </div>
+        {{/if}}
+
+        <div class="sjrkc-st-story-content sjrk-st-story-content"></div>
+    </div>
 </div>
 {{#if dynamicValues.isEditorPreview}}
     <div lang="{{localizedMessages.language}}" class="sjrk-st-important-notes">

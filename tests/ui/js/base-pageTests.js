@@ -20,16 +20,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../.."
         },
         components: {
-            storySpeaker: {
-                options: {
-                    model: {
-                        utteranceOpts: {
-                            // not all speech synthesizers will respect this setting
-                            volume: 0
-                        }
-                    }
-                }
-            },
             uio: {
                 options: {
                     terms: {
@@ -57,11 +47,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{pageTest testPage}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired"
-                },
-                {
-                    "event": "{pageTest testPage storySpeaker}.events.onCreate",
-                    "listener": "jqUnit.assert",
-                    "args": "storySpeaker onCreate event fired"
                 },
                 // ensure the initial state is English
                 {
@@ -150,34 +135,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "path": "uiLanguage",
                     "funcName": "jqUnit.assertEquals",
                     "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.uiLanguage"]
-                }]
-            },
-            {
-                name: "Test storySpeaker",
-                expect: 3,
-                sequence: [{
-                    func: "{testPage}.storySpeaker.applier.change",
-                    args: ["ttsText", "Shyguy is a cat"]
-                },
-                {
-                    "changeEvent": "{testPage}.storySpeaker.applier.modelChanged",
-                    "path": "ttsText",
-                    "listener": "{testPage}.events.onStoryListenToRequested.fire"
-                },
-                {
-                    "event": "{testPage}.storySpeaker.events.onSpeechQueued",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["Speech queued with expected values", "Shyguy is a cat", "{arguments}.0.text"]
-                },
-                {
-                    func: "{testPage}.applier.change",
-                    args: ["uiLanguage", "catspeak"]
-                },
-                {
-                    "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["storySpeaker language is as expected" ,"catspeak", "{testPage}.storySpeaker.model.utteranceOpts.lang"]
                 },
                 {
                     func: "{testPage}.applier.change",
@@ -186,8 +143,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
                     "path": "uiLanguage",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["storySpeaker language is as expected" ,"en", "{testPage}.storySpeaker.model.utteranceOpts.lang"]
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.uiLanguage"]
                 }]
             },
             {
