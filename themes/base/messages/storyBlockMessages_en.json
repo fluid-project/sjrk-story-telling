@@ -1,7 +1,7 @@
 {
-    "message_blockHeadingLabel": "Section title",
-    "message_blockHeadingPlaceholder": "Add section title",
-    "message_blockSelectionCheckboxLabel": "Select this section",
+    "message_blockHeadingLabel": "Block heading",
+    "message_blockHeadingPlaceholder": "Add block heading",
+    "message_blockSelectionCheckboxLabel": "Select this block",
     "message_textInputLabel": "Text content",
     "message_textInputPlaceholder": "Begin typing here",
     "message_simplifiedTextInputLabel": "Summary",
