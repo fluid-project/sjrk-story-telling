@@ -319,11 +319,9 @@ h3:empty {
 }
 
 .sjrk-st-block-media-upload-button {
-    background: var(--site-dark-grey);
     border: none;
     font-size: 1rem;
     font-weight: bold;
-    padding: 0.25rem 0.5rem;
 }
 
 .sjrk-st-top-menu,
