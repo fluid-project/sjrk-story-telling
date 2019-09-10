@@ -249,6 +249,14 @@ fieldset ul {
     font-weight: bold;
 }
 
+.sjrk-st-story-viewer .sjrk-st-story-list-tags {
+    display: inline;
+}
+
+.sjrk-st-story-viewer .sjrk-st-story-list-tags li {
+    display: inline;
+}
+
 .sjrk-st-block {
     border: solid 2px var(--site-border-grey);
     margin: 0 0 2rem 0;

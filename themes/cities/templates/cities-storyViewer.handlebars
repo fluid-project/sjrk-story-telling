@@ -46,9 +46,12 @@
 
             {{#if dynamicValues.story.tags}}
             <div class="sjrk-st-tags-container">
-                {{localizedMessages.message_listTagsLabelText}}: <span class="sjrkc-st-story-list-tags sjrk-st-story-list-tags">
-                    {{#each dynamicValues.story.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
-                </span>
+                {{localizedMessages.message_listTagsLabelText}}
+                <ul class="sjrkc-st-story-list-tags sjrk-st-story-list-tags">
+                    {{#each dynamicValues.story.tags}}
+                        <li>{{this}}{{#unless @last}}, {{/unless}}</li>
+                    {{/each}}
+                </ul>
             </div>
             {{/if}}
 

@@ -29,7 +29,7 @@
     "message_readOtherstories" : "他の話を読む",
     "message_previewText": "話のプレビュー",
     "message_readMoreText": "続ける",
-    "message_listTagsLabelText": "タグ",
+    "message_listTagsLabelText": "タグ:",
     "message_shareText": "共有する",
     "message_saveNoShareText": "共有せずに保存する",
     "message_languageLabelText": "言語",
