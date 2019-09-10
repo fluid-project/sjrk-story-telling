@@ -1,6 +1,5 @@
 {
     "language": "pt",
-    "message_readStoryText": "%title, por %author. Palavras-chave: %keywordString. %contentString",
     "message_blockAddTextBlock": "Adicionar bloco de texto",
     "message_blockAddImageBlock": "Adicionar bloco de imagem",
     "message_blockRemoveBlocks": "Remover blocos selecionados",
