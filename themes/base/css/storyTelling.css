@@ -106,10 +106,15 @@ fieldset ul {
 
 .sjrk-st-block-label label {
     top: calc(50% - 1rem);
+    left: 0;
     position: absolute;
     opacity: 0;
     transition: all .3s ease;
     font-size: 0.85rem;
+}
+
+.sjrk-st-block-label textarea + label {
+    top: 1.4rem;
 }
 
 .sjrk-st-block-label input,
@@ -118,7 +123,7 @@ fieldset ul {
 }
 
 .sjrk-st-block-label input:not(:placeholder-shown) + label {
-    transform: translateY(-0.625rem);
+    transform: translateY(-0.8rem);
     opacity: 1;
 }
 
@@ -127,14 +132,9 @@ fieldset ul {
 }
 
 .sjrk-st-block-label textarea:not(:placeholder-shown) + label{
-    transform: translateY(-1.4rem);
+    transform: translateY(-1.5rem);
     opacity: 1;
 }
-
-.sjrk-st-block-label textarea.sjrk-st-block-text:not(:placeholder-shown) + label {
-    transform: translateY(-3.4rem);
-}
-
 /* End floating labels */
 
 .sjrk-st-block-alternative-content .sjrk-st-block-heading {
