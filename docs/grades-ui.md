@@ -52,10 +52,10 @@
   and keywords fields to their respective model values in the `story`. It makes use of a `dynamicViewComponentManager`
   called **blockManager** to add blocks of varying types on demand.
 * `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.handlebars`.
+  * has a `fluid.orator` component called **orator** for reading out various content on demand
 * `sjrk.storyTelling.ui.storyBrowser` shows a list of all the stories in the database. Its handlebars template is `storyBrowse.handlebars`.
 * `sjrk.storyTelling.base.page` represents a single HTML page, including all interactions within that page. It is the
   highest-level interface management grade. It has:
-  * a `fluid.textToSpeech` component called **storySpeaker** for reading out various content on demand,
   * a `fluid.prefs.cookieStore` for storing site preferences,
   * a `ui` grade called **menu** for top-level links and controls, with an associated template called `menu.handlebars`.
   * a component for [User Interface Options](https://wiki.fluidproject.org/pages/viewpage.action?pageId=29959408)

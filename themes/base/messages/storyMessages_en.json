@@ -1,6 +1,5 @@
 {
     "language": "en",
-    "message_readStoryText": "%title, by %author. Keywords: %keywordString. %contentString",
     "message_blockAddImageBlock": "Add an image block",
     "message_blockAddTextBlock": "Add a text block",
     "message_blockAddAudioBlock": "Add an audio block",

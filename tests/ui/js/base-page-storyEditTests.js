@@ -434,7 +434,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 20,
+                expect: 18,
                 sequence: [{
                     "event": "{storyEditTest storyEdit}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -522,24 +522,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.testUtils.assertElementText",
                     args: ["{storyEdit}.storyPreviewer.dom.storyTitle", "New test title"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyPreviewer.dom.storyListenTo"
-                },
-                {
-                    "event": "{storyEdit}.events.onStoryListenToRequested",
-                    "listener": "jqUnit.assert",
-                    "args": "onStoryListenToRequested event fired from editor."
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyPreviewer.dom.storyListenTo"
-                },
-                {
-                    "event": "{storyEdit}.events.onStoryListenToRequested",
-                    "listener": "jqUnit.assert",
-                    "args": "onStoryListenToRequested event fired from previewer."
                 }]
             },
             {
@@ -568,51 +550,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
                     args: ["{storyEdit}.storyPreviewer.dom.storyShare", "hidden", true]
-                }]
-            }]
-        },
-        {
-            name: "Test storySpeaker",
-            tests: [{
-                name: "Test storySpeaker",
-                expect: 4,
-                sequence: [{
-                    func: "{storyEdit}.storyEditor.story.applier.change",
-                    args: ["author", "Rootbeer"]
-                },
-                {
-                    "changeEvent": "{storyEdit}.storyEditor.story.applier.modelChanged",
-                    path: "author",
-                    listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "New test title, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
-                },
-                {
-                    func: "{storyEdit}.storyEditor.story.applier.change",
-                    args: ["title", "My brother Shyguy"]
-                },
-                {
-                    "changeEvent": "{storyEdit}.storyEditor.story.applier.modelChanged",
-                    path: "title",
-                    listener: "jqUnit.assertEquals",
-                    args: ["Model ttsText value relayed from author field", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.menu.dom.languageLinkSpanish"
-                },
-                {
-                    "event": "{storyEdit}.events.onAllUiComponentsReady",
-                    listener: "jqUnit.assertEquals",
-                    args: ["ttsText value updated with language change", "My brother Shyguy, de Rootbeer. Palabras claves: . ", "{storyEdit}.storySpeaker.model.ttsText"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.menu.dom.languageLinkEnglish"
-                },
-                {
-                    "event": "{storyEdit}.events.onAllUiComponentsReady",
-                    listener: "jqUnit.assertEquals",
-                    args: ["ttsText value updated with language change", "My brother Shyguy, by Rootbeer. Keywords: . ", "{storyEdit}.storySpeaker.model.ttsText"]
                 }]
             }]
         },
