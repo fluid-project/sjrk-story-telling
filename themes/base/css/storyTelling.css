@@ -185,14 +185,6 @@ fieldset ul {
     background-image: url("../img/icons/icon-restoreBlocks.png");
 }
 
-.sjrk-st-story-listen-to {
-    background-image: url("../img/icons/Audio.svg");
-}
-
-.sjrk-st-story-listen-to:active {
-    background-image: url("../img/icons/Audio-clicked.svg");
-}
-
 .sjrk-st-label-container {
     font-weight: 600;
 }
@@ -567,15 +559,6 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
 .fl-theme-gw .sjrk-st-button-remove-blocks { background-image: url("../img/icons/Trashcan_grey_dark.svg"); }
 .fl-theme-gd .sjrk-st-button-remove-blocks { background-image: url("../img/icons/Trashcan_grey.svg"); }
 .fl-theme-bbr .sjrk-st-button-remove-blocks { background-image: url("../img/icons/Trashcan_black.svg"); }
-
-.fl-theme-bw .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_black.svg"); }
-.fl-theme-wb .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_white.svg"); }
-.fl-theme-by .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_black.svg"); }
-.fl-theme-yb .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_yellow.svg"); }
-.fl-theme-lgdg .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_grey_light.svg"); }
-.fl-theme-gw .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_grey_dark.svg"); }
-.fl-theme-gd .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_grey.svg"); }
-.fl-theme-bbr .sjrk-st-story-listen-to { background-image: url("../img/icons/Audio_black.svg"); }
 
 .fl-theme-bw .sjrk-st-story-editor-next-arrow { background-image: url("../img/icons/Forward_black.svg"); }
 .fl-theme-wb .sjrk-st-story-editor-next-arrow { background-image: url("../img/icons/Forward_white.svg"); }
