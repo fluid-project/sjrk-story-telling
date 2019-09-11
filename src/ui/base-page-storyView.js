@@ -20,25 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             }
         },
-        listeners: {
-            "{storyViewer}.events.onStoryListenToRequested": {
-                func: "{that}.events.onStoryListenToRequested.fire",
-                namespace: "escalate"
-            }
-        },
         components: {
-            storySpeaker: {
-                options: {
-                    modelRelay: {
-                        target: "{that}.model.ttsText",
-                        singleTransform: {
-                            type: "fluid.transforms.stringTemplate",
-                            template: "{storyViewer}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                            terms: "{storyViewer}.story.model"
-                        }
-                    }
-                }
-            },
             // the story view context
             storyViewer: {
                 type: "sjrk.storyTelling.ui.storyViewer",

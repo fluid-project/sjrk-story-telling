@@ -27,7 +27,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 //     language: "en-CA",
                 //     heading: "An appropriate header",
                 //     text: "This is the main text of this block",
-                //     simplifiedText: "Main text."
                 // }
             ],
             contentString: "", // a string representation of the story content
@@ -47,24 +46,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // ],
             // translationOf: null,
         },
-        modelRelay: [{
-            target: "contentString",
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.arrayToString",
-                input: "{that}.model.content",
-                separator: ". ",
-                stringOnly: true,
-                path: "contentString"
+        modelRelay: {
+            contentToContentString: {
+                source: "{that}.model.content",
+                target: "contentString",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.arrayToString",
+                    delimiter: ". ",
+                    path: "contentString"
+                },
+                backward: "never"
+            },
+            tagsToKeywordString: {
+                source: "tags",
+                target: "keywordString",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.arrayToString",
+                    delimiter: ", "
+                }
             }
-        },
-        {
-            source: "tags",
-            target: "keywordString",
-            singleTransform: {
-                type: "sjrk.storyTelling.transforms.arrayToString",
-                separator: ", "
-            }
-        }]
+        }
     });
 
 })(jQuery, fluid);

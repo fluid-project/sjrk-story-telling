@@ -57,7 +57,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         ],
         events: {
-            onStoryListenToRequested: null,
             onAllUiComponentsReady: {
                 events: {
                     onMenuReady: "{menu}.events.onControlsBound",
@@ -133,26 +132,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         name: "sjrk-st-settings",
                         path: "/",
                         expires: ""
-                    }
-                }
-            },
-            // handles text to speech requests globally for the whole site
-            storySpeaker: {
-                type: "fluid.textToSpeech",
-                createOnEvent: "{page}.events.onAllUiComponentsReady",
-                options: {
-                    model:{
-                        ttsText: null,
-                        utteranceOpts: {
-                            lang: "{page}.model.uiLanguage"
-                        }
-                    },
-                    listeners: {
-                        "{page}.events.onStoryListenToRequested": {
-                            func: "{that}.queueSpeech",
-                            args: ["{that}.model.ttsText", true],
-                            namespace: "queueSpeech"
-                        }
                     }
                 }
             },

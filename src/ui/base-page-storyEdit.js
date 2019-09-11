@@ -50,13 +50,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"],
                 namespace: "showEditorHidePreviewer"
             },
-            "{storyPreviewer}.events.onStoryListenToRequested": {
-                func: "{that}.events.onStoryListenToRequested.fire",
-                namespace: "escalate"
-            },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: ["{storyEditor}", "{that}.events.onStoryShareComplete"]
+                args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
             },
             "onCreate.setEditorDisplay": {
                 func: "{that}.setEditorDisplay"
@@ -73,34 +69,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
          * one of the values listed in the corresponding array is truthy
          */
         blockContentValues: {
-            "text": ["heading", "text", "simplifiedText"],
+            "text": ["heading", "text"],
             "image": ["imageUrl"],
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]
         },
-        modelRelay: {
-            editorStoryToPreviewer: {
-                target: "{storyPreviewer}.story.model",
-                singleTransform: {
-                    type: "fluid.transforms.free",
-                    func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
-                    args: ["{storyEditor}.story.model", "{that}.options.blockContentValues"]
-                }
-            }
-        },
         components: {
-            storySpeaker: {
-                options: {
-                    modelRelay: {
-                        target: "{that}.model.ttsText",
-                        singleTransform: {
-                            type: "fluid.transforms.stringTemplate",
-                            template: "{storyEditor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                            terms: "{storyPreviewer}.story.model"
-                        }
-                    }
-                }
-            },
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
@@ -215,6 +189,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 }
                             }
+                        },
+                        story: {
+                            options: {
+                                model: "{storyEditor}.story.model",
+                                modelRelay: {
+                                    contentEmptyBlockFilter: {
+                                        target: "content",
+                                        singleTransform: {
+                                            type: "fluid.transforms.free",
+                                            func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
+                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockContentValues"]
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -222,28 +211,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all empty blocks from a given array of story blocks
-     * - "blocks": an array of story blocks
-     * - "blockContentValues": a collection of arrays which outline the values
+    /* Removes all empty blocks from a given collection of story blocks
+     * - "blocks": a collection of story blocks (sjrk.storyTelling.block)
+     * - "blockContentValues": a hash map of block types which outlines the values
      *      that, if at least one is truthy, means a particular block is not empty
      */
-    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (storyModel, blockContentValues) {
-        storyModel.content = fluid.remove_if(storyModel.content, function (block) {
-            return sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType]);
+    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
+        var filteredBlocks = [];
+
+        fluid.each(blocks, function (block) {
+            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType])) {
+                filteredBlocks.push(block);
+            }
         });
 
-        return storyModel;
+        return filteredBlocks;
     };
 
     /* Returns true if a block is determined to be empty, based on the values
-     * listed in blockContentValues. If at least one of those values is truthy,
-     * the block is not empty.
-     * - "block": a story block
-     * - "blockContentValues": an array of the values as described above
+     * listed in blockContentValuesForType. If at least one of those values is
+     * truthy, the block is not empty. If the values are empty or otherwise can't
+     * be iterated over, then the block is also empty regardless of its contents.
+     * - "block": a single story block (sjrk.storyTelling.block)
+     * - "blockContentValuesForType": an array of values for the block's type
+     *      that, if at least one is truthy, mean the block is not empty
      */
-    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValues) {
-        return !fluid.find_if(blockContentValues, function (blockContentValues) {
-            return !!block[blockContentValues];
+    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValuesForType) {
+        return !fluid.find_if(blockContentValuesForType, function (blockContentValue) {
+            return !!block[blockContentValue];
         });
     };
 
@@ -252,28 +247,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (that, errorEvent) {
-        var form = that.container.find("form");
-
-        form.attr("action", "/stories/");
-        form.attr("method", "post");
-        form.attr("enctype", "multipart/form-data");
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
+        storyEditorForm.attr({
+            action: "/stories/",
+            method: "post",
+            enctype: "multipart/form-data"
+        });
 
         // This is the easiest way to be able to submit form
         // content in the background via ajax
-        var formData = new FormData(form[0]);
+        var formData = new FormData(storyEditorForm[0]);
 
         // Stores the entire model as a JSON string in one
         // field of the multipart form
-        var modelAsJSON = JSON.stringify(that.story.model);
+        var modelAsJSON = JSON.stringify(storyModel);
         formData.append("model", modelAsJSON);
 
         // In the real implementation, this should have
         // proper handling of feedback on success / failure,
         // but currently it just logs to console
         $.ajax({
-            url         : form.attr("action"),
-            data        : formData ? formData : form.serialize(),
+            url         : storyEditorForm.attr("action"),
+            data        : formData || storyEditorForm.serialize(),
             cache       : false,
             contentType : false,
             processData : false,
@@ -287,11 +282,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             error       : function (jqXHR, textStatus, errorThrown) {
                 fluid.log("Something went wrong");
                 fluid.log(jqXHR, textStatus, errorThrown);
-                var errorMessage = "Internal server error";
-                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                    errorMessage = jqXHR.responseJSON.message;
-                }
-                errorEvent.fire(errorMessage);
+
+                errorEvent.fire(fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error");
             }
         });
     };

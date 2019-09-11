@@ -57,7 +57,6 @@ var testStoryModel = {
             "heading": null,
             "blockType": "text",
             "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
-            "simplifiedText": null,
             "languageFromSelect": "",
             "languageFromInput": ""
         }
@@ -103,7 +102,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "heading": null,
             "blockType": "text",
             "text": null,
-            "simplifiedText": null,
             "contentString": "",
             "languageFromSelect": "",
             "languageFromInput": ""
@@ -128,8 +126,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "mediaUrl": null,
             "alternativeText": null,
             "description": null,
-            "transcript": null,
-            "hasTranscript": true,
             "blockType": "audio",
             "contentString": "",
             "languageFromSelect": "",
@@ -143,8 +139,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "mediaUrl": null,
             "alternativeText": null,
             "description": null,
-            "transcript": null,
-            "hasTranscript": true,
             "blockType": "video",
             "contentString": "",
             "languageFromSelect": "",

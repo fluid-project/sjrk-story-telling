@@ -16,6 +16,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onNewBlockTemplateRendered: null
         },
+        members: {
+            oratorRecord: "",
+            textToRead: "A story about cats\n            by Cat friend\n\n        Rootbeer\n        Rootbeer is a cute kitty."
+        },
         components: {
             story: {
                 options: {
@@ -25,8 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         content: [{
                             blockType: "text",
                             heading: "Rootbeer",
-                            text: "Rootbeer is a cute kitty.",
-                            simplifiedText: "Cutebeer"
+                            text: "Rootbeer is a cute kitty."
                         }]
                     }
                 }
@@ -68,7 +71,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             }
-        }
+        },
+        distributeOptions: [{
+            record: {
+                "onQueueSpeech.queueSpeech": {
+                    listener: "fluid.set",
+                    args: ["{testStoryViewer}", ["oratorRecord"], "{arguments}.0"],
+                    priority: "after:removeExtraWhiteSpace"
+                }
+            },
+            target: "{that orator domReader}.options.listeners"
+        }]
     });
 
     fluid.defaults("sjrk.storyTelling.ui.storyViewerTester", {
@@ -125,6 +138,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementText",
                     args: ["{storyViewer}.dom.storyAuthor", "by Cat friend"]
+                }]
+            },
+            {
+                name: "Test orator",
+                expect: 3,
+                sequence: [{
+                    funcName: "jqUnit.isVisible",
+                    args: ["The orator play button should be rendered.", "{storyViewer}.orator.controller.dom.playToggle"]
+                },
+                {
+                    funcName: "jqUnit.assertNodeExists",
+                    args: ["The orator can locate the content element", "{storyViewer}.orator.dom.content"]
+                },
+                {
+                    jQueryTrigger: "click",
+                    element: "{storyViewer}.orator.controller.dom.playToggle"
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["The queue populated correctly", "{storyViewer}.textToRead", "{storyViewer}.oratorRecord"]
                 }]
             }]
         }]

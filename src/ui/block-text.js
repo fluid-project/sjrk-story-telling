@@ -16,16 +16,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
             blockType: "text",
-            text: null,
-            simplifiedText: null
+            text: null
         },
         modelRelay: {
             target: "contentString",
             singleTransform: {
                 type: "sjrk.storyTelling.transforms.arrayToString",
                 input: ["{that}.model.heading", "{that}.model.text"],
-                separator: ". ",
-                stringOnly: true
+                delimiter: ". "
             }
         }
     });

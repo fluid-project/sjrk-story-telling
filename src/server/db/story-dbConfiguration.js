@@ -40,7 +40,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Add Content Blocks",
                     "blockType": "text",
                     "text": "The Story Builder is designed based on building blocks. There are four types of blocks you can use to build your story:\n\n1. Written content—type directly in the tool\n2. Images (photos of items, drawings, diagrams, etc.)—capture photos or upload files\n3. Audio (sound)—record audio or upload files\n4. Video (audio and visual)—record video or upload files\n\nTo add content blocks and start creating your story, click on an icon at the top of the Story Builder to add a block. You can add as many blocks as you like.\n\nYou won’t be able to reorder the blocks once you have added them, thus, it may be helpful to outline your story blocks before you add them in the Story Builder Tool.",
-                    "simplifiedText": "",
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
@@ -51,7 +50,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Remove Content Blocks",
                     "blockType": "text",
                     "text": "To remove a content block from your story, first select the checkbox at the top right corner of each block and then click on the trash can icon on the top right corner of the Story Builder Tool. Note that deleted blocks cannot be retrieved.",
-                    "simplifiedText": null,
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
@@ -62,7 +60,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Add Descriptions (Metadata) to Content Blocks",
                     "blockType": "text",
                     "text": "Each block you add to your story includes a few extra text fields where you can enter additional information about the content of that block. This information is called ‘Metadata’ and it helps screen readers, search engines and other assistive technologies find and access the content of each block.",
-                    "simplifiedText": null,
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
@@ -73,7 +70,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Add Story Title, Author Name and Keywords",
                     "blockType": "text",
                     "text": "When you've added all the blocks to your story, select \"Continue\" to give your story a title, author name and some keywords. This information helps others find your story and attribute it to you when they are reusing it. If you plan to enter several keywords, make sure they are separated by a comma.",
-                    "simplifiedText": null,
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
@@ -84,7 +80,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Preview Story",
                     "blockType": "text",
                     "text": "Selecting the “Preview My Story” button will display how your story will look like when it is published. You can always select the “Back” button to go to the previous section and edit your story.",
-                    "simplifiedText": null,
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
@@ -95,7 +90,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Publish Story",
                     "blockType": "text",
                     "text": "Once you are ready to publish your story on The Storytelling Project website, you can select the “Publish My Story” button. Please note that published stories are licensed under Creative Commons Attribution BY 4.0. This means others can reuse the content, make modifications, and attribute to the original author. Published stories are not editable and you cannot remove them from the site.\n\nIf you wish to remove your story from the website, please send an email to the address listed on the footer to request removal of your story.",
-                    "simplifiedText": null,
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
@@ -106,7 +100,6 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "heading": "Browse Stories",
                     "blockType": "text",
                     "text": "Select the “Browse Stories” button on the main page to browse through a collection of published stories by various contributors.",
-                    "simplifiedText": null,
                     "contentString": "",
                     "languageFromSelect": "",
                     "languageFromInput": ""
