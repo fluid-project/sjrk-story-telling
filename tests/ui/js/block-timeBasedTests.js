@@ -27,8 +27,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             tests: [{
                 name: "Test model relay",
                 expect: 8,
+                // These assertions are numbered in order to illustrate the combinations of the three values being combined in the relay.
+                // for the binary number 000, the bits represent heading, alternativeText and description, respectively.
                 sequence: [{
-                    funcName: "jqUnit.assertEquals", // 1110
+                    funcName: "jqUnit.assertEquals", // 111
                     args: ["Initial combined text is as expected", "Video of Rootbeer. A video of a cute kitty. This is a video of Rootbeer", "{timeBased}.model.contentString"]
                 },
                 {
@@ -36,7 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["heading", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 0110
+                    funcName: "jqUnit.assertEquals", // 011
                     args: ["Combined text is as expected", "A video of a cute kitty. This is a video of Rootbeer", "{timeBased}.model.contentString"]
                 },
                 {
@@ -44,7 +46,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["alternativeText", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 0010
+                    funcName: "jqUnit.assertEquals", // 001
                     args: ["Combined text is as expected", "This is a video of Rootbeer", "{timeBased}.model.contentString"]
                 },
                 {
@@ -52,7 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["heading", "Video of Shyguy"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 1010
+                    funcName: "jqUnit.assertEquals", // 101
                     args: ["Combined text is as expected", "Video of Shyguy. This is a video of Rootbeer", "{timeBased}.model.contentString"]
                 },
                 {
@@ -60,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["description", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 1000
+                    funcName: "jqUnit.assertEquals", // 100
                     args: ["Combined text is as expected", "Video of Shyguy", "{timeBased}.model.contentString"]
                 },
                 {
@@ -68,7 +70,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["alternativeText", "A video of another cute kitty"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 1100
+                    funcName: "jqUnit.assertEquals", // 110
                     args: ["Combined text is as expected", "Video of Shyguy. A video of another cute kitty", "{timeBased}.model.contentString"]
                 },
                 {
@@ -76,7 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["heading", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 0100
+                    funcName: "jqUnit.assertEquals", // 010
                     args: ["Combined text is as expected", "A video of another cute kitty", "{timeBased}.model.contentString"]
                 },
                 {
@@ -84,7 +86,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["alternativeText", null]
                 },
                 {
-                    funcName: "jqUnit.assertEquals", // 0000
+                    funcName: "jqUnit.assertEquals", // 000
                     args: ["Combined text is as expected", "", "{timeBased}.model.contentString"]
                 }]
             }]
