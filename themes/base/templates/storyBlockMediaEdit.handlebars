@@ -70,14 +70,14 @@
             {{#equals ../dynamicValues.blockType "image"}}
                 <div class="sjrk-st-block-media-alt-text-container sjrk-st-block-label">
                     <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
-                    <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
+                    <label for="$id">{{../../localizedMessages.message_altTextInputLabel}}</label>
                 </div>
             {{/equals}}
             {{#equals ../dynamicValues.blockType "video"}}
                 <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
             {{/equals}}
     {{/getIds}}
-    
+
     <!-- Container for the uploader -->
     <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
         <input name="file" type="file" accept="{{dynamicValues.blockType}}/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
