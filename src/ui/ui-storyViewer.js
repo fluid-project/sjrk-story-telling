@@ -108,6 +108,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     selectors: {
                         content: ".sjrkc-st-story-details"
+                    },
+                    // Disabling the selectionReader due to issues with positioning of play button in the editor
+                    // preview.
+                    // see: https://issues.fluidproject.org/browse/SJRK-283
+                    components: {
+                        selectionReader: {
+                            type: "fluid.emptySubcomponent"
+                        }
                     }
                 }
             },
