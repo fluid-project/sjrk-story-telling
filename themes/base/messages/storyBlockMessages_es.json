@@ -13,7 +13,5 @@
     "message_descriptionInputPlaceholder": "Añadir subtítulo",
     "message_uploadButtonAudio": "Cargar audio",
     "message_uploadButtonImage": "Cargar imagen",
-    "message_uploadButtonVideo": "Cargar video",
-    "message_transcriptInputLabel": "Transcripción",
-    "message_transcriptInputPlaceholder": "Crear opción de texto"
+    "message_uploadButtonVideo": "Cargar video"
 }

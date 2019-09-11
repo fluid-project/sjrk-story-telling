@@ -64,18 +64,18 @@
         </div>
     {{/getIds}}
     {{#getIds "storyBlockAltText"}}
-        <div class="sjrk-st-block-media-alt-text-container sjrk-st-block-label">
             {{#equals ../dynamicValues.blockType "audio"}}
                 <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
             {{/equals}}
             {{#equals ../dynamicValues.blockType "image"}}
-                <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
+                <div class="sjrk-st-block-media-alt-text-container sjrk-st-block-label">
+                    <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
+                    <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
+                </div>
             {{/equals}}
             {{#equals ../dynamicValues.blockType "video"}}
                 <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
             {{/equals}}
-            <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
-        </div>
     {{/getIds}}
     {{#if dynamicValues.hasTranscript}}
         {{#getIds "storyBlockTranscript"}}

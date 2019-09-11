@@ -20,7 +20,5 @@
     "message_descriptionInputPlaceholder": "Add description",
     "message_uploadButtonAudio": "Upload audio",
     "message_uploadButtonImage": "Upload image",
-    "message_uploadButtonVideo": "Upload video",
-    "message_transcriptInputLabel": "Transcript",
-    "message_transcriptInputPlaceholder": "Add transcript"
+    "message_uploadButtonVideo": "Upload video"
 }

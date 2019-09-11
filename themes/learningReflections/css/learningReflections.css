@@ -307,8 +307,7 @@ h3:empty {
 .sjrk-st-story-editor .sjrk-st-block input,
 .sjrk-st-block-alternative-content input,
 .sjrk-st-block-media-description,
-.sjrk-st-block-media-alt-text,
-.sjrk-st-block-media-transcript {
+.sjrk-st-block-media-alt-text {
     font-family: var(--site-font);
     font-size: 1rem;
     padding: 0.25rem;

@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Video Block Editor.",
             tests: [{
                 name: "Test Video Block Editor",
-                expect: 5,
+                expect: 4,
                 sequence: [{
                     event: "{videoBlockEditorTest videoBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
@@ -55,16 +55,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "description",
                     listener: "jqUnit.assertEquals",
                     args: ["The model text has expected value", "Description for video", "{videoBlockEditor}.block.model.description"]
-                },
-                {
-                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{videoBlockEditor}.binder", "videoTranscript", "Transcript for video"]
-                },
-                {
-                    changeEvent: "{videoBlockEditor}.block.applier.modelChanged",
-                    path: "transcript",
-                    listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Transcript for video", "{videoBlockEditor}.block.model.transcript"]
                 },
                 {
                     jQueryTrigger: "click",

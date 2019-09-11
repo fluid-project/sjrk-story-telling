@@ -361,21 +361,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 priority: "after:changeDescriptionAndConfirmNoChange"
             },
-            changeTranscriptAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.base.page.storyEditTester.changeBlockAndConfirmNoChange",
-                options: {
-                    field: "transcript",
-                    value: "Mrraow"
-                },
-                priority: "after:changeAlternativeTextAndConfirmNoChange"
-            },
             changeMediaUrlAndWaitToVerify: {
                 gradeNames: "sjrk.storyTelling.base.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "mediaUrl",
                     value: "notarealmeowrecordingsadly.wav"
                 },
-                priority: "after:changeTranscriptAndConfirmNoChange"
+                priority: "after:changeAlternativeTextAndConfirmNoChange"
             },
             clearStoryBlocks: {
                 gradeNames: "sjrk.storyTelling.base.page.storyEditTester.clearStoryBlocks",
@@ -418,21 +410,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 priority: "after:changeDescriptionAndConfirmNoChange"
             },
-            changeTranscriptAndConfirmNoChange: {
-                gradeNames: "sjrk.storyTelling.base.page.storyEditTester.changeBlockAndConfirmNoChange",
-                options: {
-                    field: "transcript",
-                    value: "<No audio>"
-                },
-                priority: "after:changeAlternativeTextAndConfirmNoChange"
-            },
             changeMediaUrlAndWaitToVerify: {
                 gradeNames: "sjrk.storyTelling.base.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
                     field: "mediaUrl",
                     value: "notarealvideosadly.mp4"
                 },
-                priority: "after:changeTranscriptAndConfirmNoChange"
+                priority: "after:changeAlternativeTextAndConfirmNoChange"
             },
             clearStoryBlocks: {
                 gradeNames: "sjrk.storyTelling.base.page.storyEditTester.clearStoryBlocks",
@@ -754,7 +738,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test isEmptyBlock function",
-                expect: 51,
+                expect: 45,
                 sequence: [{
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock",
                     args: ["{storyEdit}.options.blockContentValues"]
@@ -788,7 +772,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Audio block",
-                expect: 18,
+                expect: 15,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -804,16 +788,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["Story model block transcript is as expected", "Mrraow", "{storyEdit}.storyPreviewer.story.model.content.0.transcript"]
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
                     args: ["Story model block imageUrl is as expected", "notarealmeowrecordingsadly.wav", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
                 }]
             },
             {
                 name: "Test block filtering model relay: Video block",
-                expect: 18,
+                expect: 15,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -826,10 +806,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["Story model block alternativeText is as expected", "A cat stretching in the sunlight", "{storyEdit}.storyPreviewer.story.model.content.0.alternativeText"]
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["Story model block transcript is as expected", "<No audio>", "{storyEdit}.storyPreviewer.story.model.content.0.transcript"]
                 },
                 {
                     funcName: "jqUnit.assertEquals",
@@ -915,24 +891,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             block: {
                 blockType: "text",
                 heading: "",
-                text: "An actual text value",
-                simplifiedText: ""
+                text: "An actual text value"
             }
         },
         "test_25": { expectedEmpty: true,   blockContentValues: 0,
             block: {
                 blockType: "text",
                 heading: "",
-                text: "An actual text value",
-                simplifiedText: ""
+                text: "An actual text value"
             }
         },
         "test_26": { expectedEmpty: true,   blockContentValues: 1,
             block: {
                 blockType: "text",
                 heading: "",
-                text: "An actual text value",
-                simplifiedText: ""
+                text: "An actual text value"
             }
         },
         "test_27": { expectedEmpty: true,
@@ -944,38 +917,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             block: {
                 blockType: "text",
                 heading: "",
-                text: "",
-                simplifiedText: ""
+                text: ""
             }
         },
         "test_29": { expectedEmpty: false,
             block: {
                 blockType: "text",
                 heading: "",
-                text: "An actual text value",
-                simplifiedText: ""
+                text: "An actual text value"
             }
         },
         "test_30": { expectedEmpty: false,
             block: {
                 blockType: "text",
                 heading: "An actual heading",
-                text: "",
-                simplifiedText: ""
+                text: ""
             }
         },
-        "test_31": { expectedEmpty: false,
+        "test_31": { expectedEmpty: true,
             block: {
-                blockType: "text",
+                blockType: "image",
                 heading: "",
-                text: "",
-                simplifiedText: "A value"
+                alternativeText: "",
+                description: "",
+                imageUrl: ""
             }
         },
         "test_32": { expectedEmpty: true,
             block: {
                 blockType: "image",
-                heading: "",
+                heading: "An actual heading",
                 alternativeText: "",
                 description: "",
                 imageUrl: ""
@@ -985,30 +956,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             block: {
                 blockType: "image",
                 heading: "",
-                alternativeText: "",
-                description: "",
-                imageUrl: ""
-            }
-        },
-        "test_34": { expectedEmpty: true,
-            block: {
-                blockType: "image",
-                heading: "An actual heading",
-                alternativeText: "",
-                description: "",
-                imageUrl: ""
-            }
-        },
-        "test_35": { expectedEmpty: true,
-            block: {
-                blockType: "image",
-                heading: "",
                 alternativeText: "Some alternative text",
                 description: "",
                 imageUrl: ""
             }
         },
-        "test_36": { expectedEmpty: true,
+        "test_34": { expectedEmpty: true,
             block: {
                 blockType: "image",
                 heading: "",
@@ -1017,7 +970,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 imageUrl: ""
             }
         },
-        "test_37": { expectedEmpty: false,
+        "test_35": { expectedEmpty: false,
             block: {
                 blockType: "image",
                 heading: "",
@@ -1026,13 +979,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 imageUrl: "Not really a URL"
             }
         },
-        "test_38": { expectedEmpty: true,
+        "test_36": { expectedEmpty: true,
             block: {
                 blockType: "audio",
                 heading: "",
                 alternativeText: "",
                 description: "",
-                transcript: "",
+                mediaUrl: ""
+            }
+        },
+        "test_37": { expectedEmpty: true,
+            block: {
+                blockType: "audio",
+                heading: "An actual heading",
+                alternativeText: "",
+                description: "",
+                mediaUrl: ""
+            }
+        },
+        "test_38": { expectedEmpty: true,
+            block: {
+                blockType: "audio",
+                heading: "",
+                alternativeText: "Some alternative text",
+                description: "",
                 mediaUrl: ""
             }
         },
@@ -1041,128 +1011,61 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 blockType: "audio",
                 heading: "",
                 alternativeText: "",
-                description: "",
-                transcript: "",
+                description: "A real description",
                 mediaUrl: ""
             }
         },
-        "test_40": { expectedEmpty: true,
+        "test_40": { expectedEmpty: false,
             block: {
                 blockType: "audio",
-                heading: "An actual heading",
+                heading: "",
                 alternativeText: "",
                 description: "",
-                transcript: "",
-                mediaUrl: ""
+                mediaUrl: "Not really a URL"
             }
         },
         "test_41": { expectedEmpty: true,
             block: {
-                blockType: "audio",
+                blockType: "video",
                 heading: "",
-                alternativeText: "Some alternative text",
+                alternativeText: "",
                 description: "",
-                transcript: "",
                 mediaUrl: ""
             }
         },
         "test_42": { expectedEmpty: true,
             block: {
-                blockType: "audio",
-                heading: "",
+                blockType: "video",
+                heading: "An actual heading",
                 alternativeText: "",
-                description: "A real description",
-                transcript: "",
+                description: "",
                 mediaUrl: ""
             }
         },
         "test_43": { expectedEmpty: true,
             block: {
-                blockType: "audio",
-                heading: "",
-                alternativeText: "",
-                description: "",
-                transcript: "A real transcript",
-                mediaUrl: ""
-            }
-        },
-        "test_44": { expectedEmpty: false,
-            block: {
-                blockType: "audio",
-                heading: "",
-                alternativeText: "",
-                description: "",
-                transcript: "",
-                mediaUrl: "Not really a URL"
-            }
-        },
-        "test_45": { expectedEmpty: true,
-            block: {
-                blockType: "video",
-                heading: "",
-                alternativeText: "",
-                description: "",
-                transcript: "",
-                mediaUrl: ""
-            }
-        },
-        "test_46": { expectedEmpty: true,
-            block: {
-                blockType: "video",
-                heading: "",
-                alternativeText: "",
-                description: "",
-                transcript: "",
-                mediaUrl: ""
-            }
-        },
-        "test_47": { expectedEmpty: true,
-            block: {
-                blockType: "video",
-                heading: "An actual heading",
-                alternativeText: "",
-                description: "",
-                transcript: "",
-                mediaUrl: ""
-            }
-        },
-        "test_48": { expectedEmpty: true,
-            block: {
                 blockType: "video",
                 heading: "",
                 alternativeText: "Some alternative text",
                 description: "",
-                transcript: "",
                 mediaUrl: ""
             }
         },
-        "test_49": { expectedEmpty: true,
+        "test_44": { expectedEmpty: true,
             block: {
                 blockType: "video",
                 heading: "",
                 alternativeText: "",
                 description: "A real description",
-                transcript: "",
                 mediaUrl: ""
             }
         },
-        "test_50": { expectedEmpty: true,
+        "test_45": { expectedEmpty: false,
             block: {
                 blockType: "video",
                 heading: "",
                 alternativeText: "",
                 description: "",
-                transcript: "A real transcript",
-                mediaUrl: ""
-            }
-        },
-        "test_51": { expectedEmpty: false,
-            block: {
-                blockType: "video",
-                heading: "",
-                alternativeText: "",
-                description: "",
-                transcript: "",
                 mediaUrl: "Not really a URL"
             }
         }
