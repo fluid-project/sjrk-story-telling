@@ -256,24 +256,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 priority: "after:changeTextAndWaitToVerify"
             },
-            changeSimplifiedTextAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.base.page.storyEditTester.changeValueAndWaitToVerify",
-                options: {
-                    field: "simplifiedText",
-                    value: "My brother Shyguy"
-                },
-                priority: "after:removeTextAndWaitToVerify"
-            },
-            removeSimplifiedTextAndWaitToVerify: {
-                gradeNames: "sjrk.storyTelling.base.page.storyEditTester.removeValueAndWaitToVerify",
-                options: {
-                    field: "simplifiedText"
-                },
-                priority: "after:changeSimplifiedTextAndWaitToVerify"
-            },
             clearStoryBlocks: {
                 gradeNames: "sjrk.storyTelling.base.page.storyEditTester.clearStoryBlocks",
-                priority: "after:removeSimplifiedTextAndWaitToVerify"
+                priority: "after:removeTextAndWaitToVerify"
             }
         }
     });
@@ -683,7 +668,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 13,
+                expect: 10,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
@@ -814,8 +799,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             block: {
                 blockType: "text",
                 heading: "",
-                text: "An actual text value",
-                simplifiedText: ""
+                text: "An actual text value"
             }
         },
         "test_18": { expectedEmpty: true,   blockContentValues: 0,          block: {} },

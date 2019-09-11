@@ -11,8 +11,6 @@
     "message_textBlock": "Text block",
     "message_textInputLabel": "Text content",
     "message_textInputPlaceholder": "Begin typing here",
-    "message_simplifiedTextInputLabel": "Summary",
-    "message_simplifiedTextInputPlaceholder": "Add summary",
     "message_altTextInputLabel": "Alt text",
     "message_altTextInputPlaceholderImage": "Add alt text (for screen readers)",
     "message_altTextInputPlaceholderAudio": "Translate the audio to text",

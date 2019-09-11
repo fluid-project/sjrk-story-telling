@@ -27,7 +27,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 //     language: "en-CA",
                 //     heading: "An appropriate header",
                 //     text: "This is the main text of this block",
-                //     simplifiedText: "Main text."
                 // }
             ],
             contentString: "", // a string representation of the story content
