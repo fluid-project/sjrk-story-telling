@@ -49,6 +49,11 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
                 "record": clientConfig.authoringEnabled
             }];
 
+            // TODO: Move this string to another file and localize it
+            if (retrievedStory.title) {
+                document.title = retrievedStory.title + " | The Storytelling Project";
+            }
+
             var storyViewComponent = sjrk.storyTelling[clientConfig.theme].page.storyView(options);
 
             storyPromise.resolve(storyViewComponent);

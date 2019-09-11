@@ -1,7 +1,24 @@
-<div lang="{{localizedMessages.language}}" class="sjrk-st-block">
+<fieldset lang="{{localizedMessages.language}}" class="sjrk-st-block">
+    {{#equals dynamicValues.blockType "audio"}}
+        <legend class="fl-hidden-accessible">{{localizedMessages.message_audioBlock}}</legend>
+    {{/equals}}
+    {{#equals dynamicValues.blockType "image"}}
+        <legend class="fl-hidden-accessible">{{localizedMessages.message_imageBlock}}</legend>
+    {{/equals}}
+    {{#equals dynamicValues.blockType "video"}}
+        <legend class="fl-hidden-accessible">{{localizedMessages.message_videoBlock}}</legend>
+    {{/equals}}
     {{#getIds "storySelectionCheckbox"}}
         <div class="sjrk-st-label-container fl-hidden-accessible">
-            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabel}}</label>
+            {{#equals ../dynamicValues.blockType "audio"}}
+                <label for="$id">{{../../localizedMessages.message_blockSelectionCheckboxLabelAudio}}</label>
+            {{/equals}}
+            {{#equals ../dynamicValues.blockType "image"}}
+                <label for="$id">{{../../localizedMessages.message_blockSelectionCheckboxLabelImage}}</label>
+            {{/equals}}
+            {{#equals ../dynamicValues.blockType "video"}}
+                <label for="$id">{{../../localizedMessages.message_blockSelectionCheckboxLabelVideo}}</label>
+            {{/equals}}
         </div>
         <div class="sjrk-st-block-selection-checkbox-container">
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
@@ -20,69 +37,49 @@
             <video class="sjrkc-st-block-media-preview sjrk-st-block-media-preview"></video>
         {{/equals}}
     </div>
-    <form>
-        <div class="sjrk-st-block-media-buttons-container">
-            {{#equals dynamicValues.blockType "audio"}}
-                <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonAudio}}</button>
-            {{/equals}}
-            {{#equals dynamicValues.blockType "image"}}
-                <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonImage}}</button>
-            {{/equals}}
-            {{#equals dynamicValues.blockType "video"}}
-                <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
-            {{/equals}}
-        </div>
 
-        {{#getIds "storyBlockHeading"}}
-            <div class="sjrk-st-block-alternative-content">
-                <div class="sjrk-st-label-container fl-hidden-accessible">
-                    <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
-                </div>
-                <div>
-                    <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
-                </div>
-            </div>
-        {{/getIds}}
+    <div class="sjrk-st-block-media-buttons-container">
+        {{#equals dynamicValues.blockType "audio"}}
+            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonAudio}}</button>
+        {{/equals}}
+        {{#equals dynamicValues.blockType "image"}}
+            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonImage}}</button>
+        {{/equals}}
+        {{#equals dynamicValues.blockType "video"}}
+            <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
+        {{/equals}}
+    </div>
 
-        <div class="sjrk-st-block-media-description-container">
-            {{#getIds "storyBlockDescription"}}
-                <div class="sjrk-st-label-container fl-hidden-accessible">
-                    <label for="$id">{{../localizedMessages.message_descriptionInputLabel}}</label>
-                </div>
-                <textarea id="$id" class="sjrkc-st-block-media-description sjrk-st-block-media-description" placeholder="{{../localizedMessages.message_descriptionInputPlaceholder}}"></textarea>
-            {{/getIds}}
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
+            <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
         </div>
-        <div class="sjrk-st-block-media-alt-text-container">
-            {{#getIds "storyBlockAltText"}}
-                <div class="sjrk-st-label-container fl-hidden-accessible">
-                    <label for="$id">{{../localizedMessages.message_altTextInputLabel}}</label>
-                </div>
-                {{#equals ../dynamicValues.blockType "audio"}}
-                    <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
-                {{/equals}}
-                {{#equals ../dynamicValues.blockType "image"}}
+    {{/getIds}}
+
+    {{#getIds "storyBlockDescription"}}
+        <div class="sjrk-st-block-media-description-container sjrk-st-block-label">
+            <textarea id="$id" class="sjrkc-st-block-media-description sjrk-st-block-media-description" placeholder="{{../localizedMessages.message_descriptionInputPlaceholder}}"></textarea>
+            <label for="$id">{{../localizedMessages.message_descriptionInputLabel}}</label>
+        </div>
+    {{/getIds}}
+    {{#getIds "storyBlockAltText"}}
+            {{#equals ../dynamicValues.blockType "audio"}}
+                <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+            {{/equals}}
+            {{#equals ../dynamicValues.blockType "image"}}
+                <div class="sjrk-st-block-media-alt-text-container sjrk-st-block-label">
                     <textarea id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderImage}}"></textarea>
-                {{/equals}}
-                {{#equals ../dynamicValues.blockType "video"}}
-                    <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
-                {{/equals}}
-            {{/getIds}}
-        </div>
-        {{#if dynamicValues.hasTranscript}}
-            <div class="sjrk-st-block-media-transcript-container">
-                {{#getIds "storyBlockTranscript"}}
-                    <div class="sjrk-st-label-container fl-hidden-accessible">
-                        <label for="$id">{{../localizedMessages.message_transcriptInputLabel}}</label>
-                    </div>
-                    <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_transcriptInputPlaceholder}}"></textarea>
-                {{/getIds}}
-            </div>
-        {{/if}}
+                    <label for="$id">{{../../localizedMessages.message_altTextInputLabel}}</label>
+                </div>
+            {{/equals}}
+            {{#equals ../dynamicValues.blockType "video"}}
+                <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
+            {{/equals}}
+    {{/getIds}}
 
-        <!-- Container for the uploader -->
-        <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
-            <input name="file" type="file" accept="{{dynamicValues.blockType}}/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
-        </div>
-
-    </form>
-</div>
+    <!-- Container for the uploader -->
+    <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
+        <input name="file" type="file" accept="{{dynamicValues.blockType}}/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
+    </div>
+</fieldset>

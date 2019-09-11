@@ -1,5 +1,6 @@
 :root {
     --site-grey: #f2f2f2;
+    --site-border-grey: #aaa;
     --site-medium-grey: #e6e6e6;
     --site-font: "Source Sans Pro";
 }
@@ -93,6 +94,48 @@ fieldset ul {
     margin: 1.5rem 0;
     color: #000;
 }
+
+/*
+    Based on Accessible CSS-Only Floating Labels by Pablo Eugenio Lujambio Martinez
+    https://medium.com/@eugeniolujambio/accessible-css-only-floating-labels-74bf9173bc5f
+*/
+.sjrk-st-block-label {
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.sjrk-st-block-label label {
+    top: calc(50% - 1rem);
+    left: 0;
+    position: absolute;
+    opacity: 0;
+    transition: all .3s ease;
+    font-size: 0.85rem;
+}
+
+.sjrk-st-block-label textarea + label {
+    top: 1.4rem;
+}
+
+.sjrk-st-block-label input,
+.sjrk-st-block-label textarea {
+    margin-top: 0.7rem;
+}
+
+.sjrk-st-block-label input:not(:placeholder-shown) + label {
+    transform: translateY(-0.8rem);
+    opacity: 1;
+}
+
+.sjrk-st-block-label textarea:not(:placeholder-shown) {
+    border-top: 1px solid var(--site-dark-grey);
+}
+
+.sjrk-st-block-label textarea:not(:placeholder-shown) + label{
+    transform: translateY(-1.5rem);
+    opacity: 1;
+}
+/* End floating labels */
 
 .sjrk-st-block-alternative-content .sjrk-st-block-heading {
     padding-right: 1.5rem;
@@ -198,8 +241,16 @@ fieldset ul {
     font-weight: bold;
 }
 
+.sjrk-st-story-viewer .sjrk-st-story-list-tags {
+    display: inline;
+}
+
+.sjrk-st-story-viewer .sjrk-st-story-list-tags li {
+    display: inline;
+}
+
 .sjrk-st-block {
-    border: solid 1px #aaa;
+    border: solid 2px var(--site-border-grey);
     margin: 0 0 2rem 0;
     position: relative;
 }
@@ -221,6 +272,11 @@ fieldset ul {
 
 .sjrk-st-block-media-preview-container {
     margin: 0 auto;
+    padding-top: 0.4rem;
+}
+
+img.sjrk-st-block-media-preview {
+    image-orientation: from-image;
 }
 
 img.sjrk-st-block-media-preview[src=""],
@@ -251,6 +307,17 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
     background: url(../img/icons/Voice-background.svg) center center no-repeat;
 }
 
+.sjrk-st-block-media-buttons-container {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.sjrk-st-block-media-upload-button {
+    padding: 0.5rem 1rem;
+    background-color: #D0E2AC;
+    border-radius: 1.5rem;
+}
+
 .sjrk-st-block-selection-checkbox-container {
     position: absolute;
     top: -1.25rem;
@@ -261,14 +328,6 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
     height: 2.5rem;
     width: 2.5rem;
     display: inline-block;
-}
-
-.sjrk-st-block-alternative-content {
-    background: #eee;
-}
-
-.sjrk-st-block-alternative-content input {
-    background: #eee;
 }
 
 .sjrk-st-story-viewer .sjrk-st-block {
@@ -344,7 +403,7 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
 
 .sjrk-st-story-share:disabled {
     background: var(--site-grey);
-    color: var(--site-dark-grey);
+    color: var(--site-border-grey);
 }
 
 /* .sjrk-st-story-viewer-heading-container, */
@@ -377,7 +436,7 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
 }
 
 .sjrk-st-story-editor-page2 input {
-    background: var(--site-grey);
+    border: 1px solid var(--site-border-grey);
 }
 
 .sjrk-st-story-viewer .sjrk-st-story-title {

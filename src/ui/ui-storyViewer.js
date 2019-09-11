@@ -65,8 +65,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     //             blockType: "text",
                     //             language: "en",
                     //             heading: "First block",
-                    //             text: "Here are some story words that form a sentence",
-                    //             simplifiedText: "Story words"
+                    //             text: "Here are some story words that form a sentence"
                     //         },
                     //         {
                     //             blockType: "image",
@@ -82,8 +81,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     //             heading: "Third block",
                     //             mediaUrl: "/tests/audio/Leslie_s_Strut_Sting.mp3",
                     //             alternativeText: "Leslie's Strut Sting from the YouTube Audio Library",
-                    //             description: "A small band led by a guitar playing a 'sting' sound, then ending",
-                    //             transcript: "Musical notes"
+                    //             description: "A small band led by a guitar playing a 'sting' sound, then ending"
                     //         },
                     //         {
                     //             blockType: "video",
@@ -91,8 +89,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     //             heading: "Fourth block",
                     //             mediaUrl: "/tests/video/shyguy_and_rootbeer.mp4",
                     //             alternativeText: "Two cats sitting in a window on a sunny day, one of them grooming the other",
-                    //             description: "Shyguy and Rootbeer sitting in the window, Rootbeer grooming Shyguy, both seem happy",
-                    //             transcript: "Background noise"
+                    //             description: "Shyguy and Rootbeer sitting in the window, Rootbeer grooming Shyguy, both seem happy"
                     //         }
                     //     ],
                     //     author: "The usual author",

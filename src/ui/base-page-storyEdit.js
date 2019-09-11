@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
          * one of the values listed in the corresponding array is truthy
          */
         blockContentValues: {
-            "text": ["heading", "text", "simplifiedText"],
+            "text": ["heading", "text"],
             "image": ["imageUrl"],
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]

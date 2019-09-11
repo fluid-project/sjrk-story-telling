@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         members: {
             oratorRecord: "",
-            textToRead: "A story about cats\n            by Cat friend\n\n        Rootbeer\n        Rootbeer is a cute kitty.\nCutebeer"
+            textToRead: "A story about cats\n            by Cat friend\n\n        Rootbeer\n        Rootbeer is a cute kitty."
         },
         components: {
             story: {
@@ -29,8 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         content: [{
                             blockType: "text",
                             heading: "Rootbeer",
-                            text: "Rootbeer is a cute kitty.",
-                            simplifiedText: "Cutebeer"
+                            text: "Rootbeer is a cute kitty."
                         }]
                     }
                 }
