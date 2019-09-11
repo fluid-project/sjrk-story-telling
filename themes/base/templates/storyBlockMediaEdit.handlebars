@@ -77,15 +77,7 @@
                 <textarea hidden id="$id" class="sjrkc-st-block-media-alt-text sjrk-st-block-media-alt-text" placeholder="{{../../localizedMessages.message_altTextInputPlaceholderAudio}}"></textarea>
             {{/equals}}
     {{/getIds}}
-    {{#if dynamicValues.hasTranscript}}
-        {{#getIds "storyBlockTranscript"}}
-            <div class="sjrk-st-block-media-transcript-container sjrk-st-block-label">
-                <textarea id="$id" class="sjrkc-st-block-media-transcript sjrk-st-block-media-transcript" placeholder="{{../localizedMessages.message_transcriptInputPlaceholder}}"></textarea>
-                <label for="$id">{{../localizedMessages.message_transcriptInputLabel}}</label>
-            </div>
-        {{/getIds}}
-    {{/if}}
-
+    
     <!-- Container for the uploader -->
     <div class="sjrkc-st-block-uploader-container sjrk-st-block-uploader-container">
         <input name="file" type="file" accept="{{dynamicValues.blockType}}/*" class="sjrkc-st-block-uploader-input sjrk-st-block-uploader-input" />
