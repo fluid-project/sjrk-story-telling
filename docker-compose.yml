@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: "apache/couchdb:2.1.1"
+    image: "apache/couchdb:2.3.1"
   app:
     build: .
     environment:
@@ -12,7 +12,7 @@ services:
       - "db"
   dbconfig:
     build: .
-    entrypoint: "node ./server/src/js/db/dbSetup.js"
+    entrypoint: "node ./src/server/db/dbSetup.js"
     environment:
       - COUCHDB_CONFIG_MAX_RETRIES=10
       - COUCHDB_CONFIG_RETRY_DELAY=10

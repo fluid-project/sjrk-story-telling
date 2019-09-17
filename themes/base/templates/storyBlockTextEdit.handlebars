@@ -1,0 +1,25 @@
+<fieldset lang="{{localizedMessages.language}}" class="sjrk-st-block">
+    <legend class="fl-hidden-accessible">{{localizedMessages.message_textBlock}}</legend>
+    {{#getIds "storySelectionCheckbox"}}
+        <div class="sjrk-st-label-container fl-hidden-accessible">
+            <label for="$id">{{../localizedMessages.message_blockSelectionCheckboxLabelText}}</label>
+        </div>
+        <div class="sjrk-st-block-selection-checkbox-container">
+            <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
+        </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockText"}}
+        <div class="sjrk-st-block-label">
+            <textarea id="$id" class="sjrk-st-block-text sjrkc-st-block-text" cols="30" rows="5" placeholder="{{../localizedMessages.message_textInputPlaceholder}}"></textarea>
+            <label for="$id">{{../localizedMessages.message_textInputLabel}}</label>
+        </div>
+    {{/getIds}}
+
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
+            <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+        </div>
+    {{/getIds}}
+</fieldset>
