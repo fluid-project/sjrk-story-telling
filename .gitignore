@@ -1,3 +1,4 @@
+.vscode/*
 node_modules
 package-lock.json
 tests/uploads/*
@@ -8,4 +9,5 @@ deleted_uploads/*
 !deleted_uploads/.gitkeep
 secrets.json
 couchdb
-.vscode/*
+sjrk.storyTelling.server.config.json*
+!sjrk.storyTelling.server.config.json*.example

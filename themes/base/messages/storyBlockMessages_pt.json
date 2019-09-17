@@ -1,0 +1,12 @@
+{
+    "message_blockHeadingLabel": "Bloco de título",
+    "message_blockHeadingPlaceholder": "Adicione um título (opcional) — isso pode ajudar usuários de leitores de tela a navegar sua história mais facilmente.",
+    "message_blockSelectionCheckboxLabel": "Selecionar esse bloco",
+    "message_textInputLabel": "Digite o texto na caixa de texto",
+    "message_textInputPlaceholder": "Começe digitando aqui",
+    "message_altTextInputLabel": "Texto alternativo",
+    "message_altTextInputPlaceholder": "Adicione o texto alternativo aqui",
+    "message_descriptionInputLabel": "Descrição",
+    "message_descriptionInputPlaceholder": "Digite a legenda aqui",
+    "message_uploadButton": "Adicionar"
+}

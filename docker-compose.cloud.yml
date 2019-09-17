@@ -6,6 +6,7 @@ services:
       - "${APP_SERVER_PORT}:8081"
     volumes:
       - "${APP_SERVER_SECRETS_FILE}:/usr/src/app/secrets.json"
+      - "${APP_SERVER_CONFIG_FILE}:/usr/src/app/sjrk.storyTelling.server.config.json5"
       - "${APP_SERVER_UPLOADS_DIRECTORY}:/usr/src/app/uploads"
       - "${APP_SERVER_DELETED_UPLOADS_DIRECTORY}:/usr/src/app/deleted_uploads"
   db:

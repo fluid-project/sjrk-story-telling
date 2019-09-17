@@ -1,0 +1,22 @@
+{
+    "message_blockHeadingLabel": "Block heading",
+    "message_blockHeadingPlaceholder": "Add block heading",
+    "message_blockSelectionCheckboxLabelText": "Select this text block",
+    "message_blockSelectionCheckboxLabelAudio": "Select this audio block",
+    "message_blockSelectionCheckboxLabelImage": "Select this image block",
+    "message_blockSelectionCheckboxLabelVideo": "Select this video block",
+    "message_audioBlock": "Audio block",
+    "message_imageBlock": "Image block",
+    "message_videoBlock": "Video block",
+    "message_textBlock": "Text block",
+    "message_textInputLabel": "Text content",
+    "message_textInputPlaceholder": "Begin typing here",
+    "message_altTextInputLabel": "Alt text",
+    "message_altTextInputPlaceholderImage": "Add alt text (for screen readers)",
+    "message_altTextInputPlaceholderAudio": "Translate the audio to text",
+    "message_descriptionInputLabel": "Description",
+    "message_descriptionInputPlaceholder": "Add description",
+    "message_uploadButtonAudio": "Upload audio",
+    "message_uploadButtonImage": "Upload image",
+    "message_uploadButtonVideo": "Upload video"
+}
