@@ -102,42 +102,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },{
                 name: "Test themed page loading functions with server config values",
-                expect: 4,
+                expect: 3,
                 sequence: [{
-                    task: "sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer",
-                    args: ["/clientConfig", "{that}"],
-                    resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["Custom theme was loaded successfully", "{that}.clientConfig", "{arguments}.0"]
+                    task: "$.get",
+                    args: ["/clientConfig"],
+                    resolve: "fluid.set",
+                    resolveArgs: ["{that}", "clientConfig", "{arguments}.0"]
                 },{
                     task: "sjrk.storyTelling.loadTheme",
-                    resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["The themed page load resolved as expected", "{that}.clientConfig", "{arguments}.0"]
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The themed page load resolved as expected", "{that}.clientConfig.theme", "{arguments}.0.theme"]
                 },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
-                    args: ["{that}.clientConfig.theme", 1]
+                    args: ["{that}.clientConfig", 1]
                 },{
                     task: "sjrk.storyTelling.loadCustomThemeFiles",
                     args: ["{that}.clientConfig"],
                     resolve: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
-                    resolveArgs: ["{that}.clientConfig.theme", 2]
+                    resolveArgs: ["{that}.clientConfig", 2]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer = function (url, testerComponent) {
+    sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer = function (url) {
         var configPromise = fluid.promise();
 
         $.get(url).then(function (data) {
-            if (data.theme !== data.baseTheme) {
-                testerComponent.clientConfig.theme = data.theme;
-                configPromise.resolve(data);
-            } else {
-                configPromise.reject({
-                    isError: true,
-                    message: "Custom theme was not set in the server configuration."
-                });
-            }
+            configPromise.resolve(data);
         }, function (jqXHR, textStatus, errorThrown) {
             configPromise.reject({
                 isError: true,
@@ -148,18 +140,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return configPromise;
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, clientConfig, responseType) {
+    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, clientConfig) {
         mockServer = sinon.createFakeServer();
         mockServer.respondImmediately = true;
-        mockServer.respondWith(url, [200, { "Content-Type": responseType }, JSON.stringify(clientConfig)]);
+        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(clientConfig)]);
     };
 
     sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {
         mockServer.restore();
     };
 
-    sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded = function (expectedTheme, expectedCssInstanceCount) {
-        var actualInstanceCount = $("link[href$=\"" + expectedTheme + ".css\"]").length;
+    sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded = function (clientConfig, expectedCssInstanceCount) {
+        if (clientConfig.theme === clientConfig.baseTheme) {
+            expectedCssInstanceCount = 0; // if no custom theme is set, we actually expect zero custom files
+        }
+
+        var actualInstanceCount = $("link[href$=\"" + clientConfig.theme + ".css\"]").length;
         jqUnit.assertEquals("Custom theme CSS file is linked the expected number of instances", expectedCssInstanceCount, actualInstanceCount);
     };
 

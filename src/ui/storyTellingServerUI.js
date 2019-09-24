@@ -141,25 +141,30 @@ sjrk.storyTelling.loadTheme = function () {
 sjrk.storyTelling.loadCustomThemeFiles = function (clientConfig) {
     var loadPromise = fluid.promise();
 
-    var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: clientConfig.theme});
-    var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: clientConfig.theme});
+    if (clientConfig.theme !== clientConfig.baseTheme) {
+        var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: clientConfig.theme});
+        var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: clientConfig.theme});
 
-    $("<link/>", {
-        rel: "stylesheet",
-        type: "text/css",
-        href: cssUrl
-    }).appendTo("head");
+        $("<link/>", {
+            rel: "stylesheet",
+            type: "text/css",
+            href: cssUrl
+        }).appendTo("head");
 
-    // TODO: This method of loading produces a potential race condition
-    // See SJRK-272: https://issues.fluidproject.org/browse/SJRK-272
-    $.getScript(scriptUrl, function () {
-        loadPromise.resolve(clientConfig);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        loadPromise.reject({
-            isError: true,
-            message: errorThrown
+        // TODO: This method of loading produces a potential race condition
+        // See SJRK-272: https://issues.fluidproject.org/browse/SJRK-272
+        $.getScript(scriptUrl, function () {
+            loadPromise.resolve(clientConfig);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            loadPromise.reject({
+                isError: true,
+                message: errorThrown
+            });
         });
-    });
+    } else {
+        // The theme is the base theme, no custom files need to be loaded
+        loadPromise.resolve(clientConfig);
+    }
 
     return loadPromise;
 };
