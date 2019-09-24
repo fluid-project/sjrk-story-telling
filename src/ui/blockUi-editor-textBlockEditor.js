@@ -28,12 +28,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             binder: {
                 options: {
                     selectors: {
-                        textBlockText: ".sjrkc-st-block-text",
-                        textBlockSimplifiedText: ".sjrkc-st-block-simplified-text"
+                        textBlockText: ".sjrkc-st-block-text"
                     },
                     bindings: {
-                        textBlockText: "text",
-                        textBlockSimplifiedText: "simplifiedText"
+                        textBlockText: "text"
                     }
                 }
             }

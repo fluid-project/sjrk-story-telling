@@ -82,30 +82,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "sjrk.storyTelling.testUtils.assertElementValue",
                     args: ["{textBlockEditor}.binder.dom.textBlockText", "Hello Rootbeer!"]
                 }]
-            },
-            {
-                name: "Test simplified text field",
-                expect: 2,
-                sequence: [{
-                    funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{textBlockEditor}.binder", "textBlockSimplifiedText", "Hi Shyguy!"]
-                },
-                {
-                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
-                    path: "simplifiedText",
-                    listener: "jqUnit.assertEquals",
-                    args: ["The model text has expected value", "Hi Shyguy!", "{textBlockEditor}.block.model.simplifiedText"]
-                },
-                {
-                    func: "{textBlockEditor}.block.applier.change",
-                    args: ["simplifiedText", "Hi Rootbeer!"]
-                },
-                {
-                    changeEvent: "{textBlockEditor}.block.applier.modelChanged",
-                    path: "simplifiedText",
-                    listener: "sjrk.storyTelling.testUtils.assertElementValue",
-                    args: ["{textBlockEditor}.binder.dom.textBlockSimplifiedText", "Hi Rootbeer!"]
-                }]
             }]
         }]
     });

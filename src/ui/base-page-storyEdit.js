@@ -50,10 +50,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"],
                 namespace: "showEditorHidePreviewer"
             },
-            "{storyPreviewer}.events.onStoryListenToRequested": {
-                func: "{that}.events.onStoryListenToRequested.fire",
-                namespace: "escalate"
-            },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
@@ -73,24 +69,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
          * one of the values listed in the corresponding array is truthy
          */
         blockContentValues: {
-            "text": ["heading", "text", "simplifiedText"],
+            "text": ["heading", "text"],
             "image": ["imageUrl"],
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]
         },
         components: {
-            storySpeaker: {
-                options: {
-                    modelRelay: {
-                        target: "{that}.model.ttsText",
-                        singleTransform: {
-                            type: "fluid.transforms.stringTemplate",
-                            template: "{storyEditor}.templateManager.options.templateStrings.localizedMessages.message_readStoryText",
-                            terms: "{storyPreviewer}.story.model"
-                        }
-                    }
-                }
-            },
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",

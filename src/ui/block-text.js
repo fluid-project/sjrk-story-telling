@@ -16,8 +16,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.block"],
         model: {
             blockType: "text",
-            text: null,
-            simplifiedText: null
+            text: null
         },
         modelRelay: {
             target: "contentString",

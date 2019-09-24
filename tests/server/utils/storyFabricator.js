@@ -53,7 +53,6 @@ var storyTemplate = {
             "heading": null,
             "blockType": "text",
             "text": "%text",
-            "simplifiedText": null,
             "languageFromSelect": "",
             "languageFromInput": ""
         }
