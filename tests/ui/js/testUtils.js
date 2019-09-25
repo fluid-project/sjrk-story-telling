@@ -170,16 +170,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Number of remaining blocks is expected #: " + expectedNumberOfBlocks, expectedNumberOfBlocks, managedComponentRegistryAsArray.length);
     };
 
-    /* A simple function that asserts that it was called with a truthy value,
-     * intended for use as a callback
-     * - "value": a value (hopefully truthy)
-     */
-    sjrk.storyTelling.testUtils.callbackVerificationFunction = function (value) {
-        if (value) {
-            jqUnit.assert("Callback was successfully called with value: " + JSON.stringify(value));
-        }
-    };
-
     /* Alters URL without pageload, via code from StackOverflow
      * https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
      * - "queryString": the query string to append to the current page URL
