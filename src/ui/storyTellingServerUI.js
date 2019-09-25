@@ -108,19 +108,14 @@ sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
     return storiesPromise;
 };
 
-/* Gets the current theme from the server and loads associated  files if and
- * only if the current theme is not set to the base theme. Returns a promise.
- * If the promise resolves, it will contain the clientConfig information.
+/* Gets the current theme from the server and loads associated files via a call to
+ * loadCustomThemeFiles. Returns a promise which contains the clientConfig information.
  */
 sjrk.storyTelling.loadTheme = function () {
     var loadPromise = fluid.promise();
 
-    $.get("/clientConfig").then(function (data) {
-        if (data.theme !== data.baseTheme) {
-            fluid.promise.follow(sjrk.storyTelling.loadCustomThemeFiles(data), loadPromise);
-        } else {
-            loadPromise.resolve(data);
-        }
+    $.get("/clientConfig").then(function (clientConfig) {
+        fluid.promise.follow(sjrk.storyTelling.loadCustomThemeFiles(clientConfig), loadPromise);
     }, function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({
             isError: true,

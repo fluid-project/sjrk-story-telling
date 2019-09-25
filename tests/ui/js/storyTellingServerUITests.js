@@ -125,21 +125,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    sjrk.storyTelling.storyTellingServerUiTester.loadClientConfigFromServer = function (url) {
-        var configPromise = fluid.promise();
-
-        $.get(url).then(function (data) {
-            configPromise.resolve(data);
-        }, function (jqXHR, textStatus, errorThrown) {
-            configPromise.reject({
-                isError: true,
-                message: errorThrown
-            });
-        });
-
-        return configPromise;
-    };
-
     sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, clientConfig) {
         mockServer = sinon.createFakeServer();
         mockServer.respondImmediately = true;
