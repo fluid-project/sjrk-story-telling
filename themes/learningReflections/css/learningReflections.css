@@ -132,11 +132,6 @@ h3:empty {
     padding: 0;
 }
 
-.sjrk-st-context-link-container {
-    text-align: right;
-}
-
-.sjrk-st-context-link,
 .sjrk-st-intro-links a
  {
     display: inline-block;
@@ -330,7 +325,6 @@ h3:empty {
 .sjrk-st-story-viewer-previous,
 .sjrk-st-story-submit,
 .sjrk-st-story-share,
-.sjrk-st-context-link,
 .sjrk-st-intro-links a,
 .sjrk-st-edit-link {
     position: relative;
@@ -609,11 +603,6 @@ h3:empty {
 
     .sjrk-st-page-content-container {
         grid-template-columns: repeat(1, minmax(250px, 1fr));
-    }
-
-    .sjrk-edit-left-container .sjrk-st-context-link-container {
-        margin-top: 2rem;
-        margin-bottom: 0;
     }
 
     .sjrk-st-menu-story-builder-title {
