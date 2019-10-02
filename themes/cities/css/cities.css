@@ -464,6 +464,7 @@ h3:empty {
     flex-grow: 1;
     justify-content: space-between;
     margin-top: 1.5rem;
+    max-width: 100%;
 }
 
 .sjrk-st-page-footer-oak-logo,
