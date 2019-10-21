@@ -197,15 +197,15 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
 
     try {
         // ensure the file is present and we have all permissions
-        var fileOnFs = fse.accessSync(file.path);
+        fse.accessSync(file.path);
 
         // apply default rotation options if none are provided
-        options = options || { quality: 85 }; 
+        options = options || { quality: 85 };
 
         jo.rotate(file.path, options).then(function (rotatedFile) {
             fse.writeFileSync(file.path, rotatedFile.buffer);
             togo.resolve();
-        }).catch(function (error) {
+        }, function (error) {
             togo.reject({
                 errorCode: error.code || "no error code provided",
                 isError: true,
