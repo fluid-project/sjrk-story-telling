@@ -11,6 +11,7 @@ var fluid = require("infusion");
 var uuidv1 = require("uuid/v1");
 var fse = require("fs-extra");
 var path = require("path");
+var jo = require("jpeg-autorotate");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
@@ -148,6 +149,13 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
                     // If we find a match, update the media URL. If not, clear it.
                     if (mediaFile) {
+                        // rotate any images based on their EXIF data, if present
+                        if (block.blockType === "image" && mediaFile.mimetype.indexOf("image") === 0) {
+                            sjrk.storyTelling.server.rotateImageFromExif(mediaFile).then(null, function (error) {
+                                fluid.log(fluid.logLevel.WARN, "IMAGE ROTATION FAILED ON FILE " + mediaFile.path + ": " + error.message);
+                            });
+                        }
+
                         sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
                         binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
                     } else {
@@ -181,6 +189,34 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
             message: "Saving is currently disabled."
         });
     }
+};
+
+// Rotates an image to be oriented based on its EXIF orientation data, if present
+sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
+    var togo = fluid.promise();
+
+    try {
+        // ensure the file is present and we have all permissions
+        var fileOnFs = fse.accessSync(file.path);
+
+        // apply default rotation options if none are provided
+        options = options || { quality: 85 }; 
+
+        jo.rotate(file.path, options).then(function (rotatedFile) {
+            fse.writeFileSync(file.path, rotatedFile.buffer);
+            togo.resolve();
+        }).catch(function (error) {
+            togo.reject({
+                errorCode: error.code || "no error code provided",
+                isError: true,
+                message: error.message
+            });
+        });
+    } catch (error) {
+        togo.reject(error);
+    }
+
+    return togo;
 };
 
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
