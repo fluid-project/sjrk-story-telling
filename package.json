@@ -17,6 +17,8 @@
     },
     "homepage": "https://github.com/fluid-project/sjrk-story-telling",
     "dependencies": {
+        "blueimp-canvas-to-blob": "3.16.0",
+        "blueimp-load-image": "2.24.0",
         "express-basic-auth": "1.1.5",
         "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
         "fs-extra": "7.0.1",
