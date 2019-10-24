@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var fileList = fileInput[0].files;
         var currentFile = fileList[0];
 
-        if (currentFile.type.indexOf("image") === 0) {
+        if (currentFile && currentFile.type.indexOf("image") === 0) {
             loadImage(currentFile, function (img) {
                 if (img.type !== "error" && img.toBlob) {
                     img.toBlob(function (blob) {
