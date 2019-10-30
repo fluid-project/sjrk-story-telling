@@ -5,6 +5,8 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
+/* eslint-env node, es6 */
+
 "use strict";
 
 var fluid = require("infusion");
@@ -128,60 +130,34 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
-        var id = uuidv1();
+        var rotateImagePromises = [];
 
-        var storyModel = JSON.parse(request.req.body.model);
+        // rotate any images based on their EXIF data, if present
+        fluid.each(request.req.files.file, function (singleFile) {
+            if (singleFile.mimetype && singleFile.mimetype.indexOf("image") === 0) {
+                var singleRotatePromise = sjrk.storyTelling.server.rotateImageFromExif(singleFile).then(null, function (error) {
+                    fluid.log(fluid.logLevel.WARN, "Image rotation failed for file " + singleFile.path + ": " + error.message);
+                });
 
-        // key-value pairs of original filename : generated filename
-        // this is used primarily by tests, but may be of use
-        // to client-side components too
-        var binaryRenameMap = {};
-
-        // Update any media URLs to refer to the changed
-        // file names
-        fluid.each(storyModel.content, function (block) {
-            if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
-                if (block.fileDetails) {
-                    // Look for the uploaded file matching this block
-                    var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                        return singleFile.originalname === block.fileDetails.name;
-                    });
-
-                    // If we find a match, update the media URL. If not, clear it.
-                    if (mediaFile) {
-                        // rotate any images based on their EXIF data, if present
-                        if (block.blockType === "image" && mediaFile.mimetype.indexOf("image") === 0) {
-                            sjrk.storyTelling.server.rotateImageFromExif(mediaFile).then(null, function (error) {
-                                fluid.log(fluid.logLevel.WARN, "IMAGE ROTATION FAILED ON FILE " + mediaFile.path + ": " + error.message);
-                            });
-                        }
-
-                        sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
-                        binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
-                    } else {
-                        sjrk.storyTelling.server.setMediaBlockUrl(block, null);
-                    }
-                } else {
-                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
-                }
+                rotateImagePromises.push(singleRotatePromise);
             }
         });
 
-        // Then persist that model to couch, with the updated
-        // references to where the binaries are saved
+        // using [""] notation for .catch() and .finally() to pass linting,
+        // at least until FLUID-6419 is addressed:
+        // https://issues.fluidproject.org/browse/FLUID-6419
+        Promise.all(rotateImagePromises)["catch"](function (error) {
+            if (!error.errorCode) {
+                request.events.onError.fire({
+                    isError: true,
+                    message: "Unknown error in image rotation."
+                });
+            }
+        })["finally"](function () {
+            var storyModel = JSON.parse(request.req.body.model);
+            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request);
 
-        var promise = dataSource.set({directStoryId: id}, storyModel);
-
-        promise.then(function (response) {
-            response.binaryRenameMap = binaryRenameMap;
-            var responseAsJSON = JSON.stringify(response);
-            request.events.onSuccess.fire(responseAsJSON);
-        }, function (error) {
-            var errorMessage = error.reason || "Unspecified server error";
-            request.events.onError.fire({
-                isError: true,
-                message: errorMessage
-            });
+            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
         });
     } else {
         request.events.onError.fire({
@@ -189,6 +165,53 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
             message: "Saving is currently disabled."
         });
     }
+};
+
+// Persist the story model to couch, with the updated
+// references to where the binaries are saved
+sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
+    var id = uuidv1();
+
+    dataSource.set({directStoryId: id}, storyModel).then(function (response) {
+        response.binaryRenameMap = binaryRenameMap;
+        successEvent.fire(JSON.stringify(response));
+    }, function (error) {
+        failureEvent.fire({
+            isError: true,
+            message: error.reason || "Unspecified server error saving story to database."
+        });
+    });
+};
+
+// Update any media URLs to refer to the changed file names
+sjrk.storyTelling.server.buildBinaryRenameMap = function (content, request) {
+    // key-value pairs of original filename : generated filename
+    // this is used primarily by tests, but may be of use
+    // to client-side components too
+    var binaryRenameMap = {};
+
+    fluid.each(content, function (block) {
+        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+            if (block.fileDetails) {
+                // Look for the uploaded file matching this block
+                var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
+                    return singleFile.originalname === block.fileDetails.name;
+                });
+
+                // If we find a match, update the media URL. If not, clear it.
+                if (mediaFile) {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
+                    binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                } else {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
+                }
+            } else {
+                sjrk.storyTelling.server.setMediaBlockUrl(block, null);
+            }
+        }
+    });
+
+    return binaryRenameMap;
 };
 
 // Rotates an image to be oriented based on its EXIF orientation data, if present
@@ -207,7 +230,7 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
             togo.resolve();
         }, function (error) {
             togo.reject({
-                errorCode: error.code || "no error code provided",
+                errorCode: error.code,
                 isError: true,
                 message: error.message
             });
@@ -222,7 +245,7 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
     if (block.blockType === "image") {
         block.imageUrl = url;
-    } else if (block.blockType === "audio" || block.blockType === "video") {
+    } else {
         block.mediaUrl = url;
     }
 };
