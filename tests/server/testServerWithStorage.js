@@ -520,6 +520,26 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
     }
 };
 
+jqUnit.test("Test setMediaBlockUrl function", function () {
+    jqUnit.expect(6);
+
+    var testCases = [
+        { block: { blockType: "image" }, url: "", fieldToCheck: "imageUrl", expected: "" }, // test image block with empty string
+        { block: { blockType: "audio" }, url: "", fieldToCheck: "mediaUrl", expected: "" }, // test audio block with empty string
+        { block: { blockType: "video" }, url: "", fieldToCheck: "mediaUrl", expected: "" }, // test video block with empty string
+        { block: { blockType: "image" }, url: "testUrl", fieldToCheck: "imageUrl", expected: "testUrl" }, // test image block with set string
+        { block: { blockType: "audio" }, url: "testUrl", fieldToCheck: "mediaUrl", expected: "testUrl" }, // test audio block with set string
+        { block: { blockType: "video" }, url: "testUrl", fieldToCheck: "mediaUrl", expected: "testUrl" } // test video block with set string
+    ];
+
+    fluid.each(testCases, function (testCase) {
+        sjrk.storyTelling.server.setMediaBlockUrl(testCase.block, testCase.url);
+        var actual = testCase.block[testCase.fieldToCheck];
+
+        var message = "Media block URL is as expected: " + testCase.expected;
+        jqUnit.assertEquals(message, testCase.expected, actual);
+    });
+});
 jqUnit.test("Test isValidMediaFilename function", function () {
     jqUnit.expect(21);
 

@@ -245,7 +245,7 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
     if (block.blockType === "image") {
         block.imageUrl = url;
-    } else {
+    } else if (block.blockType === "audio" || block.blockType === "video") {
         block.mediaUrl = url;
     }
 };
