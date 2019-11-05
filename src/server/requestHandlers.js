@@ -155,7 +155,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
             }
         })["finally"](function () {
             var storyModel = JSON.parse(request.req.body.model);
-            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request);
+            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request.req.files.file);
 
             sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
         });
@@ -184,18 +184,18 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenam
 };
 
 // Update any media URLs to refer to the changed file names
-sjrk.storyTelling.server.buildBinaryRenameMap = function (content, request) {
+sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
     // key-value pairs of original filename : generated filename
     // this is used primarily by tests, but may be of use
     // to client-side components too
     var binaryRenameMap = {};
 
-    fluid.each(content, function (block) {
+    fluid.each(blocks, function (block) {
         if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
             if (block.fileDetails) {
                 // Look for the uploaded file matching this block
-                var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                    return singleFile.originalname === block.fileDetails.name;
+                var mediaFile = fluid.find_if(files, function (file) {
+                    return file.originalname === block.fileDetails.name;
                 });
 
                 // If we find a match, update the media URL. If not, clear it.
