@@ -11,7 +11,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 var fluid = require("infusion"),
     kettle = require("kettle"),
     fs = require("fs"),
-    jqUnit = fluid.registerNamespace("jqUnit");
+    jqUnit = fluid.registerNamespace("jqUnit"),
+    path = require("path"),
+    uuidv1 = require("uuid/v1");
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
@@ -186,7 +188,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         "onBlankStoryWithEmptyMediaBlocksSaveSuccessful": null
     },
     testUploadOptions: {
-        testFile: "./tests/testData/logo_small_fluid_vertical.png",
+        testPNGFile: "./tests/testData/logo_small_fluid_vertical.png",
         testDirectory: "./tests/server/uploads/",
         expectedUploadDirectory: "./tests/server/uploads/",
         expectedUploadedFilesHandlerPath: "/uploads/"
@@ -206,7 +208,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 method: "POST",
                 formData: {
                     files: {
-                        "file": ["{testCaseHolder}.options.testUploadOptions.testFile"]
+                        "file": ["{testCaseHolder}.options.testUploadOptions.testPNGFile"]
                     },
                     fields: {
                         "model": {
@@ -540,6 +542,50 @@ jqUnit.test("Test setMediaBlockUrl function", function () {
         jqUnit.assertEquals(message, testCase.expected, actual);
     });
 });
+
+jqUnit.test("Test rotateImageFromExif function", function () {
+    jqUnit.expect(15);
+
+    var testCases = [
+        { fileName: null, options: null, expectedResolution: false },
+        { fileName: "", options: null, expectedResolution: false },
+        { fileName: "", options: "", expectedResolution: false },
+        { fileName: "obliterationroom.jpg", options: null, expectedResolution: false }, // false because it is already oriented properly
+        { fileName: "hotblack_cup_rotated.jpeg", options: null, expectedResolution: true },
+        { fileName: "test_gif.gif", options: null, expectedResolution: false },
+        { fileName: "logo_small_fluid_vertical.png", options: null, expectedResolution: false },
+        { fileName: "Leslie_s_Strut_Sting.mp3", options: null, expectedResolution: false },
+        { fileName: "shyguy_and_rootbeer.mp4", options: null, expectedResolution: false },
+        { fileName: "obliterationroom.jpg", options: { quality: 1 }, expectedResolution: false },
+        { fileName: "hotblack_cup_rotated.jpeg", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "test_gif.gif", options: { quality: 1 }, expectedResolution: false },
+        { fileName: "logo_small_fluid_vertical.png", options: { quality: 1 }, expectedResolution: false },
+        { fileName: "Leslie_s_Strut_Sting.mp3", options: { quality: 1 }, expectedResolution: false },
+        { fileName: "shyguy_and_rootbeer.mp4", options: { quality: 1 }, expectedResolution: false }
+    ];
+
+    fluid.each(testCases, function (testCase) {
+        var filePath = testCase.fileName;
+
+        // copy the file to the test uploads dir, if a filename was provided
+        if (filePath) {
+            var oldFilePath = "./tests/testData/" + testCase.fileName;
+            filePath = "./tests/server/uploads/" + uuidv1() + path.extname(testCase.fileName);
+            fs.copyFileSync(oldFilePath, filePath);
+        }
+
+        // call the function passing the new path and options where applicable
+        jqUnit.stop();
+        sjrk.storyTelling.server.rotateImageFromExif({ path: filePath }, testCase.options).then(function () {
+            jqUnit.assertEquals("Rotation call resolved as expected", testCase.expectedResolution, true);
+            jqUnit.start();
+        }, function () {
+            jqUnit.assertEquals("Rotation call rejected as expected", testCase.expectedResolution, false);
+            jqUnit.start();
+        });
+    });
+});
+
 jqUnit.test("Test isValidMediaFilename function", function () {
     jqUnit.expect(21);
 
