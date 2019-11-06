@@ -169,12 +169,14 @@ var blankStoryWithEmptyMediaBlocks = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 16,
+    expect: 18,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
         // - the binaryRenameMap
         "onStorySaveSuccessful": null,
+        // Receives error details
+        "onStorySaveUnsuccessful": null,
         // Receives one argument:
         // - the filename of the image to retrieve
         "onTestImageRetrieval": null,
@@ -416,6 +418,28 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             null, // No event needed
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
+    },
+    // Test sjrk.storyTelling.server.saveStoryToDatabase
+    {
+        funcName: "sjrk.storyTelling.server.saveStoryToDatabase",
+        args: [
+            "{server}.server.storyDataSource",
+            { testFile:"mappedName.test" },
+            { modelKey: "testValue" },
+            "{that}.events.onStorySaveSuccessful",
+            "{that}.events.onStorySaveUnsuccessful"
+        ]
+    }, {
+        event: "{that}.events.onStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse",
+        args: [{ ok: true, binaryRenameMap: { testFile: "mappedName.test" } }, "{arguments}.0"]
+    }, {
+        funcName: "sjrk.storyTelling.server.saveStoryToDatabase",
+        args: ["{server}.server.storyDataSource", null, null, "{that}.events.onStorySaveSuccessful", "{that}.events.onStorySaveUnsuccessful"]
+    }, {
+        event: "{that}.events.onStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse",
+        args: [{ ok: true, binaryRenameMap: null }, "{arguments}.0"]
     }]
 }];
 
@@ -520,6 +544,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
         jqUnit.assertNotEquals("header.content-type is not image/png", "image/png", request.nativeResponse.headers["content-type"]);
         jqUnit.assertNotEquals("header.content-length is not 3719", "3719", request.nativeResponse.headers["content-length"]);
     }
+};
+
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse = function (expectedResponse, actualResponse) {
+    var actualResponseWithoutIds = fluid.censorKeys(JSON.parse(actualResponse), ["id", "rev"]);
+
+    jqUnit.assertDeepEq("Story save response was as expected", expectedResponse, actualResponseWithoutIds);
 };
 
 jqUnit.test("Test setMediaBlockUrl function", function () {
