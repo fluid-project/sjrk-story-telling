@@ -11,6 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 var fluid = require("infusion"),
     kettle = require("kettle"),
     fs = require("fs"),
+    exif = require("jpeg-exif"),
     jqUnit = fluid.registerNamespace("jqUnit"),
     path = require("path"),
     uuidv1 = require("uuid/v1");
@@ -162,6 +163,33 @@ var blankStoryWithEmptyMediaBlocks = {
     "languageFromInput": ""
 };
 
+var testStoryWithImages = {
+    "title": "A story to test image rotation",
+    "content": [
+        {
+            "blockType": "image",
+            "imageUrl": "hotblack_cup_rotated.jpeg",
+            "description": "A photo of a cup that starts out with incorrect orientation",
+            "fileDetails": {
+                "name": "hotblack_cup_rotated.jpeg",
+                "size": 1143772,
+                "type": "image/jpeg"
+            }
+        },
+        {
+            "blockType": "image",
+            "imageUrl": "obliterationroom.jpg",
+            "description": "A photo of a wall that has the correct orientation already",
+            "fileDetails": {
+                "name": "obliterationroom.jpg",
+                "size": 1583244,
+                "type": "image/jpeg"
+            }
+        }
+    ],
+    "author": "Gregor Moss"
+};
+
 // TODO: Generalize story testing so that components (such as request
 // for retrieving saved story) and test sequences can be reused across
 // different story configurations. And use these generalized pieces to
@@ -169,7 +197,7 @@ var blankStoryWithEmptyMediaBlocks = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 18,
+    expect: 25,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -191,9 +219,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     testUploadOptions: {
         testPNGFile: "./tests/testData/logo_small_fluid_vertical.png",
+        testImageWithCorrectOrientation: "./tests/testData/obliterationroom.jpg",
+        testImageWithIncorrectOrientation: "./tests/testData/hotblack_cup_rotated.jpeg",
         testDirectory: "./tests/server/uploads/",
         expectedUploadDirectory: "./tests/server/uploads/",
-        expectedUploadedFilesHandlerPath: "/uploads/"
+        expectedUploadedFilesHandlerPath: "./tests/server/uploads/"
     },
     config: {
         configName: "sjrk.storyTelling.server.test",
@@ -299,6 +329,29 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     // We don't know this until the story is saved, so needs
                     // to be filled in at runtime
                     id: null
+                }
+            }
+        },
+        storyWithImagesSave: {
+            type: "kettle.test.request.formData",
+            options: {
+                path: "/stories",
+                method: "POST",
+                formData: {
+                    files: {
+                        "file": [
+                            "{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation",
+                            "{testCaseHolder}.options.testUploadOptions.testImageWithIncorrectOrientation"
+                        ]
+                    },
+                    fields: {
+                        "model": {
+                            expander: {
+                                type: "fluid.noexpand",
+                                value: JSON.stringify(testStoryWithImages)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -440,6 +493,32 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse",
         args: [{ ok: true, binaryRenameMap: null }, "{arguments}.0"]
+    },
+    // Verify image with incorrect orientation was rotated after uploading
+    {
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
+        args: [
+            ["{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation",
+            "{testCaseHolder}.options.testUploadOptions.testImageWithIncorrectOrientation"],
+            [1, 6]
+        ]
+    }, {
+        func: "{that}.storyWithImagesSave.send"
+    }, {
+        event: "{storyWithImagesSave}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
+        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+    }, {
+        event: "{that}.events.onStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
+        args: [
+            "@expand:sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFilePaths({arguments}.1, {testCaseHolder}.options.testUploadOptions.testDirectory)",
+            [1, 1]
+        ]
+    },
+    {
+        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }]
 }];
 
@@ -525,8 +604,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = funct
     if (authoringEnabled) {
         // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
         var imageFilename, handlerPath;
-        handlerPath = imageUrl.split("/")[1];
-        imageFilename = imageUrl.split("/")[2];
+        handlerPath = path.dirname(imageUrl);
+        imageFilename = path.basename(imageUrl);
 
         getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
     } else {
@@ -550,6 +629,23 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse
     var actualResponseWithoutIds = fluid.censorKeys(JSON.parse(actualResponse), ["id", "rev"]);
 
     jqUnit.assertDeepEq("Story save response was as expected", expectedResponse, actualResponseWithoutIds);
+};
+
+// Verifies whether the orientation of a given set of images is as expected
+// assumes the images have EXIF data that can be read
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations = function (images, expectedOrientations) {
+    fluid.each(images, function (image, index) {
+        var actualOrientation = exif.parseSync(image).Orientation;
+        jqUnit.assertEquals("Image orientation is as expected for image " + image, expectedOrientations[index], actualOrientation);
+    });
+};
+
+sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFilePaths = function (binaryRenameMap, testUploadsDir) {
+    var uploadedPaths = [];
+    fluid.each(binaryRenameMap, function (mapping) {
+        uploadedPaths.push(testUploadsDir + mapping);
+    });
+    return uploadedPaths;
 };
 
 jqUnit.test("Test setMediaBlockUrl function", function () {

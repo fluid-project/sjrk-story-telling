@@ -27,6 +27,7 @@
         "handlebars": "4.0.10",
         "infusion": "3.0.0-dev.20190905T163833Z.b024bff87",
         "jpeg-autorotate": "5.0.2",
+        "jpeg-exif": "1.1.4",
         "kettle": "1.8.0",
         "sinon": "7.3.2",
         "uuid": "3.1.0"
