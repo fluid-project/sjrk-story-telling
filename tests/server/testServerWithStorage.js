@@ -197,7 +197,7 @@ var testStoryWithImages = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 25,
+    expect: 81,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -519,6 +519,16 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     {
         func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+    },
+    // Unit tests for individual functions
+    {
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests"
+    }, {
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests"
+    }, {
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests"
+    }, {
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests"
     }]
 }];
 
@@ -648,9 +658,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFile
     return uploadedPaths;
 };
 
-jqUnit.test("Test setMediaBlockUrl function", function () {
-    jqUnit.expect(6);
-
+sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests = function () {
     var testCases = [
         { block: { blockType: "image" }, url: "", fieldToCheck: "imageUrl", expected: "" }, // test image block with empty string
         { block: { blockType: "audio" }, url: "", fieldToCheck: "mediaUrl", expected: "" }, // test audio block with empty string
@@ -667,11 +675,9 @@ jqUnit.test("Test setMediaBlockUrl function", function () {
         var message = "Media block URL is as expected: " + testCase.expected;
         jqUnit.assertEquals(message, testCase.expected, actual);
     });
-});
+};
 
-jqUnit.test("Test rotateImageFromExif function", function () {
-    jqUnit.expect(15);
-
+sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = function () {
     var testCases = [
         { fileName: null, options: null, expectedResolution: false },
         { fileName: "", options: null, expectedResolution: false },
@@ -710,11 +716,9 @@ jqUnit.test("Test rotateImageFromExif function", function () {
             jqUnit.start();
         });
     });
-});
+};
 
-jqUnit.test("Test buildBinaryRenameMap function", function () {
-    jqUnit.expect(14);
-
+sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests = function () {
     var testImageBlockNoFileDetails = { blockType: "image", imageUrl: "shouldNotBeMapped", mediaUrl: "shouldBeIgnored" };
     var testImageBlockWithFileDetails = { blockType: "image", imageUrl: "shouldNotBeMapped", mediaUrl: "shouldBeIgnored", fileDetails: { name: "testFile.jpg" } };
 
@@ -770,12 +774,9 @@ jqUnit.test("Test buildBinaryRenameMap function", function () {
 
         jqUnit.assertDeepEq("Binary rename map was produced as expected", testCase.expectedResult, actualResult);
     });
-});
+};
 
-
-jqUnit.test("Test isValidMediaFilename function", function () {
-    jqUnit.expect(21);
-
+sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests = function () {
     var testCases = [
         { input: null, expected: false },
         { input: undefined, expected: false },
@@ -805,7 +806,7 @@ jqUnit.test("Test isValidMediaFilename function", function () {
         var message = "Filename validity is as expected: " + testCase.input;
         jqUnit.assertEquals(message, testCase.expected, actualResult);
     });
-});
+};
 
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
