@@ -529,6 +529,10 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests"
     }, {
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests"
+    },
+    {
+        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }]
 }];
 
