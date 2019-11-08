@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 24,
+                expect: 25,
                 sequence: [{
                     "event": "{pageTest testPage}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -51,7 +51,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // ensure the initial state is English
                 {
                     func: "{testPage}.applier.change",
+                    args: ["uiLanguage", ""]
+                },
+                {
+                    func: "{testPage}.applier.change",
                     args: ["uiLanguage", "en"]
+                },
+                {
+                    "event": "{testPage}.menu.events.onControlsBound",
+                    "listener": "jqUnit.assert",
+                    "args": "menu re-rendered after uiLanguage changed"
                 },
                 {
                     "jQueryTrigger": "click",
@@ -149,17 +158,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test functions and invokers",
-                expect: 22,
+                expect: 21,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.base.page.renderAllUiTemplates",
-                    "args": "{testPage}"
-                },
-                {
-                    "event": "{testPage}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assert",
-                    "args": "menu re-rendered after call to renderAllUiTemplates"
-                },
-                {
                     "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
                 },
