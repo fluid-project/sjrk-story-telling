@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>The Storytelling Project</title>
+<title>Workshops | The Storytelling Project</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <script src="/node_modules/infusion/dist/infusion-all.js"></script>
@@ -94,7 +94,7 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.loadThemedPage(function (clientConfig) {
+        sjrk.storyTelling.loadTheme().then(function (clientConfig) {
             sjrk.storyTelling[clientConfig.theme].page.workshops({});
         });
     });

@@ -72,12 +72,15 @@ The "base" files included in this repository, located in the `themes/base` direc
 bare-bones implementation of the Storytelling Tool without any project- or organization-specific branding or other
 bells and whistles. The interface is extensible and customizable to enable the creation of new experiences, themes and
 story contexts within the tool.
-The site comes with two custom themes already available: `karisma` and `learningReflections`.
+The site comes with some custom themes already available:
 
+* `cities` has styling intended to be consistent with the [Inclusive Cities](https://cities.inclusivedesign.ca/) site.
+  There is no link to the Edit page since the hosted site is used only as a collection of stories and editing is disabled.
 * `learningReflections` has a few extra pages with content and is styled to illustrate the support of the Storytelling
   Project by the [William and Flora Hewlett Foundation](https://www.hewlett.org/) and the [Oak Foundation](http://www.oakfnd.org/).
 * `karisma` is a fun theme with some hand-drawn illustrations on a welcome page and was created for use as part of the
   SJRK work being done by the [Fundación Karisma](https://karisma.org.co).
+* `sojustrepairit` is designed to match the styling on the main SJRK website: [sojustrepairit.org](https://www.sojustrepairit.org/)
 
 #### Creating a new theme
 

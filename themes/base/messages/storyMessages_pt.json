@@ -1,6 +1,5 @@
 {
     "language": "pt",
-    "message_readStoryText": "%title, por %author. Palavras-chave: %keywordString. %contentString",
     "message_blockAddTextBlock": "Adicionar bloco de texto",
     "message_blockAddImageBlock": "Adicionar bloco de imagem",
     "message_blockRemoveBlocks": "Remover blocos selecionados",
@@ -23,7 +22,7 @@
     "message_goBack": "❮ Voltar",
     "message_previewText": "Visualizar",
     "message_readMoreText": "Ler mais",
-    "message_listTagsLabelText": "Palavras-chave",
+    "message_listTagsLabelText": "Palavras-chave:",
     "message_shareText": "Compartilhar minha história",
     "message_saveNoShareText": "Salvar sem compartilhar",
     "message_languageLabelText": "Idioma(s)",

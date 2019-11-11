@@ -4,8 +4,6 @@
     "message_blockSelectionCheckboxLabel": "Selecionar esse bloco",
     "message_textInputLabel": "Digite o texto na caixa de texto",
     "message_textInputPlaceholder": "Começe digitando aqui",
-    "message_simplifiedTextInputLabel": "Texto simplificado",
-    "message_simplifiedTextInputPlaceholder": "Adicione um texto simplificado (opcional) — isso pode ser útil para pessoas aprendendo o idioma, com dificuldade de entender o texto, ou com pressa.",
     "message_altTextInputLabel": "Texto alternativo",
     "message_altTextInputPlaceholder": "Adicione o texto alternativo aqui",
     "message_descriptionInputLabel": "Descrição",

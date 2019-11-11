@@ -20,23 +20,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             resourcePrefix: "../.."
         },
         components: {
-            storySpeaker: {
-                options: {
-                    model: {
-                        utteranceOpts: {
-                            // not all speech synthesizers will respect this setting
-                            volume: 0
-                        }
-                    }
-                }
-            },
             uio: {
                 options: {
                     terms: {
                         "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
                         "messagePrefix": "../../messages/uio"
                     },
-                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
+                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "tocMessage": "../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json"
                 }
             },
             menu: {
@@ -51,21 +42,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 24,
+                expect: 25,
                 sequence: [{
                     "event": "{pageTest testPage}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
                     "args": "onAllUiComponentsReady event fired"
                 },
-                {
-                    "event": "{pageTest testPage storySpeaker}.events.onCreate",
-                    "listener": "jqUnit.assert",
-                    "args": "storySpeaker onCreate event fired"
-                },
                 // ensure the initial state is English
                 {
                     func: "{testPage}.applier.change",
+                    args: ["uiLanguage", ""]
+                },
+                {
+                    func: "{testPage}.applier.change",
                     args: ["uiLanguage", "en"]
+                },
+                {
+                    "event": "{testPage}.menu.events.onControlsBound",
+                    "listener": "jqUnit.assert",
+                    "args": "menu re-rendered after uiLanguage changed"
                 },
                 {
                     "jQueryTrigger": "click",
@@ -149,34 +144,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "path": "uiLanguage",
                     "funcName": "jqUnit.assertEquals",
                     "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.uiLanguage"]
-                }]
-            },
-            {
-                name: "Test storySpeaker",
-                expect: 3,
-                sequence: [{
-                    func: "{testPage}.storySpeaker.applier.change",
-                    args: ["ttsText", "Shyguy is a cat"]
-                },
-                {
-                    "changeEvent": "{testPage}.storySpeaker.applier.modelChanged",
-                    "path": "ttsText",
-                    "listener": "{testPage}.events.onStoryListenToRequested.fire"
-                },
-                {
-                    "event": "{testPage}.storySpeaker.events.onSpeechQueued",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["Speech queued with expected values", "Shyguy is a cat", "{arguments}.0"]
-                },
-                {
-                    func: "{testPage}.applier.change",
-                    args: ["uiLanguage", "catspeak"]
-                },
-                {
-                    "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["storySpeaker language is as expected" ,"catspeak", "{testPage}.storySpeaker.model.utteranceOpts.lang"]
                 },
                 {
                     func: "{testPage}.applier.change",
@@ -185,23 +152,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
                     "path": "uiLanguage",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["storySpeaker language is as expected" ,"en", "{testPage}.storySpeaker.model.utteranceOpts.lang"]
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.uiLanguage"]
                 }]
             },
             {
                 name: "Test functions and invokers",
-                expect: 22,
+                expect: 21,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.base.page.renderAllUiTemplates",
-                    "args": "{testPage}"
-                },
-                {
-                    "event": "{testPage}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assert",
-                    "args": "menu re-rendered after call to renderAllUiTemplates"
-                },
-                {
                     "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
                 },

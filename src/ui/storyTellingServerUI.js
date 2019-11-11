@@ -49,6 +49,11 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
                 "record": clientConfig.authoringEnabled
             }];
 
+            // TODO: Move this string to another file and localize it
+            if (retrievedStory.title) {
+                document.title = retrievedStory.title + " | The Storytelling Project";
+            }
+
             var storyViewComponent = sjrk.storyTelling[clientConfig.theme].page.storyView(options);
 
             storyPromise.resolve(storyViewComponent);
@@ -103,31 +108,14 @@ sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
     return storiesPromise;
 };
 
-/* Gets the current theme from the server and loads associated  files if and
- * only if the current theme is not set to the base theme. Once complete, the
- * provided callback function is called and the theme name is passed into it.
- * - "callback": a function to call once everything has completed. Will be called
- *               regardless of whether theme information was specified or retrieved
+/* Gets the current theme from the server and loads associated files via a call to
+ * loadCustomThemeFiles. Returns a promise which contains the clientConfig information.
  */
-sjrk.storyTelling.loadThemedPage = function (callback) {
+sjrk.storyTelling.loadTheme = function () {
     var loadPromise = fluid.promise();
 
-    var callbackFunction = typeof callback === "function" ? callback : fluid.getGlobalValue(callback);
-
-    $.get("/clientConfig").then(function (data) {
-        if (data.theme !== data.baseTheme) {
-            sjrk.storyTelling.loadCustomThemeFiles(callbackFunction, data).then(function () {
-                loadPromise.resolve(data);
-            }, function (jqXHR, textStatus, errorThrown) {
-                loadPromise.reject({
-                    isError: true,
-                    message: errorThrown
-                });
-            });
-        } else {
-            callbackFunction(data);
-            loadPromise.resolve(data);
-        }
+    $.get("/clientConfig").then(function (clientConfig) {
+        fluid.promise.follow(sjrk.storyTelling.loadCustomThemeFiles(clientConfig), loadPromise);
     }, function (jqXHR, textStatus, errorThrown) {
         loadPromise.reject({
             isError: true,
@@ -139,36 +127,39 @@ sjrk.storyTelling.loadThemedPage = function (callback) {
 };
 
 /* Loads CSS and JavaScript files for the provided theme into the page markup.
- * If JavaScript file loading is successful, the callback function is called.
- * - "callback": a function to call once everything has completed
+ * Returns a promise. If the promise resolves, it will contain the clientConfig.
  * - "clientConfig": a collection of client config values consisting of
  *     - "theme": the current theme of the site
  *     - "baseTheme": the base theme of the site
  *     - "authoringEnabled": indicates whether story saving and editing are enabled
  */
-sjrk.storyTelling.loadCustomThemeFiles = function (callback, clientConfig) {
+sjrk.storyTelling.loadCustomThemeFiles = function (clientConfig) {
     var loadPromise = fluid.promise();
 
-    var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: clientConfig.theme});
-    var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: clientConfig.theme});
+    if (clientConfig.theme !== clientConfig.baseTheme) {
+        var cssUrl = fluid.stringTemplate("/css/%theme.css", {theme: clientConfig.theme});
+        var scriptUrl = fluid.stringTemplate("/js/%theme.js", {theme: clientConfig.theme});
 
-    $("<link/>", {
-        rel: "stylesheet",
-        type: "text/css",
-        href: cssUrl
-    }).appendTo("head");
+        $("<link/>", {
+            rel: "stylesheet",
+            type: "text/css",
+            href: cssUrl
+        }).appendTo("head");
 
-    $.getScript(scriptUrl, function () {
-        if (typeof callback === "function") {
-            var callbackResult = callback(clientConfig);
-            loadPromise.resolve(callbackResult);
-        }
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        loadPromise.reject({
-            isError: true,
-            message: errorThrown
+        // TODO: This method of loading produces a potential race condition
+        // See SJRK-272: https://issues.fluidproject.org/browse/SJRK-272
+        $.getScript(scriptUrl, function () {
+            loadPromise.resolve(clientConfig);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            loadPromise.reject({
+                isError: true,
+                message: errorThrown
+            });
         });
-    });
+    } else {
+        // The theme is the base theme, no custom files need to be loaded
+        loadPromise.resolve(clientConfig);
+    }
 
     return loadPromise;
 };

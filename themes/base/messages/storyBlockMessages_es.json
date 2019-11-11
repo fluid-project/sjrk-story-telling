@@ -4,8 +4,6 @@
     "message_blockSelectionCheckboxLabel": "Seleccione esta sección",
     "message_textInputLabel": "Texto",
     "message_textInputPlaceholder": "Comience a escribir aquí",
-    "message_simplifiedTextInputLabel": "Resumen",
-    "message_simplifiedTextInputPlaceholder": "Añadir resumen",
     "message_altTextInputLabel": "Descripción",
     "message_altTextInputPlaceholderImage": "Añadir descripción de la imagen",
     "message_altTextInputPlaceholderAudio": "Traducir el audio a texto",
@@ -13,7 +11,5 @@
     "message_descriptionInputPlaceholder": "Añadir subtítulo",
     "message_uploadButtonAudio": "Cargar audio",
     "message_uploadButtonImage": "Cargar imagen",
-    "message_uploadButtonVideo": "Cargar video",
-    "message_transcriptInputLabel": "Transcripción",
-    "message_transcriptInputPlaceholder": "Crear opción de texto"
+    "message_uploadButtonVideo": "Cargar video"
 }

@@ -37,10 +37,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 target: "{that ui blockManager}.options.dynamicComponents.managedViewComponents.options.components.templateManager.options.templateConfig.resourcePrefix"
             },
             {
-                record: {
-                    "{page}.events.onContextChangeRequested": "{that}.stopMediaPlayer"
-                },
+                record: { "{page}.events.onContextChangeRequested": "{that}.stopMediaPlayer" },
                 target: "{that sjrk.storyTelling.blockUi.timeBased}.options.listeners"
+            },
+            {
+                record: { "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": "{templateManager}.events.onResourceLoadRequested.fire" },
+                target: "{that sjrk.storyTelling.ui}.options.listeners"
             },
             {
                 record: {
@@ -57,7 +59,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         ],
         events: {
-            onStoryListenToRequested: null,
             onAllUiComponentsReady: {
                 events: {
                     onMenuReady: "{menu}.events.onControlsBound",
@@ -68,7 +69,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onPreferenceLoadFailed: null,
             onContextChangeRequested: null, // this includes changes in visibility, language, etc.
             onUioReady: null,
-            onUioPanelsUpdated: null
+            onUioPanelsUpdated: null,
+            onRenderAllUiTemplates: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
@@ -107,8 +109,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         modelListeners: {
             uiLanguage: [{
-                funcName: "sjrk.storyTelling.base.page.renderAllUiTemplates",
-                args: ["{that}"],
+                funcName: "{that}.events.onRenderAllUiTemplates",
                 namespace: "renderAllUiTemplates"
             },
             {
@@ -132,26 +133,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         name: "sjrk-st-settings",
                         path: "/",
                         expires: ""
-                    }
-                }
-            },
-            // handles text to speech requests globally for the whole site
-            storySpeaker: {
-                type: "fluid.textToSpeech",
-                createOnEvent: "{page}.events.onAllUiComponentsReady",
-                options: {
-                    model:{
-                        ttsText: null,
-                        utteranceOpts: {
-                            lang: "{page}.model.uiLanguage"
-                        }
-                    },
-                    listeners: {
-                        "{page}.events.onStoryListenToRequested": {
-                            func: "{that}.queueSpeech",
-                            args: ["{that}.model.ttsText", true],
-                            namespace: "queueSpeech"
-                        }
                     }
                 }
             },
@@ -197,17 +178,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    sjrk.storyTelling.base.page.renderAllUiTemplates = function (component) {
-        fluid.each(component, function (subcomponent) {
-            if (subcomponent &&
-                subcomponent.options &&
-                subcomponent.options.gradeNames &&
-                subcomponent.options.gradeNames.includes("sjrk.storyTelling.ui")) {
-                subcomponent.templateManager.events.onResourceLoadRequested.fire();
-            }
-        });
-    };
 
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();

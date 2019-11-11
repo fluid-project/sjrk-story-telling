@@ -50,13 +50,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     selectors: {
                         videoAltText: ".sjrkc-st-block-media-alt-text",
-                        videoDescription: ".sjrkc-st-block-media-description",
-                        videoTranscript: ".sjrkc-st-block-media-transcript"
+                        videoDescription: ".sjrkc-st-block-media-description"
                     },
                     bindings: {
                         videoAltText: "alternativeText",
-                        videoDescription: "description",
-                        videoTranscript: "transcript"
+                        videoDescription: "description"
                     }
                 }
             },
