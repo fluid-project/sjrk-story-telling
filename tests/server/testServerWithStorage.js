@@ -686,18 +686,18 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
         { fileName: null, options: null, expectedResolution: false },
         { fileName: "", options: null, expectedResolution: false },
         { fileName: "", options: "", expectedResolution: false },
-        { fileName: "obliterationroom.jpg", options: null, expectedResolution: false }, // false because it is already oriented properly
+        { fileName: "obliterationroom.jpg", options: null, expectedResolution: true },
         { fileName: "hotblack_cup_rotated.jpeg", options: null, expectedResolution: true },
-        { fileName: "test_gif.gif", options: null, expectedResolution: false },
-        { fileName: "logo_small_fluid_vertical.png", options: null, expectedResolution: false },
-        { fileName: "Leslie_s_Strut_Sting.mp3", options: null, expectedResolution: false },
-        { fileName: "shyguy_and_rootbeer.mp4", options: null, expectedResolution: false },
-        { fileName: "obliterationroom.jpg", options: { quality: 1 }, expectedResolution: false },
+        { fileName: "test_gif.gif", options: null, expectedResolution: true },
+        { fileName: "logo_small_fluid_vertical.png", options: null, expectedResolution: true },
+        { fileName: "Leslie_s_Strut_Sting.mp3", options: null, expectedResolution: true },
+        { fileName: "shyguy_and_rootbeer.mp4", options: null, expectedResolution: true },
+        { fileName: "obliterationroom.jpg", options: { quality: 1 }, expectedResolution: true },
         { fileName: "hotblack_cup_rotated.jpeg", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "test_gif.gif", options: { quality: 1 }, expectedResolution: false },
-        { fileName: "logo_small_fluid_vertical.png", options: { quality: 1 }, expectedResolution: false },
-        { fileName: "Leslie_s_Strut_Sting.mp3", options: { quality: 1 }, expectedResolution: false },
-        { fileName: "shyguy_and_rootbeer.mp4", options: { quality: 1 }, expectedResolution: false }
+        { fileName: "test_gif.gif", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "logo_small_fluid_vertical.png", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "Leslie_s_Strut_Sting.mp3", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "shyguy_and_rootbeer.mp4", options: { quality: 1 }, expectedResolution: true }
     ];
 
     fluid.each(testCases, function (testCase) {

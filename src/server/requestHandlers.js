@@ -5,8 +5,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* eslint-env node, es6 */
-
 "use strict";
 
 var fluid = require("infusion");
@@ -135,29 +133,22 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
         // rotate any images based on their EXIF data, if present
         fluid.each(request.req.files.file, function (singleFile) {
             if (singleFile.mimetype && singleFile.mimetype.indexOf("image") === 0) {
-                var singleRotatePromise = sjrk.storyTelling.server.rotateImageFromExif(singleFile).then(null, function (error) {
-                    fluid.log(fluid.logLevel.WARN, "Image rotation failed for file " + singleFile.path + ": " + error.message);
-                });
-
-                rotateImagePromises.push(singleRotatePromise);
+                rotateImagePromises.push(sjrk.storyTelling.server.rotateImageFromExif(singleFile));
             }
         });
 
-        // using [""] notation for .catch() and .finally() to pass linting,
-        // at least until FLUID-6419 is addressed:
-        // https://issues.fluidproject.org/browse/FLUID-6419
-        Promise.all(rotateImagePromises)["catch"](function (error) {
+        fluid.promise.sequence(rotateImagePromises).then(function () {
+            var storyModel = JSON.parse(request.req.body.model);
+            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request.req.files.file);
+
+            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
+        }, function (error) {
             if (!error.errorCode) {
                 request.events.onError.fire({
                     isError: true,
                     message: "Unknown error in image rotation."
                 });
             }
-        })["finally"](function () {
-            var storyModel = JSON.parse(request.req.body.model);
-            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request.req.files.file);
-
-            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
         });
     } else {
         request.events.onError.fire({
@@ -222,18 +213,28 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
         // ensure the file is present and we have all permissions
         fse.accessSync(file.path);
 
-        // apply default rotation options if none are provided
-        options = options || { quality: 85 };
+        // jpeg-autorotate will crash if the `options` arg is undefined
+        options = options || {};
 
         jo.rotate(file.path, options).then(function (rotatedFile) {
             fse.writeFileSync(file.path, rotatedFile.buffer);
             togo.resolve();
         }, function (error) {
-            togo.reject({
-                errorCode: error.code,
-                isError: true,
-                message: error.message
-            });
+            // if the error code is an "acceptable" error, resolve the promise after all
+            if (error.code && (
+                error.code === jo.errors.read_exif ||
+                error.code === jo.errors.no_orientation ||
+                error.code === jo.errors.correct_orientation)) {
+                togo.resolve();
+            } else {
+                fluid.log(fluid.logLevel.WARN, "Image rotation failed for file " + file.path + ": " + error.message);
+
+                togo.reject({
+                    errorCode: error.code,
+                    isError: true,
+                    message: error.message
+                });
+            }
         });
     } catch (error) {
         togo.reject(error);
