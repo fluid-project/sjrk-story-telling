@@ -23,7 +23,7 @@
         "gpii-binder": "1.0.5",
         "gpii-handlebars": "1.1.4",
         "handlebars": "4.0.10",
-        "infusion": "3.0.0-dev.20190808T200426Z.ff8753d18.FLUID-6148",
+        "infusion": "3.0.0-dev.20191107T164711Z.332e92c33.FLUID-6148",
         "kettle": "1.11.0",
         "sinon": "7.3.2",
         "uuid": "3.1.0"
