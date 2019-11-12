@@ -37,8 +37,9 @@ to build the web-hosting environment that drives the tool.
 * Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example`
   and place it in the application root (where the example file is located). See [Configuring the application](#configuring-the-application)
   for more information on configuring the application.
-* Create a `secrets.json` file in the style of `secrets.json.example`, also in the application root. This file specifies
-  credentials for the story deletion endpoint
+* Create a `secrets.json` file which contains the following: `{"adminPass": "ADMINPASSWORD"}`, where the `ADMINPASSWORD`
+  part is replaced by a ___secure___ password of your choosing. This new file specifies credentials for the story deletion
+  endpoint. You can find an example of this in `secrets.json.example` in the application root.
 * Run `node .\index.js` to launch the server
 
 ### Development
