@@ -168,21 +168,21 @@ var testStoryWithImages = {
     "content": [
         {
             "blockType": "image",
-            "imageUrl": "hotblack_cup_rotated.jpeg",
+            "imageUrl": "incorrectOrientation.jpeg",
             "description": "A photo of a cup that starts out with incorrect orientation",
             "fileDetails": {
-                "name": "hotblack_cup_rotated.jpeg",
+                "name": "incorrectOrientation.jpeg",
                 "size": 1143772,
                 "type": "image/jpeg"
             }
         },
         {
             "blockType": "image",
-            "imageUrl": "obliterationroom.jpg",
-            "description": "A photo of a wall that has the correct orientation already",
+            "imageUrl": "correctOrientation.jpg",
+            "description": "A photo of a virtual room that has the correct orientation already",
             "fileDetails": {
-                "name": "obliterationroom.jpg",
-                "size": 1583244,
+                "name": "correctOrientation.jpg",
+                "size": 1064578,
                 "type": "image/jpeg"
             }
         }
@@ -219,8 +219,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     testUploadOptions: {
         testPNGFile: "./tests/testData/logo_small_fluid_vertical.png",
-        testImageWithCorrectOrientation: "./tests/testData/obliterationroom.jpg",
-        testImageWithIncorrectOrientation: "./tests/testData/hotblack_cup_rotated.jpeg",
+        testImageWithCorrectOrientation: "./tests/testData/correctOrientation.jpg",
+        testImageWithIncorrectOrientation: "./tests/testData/incorrectOrientation.jpeg",
         testDirectory: "./tests/server/uploads/",
         expectedUploadDirectory: "./tests/server/uploads/",
         expectedUploadedFilesHandlerPath: "./tests/server/uploads/"
@@ -686,14 +686,14 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
         { fileName: null, options: null, expectedResolution: false },
         { fileName: "", options: null, expectedResolution: false },
         { fileName: "", options: "", expectedResolution: false },
-        { fileName: "obliterationroom.jpg", options: null, expectedResolution: true },
-        { fileName: "hotblack_cup_rotated.jpeg", options: null, expectedResolution: true },
+        { fileName: "correctOrientation.jpg", options: null, expectedResolution: true },
+        { fileName: "incorrectOrientation.jpeg", options: null, expectedResolution: true },
         { fileName: "test_gif.gif", options: null, expectedResolution: true },
         { fileName: "logo_small_fluid_vertical.png", options: null, expectedResolution: true },
         { fileName: "Leslie_s_Strut_Sting.mp3", options: null, expectedResolution: true },
         { fileName: "shyguy_and_rootbeer.mp4", options: null, expectedResolution: true },
-        { fileName: "obliterationroom.jpg", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "hotblack_cup_rotated.jpeg", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "correctOrientation.jpg", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "incorrectOrientation.jpeg", options: { quality: 1 }, expectedResolution: true },
         { fileName: "test_gif.gif", options: { quality: 1 }, expectedResolution: true },
         { fileName: "logo_small_fluid_vertical.png", options: { quality: 1 }, expectedResolution: true },
         { fileName: "Leslie_s_Strut_Sting.mp3", options: { quality: 1 }, expectedResolution: true },
