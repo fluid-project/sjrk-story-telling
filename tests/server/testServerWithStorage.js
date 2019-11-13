@@ -197,7 +197,7 @@ var testStoryWithImages = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 81,
+    expect: 83,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -499,7 +499,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
         args: [
             ["{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation",
-            "{testCaseHolder}.options.testUploadOptions.testImageWithIncorrectOrientation"],
+                "{testCaseHolder}.options.testUploadOptions.testImageWithIncorrectOrientation"],
             [1, 6]
         ]
     }, {
@@ -687,13 +687,13 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
         { fileName: "", options: null, expectedResolution: false },
         { fileName: "", options: "", expectedResolution: false },
         { fileName: "correctOrientation.jpg", options: null, expectedResolution: true },
-        { fileName: "incorrectOrientation.jpeg", options: null, expectedResolution: true },
+        { fileName: "incorrectOrientation.jpeg", options: null, expectedResolution: true, expectedOrientation: 1 },
         { fileName: "test_gif.gif", options: null, expectedResolution: true },
         { fileName: "logo_small_fluid_vertical.png", options: null, expectedResolution: true },
         { fileName: "Leslie_s_Strut_Sting.mp3", options: null, expectedResolution: true },
         { fileName: "shyguy_and_rootbeer.mp4", options: null, expectedResolution: true },
         { fileName: "correctOrientation.jpg", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "incorrectOrientation.jpeg", options: { quality: 1 }, expectedResolution: true },
+        { fileName: "incorrectOrientation.jpeg", options: { quality: 1 }, expectedResolution: true, expectedOrientation: 1 },
         { fileName: "test_gif.gif", options: { quality: 1 }, expectedResolution: true },
         { fileName: "logo_small_fluid_vertical.png", options: { quality: 1 }, expectedResolution: true },
         { fileName: "Leslie_s_Strut_Sting.mp3", options: { quality: 1 }, expectedResolution: true },
@@ -712,8 +712,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
 
         // call the function passing the new path and options where applicable
         jqUnit.stop();
-        sjrk.storyTelling.server.rotateImageFromExif({ path: filePath }, testCase.options).then(function () {
+        sjrk.storyTelling.server.rotateImageFromExif({ path: filePath }, testCase.options).then(function (imageData) {
             jqUnit.assertEquals("Rotation call resolved as expected", testCase.expectedResolution, true);
+
+            if (testCase.expectedOrientation) {
+                // we have to extract orientation this way, as imageData.orientation is the original orientation
+                var newOrientation = exif.fromBuffer(imageData.buffer).Orientation;
+                jqUnit.assertEquals("Orientation is as expected", testCase.expectedOrientation, newOrientation);
+            }
+
             jqUnit.start();
         }, function () {
             jqUnit.assertEquals("Rotation call rejected as expected", testCase.expectedResolution, false);

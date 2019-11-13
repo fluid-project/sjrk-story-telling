@@ -75,6 +75,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var currentFile = fileList[0];
 
         if (currentFile && currentFile.type.indexOf("image") === 0) {
+            // loadImage is the call that rotates the image by virtue of the
+            // orientation option in the third argument. Setting the orientation
+            // option also means the callback argument is a canvas element,
+            // so we call .toBlob to retrieve file data that we can pass along.
+            // For more information, please see the documentation for the library:
+            // https://github.com/blueimp/JavaScript-Load-Image#options
             loadImage(currentFile, function (img) {
                 if (img.type !== "error" && img.toBlob) {
                     img.toBlob(function (blob) {

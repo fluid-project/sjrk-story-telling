@@ -143,12 +143,11 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 
             sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
         }, function (error) {
-            if (!error.errorCode) {
-                request.events.onError.fire({
-                    isError: true,
-                    message: "Unknown error in image rotation."
-                });
-            }
+            request.events.onError.fire({
+                errorCode: error.errorCode,
+                isError: true,
+                message: error.message || "Unknown error in image rotation."
+            });
         });
     } else {
         request.events.onError.fire({
@@ -218,7 +217,7 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
 
         jo.rotate(file.path, options).then(function (rotatedFile) {
             fse.writeFileSync(file.path, rotatedFile.buffer);
-            togo.resolve();
+            togo.resolve(rotatedFile);
         }, function (error) {
             // if the error code is an "acceptable" error, resolve the promise after all
             if (error.code && (
