@@ -298,7 +298,6 @@ h3:empty {
 .sjrk-st-browser-view-control-list,
 .sjrk-st-browser-view-control-grid {
     position: relative;
-    text-transform: uppercase;
     text-decoration: none;
     font-family: var(--site-font);
     color: var(--site-blue);
