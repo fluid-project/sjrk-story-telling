@@ -87,6 +87,10 @@ h3:empty {
     justify-content: flex-end;
 }
 
+.sjrk-st-top-menu.authoring-enabled {
+    top: 1.75rem;
+}
+
 .sjrk-st-top-menu nav {
     display: inline-block;
 }
