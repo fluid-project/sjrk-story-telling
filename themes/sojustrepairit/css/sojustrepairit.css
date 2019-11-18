@@ -84,8 +84,11 @@ h3:empty {
     align-items: center;
     position: relative;
     flex-wrap: wrap;
-    top: 1.75rem;
     justify-content: flex-end;
+}
+
+.sjrk-st-top-menu.authoring-enabled {
+    top: 1.75rem;
 }
 
 .sjrk-st-top-menu nav {
