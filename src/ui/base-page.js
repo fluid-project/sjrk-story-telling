@@ -117,7 +117,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{uio}", "options.multilingualSettings.locale", "{change}.value"],
                 namespace: "updateUioLanguage"
             }],
-            "*": {
+            "": {
                 func: "{cookieStore}.set",
                 args: [null, "{page}.model"],
                 excludeSource: "init",
@@ -145,33 +145,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",
                 options: {
-                    components: {
-                        prefsEditorLoader: {
-                            options: {
-                                components: {
-                                    prefsEditor: {
-                                        options: {
-                                            listeners: {
-                                                "onCreate.escalate": "{page}.events.onUioReady.fire",
-                                                "{messageLoader}.events.onResourcesLoaded": [{
-                                                    func: "{that}.events.onPrefsEditorRefresh",
-                                                    namespace: "rerenderUIO"
-                                                },
-                                                {
-                                                    func: "{page}.events.onUioReady.fire",
-                                                    namespace: "escalate"
-                                                },
-                                                {
-                                                    funcName: "sjrk.storyTelling.base.page.updateUioPanelLanguages",
-                                                    args: ["{prefsEditorLoader}", "{page}"],
-                                                    priority: "before:rerenderUIO",
-                                                    namespace: "updateMessageBases"
-                                                }]
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                    distributeOptions: {
+                        target: "{that prefsEditorLoader}.options.components.prefsEditor.options.listeners",
+                        record: {
+                            "onCreate.escalate": "{page}.events.onUioReady.fire",
+                            "{messageLoader}.events.onResourcesLoaded": [{
+                                func: "{that}.events.onPrefsEditorRefresh",
+                                namespace: "rerenderUIO"
+                            },
+                            {
+                                func: "{page}.events.onUioReady.fire",
+                                namespace: "escalate"
+                            },
+                            {
+                                funcName: "sjrk.storyTelling.base.page.updateUioPanelLanguages",
+                                args: ["{prefsEditorLoader}", "{page}"],
+                                priority: "before:rerenderUIO",
+                                namespace: "updateMessageBases"
+                            }]
                         }
                     }
                 }
