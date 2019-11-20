@@ -197,7 +197,7 @@ var testStoryWithImages = {
 
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 83,
+    expect: 110,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -524,7 +524,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     {
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests"
     }, {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests"
+        task: "sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests",
+        resolve: "jqUnit.assert",
+        resolveArgs: ["The rotateImageFromExif tests have completed successfully"]
     }, {
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests"
     }, {
@@ -682,25 +684,106 @@ sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests = function
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = function () {
-    var testCases = [
-        { fileName: null, options: null, expectedResolution: false },
-        { fileName: "", options: null, expectedResolution: false },
-        { fileName: "", options: "", expectedResolution: false },
-        { fileName: "correctOrientation.jpg", options: null, expectedResolution: true },
-        { fileName: "incorrectOrientation.jpeg", options: null, expectedResolution: true, expectedOrientation: 1 },
-        { fileName: "test_gif.gif", options: null, expectedResolution: true },
-        { fileName: "logo_small_fluid_vertical.png", options: null, expectedResolution: true },
-        { fileName: "Leslie_s_Strut_Sting.mp3", options: null, expectedResolution: true },
-        { fileName: "shyguy_and_rootbeer.mp4", options: null, expectedResolution: true },
-        { fileName: "correctOrientation.jpg", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "incorrectOrientation.jpeg", options: { quality: 1 }, expectedResolution: true, expectedOrientation: 1 },
-        { fileName: "test_gif.gif", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "logo_small_fluid_vertical.png", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "Leslie_s_Strut_Sting.mp3", options: { quality: 1 }, expectedResolution: true },
-        { fileName: "shyguy_and_rootbeer.mp4", options: { quality: 1 }, expectedResolution: true }
-    ];
+    var testCases = {
+        nullFile: {
+            fileName: null,
+            options: null,
+            expectedResolution: false,
+            expectedDetails: {}
+        },
+        emptyFileNullOpts: {
+            fileName: "",
+            options: null,
+            expectedResolution: false,
+            expectedDetails: {}
+        },
+        emptyFileEmptyOpts: {
+            fileName: "",
+            options: "",
+            expectedResolution: false,
+            expectedDetails: {}
+        },
+        correctOrientationNullOpts: {
+            fileName: "correctOrientation.jpg",
+            options: null,
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 1064578, finalFileSize: 1064578 }
+        },
+        incorrectOrientationNullOpts: {
+            fileName: "incorrectOrientation.jpeg",
+            options: null,
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 1143772, finalFileSize: 2331730, initialOrientation: 6, finalOrientation: 1 }
+        },
+        gifNullOpts: {
+            fileName: "test_gif.gif",
+            options: null,
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 99303, finalFileSize: 99303 }
+        },
+        pngNullOpts: {
+            fileName: "logo_small_fluid_vertical.png",
+            options: null,
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 3719, finalFileSize: 3719 }
+        },
+        mp3NullOpts: {
+            fileName: "Leslie_s_Strut_Sting.mp3",
+            options: null,
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 365968, finalFileSize: 365968 }
+        },
+        mp4NullOpts: {
+            fileName: "shyguy_and_rootbeer.mp4",
+            options: null,
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 3017238, finalFileSize: 3017238 }
+        },
+        correctOrientationWithOpts: {
+            fileName: "correctOrientation.jpg",
+            options: { quality: 1 },
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 1064578, finalFileSize: 1064578 }
+        },
+        incorrectOrientationWithOpts: {
+            fileName: "incorrectOrientation.jpeg",
+            options: { quality: 1 },
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 1143772, finalFileSize: 144091, initialOrientation: 6, finalOrientation: 1 }
+        },
+        gifWithOpts: {
+            fileName: "test_gif.gif",
+            options: { quality: 1 },
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 99303, finalFileSize: 99303 }
+        },
+        pngWithOpts: {
+            fileName: "logo_small_fluid_vertical.png",
+            options: { quality: 1 },
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 3719, finalFileSize: 3719 }
+        },
+        mp3WithOpts: {
+            fileName: "Leslie_s_Strut_Sting.mp3",
+            options: { quality: 1 },
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 365968, finalFileSize: 365968 }
+        },
+        mp4WithOpts: {
+            fileName: "shyguy_and_rootbeer.mp4",
+            options: { quality: 1 },
+            expectedResolution: true,
+            expectedDetails: { initialFileSize: 3017238, finalFileSize: 3017238 }
+        }
+    };
 
-    fluid.each(testCases, function (testCase) {
+    // We need to wait until all of the test cases are done before moving on.
+    // This collection of promises will be collapsed and waited for in an IoC task fixture
+    var testPromises = [];
+
+    fluid.each(testCases, function (testCase, index) {
+        jqUnit.stop();
+
         var filePath = testCase.fileName;
 
         // copy the file to the test uploads dir, if a filename was provided
@@ -708,25 +791,46 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
             var oldFilePath = "./tests/testData/" + testCase.fileName;
             filePath = "./tests/server/uploads/" + uuidv1() + path.extname(testCase.fileName);
             fs.copyFileSync(oldFilePath, filePath);
+
+            var initialFileStats = fs.statSync(filePath);
+            jqUnit.assertEquals("The file size is as expected for test case: initial " + index, testCase.expectedDetails.initialFileSize, initialFileStats.size);
         }
 
-        // call the function passing the new path and options where applicable
-        jqUnit.stop();
-        sjrk.storyTelling.server.rotateImageFromExif({ path: filePath }, testCase.options).then(function (imageData) {
-            jqUnit.assertEquals("Rotation call resolved as expected", testCase.expectedResolution, true);
+        if (testCase.expectedDetails.initialOrientation) {
+            jqUnit.assertEquals("The file orientation is as expected for test case: initial " + index, testCase.expectedDetails.initialOrientation, exif.parseSync(filePath).Orientation);
+        }
 
-            if (testCase.expectedOrientation) {
-                // we have to extract orientation this way, as imageData.orientation is the original orientation
-                var newOrientation = exif.fromBuffer(imageData.buffer).Orientation;
-                jqUnit.assertEquals("Orientation is as expected", testCase.expectedOrientation, newOrientation);
+        var singleTestPromise = fluid.promise();
+        testPromises.push(singleTestPromise);
+
+        // call the function passing the new copy's path and options
+        sjrk.storyTelling.server.rotateImageFromExif({ path: filePath }, testCase.options).then(function (imageData) {
+            jqUnit.assertEquals("Rotation call resolved as expected for test case " + index, testCase.expectedResolution, true);
+
+            var finalFileStats = fs.statSync(filePath);
+            jqUnit.assertEquals("The file size is as expected for test case: final " + index, testCase.expectedDetails.finalFileSize, finalFileStats.size);
+
+            if (testCase.expectedDetails.finalOrientation) {
+                // imageData.orientation is the original orientation, so we have to check the returned file (via the jpeg-exif package)
+                jqUnit.assertEquals("The file orientation is as expected for test case: final " + index, testCase.expectedDetails.finalOrientation, exif.fromBuffer(imageData.buffer).Orientation);
             }
 
             jqUnit.start();
+            singleTestPromise.resolve();
         }, function () {
-            jqUnit.assertEquals("Rotation call rejected as expected", testCase.expectedResolution, false);
+            jqUnit.assertEquals("Rotation call rejected as expected for test case " + index, testCase.expectedResolution, false);
+
+            if (filePath) {
+                var finalFileStats = fs.statSync(filePath);
+                jqUnit.assertEquals("The file size is as expected for test case: final " + index, testCase.expectedDetails.finalFileSize, finalFileStats.size);
+            }
+
             jqUnit.start();
+            singleTestPromise.resolve();
         });
     });
+
+    return fluid.promise.sequence(testPromises);
 };
 
 sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests = function () {
