@@ -5,7 +5,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid, sjrk, loadImage */
 
 "use strict";
 
@@ -64,15 +64,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Updates the uploader's internal file representation with
-     * information stored in the DOM's uploader element.
+    /* Updates the uploader's internal file representation with information
+     * stored in the DOM's uploader element. If the file is an image, an attempt
+     * will be made to rotate it to match any orientation EXIF data it provides.
      * - "that": the uploader itself
      * - "fileInput": the DOM uploader element
      */
     sjrk.storyTelling.block.singleFileUploader.handleFileInputChange = function (that, fileInput) {
         var fileList = fileInput[0].files;
         var currentFile = fileList[0];
-        that.currentFile = currentFile;
+
+        if (currentFile && currentFile.type.indexOf("image") === 0) {
+            // loadImage is the call that rotates the image by virtue of the
+            // orientation option in the third argument. Setting the orientation
+            // option also means the callback argument is a canvas element,
+            // so we call .toBlob to retrieve file data that we can pass along.
+            // For more information, please see the documentation for the library:
+            // https://github.com/blueimp/JavaScript-Load-Image#options
+            loadImage(currentFile, function (img) {
+                if (img.type !== "error" && img.toBlob) {
+                    img.toBlob(function (blob) {
+                        blob.name = currentFile.name;
+                        blob.lastModified = currentFile.lastModified;
+                        blob.lastModifiedDate = currentFile.lastModifiedDate;
+                        sjrk.storyTelling.block.singleFileUploader.processFileChange(that, blob);
+                    });
+                } else {
+                    sjrk.storyTelling.block.singleFileUploader.processFileChange(that, currentFile);
+                }
+            }, { orientation: true });
+        } else {
+            sjrk.storyTelling.block.singleFileUploader.processFileChange(that, currentFile);
+        }
+    };
+
+    /* Updates the uploader's internal file representation with the provided file
+     * - "that": the uploader itself
+     * - "file": the file object in question
+     */
+    sjrk.storyTelling.block.singleFileUploader.processFileChange = function (that, file) {
+        that.currentFile = file;
         that.events.onFileChanged.fire();
     };
 
