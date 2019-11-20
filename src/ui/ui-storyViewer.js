@@ -15,8 +15,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
-            storyShare: ".sjrkc-st-story-share",
-            storySaveNoShare: ".sjrkc-st-story-save-no-share",
             storyTags: ".sjrkc-st-story-list-tags",
             storyViewerPrevious: ".sjrkc-st-story-viewer-previous"
         },
@@ -27,23 +25,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
         },
         events: {
-            onShareRequested: null,
-            onShareComplete: null,
-            onSaveNoShareRequested: null,
             onStoryViewerPreviousRequested: null,
             onStoryUpdatedFromBlocks: null
         },
         listeners: {
-            "onReadyToBind.bindShareControl": {
-                "this": "{that}.dom.storyShare",
-                "method": "click",
-                "args": ["{that}.events.onShareRequested.fire"]
-            },
-            "onReadyToBind.bindSaveNoShareControl": {
-                "this": "{that}.dom.storySaveNoShare",
-                "method": "click",
-                "args": ["{that}.events.onSaveNoShareRequested.fire"]
-            },
             "onReadyToBind.bindStoryViewerPreviousControl": {
                 "this": "{that}.dom.storyViewerPrevious",
                 "method": "click",
@@ -169,6 +154,118 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // a UI for previewing block-based stories within the Story Edit page
+    fluid.defaults("sjrk.storyTelling.ui.storyPreviewer", {
+        gradeNames: ["sjrk.storyTelling.ui.storyViewer"],
+        selectors: {
+            storyShare: ".sjrkc-st-story-share",
+            storySaveNoShare: ".sjrkc-st-story-save-no-share",
+            progressArea: ".sjrkc-st-story-share-progress",
+            responseArea: ".sjrkc-st-story-share-response",
+            responseText: ".sjrkc-st-story-share-response-text"
+        },
+        blockTypeLookup: {
+            "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
+            "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
+            "text": "sjrk.storyTelling.blockUi.textBlockViewer",
+            "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
+        },
+        events: {
+            onShareRequested: null,
+            onShareComplete: null,
+            onSaveNoShareRequested: null
+        },
+        listeners: {
+            "onReadyToBind.bindShareControl": {
+                "this": "{that}.dom.storyShare",
+                "method": "click",
+                "args": ["{that}.events.onShareRequested.fire"]
+            },
+            "onReadyToBind.bindSaveNoShareControl": {
+                "this": "{that}.dom.storySaveNoShare",
+                "method": "click",
+                "args": ["{that}.events.onSaveNoShareRequested.fire"]
+            },
+            "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
+            "onShareRequested": [{
+                func: "{that}.applier.change",
+                args: ["shareButtonEnabled", false],
+                namespace: "showProgressArea"
+            },{
+                func: "{that}.disableShareButton",
+                namespace: "disableShareButton"
+            },{
+                func: "{that}.hideServerResponse",
+                namespace: "hideServerResponse"
+            }],
+            "onShareComplete": [{
+                func: "{that}.hideProgressArea",
+                namespace: "hideProgressArea"
+            },{
+                func: "{that}.enableShareButton",
+                namespace: "enableShareButton"
+            },{
+                func: "{that}.setServerResponse",
+                args: ["{arguments}.0"],
+                namespace: "setServerResponse"
+            },{
+                func: "{that}.showServerResponse",
+                namespace: "showServerResponse"
+            }]
+        },
+        invokers: {
+            setShareButtonDisabled: {
+                this: "{that}.dom.storyShare",
+                method: "prop",
+                args: ["disabled", "{arguments}.0"]
+            },
+            enableShareButton: {
+                func: "{that}.setShareButtonDisabled",
+                args: [false]
+            },
+            disableShareButton: {
+                func: "{that}.setShareButtonDisabled",
+                args: [true]
+            },
+            showProgressArea: {
+                this: "{that}.dom.progressArea",
+                method: "show",
+                args: [0]
+            },
+            hideProgressArea: {
+                this: "{that}.dom.progressArea",
+                method: "hide",
+                args: [0]
+            },
+            showServerResponse: {
+                this: "{that}.dom.responseArea",
+                method: "show",
+                args: [0]
+            },
+            hideServerResponse: {
+                this: "{that}.dom.responseArea",
+                method: "hide",
+                args: [0]
+            },
+            setServerResponse: {
+                this: "{that}.dom.responseText",
+                method: "text",
+                args: ["{arguments}.0"]
+            }
+        },
+        components: {
+            templateManager: {
+                options: {
+                    model: {
+                        dynamicValues: {
+                            isEditorPreview: true
                         }
                     }
                 }
