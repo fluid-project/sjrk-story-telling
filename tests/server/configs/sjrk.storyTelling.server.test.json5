@@ -6,7 +6,11 @@
             "server": {
                 "options": {
                     "globalConfig": {
-                        "binaryUploadDirectory": "./tests/server/uploads"
+                        "authoringEnabled": true
+                    },
+                    "secureConfig": {
+                        "binaryUploadDirectory": "./tests/server/uploads",
+                        "uploadedFilesHandlerPath": "./tests/server/uploads"
                     },
                     "components": {
                         "storyDataSource": {

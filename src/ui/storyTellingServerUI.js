@@ -40,13 +40,14 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
         $.get("/stories/" + storyId, function (data) {
             var retrievedStory = JSON.parse(data);
 
-            options = options || {};
+            options = options || {
+                pageSetup: {
+                    authoringEnabled: clientConfig.authoringEnabled
+                }
+            };
             options.distributeOptions = [{
                 "target": "{that story}.options.model",
                 "record": retrievedStory
-            },{
-                "target": "{that}.options.pageSetup.authoringEnabled",
-                "record": clientConfig.authoringEnabled
             }];
 
             // TODO: Move this string to another file and localize it
@@ -86,13 +87,14 @@ sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
     $.get("/stories", function (data) {
         var browseResponse = JSON.parse(data);
 
-        options = options || {};
+        options = options || {
+            pageSetup: {
+                authoringEnabled: clientConfig.authoringEnabled
+            }
+        };
         options.distributeOptions = [{
             "target": "{that storyBrowser}.options.model",
             "record": browseResponse
-        },{
-            "target": "{that}.options.pageSetup.authoringEnabled",
-            "record": clientConfig.authoringEnabled
         }];
 
         var storyBrowseComponent = sjrk.storyTelling[clientConfig.theme].page.storyBrowse(options);
