@@ -1,23 +1,26 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,600i,700");
+
 :root {
-    --site-blue: #182034;
+    --site-blue: #1f2b43;
     --site-medium-blue: #29abe2;
-    --site-light-blue: #abdddd;
-    --site-green: #c7e198;
+    --site-light-blue: #a7d3e9;
     --site-orange: #c44400;
     --site-red: #d94540;
     --site-red-orange: #f68b65;
     --site-grey: #eeeeef;
     --site-dark-grey: #d1d2d4;
     --site-dark-grey-2: #5a5b5e;
+    --site-dark-grey-3: #333333;
     --site-teal: #007d94;
     --site-turquoise: #cbe2e1;
     --site-yellow: #f2d17e;
-    --site-font: "Work Sans";
+    --site-font: "Source Sans Pro";
     --site-serif-font: "Vollkorn";
 }
 
 body {
     font-family: var(--site-font), sans-serif;
+    background: url("../img/background.png");
     padding: 0;
 }
 
@@ -25,12 +28,8 @@ h3:empty {
     display: none;
 }
 
-.sjrk-prefsEditor-container {
-    background-color: #fff;
-}
-
 .sjrk-st-toc-container {
-    background: var(--site-orange);
+    background: var(--site-blue);
     color: #fff;
 }
 
@@ -46,7 +45,6 @@ h3:empty {
 
 .sjrk-st-page-header-container, .sjrk-st-page-footer-container {
     color: var(--site-blue);
-    background-color: #fff;
 }
 
 .sjrk-st-page-header-container {
@@ -70,16 +68,13 @@ h3:empty {
 .sjrk-st-page-header-main-title {
     font-weight: 600;
     color: var(--site-blue);
-    text-transform: uppercase;
     text-decoration: none;
-}
-
-/* fixes UIO contrast theme related background issues */
-:not(.fl-theme-default) .sjrk-st-page-header-main-title,
-:not(.fl-theme-default) .sjrk-st-top-menu nav a,
-:not(.fl-theme-default) .sjrk-st-toc-container a
-{
-    background: none !important;
+    background: url(../img/sjrk-logo.svg) no-repeat;
+    display: block;
+    height: 7rem;
+    max-height: 7rem;
+    width: 5.25rem;
+    align-self: center;
 }
 
 .sjrk-st-top-menu {
@@ -89,8 +84,11 @@ h3:empty {
     align-items: center;
     position: relative;
     flex-wrap: wrap;
-    top: 1.75rem;
     justify-content: flex-end;
+}
+
+.sjrk-st-top-menu.authoring-enabled {
+    top: 1.75rem;
 }
 
 .sjrk-st-top-menu nav {
@@ -122,17 +120,9 @@ h3:empty {
 }
 
 .sjrk-st-page-content-container {
+    background: none;
     color: var(--site-blue);
     padding: 0;
-}
-
-.sjrk-st-intro-links a
- {
-    display: inline-block;
-    background: #fff;
-    border: 1px solid var(--site-blue);
-    padding: 0.5rem 2rem;
-    border-radius: 1.5rem;
 }
 
 .sjrk-st-page-body {
@@ -153,7 +143,6 @@ h3:empty {
 }
 
 .sjrk-st-page-body h2 {
-    color: var(--site-orange);
     margin: 0 0 0.5rem 0;
     line-height: 1.25;
 }
@@ -180,17 +169,6 @@ h3:empty {
     margin-bottom: 0.5rem;
 }
 
-.sjrk-st-page-body figure {
-    margin: 0;
-}
-
-.sjrk-st-page-body figcaption {
-    color: var(--site-teal);
-    font-size: 2rem;
-    font-family: var(--site-serif-font);
-    font-weight: bold;
-}
-
 .sjrk-st-page-body section {
     margin: 0 0 2rem 0;
     padding: 0 4rem;
@@ -207,48 +185,13 @@ h3:empty {
     row-gap: 1rem;
 }
 
-.sjrk-st-introduction .sjrk-st-page-body section:not(.sjrk-st-lr-knockout),
-.sjrk-st-workshops .sjrk-st-page-body section:not(.sjrk-st-lr-knockout),
-.sjrk-st-resources .sjrk-st-page-body section:not(.sjrk-st-lr-knockout) {
-    max-width: 1087px !important;
-    margin: 0 auto 2rem auto !important;
-}
-
 .sjrk-st-page-body section.sjrk-st-lr-2column>*:nth-child(odd) {
     grid-column-end: span 2;
 }
 
-.sjrk-st-lr-serif {
-    font-family: var(--site-serif-font);
-}
-
 .sjrk-st-lr-knockout {
-    background: var(--site-orange);
-    color: #fff
-}
-
-.sjrk-st-intro-collection {
-    max-height: 60rem;
-}
-
-.sjrk-st-intro-links a {
-    border: 0;
     background: var(--site-blue);
-    color: #fff;
-    margin-bottom: 1.25rem;
-}
-
-.sjrk-st-intro-caret {
-    width: 4.3rem;
-    height: 2.4rem;
-    display: block;
-    margin-bottom: 5rem;
-    background: url("../img/icons/caret.svg") no-repeat;
-}
-
-.sjrk-st-intro-share {
-    max-width: 50rem !important;
-    margin-top: 3rem;
+    color: #fff
 }
 
 .sjrk-st-button-restore-blocks-container {
@@ -319,7 +262,6 @@ h3:empty {
 .sjrk-st-story-viewer-previous,
 .sjrk-st-story-submit,
 .sjrk-st-story-share,
-.sjrk-st-intro-links a,
 .sjrk-st-edit-link {
     position: relative;
     text-decoration: none;
@@ -342,6 +284,7 @@ h3:empty {
     line-height: 1rem;
     font-size: 1rem;
     padding: 2rem 4rem !important;
+    background: #fff;
 }
 
 .sjrk-st-lr-padding h3 {
@@ -382,10 +325,11 @@ h3:empty {
     text-transform: uppercase;
     font-weight: 500;
     line-height: 2;
+    color: #fff;
 }
 
 .sjrk-st-menu-story-builder-title-background {
-    background: var(--site-light-blue);
+    background: var(--site-blue);
     border-radius: 1rem;
     padding: 1rem;
     position: absolute;
@@ -425,7 +369,7 @@ h3:empty {
 
 .sjrk-st-story-editor-notice {
     align-self: end;
-    color: var(--site-orange);
+    color: var(--site-dark-grey-3);
 }
 
 .sjrk-st-story-editor-previous img,
@@ -448,7 +392,7 @@ h3:empty {
 
 .sjrk-st-important-notes h2 {
     font-size: 1.25rem;
-    color: var(--site-red-orange);
+    color: var(--site-dark-grey-3);
 }
 
 .sjrk-st-menu-languages-container a {
@@ -459,6 +403,7 @@ h3:empty {
     color: var(--site-blue);
     padding: 1rem 2rem;
     font-size: 1rem;
+    background: #fff;
 }
 
 .sjrk-st-etiquette p {
@@ -473,26 +418,30 @@ h3:empty {
 
 .sjrk-st-page-footer-container {
     padding: 2.5rem 2rem;
-    background: var(--site-light-blue);
-    color: var(--site-blue);
+    background: var(--site-blue) url(../img/background.svg) 0 0/cover no-repeat;
+    color: #fff;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-end;
 }
 
-.sjrk-st-page-footer-container a {
-    color: var(--site-blue);
-}
-
 .sjrk-st-page-footer-text-container {
+    background: var(--site-blue);
     border-right: 1px solid var(--site-blue);
     padding-right: 2rem;
     margin-right: 2rem;
     flex: 1 40%;
 }
 
+.sjrk-st-page-footer-text-container a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 .sjrk-st-page-footer-logo-container {
+    background: var(--site-blue);
     align-self: flex-end;
     display: flex;
     flex-grow: 1;
@@ -511,17 +460,17 @@ h3:empty {
 
 .sjrk-st-page-footer-oak-logo {
     width: 6rem;
-    background: url(../../img/logo_oak.svg) no-repeat;
+    background: url(../../img/logo_oak_white.svg) no-repeat;
 }
 
 .sjrk-st-page-footer-hewlett-logo {
     width: 15rem;
-    background: url(../../img/logo_hewlett.svg) no-repeat;
+    background: url(../../img/logo_hewlett_white.svg) no-repeat;
 }
 
 .sjrk-st-page-footer-idrc-logo {
     width: 12rem;
-    background: url(../../img/logo_idrc.svg) no-repeat;
+    background: url(../../img/logo_idrc_white.svg) no-repeat;
 }
 
 @media only screen and (max-width: 50em) {
@@ -576,6 +525,10 @@ h3:empty {
 
     .sjrk-st-page-body figcaption {
         display: none;
+    }
+
+    .sjrk-st-page-header-container {
+        justify-content: center;
     }
 
     .sjrk-st-page-header-container, .sjrk-st-etiquette {
@@ -636,14 +589,25 @@ h3:empty {
 }
 
 /* ********* UIO rules ********* */
-.fl-theme-bw .sjrk-st-intro-caret { background-image: url("../img/icons/caret_black.svg"); }
-.fl-theme-wb .sjrk-st-intro-caret { background-image: url("../img/icons/caret_white.svg"); }
-.fl-theme-by .sjrk-st-intro-caret { background-image: url("../img/icons/caret_black.svg"); }
-.fl-theme-yb .sjrk-st-intro-caret { background-image: url("../img/icons/caret_yellow.svg"); }
-.fl-theme-lgdg .sjrk-st-intro-caret { background-image: url("../img/icons/caret_grey_light.svg"); }
-.fl-theme-gw .sjrk-st-intro-caret { background-image: url("../img/icons/caret_grey_dark.svg"); }
-.fl-theme-gd .sjrk-st-intro-caret { background-image: url("../img/icons/caret_grey.svg"); }
-.fl-theme-bbr .sjrk-st-intro-caret { background-image: url("../img/icons/caret_black.svg"); }
+.fl-theme-bw .sjrk-st-page-footer-container,
+.fl-theme-wb .sjrk-st-page-footer-container,
+.fl-theme-by .sjrk-st-page-footer-container,
+.fl-theme-yb .sjrk-st-page-footer-container,
+.fl-theme-lgdg .sjrk-st-page-footer-container,
+.fl-theme-gw .sjrk-st-page-footer-container,
+.fl-theme-gd .sjrk-st-page-footer-container,
+.fl-theme-bbr .sjrk-st-page-footer-container {
+    background: none;
+}
+
+.fl-theme-bw .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-black.svg"); }
+.fl-theme-wb .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-white.svg"); }
+.fl-theme-by .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-black.svg"); }
+.fl-theme-yb .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-grey-light.svg"); }
+.fl-theme-gw .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-grey-dark.svg"); }
+.fl-theme-gd .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-grey.svg"); }
+.fl-theme-bbr .sjrk-st-page-header-main-title { background-image: url("../../img/sjrk-logo-black.svg"); }
 
 .fl-theme-bw .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_black.svg"); }
 .fl-theme-wb .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_white.svg"); }

@@ -17,6 +17,8 @@
     },
     "homepage": "https://github.com/fluid-project/sjrk-story-telling",
     "dependencies": {
+        "blueimp-canvas-to-blob": "3.16.0",
+        "blueimp-load-image": "2.24.0",
         "express-basic-auth": "1.1.5",
         "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
         "fs-extra": "7.0.1",
@@ -24,6 +26,8 @@
         "gpii-handlebars": "1.1.0",
         "handlebars": "4.0.10",
         "infusion": "3.0.0-dev.20190905T163833Z.b024bff87",
+        "jpeg-autorotate": "5.0.2",
+        "jpeg-exif": "1.1.4",
         "kettle": "1.8.0",
         "sinon": "7.3.2",
         "uuid": "3.1.0"

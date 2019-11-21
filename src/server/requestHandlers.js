@@ -11,6 +11,7 @@ var fluid = require("infusion");
 var uuidv1 = require("uuid/v1");
 var fse = require("fs-extra");
 var path = require("path");
+var jo = require("jpeg-autorotate");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
@@ -127,52 +128,25 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
 
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
-        var id = uuidv1();
+        var rotateImagePromises = [];
 
-        var storyModel = JSON.parse(request.req.body.model);
-
-        // key-value pairs of original filename : generated filename
-        // this is used primarily by tests, but may be of use
-        // to client-side components too
-        var binaryRenameMap = {};
-
-        // Update any media URLs to refer to the changed
-        // file names
-        fluid.each(storyModel.content, function (block) {
-            if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
-                if (block.fileDetails) {
-                    // Look for the uploaded file matching this block
-                    var mediaFile = fluid.find_if(request.req.files.file, function (singleFile) {
-                        return singleFile.originalname === block.fileDetails.name;
-                    });
-
-                    // If we find a match, update the media URL. If not, clear it.
-                    if (mediaFile) {
-                        sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
-                        binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
-                    } else {
-                        sjrk.storyTelling.server.setMediaBlockUrl(block, null);
-                    }
-                } else {
-                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
-                }
+        // rotate any images based on their EXIF data, if present
+        fluid.each(request.req.files.file, function (singleFile) {
+            if (singleFile.mimetype && singleFile.mimetype.indexOf("image") === 0) {
+                rotateImagePromises.push(sjrk.storyTelling.server.rotateImageFromExif(singleFile));
             }
         });
 
-        // Then persist that model to couch, with the updated
-        // references to where the binaries are saved
+        fluid.promise.sequence(rotateImagePromises).then(function () {
+            var storyModel = JSON.parse(request.req.body.model);
+            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request.req.files.file);
 
-        var promise = dataSource.set({directStoryId: id}, storyModel);
-
-        promise.then(function (response) {
-            response.binaryRenameMap = binaryRenameMap;
-            var responseAsJSON = JSON.stringify(response);
-            request.events.onSuccess.fire(responseAsJSON);
+            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
         }, function (error) {
-            var errorMessage = error.reason || "Unspecified server error";
             request.events.onError.fire({
+                errorCode: error.errorCode,
                 isError: true,
-                message: errorMessage
+                message: error.message || "Unknown error in image rotation."
             });
         });
     } else {
@@ -181,6 +155,91 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
             message: "Saving is currently disabled."
         });
     }
+};
+
+// Persist the story model to couch, with the updated
+// references to where the binaries are saved
+sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
+    var id = uuidv1();
+
+    dataSource.set({directStoryId: id}, storyModel).then(function (response) {
+        response.binaryRenameMap = binaryRenameMap;
+        successEvent.fire(JSON.stringify(response));
+    }, function (error) {
+        failureEvent.fire({
+            isError: true,
+            message: error.reason || "Unspecified server error saving story to database."
+        });
+    });
+};
+
+// Update any media URLs to refer to the changed file names
+sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
+    // key-value pairs of original filename : generated filename
+    // this is used primarily by tests, but may be of use
+    // to client-side components too
+    var binaryRenameMap = {};
+
+    fluid.each(blocks, function (block) {
+        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
+            if (block.fileDetails) {
+                // Look for the uploaded file matching this block
+                var mediaFile = fluid.find_if(files, function (file) {
+                    return file.originalname === block.fileDetails.name;
+                });
+
+                // If we find a match, update the media URL. If not, clear it.
+                if (mediaFile) {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
+                    binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
+                } else {
+                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
+                }
+            } else {
+                sjrk.storyTelling.server.setMediaBlockUrl(block, null);
+            }
+        }
+    });
+
+    return binaryRenameMap;
+};
+
+// Rotates an image to be oriented based on its EXIF orientation data, if present
+sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
+    var togo = fluid.promise();
+
+    try {
+        // ensure the file is present and we have all permissions
+        fse.accessSync(file.path);
+
+        // jpeg-autorotate will crash if the `options` arg is undefined
+        options = options || {};
+
+        jo.rotate(file.path, options).then(function (rotatedFile) {
+            fse.writeFileSync(file.path, rotatedFile.buffer);
+            togo.resolve(rotatedFile);
+        }, function (error) {
+            // if the error code is an "acceptable" error, resolve the promise after all
+            if (error.code && (
+                error.code === jo.errors.read_exif ||
+                error.code === jo.errors.no_orientation ||
+                error.code === jo.errors.correct_orientation)) {
+                togo.resolve();
+            } else {
+                fluid.log(fluid.logLevel.WARN, "Image rotation failed for file " + file.path + ": " + error.message);
+
+                togo.reject({
+                    errorCode: error.code,
+                    isError: true,
+                    message: error.message
+                });
+            }
+        });
+    } catch (error) {
+        togo.reject(error);
+    }
+
+    return togo;
 };
 
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {

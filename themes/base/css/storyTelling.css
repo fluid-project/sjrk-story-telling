@@ -1,5 +1,6 @@
 :root {
     --site-grey: #f2f2f2;
+    --site-green: #d0e2ac;
     --site-border-grey: #aaa;
     --site-medium-grey: #e6e6e6;
     --site-font: "Source Sans Pro";
@@ -314,7 +315,7 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
 
 .sjrk-st-block-media-upload-button {
     padding: 0.5rem 1rem;
-    background-color: #D0E2AC;
+    background-color: var(--site-green);
     border-radius: 1.5rem;
 }
 
