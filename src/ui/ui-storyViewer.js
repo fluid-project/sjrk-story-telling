@@ -164,6 +164,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // a UI for previewing block-based stories within the Story Edit page
     fluid.defaults("sjrk.storyTelling.ui.storyPreviewer", {
         gradeNames: ["sjrk.storyTelling.ui.storyViewer"],
+        model: {
+            shareButtonDisabled: false
+        },
+        modelListeners: {
+            shareButtonDisabled: [{
+                this: "{that}.dom.storyShare",
+                method: "prop",
+                args: ["disabled", "{change}.value"]
+            }]
+        },
         selectors: {
             storyShare: ".sjrkc-st-story-share",
             storySaveNoShare: ".sjrkc-st-story-save-no-share",
@@ -196,11 +206,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
             "onShareRequested": [{
                 func: "{that}.applier.change",
-                args: ["shareButtonEnabled", false],
+                args: ["shareButtonDisabled", true],
                 namespace: "showProgressArea"
-            },{
-                func: "{that}.disableShareButton",
-                namespace: "disableShareButton"
             },{
                 func: "{that}.hideServerResponse",
                 namespace: "hideServerResponse"
@@ -208,9 +215,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onShareComplete": [{
                 func: "{that}.hideProgressArea",
                 namespace: "hideProgressArea"
-            },{
-                func: "{that}.enableShareButton",
-                namespace: "enableShareButton"
             },{
                 func: "{that}.setServerResponse",
                 args: ["{arguments}.0"],
@@ -221,19 +225,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         },
         invokers: {
-            setShareButtonDisabled: {
-                this: "{that}.dom.storyShare",
-                method: "prop",
-                args: ["disabled", "{arguments}.0"]
-            },
-            enableShareButton: {
-                func: "{that}.setShareButtonDisabled",
-                args: [false]
-            },
-            disableShareButton: {
-                func: "{that}.setShareButtonDisabled",
-                args: [true]
-            },
             showProgressArea: {
                 this: "{that}.dom.progressArea",
                 method: "show",
