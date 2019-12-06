@@ -176,7 +176,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         selectors: {
             storyShare: ".sjrkc-st-story-share",
-            storySaveNoShare: ".sjrkc-st-story-save-no-share",
             progressArea: ".sjrkc-st-story-share-progress",
             responseArea: ".sjrkc-st-story-share-response",
             responseText: ".sjrkc-st-story-share-response-text"
@@ -189,19 +188,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onShareRequested: null,
-            onShareComplete: null,
-            onSaveNoShareRequested: null
+            onShareComplete: null
         },
         listeners: {
             "onReadyToBind.bindShareControl": {
                 "this": "{that}.dom.storyShare",
                 "method": "click",
                 "args": ["{that}.events.onShareRequested.fire"]
-            },
-            "onReadyToBind.bindSaveNoShareControl": {
-                "this": "{that}.dom.storySaveNoShare",
-                "method": "click",
-                "args": ["{that}.events.onSaveNoShareRequested.fire"]
             },
             "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
             "onShareRequested": [{
