@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -167,7 +167,42 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             shareButtonDisabled: false,
             progressAreaVisible: false,
-            responseAreaVisible: false
+            responseAreaVisible: false,
+            // publishingState can be one of the following values:
+            // "unpublished" (the initial state), "publishing", "responseReceived"
+            publishingState: "unpublished"
+        },
+        modelRelay: {
+            "publishingState": {
+                target: "",
+                singleTransform: {
+                    type: "fluid.transforms.valueMapper",
+                    defaultInputPath: "publishingState",
+                    match: {
+                        "unpublished": {
+                            outputValue: {
+                                shareButtonDisabled: false,
+                                progressAreaVisible: false,
+                                responseAreaVisible: false
+                            }
+                        },
+                        "publishing": {
+                            outputValue: {
+                                shareButtonDisabled: true,
+                                progressAreaVisible: true,
+                                responseAreaVisible: false
+                            }
+                        },
+                        "responseReceived": {
+                            outputValue: {
+                                shareButtonDisabled: false,
+                                progressAreaVisible: false,
+                                responseAreaVisible: true
+                            }
+                        }
+                    }
+                }
+            }
         },
         modelListeners: {
             shareButtonDisabled: {
@@ -192,12 +227,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             responseArea: ".sjrkc-st-story-share-response",
             responseText: ".sjrkc-st-story-share-response-text"
         },
-        blockTypeLookup: {
-            "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
-            "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
-            "text": "sjrk.storyTelling.blockUi.textBlockViewer",
-            "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
-        },
         events: {
             onShareRequested: null,
             onShareComplete: null
@@ -209,27 +238,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "args": ["{that}.events.onShareRequested.fire"]
             },
             "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
-            "onShareRequested": [{
+            "onShareRequested.setStatePublishing": {
                 func: "{that}.applier.change",
-                args: ["shareButtonDisabled", true],
-                namespace: "disableShareButton"
-            },{
-                func: "{that}.applier.change",
-                args: ["progressAreaVisible", true],
-                namespace: "showProgressArea"
-            }],
+                args: ["publishingState", "publishing"]
+            },
             "onShareComplete": [{
                 func: "{that}.applier.change",
-                args: ["shareButtonDisabled", false],
-                namespace: "enableShareButton"
-            },{
-                func: "{that}.applier.change",
-                args: ["progressAreaVisible", false],
-                namespace: "hideProgressArea"
-            },{
-                func: "{that}.applier.change",
-                args: ["responseAreaVisible", true],
-                namespace: "showServerResponse"
+                args: ["publishingState", "responseReceived"],
+                namespace: "setStateResponseReceived"
             },{
                 func: "{that}.setServerResponse",
                 args: ["{arguments}.0"],
