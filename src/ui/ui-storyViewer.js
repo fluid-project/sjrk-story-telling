@@ -165,14 +165,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyPreviewer", {
         gradeNames: ["sjrk.storyTelling.ui.storyViewer"],
         model: {
-            shareButtonDisabled: false
+            shareButtonDisabled: false,
+            progressAreaVisible: false,
+            responseAreaVisible: false
         },
         modelListeners: {
-            shareButtonDisabled: [{
+            shareButtonDisabled: {
                 this: "{that}.dom.storyShare",
                 method: "prop",
                 args: ["disabled", "{change}.value"]
-            }]
+            },
+            progressAreaVisible: {
+                this: "{that}.dom.progressArea",
+                method: "toggle",
+                args: ["{change}.value"]
+            },
+            responseAreaVisible: {
+                this: "{that}.dom.responseArea",
+                method: "toggle",
+                args: ["{change}.value"]
+            }
         },
         selectors: {
             storyShare: ".sjrkc-st-story-share",
@@ -200,44 +212,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onShareRequested": [{
                 func: "{that}.applier.change",
                 args: ["shareButtonDisabled", true],
-                namespace: "showProgressArea"
+                namespace: "disableShareButton"
             },{
-                func: "{that}.hideServerResponse",
-                namespace: "hideServerResponse"
+                func: "{that}.applier.change",
+                args: ["progressAreaVisible", true],
+                namespace: "showProgressArea"
             }],
             "onShareComplete": [{
-                func: "{that}.hideProgressArea",
+                func: "{that}.applier.change",
+                args: ["shareButtonDisabled", false],
+                namespace: "enableShareButton"
+            },{
+                func: "{that}.applier.change",
+                args: ["progressAreaVisible", false],
                 namespace: "hideProgressArea"
+            },{
+                func: "{that}.applier.change",
+                args: ["responseAreaVisible", true],
+                namespace: "showServerResponse"
             },{
                 func: "{that}.setServerResponse",
                 args: ["{arguments}.0"],
                 namespace: "setServerResponse"
-            },{
-                func: "{that}.showServerResponse",
-                namespace: "showServerResponse"
             }]
         },
         invokers: {
-            showProgressArea: {
-                this: "{that}.dom.progressArea",
-                method: "show",
-                args: [0]
-            },
-            hideProgressArea: {
-                this: "{that}.dom.progressArea",
-                method: "hide",
-                args: [0]
-            },
-            showServerResponse: {
-                this: "{that}.dom.responseArea",
-                method: "show",
-                args: [0]
-            },
-            hideServerResponse: {
-                this: "{that}.dom.responseArea",
-                method: "hide",
-                args: [0]
-            },
             setServerResponse: {
                 this: "{that}.dom.responseText",
                 method: "text",
