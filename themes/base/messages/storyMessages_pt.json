@@ -3,7 +3,6 @@
     "message_blockAddTextBlock": "Adicionar bloco de texto",
     "message_blockAddImageBlock": "Adicionar bloco de imagem",
     "message_blockRemoveBlocks": "Remover blocos selecionados",
-    "message_blockRestoreBlocks": "Restaurar blocos removidos",
     "message_listenToText": "Ouvir minha história",
     "message_titleInputLabel": "Título (opcional)",
     "message_titleInputPlaceholder": "Digite o título aqui",

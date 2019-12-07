@@ -29,10 +29,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 //     text: "This is the main text of this block",
                 // }
             ],
-            contentString: "", // a string representation of the story content
             author: "",
             tags: [],
-            keywordString: "", // a string representation of the tags
             summary: "",
             thumbnailUrl: "", // filename/url of the thumbnail image for this story
             thumbnailAltText: "", // alternative text for the thumbnail image
@@ -45,26 +43,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             //     "fr": 5  // the number of requests for that language
             // ],
             // translationOf: null,
-        },
-        modelRelay: {
-            contentToContentString: {
-                source: "{that}.model.content",
-                target: "contentString",
-                singleTransform: {
-                    type: "sjrk.storyTelling.transforms.arrayToString",
-                    delimiter: ". ",
-                    path: "contentString"
-                },
-                backward: "never"
-            },
-            tagsToKeywordString: {
-                source: "tags",
-                target: "keywordString",
-                singleTransform: {
-                    type: "sjrk.storyTelling.transforms.arrayToString",
-                    delimiter: ", "
-                }
-            }
         }
     });
 

@@ -25,8 +25,6 @@ var sjrk = fluid.registerNamespace("sjrk");
 var jqUnit = fluid.registerNamespace("jqUnit");
 
 var storyTemplate = {
-    "languageFromSelect": "",
-    "languageFromInput": "",
     "title": "%title",
     "content": [
         {
@@ -37,8 +35,6 @@ var storyTemplate = {
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "%imageCaption",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": {
                 "lastModified": 1524592510016,
                 "lastModifiedDate": "2018-04-24T17:55:10.016Z",
@@ -52,9 +48,7 @@ var storyTemplate = {
             "language": null,
             "heading": null,
             "blockType": "text",
-            "text": "%text",
-            "languageFromSelect": "",
-            "languageFromInput": ""
+            "text": "%text"
         }
     ],
     "author": "%author",

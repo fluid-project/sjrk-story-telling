@@ -26,8 +26,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyAddImageBlock: ".sjrkc-st-button-image-block",
             storyAddTextBlock: ".sjrkc-st-button-text-block",
             storyAddVideoBlock: ".sjrkc-st-button-video-block",
-            storyRemoveSelectedBlocks: ".sjrkc-st-button-remove-blocks",
-            storyRestoreRemovedBlocks: ".sjrkc-st-button-restore-blocks"
+            storyRemoveSelectedBlocks: ".sjrkc-st-button-remove-blocks"
         },
         blockTypeLookup: {
             "audio": "sjrk.storyTelling.blockUi.editor.audioBlockEditor",
@@ -45,7 +44,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
-            onRestoreBlocksRequested: null,
             onUpdateStoryFromBlocksRequested: null,
             onStoryUpdatedFromBlocks: null,
             onEditorTemplateRendered: null,

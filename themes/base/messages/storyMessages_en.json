@@ -5,7 +5,6 @@
     "message_blockAddAudioBlock": "Add an audio block",
     "message_blockAddVideoBlock": "Add a video block",
     "message_blockRemoveBlocks": "Remove selected blocks",
-    "message_blockRestoreBlocks": "Restore last removed blocks",
     "message_listenToText": "Listen to my story",
     "message_titleInputLabel": "Title (optional)",
     "message_titleInputPlaceholder": "Enter title here",
