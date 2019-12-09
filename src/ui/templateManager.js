@@ -47,8 +47,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "{that}.renderTemplate"
             }
         },
-        templateStrings: {
-            localizedMessages: null // for localized interface messages
+        members: {
+            templateStrings: {
+                localizedMessages: null // for localized interface messages
+            }
         },
         components: {
             // For loading localized message values
@@ -71,7 +73,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             "func": "sjrk.storyTelling.templateManager.loadLocalizedMessages",
                             "args": ["{that}.resources.componentMessages.parsed",
                                 "{templateManager}",
-                                "options.templateStrings.localizedMessages"]
+                                ["templateStrings", "localizedMessages"]]
                         },
                         "onResourcesLoaded.escalate": "{templateManager}.events.onMessagesLoaded.fire"
                     }
@@ -121,7 +123,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             renderTemplate: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplate",
-                args: ["{that}", "{that}.options.templateStrings.localizedMessages", "{that}.model.dynamicValues"]
+                args: ["{that}", "{that}.templateStrings.localizedMessages", "{that}.model.dynamicValues"]
             },
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplateOnSelf",
