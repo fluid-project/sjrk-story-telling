@@ -27,6 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     // Until such time as the specification of "nomerge" on the
                     // bindings block is removed or changed, this will have to
                     // be overridden for merging to occur as we expect
+                    // Issue tracked at: https://issues.gpii.net/browse/GPII-4259
                     mergePolicy: {
                         bindings: ""
                     },
