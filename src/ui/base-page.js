@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -23,28 +23,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // authoring capabilities of the tool and must be present.
             //authoringEnabled: true
         },
-        distributeOptions: [
-            {
+        distributeOptions: {
+            "ui.templateManager.authoringEnabled": {
                 source: "{that}.options.pageSetup.authoringEnabled",
                 target: "{that ui templateManager}.options.model.dynamicValues.authoringEnabled"
             },
-            {
+            "ui.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
                 target: "{that ui}.options.components.templateManager.options.templateConfig.resourcePrefix"
             },
-            {
+            "ui.blockManager.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
                 target: "{that ui blockManager}.options.dynamicComponents.managedViewComponents.options.components.templateManager.options.templateConfig.resourcePrefix"
             },
-            {
+            "timeBased.stopMediaPlayerOnContextChange": {
                 record: { "{page}.events.onContextChangeRequested": "{that}.stopMediaPlayer" },
                 target: "{that sjrk.storyTelling.blockUi.timeBased}.options.listeners"
             },
-            {
+            "ui.requestResourceLoadOnRenderAllUiTemplates": {
                 record: { "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": "{templateManager}.events.onResourceLoadRequested.fire" },
                 target: "{that sjrk.storyTelling.ui}.options.listeners"
             },
-            {
+            "templateManager.uiLanguageToTemplateManager": {
                 record: {
                     target: "{that}.model.locale",
                     singleTransform: {
@@ -53,11 +53,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         true: "{page}.model.uiLanguage",
                         false: undefined
                     },
-                    namespace: "uiLanguage"
+                    namespace: "uiLanguageToTemplateManager"
                 },
                 target: "{that sjrk.storyTelling.templateManager}.options.modelRelay"
             }
-        ],
+        },
         events: {
             onAllUiComponentsReady: {
                 events: {
@@ -75,12 +75,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         listeners: {
             "onCreate.getStoredPreferences": {
                 funcName: "sjrk.storyTelling.base.page.getStoredPreferences",
-                args: ["{that}", "{cookieStore}"],
-                priority: "before:reloadUioMessages"
-            },
-            "onCreate.reloadUioMessages": {
-                func: "{that}.reloadUioMessages",
-                args: ["{that}.model.uiLanguage"]
+                args: ["{that}", "{cookieStore}"]
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
@@ -88,35 +83,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "changeUiLanguage"
             },
             {
-                func: "{that}.reloadUioMessages",
-                args: "{arguments}.0.data",
-                namespace: "reloadUioMessages"
-            },
-            {
                 func: "{that}.events.onContextChangeRequested.fire",
                 namespace: "onContextChangeRequested",
                 priority: "last"
             }]
         },
-        invokers: {
-            reloadUioMessages: {
-                funcName: "sjrk.storyTelling.base.page.reloadUioMessages",
-                args: [
-                    "{arguments}.0",
-                    "{uio}.prefsEditorLoader.messageLoader.resourceFetcher"
-                ]
-            }
-        },
         modelListeners: {
-            uiLanguage: [{
+            uiLanguage: {
                 funcName: "{that}.events.onRenderAllUiTemplates",
                 namespace: "renderAllUiTemplates"
             },
-            {
-                funcName: "fluid.set",
-                args: ["{uio}", "options.multilingualSettings.locale", "{change}.value"],
-                namespace: "updateUioLanguage"
-            }],
             "": {
                 func: "{cookieStore}.set",
                 args: [null, "{page}.model"],
@@ -145,6 +121,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",
                 options: {
+                    model: {
+                        locale: "{page}.model.uiLanguage"
+                    },
+                    components: {
+                        prefsEditorLoader: {
+                            options: {
+                                components: {
+                                    messageLoader: {
+                                        options: {
+                                            model: {
+                                                resourceLoader: {
+                                                    locale: "{page}.model.uiLanguage"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     distributeOptions: {
                         target: "{that prefsEditorLoader}.options.components.prefsEditor.options.listeners",
                         record: {
@@ -157,9 +153,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 func: "{page}.events.onUioReady.fire",
                                 namespace: "escalate"
                             },
+                            // TODO: this isn't right
                             {
-                                funcName: "sjrk.storyTelling.base.page.updateUioPanelLanguages",
-                                args: ["{prefsEditorLoader}", "{page}"],
+                                func: "{separatedPanel}.events.onCreateSlidingPanelReady",
+                                priority: "before:updateMessageBases",
+                                namespace: "recreateSlidingPanel"
+                            },
+                            // TODO: ditto
+                            {
+                                funcName: "fluid.prefs.separatedPanel.bindEvents",
+                                args: ["{separatedPanel}.prefsEditor", "{iframeRenderer}.iframeEnhancer", "{separatedPanel}"],
+                                priority: "after:recreateSlidingPanel",
+                                namespace: "slidingPanelBindEvents"
+                            },
+                            {
+                                func: "{page}.events.onUioPanelsUpdated.fire",
                                 priority: "before:rerenderUIO",
                                 namespace: "updateMessageBases"
                             }]
@@ -181,26 +189,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
-    };
-
-    sjrk.storyTelling.base.page.reloadUioMessages = function (lang, resourceFetcher) {
-        // Set the language in the resource loader
-        resourceFetcher.options.locale = lang;
-        resourceFetcher.refetchAll();
-    };
-
-    sjrk.storyTelling.base.page.updateUioPanelLanguages = function (prefsEditorLoaderComponent, pageComponent) {
-        var tocHeaders = {
-            "en": "Table of Contents",
-            "es": "Tabla de contenido"
-        };
-
-        // Set the Toc Header String
-        pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[pageComponent.model.uiLanguage];
-
-        // Set the language on the body
-
-        pageComponent.events.onUioPanelsUpdated.fire();
     };
 
 })(jQuery, fluid);
