@@ -6,24 +6,16 @@
         gradeNames: ["fluid.uiOptions.prefsEditor"],
         terms: {
             "messagePrefix": "node_modules/infusion/src/framework/preferences/messages",
-            // We need to add some additional CSS to the
-            // 'SeparatedPanelPrefsEditorFrame' template,
-            // but since we can't specify multiple template
-            // directories, we need to copy them all to our
-            // own directory
             "templatePrefix": "node_modules/infusion/src/framework/preferences/html"
-        },
-        model: {
-            locale: "en",
-            direction: "ltr"
-        },
-        events: {
-            onInterfaceLanguageChangeRequested: null
         },
         "tocTemplate": "node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
         "tocMessage": "node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
         "ignoreForToC": {
             "overviewPanel": ".flc-overviewPanel"
+        },
+        model: {
+            locale: "en",
+            direction: "ltr"
         },
         listeners: {
             "onPrefsEditorReady.addLanguageAttributesToBody": {
