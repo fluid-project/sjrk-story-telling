@@ -124,53 +124,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     model: {
                         locale: "{page}.model.uiLanguage"
                     },
-                    components: {
-                        prefsEditorLoader: {
-                            options: {
-                                components: {
-                                    messageLoader: {
-                                        options: {
-                                            model: {
-                                                resourceLoader: {
-                                                    locale: "{page}.model.uiLanguage"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     distributeOptions: {
-                        target: "{that prefsEditorLoader}.options.components.prefsEditor.options.listeners",
+                        target: "{that prefsEditorLoader > prefsEditor}.options.listeners",
                         record: {
-                            "onCreate.escalate": "{page}.events.onUioReady.fire",
-                            "{messageLoader}.events.onResourcesLoaded": [{
-                                func: "{that}.events.onPrefsEditorRefresh",
-                                namespace: "rerenderUIO"
-                            },
-                            {
+                            "{messageLoader}.events.onResourcesLoaded": {
                                 func: "{page}.events.onUioReady.fire",
+                                priority: "after:rerenderUIO",
                                 namespace: "escalate"
-                            },
-                            // TODO: this isn't right
-                            {
-                                func: "{separatedPanel}.events.onCreateSlidingPanelReady",
-                                priority: "before:updateMessageBases",
-                                namespace: "recreateSlidingPanel"
-                            },
-                            // TODO: ditto
-                            {
-                                funcName: "fluid.prefs.separatedPanel.bindEvents",
-                                args: ["{separatedPanel}.prefsEditor", "{iframeRenderer}.iframeEnhancer", "{separatedPanel}"],
-                                priority: "after:recreateSlidingPanel",
-                                namespace: "slidingPanelBindEvents"
-                            },
-                            {
-                                func: "{page}.events.onUioPanelsUpdated.fire",
-                                priority: "before:rerenderUIO",
-                                namespace: "updateMessageBases"
-                            }]
+                            }
                         }
                     }
                 }

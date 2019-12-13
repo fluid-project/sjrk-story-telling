@@ -31,35 +31,45 @@
                 args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.model.locale", "{that}.model.direction"]
             }
         },
-        // TODO: file a Jira for this bit since it's not right
-        distributeOptions: [{
-            target: "{that uiEnhancer > tableOfContents > messageLoader}.options.model",
-            record: {
-                resourceLoader: {
-                    locale: "{multilingualDemo}.model.locale"
+        distributeOptions: {
+            "messageLoaderLocale": {
+                target: "{that messageLoader}.options.model",
+                record: {
+                    resourceLoader: {
+                        locale: "{multilingualDemo}.model.locale"
+                    }
                 }
             },
-            namespace: "tocLocale"
-        },{
-            target: "{that prefsEditorLoader > messageLoader}.options.model",
-            record: {
-                resourceLoader: {
-                    locale: "{multilingualDemo}.model.locale"
+            "relayOnCreateToc": {
+                target: "{that uiEnhancer > tableOfContents}.options.modelListeners",
+                record: {
+                    "{messageLoader}.model.resourceLoader.locale": {
+                        func: "{that}.events.onCreateTOC.fire",
+                        namespace: "relayOnCreateTocListener"
+                    }
                 }
             },
-            namespace: "aUniqueName"
-        },{
-            target: "{that uiEnhancer > tableOfContents}.options.modelListeners",
-            record: {
-                "{messageLoader}.model.resourceLoader.locale": {
-                    func: "{that}.events.onCreateTOC.fire",
-                    // TODO: new name
-                    namespace: "relayOnCreateTocWithAnotherUniqueName"
+            "prefsEditorLoader.prefsEditor.listeners": {
+                target: "{that prefsEditorLoader > prefsEditor}.options.listeners",
+                record: {
+                    "{messageLoader}.events.onResourcesLoaded": [{
+                        func: "{separatedPanel}.events.onCreateSlidingPanelReady",
+                        priority: "before:updateMessageBases",
+                        namespace: "recreateSlidingPanel"
+                    },
+                    {
+                        func: "{prefsEditorLoader}.events.onReady.fire",
+                        priority: "after:recreateSlidingPanel",
+                        namespace: "onslidingPanelReady"
+                    },
+                    {
+                        func: "{that}.events.onPrefsEditorRefresh",
+                        priority: "after:onslidingPanelReady",
+                        namespace: "rerenderUIO"
+                    }]
                 }
-            },
-            // TODO: new name
-            namespace: "relayOnCreateToc"
-        }]
+            }
+        }
     });
 
     // Adds the locale and direction to the BODY in the IFRAME to enable CSS
