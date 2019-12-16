@@ -20,7 +20,7 @@
         "blueimp-canvas-to-blob": "3.16.0",
         "blueimp-load-image": "2.24.0",
         "express-basic-auth": "1.1.5",
-        "fluid-couch-config": "git+https://github.com/waharnum/fluid-couch-config.git#SJRK-64",
+        "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
         "fs-extra": "7.0.1",
         "gpii-binder": "1.0.6",
         "gpii-handlebars": "1.1.4",
