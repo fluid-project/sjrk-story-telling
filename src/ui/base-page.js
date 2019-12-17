@@ -125,12 +125,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         locale: "{page}.model.uiLanguage"
                     },
                     distributeOptions: {
-                        target: "{that prefsEditorLoader > prefsEditor}.options.listeners",
-                        record: {
-                            "{messageLoader}.events.onResourcesLoaded": {
-                                func: "{page}.events.onUioReady.fire",
-                                priority: "after:rerenderUIO",
-                                namespace: "escalate"
+                        "escalateOnUioReady": {
+                            target: "{that prefsEditorLoader > prefsEditor}.options.listeners",
+                            record: {
+                                "{messageLoader}.events.onResourcesLoaded": {
+                                    func: "{page}.events.onUioReady.fire",
+                                    priority: "after:rerenderUIO",
+                                    namespace: "escalate"
+                                }
                             }
                         }
                     }
