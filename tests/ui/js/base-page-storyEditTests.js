@@ -31,8 +31,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     terms: {
                         "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "../../messages/uio"
+                        "messagePrefix": "../../node_modules/infusion/src/framework/preferences/messages"
                     },
+                    "tocMessage": "../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
                     "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
