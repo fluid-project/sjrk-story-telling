@@ -17,11 +17,15 @@
             locale: "en",
             direction: "ltr"
         },
+        events: {
+            onUioReady: null
+        },
         listeners: {
             "onPrefsEditorReady.addLanguageAttributesToBody": {
                 func: "fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody",
                 args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.model.locale", "{that}.model.direction"]
-            }
+            },
+            "onPrefsEditorReady.escalate": "{that}.events.onUioReady"
         },
         distributeOptions: {
             "messageLoaderLocale": {
@@ -46,18 +50,22 @@
                 record: {
                     "{messageLoader}.events.onResourcesLoaded": [{
                         func: "{separatedPanel}.events.onCreateSlidingPanelReady",
-                        priority: "before:updateMessageBases",
                         namespace: "recreateSlidingPanel"
                     },
                     {
                         func: "{prefsEditorLoader}.events.onReady.fire",
                         priority: "after:recreateSlidingPanel",
-                        namespace: "onslidingPanelReady"
+                        namespace: "onSlidingPanelReady"
                     },
                     {
                         func: "{that}.events.onPrefsEditorRefresh",
-                        priority: "after:onslidingPanelReady",
+                        priority: "after:onSlidingPanelReady",
                         namespace: "rerenderUIO"
+                    },
+                    {
+                        func: "{fluid.uiOptions.prefsEditor.multilingualDemo}.events.onUioReady.fire",
+                        priority: "after:rerenderUIO",
+                        namespace: "escalate"
                     }]
                 }
             }

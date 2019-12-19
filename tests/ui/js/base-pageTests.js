@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 25,
+                expect: 15,
                 sequence: [{
                     "event": "{pageTest testPage}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -76,12 +76,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "jqUnit.assertEquals",
                     "args": ["menu re-rendered in Spanish after uiLanguage change to Spanish", "es", "{testPage}.menu.templateManager.model.locale"]
                 },
-                // TODO: TESTS ARE HANGING HERE
-                // {
-                //     "event": "{testPage}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
-                //     "listener": "jqUnit.assert",
-                //     "args": "UIO messages reloaded successfully for Spanish button"
-                // },
+                {
+                    "event": "{testPage}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "UIO messages reloaded successfully for Spanish button"
+                },
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["uiLanguage value is as expected", "es", "{testPage}.model.uiLanguage"]
@@ -100,12 +99,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "listener": "jqUnit.assertEquals",
                     "args": ["menu re-rendered in English after uiLanguage change to English", "en", "{testPage}.menu.templateManager.model.locale"]
                 },
-                // TODO: TESTS ARE HANGING HERE
-                // {
-                //     "event": "{testPage}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
-                //     "listener": "jqUnit.assert",
-                //     "args": "UIO messages reloaded successfully for English button"
-                // },
+                {
+                    "event": "{testPage}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
+                    "listener": "jqUnit.assert",
+                    "args": "UIO messages reloaded successfully for English button"
+                },
                 {
                     funcName: "jqUnit.assertEquals",
                     args: ["uiLanguage value is as expected", "en", "{testPage}.model.uiLanguage"]
@@ -124,18 +122,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: [{data:"es"}]
                 },
                 {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "es"]
+                    "changeEvent": "{testPage}.applier.modelChanged",
+                    "path": "uiLanguage",
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"es", "{testPage}.model.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
                     args: [{data:"en"}]
                 },
                 {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "en"]
+                    "changeEvent": "{testPage}.applier.modelChanged",
+                    "path": "uiLanguage",
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
@@ -160,7 +160,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test functions and invokers",
-                expect: 21,
+                expect: 1,
                 sequence: [{
                     "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
