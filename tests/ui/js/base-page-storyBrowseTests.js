@@ -72,16 +72,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["onViewChangeRequested event fired with expected arguments", "list", "{arguments}.0.data"]
                 }]
             }]
-        },
-        {
-            name: "Test browse stories page",
-            tests: [{
-                name: "Test loading and saving view preference",
-                expect: 0,
-                sequence: [{
-                    funcName: "fluid.identity"
-                }]
-            }]
         }]
     });
 

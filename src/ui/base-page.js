@@ -14,7 +14,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.base.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            uiLanguage: "en" //initial state is English
+            uiLanguage: "en" // initial locale set to match the initialModel below
+        },
+        members: {
+            initialModel: {
+                // the Initial Model of the page only specifies the locale
+                uiLanguage: "en" // default locale is set to English
+            }
         },
         pageSetup: {
             resourcePrefix: ""
@@ -70,7 +76,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onContextChangeRequested: null, // this includes changes in visibility, language, etc.
             onUioReady: null,
             onUioPanelsUpdated: null,
-            onRenderAllUiTemplates: null
+            onRenderAllUiTemplates: null,
+            beforePreferencesReset: null,
+            onPreferencesReset: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
@@ -132,6 +140,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    /* Retrieves preferences stored in the cookie and applies them to the component
+     * - "pageComponent": the `page` component that will accept the preferences
+     * - "cookieStore": a fluid.prefs.cookieStore containing the data to laod
+     */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
 
@@ -143,6 +155,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
+    };
+
+    /* Resets the page preferences and clears the page model, with event hooks
+     * before and after the reset
+     * - "pageComponent": the page component to be reset
+     */
+    sjrk.storyTelling.base.page.resetPreferences = function (pageComponent) {
+        var transaction = pageComponent.applier.initiate();
+        pageComponent.events.beforePreferencesReset.fire(pageComponent);
+        transaction.fireChangeRequest({path: "", type: "DELETE"});
+        transaction.change("", fluid.copy(pageComponent.initialModel));
+        transaction.commit();
+        // setting the cookie expiry to epoch in order to delete it
+        document.cookie = pageComponent.cookieStore.options.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        pageComponent.events.onPreferencesReset.fire(pageComponent);
     };
 
 })(jQuery, fluid);
