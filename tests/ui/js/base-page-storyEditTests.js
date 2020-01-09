@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2020 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -580,7 +580,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit > storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
-                    args: ["New block template fully rendered"]
+                    args: ["New text block template fully rendered (1 of 2)"]
                 },
                 // Click to add an image block
                 {
@@ -599,7 +599,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
-                    args: ["New block template fully rendered"]
+                    args: ["New image block template fully rendered"]
                 },
                 // Add a second text block
                 {
@@ -618,7 +618,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
-                    args: ["New block template fully rendered"]
+                    args: ["New text block template fully rendered (2 of 2)"]
                 },
                 // Select the checkbox of the first block
                 {
