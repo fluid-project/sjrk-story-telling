@@ -46,32 +46,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditor: {
                 container: "#testStoryEditor",
                 options: {
-                    events: {
-                        onNewBlockTemplateRendered: null
-                    },
-                    components: {
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        listeners: {
-                                                            "onTemplateRendered.notifyTestStoryEditor": {
-                                                                func: "{storyEditor}.events.onNewBlockTemplateRendered.fire",
-                                                                args: ["{editor}"]
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                    distributeOptions: {
+                        notifyTestEvent: {
+                            target: "{that blockManager templateManager}.options.listeners",
+                            record: {
+                                "onTemplateRendered.notifyTestStoryEditor": {
+                                    func: "{storyEditor}.events.onNewBlockTemplateRendered.fire",
+                                    args: ["{editor}"]
                                 }
                             }
                         }
+                    },
+                    events: {
+                        onNewBlockTemplateRendered: null
                     }
                 }
             },
