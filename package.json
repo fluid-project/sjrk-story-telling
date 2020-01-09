@@ -22,7 +22,7 @@
         "express-basic-auth": "1.1.5",
         "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
         "fs-extra": "7.0.1",
-        "gpii-binder": "1.0.6",
+        "gpii-binder": "1.1.0",
         "gpii-handlebars": "1.1.4",
         "handlebars": "4.0.10",
         "infusion": "3.0.0-dev.20191219T155607Z.32876d29c.FLUID-6145",
