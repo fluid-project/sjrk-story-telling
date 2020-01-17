@@ -41,6 +41,7 @@
                 record: {
                     "{messageLoader}.model.resourceLoader.locale": {
                         func: "{that}.events.onCreateTOC.fire",
+                        excludeSource: "init",
                         namespace: "relayOnCreateTocListener"
                     }
                 }
