@@ -19,8 +19,6 @@
     "message_takePhotoText": "写真を撮る",
     "message_addTagsText": "タグを追加する",
     "message_addTagsPlaceholder": "タグ1, タグ2",
-    "message_summaryInputLabel": "要約を作成する",
-    "message_summaryInputPlaceholder": "書いてください",
     "message_translateText": "私の話を翻訳する",
     "message_submitButton": "終わった",
     "message_goBack": "戻る",

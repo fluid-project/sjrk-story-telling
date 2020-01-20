@@ -1,5 +1,5 @@
 /*
-Copyright 2018-2019 OCAD University
+Copyright 2018-2020 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -60,17 +60,10 @@ var testStoryModel = {
     ],
     "author": "Alan Harnum",
     "language": "",
-    "images": [],
     "tags": [
         "fluidproject",
         "history"
-    ],
-    "categories": [],
-    "summary": "",
-    "timestampCreated": null,
-    "timestampModified": null,
-    "requestedTranslations": [],
-    "translationOf": null
+    ]
 };
 
 var blankStory = {
@@ -79,11 +72,7 @@ var blankStory = {
     "author": "",
     "tags": [
         ""
-    ],
-    "summary": "",
-    "thumbnailUrl": "",
-    "thumbnailAltText": "",
-    "contentTypes": []
+    ]
 };
 
 var blankStoryWithEmptyMediaBlocks = {
@@ -130,11 +119,7 @@ var blankStoryWithEmptyMediaBlocks = {
     "author": "",
     "tags": [
         ""
-    ],
-    "summary": "",
-    "thumbnailUrl": "",
-    "thumbnailAltText": "",
-    "contentTypes": []
+    ]
 };
 
 var testStoryWithImages = {

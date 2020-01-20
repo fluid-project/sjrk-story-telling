@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2020 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -53,18 +53,11 @@ var storyTemplate = {
     ],
     "author": "%author",
     "language": "",
-    "images": [],
     "tags": [
         "test",
         "%tag1",
         "%tag2"
-    ],
-    "categories": [],
-    "summary": "",
-    "timestampCreated": null,
-    "timestampModified": null,
-    "requestedTranslations": [],
-    "translationOf": null
+    ]
 };
 
 fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest", {
