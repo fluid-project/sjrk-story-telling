@@ -32,11 +32,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         distributeOptions: {
             "ui.templateManager.authoringEnabled": {
                 source: "{that}.options.pageSetup.authoringEnabled",
-                target: "{that ui templateManager}.options.model.dynamicValues.authoringEnabled"
+                target: "{that ui > templateManager}.options.model.dynamicValues.authoringEnabled"
             },
             "ui.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
-                target: "{that ui}.options.components.templateManager.options.templateConfig.resourcePrefix"
+                target: "{that ui templateManager}.options.templateConfig.resourcePrefix"
             },
             "ui.blockManager.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
