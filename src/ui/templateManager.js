@@ -47,8 +47,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "{that}.renderTemplate"
             }
         },
-        templateStrings: {
-            localizedMessages: null // for localized interface messages
+        members: {
+            templateStrings: {
+                localizedMessages: null // for localized interface messages
+            }
         },
         components: {
             // For loading localized message values
@@ -59,17 +61,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resources: {
                         componentMessages: "{templateManager}.options.templateConfig.messagesPath"
                     },
-                    locale: "{templateManager}.model.locale",
-                    defaultLocale: "en",
-                    terms: {
-                        resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                    resourceOptions: {
+                        locale: "{templateManager}.model.locale",
+                        defaultLocale: "en",
+                        terms: {
+                            resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                        }
                     },
                     listeners: {
                         "onResourcesLoaded.loadLocalizationMessages": {
                             "func": "sjrk.storyTelling.templateManager.loadLocalizedMessages",
-                            "args": ["{that}.resources.componentMessages.resourceText",
+                            "args": ["{that}.resources.componentMessages.parsed",
                                 "{templateManager}",
-                                "options.templateStrings.localizedMessages"]
+                                ["templateStrings", "localizedMessages"]]
                         },
                         "onResourcesLoaded.escalate": "{templateManager}.events.onMessagesLoaded.fire"
                     }
@@ -83,14 +87,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     resources: {
                         componentTemplate: "{templateManager}.options.templateConfig.templatePath"
                     },
-                    terms: {
-                        resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                    resourceOptions: {
+                        terms: {
+                            resourcePrefix: "{templateManager}.options.templateConfig.resourcePrefix"
+                        }
                     },
                     listeners: {
                         "onResourcesLoaded.injectTemplate": {
                             funcName: "sjrk.storyTelling.templateManager.injectTemplate",
                             args: ["{templateRenderer}",
-                                "{that}.resources.componentTemplate.resourceText",
+                                "{that}.resources.componentTemplate.parsed",
                                 "{templateManager}.options.templateConfig.templateName",
                                 "{templateManager}.events.onTemplateInjected"],
                             priority: "before:escalate"
@@ -117,7 +123,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         invokers: {
             renderTemplate: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplate",
-                args: ["{that}", "{that}.options.templateStrings.localizedMessages", "{that}.model.dynamicValues"]
+                args: ["{that}", "{that}.templateStrings.localizedMessages", "{that}.model.dynamicValues"]
             },
             renderTemplateOnSelf: {
                 funcName: "sjrk.storyTelling.templateManager.renderTemplateOnSelf",
@@ -132,7 +138,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "templateName": the template's name
      */
     sjrk.storyTelling.templateManager.injectTemplate = function (templateRenderer, templateContent, templateName, completionEvent) {
-        templateRenderer.templates.partials[templateName] = templateContent;
+        templateRenderer.applier.change(["templates", "pages", templateName], templateContent);
 
         completionEvent.fire();
     };

@@ -5,51 +5,70 @@
     fluid.defaults("fluid.uiOptions.prefsEditor.multilingualDemo", {
         gradeNames: ["fluid.uiOptions.prefsEditor"],
         terms: {
-            "messagePrefix": "messages/uio",
-            // We need to add some additional CSS to the
-            // 'SeparatedPanelPrefsEditorFrame' template,
-            // but since we can't specify multiple template
-            // directories, we need to copy them all to our
-            // own directory
+            "messagePrefix": "node_modules/infusion/src/framework/preferences/messages",
             "templatePrefix": "node_modules/infusion/src/framework/preferences/html"
         },
-        model: {
-            locale: "en"
-        },
-        events: {
-            onInterfaceLanguageChangeRequested: null
-        },
         "tocTemplate": "node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+        "tocMessage": "node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
         "ignoreForToC": {
             "overviewPanel": ".flc-overviewPanel"
         },
-        // For the distributeOptions block
-        multilingualSettings: {
+        model: {
             locale: "en",
-            // This is necessary because the Table of Contents
-            // component doesn't use the localization messages
-            // from the panel
-            tocHeader: "Table of Contents",
             direction: "ltr"
+        },
+        events: {
+            onUioReady: null
         },
         listeners: {
             "onPrefsEditorReady.addLanguageAttributesToBody": {
                 func: "fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody",
-                args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.options.multilingualSettings.locale", "{that}.options.multilingualSettings.direction"]
-            }
+                args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.model.locale", "{that}.model.direction"]
+            },
+            "onPrefsEditorReady.escalate": "{that}.events.onUioReady"
         },
         distributeOptions: {
-            tocHeader: {
-                target: "{that fluid.tableOfContents}.options.strings.tocHeader",
-                source: "{that}.options.multilingualSettings.tocHeader"
+            "messageLoaderLocale": {
+                target: "{that messageLoader}.options.model",
+                record: {
+                    resourceLoader: {
+                        locale: "{multilingualDemo}.model.locale"
+                    }
+                }
             },
-            locale: {
-                // Targeting does not work
-                // target: "{that}.options.settings.locale",
-                //
-                // Targeting the messageLoader locale directly works
-                target: "{that prefsEditorLoader}.options.components.messageLoader.options.locale",
-                source: "{that}.options.multilingualSettings.locale"
+            "relayOnCreateToc": {
+                target: "{that uiEnhancer > tableOfContents}.options.modelListeners",
+                record: {
+                    "{messageLoader}.model.resourceLoader.locale": {
+                        func: "{that}.events.onCreateTOC.fire",
+                        excludeSource: "init",
+                        namespace: "relayOnCreateTocListener"
+                    }
+                }
+            },
+            "prefsEditorLoader.prefsEditor.listeners": {
+                target: "{that prefsEditorLoader > prefsEditor}.options.listeners",
+                record: {
+                    "{messageLoader}.events.onResourcesLoaded": [{
+                        func: "{separatedPanel}.events.onCreateSlidingPanelReady",
+                        namespace: "recreateSlidingPanel"
+                    },
+                    {
+                        func: "{prefsEditorLoader}.events.onReady.fire",
+                        priority: "after:recreateSlidingPanel",
+                        namespace: "onSlidingPanelReady"
+                    },
+                    {
+                        func: "{that}.events.onPrefsEditorRefresh",
+                        priority: "after:onSlidingPanelReady",
+                        namespace: "rerenderUIO"
+                    },
+                    {
+                        func: "{fluid.uiOptions.prefsEditor.multilingualDemo}.events.onUioReady.fire",
+                        priority: "after:rerenderUIO",
+                        namespace: "escalate"
+                    }]
+                }
             }
         }
     });

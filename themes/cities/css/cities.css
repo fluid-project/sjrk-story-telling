@@ -209,10 +209,6 @@ h3:empty {
     color: #fff
 }
 
-.sjrk-st-button-restore-blocks-container {
-    display: none;
-}
-
 .sjrk-st-browser-story-container {
     background-color: var(--site-medium-grey);
 }

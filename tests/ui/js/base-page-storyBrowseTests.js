@@ -21,8 +21,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     terms: {
                         "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "../../messages/uio"
+                        "messagePrefix": "../../node_modules/infusion/src/framework/preferences/messages"
                     },
+                    "tocMessage": "../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
                     "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
@@ -69,16 +70,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyBrowse}.storyBrowser.events.onViewChangeRequested",
                     listener: "jqUnit.assertEquals",
                     args: ["onViewChangeRequested event fired with expected arguments", "list", "{arguments}.0.data"]
-                }]
-            }]
-        },
-        {
-            name: "Test browse stories page",
-            tests: [{
-                name: "Test loading and saving view preference",
-                expect: 0,
-                sequence: [{
-                    funcName: "fluid.identity"
                 }]
             }]
         }]

@@ -13,10 +13,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // To be used for binding the story editor model to the UI
     fluid.defaults("sjrk.storyTelling.binder", {
         gradeNames: ["gpii.binder"],
-        model: {
-            languageFromSelect: "",
-            languageFromInput: ""
-        },
         events: {
             onUiReadyToBind: null,
             onBindingApplied: null

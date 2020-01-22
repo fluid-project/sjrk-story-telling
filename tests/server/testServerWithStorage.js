@@ -1,5 +1,5 @@
 /*
-Copyright 2018-2019 OCAD University
+Copyright 2018-2020 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -32,8 +32,6 @@ var sjrk = fluid.registerNamespace("sjrk");
 require("gpii-pouchdb");
 
 var testStoryModel = {
-    "languageFromSelect": "",
-    "languageFromInput": "",
     "title": "History of the Fluid Project",
     "content": [
         {
@@ -44,8 +42,6 @@ var testStoryModel = {
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "The Fluid Project logo",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": {
                 "lastModified": 1524592510016,
                 "lastModifiedDate": "2018-04-24T17:55:10.016Z",
@@ -59,41 +55,24 @@ var testStoryModel = {
             "language": null,
             "heading": null,
             "blockType": "text",
-            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
-            "languageFromSelect": "",
-            "languageFromInput": ""
+            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007."
         }
     ],
     "author": "Alan Harnum",
     "language": "",
-    "images": [],
     "tags": [
         "fluidproject",
         "history"
-    ],
-    "categories": [],
-    "summary": "",
-    "timestampCreated": null,
-    "timestampModified": null,
-    "requestedTranslations": [],
-    "translationOf": null
+    ]
 };
 
 var blankStory = {
     "title": "",
     "content": [],
-    "contentString": "",
     "author": "",
     "tags": [
         ""
-    ],
-    "keywordString": "",
-    "summary": "",
-    "thumbnailUrl": "",
-    "thumbnailAltText": "",
-    "contentTypes": [],
-    "languageFromSelect": "",
-    "languageFromInput": ""
+    ]
 };
 
 var blankStoryWithEmptyMediaBlocks = {
@@ -104,10 +83,7 @@ var blankStoryWithEmptyMediaBlocks = {
             "language": null,
             "heading": null,
             "blockType": "text",
-            "text": null,
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": ""
+            "text": null
         },
         {
             "id": null,
@@ -117,9 +93,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "imageUrl": null,
             "alternativeText": null,
             "description": null,
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": null
         },
         {
@@ -130,9 +103,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "alternativeText": null,
             "description": null,
             "blockType": "audio",
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": null
         },
         {
@@ -143,24 +113,13 @@ var blankStoryWithEmptyMediaBlocks = {
             "alternativeText": null,
             "description": null,
             "blockType": "video",
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": null
         }
     ],
-    "contentString": "",
     "author": "",
     "tags": [
         ""
-    ],
-    "keywordString": "",
-    "summary": "",
-    "thumbnailUrl": "",
-    "thumbnailAltText": "",
-    "contentTypes": [],
-    "languageFromSelect": "",
-    "languageFromInput": ""
+    ]
 };
 
 var testStoryWithImages = {

@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2020 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -31,8 +31,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     terms: {
                         "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "../../messages/uio"
+                        "messagePrefix": "../../node_modules/infusion/src/framework/preferences/messages"
                     },
+                    "tocMessage": "../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
                     "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
                 }
             },
@@ -45,32 +46,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditor: {
                 container: "#testStoryEditor",
                 options: {
-                    events: {
-                        onNewBlockTemplateRendered: null
-                    },
-                    components: {
-                        blockManager: {
-                            options: {
-                                dynamicComponents: {
-                                    managedViewComponents: {
-                                        options: {
-                                            components: {
-                                                templateManager: {
-                                                    options: {
-                                                        listeners: {
-                                                            "onTemplateRendered.notifyTestStoryEditor": {
-                                                                func: "{storyEditor}.events.onNewBlockTemplateRendered.fire",
-                                                                args: ["{editor}"]
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                    distributeOptions: {
+                        notifyTestEvent: {
+                            target: "{that blockManager templateManager}.options.listeners",
+                            record: {
+                                "onTemplateRendered.notifyTestStoryEditor": {
+                                    func: "{storyEditor}.events.onNewBlockTemplateRendered.fire",
+                                    args: ["{editor}"]
                                 }
                             }
                         }
+                    },
+                    events: {
+                        onNewBlockTemplateRendered: null
                     }
                 }
             },
@@ -160,10 +148,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             path: "content",
             listener: "jqUnit.assertDeepEq",
             args: ["Story model empty after removing value", [], "{storyEdit}.storyPreviewer.story.model.content"]
-        },
-        {
-            func: "jqUnit.assertEquals",
-            args: ["Story content string empty after removing value", "", "{storyEdit}.storyPreviewer.story.model.contentString"]
         }]
     });
 
@@ -181,10 +165,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         {
             funcName: "jqUnit.assertDeepEq",
             args: ["Story model remains empty after update", [], "{storyEdit}.storyPreviewer.story.model.content"]
-        },
-        {
-            func: "jqUnit.assertEquals",
-            args: ["Story content string remains empty after update", "", "{storyEdit}.storyPreviewer.story.model.contentString"]
         }]
     });
 
@@ -587,7 +567,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit > storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
-                    args: ["New block template fully rendered"]
+                    args: ["New text block template fully rendered (1 of 2)"]
                 },
                 // Click to add an image block
                 {
@@ -606,7 +586,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
-                    args: ["New block template fully rendered"]
+                    args: ["New image block template fully rendered"]
                 },
                 // Add a second text block
                 {
@@ -625,7 +605,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
-                    args: ["New block template fully rendered"]
+                    args: ["New text block template fully rendered (2 of 2)"]
                 },
                 // Select the checkbox of the first block
                 {
@@ -668,12 +648,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 10,
+                expect: 8,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
                 name: "Test block filtering model relay: Image block",
-                expect: 15,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.imageBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -694,7 +674,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Audio block",
-                expect: 15,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -715,7 +695,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Video block",
-                expect: 15,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",

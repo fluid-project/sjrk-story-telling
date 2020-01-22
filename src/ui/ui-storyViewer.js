@@ -1,5 +1,5 @@
 /*
-Copyright 2018 OCAD University
+Copyright 2018-2019 OCAD University
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -15,8 +15,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
-            storyShare: ".sjrkc-st-story-share",
-            storySaveNoShare: ".sjrkc-st-story-save-no-share",
             storyTags: ".sjrkc-st-story-list-tags",
             storyViewerPrevious: ".sjrkc-st-story-viewer-previous"
         },
@@ -27,23 +25,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
         },
         events: {
-            onShareRequested: null,
-            onShareComplete: null,
-            onSaveNoShareRequested: null,
             onStoryViewerPreviousRequested: null,
             onStoryUpdatedFromBlocks: null
         },
         listeners: {
-            "onReadyToBind.bindShareControl": {
-                "this": "{that}.dom.storyShare",
-                "method": "click",
-                "args": ["{that}.events.onShareRequested.fire"]
-            },
-            "onReadyToBind.bindSaveNoShareControl": {
-                "this": "{that}.dom.storySaveNoShare",
-                "method": "click",
-                "args": ["{that}.events.onSaveNoShareRequested.fire"]
-            },
             "onReadyToBind.bindStoryViewerPreviousControl": {
                 "this": "{that}.dom.storyViewerPrevious",
                 "method": "click",
@@ -105,14 +90,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     selectors: {
                         content: ".sjrkc-st-story-details"
-                    },
-                    // Disabling the selectionReader due to issues with positioning of play button in the editor
-                    // preview.
-                    // see: https://issues.fluidproject.org/browse/SJRK-283
-                    components: {
-                        selectionReader: {
-                            type: "fluid.emptySubcomponent"
-                        }
                     }
                 }
             },
@@ -169,6 +146,117 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // a UI for previewing block-based stories within the Story Edit page
+    fluid.defaults("sjrk.storyTelling.ui.storyPreviewer", {
+        gradeNames: ["sjrk.storyTelling.ui.storyViewer"],
+        model: {
+            shareButtonDisabled: false,
+            progressAreaVisible: false,
+            responseAreaVisible: false,
+            // publishingState can be one of the following values:
+            // "unpublished" (the initial state), "publishing", "responseReceived"
+            publishingState: "unpublished"
+        },
+        modelRelay: {
+            "publishingState": {
+                target: "",
+                singleTransform: {
+                    type: "fluid.transforms.valueMapper",
+                    defaultInputPath: "publishingState",
+                    match: {
+                        "unpublished": {
+                            outputValue: {
+                                shareButtonDisabled: false,
+                                progressAreaVisible: false,
+                                responseAreaVisible: false
+                            }
+                        },
+                        "publishing": {
+                            outputValue: {
+                                shareButtonDisabled: true,
+                                progressAreaVisible: true,
+                                responseAreaVisible: false
+                            }
+                        },
+                        "responseReceived": {
+                            outputValue: {
+                                shareButtonDisabled: false,
+                                progressAreaVisible: false,
+                                responseAreaVisible: true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        modelListeners: {
+            shareButtonDisabled: {
+                this: "{that}.dom.storyShare",
+                method: "prop",
+                args: ["disabled", "{change}.value"]
+            },
+            progressAreaVisible: {
+                this: "{that}.dom.progressArea",
+                method: "toggle",
+                args: ["{change}.value"]
+            },
+            responseAreaVisible: {
+                this: "{that}.dom.responseArea",
+                method: "toggle",
+                args: ["{change}.value"]
+            }
+        },
+        selectors: {
+            storyShare: ".sjrkc-st-story-share",
+            progressArea: ".sjrkc-st-story-share-progress",
+            responseArea: ".sjrkc-st-story-share-response",
+            responseText: ".sjrkc-st-story-share-response-text"
+        },
+        events: {
+            onShareRequested: null,
+            onShareComplete: null
+        },
+        listeners: {
+            "onReadyToBind.bindShareControl": {
+                "this": "{that}.dom.storyShare",
+                "method": "click",
+                "args": ["{that}.events.onShareRequested.fire"]
+            },
+            "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
+            "onShareRequested.setStatePublishing": {
+                func: "{that}.applier.change",
+                args: ["publishingState", "publishing"]
+            },
+            "onShareComplete": [{
+                func: "{that}.applier.change",
+                args: ["publishingState", "responseReceived"],
+                namespace: "setStateResponseReceived"
+            },{
+                func: "{that}.setServerResponse",
+                args: ["{arguments}.0"],
+                namespace: "setServerResponse"
+            }]
+        },
+        invokers: {
+            setServerResponse: {
+                this: "{that}.dom.responseText",
+                method: "text",
+                args: ["{arguments}.0"]
+            }
+        },
+        components: {
+            templateManager: {
+                options: {
+                    model: {
+                        dynamicValues: {
+                            isEditorPreview: true
                         }
                     }
                 }

@@ -9,7 +9,7 @@
 * `sjrk.storyTelling.templateManager` renders [handlebars](https://handlebarsjs.com/) templates to HTML, substituting
   in localized messages as well as any dynamic values to be included.
   * Template and message bundle options are configured at `{that}.options.templateConfig`
-  * Localized messages are loaded to the key `{that}.options.templateStrings.localizedMessages`
+  * Localized messages are loaded to the key `{that}.templateStrings.localizedMessages`
   * Localization of content is specified at `{that}.model.locale`, and this is configured at the highest level by the
     `page` (more on this below)
 * `sjrk.storyTelling.binder` is an implementation of [`gpii.binder`](https://github.com/GPII/gpii-binder) that links

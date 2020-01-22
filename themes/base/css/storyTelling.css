@@ -166,15 +166,6 @@ fieldset ul {
     cursor: pointer;
 }
 
-.sjrk-st-button-restore-blocks-container {
-    display: none;
-}
-
-.sjrk-st-button-restore-blocks {
-    border-style: dashed;
-    border-color: #CCC;
-}
-
 .sjrk-st-button-remove-blocks-container {
     justify-self: right;
 }
@@ -223,10 +214,6 @@ fieldset ul {
 
 .sjrk-st-button-remove-blocks {
     background-image: url("../img/icons/Trashcan.svg");
-}
-
-.sjrk-st-button-restore-blocks {
-    background-image: url("../img/icons/icon-restoreBlocks.png");
 }
 
 .sjrk-st-label-container {
