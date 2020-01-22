@@ -26,9 +26,9 @@
         "gpii-handlebars": "1.1.4",
         "handlebars": "4.0.10",
         "infusion": "3.0.0-dev.20191219T155607Z.32876d29c.FLUID-6145",
-        "kettle": "1.11.0",
         "jpeg-autorotate": "5.0.2",
         "jpeg-exif": "1.1.4",
+        "kettle": "1.11.0",
         "sinon": "7.3.2",
         "uuid": "3.1.0"
     },
