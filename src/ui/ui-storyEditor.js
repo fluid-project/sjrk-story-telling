@@ -20,8 +20,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditorContent: ".sjrkc-st-story-editor-content",
             storyEditorNext: ".sjrkc-st-story-editor-next",
             storyEditorPrevious: ".sjrkc-st-story-editor-previous",
-            storyEditorPage1: ".sjrkc-st-story-editor-page1",
-            storyEditorPage2: ".sjrkc-st-story-editor-page2",
+            storyEditorPartOne: ".sjrkc-st-story-editor-part-one",
+            storyEditorPartTwo: ".sjrkc-st-story-editor-part-two",
             storyAddAudioBlock: ".sjrkc-st-button-audio-block",
             storyAddImageBlock: ".sjrkc-st-button-image-block",
             storyAddTextBlock: ".sjrkc-st-button-text-block",
@@ -99,16 +99,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onEditorNextRequested.manageVisibility": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{that}.dom.storyEditorPage1"],
-                    ["{that}.dom.storyEditorPage2"],
+                    ["{that}.dom.storyEditorPartOne"],
+                    ["{that}.dom.storyEditorPartTwo"],
                     "{that}.events.onVisibilityChanged"
                 ]
             },
             "onEditorPreviousRequested.manageVisibility": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{that}.dom.storyEditorPage2"],
-                    ["{that}.dom.storyEditorPage1"],
+                    ["{that}.dom.storyEditorPartTwo"],
+                    ["{that}.dom.storyEditorPartOne"],
                     "{that}.events.onVisibilityChanged"
                 ]
             },

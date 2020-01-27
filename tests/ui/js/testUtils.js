@@ -25,13 +25,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         component.locate(selector).val(value).change();
     };
 
-    /* Verifies that specified UI "pages" are visible or hidden in the DOM.
-     * The pages are DOM elements, but could be entire UI grades or internal to them.
+    /* Verifies that specified UI parts are visible or hidden in the DOM.
+     * The parts are DOM elements, but could be entire UI grades or internal to them.
      * Visible is taken to mean "display: block" and hidden is "display: none".
      * - "expectedHidden": a collection of elements which should be hidden
      * - "expectedVisible": a collection of elements which should be visible
      */
-    sjrk.storyTelling.testUtils.verifyPageVisibility = function (expectedHidden, expectedVisible) {
+    sjrk.storyTelling.testUtils.verifyPartVisibility = function (expectedHidden, expectedVisible) {
         fluid.each(expectedHidden, function (el) {
             sjrk.storyTelling.testUtils.assertElementVisibility(el, "none");
         });

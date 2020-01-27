@@ -181,13 +181,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test page visibility",
+                name: "Test part visibility",
                 expect: 6,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "funcName": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage2"],
-                        ["{storyEditor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyEditorPartTwo"],
+                        ["{storyEditor}.dom.storyEditorPartOne"]
                     ]
                 },
                 {
@@ -196,10 +196,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage1"],
-                        ["{storyEditor}.dom.storyEditorPage2"]
+                        ["{storyEditor}.dom.storyEditorPartOne"],
+                        ["{storyEditor}.dom.storyEditorPartTwo"]
                     ]
                 },
                 {
@@ -208,10 +208,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage2"],
-                        ["{storyEditor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyEditorPartTwo"],
+                        ["{storyEditor}.dom.storyEditorPartOne"]
                     ]
                 }]
             }]

@@ -406,10 +406,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": "onAllUiComponentsReady event fired."
                 },
                 {
-                    func: "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    func: "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     args: [
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage2", "{storyEdit}.storyPreviewer.container"],
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage1"]
+                        ["{storyEdit}.storyEditor.dom.storyEditorPartTwo", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditorPartOne"]
                     ]
                 },
                 {
@@ -418,10 +418,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEdit}.storyEditor.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage1", "{storyEdit}.storyPreviewer.container"],
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage2"]
+                        ["{storyEdit}.storyEditor.dom.storyEditorPartOne", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditorPartTwo"]
                     ]
                 },
                 {
@@ -444,7 +444,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
                         ["{storyEdit}.storyEditor.container"],
                         ["{storyEdit}.storyPreviewer.container"]
@@ -456,10 +456,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage1", "{storyEdit}.storyPreviewer.container"],
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage2"]
+                        ["{storyEdit}.storyEditor.dom.storyEditorPartOne", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditorPartTwo"]
                     ]
                 },
                 {
@@ -478,7 +478,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
                     "args": [
                         ["{storyEdit}.storyEditor.container"],
                         ["{storyEdit}.storyPreviewer.container"]
