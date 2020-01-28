@@ -16,6 +16,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageSetup: {
             hiddenEditorClass: "hidden"
         },
+        model: {
+            visibilityStates: {
+                // the initial state is only the first editor page showing
+                editorPartOneVisible: true,
+                editorPartTwoVisible: false,
+                previewerVisible: false
+            }
+        },
         selectors: {
             mainContainer: ".sjrkc-main-container",
             pageContainer: ".sjrk-edit-page-container"
@@ -81,6 +89,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "video": ["mediaUrl"]
         },
         components: {
+            // manaages browser history for in-page forward-back support
+            historian: {
+                type: "gpii.locationBar",
+                options: {
+                    model: "{storyEdit}.model.visibilityStates"
+                }
+            },
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
