@@ -41,13 +41,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "previewerRenderTemplate"
             },
             {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [["{storyEditor}.container"], ["{storyPreviewer}.container"], "{that}.events.onVisibilityChanged"],
+                func: "{that}.showPreviewerHideEditor",
                 namespace: "showPreviewerHideEditor"
             }],
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"],
+                func: "{that}.showEditorHidePreviewer",
                 namespace: "showEditorHidePreviewer"
             },
             "onStoryShareRequested.submitStory": {
@@ -62,6 +60,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             setEditorDisplay: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.setEditorDisplay",
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
+            },
+            showEditorHidePreviewer: {
+                funcName: "sjrk.storyTelling.ui.manageVisibility",
+                args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"]
+            },
+            showPreviewerHideEditor: {
+                funcName: "sjrk.storyTelling.ui.manageVisibility",
+                args: [["{storyEditor}.container"], ["{storyPreviewer}.container"], "{that}.events.onVisibilityChanged"]
             }
         },
         /*
