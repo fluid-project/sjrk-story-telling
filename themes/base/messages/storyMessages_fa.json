@@ -1,0 +1,43 @@
+{
+    "message_ContentInputLabel": "محتوای داستان را اینجا وارد کنید",
+    "message_ContentInputPlaceholder": "از اینجا شروع به تایپ کنید",
+    "message_listenToText": "به  داستان من گوش کنید",
+    "message_titleInputLabel": "عنوان داستان (ضروری)",
+    "message_titleInputPlaceholder": "عنوان داستان را اینجا وارد کنید",
+    "message_authorText": "توسط %author",
+    "message_authorInputLabel": "نام شما (اختیاری)",
+    "message_authorInputPlaceholder": "نام خود را اینجا وارد کنید (اختیاری)",
+    "message_languageInputLabel": "زبان (ضروری)",
+    "message_languageInputDefault": "انتخاب زبان داستان",
+    "message_languageInputOther": "دیگر (لطفآ فراهم کنید)",
+    "message_languageInputPlaceholder": "زبان را اینجا وارد کنید",
+    "message_CategoryInputLabel": "انتخاب یک دسته بندی:",
+    "message_CategoryInputDefault": "انتخاب دسته بندی",
+    "message_listCategoriesLabelText": "دسته بندی ها",
+    "message_addImagesText": "اضافه کردن عکس",
+    "message_choosePhotosText": "انتخاب از میان عکس ها",
+    "message_takePhotoText": "گرفتن عکس",
+    "message_addTagsText": "اضافه کردن برچسب های  موضوعی",
+    "message_addTagsPlaceholder": "برچسب ۱ ، برچسب ۲",
+    "message_translateText": "ترجمه داستان من",
+    "message_submitButton": "اتمام",
+    "message_goBack": "برگشت",
+    "message_heading" : "داستان من",
+    "message_readOtherstories" : "خواندن داستان های دیگر",
+    "message_previewText": "پیش نمایش داستان",
+    "message_readMoreText": "بیشتر بخوانید",
+    "message_listTagsLabelText": "برچسب های  موضوعی",
+    "message_shareText": "به اشتراک گذاشتن داستان من",
+    "message_languageLabelText": "زبان(ها)",
+    "availableCategories": {
+        "category_childhood": "دوران کودکی",
+        "category_immigration": "مهاجرت",
+        "category_education": "تحصیلات"
+    },
+    "availableLanguages": {
+        "fa": "فارسی",
+        "en-CA": "انگلیسی (کانادایی)",
+        "fr-CA": "فرانسه (کانادایی)",
+        "ja": "ژاپنی"
+    }
+}

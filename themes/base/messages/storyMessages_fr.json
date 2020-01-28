@@ -1,0 +1,43 @@
+{
+    "message_ContentInputLabel": "Entrez le texte de l'article dans la boîte",
+    "message_ContentInputPlaceholder": "Commencez à taper ici",
+    "message_listenToText": "Écoutez mon histoire",
+    "message_titleInputLabel": "Titre de l'histoire (requis)",
+    "message_titleInputPlaceholder": "Entrez le titre ici",
+    "message_authorText": "par %author",
+    "message_authorInputLabel": "Votre nom (optionnel)",
+    "message_authorInputPlaceholder": "Entrez votre nom (optionnel)",
+    "message_languageInputLabel": "Langue (requis)",
+    "message_languageInputDefault": "Choisissez la langue",
+    "message_languageInputOther": "Autre (veuillez fournir)",
+    "message_languageInputPlaceholder": "Entrez la langue",
+    "message_CategoryInputLabel": "Coissizes une catégorie:",
+    "message_CategoryInputDefault": "Choisir la catégorie",
+    "message_listCategoriesLabelText": "Catégories",
+    "message_addImagesText": "Ajouter des photos",
+    "message_choosePhotosText": "choisir parmi les photos",
+    "message_takePhotoText": "prendre une photo",
+    "message_addTagsText": "Ajouter des mots clés",
+    "message_addTagsPlaceholder": "mot 1, mot 2",
+    "message_translateText": "Traduire mon histoire",
+    "message_submitButton": "Soumettre",
+    "message_goBack": "Retourner",
+    "message_heading" : "Mon histoire",
+    "message_readOtherstories" : "Lire d'autres histoires",
+    "message_previewText": "Aperçu de l'histoire",
+    "message_readMoreText": "Lire en plus",
+    "message_listTagsLabelText": "Mots clés de thème:",
+    "message_shareText": "Partager mon histoire",
+    "message_languageLabelText": "Langue(s):",
+    "availableCategories": {
+        "category_childhood": "Enfance",
+        "category_immigration": "Immigration",
+        "category_education": "Éducation"
+    },
+    "availableLanguages": {
+        "fa": "persan",
+        "en-CA": "anglais (Canada)",
+        "fr-CA": "français (Canada)",
+        "ja": "japonais"
+    }
+}

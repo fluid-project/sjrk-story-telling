@@ -1,0 +1,13 @@
+.vscode/*
+node_modules
+package-lock.json
+tests/server/uploads/*
+!tests/server/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+deleted_uploads/*
+!deleted_uploads/.gitkeep
+secrets.json
+couchdb
+sjrk.storyTelling.server.config.json*
+!sjrk.storyTelling.server.config.json*.example

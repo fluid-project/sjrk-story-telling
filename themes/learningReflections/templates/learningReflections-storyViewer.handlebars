@@ -1,0 +1,76 @@
+<div class="sjrk-st-page-body">
+    <section class="sjrk-st-lr-knockout">
+        {{#if dynamicValues.isEditorPreview}}
+            <h1>{{localizedMessages.message_editTitleText}}</h1>
+        {{else}}
+            <h1>{{dynamicValues.story.title}}</h1>
+        {{/if}}
+    </section>
+    <section class="sjrk-st-lr-padding">
+        {{#if dynamicValues.isEditorPreview}}
+            <div lang="{{localizedMessages.language}}" class="sjrk-st-menu-story-builder-title">
+                <div class="sjrk-st-menu-story-builder-title-background"></div>
+                <span>{{localizedMessages.message_menu_storyBuilderText}}</span>
+            </div>
+            <div class="sjrk-st-story-previewer ">
+        {{/if}}
+        <div lang="{{localizedMessages.language}}" class="sjrkc-st-story-viewer-main-container sjrk-st-story-viewer-main-container">
+            <div class="sjrkc-st-story-details">
+                {{#if dynamicValues.story.title}}
+                    <h2 class="sjrkc-st-story-title sjrk-st-story-title">{{dynamicValues.story.title}}</h2>
+                {{/if}}
+                {{#if dynamicValues.story.author}}
+                    <p class="sjrkc-st-story-author sjrk-st-story-author">{{localizedMessages.message_authorText}}</p>
+                {{/if}}
+
+                <div hidden class="sjrk-st-language-container">
+                    {{localizedMessages.message_languageLabelText}} <span class="sjrkc-st-story-language sjrk-st-story-language">
+                        {{lookup ../localizedMessages.availableLanguages dynamicValues.story.language}}
+                    </span>
+                </div>
+
+                {{#if dynamicValues.story.tags}}
+                <div class="sjrk-st-tags-container">
+                    {{localizedMessages.message_listTagsLabelText}}
+                    <ul class="sjrkc-st-story-list-tags sjrk-st-story-list-tags">
+                        {{#each dynamicValues.story.tags}}
+                            <li>{{this}}{{#unless @last}}, {{/unless}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
+
+                <div class="sjrkc-st-story-content sjrk-st-story-content"></div>
+            </div>
+        </div>
+        {{#if dynamicValues.isEditorPreview}}
+                <div lang="{{localizedMessages.language}}" class="sjrk-st-important-notes">
+                    <h2>{{localizedMessages.message_important_notes_title}}</h2>
+                    {{{md localizedMessages.message_important_notes_body}}}
+                </div>
+                <div lang="{{localizedMessages.language}}" class="sjrk-st-story-viewer-footer-container">
+                    <div>
+                        <button type="button" class="sjrk-st-story-viewer-previous sjrkc-st-story-viewer-previous">
+                            <span class="sjrk-st-story-viewer-previous-arrow"></span>
+                            <span>{{localizedMessages.message_goBack}}</span>
+                        </button>
+                    </div>
+                    <div>
+                        {{#if dynamicValues.authoringEnabled}}
+                            <button type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+                        {{else}}
+                            <button hidden type="button" class="sjrkc-st-story-share sjrk-st-story-share">{{localizedMessages.message_shareText}}</button>
+                        {{/if}}
+                    </div>
+                    <div class="sjrkc-st-story-share-progress sjrk-st-story-share-progress" role="alert">
+                        <div class="sjrk-st-story-share-progress-indicator" aria-describedby="sjrkc-st-story-share-progress-text"></div>
+                        <span id="sjrkc-st-story-share-progress-text">{{localizedMessages.message_shareProgressText}}</span>
+                    </div>
+                    <div class="sjrkc-st-story-share-response sjrk-st-story-share-response" role="alert">
+                        {{localizedMessages.message_shareResponseText}} <span class="sjrkc-st-story-share-response-text"></span>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    </section>
+</div>

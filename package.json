@@ -1,0 +1,44 @@
+{
+    "name": "sjrk-story-telling",
+    "version": "0.2.0",
+    "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fluid-project/sjrk-story-telling.git"
+    },
+    "author": "Fluid Project",
+    "license": "BSD-3-Clause",
+    "bugs": {
+        "url": "https://issues.fluidproject.org/projects/SJRK/issues"
+    },
+    "homepage": "https://github.com/fluid-project/sjrk-story-telling",
+    "dependencies": {
+        "blueimp-canvas-to-blob": "3.16.0",
+        "blueimp-load-image": "2.24.0",
+        "express-basic-auth": "1.1.5",
+        "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
+        "fs-extra": "7.0.1",
+        "gpii-binder": "1.1.0",
+        "gpii-handlebars": "1.1.4",
+        "handlebars": "4.0.10",
+        "infusion": "3.0.0-dev.20191219T155607Z.32876d29c.FLUID-6145",
+        "jpeg-autorotate": "5.0.2",
+        "jpeg-exif": "1.1.4",
+        "kettle": "1.11.0",
+        "sinon": "7.3.2",
+        "uuid": "3.1.0"
+    },
+    "devDependencies": {
+        "chance": "1.0.16",
+        "eslint-config-fluid": "1.1.0",
+        "gpii-grunt-lint-all": "1.0.5",
+        "gpii-pouchdb": "1.0.15",
+        "grunt": "1.0.3",
+        "node-jqunit": "1.1.8",
+        "testem": "2.8.1"
+    }
+}

@@ -1,0 +1,14 @@
+node_modules
+tests
+!tests/testData/**/*
+!tests/ui/**/*
+npm-debug.log
+.git
+.gitignore
+secrets.json.example
+secrets.json
+sjrk.storyTelling.server.config.json5.example
+sjrk.storyTelling.server.config.json5
+uploads/*
+deleted_uploads/*
+couchdb

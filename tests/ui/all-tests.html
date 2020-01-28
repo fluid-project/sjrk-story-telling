@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Storytelling Tool Complete Tests Runner</title>
+
+    <link rel="stylesheet" media="screen" href="../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
+    <link rel="stylesheet" href="../../node_modules/infusion/tests/lib/qunit/addons/composite/qunit-composite.css">
+
+    <script src="../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
+    <script src="../../node_modules/infusion/tests/lib/qunit/addons/composite/qunit-composite.js"></script>
+
+    <script>
+    QUnit.testSuites("Storytelling Tool Tests", [
+        "./html/templateManager-Tests.html",
+        "./html/templateManager-Helper-Tests.html",
+        "./html/transforms-Tests.html",
+        "./html/binder-Tests.html",
+        "./html/blockUi-timeBased-Tests.html",
+        "./html/blockUi-editor-audioBlockEditor-Tests.html",
+        "./html/blockUi-editor-imageBlockEditor-Tests.html",
+        "./html/blockUi-editor-textBlockEditor-Tests.html",
+        "./html/blockUi-editor-videoBlockEditor-Tests.html",
+        "./html/dynamicViewComponentManager-Tests.html",
+        "./html/ui-Tests.html",
+        "./html/ui-menu-Tests.html",
+        "./html/ui-storyViewer-Tests.html",
+        "./html/ui-storyEditor-Tests.html",
+        "./html/ui-storyBrowser-Tests.html",
+        "./html/base-page-Tests.html",
+        "./html/base-page-storyEdit-Tests.html",
+        "./html/base-page-storyBrowse-Tests.html",
+        "./html/storyTellingServerUI-Tests.html"
+    ]);
+    </script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+</div>
+</body>
+</html>
