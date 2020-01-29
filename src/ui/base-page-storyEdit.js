@@ -27,6 +27,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 previewerVisible: false
             }
         },
+        members: {
+            visibilityStateValues: {
+                editStoryStepOnly: {
+                    editStoryStepVisible: true,
+                    metadataStepVisible: false,
+                    previewerVisible: false
+                },
+                metadataStepOnly: {
+                    editStoryStepVisible: false,
+                    metadataStepVisible: true,
+                    previewerVisible: false
+                },
+                previewerOnly: {
+                    editStoryStepVisible: false,
+                    metadataStepVisible: false,
+                    previewerVisible: true
+                }
+            }
+        },
         selectors: {
             mainContainer: ".sjrkc-main-container",
             pageContainer: ".sjrk-edit-page-container"
@@ -47,6 +66,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{storyEditor}.events.onUpdateStoryFromBlocksRequested.fire",
                 priority: "first"
             },
+            "{storyEditor}.events.onEditorNextRequested": {
+                func: "{that}.applier.change",
+                args: ["visibilityStates", "{that}.visibilityStateValues.metadataStepOnly"],
+                namespace: "updateEditModelShowMetadataStepFromEditStoryStep"
+            },
+            "{storyEditor}.events.onEditorPreviousRequested": {
+                func: "{that}.applier.change",
+                args: ["visibilityStates", "{that}.visibilityStateValues.editStoryStepOnly"],
+                namespace: "updateEditModelShowEditStoryStep"
+            },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
                 namespace: "previewerRenderTemplate"
@@ -54,11 +83,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 func: "{that}.showPreviewerHideEditor",
                 namespace: "showPreviewerHideEditor"
+            },
+            {
+                func: "{that}.applier.change",
+                args: ["visibilityStates", "{that}.visibilityStateValues.previewerOnly"],
+                namespace: "updateEditModelShowPreviewer"
             }],
-            "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
+            "{storyPreviewer}.events.onStoryViewerPreviousRequested": [{
                 func: "{that}.showEditorHidePreviewer",
                 namespace: "showEditorHidePreviewer"
             },
+            {
+                func: "{that}.applier.change",
+                args: ["visibilityStates", "{that}.visibilityStateValues.metadataStepOnly"],
+                namespace: "updateEditModelShowMetadataStepFromPreviewer"
+            }],
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]

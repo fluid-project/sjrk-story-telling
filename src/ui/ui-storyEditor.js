@@ -17,6 +17,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // a UI for editing block-based stories
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
+        model: {
+            editStoryStepVisible: true,
+            metadataStepVisible: false
+        },
+        modelRelay: {
+            "metadataStepVisibilityInverseOfStoryStep": {
+                target: "metadataStepVisible",
+                source: "editStoryStepVisible",
+                singleTransform: {
+                    type: "fluid.transforms.condition",
+                    conditionPath: "editStoryStepVisible",
+                    true: false,
+                    false: true
+                }
+            }
+        },
+        modelListeners: {
+            "editStoryStepVisible": [{
+                this: "{that}.dom.storyEditStoryStep",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "manageEditStoryStepVisibility"
+            },
+            {
+                func: "{that}.events.onVisibilityChanged.fire",
+                priority: "last",
+                namespace: "fireOnEditStoryStepVisibilityChanged"
+            }],
+            "metadataStepVisible": [{
+                this: "{that}.dom.storyMetadataStep",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "manageMetadataStepVisibility"
+            },
+            {
+                func: "{that}.events.onVisibilityChanged.fire",
+                priority: "last",
+                namespace: "fireOnMetadataStepVisibilityChanged"
+            }]
+        },
         selectors: {
             storySubmit: ".sjrkc-st-story-submit",
             storyEditorForm: ".sjrkc-st-story-editor-form",
@@ -99,22 +139,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onEditorPreviousRequested.fire"]
             },
-            "onEditorNextRequested.manageVisibility": {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [
-                    ["{that}.dom.storyEditStoryStep"],
-                    ["{that}.dom.storyMetadataStep"],
-                    "{that}.events.onVisibilityChanged"
-                ]
-            },
-            "onEditorPreviousRequested.manageVisibility": {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [
-                    ["{that}.dom.storyMetadataStep"],
-                    ["{that}.dom.storyEditStoryStep"],
-                    "{that}.events.onVisibilityChanged"
-                ]
-            },
             "onRemoveBlocksRequested.removeSelectedBlocks": {
                 funcName: "sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks",
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
@@ -122,6 +146,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onEditorNextRequested.showMetadataStep": {
                 func: "{that}.applier.change",
                 args: ["editStoryStepVisible", false]
+            },
+            "onEditorPreviousRequested.showEditStoryStep": {
+                func: "{that}.applier.change",
+                args: ["editStoryStepVisible", true]
             }
         },
         components: {
