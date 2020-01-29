@@ -184,13 +184,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test part visibility",
+                name: "Test step visibility",
                 expect: 6,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.testUtils.verifyPartVisibility",
+                    "funcName": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPartTwo"],
-                        ["{storyEditor}.dom.storyEditorPartOne"]
+                        ["{storyEditor}.dom.storyMetadataStep"],
+                        ["{storyEditor}.dom.storyEditStoryStep"]
                     ]
                 },
                 {
@@ -199,10 +199,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPartOne"],
-                        ["{storyEditor}.dom.storyEditorPartTwo"]
+                        ["{storyEditor}.dom.storyEditStoryStep"],
+                        ["{storyEditor}.dom.storyMetadataStep"]
                     ]
                 },
                 {
@@ -211,10 +211,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPartVisibility",
+                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPartTwo"],
-                        ["{storyEditor}.dom.storyEditorPartOne"]
+                        ["{storyEditor}.dom.storyMetadataStep"],
+                        ["{storyEditor}.dom.storyEditStoryStep"]
                     ]
                 }]
             }]

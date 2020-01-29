@@ -12,7 +12,7 @@
         {{else}}
             <form hidden lang="{{localizedMessages.language}}" class="sjrk-st-story-editor-form sjrkc-st-story-editor-form">
         {{/if}}
-            <div class="sjrk-st-story-editor-part-one sjrkc-st-story-editor-part-one">
+            <div class="sjrk-st-story-editor-edit-story-step sjrkc-st-story-editor-edit-story-step">
                 <div class="sjrk-st-story-editor-buttons-container">
                     <div class="sjrk-st-button-text-block-container sjrk-st-image-button-container">
                         <button class="sjrk-st-button sjrk-st-button-text-block sjrkc-st-button-text-block" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_blockAddTextBlock}}</span></button>
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="sjrk-st-story-editor-part-two sjrkc-st-story-editor-part-two">
+            <div class="sjrk-st-story-editor-metadata-step sjrkc-st-story-editor-metadata-step">
                 {{#getIds "title"}}
                     <div class="sjrk-st-label-container">
                         <label for="$id">{{../localizedMessages.message_titleInputLabel}}</label>

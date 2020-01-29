@@ -81,7 +81,7 @@ fieldset ul {
     padding-top: 1rem;
 }
 
-.sjrk-st-story-editor-part-two, .sjrkc-st-story-previewer {
+.sjrk-st-story-editor-metadata-step, .sjrkc-st-story-previewer {
     display: none;
 }
 
@@ -416,14 +416,14 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
     padding: 1.5rem;
 }
 
-.sjrk-st-story-editor-part-two input,
-.sjrk-st-story-editor-part-two label {
+.sjrk-st-story-editor-metadata-step input,
+.sjrk-st-story-editor-metadata-step label {
     font-size: 1rem;
     line-height: 1.4;
     padding: 0.25rem;
 }
 
-.sjrk-st-story-editor-part-two input {
+.sjrk-st-story-editor-metadata-step input {
     border: 1px solid var(--site-border-grey);
 }
 

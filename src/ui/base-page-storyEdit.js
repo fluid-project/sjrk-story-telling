@@ -22,8 +22,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             visibilityStates: {
                 // the initial state is only the first editor page showing
-                editorPartOneVisible: true,
-                editorPartTwoVisible: false,
+                editStoryStepVisible: true,
+                metadataStepVisible: false,
                 previewerVisible: false
             }
         },

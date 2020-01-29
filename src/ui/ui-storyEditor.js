@@ -23,8 +23,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditorContent: ".sjrkc-st-story-editor-content",
             storyEditorNext: ".sjrkc-st-story-editor-next",
             storyEditorPrevious: ".sjrkc-st-story-editor-previous",
-            storyEditorPartOne: ".sjrkc-st-story-editor-part-one",
-            storyEditorPartTwo: ".sjrkc-st-story-editor-part-two",
+            storyEditStoryStep: ".sjrkc-st-story-editor-edit-story-step",
+            storyMetadataStep: ".sjrkc-st-story-editor-metadata-step",
             storyAddAudioBlock: ".sjrkc-st-button-audio-block",
             storyAddImageBlock: ".sjrkc-st-button-image-block",
             storyAddTextBlock: ".sjrkc-st-button-text-block",
@@ -102,22 +102,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onEditorNextRequested.manageVisibility": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{that}.dom.storyEditorPartOne"],
-                    ["{that}.dom.storyEditorPartTwo"],
+                    ["{that}.dom.storyEditStoryStep"],
+                    ["{that}.dom.storyMetadataStep"],
                     "{that}.events.onVisibilityChanged"
                 ]
             },
             "onEditorPreviousRequested.manageVisibility": {
                 funcName: "sjrk.storyTelling.ui.manageVisibility",
                 args: [
-                    ["{that}.dom.storyEditorPartTwo"],
-                    ["{that}.dom.storyEditorPartOne"],
+                    ["{that}.dom.storyMetadataStep"],
+                    ["{that}.dom.storyEditStoryStep"],
                     "{that}.events.onVisibilityChanged"
                 ]
             },
             "onRemoveBlocksRequested.removeSelectedBlocks": {
                 funcName: "sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks",
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
+            },
+            "onEditorNextRequested.showMetadataStep": {
+                func: "{that}.applier.change",
+                args: ["editStoryStepVisible", false]
             }
         },
         components: {
