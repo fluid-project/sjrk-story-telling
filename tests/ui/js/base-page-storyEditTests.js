@@ -416,13 +416,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     ]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyEditor.dom.storyEditorNext"
                 },
                 {
-                    "event": "{storyEdit}.storyEditor.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
-                    "args": [
+                    changeEvent: "{storyEdit}.storyEditor.applier.modelChanged",
+                    path: "editStoryStepVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
                         ["{storyEdit}.storyEditor.dom.storyEditStoryStep", "{storyEdit}.storyPreviewer.container"],
                         ["{storyEdit}.storyEditor.dom.storyMetadataStep"]
                     ]
@@ -442,25 +443,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Previewer model updated to match editor","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
-                    "args": [
+                    changeEvent: "{storyEdit}.applier.modelChanged",
+                    path: "editorVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
                         ["{storyEdit}.storyEditor.container"],
                         ["{storyEdit}.storyPreviewer.container"]
                     ]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
                 },
                 {
-                    "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
-                    "args": [
+                    changeEvent: "{storyEdit}.applier.modelChanged",
+                    path: "editorVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
                         ["{storyEdit}.storyEditor.dom.storyEditStoryStep", "{storyEdit}.storyPreviewer.container"],
                         ["{storyEdit}.storyEditor.dom.storyMetadataStep"]
                     ]
@@ -476,13 +479,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Previewer model updated","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
-                    "args": [
+                    changeEvent: "{storyEdit}.applier.modelChanged",
+                    path: "editorVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
                         ["{storyEdit}.storyEditor.container"],
                         ["{storyEdit}.storyPreviewer.container"]
                     ]

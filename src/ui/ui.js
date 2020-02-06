@@ -28,8 +28,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onReadyToBind: null,
-            onControlsBound: null,
-            onVisibilityChanged: null
+            onControlsBound: null
         },
         listeners: {
             "onReadyToBind.fireOnControlsBound": {
@@ -53,23 +52,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
-
-    /* Hides and shows DOM elements as specified, using jQuery hide() and show()
-     * - "hideElements": the DOM elements to be hidden
-     * - "showElements": the DOM elements to be shown
-     * - "completionEvent": the event to be fired upon successful completion
-     */
-    sjrk.storyTelling.ui.manageVisibility = function (hideElements, showElements, completionEvent) {
-        fluid.each(hideElements, function (el) {
-            el.hide();
-        });
-
-        fluid.each(showElements, function (el) {
-            el.show();
-        });
-
-        completionEvent.fire();
-    };
 
     /* Fabricates a grade based on the model values passed in from the event
      * This roundabout approach is necessary to ensure that we can have

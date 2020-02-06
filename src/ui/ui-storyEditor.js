@@ -18,20 +18,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         model: {
-            editStoryStepVisible: true,
-            metadataStepVisible: false
-        },
-        modelRelay: {
-            "metadataStepVisibilityInverseOfStoryStep": {
-                target: "metadataStepVisible",
-                source: "editStoryStepVisible",
-                singleTransform: {
-                    type: "fluid.transforms.condition",
-                    conditionPath: "editStoryStepVisible",
-                    true: false,
-                    false: true
-                }
-            }
+            // the metadata step is hidden when the edit story step is shown,
+            // and vice versa. This is represented using this value alone, for now.
+            editStoryStepVisible: true
         },
         modelListeners: {
             "editStoryStepVisible": [{
@@ -41,20 +30,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "manageEditStoryStepVisibility"
             },
             {
-                func: "{that}.events.onVisibilityChanged.fire",
-                priority: "last",
-                namespace: "fireOnEditStoryStepVisibilityChanged"
-            }],
-            "metadataStepVisible": [{
                 this: "{that}.dom.storyMetadataStep",
                 method: "toggle",
-                args: ["{change}.value"],
+                args: ["{change}.oldValue"],
                 namespace: "manageMetadataStepVisibility"
-            },
-            {
-                func: "{that}.events.onVisibilityChanged.fire",
-                priority: "last",
-                namespace: "fireOnMetadataStepVisibilityChanged"
             }]
         },
         selectors: {
@@ -143,13 +122,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks",
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             },
-            "onEditorNextRequested.showMetadataStep": {
-                func: "{that}.applier.change",
-                args: ["editStoryStepVisible", false]
+            "onEditorNextRequested": {
+                func: "{that}.hideEditStoryStep",
+                namespace: "hideEditStoryStep"
             },
-            "onEditorPreviousRequested.showEditStoryStep": {
+            "onEditorPreviousRequested": {
+                func: "{that}.showEditStoryStep",
+                namespace: "showEditStoryStep"
+            }
+        },
+        invokers: {
+            showEditStoryStep: {
                 func: "{that}.applier.change",
                 args: ["editStoryStepVisible", true]
+            },
+            hideEditStoryStep: {
+                func: "{that}.applier.change",
+                args: ["editStoryStepVisible", false]
             }
         },
         components: {

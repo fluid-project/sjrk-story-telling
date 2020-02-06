@@ -20,31 +20,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             hiddenEditorClass: "hidden"
         },
         model: {
-            visibilityStates: {
-                // the initial state is only the first editor page showing
-                editStoryStepVisible: true,
-                metadataStepVisible: false,
-                previewerVisible: false
-            }
+            // the initial state is only the editor ui showing.
+            // in much the same way as within the editor, the visibility
+            // of the editor and previewer are mutually exclusive and
+            // represented by a single model value, for the time being
+            editorVisible: true
         },
-        members: {
-            visibilityStateValues: {
-                editStoryStepOnly: {
-                    editStoryStepVisible: true,
-                    metadataStepVisible: false,
-                    previewerVisible: false
-                },
-                metadataStepOnly: {
-                    editStoryStepVisible: false,
-                    metadataStepVisible: true,
-                    previewerVisible: false
-                },
-                previewerOnly: {
-                    editStoryStepVisible: false,
-                    metadataStepVisible: false,
-                    previewerVisible: true
-                }
-            }
+        modelListeners: {
+            "editorVisible": [{
+                this: "{storyEditor}.container",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "manageEditorVisibility"
+            },
+            {
+                this: "{storyPreviewer}.container",
+                method: "toggle",
+                args: ["{change}.oldValue"],
+                namespace: "managePreviewerVisibility",
+                excludeSource: "init"
+            }]
         },
         selectors: {
             mainContainer: ".sjrkc-main-container",
@@ -57,7 +52,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onVisibilityChanged: null,
             onStoryShareRequested: "{storyPreviewer}.events.onShareRequested",
             onStoryShareComplete: "{storyPreviewer}.events.onShareComplete"
         },
@@ -66,38 +60,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{storyEditor}.events.onUpdateStoryFromBlocksRequested.fire",
                 priority: "first"
             },
-            "{storyEditor}.events.onEditorNextRequested": {
-                func: "{that}.applier.change",
-                args: ["visibilityStates", "{that}.visibilityStateValues.metadataStepOnly"],
-                namespace: "updateEditModelShowMetadataStepFromEditStoryStep"
-            },
-            "{storyEditor}.events.onEditorPreviousRequested": {
-                func: "{that}.applier.change",
-                args: ["visibilityStates", "{that}.visibilityStateValues.editStoryStepOnly"],
-                namespace: "updateEditModelShowEditStoryStep"
-            },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
                 namespace: "previewerRenderTemplate"
             },
             {
-                func: "{that}.showPreviewerHideEditor",
-                namespace: "showPreviewerHideEditor"
-            },
-            {
-                func: "{that}.applier.change",
-                args: ["visibilityStates", "{that}.visibilityStateValues.previewerOnly"],
-                namespace: "updateEditModelShowPreviewer"
+                func: "{that}.hideEditorShowPreviewer",
+                namespace: "hideEditorShowPreviewer"
             }],
-            "{storyPreviewer}.events.onStoryViewerPreviousRequested": [{
+            "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 func: "{that}.showEditorHidePreviewer",
                 namespace: "showEditorHidePreviewer"
             },
-            {
-                func: "{that}.applier.change",
-                args: ["visibilityStates", "{that}.visibilityStateValues.metadataStepOnly"],
-                namespace: "updateEditModelShowMetadataStepFromPreviewer"
-            }],
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
@@ -112,12 +86,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             },
             showEditorHidePreviewer: {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"]
+                func: "{that}.applier.change",
+                args: ["editorVisible", true]
             },
-            showPreviewerHideEditor: {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [["{storyEditor}.container"], ["{storyPreviewer}.container"], "{that}.events.onVisibilityChanged"]
+            hideEditorShowPreviewer: {
+                func: "{that}.applier.change",
+                args: ["editorVisible", false]
             }
         },
         /*
@@ -135,7 +109,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             historian: {
                 type: "gpii.locationBar",
                 options: {
-                    model: "{storyEdit}.model.visibilityStates"
+                    model: {
+                        editorVisible: "{storyEdit}.model.editorVisible",
+                        editStoryStepVisible: "{storyEditor}.model.editStoryStepVisible"
+                    },
+                    modelToQuery: false,
+                    queryToModel: false
                 }
             },
             // the story editing context

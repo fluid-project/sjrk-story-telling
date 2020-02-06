@@ -198,7 +198,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEditor}.dom.storyEditorNext"
                 },
                 {
-                    "event": "{storyEditor}.events.onVisibilityChanged",
+                    "changeEvent": "{storyEditor}.applier.modelChanged",
+                    "path": "editStoryStepVisible",
                     "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
                         ["{storyEditor}.dom.storyEditStoryStep"],
@@ -210,7 +211,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEditor}.dom.storyEditorPrevious"
                 },
                 {
-                    "event": "{storyEditor}.events.onVisibilityChanged",
+                    "changeEvent": "{storyEditor}.applier.modelChanged",
+                    "path": "editStoryStepVisible",
                     "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
                         ["{storyEditor}.dom.storyMetadataStep"],
