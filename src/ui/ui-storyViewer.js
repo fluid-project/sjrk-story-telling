@@ -232,7 +232,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "method": "click",
                 "args": ["{that}.events.onShareRequested.fire"]
             },
-            "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
             "onShareRequested.setStatePublishing": {
                 func: "{that}.applier.change",
                 args: ["publishingState", "publishing"]

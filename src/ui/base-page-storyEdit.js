@@ -39,7 +39,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{change}.oldValue"],
                 namespace: "managePreviewerVisibility",
                 excludeSource: "init"
-            }]
+            },
+            {
+                func: "{that}.events.onContextChangeRequested.fire",
+                args: ["{change}.value"],
+                namespace: "contextChangeOnEditorVisibilityChange"
+            }],
+            "{storyEditor}.model.editStoryStepVisible": {
+                func: "{that}.events.onContextChangeRequested.fire",
+                args: ["{change}.value"],
+                namespace: "contextChangeOnEditStoryStepVisibilityChange"
+            }
         },
         selectors: {
             mainContainer: ".sjrkc-main-container",
@@ -120,14 +130,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: ".sjrkc-st-story-editor",
-                options: {
-                    listeners: {
-                        "onStorySubmitRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
-                        "onEditorNextRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
-                        "onEditorPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire"
-                    }
-                }
+                container: ".sjrkc-st-story-editor"
             },
             // the story safety and etiquette notice
             storyEtiquette: {
