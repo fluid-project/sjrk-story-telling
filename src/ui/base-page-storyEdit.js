@@ -43,11 +43,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 func: "{that}.events.onContextChangeRequested.fire",
                 args: ["{change}.value"],
+                priority: "last",
                 namespace: "contextChangeOnEditorVisibilityChange"
             }],
             "{storyEditor}.model.editStoryStepVisible": {
                 func: "{that}.events.onContextChangeRequested.fire",
                 args: ["{change}.value"],
+                priority: "last",
                 namespace: "contextChangeOnEditStoryStepVisibilityChange"
             }
         },
