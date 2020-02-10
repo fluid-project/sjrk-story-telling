@@ -21,6 +21,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // in much the same way as within the editor, the visibility
             // of the editor and previewer are mutually exclusive and
             // represented by a single model value, for the time being
+            // the individual steps of the editor (editStoryStep and metadataStep)
+            // are controlled within the editor model via editStoryStepVisible
+            // in this way, the hiding and showing of the three steps of
+            // the Edit page can be achieved
             editorVisible: true
         },
         modelListeners: {
