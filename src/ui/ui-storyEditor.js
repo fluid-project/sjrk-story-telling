@@ -120,22 +120,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             },
             "onEditorNextRequested": {
-                func: "{that}.hideEditStoryStep",
+                func: "{that}.showEditStoryStep",
+                args: [false],
                 namespace: "hideEditStoryStep"
             },
             "onEditorPreviousRequested": {
                 func: "{that}.showEditStoryStep",
+                args: [true],
                 namespace: "showEditStoryStep"
             }
         },
         invokers: {
             showEditStoryStep: {
                 func: "{that}.applier.change",
-                args: ["editStoryStepVisible", true]
-            },
-            hideEditStoryStep: {
-                func: "{that}.applier.change",
-                args: ["editStoryStepVisible", false]
+                args: ["editStoryStepVisible", "{arguments}.0"]
             }
         },
         components: {

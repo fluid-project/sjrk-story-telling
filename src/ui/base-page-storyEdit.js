@@ -74,11 +74,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "previewerRenderTemplate"
             },
             {
-                func: "{that}.hideEditorShowPreviewer",
+                func: "{that}.showEditorHidePreviewer",
+                args: [false],
                 namespace: "hideEditorShowPreviewer"
             }],
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 func: "{that}.showEditorHidePreviewer",
+                args: [true],
                 namespace: "showEditorHidePreviewer"
             },
             "onStoryShareRequested.submitStory": {
@@ -96,11 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
-                args: ["editorVisible", true]
-            },
-            hideEditorShowPreviewer: {
-                func: "{that}.applier.change",
-                args: ["editorVisible", false]
+                args: ["editorVisible", "{arguments}.0"]
             }
         },
         /*
