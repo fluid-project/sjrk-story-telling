@@ -119,15 +119,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks",
                 args: ["{that}", "{that}.blockManager.managedViewComponentRegistry"]
             },
-            "onEditorNextRequested": {
+            "onEditorNextRequested.hideEditStoryStep": {
                 func: "{that}.showEditStoryStep",
-                args: [false],
-                namespace: "hideEditStoryStep"
+                args: [false]
             },
-            "onEditorPreviousRequested": {
+            "onEditorPreviousRequested.showEditStoryStep": {
                 func: "{that}.showEditStoryStep",
-                args: [true],
-                namespace: "showEditStoryStep"
+                args: [true]
             }
         },
         invokers: {
