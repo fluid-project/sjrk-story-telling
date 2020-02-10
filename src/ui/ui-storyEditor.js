@@ -29,7 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 this: "{that}.dom.storyMetadataStep",
                 method: "toggle",
-                args: ["{change}.oldValue"],
+                args: ["@expand:sjrk.storyTelling.ui.storyEditor.not({change}.value)"],
                 namespace: "manageMetadataStepVisibility"
             }]
         },
@@ -284,6 +284,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
+    };
+
+    /* A function which, given a value, will return the `not` of that value
+     * This is achieved via a simple "!" (not) operator, there is no fancy logic
+     * to deal with particular types of data.
+     * - "value": the value to negate
+     */
+    sjrk.storyTelling.ui.storyEditor.not = function (value) {
+        return !value;
     };
 
 })(jQuery, fluid);

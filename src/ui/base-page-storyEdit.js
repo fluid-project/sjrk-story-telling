@@ -33,7 +33,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 this: "{storyPreviewer}.container",
                 method: "toggle",
-                args: ["{change}.oldValue"],
+                args: ["@expand:sjrk.storyTelling.ui.storyEditor.not({change}.value)"],
                 namespace: "managePreviewerVisibility",
                 excludeSource: "init"
             },
