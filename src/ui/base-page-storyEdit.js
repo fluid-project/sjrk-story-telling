@@ -91,13 +91,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
             },
-            "onCreate.setEditorDisplay": {
-                func: "{that}.setEditorDisplay"
+            "onCreate.setAuthoringEnabledClass": {
+                func: "{that}.setAuthoringEnabledClass"
             }
         },
         invokers: {
-            setEditorDisplay: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.setEditorDisplay",
+            setAuthoringEnabledClass: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.setAuthoringEnabledClass",
                 args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
             },
             showEditorHidePreviewer: {
@@ -207,7 +207,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    sjrk.storyTelling.base.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
+    sjrk.storyTelling.base.page.storyEdit.setAuthoringEnabledClass = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
         $(mainContainer).prop("hidden", !authoringEnabled);
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
