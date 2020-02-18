@@ -1,6 +1,5 @@
 /*
-Copyright The Storytelling Tool copyright holders
-See the AUTHORS.md file in the docs directory of this distribution and at
+For copyright information, see the AUTHORS.md file in the `docs` directory of this distribution and at
 https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
