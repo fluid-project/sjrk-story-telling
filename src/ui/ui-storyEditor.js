@@ -15,23 +15,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
         gradeNames: ["sjrk.storyTelling.ui"],
         model: {
-            // the metadata step is hidden when the edit story step is shown,
-            // and vice versa. This is represented using this value alone, for now.
-            editStoryStepVisible: true
+            // this is the initial state of the visibility
+            editStoryStepVisible: true,
+            metadataStepVisible: false
+        },
+        modelRelay: {
+            editorStepVisibilityMutex: {
+                source: "editStoryStepVisible",
+                target: "metadataStepVisible",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.not"
+                }
+            }
         },
         modelListeners: {
-            "editStoryStepVisible": [{
+            "editStoryStepVisible": {
                 this: "{that}.dom.storyEditStoryStep",
                 method: "toggle",
                 args: ["{change}.value"],
-                namespace: "manageEditStoryStepVisibility"
+                namespace: "setEditStoryStepVisibility"
             },
-            {
+            "metadataStepVisible": {
                 this: "{that}.dom.storyMetadataStep",
                 method: "toggle",
-                args: ["@expand:sjrk.storyTelling.ui.storyEditor.not({change}.value)"],
-                namespace: "manageMetadataStepVisibility"
-            }]
+                args: ["{change}.value"],
+                namespace: "setMetadataStepVisibility"
+            }
         },
         selectors: {
             storySubmit: ".sjrkc-st-story-submit",
@@ -282,15 +291,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
-    };
-
-    /* A function which, given a value, will return the `not` of that value
-     * This is achieved via a simple "!" (not) operator, there is no fancy logic
-     * to deal with particular types of data.
-     * - "value": the value to negate
-     */
-    sjrk.storyTelling.ui.storyEditor.not = function (value) {
-        return !value;
     };
 
 })(jQuery, fluid);

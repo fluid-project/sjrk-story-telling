@@ -19,13 +19,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         model: {
             // the initial state is only the editor ui showing.
             // in much the same way as within the editor, the visibility
-            // of the editor and previewer are mutually exclusive and
-            // represented by a single model value, for the time being
+            // of the editor and previewer are mutually exclusive.
             // the individual steps of the editor (editStoryStep and metadataStep)
-            // are controlled within the editor model via editStoryStepVisible
+            // are controlled within the editor model.
             // in this way, the hiding and showing of the three steps of
             // the Edit page can be achieved
-            editorVisible: true
+            editorVisible: true,
+            previewerVisible: false
+        },
+        modelRelay: {
+            editPageVisibilityMutex: {
+                source: "editorVisible",
+                target: "previewerVisible",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.not"
+                }
+            }
         },
         modelListeners: {
             "editorVisible": [{
@@ -35,17 +44,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "manageEditorVisibility"
             },
             {
+                func: "{that}.events.onContextChangeRequested.fire",
+                args: ["{change}.value"],
+                priority: "last",
+                namespace: "contextChangeOnEditorVisibilityChange"
+            }],
+            "previewerVisible": [{
                 this: "{storyPreviewer}.container",
                 method: "toggle",
-                args: ["@expand:sjrk.storyTelling.ui.storyEditor.not({change}.value)"],
-                namespace: "managePreviewerVisibility",
-                excludeSource: "init"
+                args: ["{change}.value"],
+                namespace: "managePreviewerVisibility"
             },
             {
                 func: "{that}.events.onContextChangeRequested.fire",
                 args: ["{change}.value"],
                 priority: "last",
-                namespace: "contextChangeOnEditorVisibilityChange"
+                namespace: "contextChangeOnPreviewerVisibilityChange"
             }],
             "{storyEditor}.model.editStoryStepVisible": {
                 func: "{that}.events.onContextChangeRequested.fire",
