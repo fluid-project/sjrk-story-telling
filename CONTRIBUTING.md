@@ -25,8 +25,9 @@ branch of the project repository. The project repository should always be in a w
 The SJRK Storytelling Tool uses a workflow where contributors fork the project repository, work in a branch created off
 of master, and submit a pull request against the project repo's master branch to merge their contributions.
 
-(See: [Coding and Commit Standards](https://wiki.fluidproject.org/display/fluid/Coding+and+Commit+Standards) for more
-details on expectations for code contributions).
+See: [Coding and Commit Standards](https://wiki.fluidproject.org/display/fluid/Coding+and+Commit+Standards) for more
+details on expectations for code contributions, and the [Branches](docs/BRANCHES.md) file for more info on particular
+branches in the repository.
 
 ### JIRA and GitHub
 
@@ -52,7 +53,7 @@ All commits logs should include, at minimum, the following information:
 2. A short and meaningful summary of the commit, on the first line
 3. A meaningful commit log describing the contents of the change
 
-In rare cases, a commit may be trivial or entirely cosmetic (code reformatting, fixing typos in comments, etc). In those
+In rare cases, a commit may be trivial or entirely cosmetic (code reformatting, fixing typos in comments, etc.). In those
 cases, it is acceptable to use the "NOJIRA:" prefix for your log. However, it is still required to provide a meaningful
 summary and descriptive commit message.
 
