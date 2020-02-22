@@ -15,6 +15,7 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// Kettle middleware to prevent serving from directories not present in a whitelist
 fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
     gradeNames: "kettle.middleware",
     invokers: {
@@ -27,6 +28,11 @@ fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
     allowedSubdirectories: []
 });
 
+/* Restricts a given request based on whether the requested resource is contained
+ * within a directory that is on a list of allowed subdirectories
+ * - "request": the kettle request
+ * - "allowedSubdirectories": the list of subdirectories from which to allow serving
+ */
 sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter.handle = function (request, allowedSubdirectories) {
     var togo = fluid.promise();
 

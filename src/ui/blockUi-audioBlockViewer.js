@@ -17,6 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.audioBlockViewer", {
         gradeNames: ["sjrk.storyTelling.blockUi.timeBased"],
         components: {
+            // the block's templateManager
             templateManager: {
                 options: {
                     templateConfig: {
@@ -24,6 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the block itself
             block: {
                 type: "sjrk.storyTelling.block.audioBlock"
             }

@@ -35,10 +35,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }],
         components: {
+            // the masthead of the site
             masthead: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-header-container"
             },
+            // the footer of the site
             footer: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-footer-container",

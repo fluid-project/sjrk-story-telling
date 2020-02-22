@@ -16,6 +16,7 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// Middleware to save all binaries/files associated with a story
 fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
     gradeNames: ["kettle.middleware.multer"],
     formFieldOptions: {
@@ -41,7 +42,10 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
     }
 });
 
-// Renames any uploaded files to a pattern of uuid + extension
+/* Renames any uploaded files to a pattern of uuid + extension
+ * For more information on middleware, see the Kettle docs:
+ * https://github.com/fluid-project/kettle/blob/master/docs/Middleware.md
+ */
 sjrk.storyTelling.server.middleware.saveStoryWithBinaries.filenameResolver = function (req, file, cb) {
     var id = uuidv1();
     var extension = path.extname(file.originalname);

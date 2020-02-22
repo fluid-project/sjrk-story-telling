@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The page base grade. This is for coordinating UI's and represents an HTML page
     fluid.defaults("sjrk.storyTelling.base.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
@@ -111,6 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // cookie storage
             cookieStore: {
                 type: "fluid.prefs.cookieStore",
                 options: {
@@ -127,6 +129,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.menu",
                 container: ".sjrkc-st-menu"
             },
+            // the UIO component
             uio: {
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",

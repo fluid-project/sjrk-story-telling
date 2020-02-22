@@ -11,6 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 var fluid = require("infusion");
 
+// A basic static HTTP Kettle request handler that will return a 404
 fluid.defaults("sjrk.storyTelling.server.staticHandlerBase", {
     gradeNames: "kettle.request.http",
     invokers: {

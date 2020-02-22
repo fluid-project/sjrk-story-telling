@@ -22,6 +22,7 @@ require("kettle");
 var sjrk = fluid.registerNamespace("sjrk");
 require("fluid-couch-config");
 
+// sets up the Storytelling Tool database using fluid-couch-config
 fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     couchOptions: {
@@ -95,6 +96,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     }
 });
 
+/* This function is used as a "view" design doc once it's migrated to CouchDB */
 sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
     if (doc.value.tags.length > 0) {
         for (var idx in doc.value.tags) {
@@ -103,6 +105,7 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
     }
 };
 
+/* This function is used as a "view" design doc once it's migrated to CouchDB */
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 
     var browseDoc = {
@@ -115,6 +118,7 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
     emit(doc._id, browseDoc);
 };
 
+/* This function is used to validate new documents once it's migrated to CouchDB */
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
     // checking !newDoc_deleted is important because
     // otherwise validation can prevent deletion,

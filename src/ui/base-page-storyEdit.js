@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The storyEdit page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
@@ -163,11 +164,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
+    /* Depending on whether story authoring is enabled, will set/add CSS classes
+     * and HTML properties to show or hide parts of the page
+     * - "mainContainer": the main page container (mid-level)
+     * - "pageContainer": the Edit page container (top-level)
+     * - "authoringEnabled": a flag indicating whether authoring is enabled
+     * - "hiddenEditorClass": the class to apply to the pageContainer if authoring is not enabled
+     */
     sjrk.storyTelling.base.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
         $(mainContainer).prop("hidden", !authoringEnabled);
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
+    /* Submits the editor form to the server
+     * - "storyEditorForm": the Editor UI's HTML form element
+     * - "storyModel": the model of the story to save
+     * - "errorEvent": an event to fire on errors
+     */
     sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
         storyEditorForm.attr({
             action: "/stories/",

@@ -14,9 +14,11 @@ var fluid = require("infusion"),
     kettle = require("kettle"),
     fs = require("fs");
 
+// The main Kettle server configuration grade
 fluid.defaults("sjrk.storyTelling.server", {
     gradeNames: ["fluid.component"],
     components: {
+        // the Kettle server proper
         server: {
             type: "kettle.server",
             options: {
@@ -43,15 +45,19 @@ fluid.defaults("sjrk.storyTelling.server", {
                     target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
                 },
                 components: {
+                    // a DataSource to get a list of stories
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view"
                     },
+                    // a DataSource to get a single story
                     storyDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.story"
                     },
+                    // a DataSource to delete a single story
                     deleteStoryDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
                     },
+                    // a DataSource to save a single story along with any files it has
                     saveStoryWithBinaries: {
                         type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
                         options: {
@@ -64,9 +70,11 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    // the Kettle app
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
+                    // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {
                         type: "kettle.middleware.basicAuth",
                         options: {
@@ -78,6 +86,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    // middleware to restrict serving to only those directories listed
                     nodeModulesFilter: {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
@@ -92,18 +101,21 @@ fluid.defaults("sjrk.storyTelling.server", {
                                 "sinon"]
                         }
                     },
+                    // static middleware for the node_modules directory
                     nodeModules: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "./node_modules"
                         }
                     },
+                    // static middleware for the uploads directory
                     uploads: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "{server}.options.secureConfig.binaryUploadDirectory"
                         }
                     },
+                    // static middleware for the tests directory
                     tests: {
                         type: "kettle.middleware.static",
                         options: {
@@ -113,12 +125,14 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    // static middleware for the testData directory
                     testData: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "./tests/testData"
                         }
                     },
+                    // static middleware for the ui directory
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
@@ -151,6 +165,7 @@ fluid.defaults("sjrk.storyTelling.server", {
     }
 });
 
+// the Kettle app
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     gradeNames: ["kettle.app"],
     requestHandlers: {

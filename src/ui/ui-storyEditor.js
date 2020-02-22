@@ -124,6 +124,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             story: {
                 type: "sjrk.storyTelling.story"
             },
+            // the templateManager for this UI
             templateManager: {
                 options: {
                     model: {

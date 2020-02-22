@@ -17,6 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.editor.audioBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor.mediaBlockEditor"],
         components: {
+            // the block itself
             block: {
                 type: "sjrk.storyTelling.block.audioBlock",
                 options: {

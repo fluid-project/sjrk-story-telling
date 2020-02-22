@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The storyBrowse page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         model: {
@@ -26,6 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // the storyBrowser UI
             storyBrowser: {
                 type: "sjrk.storyTelling.ui.storyBrowser",
                 container: ".sjrkc-st-story-browser",

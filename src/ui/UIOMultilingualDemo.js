@@ -11,6 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // a less-than-ideal implementation of internationalized UIO
     fluid.defaults("fluid.uiOptions.prefsEditor.multilingualDemo", {
         gradeNames: ["fluid.uiOptions.prefsEditor"],
         terms: {
@@ -82,8 +83,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // Adds the locale and direction to the BODY in the IFRAME to enable CSS
-    // based on the locale and direction
+    /* Adds the locale and direction to the BODY in the IFRAME to enable CSS
+     * based on the locale and direction
+     * - "prefsEditorContainer": the DOM container for UIO
+     * - "locale": the locale to apply
+     * - "direction": the text orientation to apply
+     */
     fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody = function (prefsEditorContainer, locale, direction) {
         prefsEditorContainer.attr("lang", locale);
         prefsEditorContainer.attr("dir", direction);

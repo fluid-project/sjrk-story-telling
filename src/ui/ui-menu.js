@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // a UI representing the "menu" part of the page
     fluid.defaults("sjrk.storyTelling.ui.menu", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
@@ -35,6 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // the templateManager for this UI
             templateManager: {
                 options: {
                     templateConfig: {
