@@ -13,6 +13,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the Edit page, adds an event for test purposes
+    // authoring is disabled in this component, regardless of the server setting
     fluid.defaults("sjrk.storyTelling.base.page.testStoryEdit", {
         gradeNames: ["sjrk.storyTelling.base.page.storyEdit"],
         pageSetup: {
@@ -70,6 +72,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // The expected visibility states of parts of the previewer in these cases
     fluid.registerNamespace("sjrk.storyTelling.base.page.storyEditTester");
     sjrk.storyTelling.base.page.storyEditTester.expectedVisibility = {
         prePublish: {
@@ -89,6 +92,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    // Test sequence element for adding a block (type provided via blockAddButtonSelector)
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.addBlock", {
         gradeNames: "fluid.test.sequenceElement",
         // blockAddButtonSelector: null, // to be supplied by the implementing test
@@ -112,6 +116,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test sequence element for changing a value in a block and waiting for a model change
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.changeValueAndWaitToVerify", {
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
@@ -135,6 +140,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test sequence element for removing a value in a block and waiting for a model change
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.removeValueAndWaitToVerify", {
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
@@ -153,6 +159,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test sequence element for changing a value in a block and confirming no changes to the story model
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.changeBlockAndConfirmNoChange", {
         gradeNames: "fluid.test.sequenceElement",
         // field: null, // to be supplied by the implementing test
@@ -170,6 +177,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test sequence element for removing all blocks in the story
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.clearStoryBlocks", {
         gradeNames: "fluid.test.sequenceElement",
         sequence: [{
@@ -198,6 +206,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test sequence for adding and testing a text block
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
@@ -245,6 +254,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test sequence for adding and testing an image block
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.imageBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
@@ -294,6 +304,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test sequence for adding and testing an audio block
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
@@ -343,6 +354,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test sequence for adding and testing a video block
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence", {
         gradeNames: "fluid.test.sequence",
         sequenceElements: {
@@ -392,6 +404,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Main test sequences for the Edit page
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         members: {
@@ -752,14 +765,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    /* Triggers a click on a given element
+     * - "component": the viewComponent that contains the element
+     * - "buttonSelector": infusion selector name for the element to be clicked
+     */
     sjrk.storyTelling.base.page.storyEditTester.triggerButtonClick = function (component, buttonSelector) {
         component.locate(buttonSelector).click();
     };
 
+    /* Gets the value of a given field from the contents of the first block of a story model
+     * - "component": an sjrk.storyTelling.ui component that has a story subcomponent (e.g. editor or previewer)
+     * - "filedName": the name of the value/field to be retrieved
+     */
     sjrk.storyTelling.base.page.storyEditTester.getModelValueFromFieldName = function (component, fieldName) {
         return fluid.get(component, "story.model.content.0." + fieldName);
     };
 
+    // Test cases for the empty block filter
     sjrk.storyTelling.base.page.storyEditTester.isEmptyBlockTestCases = {
         "blockIsEmptyObject": { expectedEmpty: true, block: {} },
         "blockIsEmptyArray": { expectedEmpty: true, block: [] },
@@ -973,6 +995,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    /* Runs through the empty block test cases and tests the filter function directly
+     * - "defaultBlockContentValues": a collection of block types and fields that, if not empty,
+     *                                indicate whether a given block of that type is also empty
+     */
     sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock = function (defaultBlockContentValues) {
         fluid.each(sjrk.storyTelling.base.page.storyEditTester.isEmptyBlockTestCases, function (testCase, index) {
             var blockContentValuesToTest = fluid.isValue(testCase.blockContentValues) ? testCase.blockContentValues : defaultBlockContentValues;
@@ -982,27 +1008,48 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
+    /* Given a set of expected visibility values for various publishing states,
+     * will evaluate the actual visibility of the relevant bits of the previewer
+     * - "expectedStates": the expected visibility of the elements for each publishing state
+     * - "progressArea": the HTML element representing the progress area
+     * - "responseArea": the HTML element representing the server response area
+     * - "shareButton": the HTML element representing the "share story" button
+     */
     sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
         sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
         sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility(responseArea, expectedStates.responseArea);
         sjrk.storyTelling.base.page.storyEditTester.verifyElementDisabled(shareButton, expectedStates.shareButton);
     };
 
+    /* Verifies a single HTML element's visibility is as expected
+     * - "el": the element in question
+     * - "isExpectedVisible": the element's expected visibility state
+     */
     sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
         var isActuallyVisible = el.is(":visible");
         jqUnit.assertEquals("The element's visibility is as expected", isExpectedVisible, isActuallyVisible);
     };
 
+    /* Verifies whether a single HTML element is enabled or disabled and how
+     * that compares to its expected state
+     * - "el": the element in question
+     * - "isExpectedDisabled": the element's expected visibility state
+     */
     sjrk.storyTelling.base.page.storyEditTester.verifyElementDisabled = function (el, isExpectedDisabled) {
         var isActuallyDisabled = el.prop("disabled");
         jqUnit.assertEquals("The element's 'disabled' value is as expected", isExpectedDisabled, isActuallyDisabled);
     };
 
+    /* Verifies the text contained within a single HTML element
+     * - "responseArea": the server response area element
+     * - "isExpectedDisabled": the element's expected text contents, trimmed for whitespace
+     */
     sjrk.storyTelling.base.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
         var actualText = responseArea.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
