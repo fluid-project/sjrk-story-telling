@@ -113,11 +113,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * - "input": the value to negate
      */
     fluid.defaults("sjrk.storyTelling.transforms.not", {
-        gradeNames: ["fluid.standardTransformFunction"]
+        gradeNames: ["fluid.standardTransformFunction"],
+        invertConfiguration: "sjrk.storyTelling.transforms.not.invert"
     });
 
     sjrk.storyTelling.transforms.not = function (input) {
         return !input;
+    };
+
+    sjrk.storyTelling.transforms.not.invert = function (transformSpec) {
+        transformSpec.type = "sjrk.storyTelling.transforms.not";
+        return transformSpec;
     };
 
 })(jQuery, fluid);

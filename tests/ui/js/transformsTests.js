@@ -401,18 +401,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     jqUnit.test("Test negate transform function", function () {
-        jqUnit.expect(23);
+        jqUnit.expect(46);
 
         fluid.each(negateTransformTestCases, function (testCase, index) {
-            var transformSpec = { type: "sjrk.storyTelling.transforms.not", inputPath: "input" };
+            var transformRules = {
+                value: {
+                    transform: {
+                        type: "sjrk.storyTelling.transforms.not", inputPath: "input"
+                    }
+                }
+            };
 
-            var transformRules = { transform: transformSpec };
+            var result = fluid.model.transformWithRules(testCase, transformRules);
+            jqUnit.assertEquals("Transformation of test case " + index + " is as expected", testCase.expectedResult, result.value);
 
-            var resultString = fluid.model.transformWithRules(
-                { input: testCase.input },
-                { resultString: transformRules }
-            ).resultString;
-            jqUnit.assertEquals("Negative of test case " + index + " is as expected", testCase.expectedResult, resultString);
+            var inverseRules = fluid.model.transform.invertConfiguration(transformRules);
+            var inverseResult = fluid.model.transformWithRules({value: testCase.expectedResult}, inverseRules);
+            jqUnit.assertEquals("Inverse transformation of test case " + index + " is as expected", testCase.expectedInverseResult, inverseResult.input);
         });
     });
 
