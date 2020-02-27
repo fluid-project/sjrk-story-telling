@@ -93,6 +93,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             expectedInverseResult: ""
         },
         "test_13": {
+            // In "vanilla" JavaScript, !undefined === true. In Infusion, if there are no defaults set up for a transform
+            // and the input is undefined, the result will be undefined as well. Please see the documentation for info:
+            // https://docs.fluidproject.org/infusion/development/ModelTransformationAPI.html#example-4-using-an-undefined-input
             input: undefined,
             rules: {},
             expectedResult: undefined,
@@ -317,7 +320,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             expectedInverseResult: false
         },
         "test_19": {
-            // this case does not resolve as expected. normally, !undefined === true
             input: undefined,
             expectedResult: undefined,
             expectedInverseResult: undefined
