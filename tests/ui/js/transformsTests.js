@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, jqUnit */
+/* global fluid, sjrk, jqUnit */
 
 "use strict";
 
@@ -99,34 +99,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             expectedInverseResult: undefined
         }
     };
-
-    jqUnit.test("Test stringToArray transform function", function () {
-        jqUnit.expect(26);
-
-        fluid.each(stringToArrayTransformTestCases, function (testCase, index) {
-            var transformSpec = $.extend({}, testCase.rules, {
-                type: "sjrk.storyTelling.transforms.stringToArray",
-                inputPath: "inputString"
-            });
-
-            var transformRules = {
-                transform: transformSpec
-            };
-
-            var output = fluid.model.transformWithRules(
-                { inputString: testCase.input },
-                { output: transformRules }
-            ).output;
-            jqUnit.assertDeepEq("Generated array values for test case " + index + " are as expected", testCase.expectedResult, output);
-
-            var invertedRules = fluid.model.transform.invertConfiguration(transformRules);
-            var invertedOutput = fluid.model.transformWithRules(
-                output,
-                invertedRules
-            ).inputString;
-            jqUnit.assertEquals("Generated inverted string value for test case " + index + " is as expected", testCase.expectedInverseResult, invertedOutput);
-        });
-    });
 
     var arrayToStringTransformTestCases = {
         "test_01": {
@@ -253,34 +225,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    jqUnit.test("Test arrayToString transform function", function () {
-        jqUnit.expect(34);
-
-        fluid.each(arrayToStringTransformTestCases, function (testCase, index) {
-            var transformSpec = $.extend({}, testCase.rules, {
-                type: "sjrk.storyTelling.transforms.arrayToString",
-                inputPath: "sourceArray"
-            });
-
-            var transformRules = {
-                transform: transformSpec
-            };
-
-            var resultString = fluid.model.transformWithRules(
-                { sourceArray: testCase.input },
-                { resultString: transformRules }
-            ).resultString;
-            jqUnit.assertEquals("Generated string value for test case " + index + " is as expected", testCase.expectedResult, resultString);
-
-            var invertedRules = fluid.model.transform.invertConfiguration(transformRules);
-            var invertedOutput = fluid.model.transformWithRules(
-                resultString,
-                invertedRules
-            ).sourceArray;
-            jqUnit.assertDeepEq("Generated inverted array values for test case " + index + " are as expected", testCase.expectedInverseResult, invertedOutput);
-        });
-    });
-
     var negateTransformTestCases = {
         "test_01": {
             input: true,
@@ -400,25 +344,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    jqUnit.test("Test negate transform function", function () {
-        jqUnit.expect(46);
+    /* Sets up and runs a transform through a set of test cases
+     * - "transformType": the gradeName of the transform to test
+     * - "testCases": the test cases for said transform
+     */
+    sjrk.storyTelling.transforms.runTestsForTransform = function (transformType, testCases) {
+        jqUnit.test("Test transform " + transformType, function () {
+            jqUnit.expect(Object.keys(testCases).length * 2);
 
-        fluid.each(negateTransformTestCases, function (testCase, index) {
-            var transformRules = {
-                value: {
-                    transform: {
-                        type: "sjrk.storyTelling.transforms.not", inputPath: "input"
+            fluid.each(testCases, function (testCase, index) {
+                // merge in any extra transformation rules
+                var transformRules = {
+                    value: {
+                        transform: $.extend({}, testCase.rules, {
+                            type: transformType,
+                            inputPath: "input"
+                        })
                     }
-                }
-            };
+                };
 
-            var result = fluid.model.transformWithRules(testCase, transformRules);
-            jqUnit.assertEquals("Transformation of test case " + index + " is as expected", testCase.expectedResult, result.value);
+                // test the transformation
+                var result = fluid.model.transformWithRules(testCase, transformRules);
+                var assertionFunction = typeof testCase.expectedResult === "object" ? jqUnit.assertDeepEq : jqUnit.assertDeepEq;
+                assertionFunction("Transformation of test case " + index + " is as expected", testCase.expectedResult, result.value);
 
-            var inverseRules = fluid.model.transform.invertConfiguration(transformRules);
-            var inverseResult = fluid.model.transformWithRules({value: testCase.expectedResult}, inverseRules);
-            jqUnit.assertEquals("Inverse transformation of test case " + index + " is as expected", testCase.expectedInverseResult, inverseResult.input);
+                // test the inverse transformation
+                var inverseRules = fluid.model.transform.invertConfiguration(transformRules);
+                var inverseResult = fluid.model.transformWithRules({value: testCase.expectedResult}, inverseRules);
+                var inverseAssertionFunction = typeof testCase.expectedInverseResult === "object" ? jqUnit.assertDeepEq : jqUnit.assertDeepEq;
+                inverseAssertionFunction("Inverse transformation of test case " + index + " is as expected", testCase.expectedInverseResult, inverseResult.input);
+            });
         });
-    });
+    };
+
+    sjrk.storyTelling.transforms.runTestsForTransform("sjrk.storyTelling.transforms.stringToArray", stringToArrayTransformTestCases);
+    sjrk.storyTelling.transforms.runTestsForTransform("sjrk.storyTelling.transforms.arrayToString", arrayToStringTransformTestCases);
+    sjrk.storyTelling.transforms.runTestsForTransform("sjrk.storyTelling.transforms.not", negateTransformTestCases);
 
 })(jQuery, fluid);
