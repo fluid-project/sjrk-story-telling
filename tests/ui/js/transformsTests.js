@@ -355,7 +355,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             jqUnit.expect(Object.keys(testCases).length * 2);
 
             fluid.each(testCases, function (testCase, index) {
-                // merge in any extra transformation rules
+                // set up the transform and merge in any extra transformation rules
                 var transformRules = {
                     value: {
                         transform: $.extend({}, testCase.rules, {
@@ -367,14 +367,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
                 // test the transformation
                 var result = fluid.model.transformWithRules(testCase, transformRules);
-                var assertionFunction = typeof testCase.expectedResult === "object" ? jqUnit.assertDeepEq : jqUnit.assertDeepEq;
-                assertionFunction("Transformation of test case " + index + " is as expected", testCase.expectedResult, result.value);
+                jqUnit.assertDeepEq("Transformation of test case " + index + " is as expected", testCase.expectedResult, result.value);
 
                 // test the inverse transformation
                 var inverseRules = fluid.model.transform.invertConfiguration(transformRules);
                 var inverseResult = fluid.model.transformWithRules({value: testCase.expectedResult}, inverseRules);
-                var inverseAssertionFunction = typeof testCase.expectedInverseResult === "object" ? jqUnit.assertDeepEq : jqUnit.assertDeepEq;
-                inverseAssertionFunction("Inverse transformation of test case " + index + " is as expected", testCase.expectedInverseResult, inverseResult.input);
+                jqUnit.assertDeepEq("Inverse transformation of test case " + index + " is as expected", testCase.expectedInverseResult, inverseResult.input);
             });
         });
     };
