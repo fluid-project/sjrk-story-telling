@@ -99,10 +99,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Verifies that a given view component in the registry has the expected infusion type
-     * - "that": the DVCM component
-     * - "componentContainerIndividualClass": the CSS selector of dynamic view components
-     * - "expectedType": the expected type of the view component
+    /**
+     * Verifies that a given view component in the registry has the expected infusion type
+     *
+     * @param {Object} that - the DVCM component
+     * @param {String} componentContainerIndividualClass - the CSS selector of dynamic view components
+     * @param {String} expectedType - the expected type of the view component
      */
     sjrk.dynamicViewComponentManagerTester.verifyManagedViewComponentType = function (that, componentContainerIndividualClass, expectedType) {
         var actualType = that.managedViewComponentRegistry[componentContainerIndividualClass].options.managedViewComponentRequiredConfig.type;
@@ -119,8 +121,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("number of managedViewComponent elements located is " + expectedNumber, expectedNumber, managedViewComponents.length);
     };
 
-    /* Destroys the first managed component in the registry
-     * - "that": the DVCM component
+    /**
+     * Destroys the first managed component in the registry
+     *
+     * @param {Object} that - the DVCM component
      */
     sjrk.dynamicViewComponentManagerTester.destroyFirstManagedComponent = function (that) {
         var managedComponentRegistryAsArray = fluid.hashToArray(that.managedViewComponentRegistry, "managedComponentKey");

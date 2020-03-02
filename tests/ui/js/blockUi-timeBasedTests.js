@@ -76,9 +76,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Verifies that the media player is at the expected time
-     * - "mediaPlayer": the media player ("audio" or "video") DOM element
-     * - "expectedCurrentTime": the expected current playback time on the media player
+    /**
+     * Verifies that the media player is at the expected time
+     *
+     * @param {Object} mediaPlayer - the media player ("audio" or "video") DOM element
+     * @param {Number} expectedCurrentTime - the expected current playback time on the media player
      */
     sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime = function (mediaPlayer, expectedCurrentTime) {
         var actualCurrentTime = mediaPlayer[0].currentTime;

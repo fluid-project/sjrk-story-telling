@@ -73,11 +73,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Verifies that the test binding's model and DOM values are the same
-     * - "component": the binder component
-     * - "modelPath": the infusion model path to the model value
-     * - "domSelector": the DOM selector for the input element
-     * - "message": the message to display
+    /**
+     * Verifies that the test binding's model and DOM values are the same
+     *
+     * @param {Object} component - the binder component
+     * @param {String|String[]} modelPath - the infusion model path to the model value
+     * @param {String} domSelector - the DOM selector for the input element
+     * @param {String} message - the message to display
      */
     sjrk.storyTelling.binderTester.verifyBinding = function (component, modelPath, domSelector, message) {
         var actualModelValue = fluid.get(component.model, modelPath);

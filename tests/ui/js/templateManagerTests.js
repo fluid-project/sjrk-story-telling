@@ -57,9 +57,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Verifies that the markup in the templateManager's container is as expected
-     * - "templateManager": the templateManager component
-     * - "expectedContent": the expected content of the DOM container
+    /**
+     * Verifies that the markup in the templateManager's container is as expected
+     *
+     * @param {Object} templateManager - the templateManager component
+     * @param {Object} expectedContent - the expected content of the DOM container
      */
     sjrk.storyTelling.templateManagerTester.verifyTemplateRendering = function (templateManager, expectedContent) {
         var actualContent = templateManager.container.html().trim();
@@ -82,8 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Verifies the resolveTerms function's behaviour
-     */
+    // Verifies the resolveTerms function's behaviour
     jqUnit.test("Test resolveTerms function", function () {
         jqUnit.expect(1);
 
@@ -106,16 +107,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
     });
 
-    /* Verifies that a given element has the expected value
+    /**
+     * Verifies that a given element has the expected value
+     *
+     * @param {Object} component - the templateManager component
+     * @param {String} selector - the Infusion selector name for the element
+     * @param {String} expected - the expected value of the element
      */
     sjrk.storyTelling.templateManagerTester.verifyLocalization = function (component, selector, expected) {
         var actual = component.locate(selector).text().trim();
         jqUnit.assertEquals("Element text matches expected value", expected, actual);
     };
 
-    /* Generates a test sequence for a single localization
-     * - "languageCode": the language code for which to generate a test sequence
-     * - "expected": the expected value of the message
+    /**
+     * Generates a test sequence for a single localization
+     *
+     * @param {String} languageCode - the language code for which to generate a test sequence
+     * @param {String} expected - the expected value of the message
      */
     sjrk.storyTelling.templateManagerTester.generateLocalizationTest = function (languageCode, expected) {
         fluid.defaults("sjrk.storyTelling.templateManagerTester." + languageCode, {
@@ -163,8 +171,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Generates a test environment for a single localization
-     * - "languageCode": the language code for which to generate a test environment
+    /**
+     * Generates a test environment for a single localization
+     *
+     * @param {String} languageCode - the language code for which to generate a test environment
      */
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment = function (languageCode) {
         fluid.defaults("sjrk.storyTelling.templateManagerTest." + languageCode, {

@@ -15,8 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     var mockServer;
 
-    /* Sets up and tests the getParameterByName function
-     */
+    // Sets up and tests the getParameterByName function
     jqUnit.test("Test getParameterByName function", function () {
         var testCases = [
             { // test retrieval of set value from provided URL
@@ -130,9 +129,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Sets up a mock server response with given data for a given URL
-     * - "url": the URL for which to set up a response
-     * - "responseData": JSON data to include in the server response
+    /**
+     * Sets up a mock server response with given data for a given URL
+     *
+     * @param {String} url - the URL for which to set up a response
+     * @param {Object} responseData - JSON data to include in the server response
      */
     sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, responseData) {
         mockServer = sinon.createFakeServer();
@@ -140,17 +141,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(responseData)]);
     };
 
-    /* Stops the remote server and hands any previously set-up routes back to Kettle
+    /**
+     * Stops the remote server and hands any previously set-up routes back to Kettle
      */
     sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {
         mockServer.restore();
     };
 
-    /* Verifies that a custom CSS file was loaded for custom themes,
+    /**
+     * Verifies that a custom CSS file was loaded for custom themes,
      * or that none has been loaded if no custom theme has been specified
      * in the clientConfig
-     * - "clientConfig": the client configuration data, including the current theme
-     * - "expectedCssInstanceCount": The number of times the CSS file is expected to be present
+     *
+     * @param {Object} clientConfig - the client configuration data, including the current theme
+     * @param {Number} expectedCssInstanceCount - The number of times the CSS file is expected to be present
      */
     sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded = function (clientConfig, expectedCssInstanceCount) {
         if (clientConfig.theme === clientConfig.baseTheme) {

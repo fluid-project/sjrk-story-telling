@@ -167,7 +167,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEditor}.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
-                    args: ["{storyEditor}.blockManager", "{arguments}.0", 2]
+                    args: ["{storyEditor}.blockManager", 2]
                 }]
             },
             {

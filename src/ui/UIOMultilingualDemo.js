@@ -83,11 +83,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Adds the locale and direction to the BODY in the IFRAME to enable CSS
+    /**
+     * Adds the locale and direction to the BODY in the IFRAME to enable CSS
      * based on the locale and direction
-     * - "prefsEditorContainer": the DOM container for UIO
-     * - "locale": the locale to apply
-     * - "direction": the text orientation to apply
+     *
+     * @param {Object} prefsEditorContainer - the DOM container for UIO
+     * @param {String} locale - the locale to apply
+     * @param {String} direction - the text orientation to apply
      */
     fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody = function (prefsEditorContainer, locale, direction) {
         prefsEditorContainer.attr("lang", locale);

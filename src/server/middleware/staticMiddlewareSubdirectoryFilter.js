@@ -28,10 +28,14 @@ fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
     allowedSubdirectories: []
 });
 
-/* Restricts a given request based on whether the requested resource is contained
+/**
+ * Restricts a given request based on whether the requested resource is contained
  * within a directory that is on a list of allowed subdirectories
- * - "request": the kettle request
- * - "allowedSubdirectories": the list of subdirectories from which to allow serving
+ *
+ * @param {Objec} request - the kettle request
+ * @param {Object} allowedSubdirectories - the list of subdirectories from which to allow serving
+ *
+ * @return {Promise} - a fluid-flavoured promise that returns empty on resolve
  */
 sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter.handle = function (request, allowedSubdirectories) {
     var togo = fluid.promise();

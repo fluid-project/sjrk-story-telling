@@ -251,9 +251,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all blocks which have been selected in the editor
-     * - "that": the story editor UI
-     * - "managedViewComponentRegistry": the registry of view components
+    /**
+     * Removes all blocks which have been selected in the editor
+     *
+     * @param {Object} that - the story editor UI
+     * @param {Object} managedViewComponentRegistry - the registry of view components
      */
     sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {

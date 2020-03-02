@@ -81,10 +81,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Updates the HTML preview of a media player associated with a given block.
+    /**
+     * Updates the HTML preview of a media player associated with a given block.
      * If a media player was playing, it will be stopped before loading.
-     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
-     * - "mediaUrl": the URL of the media source file
+     *
+     * @param {Object} mediaPlayer - the jQueryable containing the HTML video or audio element
+     * @param {String} mediaUrl - the URL of the media source file
      */
     sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
         mediaPlayer.prop("controls", !!mediaUrl);
@@ -92,17 +94,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mediaPlayer[0].load();
     };
 
-    /* Rewinds a given media player to the beginning
-     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+    /**
+     * Rewinds a given media player to the beginning
+     *
+     * @param {Object} mediaPlayer - the jQueryable containing the HTML video or audio element
      */
     sjrk.storyTelling.blockUi.timeBased.resetMediaPlayerTime = function (mediaPlayer) {
         mediaPlayer.currentTime = 0;
     };
 
-    /* Plays a given media player, though it must first mute the player to satisfy
+    /**
+     * Plays a given media player, though it must first mute the player to satisfy
      * autoplay restrictions in several browsers. In the case of Chrome, please
      * refer to this article: https://goo.gl/xX8pDD
-     * - "mediaPlayer": the jQueryable containing the HTML video or audio element
+     *
+     * @param {Object} mediaPlayer - the jQueryable containing the HTML video or audio element
      */
     sjrk.storyTelling.blockUi.timeBased.playMediaPlayer = function (mediaPlayer) {
         mediaPlayer.prop("muted", true);

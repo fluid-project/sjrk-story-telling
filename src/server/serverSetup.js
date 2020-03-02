@@ -232,21 +232,29 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     }
 });
 
-/* Resolves a JSON file and parses it before returning it
- * - "jsonFilePath": the path to the JSON file to parse
+/**
+ * Resolves a JSON file and parses it before returning it
+ *
+ * @param {String} jsonFilePath - the path to the JSON file to parse
+ *
+ * @return {Object} - the parsed file contents
  */
 sjrk.storyTelling.server.resolveJSONFile = function (jsonFilePath) {
     var file = kettle.resolvers.file(jsonFilePath);
     return JSON.parse(file);
 };
 
-/* Returns the path to the custom theme folder. The theme folder's name is
+/**
+ * Returns the path to the custom theme folder. The theme folder's name is
  * expected to match the theme name being passed in. If the theme is not
  * specified, the path returend will be the current directory ("."). If the
  * theme is specified but the resolved folder doesn't exist within themeFolder,
  * an error will be reported.
- * - "theme": The name of the theme for which to find the path
- * - "themeFolder": The folder/path that contains the theme being retrieved
+ *
+ * @param {String} theme - The name of the theme for which to find the path
+ * @param {String} themeFolder - The folder/path that contains the theme being retrieved
+ *
+ * @return {String} - the custom theme directory's path
  */
 sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     var themePath = ".";

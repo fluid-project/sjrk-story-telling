@@ -29,13 +29,15 @@ fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
     }
 });
 
-/* Parses the response from the CouchDB server (via the provided viewDataSource)
+/**
+ * Parses the response from the CouchDB server (via the provided viewDataSource)
  * and responds to the HTTP request
- * - "request": a Kettle request
- * - "viewDataSource": a Kettle CouchDB DataSource that provides a list of stories
+ *
+ * @param {Object} request - a Kettle request
+ * @param {Object} viewDataSource - a Kettle CouchDB DataSource that provides a list of stories
  */
-sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource) {
-    var promise = viewDatasource.get({directViewId: "storiesById"});
+sjrk.storyTelling.server.handleBrowseStories = function (request, viewDataSource) {
+    var promise = viewDataSource.get({directViewId: "storiesById"});
     promise.then(function (response) {
         var extracted = sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse(response);
         var responseAsJSON = JSON.stringify(extracted);
@@ -47,12 +49,15 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDatasource
             message: errorAsJSON
         });
     });
-
 };
 
-/* Extracts a collection of stories from the raw CouchDB Browse response and
+/**
+ * Extracts a collection of stories from the raw CouchDB Browse response and
  * returns an object with that collection along with some statistics about it
- * - "response": the raw Browse response
+ *
+ * @param {Object} response - the raw Browse response
+ *
+ * @return {Object} - a collection of stories as well as the total number and page offset
  */
 sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse = function (response) {
     var storyBrowse = {
@@ -92,11 +97,13 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     }
 });
 
-/* Gets a single story's data from the database, parses it, rebuilds any URLs to
+/**
+ * Gets a single story's data from the database, parses it, rebuilds any URLs to
  * files associated with that story and responds to the HTTP request
- * - "request": a Kettle request that includes an ID for the story to retrieve
- * - "dataSource": a Kettle CouchDB DataSource that provides a single story
- * - "uploadedFilesHandlerPath": the path on the server to uploaded files
+ *
+ * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
+ * @param {Object} dataSource - a Kettle CouchDB DataSource that provides a single story
+ * @param {String} uploadedFilesHandlerPath - the path on the server to uploaded files
  */
 sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploadedFilesHandlerPath) {
     var id = request.req.params.id;
@@ -145,11 +152,13 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     }
 });
 
-/* Saves a single story to the CouchDB server and responds to the HTTP request.
+/**
+ * Saves a single story to the CouchDB server and responds to the HTTP request.
  * If authoring is not enabled, the request raises an error.
- * - "request": a Kettle request with data and files associated with a single story
- * - "dataSource": a Kettle CouchDB DataSource for saving stories
- * - "authoringEnabled": a server-level flag to indicate whether authoring is enabled
+ *
+ * @param {Object} request - a Kettle request with data and files associated with a single story
+ * @param {Object} dataSource - a Kettle CouchDB DataSource for saving stories
+ * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
@@ -182,12 +191,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
     }
 };
 
-/* Persist the story model to couch, with the updated references to where the binaries are saved
- * - "dataSource": a Kettle CouchDB DataSource for saving stories
- * - "binaryRenameMap": a map of uploaded file names to paths
- * - "storyModel": a single story's model
- * - "successEvent": an event to fire upon successful completion
- * - "failureEvent": an event to fire on failure
+/**
+ * Persist the story model to couch, with the updated references to where the binaries are saved
+ *
+ * @param {Object} dataSource - a Kettle CouchDB DataSource for saving stories
+ * @param {Object} binaryRenameMap - a map of uploaded file names to paths
+ * @param {Object} storyModel - a single story's model
+ * @param {Object} successEvent - an event to fire upon successful completion
+ * @param {Object} failureEvent - an event to fire on failure
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
     var id = uuidv1();
@@ -203,9 +214,13 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenam
     });
 };
 
-/* Update any media URLs to refer to the changed file names
- * - "blocks": a collection of story blocks with file references
- * - "files": a list of files to refer to
+/**
+ * Update any media URLs to refer to the changed file names
+ *
+ * @param {Object} blocks - a collection of story blocks with file references
+ * @param {Object} files - a list of files to refer to
+ *
+ * @return {Object} - a key-value collection linking uploaded filenames to server paths
  */
 sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
     // key-value pairs of original filename : generated filename
@@ -237,10 +252,14 @@ sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
     return binaryRenameMap;
 };
 
-/* Rotates an image to be oriented based on its EXIF orientation data, if present.
+/**
+ * Rotates an image to be oriented based on its EXIF orientation data, if present.
  * Uses the npm package "jpeg-autorotate": https://www.npmjs.com/package/jpeg-autorotate
- * - "file": an image file to process
- * - "options": additional options to pass into the rotate call
+ *
+ * @param {Object} file - an image file to process
+ * @param {Object} options - additional options to pass into the rotate call
+ *
+ * @return {Promise} - a fluid-flavoured promise
  */
 sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
     var togo = fluid.promise();
@@ -279,9 +298,11 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
     return togo;
 };
 
-/* Sets the "URL" field of a media block (image, audio, video) to the given URL
- * - "block": the block to update
- * - "url": the URL to the block's media file
+/**
+ * Sets the "URL" field of a media block (image, audio, video) to the given URL
+ *
+ * @param {Object} block - the block to update
+ * @param {String} url - the URL to the block's media file
  */
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
     if (block.blockType === "image") {
@@ -328,8 +349,10 @@ fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     }
 });
 
-/* Deletes a given story and its files
- * - "request": a Kettle request that includes an ID for the story to delete
+/**
+ * Deletes a given story and its files
+ *
+ * @param {Object} request - a Kettle request that includes an ID for the story to delete
  */
 sjrk.storyTelling.server.handleDeleteStory = function (request) {
     var promise = request.deleteStoryFromCouch(request.req.params.id);
@@ -347,14 +370,18 @@ sjrk.storyTelling.server.handleDeleteStory = function (request) {
     });
 };
 
-/* Deletes a single story (based on its ID) from the CouchDB server as well as
+/**
+ * Deletes a single story (based on its ID) from the CouchDB server as well as
  * any uploaded files associated with that story. Due to the nature of Kettle
  * DataSources and deleting, this is achieved by first getting the story from
  * CouchDB in order to have a proper reference to its internal IDs
- * - "handlerComponent": the deleteStoryHandler request handler component
- * - "storyId": the ID of the story to delete
- * - "deleteStoryDataSource": a Kettle CouchDB DataSource for deleting a single story
- * - "getStoryDataSource": a Kettle CouchDB DataSource for retrieving a single story
+ *
+ * @param {Object} handlerComponent - the deleteStoryHandler request handler component
+ * @param {String} storyId - the ID of the story to delete
+ * @param {Object} deleteStoryDataSource - a Kettle CouchDB DataSource for deleting a single story
+ * @param {Object} getStoryDataSource - a Kettle CouchDB DataSource for retrieving a single story
+ *
+ * @return {Promise} - a fluid-flavoured promise
  */
 sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, storyId, deleteStoryDataSource, getStoryDataSource) {
     var promise = fluid.promise();
@@ -391,9 +418,11 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, stor
     return promise;
 };
 
-/* Deletes all files on the file system that are associated with a given story
- * - "handlerComponent": the deleteStoryHandler request handler component
- * - "storyContent": a list of blocks representing the story
+/**
+ * Deletes all files on the file system that are associated with a given story
+ *
+ * @param {Object} handlerComponent - the deleteStoryHandler request handler component
+ * @param {Object} storyContent - a list of blocks representing the story
  */
 sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyContent) {
     var filesToDelete = [];
@@ -424,10 +453,14 @@ sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyCon
     });
 };
 
-/* Verifies that a given file name follows the UUID format as laid out in
+/**
+ * Verifies that a given file name follows the UUID format as laid out in
  * RFC4122. A detailed description of the format can be found here:
  * https://en.wikipedia.org/wiki/Universally_unique_identifier#Format
- * - "filename": the filename to verify
+ *
+ * @param {String} fileName - the filename to verify
+ *
+ * @return {Boolean} - true if the filename is valid
  */
 sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
     if (fileName && typeof fileName === "string" ) {
@@ -439,18 +472,24 @@ sjrk.storyTelling.server.isValidMediaFilename = function (fileName) {
     }
 };
 
-/* Returns a server path to a particular file
- * - "fileName": the name of the file
- * - "directoryName": the directory in which the file is located (may also be a partial path)
+/**
+ * Returns a server path to a particular file
+ *
+ * @param {String} fileName - the name of the file
+ * @param {String} directoryName - the directory in which the file is located (may also be a partial path)
+ *
+ * @return {String} - the combined server path
  */
 sjrk.storyTelling.server.getServerPathForFile = function (fileName, directoryName) {
     return "." + directoryName + path.sep + fileName;
 };
 
-/* "Deletes" a file by relocating it to a recovery directory on the server
- * - "fileToDelete": the name of the file to be deleted
- * - "deletedFilesRecoveryPath": the path to the directory where deleted files live
- * - "uploadedFilesHandlerPath": the path to the directory where files are uploaded
+/**
+ * "Deletes" a file by relocating it to a recovery directory on the server
+ *
+ * @param {String} fileToDelete - the name of the file to be deleted
+ * @param {String} deletedFilesRecoveryPath - the path to the directory where deleted files live
+ * @param {String} uploadedFilesHandlerPath - the path to the directory where files are uploaded
  */
 sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, deletedFilesRecoveryPath, uploadedFilesHandlerPath) {
     var recoveryPath = sjrk.storyTelling.server.getServerPathForFile(fileToDelete, deletedFilesRecoveryPath);
@@ -485,10 +524,12 @@ fluid.defaults("sjrk.storyTelling.server.clientConfigHandler", {
     }
 });
 
-/* Returns a collection of values which are "safe" to share with the client side of the application
- * - "request": a Kettle request for clientConfig
- * - "globalConfig": the "global config" entry list
- * - "secureConfig": the "secure config" entry list
+/**
+ * Returns a collection of values which are "safe" to share with the client side of the application
+ *
+ * @param {Object} request - a Kettle request for clientConfig
+ * @param {Object} globalConfig - the "global config" entry list
+ * @param {Object} secureConfig - the "secure config" entry list
  */
 sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secureConfig) {
     request.events.onSuccess.fire({

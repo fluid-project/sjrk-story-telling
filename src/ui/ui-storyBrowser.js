@@ -107,13 +107,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Changes the view in the storyBrowser to be either a list or a grid of stories.
+    /**
+     * Changes the view in the storyBrowser to be either a list or a grid of stories.
      * The default view is a list unless "grid" specified
-     * - "component": the storyBrowser component
-     * - "selector": the CSS selector for the view list
-     * - "displayPreference": the preference of which view to display ("grid" or "list")
-     * - "className": the class name that denotes the grid view is active
-     * - "completionEvent": an event to fire upon completion
+     *
+     * @param {Object} component - the storyBrowser component
+     * @param {String} selector - the CSS selector for the view list
+     * @param {String} displayPreference - the preference of which view to display ("grid" or "list")
+     * @param {String} className - the class name that denotes the grid view is active
+     * @param {Object} completionEvent - an event to fire upon completion
      */
     sjrk.storyTelling.ui.storyBrowser.changeView = function (component, selector, displayPreference, className, completionEvent) {
         if (displayPreference === "grid") {

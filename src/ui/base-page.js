@@ -145,9 +145,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Retrieves preferences stored in the cookie and applies them to the component
-     * - "pageComponent": the `page` component that will accept the preferences
-     * - "cookieStore": a fluid.prefs.cookieStore containing the data to laod
+    /**
+     * Retrieves preferences stored in the cookie and applies them to the component
+     *
+     * @param {Object} pageComponent - the `page` component that will accept the preferences
+     * @param {Object} cookieStore - a fluid.prefs.cookieStore containing the data to laod
      */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
@@ -162,9 +164,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    /* Resets the page preferences and clears the page model, with event hooks
+    /**
+     * Resets the page preferences and clears the page model, with event hooks
      * before and after the reset
-     * - "pageComponent": the page component to be reset
+     *
+     * @param {Object} pageComponent - the page component to be reset
      */
     sjrk.storyTelling.base.page.resetPreferences = function (pageComponent) {
         var transaction = pageComponent.applier.initiate();

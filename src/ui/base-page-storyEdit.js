@@ -133,10 +133,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all empty blocks from a given collection of story blocks
-     * - "blocks": a collection of story blocks (sjrk.storyTelling.block)
-     * - "blockContentValues": a hash map of block types which outlines the values
+    /**
+     * Removes all empty blocks from a given collection of story blocks
+     *
+     * @param {Object} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Object} blockContentValues - a hash map of block types which outlines the values
      *      that, if at least one is truthy, means a particular block is not empty
+     *
+     * @return {Object} - a collection of reliably non-empty story blocks
      */
     sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
         var filteredBlocks = [];
@@ -150,13 +154,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return filteredBlocks;
     };
 
-    /* Returns true if a block is determined to be empty, based on the values
+    /**
+     * Returns true if a block is determined to be empty, based on the values
      * listed in blockContentValuesForType. If at least one of those values is
      * truthy, the block is not empty. If the values are empty or otherwise can't
      * be iterated over, then the block is also empty regardless of its contents.
-     * - "block": a single story block (sjrk.storyTelling.block)
-     * - "blockContentValuesForType": an array of values for the block's type
+     *
+     * @param {Object} block - a single story block (sjrk.storyTelling.block)
+     * @param {Object} blockContentValuesForType - an array of values for the block's type
      *      that, if at least one is truthy, mean the block is not empty
+     *
+     * @return {Boolean} - true if the block is considered empty
      */
     sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValuesForType) {
         return !fluid.find_if(blockContentValuesForType, function (blockContentValue) {
@@ -164,22 +172,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    /* Depending on whether story authoring is enabled, will set/add CSS classes
+    /**
+     * Depending on whether story authoring is enabled, will set/add CSS classes
      * and HTML properties to show or hide parts of the page
-     * - "mainContainer": the main page container (mid-level)
-     * - "pageContainer": the Edit page container (top-level)
-     * - "authoringEnabled": a flag indicating whether authoring is enabled
-     * - "hiddenEditorClass": the class to apply to the pageContainer if authoring is not enabled
+     *
+     * @param {Object} mainContainer - the main page container (mid-level)
+     * @param {Object} pageContainer - the Edit page container (top-level)
+     * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+     * @param {String} hiddenEditorClass - the class to apply to the pageContainer if authoring is not enabled
      */
     sjrk.storyTelling.base.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
         $(mainContainer).prop("hidden", !authoringEnabled);
         $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
     };
 
-    /* Submits the editor form to the server
-     * - "storyEditorForm": the Editor UI's HTML form element
-     * - "storyModel": the model of the story to save
-     * - "errorEvent": an event to fire on errors
+    /**
+     * Submits the editor form to the server
+     *
+     * @param {Object} storyEditorForm - the Editor UI's HTML form element
+     * @param {Object} storyModel - the model of the story to save
+     * @param {Object} errorEvent - an event to fire on errors
      */
     sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
         storyEditorForm.attr({

@@ -191,7 +191,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         {
             "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
             listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
-            args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
+            args: ["{storyEdit}.storyEditor.blockManager", 0]
         },
         {
             funcName: "fluid.set",
@@ -636,7 +636,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
-                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 2]
+                    args: ["{storyEdit}.storyEditor.blockManager", 2]
                 },
                 // Remove the other two blocks and verify there are none left
                 {
@@ -650,7 +650,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEdit}.storyEditor.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
-                    args: ["{storyEdit}.storyEditor.blockManager", "{arguments}.0", 0]
+                    args: ["{storyEdit}.storyEditor.blockManager", 0]
                 }]
             },
             {
@@ -765,17 +765,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Triggers a click on a given element
-     * - "component": the viewComponent that contains the element
-     * - "buttonSelector": infusion selector name for the element to be clicked
+    /**
+     * Triggers a click on a given element
+     *
+     * @param {Object} component - the viewComponent that contains the element
+     * @param {String} buttonSelector - infusion selector name for the element to be clicked
      */
     sjrk.storyTelling.base.page.storyEditTester.triggerButtonClick = function (component, buttonSelector) {
         component.locate(buttonSelector).click();
     };
 
-    /* Gets the value of a given field from the contents of the first block of a story model
-     * - "component": an sjrk.storyTelling.ui component that has a story subcomponent (e.g. editor or previewer)
-     * - "filedName": the name of the value/field to be retrieved
+    /**
+     * Gets the value of a given field from the contents of the first block of a story model
+     *
+     * @param {Object} component - an sjrk.storyTelling.ui component that has a story subcomponent (e.g. editor or previewer)
+     * @param {String} fieldName - the name of the value/field to be retrieved
+     *
+     * @return {Object} - the value of the field
      */
     sjrk.storyTelling.base.page.storyEditTester.getModelValueFromFieldName = function (component, fieldName) {
         return fluid.get(component, "story.model.content.0." + fieldName);
@@ -995,9 +1001,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    /* Runs through the empty block test cases and tests the filter function directly
-     * - "defaultBlockContentValues": a collection of block types and fields that, if not empty,
-     *                                indicate whether a given block of that type is also empty
+    /**
+     * Runs through the empty block test cases and tests the filter function directly
+     *
+     * @param {Object} defaultBlockContentValues - a collection of block types and fields that, if not empty,
+     * indicate whether a given block of that type is also empty
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock = function (defaultBlockContentValues) {
         fluid.each(sjrk.storyTelling.base.page.storyEditTester.isEmptyBlockTestCases, function (testCase, index) {
@@ -1008,12 +1016,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    /* Given a set of expected visibility values for various publishing states,
+    /**
+     * Given a set of expected visibility values for various publishing states,
      * will evaluate the actual visibility of the relevant bits of the previewer
-     * - "expectedStates": the expected visibility of the elements for each publishing state
-     * - "progressArea": the HTML element representing the progress area
-     * - "responseArea": the HTML element representing the server response area
-     * - "shareButton": the HTML element representing the "share story" button
+     *
+     * @param {Object} expectedStates - the expected visibility of the elements for each publishing state
+     * @param {Object} progressArea - the HTML element representing the progress area
+     * @param {Object} responseArea - the HTML element representing the server response area
+     * @param {Object} shareButton - the HTML element representing the "share story" button
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
         sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
@@ -1021,31 +1031,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         sjrk.storyTelling.base.page.storyEditTester.verifyElementDisabled(shareButton, expectedStates.shareButton);
     };
 
-    /* Verifies a single HTML element's visibility is as expected
-     * - "el": the element in question
-     * - "isExpectedVisible": the element's expected visibility state
+    /**
+     * Verifies a single HTML element's visibility is as expected
+     *
+     * @param {Object} el - the element in question
+     * @param {Boolean} isExpectedVisible - the element's expected visibility state
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
         var isActuallyVisible = el.is(":visible");
         jqUnit.assertEquals("The element's visibility is as expected", isExpectedVisible, isActuallyVisible);
     };
 
-    /* Verifies whether a single HTML element is enabled or disabled and how
+    /**
+     * Verifies whether a single HTML element is enabled or disabled and how
      * that compares to its expected state
-     * - "el": the element in question
-     * - "isExpectedDisabled": the element's expected visibility state
+     *
+     * @param {Object} el - the element in question
+     * @param {Boolean} isExpectedDisabled - the element's expected visibility state
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyElementDisabled = function (el, isExpectedDisabled) {
         var isActuallyDisabled = el.prop("disabled");
         jqUnit.assertEquals("The element's 'disabled' value is as expected", isExpectedDisabled, isActuallyDisabled);
     };
 
-    /* Verifies the text contained within a single HTML element
-     * - "responseArea": the server response area element
-     * - "isExpectedDisabled": the element's expected text contents, trimmed for whitespace
+    /**
+     * Verifies the text contained within a single HTML element
+     *
+     * @param {Object} el - the server response area element
+     * @param {String} expectedText - the element's expected text contents, trimmed for whitespace
      */
-    sjrk.storyTelling.base.page.storyEditTester.verifyResponseText = function (responseArea, expectedText) {
-        var actualText = responseArea.text().trim();
+    sjrk.storyTelling.base.page.storyEditTester.verifyResponseText = function (el, expectedText) {
+        var actualText = el.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
     };
 

@@ -156,10 +156,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Verifies the current view setting for the list DOM element
-     * - "viewListElement": the DOM element that represents the list to check
-     * - "expectedViewSetting": the expected setting of the view preference
-     * - "gridViewClassName": the class that indicates the grid view is active
+    /**
+     * Verifies the current view setting for the list DOM element
+     *
+     * @param {Object} viewListElement - the DOM element that represents the list to check
+     * @param {String} expectedViewSetting - the expected setting of the view preference
+     * @param {String} gridViewClassName - the class that indicates the grid view is active
      */
     sjrk.storyTelling.ui.storyBrowserTester.verifyViewSetting = function (viewListElement, expectedViewSetting, gridViewClassName) {
         var containsGridClass = viewListElement.hasClass(gridViewClassName);

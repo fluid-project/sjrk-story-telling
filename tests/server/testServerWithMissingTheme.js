@@ -24,8 +24,7 @@ require("./utils/serverTestUtils.js");
 
 kettle.loadTestingSupport();
 
-/** Configs which can be found to be bad at definition time **/
-
+// Configs which can be found to be bad at definition time
 jqUnit.test("Config with missing theme folder", function () {
     jqUnit.expectFrameworkDiagnostic("Config with missing theme folder failed as expected", function () {
         kettle.config.loadConfig({

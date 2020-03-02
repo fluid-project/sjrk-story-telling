@@ -48,12 +48,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    /* Verifies the behaviour of the ID helper is as expected by confirming two
+    /**
+     * Verifies the behaviour of the ID helper is as expected by confirming two
      * generated IDs are not the same as one another and both follow a set format
-     * - "component": the templateManager component
-     * - "selector1": the selector for the first element to check
-     * - "selector2": the selector for the second element to check
-     * - "prefix": the expected prefix for generated IDs
+     *
+     * @param {Object} component - the templateManager component
+     * @param {String} selector1 - the selector for the first element to check
+     * @param {String} selector2 - the selector for the second element to check
+     * @param {String} prefix - the expected prefix for generated IDs
      */
     sjrk.storyTelling.templateManagerHelperTester.verifyHandlebarsIdHelper = function (component, selector1, selector2, prefix) {
         var generatedId1 = component.locate(selector1).text().trim();
@@ -64,9 +66,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Generated ID begins with prefix and dash", 0, generatedId1.indexOf(prefix + "-"));
     };
 
-    /* Verifies the behaviour of the Replace helper
-     * - "component": the templateManager component
-     * - "selector": the selector for the element to check
+    /**
+     * Verifies the behaviour of the Replace helper
+     *
+     * @param {Object} component - the templateManager component
+     * @param {String} selector - the selector for the element to check
      */
     sjrk.storyTelling.templateManagerHelperTester.verifyHandlebarsReplaceHelper = function (component, selector) {
         var actualOutputString = component.locate(selector).text().trim();
