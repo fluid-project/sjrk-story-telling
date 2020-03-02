@@ -19,13 +19,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             hiddenEditorClass: "hidden"
         },
         model: {
-            // the initial state is only the editor ui showing.
-            // in much the same way as within the editor, the visibility
-            // of the editor and previewer are mutually exclusive.
-            // the individual steps of the editor (editStoryStep and metadataStep)
-            // are controlled within the editor model.
-            // in this way, the hiding and showing of the three steps of
-            // the Edit page can be achieved
+            /* The initial page state is only the Edit Story Step showing.
+             * In much the same way as within the editor grade, the visibility
+             * of the editor and previewer are mutually exclusive, and the latter
+             * is always set to the opposite of the former. The same is true for
+             * editStoryStepVisible and metadataStepVisible within the editor UI.
+             *
+             * The individual steps of the editor (editStoryStep and metadataStep)
+             * are controlled within the editor model, so hiding and showing of
+             * each of the three steps in the editor is achieved by changing
+             * both the editorVisible value in this grade as well as
+             * editStoryStepVisible.
+             *
+             * The three steps and their relevant model states are, in order:
+             * - Edit Story Step
+             *      - editorVisible: true
+             *      - editStoryStepVisible: true
+             * - Metadata Step
+             *      - editorVisible: true
+             *      - editStoryStepVisible: false
+             * - Preview Step
+             *      - editorVisible: false
+             *      - editStoryStepVisible: false
+             */
             editorVisible: true,
             previewerVisible: false
         },
@@ -51,18 +67,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "last",
                 namespace: "contextChangeOnEditorVisibilityChange"
             }],
-            "previewerVisible": [{
+            "previewerVisible": {
                 this: "{storyPreviewer}.container",
                 method: "toggle",
                 args: ["{change}.value"],
                 namespace: "managePreviewerVisibility"
             },
-            {
-                func: "{that}.events.onContextChangeRequested.fire",
-                args: ["{change}.value"],
-                priority: "last",
-                namespace: "contextChangeOnPreviewerVisibilityChange"
-            }],
             "{storyEditor}.model.editStoryStepVisible": {
                 func: "{that}.events.onContextChangeRequested.fire",
                 args: ["{change}.value"],
