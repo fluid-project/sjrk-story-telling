@@ -147,6 +147,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "gpii.locationBar",
                 options: {
                     model: {
+                        // because we have model relays that make sure metadataStepVisible
+                        // and previewerVisible are always the opposite of editStoryStepVisible
+                        // and editorVisible, respectively, we only need to track the latter two
                         editorVisible: "{storyEdit}.model.editorVisible",
                         editStoryStepVisible: "{storyEditor}.model.editStoryStepVisible"
                     },
