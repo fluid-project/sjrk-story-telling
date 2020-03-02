@@ -183,13 +183,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test page visibility",
+                name: "Test step visibility",
                 expect: 6,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "funcName": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage2"],
-                        ["{storyEditor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyMetadataStep"],
+                        ["{storyEditor}.dom.storyEditStoryStep"],
+                        "{storyEditor}.model"
                     ]
                 },
                 {
@@ -197,11 +198,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEditor}.dom.storyEditorNext"
                 },
                 {
-                    "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "changeEvent": "{storyEditor}.applier.modelChanged",
+                    "path": "metadataStepVisible",
+                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage1"],
-                        ["{storyEditor}.dom.storyEditorPage2"]
+                        ["{storyEditor}.dom.storyEditStoryStep"],
+                        ["{storyEditor}.dom.storyMetadataStep"]
                     ]
                 },
                 {
@@ -209,11 +211,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEditor}.dom.storyEditorPrevious"
                 },
                 {
-                    "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "changeEvent": "{storyEditor}.applier.modelChanged",
+                    "path": "metadataStepVisible",
+                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage2"],
-                        ["{storyEditor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyMetadataStep"],
+                        ["{storyEditor}.dom.storyEditStoryStep"]
                     ]
                 }]
             }]

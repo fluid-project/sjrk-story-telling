@@ -89,6 +89,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    // The expected model values of the page's historian component for each step
+    sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates = {
+        editStoryStep: {
+            editStoryStepVisible: true,
+            editorVisible: true
+        },
+        metadataStep: {
+            editStoryStepVisible: false,
+            editorVisible: true
+        },
+        previewerStep: {
+            editStoryStepVisible: false,
+            editorVisible: false
+        }
+    };
+
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.addBlock", {
         gradeNames: "fluid.test.sequenceElement",
         // blockAddButtonSelector: null, // to be supplied by the implementing test
@@ -408,22 +424,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "args": "onAllUiComponentsReady event fired."
                 },
                 {
-                    func: "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    func: "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     args: [
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage2", "{storyEdit}.storyPreviewer.container"],
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage1"]
+                        ["{storyEdit}.storyEditor.dom.storyMetadataStep", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditStoryStep"]
                     ]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyEditor.dom.storyEditorNext"
                 },
                 {
-                    "event": "{storyEdit}.storyEditor.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
-                    "args": [
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage1", "{storyEdit}.storyPreviewer.container"],
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage2"]
+                    changeEvent: "{storyEdit}.storyEditor.applier.modelChanged",
+                    path: "editStoryStepVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
+                        ["{storyEdit}.storyEditor.dom.storyEditStoryStep", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyMetadataStep"]
                     ]
                 },
                 {
@@ -441,27 +458,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Previewer model updated to match editor","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
-                    "args": [
+                    changeEvent: "{storyEdit}.applier.modelChanged",
+                    path: "editorVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
                         ["{storyEdit}.storyEditor.container"],
                         ["{storyEdit}.storyPreviewer.container"]
                     ]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
                 },
                 {
-                    "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
-                    "args": [
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage1", "{storyEdit}.storyPreviewer.container"],
-                        ["{storyEdit}.storyEditor.dom.storyEditorPage2"]
+                    changeEvent: "{storyEdit}.applier.modelChanged",
+                    path: "editorVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
+                        ["{storyEdit}.storyEditor.dom.storyEditStoryStep", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyMetadataStep"]
                     ]
                 },
                 {
@@ -475,13 +494,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Previewer model updated","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyEditor.dom.storySubmit"
                 },
                 {
-                    "event": "{storyEdit}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
-                    "args": [
+                    changeEvent: "{storyEdit}.applier.modelChanged",
+                    path: "editorVisible",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
                         ["{storyEdit}.storyEditor.container"],
                         ["{storyEdit}.storyPreviewer.container"]
                     ]
@@ -524,33 +544,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test block controls",
             tests: [{
                 name: "Test block operations within the page context",
-                expect: 17,
+                expect: 16,
                 sequence: [{
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                    // set the currently-visible part of the page back to the block editor
+                    jQueryTrigger: "click",
+                    element: "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
                 },
                 {
-                    "event": "{storyEdit}.storyEditor.events.onEditorNextRequested",
+                    "event": "{storyEdit}.events.onContextChangeRequested",
                     listener: "jqUnit.assert",
-                    args: "onEditorNextRequested event fired."
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
-                },
-                {
-                    "event": "{storyEdit}.storyEditor.events.onStorySubmitRequested",
-                    listener: "jqUnit.assert",
-                    args: "onStorySubmitRequested event fired."
+                    args: "onContextChangeRequested event fired."
                 },
                 {
                     "jQueryTrigger": "click",
                     "element": "{storyEdit}.storyEditor.dom.storyEditorPrevious"
                 },
                 {
-                    "event": "{storyEdit}.storyEditor.events.onEditorPreviousRequested",
+                    "event": "{storyEdit}.events.onContextChangeRequested",
                     listener: "jqUnit.assert",
-                    args: "onEditorPreviousRequested event fired."
+                    args: "onContextChangeRequested event fired."
                 },
                 // Click to add a text block
                 {
@@ -721,8 +733,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test progress and server response area",
             tests: [{
                 name: "Test progress visibility",
-                expect: 10,
+                expect: 21,
                 sequence: [{
+                    // set the currently-visible part of the page to the previewer
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
+                        ["{storyEdit}.storyEditor.dom.storyEditStoryStep", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyMetadataStep"]
+                    ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
+                        ["{storyEdit}.storyEditor.container"],
+                        ["{storyEdit}.storyPreviewer.container"]
+                    ]
+                },
+                {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.prePublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
@@ -747,6 +784,78 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyResponseText",
                     args: ["{storyEdit}.storyPreviewer.dom.responseArea", "Publishing failed: Story about Shyguy didn't save because Rootbeer got jealous"]
+                },
+                // reset the visibility to the edit story step
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
+                        ["{storyEdit}.storyEditor.dom.storyEditStoryStep", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyMetadataStep"]
+                    ]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "sjrk.storyTelling.testUtils.verifyStepVisibility",
+                    args: [
+                        ["{storyEdit}.storyEditor.dom.storyMetadataStep", "{storyEdit}.storyPreviewer.container"],
+                        ["{storyEdit}.storyEditor.dom.storyEditStoryStep"]
+                    ]
+                }]
+            }]
+        },
+        {
+            name: "Test page history state management",
+            tests: [{
+                name: "Test historian component model state",
+                expect: 5,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.metadataStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.previewerStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.metadataStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
                 }]
             }]
         }]
