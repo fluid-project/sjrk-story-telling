@@ -109,7 +109,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // For rendering the handlebars template with all applicable values
             templateRenderer: {
-                type: "gpii.handlebars.renderer.standalone",
+                type: "gpii.handlebars.renderer",
                 options: {
                     components: {
                         getIds: {

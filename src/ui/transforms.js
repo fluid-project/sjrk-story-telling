@@ -124,4 +124,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return fluid.get(component, path)[index] || index;
     };
 
+    /* A transform which, given a value, will return the logical `not` of that value
+     * This is achieved via a simple "!" (not) operator, there is no fancy logic
+     * to deal with particular types of data.
+     * - "input": the value to negate
+     */
+    fluid.defaults("sjrk.storyTelling.transforms.not", {
+        gradeNames: ["fluid.standardTransformFunction"],
+        invertConfiguration: "sjrk.storyTelling.transforms.not.invert"
+    });
+
+    sjrk.storyTelling.transforms.not = function (input) {
+        return !input;
+    };
+
+    sjrk.storyTelling.transforms.not.invert = function (transformSpec) {
+        transformSpec.type = "sjrk.storyTelling.transforms.not";
+        return transformSpec;
+    };
+
 })(jQuery, fluid);
