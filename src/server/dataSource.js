@@ -33,6 +33,14 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.core", {
     }
 });
 
+/**
+ * Builds a URL from the given hostname and path
+ *
+ * @param {String} host - the host URL
+ * @param {String} path - the path to the dataSource relative to the root
+ *
+ * @return {String} - the fully-formed URL
+ */
 sjrk.storyTelling.server.dataSource.couch.core.getURL = function (host, path) {
     return host + path;
 };

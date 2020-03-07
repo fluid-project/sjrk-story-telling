@@ -26,6 +26,7 @@ kettle.loadTestingSupportQuiet();
 var sjrk = fluid.registerNamespace("sjrk");
 var jqUnit = fluid.registerNamespace("jqUnit");
 
+// a template to use when generating new stories
 var storyTemplate = {
     "title": "%title",
     "content": [

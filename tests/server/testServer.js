@@ -25,6 +25,7 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// basic test server definitions
 sjrk.storyTelling.server.testServerDefs = [{
     name: "Basic server tests",
     expect: 2,
@@ -52,21 +53,34 @@ sjrk.storyTelling.server.testServerDefs = [{
         func: "{validNodeModulesRequest}.send"
     }, {
         event: "{validNodeModulesRequest}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerDefs.testGetRequestSuccessful"
+        listener: "sjrk.storyTelling.server.testServerDefs.verifyGetRequestSuccessful"
     }, {
         func: "{invalidNodeModulesRequest}.send"
     }, {
         event: "{invalidNodeModulesRequest}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerDefs.testGetRequestFailed"
+        listener: "sjrk.storyTelling.server.testServerDefs.verifyGetRequestFailed"
     }]
 }];
 
-sjrk.storyTelling.server.testServerDefs.testGetRequestSuccessful = function (data, that) {
+/**
+ * Verifies that a GET request completed successfully
+ *
+ * @param {Object} data - the data returned by the call
+ * @param {Object} that - the server response object
+ */
+sjrk.storyTelling.server.testServerDefs.verifyGetRequestSuccessful = function (data, that) {
     jqUnit.assertEquals("Successful GET request for allowed subdirectory of node_modules", 200, that.nativeResponse.statusCode);
 };
 
-sjrk.storyTelling.server.testServerDefs.testGetRequestFailed = function (data, that) {
+/**
+ * Verifies that a GET request completed unsuccessfully with a 404 error
+ *
+ * @param {Object} data - the data returned by the call
+ * @param {Object} that - the server response object
+ */
+sjrk.storyTelling.server.testServerDefs.verifyGetRequestFailed = function (data, that) {
     jqUnit.assertEquals("Failed GET request for unallowed subdirectory of node_modules", 404, that.nativeResponse.statusCode);
 };
 
+// starts up the test server based on the provided definitions
 kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerDefs);
