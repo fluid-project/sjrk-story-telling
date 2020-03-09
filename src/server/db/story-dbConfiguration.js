@@ -11,8 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 // globals or arguments that will be prevent in CouchDB design doc functions
 // such as views or validate_doc_update
 
-/* global sjrk, emit, newDoc, oldDoc, userCtx, secObj */
-/*eslint no-unused-vars: ["error", { "vars": "local", "argsIgnorePattern": "newDoc|oldDoc|userCtx|secObj" }]*/
+/* global emit */
 
 "use strict";
 
@@ -129,14 +128,11 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 /**
 * This function is used to validate new documents once it's migrated to CouchDB
 * For more info on this process, please see the CouchDB guide:
-* https://guide.couchdb.org/editions/1/en/validation.html
+* https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions
 *
 * @param {Object} newDoc - the incoming doc
-* @param {Object} oldDoc - pre-existing doc on the disk, if any exists
-* @param {Object} userCtx - the user and their roles
-* @param {Object} secObj - the Security Object
 */
-sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
+sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc) {
     // checking !newDoc._deleted is important because
     // otherwise validation can prevent deletion,
     // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete
