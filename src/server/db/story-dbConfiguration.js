@@ -130,6 +130,8 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 * For more info on this process, please see the CouchDB guide:
 * https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions
 *
+* @throws - If newDoc doesn't have a type defined, an error will be thrown
+*
 * @param {Object} newDoc - the incoming doc
 */
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc) {

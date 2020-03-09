@@ -31,12 +31,17 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
 };
 
 /**
+ * A collection of client configuration settings
+ * @typedef {Object.<String, String>} ClientConfig
+ * @property {String} theme - the current theme of the site
+ * @property {String} baseTheme - the base theme of the site
+ * @property {String} authoringEnabled - indicates whether story saving and editing are enabled
+ */
+
+/**
  * Loads a story View page and a particular story from a story ID from the query string
  *
- * @param {Object} clientConfig - a collection of client config values consisting of
- * @param {String} clientConfig.theme - the current theme of the site
- * @param {String} clientConfig.baseTheme - the base theme of the site
- * @param {String} clientConfig.authoringEnabled - indicates whether story saving and editing are enabled
+ * @param {ClientConfig} clientConfig - client configuration settings
  * @param {Object} options - additional options to merge into the View page
  *
  * @return {Promise} - a fluid-flavoured promise which will return a storyView page component on resolve
@@ -87,10 +92,7 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
 /**
  * Loads a story Browse page and populates it with a set of stories
  *
- * @param {Object} clientConfig - a collection of client config values consisting of
- * @param {String} clientConfig.theme - the current theme of the site
- * @param {String} clientConfig.baseTheme - the base theme of the site
- * @param {String} clientConfig.authoringEnabled - indicates whether story saving and editing are enabled
+ * @param {ClientConfig} clientConfig - client configuration settings
  * @param {Object} options - additional options to merge into the Browse page
  *
  * @return {Promise} - a fluid-flavoured promise which will return a storyBrowse page component on resolve
@@ -149,10 +151,7 @@ sjrk.storyTelling.loadTheme = function () {
  * Loads CSS and JavaScript files for the provided theme into the page markup.
  * Returns a promise. If the promise resolves, it will contain the clientConfig.
  *
- * @param {Object} clientConfig - a collection of client config values consisting of
- * @param {String} clientConfig.theme - the current theme of the site
- * @param {String} clientConfig.baseTheme - the base theme of the site
- * @param {String} clientConfig.authoringEnabled - indicates whether story saving and editing are enabled
+ * @param {ClientConfig} clientConfig - client configuration settings
  *
  * @return {Promise} - a fluid-flavoured promise which returns clientConfig on resovle
  */
