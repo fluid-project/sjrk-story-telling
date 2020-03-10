@@ -134,9 +134,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         /*
          * For a block of a given type, a block is considered empty unless any
-         * one of the values listed in the corresponding array is truthy
+         * one of the fields listed in its corresponding array is truthy.
+         *
+         * E.g. for an image block, even if heading, altText and description
+         * are truthy, if the imageUrl isn't provided then the block is empty.
          */
-        blockContentValues: {
+        blockFields: {
             "text": ["heading", "text"],
             "image": ["imageUrl"],
             "audio": ["mediaUrl"],
@@ -194,7 +197,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                         singleTransform: {
                                             type: "fluid.transforms.free",
                                             func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
-                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockContentValues"]
+                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockFields"]
                                         }
                                     }
                                 }
@@ -209,17 +212,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Removes all empty blocks from a given collection of story blocks
      *
-     * @param {Object} blocks - a collection of story blocks (sjrk.storyTelling.block)
-     * @param {Object} blockContentValues - a hash map of block types which outlines the values
-     *      that, if at least one is truthy, means a particular block is not empty
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Object} blockFields - a hash map of block types and the fields
+     * that, if at least one is truthy, means that particular block is not empty
      *
      * @return {Object} - a collection of reliably non-empty story blocks
      */
-    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
+    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockFields) {
         var filteredBlocks = [];
 
         fluid.each(blocks, function (block) {
-            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType])) {
+            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockFields[block.blockType])) {
                 filteredBlocks.push(block);
             }
         });
@@ -229,18 +232,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /**
      * Returns true if a block is determined to be empty, based on the values
-     * listed in blockContentValuesForType. If at least one of those values is
+     * listed in blockFieldsForType. If at least one of those values is
      * truthy, the block is not empty. If the values are empty or otherwise can't
      * be iterated over, then the block is also empty regardless of its contents.
      *
-     * @param {Object} block - a single story block (sjrk.storyTelling.block)
-     * @param {Object} blockContentValuesForType - an array of values for the block's type
-     *      that, if at least one is truthy, mean the block is not empty
+     * @param {Component} block - a single story block (sjrk.storyTelling.block)
+     * @param {String[]} blockFieldsForType - a set of model values for this
+     * particular block type that, if at least one is truthy, means the block is not empty
      *
      * @return {Boolean} - true if the block is considered empty
      */
-    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValuesForType) {
-        return !fluid.find_if(blockContentValuesForType, function (blockContentValue) {
+    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockFieldsForType) {
+        return !fluid.find_if(blockFieldsForType, function (blockContentValue) {
             return !!block[blockContentValue];
         });
     };

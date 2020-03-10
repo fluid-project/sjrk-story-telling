@@ -669,7 +669,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 44,
                 sequence: [{
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock",
-                    args: ["{storyEdit}.options.blockContentValues"]
+                    args: ["{storyEdit}.options.blockFields"]
                 }]
             },
             {
@@ -905,41 +905,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         "blockIsTruthyNumber": { expectedEmpty: true, block: 1 },
         "blockIsTrue": { expectedEmpty: true, block: true },
         "blockIsFalse": { expectedEmpty: true, block: false },
-        "blockIsEmptyArray_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: [] },
-        "blockIsEmptyString_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: "" },
-        "blockIsTruthyString_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: "Not a block" },
-        "blockIsNumberZero_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: 0 },
-        "blockIsTruthyNumber_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: 1 },
-        "blockIsTrue_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: true },
-        "blockIsFalse_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [], block: false },
-        "blockIsEmptyObject_contentValIsNumberZero": { expectedEmpty: true, blockContentValues: 0, block: {} },
-        "blockIsEmptyObject_contentValIsTruthyNumber": { expectedEmpty: true, blockContentValues: 1, block: {} },
-        "blockIsEmptyObject_contentValIsTrue": { expectedEmpty: true, blockContentValues: true, block: {} },
-        "blockIsEmptyObject_contentValIsFalse": { expectedEmpty: true, blockContentValues: false, block: {} },
-        "blockIsEmptyObject_contentValIsEmptyString": { expectedEmpty: true, blockContentValues: "", block: {} },
-        "blockIsEmptyObject_contentValIsTruthyString": { expectedEmpty: true, blockContentValues: "Useless", block: {} },
-        "blockIsTextBlockTextOnly_contentValIsEmptyArray": { expectedEmpty: true, blockContentValues: [],
+        "blockIsEmptyArray_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: [] },
+        "blockIsEmptyString_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: "" },
+        "blockIsTruthyString_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: "Not a block" },
+        "blockIsNumberZero_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: 0 },
+        "blockIsTruthyNumber_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: 1 },
+        "blockIsTrue_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: true },
+        "blockIsFalse_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [], block: false },
+        "blockIsEmptyObject_contentValIsNumberZero": { expectedEmpty: true, blockFields: 0, block: {} },
+        "blockIsEmptyObject_contentValIsTruthyNumber": { expectedEmpty: true, blockFields: 1, block: {} },
+        "blockIsEmptyObject_contentValIsTrue": { expectedEmpty: true, blockFields: true, block: {} },
+        "blockIsEmptyObject_contentValIsFalse": { expectedEmpty: true, blockFields: false, block: {} },
+        "blockIsEmptyObject_contentValIsEmptyString": { expectedEmpty: true, blockFields: "", block: {} },
+        "blockIsEmptyObject_contentValIsTruthyString": { expectedEmpty: true, blockFields: "Useless", block: {} },
+        "blockIsTextBlockTextOnly_contentValIsEmptyArray": { expectedEmpty: true, blockFields: [],
             block: {
                 blockType: "text",
                 heading: "",
                 text: "An actual text value"
             }
         },
-        "blockIsTextBlockTextOnly_contentValIsEmptyObject": { expectedEmpty: true, blockContentValues: {},
+        "blockIsTextBlockTextOnly_contentValIsEmptyObject": { expectedEmpty: true, blockFields: {},
             block: {
                 blockType: "text",
                 heading: "",
                 text: "An actual text value"
             }
         },
-        "blockIsTextBlockTextOnly_contentValIsNumberZero": { expectedEmpty: true, blockContentValues: 0,
+        "blockIsTextBlockTextOnly_contentValIsNumberZero": { expectedEmpty: true, blockFields: 0,
             block: {
                 blockType: "text",
                 heading: "",
                 text: "An actual text value"
             }
         },
-        "blockIsTextBlockTextOnly_contentValIsTruthyNumber": { expectedEmpty: true, blockContentValues: 1,
+        "blockIsTextBlockTextOnly_contentValIsTruthyNumber": { expectedEmpty: true, blockFields: 1,
             block: {
                 blockType: "text",
                 heading: "",
@@ -1112,14 +1112,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Runs through the empty block test cases and tests the filter function directly
      *
-     * @param {Object} defaultBlockContentValues - a collection of block types and fields that, if not empty,
+     * @param {Object} defaultblockFields - a collection of block types and fields that, if not empty,
      * indicate whether a given block of that type is also empty
      */
-    sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock = function (defaultBlockContentValues) {
+    sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock = function (defaultblockFields) {
         fluid.each(sjrk.storyTelling.base.page.storyEditTester.isEmptyBlockTestCases, function (testCase, index) {
-            var blockContentValuesToTest = fluid.isValue(testCase.blockContentValues) ? testCase.blockContentValues : defaultBlockContentValues;
+            var blockFieldsToTest = fluid.isValue(testCase.blockFields) ? testCase.blockFields : defaultblockFields;
 
-            var actuallyEmpty = sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(testCase.block, blockContentValuesToTest[testCase.block.blockType]);
+            var actuallyEmpty = sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(testCase.block, blockFieldsToTest[testCase.block.blockType]);
             jqUnit.assertEquals("Block emptiness state for test case " + index + " is as expected", testCase.expectedEmpty, actuallyEmpty);
         });
     };
