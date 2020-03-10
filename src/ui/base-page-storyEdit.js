@@ -82,8 +82,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            mainContainer: ".sjrkc-main-container",
-            pageContainer: ".sjrk-edit-page-container"
+            pageContainer: ".sjrkc-edit-page-container"
         },
         events: {
             onAllUiComponentsReady: {
@@ -124,8 +123,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         invokers: {
             setAuthoringEnabledClass: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.setAuthoringEnabledClass",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
+                funcName: "sjrk.storyTelling.base.page.storyEdit.showEditPageContainer",
+                args: ["{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled"]
             },
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
@@ -249,17 +248,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Depending on whether story authoring is enabled, will set/add CSS classes
-     * and HTML properties to show or hide parts of the page
+     * If authoring is not enabled, will hide the Edit page container
      *
-     * @param {Object} mainContainer - the main page container (mid-level)
-     * @param {Object} pageContainer - the Edit page container (top-level)
+     * @param {Object} pageContainer - the Edit page DOM container to show/hide
      * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
-     * @param {String} hiddenEditorClass - the class to apply to the pageContainer if authoring is not enabled
      */
-    sjrk.storyTelling.base.page.storyEdit.setAuthoringEnabledClass = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
-        $(mainContainer).prop("hidden", !authoringEnabled);
-        $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
+    sjrk.storyTelling.base.page.storyEdit.showEditPageContainer = function (pageContainer, authoringEnabled) {
+        $(pageContainer).prop("hidden", !authoringEnabled);
     };
 
     /**

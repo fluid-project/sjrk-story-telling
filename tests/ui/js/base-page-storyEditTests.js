@@ -525,21 +525,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test saving enabled flag",
-                expect: 4,
+                expect: 3,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.assertFromSelector",
                     args: [
-                        "{storyEdit}.options.selectors.mainContainer",
+                        "{storyEdit}.options.selectors.pageContainer",
                         "sjrk.storyTelling.testUtils.assertElementPropertyValue",
                         ["hidden", true]
-                    ]
-                },
-                {
-                    funcName: "sjrk.storyTelling.testUtils.assertFromSelector",
-                    args: [
-                        "{storyEdit}.options.selectors.pageContainer",
-                        "sjrk.storyTelling.testUtils.assertElementHasClass",
-                        ["{storyEdit}.options.pageSetup.hiddenEditorClass", true]
                     ]
                 },
                 {
