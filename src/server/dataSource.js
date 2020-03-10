@@ -59,7 +59,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
     }
 });
 
-// A CouchDB DataSource for a single story, for use on the storyView page
+// A CouchDB DataSource for a single story, for use on the storyView and storyEdit pages
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.core", "kettle.dataSource.CouchDB"],
     rules: {

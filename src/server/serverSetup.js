@@ -49,7 +49,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view"
                     },
-                    // a DataSource to get a single story
+                    // a DataSource to get or save a single story
                     storyDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.story"
                     },

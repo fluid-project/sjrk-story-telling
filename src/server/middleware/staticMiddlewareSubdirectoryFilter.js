@@ -36,6 +36,7 @@ fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
  * @param {Object} allowedSubdirectories - the list of subdirectories from which to allow serving
  *
  * @return {Promise} - a fluid-flavoured promise that returns empty on resolve
+ *                     on rejection, an error object is returned indicating a 404 status
  */
 sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter.handle = function (request, allowedSubdirectories) {
     var togo = fluid.promise();

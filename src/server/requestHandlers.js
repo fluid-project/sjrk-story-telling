@@ -157,7 +157,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
  * If authoring is not enabled, the request raises an error.
  *
  * @param {Object} request - a Kettle request with data and files associated with a single story
- * @param {Object} dataSource - a Kettle CouchDB DataSource for saving stories
+ * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
@@ -194,7 +194,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
 /**
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
- * @param {Object} dataSource - a Kettle CouchDB DataSource for saving stories
+ * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  * @param {Object} binaryRenameMap - a map of uploaded file names to paths
  * @param {Object} storyModel - a single story's model
  * @param {Object} successEvent - an event to fire upon successful completion
