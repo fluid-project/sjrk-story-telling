@@ -52,12 +52,20 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDataSource
 };
 
 /**
+ * A collection of stories along with the count and offset from the start
+ * @typedef {Object} StoriesCouchData
+ * @property {Number} totalResults - the total number of stories
+ * @property {Number} offset - the offset from the first story (for pagination)
+ * @property {Object.<String, Object>} stories - the collection of story metadata by ID
+ */
+
+/**
  * Extracts a collection of stories from the raw CouchDB Browse response and
  * returns an object with that collection along with some statistics about it
  *
- * @param {Object} response - the raw Browse response
+ * @param {Object} response - the raw storiesById response data
  *
- * @return {Object} - a collection of stories as well as the total number and page offset
+ * @return {StoriesCouchData} - a collection of stories as well as the total number and page offset
  */
 sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse = function (response) {
     var storyBrowse = {

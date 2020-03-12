@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     * @param {String} transformSpec.[delimiter] - the delimiter of terms within the given strings, defaults to ","
     * @param {Boolean} transformSpec.[trim] - flag to trim excess whitespace from each term. defaults to true
     *
-    * @return {String[]} - the resulting array
+    * @return {String[]} - the resulting array of strings split according to the transformSpec
     */
     sjrk.storyTelling.transforms.stringToArray = function (input, transformSpec) {
         if (!input || typeof input !== "string") {
@@ -64,13 +64,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     * Values can also be accessed via a specific object path relative to each term.
     * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
     *
-    * @param {Object} input - the input for the transform function, unused
+    * @param {String[]} input - the input for the transform function, unused
     * @param {Object} transformSpec - specifications for the transformation function
     * @param {String} transformSpec.[delimiter] - the delimiter to be inserted between each term. defaults to ", "
     * @param {Boolean} transformSpec.[stringOnly] - flag to allow only non-empty strings. defaults to true
     * @param {String} transformSpec.[path] - an EL path on each item in the terms collection
     *
-    * @return {String} - the resulting string
+    * @return {String} - the resulting string compiled according to the transformSpec
     */
     sjrk.storyTelling.transforms.arrayToString = function (input, transformSpec) {
         var delimiter = transformSpec.delimiter || ", ",
