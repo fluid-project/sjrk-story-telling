@@ -93,14 +93,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Registers a new view component with the dynamicViewComponentManager and
      * fires a given event upon successful completion
      *
-     * @param {Object} that - the dynamicViewComponentManager itself
-     * @param {Object} managedComponent - the new view component to register
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
+     * @param {Component} newViewComponent - the new fluid.viewComponent to register
      * @param {Object} completionEvent - the event to be fired upon successful completion
      */
-    sjrk.dynamicViewComponentManager.registerManagedViewComponent = function (that, managedComponent, completionEvent) {
-        var componentContainerIndividualClass = managedComponent.options.managedViewComponentRequiredConfig.containerIndividualClass;
+    sjrk.dynamicViewComponentManager.registerManagedViewComponent = function (that, newViewComponent, completionEvent) {
+        var componentContainerIndividualClass = newViewComponent.options.managedViewComponentRequiredConfig.containerIndividualClass;
 
-        that.managedViewComponentRegistry[componentContainerIndividualClass] = managedComponent;
+        that.managedViewComponentRegistry[componentContainerIndividualClass] = newViewComponent;
 
         completionEvent.fire(componentContainerIndividualClass);
     };
@@ -109,7 +109,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * De-registers a view component, specified by its CSS control selector, from the
      * dynamicViewComponentManager's managed view component registry
      *
-     * @param {Object} that - the dynamicViewComponentManager itself
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
      * @param {String} managedComponentIndividualClass - the CSS control class of the view component
      * @param {Object} completionEvent - the event to be fired upon successful completion
      */
@@ -126,7 +126,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Removes the DOM element which contains the view component specified by
      * the CSS control selector
      *
-     * @param {Object} that - the dynamicViewComponentManager itself
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
      * @param {String} componentContainerSelector - the CSS selector of the DOM container
      * @param {String} componentContainerIndividualClass - the CSS selector of the view component
      * @param {Object} completionEvent - the event to be fired upon successful completion
@@ -142,7 +142,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Adds a DOM container element to hold a new view component.
      * Each new container is given a unique ID.
-     * @param {Object} that - the dynamicViewComponentManager itself
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
      * @param {Object} completionEvent - the event to be fired upon successful completion
      * @param {String} type - the fully-qualified grade name of the viewComponent
      * @param {Object} additionalConfiguration - used to specify additional configuration keys on the newly-created view component
@@ -162,8 +162,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Generates the HTML markup for the DOM element in which new view
      * components are held.
      *
-     * @param {Object} containerGlobalClass - a CSS selector which all of the view components will share
-     * @param {Object} containerIndividualClass - a CSS selector unique to this particular view component
+     * @param {String} containerGlobalClass - a CSS selector which all of the view components will share
+     * @param {String} containerIndividualClass - a CSS selector unique to this particular view component
      *
      * @return {String} - the generated markup content
      */

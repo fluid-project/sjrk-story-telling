@@ -34,7 +34,7 @@ fluid.defaults("sjrk.storyTelling.server.browseStoriesHandler", {
  * and responds to the HTTP request
  *
  * @param {Object} request - a Kettle request
- * @param {Object} viewDataSource - a Kettle CouchDB DataSource that provides a list of stories
+ * @param {Component} viewDataSource - an instance of sjrk.storyTelling.server.dataSource.couch.view
  */
 sjrk.storyTelling.server.handleBrowseStories = function (request, viewDataSource) {
     var promise = viewDataSource.get({directViewId: "storiesById"});
@@ -102,7 +102,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
  * files associated with that story and responds to the HTTP request
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
- * @param {Object} dataSource - a Kettle CouchDB DataSource that provides a single story
+ * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  * @param {String} uploadedFilesHandlerPath - the path on the server to uploaded files
  */
 sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploadedFilesHandlerPath) {
@@ -195,10 +195,10 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {Object} binaryRenameMap - a map of uploaded file names to paths
+ * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
  * @param {Object} storyModel - a single story's model
- * @param {Object} successEvent - an event to fire upon successful completion
- * @param {Object} failureEvent - an event to fire on failure
+ * @param {Object} successEvent - an infusion event to fire upon successful completion
+ * @param {Object} failureEvent - an infusion event to fire on failure
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
     var id = uuidv1();
@@ -220,7 +220,7 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenam
  * @param {Object} blocks - a collection of story blocks with file references
  * @param {Object} files - a list of files to refer to
  *
- * @return {Object} - a key-value collection linking uploaded filenames to server paths
+ * @return {Object.<String, String>} - a key-value collection linking uploaded filenames to server paths
  */
 sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
     // key-value pairs of original filename : generated filename
@@ -254,12 +254,13 @@ sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
 
 /**
  * Rotates an image to be oriented based on its EXIF orientation data, if present.
- * Uses the npm package "jpeg-autorotate": https://www.npmjs.com/package/jpeg-autorotate
+ * Uses the npm package {@link https://www.npmjs.com/package/jpeg-autorotate|jpeg-autorotate}
  *
  * @param {Object} file - an image file to process
  * @param {Object} options - additional options to pass into the rotate call
  *
- * @return {Promise} - a fluid-flavoured promise
+ * @return {Promise} - a fluid-flavoured promise that returns nothing on resolve,
+ *                     returns an error object on rejection
  */
 sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
     var togo = fluid.promise();
@@ -301,7 +302,7 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
 /**
  * Sets the "URL" field of a media block (image, audio, video) to the given URL
  *
- * @param {Object} block - the block to update
+ * @param {Component} block - the sjrk.storyTelling.block to update
  * @param {String} url - the URL to the block's media file
  */
 sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
@@ -376,14 +377,15 @@ sjrk.storyTelling.server.handleDeleteStory = function (request) {
  * DataSources and deleting, this is achieved by first getting the story from
  * CouchDB in order to have a proper reference to its internal IDs
  *
- * @param {Object} handlerComponent - the deleteStoryHandler request handler component
+ * @param {Component} deleteStoryHandler - an instance of sjrk.storyTelling.server.deleteStoryHandler
  * @param {String} storyId - the ID of the story to delete
- * @param {Object} deleteStoryDataSource - a Kettle CouchDB DataSource for deleting a single story
- * @param {Object} getStoryDataSource - a Kettle CouchDB DataSource for retrieving a single story
+ * @param {Component} deleteStoryDataSource - an instance of sjrk.storyTelling.server.dataSource.couch.deleteStory
+ * @param {Component} getStoryDataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  *
- * @return {Promise} - a fluid-flavoured promise
+ * @return {Promise} - a fluid-flavoured promise that returns nothing on resolve,
+ *                     returns an error object on rejection
  */
-sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, storyId, deleteStoryDataSource, getStoryDataSource) {
+sjrk.storyTelling.server.deleteStoryFromCouch = function (deleteStoryHandler, storyId, deleteStoryDataSource, getStoryDataSource) {
     var promise = fluid.promise();
 
     var getPromise = getStoryDataSource.get({
@@ -392,7 +394,7 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, stor
 
     getPromise.then(function (response) {
         if (response.content) {
-            handlerComponent.deleteStoryFiles(response.content);
+            deleteStoryHandler.deleteStoryFiles(response.content);
         }
 
         var deletePromise = deleteStoryDataSource.set({
@@ -421,10 +423,10 @@ sjrk.storyTelling.server.deleteStoryFromCouch = function (handlerComponent, stor
 /**
  * Deletes all files on the file system that are associated with a given story
  *
- * @param {Object} handlerComponent - the deleteStoryHandler request handler component
- * @param {Object} storyContent - a list of blocks representing the story
+ * @param {Component} deleteStoryHandler - an instance of sjrk.storyTelling.server.deleteStoryHandler
+ * @param {Component[]} storyContent - a list of sjrk.storyTelling.block components representing the story
  */
-sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyContent) {
+sjrk.storyTelling.server.deleteStoryFiles = function (deleteStoryHandler, storyContent) {
     var filesToDelete = [];
 
     fluid.each(storyContent, function (block) {
@@ -449,14 +451,14 @@ sjrk.storyTelling.server.deleteStoryFiles = function (handlerComponent, storyCon
     });
 
     fluid.each(filesToDelete, function (fileToDelete) {
-        handlerComponent.deleteSingleFileRecoverable(fileToDelete);
+        deleteStoryHandler.deleteSingleFileRecoverable(fileToDelete);
     });
 };
 
 /**
  * Verifies that a given file name follows the UUID format as laid out in
  * RFC4122. A detailed description of the format can be found here:
- * https://en.wikipedia.org/wiki/Universally_unique_identifier#Format
+ * {@link https://en.wikipedia.org/wiki/Universally_unique_identifier#Format}
  *
  * @param {String} fileName - the filename to verify
  *

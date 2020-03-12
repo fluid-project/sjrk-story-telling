@@ -149,11 +149,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     * A collection of client configuration settings
+     * @typedef {Object.<String, String>} ClientConfig
+     * @property {String} theme - the current theme of the site
+     * @property {String} baseTheme - the base theme of the site
+     * @property {String} authoringEnabled - indicates whether story saving and editing are enabled
+     */
+
+    /**
      * Verifies that a custom CSS file was loaded for custom themes,
      * or that none has been loaded if no custom theme has been specified
      * in the clientConfig
      *
-     * @param {Object} clientConfig - the client configuration data, including the current theme
+     * @param {ClientConfig} clientConfig - the client configuration data
      * @param {Number} expectedCssInstanceCount - The number of times the CSS file is expected to be present
      */
     sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded = function (clientConfig, expectedCssInstanceCount) {

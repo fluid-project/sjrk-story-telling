@@ -87,7 +87,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Adds the locale and direction to the BODY in the IFRAME to enable CSS
      * based on the locale and direction
      *
-     * @param {Object} prefsEditorContainer - the DOM container for UIO
+     * @param {jQuery} prefsEditorContainer - the DOM container for UIO
      * @param {String} locale - the locale to apply
      * @param {String} direction - the text orientation to apply
      */

@@ -18,7 +18,7 @@ fluid.registerNamespace("sjrk.storyTelling.server");
  * current theme value
  *
  * @param {String} data - the data returned by the call
- * @param {Object} that - the Kettle request component
+ * @param {Component} that - an instance of kettle.test.request.http
  * @param {String} expectedTheme - the expected current theme
  */
 sjrk.storyTelling.server.verifyGetClientConfigSuccessful = function (data, that, expectedTheme) {
@@ -33,7 +33,7 @@ sjrk.storyTelling.server.verifyGetClientConfigSuccessful = function (data, that,
  * contains the correct markup
  *
  * @param {String} data - the data returned by the call
- * @param {Object} that - the Kettle request component
+ * @param {Component} that - an instance of kettle.test.request.http
  * @param {String} expectedMarkup - the expected markup
  */
 sjrk.storyTelling.server.verifyGetThemeFileSuccessful = function (data, that, expectedMarkup) {
@@ -46,7 +46,7 @@ sjrk.storyTelling.server.verifyGetThemeFileSuccessful = function (data, that, ex
  * produces an error
  *
  * @param {String} data - the data returned by the call
- * @param {Object} that - the Kettle request component
+ * @param {Component} that - an instance of kettle.test.request.http
  */
 sjrk.storyTelling.server.verifyGetThemeFileUnsuccessful = function (data, that) {
     jqUnit.assertEquals("Unsuccessful GET request for theme file 1/2: file not loaded", 404, that.nativeResponse.statusCode);

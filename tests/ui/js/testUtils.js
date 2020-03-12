@@ -21,7 +21,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * when setting up tests. It triggers the change event in order to ensure
      * the form value is relayed to the model, as val on its own does not.
      *
-     * @param {Object} component - the infusion component containing the element
+     * @param {Component} component - an instance of fluid.viewComponent
      * @param {String} selector - the infusion selector of the element
      * @param {String} value - the value to which the element will be set using jQuery val()
      */
@@ -34,8 +34,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * The steps are DOM elements, but could be entire UI grades or internal to them.
      * Visible is taken to mean "display: block" and hidden is "display: none".
      *
-     * @param {Object} expectedHidden - a collection of elements which should be hidden
-     * @param {Object} expectedVisible - a collection of elements which should be visible
+     * @param {jQuery[]} expectedHidden - a collection of elements which should be hidden
+     * @param {jQuery[]} expectedVisible - a collection of elements which should be visible
      */
     sjrk.storyTelling.testUtils.verifyStepVisibility = function (expectedHidden, expectedVisible) {
         fluid.each(expectedHidden, function (el) {
@@ -51,7 +51,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Asserts that an individual DOM element has a given visibility state
      * according to its css "display" value. Uses jqUnit for the assertion.
      *
-     * @param {Object} element - the DOM element to be tested
+     * @param {jQuery} element - the DOM element to be tested
      * @param {String} expectedVisibility - the display state which is expected
      */
     sjrk.storyTelling.testUtils.assertElementVisibility = function (element, expectedVisibility) {
@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Asserts that an individual DOM element has a given value for a given propery
      * according to the jQuery prop() function. Uses jqUnit for the assertion.
      *
-     * @param {Object} element - the DOM element to be tested
+     * @param {jQuery} element - the DOM element to be tested
      * @param {String} propertyName - the property to be checked
      * @param {String} expectedVisibility - the expected value of the property
      */
@@ -74,7 +74,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Asserts that an individual DOM element has a given text value
      * according to the jQuery text() function. Uses jqUnit for the assertion.
      *
-     * @param {Object} element - the DOM element to be tested
+     * @param {jQuery} element - the DOM element to be tested
      * @param {String} expectedText - the expected text value of the element
      */
     sjrk.storyTelling.testUtils.assertElementText = function (element, expectedText) {
@@ -84,7 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Asserts that an individual DOM element has a given value
      * according to the jQuery val() function. Uses jqUnit for the assertion.
-     * @param {Object} element - the DOM element to be tested
+     * @param {jQuery} element - the DOM element to be tested
      * @param {String} expectedValue - the expected value of the element
      */
     sjrk.storyTelling.testUtils.assertElementValue = function (element, expectedValue) {
@@ -95,7 +95,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Asserts that an individual DOM element has a given CSS class applied,
      * according to the jQuery hasClass() function. Uses jqUnit for the assertion.
      *
-     * @param {Object} element - the DOM element to be tested
+     * @param {jQuery} element - the DOM element to be tested
      * @param {String} className - the name of the class for which to check
      * @param {Boolean} isExpectedToHaveClass - true if the element is expected to have the class
      */
@@ -127,7 +127,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Returns a "friendly" name for the given element, when available
      *
-     * @param {Object} element - the DOM element for which the friendly name is to be returned
+     * @param {jQuery} element - the DOM element for which the friendly name is to be returned
      *
      * @return {String} - the friendly name for the element
      */
@@ -139,7 +139,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Checks the "select block" checkboxes for blockUi's in a given blockManager.
      * It will select either all of the blocks or only the first one.
      *
-     * @param {Object} blockManager - the dynamicViewComponentManager managing the blockUi's
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
      * @param {Boolean} checkFirstBlockOnly - if truthy, only checks the first block's box
      */
     sjrk.storyTelling.testUtils.checkBlockCheckboxes = function (blockManager, checkFirstBlockOnly) {
@@ -157,7 +157,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Checks the "select block" checkbox for a given blockUi
      *
-     * @param {Object} block - the blockUi whose checkbox we wish to become checked
+     * @param {Component} block - the sjrk.storyTelling.blockUi whose checkbox we wish to become checked
      */
     sjrk.storyTelling.testUtils.checkSingleBlockCheckbox = function (block) {
         var checkBox = block.locate("selectedCheckbox");
@@ -167,9 +167,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies that a given blockUi was indeed added to the blockManager
      *
-     * @param {Object} blockManager - the dynamicViewComponentManager managing the blockUi's
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
      * @param {String} addedBlockKey - a unique key which is provided when a new block is added
-     * @param {Object} expectedGrade - the expected grade/type of the newly-added blockUi
+     * @param {String} expectedGrade - the expected grade/type of the newly-added blockUi
      */
     sjrk.storyTelling.testUtils.verifyBlockAdded = function (blockManager, addedBlockKey, expectedGrade) {
         var blockComponent = blockManager.managedViewComponentRegistry[addedBlockKey];
@@ -189,8 +189,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Verifies that the blockManager has the expected number of blocks after a
      * call to remove blocks was made
      *
-     * @param {Object} blockManager - the dynamicViewComponentManager managing the blockUi's
-     * @param {Object} expectedNumberOfBlocks - the expected number of blocks after removal
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     * @param {Number} expectedNumberOfBlocks - the expected number of blocks after removal
      */
     sjrk.storyTelling.testUtils.verifyBlocksRemoved = function (blockManager, expectedNumberOfBlocks) {
         var managedComponentRegistryAsArray = fluid.hashToArray(blockManager.managedViewComponentRegistry, "managedComponentKey");
@@ -199,7 +199,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /**
      * Alters URL without pageload, via code from StackOverflow
-     * https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page
+     * {@link https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page}
      *
      * @param {String} queryString - the query string to append to the current page URL
      */

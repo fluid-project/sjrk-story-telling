@@ -128,7 +128,7 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 /**
 * This function is used to validate new documents once it's migrated to CouchDB
 * For more info on this process, please see the CouchDB guide:
-* https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions
+* {@link https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions}
 *
 * @throws - If newDoc doesn't have a type defined, an error will be thrown
 *

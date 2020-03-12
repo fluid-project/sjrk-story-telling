@@ -102,7 +102,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies that a given view component in the registry has the expected infusion type
      *
-     * @param {Object} that - the DVCM component
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
      * @param {String} componentContainerIndividualClass - the CSS selector of dynamic view components
      * @param {String} expectedType - the expected type of the view component
      */
@@ -124,7 +124,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Destroys the first managed component in the registry
      *
-     * @param {Object} that - the DVCM component
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
      */
     sjrk.dynamicViewComponentManagerTester.destroyFirstManagedComponent = function (that) {
         var managedComponentRegistryAsArray = fluid.hashToArray(that.managedViewComponentRegistry, "managedComponentKey");

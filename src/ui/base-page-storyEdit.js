@@ -212,7 +212,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Removes all empty blocks from a given collection of story blocks
      *
      * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
-     * @param {Object} blockFields - a hash map of block types and the fields
+     * @param {Object.<String, String[]>} blockFields - a hash map of block types and the fields
      * that, if at least one is truthy, means that particular block is not empty
      *
      * @return {Object} - a collection of reliably non-empty story blocks
@@ -250,7 +250,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * If authoring is not enabled, will hide the Edit page container
      *
-     * @param {Object} pageContainer - the Edit page DOM container to show/hide
+     * @param {jQuery} pageContainer - the Edit page DOM container to show/hide
      * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
      */
     sjrk.storyTelling.base.page.storyEdit.showEditPageContainer = function (pageContainer, authoringEnabled) {
@@ -260,7 +260,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Submits the editor form to the server
      *
-     * @param {Object} storyEditorForm - the Editor UI's HTML form element
+     * @param {jQuery} storyEditorForm - the Editor UI's HTML form element
      * @param {Object} storyModel - the model of the story to save
      * @param {Object} errorEvent - an event to fire on errors
      */

@@ -159,7 +159,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies the current view setting for the list DOM element
      *
-     * @param {Object} viewListElement - the DOM element that represents the list to check
+     * @param {jQuery} viewListElement - the DOM element that represents the list to check
      * @param {String} expectedViewSetting - the expected setting of the view preference
      * @param {String} gridViewClassName - the class that indicates the grid view is active
      */

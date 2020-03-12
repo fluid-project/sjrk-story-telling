@@ -60,8 +60,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies that the markup in the templateManager's container is as expected
      *
-     * @param {Object} templateManager - the templateManager component
-     * @param {Object} expectedContent - the expected content of the DOM container
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
+     * @param {String} expectedContent - the expected content of the DOM container
      */
     sjrk.storyTelling.templateManagerTester.verifyTemplateRendering = function (templateManager, expectedContent) {
         var actualContent = templateManager.container.html().trim();
@@ -110,7 +110,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies that a given element has the expected value
      *
-     * @param {Object} component - the templateManager component
+     * @param {Component} component - an instance of fluid.viewComponent
      * @param {String} selector - the Infusion selector name for the element
      * @param {String} expected - the expected value of the element
      */

@@ -33,7 +33,7 @@ fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
  * within a directory that is on a list of allowed subdirectories
  *
  * @param {Objec} request - the kettle request
- * @param {Object} allowedSubdirectories - the list of subdirectories from which to allow serving
+ * @param {String[]} allowedSubdirectories - the list of subdirectories from which to allow serving
  *
  * @return {Promise} - a fluid-flavoured promise that returns empty on resolve
  *                     on rejection, an error object is returned indicating a 404 status

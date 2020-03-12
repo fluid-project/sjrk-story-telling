@@ -76,7 +76,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies that the test binding's model and DOM values are the same
      *
-     * @param {Object} component - the binder component
+     * @param {Component} component - an instance of sjrk.storyTelling.binder
      * @param {String|String[]} modelPath - the infusion model path to the model value
      * @param {String} domSelector - the DOM selector for the input element
      * @param {String} message - the message to display

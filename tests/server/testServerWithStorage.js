@@ -332,7 +332,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{storySave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
@@ -379,7 +379,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
         args: [
             "{arguments}.0",
-            "{arguments}.1",
             "{that}.events.onBlankStorySaveSuccessful",
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
@@ -412,7 +411,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
         args: [
             "{arguments}.0",
-            "{arguments}.1",
             "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
@@ -472,7 +470,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }, {
         event: "{storyWithImagesSave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
@@ -522,11 +520,10 @@ sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = f
  * was not posted successfully if authoring is disabled
  *
  * @param {String} data - the data returned by the call
- * @param {Object} request - the Kettle request component
  * @param {Object} completionEvent - an event to fire on test completion
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
  */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful = function (data, request, completionEvent, authoringEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful = function (data, completionEvent, authoringEnabled) {
     var parsedData = JSON.parse(data);
 
     if (authoringEnabled) {
@@ -546,8 +543,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccess
  * Prepares and sends a request to get a story from the server, including its files
  *
  * @param {String} storyId - the ID of the story to get
- * @param {Object} binaryRenameMap - a map of uploaded file names to paths
- * @param {Object} getSavedStoryRequest - a Kettle request component
+ * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
+ * @param {Component} getSavedStoryRequest - an instance of kettle.test.request.http
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
  */
 sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest, authoringEnabled) {
@@ -566,7 +563,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
  *
  * @param {String} data - the data returned by the call
  * @param {Object} request - the Kettle request component
- * @param {Object} expectedStory - the expected story content
+ * @param {Object} expectedStory - the expected story model
  * @param {Object} fileOptions - options related to the uploaded files
  * @param {Object} completionEvent - an event to fire on test completion
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
@@ -618,7 +615,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
  * Prepares and sends a request to get an image file from the server
  *
  * @param {String} imageUrl - the URL of the image to get
- * @param {Object} getUploadedImageRequest - a Kettle request component
+ * @param {Component} getUploadedImageRequest - an instance of kettle.test.request.http
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
  */
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, authoringEnabled) {
@@ -669,7 +666,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse
  * Verifies whether the orientation of a given set of images is as expected
  * assumes the images have EXIF data that can be read
  *
- * @param {Object} images - a set of images
+ * @param {String[]} images - a set of images
  * @param {Number[]} expectedOrientations - a set of expected orientation values
  */
 sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations = function (images, expectedOrientations) {
@@ -683,7 +680,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations = fun
  * Converts a binaryRenameMap to a set of upload paths relative to the test
  * uploads directory
  *
- * @param {Object} binaryRenameMap - a map of uploaded file names to paths
+ * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
  * @param {String} testUploadsDir - the path for the test uploads directory
  *
  * @return {String[]} - a collection of paths to which files were uploaded

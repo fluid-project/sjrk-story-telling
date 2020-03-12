@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 /**
  * A classic query string parser via
- * https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+ * {@link https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript}
  *
  * @param {String} name - the name of the query string variable to retrieve
  * @param {String} url - an optional URL to parse. Uses actual page URL if not provided
@@ -45,6 +45,7 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
  * @param {Object} options - additional options to merge into the View page
  *
  * @return {Promise} - a fluid-flavoured promise which will return a storyView page component on resolve
+ *                     returns an error object on rejection
  */
 sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
     var storyPromise = fluid.promise();
@@ -95,7 +96,8 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
  * @param {ClientConfig} clientConfig - client configuration settings
  * @param {Object} options - additional options to merge into the Browse page
  *
- * @return {Promise} - a fluid-flavoured promise which will return a storyBrowse page component on resolve
+ * @return {Promise} - a fluid-flavoured promise which will return a storyBrowse page component on resolve,
+ *                     returns an error object on rejection
  */
 sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
     var storiesPromise = fluid.promise();
@@ -130,7 +132,8 @@ sjrk.storyTelling.loadBrowse = function (clientConfig, options) {
  * Gets the current theme from the server and loads associated files via a call to
  * loadCustomThemeFiles. Returns a promise which contains the clientConfig information.
  *
- * @return {Promise} - a fluid-flavoured promise which returns clientConfig on resolve
+ * @return {Promise} - a fluid-flavoured promise which returns clientConfig on resolve,
+ *                     returns an error object on rejection
  */
 sjrk.storyTelling.loadTheme = function () {
     var loadPromise = fluid.promise();
@@ -153,7 +156,8 @@ sjrk.storyTelling.loadTheme = function () {
  *
  * @param {ClientConfig} clientConfig - client configuration settings
  *
- * @return {Promise} - a fluid-flavoured promise which returns clientConfig on resovle
+ * @return {Promise} - a fluid-flavoured promise which returns clientConfig on resovle,
+ *                     returns an error object on rejection
  */
 sjrk.storyTelling.loadCustomThemeFiles = function (clientConfig) {
     var loadPromise = fluid.promise();

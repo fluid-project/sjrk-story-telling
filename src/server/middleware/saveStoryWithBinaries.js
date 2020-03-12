@@ -43,11 +43,13 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
 });
 
 /**
+ * @callback filenameResolverCallback - a callback to call after the filename has been resolved
+ */
+
+/**
  * Renames any uploaded files to a pattern of uuid + extension
  * For more information on middleware, see the Kettle docs:
- * https://github.com/fluid-project/kettle/blob/master/docs/Middleware.md
- *
- * @callback filenameResolverCallback - a callback to call after the filename has been resolved
+ * {@link https://github.com/fluid-project/kettle/blob/master/docs/Middleware.md}
  *
  * @param {Object} req - the incoming request
  * @param {Object} file - an uploaded file to process

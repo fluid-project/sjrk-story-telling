@@ -868,7 +868,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Triggers a click on a given element
      *
-     * @param {Object} component - the viewComponent that contains the element
+     * @param {Component} component - the fluid.viewComponent that contains the element
      * @param {String} buttonSelector - infusion selector name for the element to be clicked
      */
     sjrk.storyTelling.base.page.storyEditTester.triggerButtonClick = function (component, buttonSelector) {
@@ -878,7 +878,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Gets the value of a given field from the contents of the first block of a story model
      *
-     * @param {Object} component - an sjrk.storyTelling.ui component that has a story subcomponent (e.g. editor or previewer)
+     * @param {Component} component - an sjrk.storyTelling.ui component that has a story subcomponent (e.g. storyEditor or storyViewer)
      * @param {String} fieldName - the name of the value/field to be retrieved
      *
      * @return {Object} - the value of the field
@@ -1104,7 +1104,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Runs through the empty block test cases and tests the filter function directly
      *
-     * @param {Object} defaultblockFields - a collection of block types and fields that, if not empty,
+     * @param {Object.<String, String[]>} defaultblockFields - a collection of block types and fields that, if not empty,
      * indicate whether a given block of that type is also empty
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyIsEmptyBlock = function (defaultblockFields) {
@@ -1117,13 +1117,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     * Represents a progress state as the visibility of three parts of the page
+     * @typedef {Object} PublishingState
+     * @property {boolean} progressArea - the visibility of the progress area
+     * @property {boolean} responseArea - the visibility of the server response area
+     * @property {boolean} shareButton - the visibility of the share story button
+     */
+
+    /**
      * Given a set of expected visibility values for various publishing states,
      * will evaluate the actual visibility of the relevant bits of the previewer
      *
-     * @param {Object} expectedStates - the expected visibility of the elements for each publishing state
-     * @param {Object} progressArea - the HTML element representing the progress area
-     * @param {Object} responseArea - the HTML element representing the server response area
-     * @param {Object} shareButton - the HTML element representing the "share story" button
+     * @param {Object.<String, PublishingState>} expectedStates - the expected visibility of the elements for each publishing state
+     * @param {jQuery} progressArea - the jQueryable representing the progress area
+     * @param {jQuery} responseArea - the jQueryable representing the server response area
+     * @param {jQuery} shareButton - the jQueryable representing the "share story" button
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates = function (expectedStates, progressArea, responseArea, shareButton) {
         sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility(progressArea, expectedStates.progressArea);
@@ -1134,7 +1142,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies a single HTML element's visibility is as expected
      *
-     * @param {Object} el - the element in question
+     * @param {jQuery} el - the element in question
      * @param {Boolean} isExpectedVisible - the element's expected visibility state
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyElementVisibility = function (el, isExpectedVisible) {
@@ -1146,7 +1154,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Verifies whether a single HTML element is enabled or disabled and how
      * that compares to its expected state
      *
-     * @param {Object} el - the element in question
+     * @param {jQuery} el - the element in question
      * @param {Boolean} isExpectedDisabled - the element's expected visibility state
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyElementDisabled = function (el, isExpectedDisabled) {
@@ -1157,7 +1165,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies the text contained within a single HTML element
      *
-     * @param {Object} el - the server response area element
+     * @param {jQuery} el - the server response area element
      * @param {String} expectedText - the element's expected text contents, trimmed for whitespace
      */
     sjrk.storyTelling.base.page.storyEditTester.verifyResponseText = function (el, expectedText) {

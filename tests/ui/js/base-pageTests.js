@@ -224,7 +224,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Verifies the language of the UIO component's panels
      *
-     * @param {Object} pageComponent - the page component with UIO subcomponent
+     * @param {Component} pageComponent - an instance of sjrk.storyTelling.base.page
      * @param {String} expectedLanguage - the single expected langauge of all the UIO panels
      */
     sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {

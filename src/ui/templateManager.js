@@ -137,7 +137,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Injects the provided template content to the partial templates collection of the template renderer
      *
-     * @param {Object} templateRenderer - the template renderer
+     * @param {Component} templateRenderer - an instance of gpii.handlebars.renderer
      * @param {String} templateContent - the raw content of the template to be loaded at templateName
      * @param {String} templateName - the template's name
      * @param {Object} completionEvent - an event to fire upon completion
@@ -156,8 +156,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
      * dynamicValues, the result is 'msg_auth:"Someone"'.
      *
-     * @param {Object} templateManager - the templateManager component
-     * @param {Object} localizedMessages - collection of localized message strings
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
+     * @param {Object.<String, String>} localizedMessages - collection of localized message strings
      * @param {Object} dynamicValues - other values to include in the rendering
      */
     sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, localizedMessages, dynamicValues) {
@@ -172,10 +172,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
      * dynamicValues, the result is 'msg_auth:"Someone"'.
      *
-     * @param {Object} templateManager - the templateManager component
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
      * @param {String} templateName - the name of the template to render
      * @param {Object} completionEvent - an event to fire upon completion
-     * @param {Object} localizedMessages - collection of localized message strings
+     * @param {Object.<String, String>} localizedMessages - collection of localized message strings
      * @param {Object} dynamicValues - other values which are likely to change often.
      */
     sjrk.storyTelling.templateManager.renderTemplateOnSelf = function (templateManager, templateName, completionEvent, localizedMessages, dynamicValues) {
@@ -212,17 +212,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Merges localized UI messages into a component at a given path. Any values
+     * Merges localized UI messages into a templateManager at a given path. Any values
      * already extant at the path in question are preserved. If there are any
      * keys which are duplicated, they will be overwritten by the new value.
      *
-     * @param {Object} componentMessages - a collection of messages to be merged in
-     * @param {Object} component - the infusion component to be affected
+     * @param {Object.<String, String>} componentMessages - a collection of messages to be merged in
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
      * @param {String} path - the EL path on the component where messages will be merged
      */
-    sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
-        var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
-        fluid.set(component, path, mergedEndpoint);
+    sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, templateManager, path) {
+        var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(templateManager, path), JSON.parse(componentMessages)) : fluid.get(templateManager, path);
+        fluid.set(templateManager, path, mergedEndpoint);
     };
 
     // A gpii.handlebars.helper grade which registers a helper function
@@ -274,9 +274,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Handlebars block helper function to replace all instances of one value
      * within a given string with another new value.
      *
-     * @param {Object} source - the source string to be modified
-     * @param {Object} originalValue - the value to be replaced
-     * @param {Object} newValue - the new value to use instead of originalValue
+     * @param {String} source - the source string to be modified
+     * @param {String} originalValue - the value to be replaced
+     * @param {String} newValue - the new value to use instead of originalValue
      *
      * @return {String} - The resulting string content
      */
