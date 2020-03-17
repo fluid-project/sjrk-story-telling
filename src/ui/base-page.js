@@ -17,12 +17,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.base.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            uiLanguage: "en" // initial locale set to match the initialModel below
+            // only values in this colleciton will be persisted by the cookieStore
+            persistedValues: {
+                uiLanguage: "en" // initial locale set to match the initialModel below
+            }
         },
         members: {
             initialModel: {
                 // the Initial Model of the page only specifies the locale
-                uiLanguage: "en" // default locale is set to English
+                persistedValues: {
+                    uiLanguage: "en" // default locale is set to English
+                }
             }
         },
         pageSetup: {
@@ -58,8 +63,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     target: "{that}.model.locale",
                     singleTransform: {
                         type: "fluid.transforms.condition",
-                        condition: "{page}.model.uiLanguage",
-                        true: "{page}.model.uiLanguage",
+                        condition: "{page}.model.persistedValues.uiLanguage",
+                        true: "{page}.model.persistedValues.uiLanguage",
                         false: undefined
                     },
                     namespace: "uiLanguageToTemplateManager"
@@ -90,7 +95,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
-                args: ["uiLanguage", "{arguments}.0.data"],
+                args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"],
                 namespace: "changeUiLanguage"
             },
             {
@@ -100,13 +105,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         },
         modelListeners: {
-            uiLanguage: {
+            "persistedValues.uiLanguage": {
                 funcName: "{that}.events.onRenderAllUiTemplates",
                 namespace: "renderAllUiTemplates"
             },
             "": {
                 func: "{cookieStore}.set",
-                args: [null, "{page}.model"],
+                args: [null, "{page}.model.persistedValues"],
                 excludeSource: "init",
                 namespace: "setCookie"
             }
@@ -135,7 +140,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: ".flc-prefsEditor-separatedPanel",
                 options: {
                     model: {
-                        locale: "{page}.model.uiLanguage"
+                        locale: "{page}.model.persistedValues.uiLanguage"
                     },
                     listeners: {
                         "onUioReady.escalate": "{page}.events.onUioReady"
@@ -156,7 +161,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         promise.then(function (response) {
             if (response !== undefined) {
-                pageComponent.applier.change("", response);
+                pageComponent.applier.change("persistedValues", response);
             }
             pageComponent.events.onPreferencesLoaded.fire();
         }, function (error) {
