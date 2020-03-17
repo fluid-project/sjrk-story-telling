@@ -25,6 +25,7 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// server definitions to test the base theme only configuration
 sjrk.storyTelling.server.testServerWithBaseThemeDefs = [{
     name: "Base theme server tests",
     expect: 10,
@@ -107,4 +108,5 @@ sjrk.storyTelling.server.testServerWithBaseThemeDefs = [{
     }]
 }];
 
+// starts up the test server based on the provided definitions
 kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithBaseThemeDefs);

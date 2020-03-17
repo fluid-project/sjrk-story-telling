@@ -89,25 +89,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Registers a new view component with the dynamicViewComponentManager and
+    /**
+     * Registers a new view component with the dynamicViewComponentManager and
      * fires a given event upon successful completion
-     * - "that": the dynamicViewComponentManager itself
-     * - "managedComponent": the new view component to register
-     * - "completionEvent": the event to be fired upon successful completion
+     *
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
+     * @param {Component} newViewComponent - the new fluid.viewComponent to register
+     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
-    sjrk.dynamicViewComponentManager.registerManagedViewComponent = function (that, managedComponent, completionEvent) {
-        var componentContainerIndividualClass = managedComponent.options.managedViewComponentRequiredConfig.containerIndividualClass;
+    sjrk.dynamicViewComponentManager.registerManagedViewComponent = function (that, newViewComponent, completionEvent) {
+        var componentContainerIndividualClass = newViewComponent.options.managedViewComponentRequiredConfig.containerIndividualClass;
 
-        that.managedViewComponentRegistry[componentContainerIndividualClass] = managedComponent;
+        that.managedViewComponentRegistry[componentContainerIndividualClass] = newViewComponent;
 
         completionEvent.fire(componentContainerIndividualClass);
     };
 
-    /* De-registers a view component, specified by its CSS control selector, from the
+    /**
+     * De-registers a view component, specified by its CSS control selector, from the
      * dynamicViewComponentManager's managed view component registry
-     * - "that": the dynamicViewComponentManager itself
-     * - "managedComponentIndividualClass": the CSS control class of the view component
-     * - "completionEvent": the event to be fired upon successful completion
+     *
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
+     * @param {String} managedComponentIndividualClass - the CSS control class of the view component
+     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
     sjrk.dynamicViewComponentManager.deregisterManagedViewComponent = function (that, managedComponentIndividualClass, completionEvent) {
         var managedViewComponentRegistry = that.managedViewComponentRegistry;
@@ -118,12 +122,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire();
     };
 
-    /* Removes the DOM element which contains the view component specified by
+    /**
+     * Removes the DOM element which contains the view component specified by
      * the CSS control selector
-     * - "that": the dynamicViewComponentManager itself
-     * - "componentContainerSelector": the CSS selector of the DOM container
-     * - "componentContainerIndividualClass": the CSS selector of the view component
-     * - "completionEvent": the event to be fired upon successful completion
+     *
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
+     * @param {String} componentContainerSelector - the CSS selector of the DOM container
+     * @param {String} componentContainerIndividualClass - the CSS selector of the view component
+     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
     sjrk.dynamicViewComponentManager.removeComponentContainer = function (that, componentContainerSelector, componentContainerIndividualClass, completionEvent) {
         var removedComponentContainer = that.container.find(componentContainerSelector);
@@ -133,13 +139,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire(componentContainerIndividualClass);
     };
 
-    /* Adds a DOM container element to hold a new view component.
+    /**
+     * Adds a DOM container element to hold a new view component.
      * Each new container is given a unique ID.
-     * - "that": the dynamicViewComponentManager itself
-     * - "completionEvent": the event to be fired upon successful completion
-     * - "type": the fully-qualified grade name of the viewComponent
-     * - "additionalConfiguration": used to specify additional configuration keys
-     *    on the newly-created view component
+     * @param {Component} that - an instance of sjrk.dynamicViewComponentManager
+     * @param {Object} completionEvent - the event to be fired upon successful completion
+     * @param {String} type - the fully-qualified grade name of the viewComponent
+     * @param {Object} additionalConfiguration - used to specify additional configuration keys on the newly-created view component
      */
     sjrk.dynamicViewComponentManager.addComponentContainer = function (that, completionEvent, type, additionalConfiguration) {
         var guid = fluid.allocateGuid();
@@ -152,10 +158,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire(containerSelector, containerIndividualClass, guid, type, additionalConfiguration);
     };
 
-    /* Generates the HTML markup for the DOM element in which new view
+    /**
+     * Generates the HTML markup for the DOM element in which new view
      * components are held.
-     * - "containerGlobalClass": a CSS selector which all of the view components will share
-     * - "containerIndividualClass": a CSS selector unique to this particular view component
+     *
+     * @param {String} containerGlobalClass - a CSS selector which all of the view components will share
+     * @param {String} containerIndividualClass - a CSS selector unique to this particular view component
+     *
+     * @return {String} - the generated markup content
      */
     sjrk.dynamicViewComponentManager.getContainerMarkup = function (containerGlobalClass, containerIndividualClass) {
         var guid = fluid.allocateGuid();

@@ -11,8 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 // globals or arguments that will be prevent in CouchDB design doc functions
 // such as views or validate_doc_update
 
-/* global sjrk, emit, newDoc, oldDoc, userCtx, secObj */
-/*eslint no-unused-vars: ["error", { "vars": "local", "argsIgnorePattern": "newDoc|oldDoc|userCtx|secObj" }]*/
+/* global emit */
 
 "use strict";
 
@@ -22,6 +21,7 @@ require("kettle");
 var sjrk = fluid.registerNamespace("sjrk");
 require("fluid-couch-config");
 
+// sets up the Storytelling Tool database using fluid-couch-config
 fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     couchOptions: {
@@ -95,6 +95,11 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
     }
 });
 
+/**
+ * This function is used as a "view" design doc once it's migrated to CouchDB
+ *
+ * @param {Object} doc - a document to evaluate in the view
+ */
 sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
     if (doc.value.tags.length > 0) {
         for (var idx in doc.value.tags) {
@@ -103,6 +108,11 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
     }
 };
 
+/**
+ * This function is used as a "view" design doc once it's migrated to CouchDB
+ *
+ * @param {Object} doc - a document to evaluate in the view
+ */
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 
     var browseDoc = {
@@ -115,8 +125,17 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
     emit(doc._id, browseDoc);
 };
 
-sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc, oldDoc, userCtx, secObj) {
-    // checking !newDoc_deleted is important because
+/**
+* This function is used to validate new documents once it's migrated to CouchDB
+* For more info on this process, please see the CouchDB guide:
+* {@link https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions}
+*
+* @throws - If newDoc doesn't have a type defined, an error will be thrown
+*
+* @param {Object} newDoc - the incoming doc
+*/
+sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc) {
+    // checking !newDoc._deleted is important because
     // otherwise validation can prevent deletion,
     // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete
     if (!newDoc._deleted && !newDoc.type) {

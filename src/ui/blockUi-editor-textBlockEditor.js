@@ -17,6 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor"],
         components: {
+            // the block's templateManager
             templateManager: {
                 options: {
                     templateConfig: {
@@ -24,9 +25,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the block itself
             block: {
                 type: "sjrk.storyTelling.block.textBlock"
             },
+            // binds the DOM to infusion model endpoints
             binder: {
                 options: {
                     selectors: {

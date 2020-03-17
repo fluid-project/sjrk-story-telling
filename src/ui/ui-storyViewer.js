@@ -85,6 +85,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     // }
                 }
             },
+            // a text-to-speech component for reading the story content aloud
             orator: {
                 type: "fluid.orator",
                 container: "{that}.dom.storyContainer",
@@ -95,6 +96,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the templateManager for this UI
             templateManager: {
                 options: {
                     model: {
@@ -253,6 +255,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // the templateManager for this UI
             templateManager: {
                 options: {
                     model: {

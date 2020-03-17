@@ -47,18 +47,22 @@ fluid.defaults("sjrk.storyTelling.server.dbSetup.core", {
     }
 });
 
+// sets up a new instance of the core setup along with replicatorDb defined
 sjrk.storyTelling.server.replicatorDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
+// sets up a new instance of the core setup along with usersDb defined
 sjrk.storyTelling.server.usersDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
+// sets up a new instance of the core setup along with globalChangesDb defined
 sjrk.storyTelling.server.globalChangesDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
+// sets up a new instance of the core setup along with the storiesDb defined
 sjrk.storyTelling.server.storiesDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });

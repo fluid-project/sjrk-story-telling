@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The storyEdit page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
@@ -81,8 +82,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         selectors: {
-            mainContainer: ".sjrkc-main-container",
-            pageContainer: ".sjrk-edit-page-container"
+            pageContainer: ".sjrkc-edit-page-container"
         },
         events: {
             onAllUiComponentsReady: {
@@ -123,8 +123,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         invokers: {
             setAuthoringEnabledClass: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.setAuthoringEnabledClass",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
+                funcName: "sjrk.storyTelling.base.page.storyEdit.showEditPageContainer",
+                args: ["{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled"]
             },
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
@@ -133,9 +133,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         /*
          * For a block of a given type, a block is considered empty unless any
-         * one of the values listed in the corresponding array is truthy
+         * one of the fields listed in its corresponding array is truthy.
+         *
+         * E.g. for an image block, even if heading, altText and description
+         * are truthy, if the imageUrl isn't provided then the block is empty.
          */
-        blockContentValues: {
+        blockFields: {
             "text": ["heading", "text"],
             "image": ["imageUrl"],
             "audio": ["mediaUrl"],
@@ -193,7 +196,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                         singleTransform: {
                                             type: "fluid.transforms.free",
                                             func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
-                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockContentValues"]
+                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockFields"]
                                         }
                                     }
                                 }
@@ -205,16 +208,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all empty blocks from a given collection of story blocks
-     * - "blocks": a collection of story blocks (sjrk.storyTelling.block)
-     * - "blockContentValues": a hash map of block types which outlines the values
-     *      that, if at least one is truthy, means a particular block is not empty
+    /**
+     * Removes all empty blocks from a given collection of story blocks
+     *
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Object.<String, String[]>} blockFields - a hash map of block types and the fields
+     * that, if at least one is truthy, means that particular block is not empty
+     *
+     * @return {Object} - a collection of reliably non-empty story blocks
      */
-    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
+    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockFields) {
         var filteredBlocks = [];
 
         fluid.each(blocks, function (block) {
-            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType])) {
+            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockFields[block.blockType])) {
                 filteredBlocks.push(block);
             }
         });
@@ -222,25 +229,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return filteredBlocks;
     };
 
-    /* Returns true if a block is determined to be empty, based on the values
-     * listed in blockContentValuesForType. If at least one of those values is
+    /**
+     * Returns true if a block is determined to be empty, based on the values
+     * listed in blockFieldsForType. If at least one of those values is
      * truthy, the block is not empty. If the values are empty or otherwise can't
      * be iterated over, then the block is also empty regardless of its contents.
-     * - "block": a single story block (sjrk.storyTelling.block)
-     * - "blockContentValuesForType": an array of values for the block's type
-     *      that, if at least one is truthy, mean the block is not empty
+     *
+     * @param {Component} block - a single story block (sjrk.storyTelling.block)
+     * @param {String[]} blockFieldsForType - a set of model values for this
+     * particular block type that, if at least one is truthy, means the block is not empty
+     *
+     * @return {Boolean} - true if the block is considered empty
      */
-    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValuesForType) {
-        return !fluid.find_if(blockContentValuesForType, function (blockContentValue) {
+    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockFieldsForType) {
+        return !fluid.find_if(blockFieldsForType, function (blockContentValue) {
             return !!block[blockContentValue];
         });
     };
 
-    sjrk.storyTelling.base.page.storyEdit.setAuthoringEnabledClass = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
-        $(mainContainer).prop("hidden", !authoringEnabled);
-        $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
+    /**
+     * If authoring is not enabled, will hide the Edit page container
+     *
+     * @param {jQuery} pageContainer - the Edit page DOM container to show/hide
+     * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+     */
+    sjrk.storyTelling.base.page.storyEdit.showEditPageContainer = function (pageContainer, authoringEnabled) {
+        $(pageContainer).prop("hidden", !authoringEnabled);
     };
 
+    /**
+     * Submits the editor form to the server
+     *
+     * @param {jQuery} storyEditorForm - the Editor UI's HTML form element
+     * @param {Object} storyModel - the model of the story to save
+     * @param {Object} errorEvent - an event to fire on errors
+     */
     sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
         storyEditorForm.attr({
             action: "/stories/",

@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the Browse page
     fluid.defaults("sjrk.storyTelling.base.page.testStoryBrowse", {
         gradeNames: ["sjrk.storyTelling.base.page.storyBrowse"],
         pageSetup: {
@@ -38,6 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the Browse page
     fluid.defaults("sjrk.storyTelling.base.page.storyBrowseTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -77,6 +79,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.storyBrowseTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

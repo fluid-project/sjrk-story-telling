@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the templateManager grade
     fluid.defaults("sjrk.storyTelling.testTemplateManager", {
         gradeNames: ["sjrk.storyTelling.templateManager"],
         templateConfig: {
@@ -25,6 +26,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the templateManager
     fluid.defaults("sjrk.storyTelling.templateManagerTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -34,7 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 2,
                 sequence: [{
                     "event": "{templateManagerTest testTemplateManager}.events.onTemplateRendered",
-                    listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
+                    listener: "sjrk.storyTelling.templateManagerTester.verifyTemplateRendering",
                     args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world!</span>"]
                 },
                 {
@@ -48,19 +50,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{testTemplateManager}.events.onTemplateRendered",
-                    listener: "sjrk.storyTelling.templateManagerTester.testTemplateRendering",
+                    listener: "sjrk.storyTelling.templateManagerTester.verifyTemplateRendering",
                     args: ["{testTemplateManager}", "<span class=\"sjrkc-testTemplateManager-testMessage\">Hello, world! a dynamic test value! a dynamic test string!</span>"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.templateManagerTester.testTemplateRendering = function (templateManager, expectedContent) {
+    /**
+     * Verifies that the markup in the templateManager's container is as expected
+     *
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
+     * @param {String} expectedContent - the expected content of the DOM container
+     */
+    sjrk.storyTelling.templateManagerTester.verifyTemplateRendering = function (templateManager, expectedContent) {
         var actualContent = templateManager.container.html().trim();
 
         jqUnit.assertEquals("Generated markup is inserted into specified container", expectedContent, actualContent);
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.templateManagerTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
@@ -75,6 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Verifies the resolveTerms function's behaviour
     jqUnit.test("Test resolveTerms function", function () {
         jqUnit.expect(1);
 
@@ -82,34 +92,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             testTemplate2: "%testTemplate",
             testTemp3: "%testTemplate2",
             testString: "testValue",
-            testTemplate: "%testString"//,
-            // testA: "%testArray.2",
-            // testArray: ["value1", "value2", "value3", "%testTemplate"],
-            // testB: "%testObject.testSubObject1",
-            // testObject: {
-            //     testSubObject1: "testValue1",
-            //     testSubObject2: "%testObject.testSubObject1"
-            // },
-            // testObject2: {
-            //     testSubObject3: "%testObject.testSubObject1"
-            // }
+            testTemplate: "%testString"
         };
 
         var expectedResult = {
             testTemplate2: "testValue",
             testTemp3: "testValue",
             testString: "testValue",
-            testTemplate: "testValue"//,
-            // testA: "value3",
-            // testArray: ["value1", "value2", "value3", "testValue"],
-            // testB: "testValue1",
-            // testObject: {
-            //     testSubObject1: "testValue1",
-            //     testSubObject2: "testValue1"
-            // },
-            // testObject2: {
-            //     testSubObject3: "testValue1"
-            // }
+            testTemplate: "testValue"
         };
 
         var actualResult = sjrk.storyTelling.templateManager.resolveTerms(inputTerms, inputTerms);
@@ -117,11 +107,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertDeepEq("Resolved terms are as expected", expectedResult, actualResult);
     });
 
-    sjrk.storyTelling.templateManagerTester.testLocalization = function (component, selector, expected) {
+    /**
+     * Verifies that a given element has the expected value
+     *
+     * @param {Component} component - an instance of fluid.viewComponent
+     * @param {String} selector - the Infusion selector name for the element
+     * @param {String} expected - the expected value of the element
+     */
+    sjrk.storyTelling.templateManagerTester.verifyLocalization = function (component, selector, expected) {
         var actual = component.locate(selector).text().trim();
-        jqUnit.assertEquals("Selector text matches expected value", expected, actual);
+        jqUnit.assertEquals("Element text matches expected value", expected, actual);
     };
 
+    /**
+     * Generates a test sequence for a single localization
+     *
+     * @param {String} languageCode - the language code for which to generate a test sequence
+     * @param {String} expected - the expected value of the message
+     */
     sjrk.storyTelling.templateManagerTester.generateLocalizationTest = function (languageCode, expected) {
         fluid.defaults("sjrk.storyTelling.templateManagerTester." + languageCode, {
             gradeNames: ["fluid.test.testCaseHolder"],
@@ -133,7 +136,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     expect: 1,
                     sequence: [{
                         "event": "{templateManagerTestBase templateManagerLocalized}.events.onTemplateRendered",
-                        listener: "sjrk.storyTelling.templateManagerTester.testLocalization",
+                        listener: "sjrk.storyTelling.templateManagerTester.verifyLocalization",
                         args: ["{templateManagerLocalized}", "testMessage", "{that}.options.expectedMessage"]
                     }]
                 }]
@@ -168,6 +171,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    /**
+     * Generates a test environment for a single localization
+     *
+     * @param {String} languageCode - the language code for which to generate a test environment
+     */
     sjrk.storyTelling.templateManagerTestBase.generateTestEnvironment = function (languageCode) {
         fluid.defaults("sjrk.storyTelling.templateManagerTest." + languageCode, {
             gradeNames: ["sjrk.storyTelling.templateManagerTestBase"],

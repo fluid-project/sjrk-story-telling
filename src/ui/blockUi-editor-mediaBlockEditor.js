@@ -32,6 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // the block's templateManager
             templateManager: {
                 options: {
                     templateConfig: {
@@ -39,6 +40,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // binds the DOM to infusion model endpoints
             binder: {
                 options: {
                     selectors: {

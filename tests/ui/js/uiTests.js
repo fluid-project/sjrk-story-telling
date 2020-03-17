@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the UI grade
     fluid.defaults("sjrk.storyTelling.testUi", {
         gradeNames: ["sjrk.storyTelling.ui"],
         events: {
@@ -48,6 +49,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the UI grade
     fluid.defaults("sjrk.storyTelling.uiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -78,11 +80,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    /**
+     * Verifies that a block has been created as expected
+     *
+     * @param {Array} gradeNames - the actual gradeNames of the created block
+     * @param {Object} blockData - the model data of the given block
+     * @param {Array} expectedGradeNames - the expected grade names
+     * @param {Object} expectedModelValues - the expected model values
+     */
     sjrk.storyTelling.uiTester.verifyBlocksCreated = function (gradeNames, blockData, expectedGradeNames, expectedModelValues) {
         jqUnit.assertEquals("The grade names are as expected", expectedGradeNames, gradeNames);
         jqUnit.assertDeepEq("The model values are as expected", expectedModelValues, blockData.modelValues);
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.uiTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

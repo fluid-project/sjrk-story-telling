@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the base page grade
     fluid.defaults("sjrk.storyTelling.base.page.testPage", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
@@ -35,6 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the base page
     fluid.defaults("sjrk.storyTelling.base.page.pageTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -219,6 +221,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    /**
+     * Verifies the language of the UIO component's panels
+     *
+     * @param {Component} pageComponent - an instance of sjrk.storyTelling.base.page
+     * @param {String} expectedLanguage - the single expected langauge of all the UIO panels
+     */
     sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
         if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
             fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
@@ -231,6 +239,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.pageTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

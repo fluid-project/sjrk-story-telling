@@ -25,6 +25,7 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// server definitions to test a custom theme configuration
 sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
     name: "Custom theme server tests",
     expect: 10,
@@ -107,4 +108,5 @@ sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
     }]
 }];
 
+// starts up the test server based on the provided definitions
 kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithCustomThemeDefs);

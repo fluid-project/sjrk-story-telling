@@ -47,6 +47,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             ]
         },
         components: {
+            // the block itself
             block: {
                 type: "sjrk.storyTelling.block.imageBlock",
                 options: {
@@ -56,6 +57,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // the block's templateManager
             templateManager: {
                 options: {
                     templateConfig: {
@@ -63,6 +65,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }
                 }
             },
+            // binds the DOM to infusion model endpoints
             binder: {
                 options: {
                     selectors: {

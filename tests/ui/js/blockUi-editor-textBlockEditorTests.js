@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the text block editor grade
     // This test file also includes tests for the blockUi.editor grade's bindings
     // The Editor on its own does not have any template against which to test
     fluid.defaults("sjrk.storyTelling.blockUi.editor.testTextBlockEditor", {
@@ -28,6 +29,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the text block editor and block editor generally
     fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -88,6 +90,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.blockUi.editor.textBlockEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

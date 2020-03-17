@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the Menu UI grade
     fluid.defaults("sjrk.storyTelling.ui.testMenu", {
         gradeNames: ["sjrk.storyTelling.ui.menu"],
         components: {
@@ -26,6 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the Menu UI
     fluid.defaults("sjrk.storyTelling.ui.menuTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -60,6 +62,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.ui.menuTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

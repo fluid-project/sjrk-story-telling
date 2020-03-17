@@ -15,17 +15,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     fluid.registerNamespace("sjrk.storyTelling.transforms");
 
-    /* A transform to turn a delimited string into an array. If input is not a
-     * string, then it will return an empty array.
-     * It is partly invertible via "sjrk.storyTelling.transforms.arrayToString".
-     * - "delimiter" (optional): the delimiter of terms within the given strings, defaults to ","
-     * - "trim" (optional): flag to trim excess whitespace from each term. defaults to true
-     */
     fluid.defaults("sjrk.storyTelling.transforms.stringToArray", {
         gradeNames: ["fluid.standardTransformFunction"],
         invertConfiguration: "sjrk.storyTelling.transforms.stringToArray.invert"
     });
 
+    /**
+    * A transform to turn a delimited string into an array. If input is not a
+    * string, then it will return an empty array.
+    * It is partly invertible via "sjrk.storyTelling.transforms.arrayToString".
+    *
+    * @param {Object} input - the input for the transform function, unused
+    * @param {Object} transformSpec - specifications for the transformation function
+    * @param {String} transformSpec.[delimiter] - the delimiter of terms within the given strings, defaults to ","
+    * @param {Boolean} transformSpec.[trim] - flag to trim excess whitespace from each term. defaults to true
+    *
+    * @return {String[]} - the resulting array of strings split according to the transformSpec
+    */
     sjrk.storyTelling.transforms.stringToArray = function (input, transformSpec) {
         if (!input || typeof input !== "string") {
             return [];
@@ -48,18 +54,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return transformSpec;
     };
 
-    /* A transform to turn an array into a delimited string.
-     * Values can also be accessed via a specific object path relative to each term.
-     * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
-     * - "delimiter" (optional): the delimiter to be inserted between each term. defaults to ", "
-     * - "stringOnly" (optional): flag to allow only non-empty strings. defaults to true
-     * - "path" (optional): an EL path on each item in the terms collection
-     */
     fluid.defaults("sjrk.storyTelling.transforms.arrayToString", {
         gradeNames: ["fluid.standardTransformFunction"],
         invertConfiguration: "sjrk.storyTelling.transforms.arrayToString.invert"
     });
 
+    /**
+    * A transform to turn an array into a delimited string.
+    * Values can also be accessed via a specific object path relative to each term.
+    * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
+    *
+    * @param {String[]} input - the input for the transform function, unused
+    * @param {Object} transformSpec - specifications for the transformation function
+    * @param {String} transformSpec.[delimiter] - the delimiter to be inserted between each term. defaults to ", "
+    * @param {Boolean} transformSpec.[stringOnly] - flag to allow only non-empty strings. defaults to true
+    * @param {String} transformSpec.[path] - an EL path on each item in the terms collection
+    *
+    * @return {String} - the resulting string compiled according to the transformSpec
+    */
     sjrk.storyTelling.transforms.arrayToString = function (input, transformSpec) {
         var delimiter = transformSpec.delimiter || ", ",
             stringOnly = fluid.isValue(transformSpec.stringOnly) ? transformSpec.stringOnly : true,
@@ -83,12 +95,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return transformSpec;
     };
 
-    /* A transform which, given a collection and an index, will the value of the
-     * collection at the specified index, or if that is not truthy, the index itself
-     * - "component": the component with the collection
-     * - "path": the EL path on the component where the collection resides
-     * - "index": the index value to be checked
-     */
     fluid.defaults("sjrk.storyTelling.transforms.valueOrIndex", {
         "gradeNames": ["fluid.standardTransformFunction"],
         "inputVariables": {
@@ -98,7 +104,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    // returns the value of a collection at a given index, or, failing that, the index itself
+    /**
+    * A transform which, given a collection and an index, will the value of the
+    * collection at the specified index or, if that is not truthy, the index itself
+    *
+    * @param {Object} input - the input for the transform function, unused
+    * @param {Object} extraInputs - a collection of extra input values
+    * @param {Object} extraInputs.component - the component with the collection
+    * @param {String} extraInputs.path - the EL path on the component where the collection resides
+    * @param {String|Number} extraInputs.index - the index value to be checked
+    *
+    * @return {*} - the value of a collection at a given index or the index itself
+    */
     sjrk.storyTelling.transforms.valueOrIndex = function (input, extraInputs) {
         var component = extraInputs.component();
         var path = extraInputs.path();

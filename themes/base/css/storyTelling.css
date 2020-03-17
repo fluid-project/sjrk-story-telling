@@ -62,11 +62,6 @@ fieldset ul {
     display: none;
 }
 
-.sjrk-edit-page-container.hidden {
-    padding-top: 0;
-    grid-template: "none";
-}
-
 .sjrk-st-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

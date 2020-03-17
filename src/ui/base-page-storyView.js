@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The storyView page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyView", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         events: {

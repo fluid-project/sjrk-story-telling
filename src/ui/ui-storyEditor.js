@@ -150,6 +150,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             story: {
                 type: "sjrk.storyTelling.story"
             },
+            // the templateManager for this UI
             templateManager: {
                 options: {
                     model: {
@@ -276,9 +277,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all blocks which have been selected in the editor
-     * - "that": the story editor UI
-     * - "managedViewComponentRegistry": the registry of view components
+    /**
+     * Removes all blocks which have been selected in the editor
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.ui.storyEditor
+     * @param {Object.<String, Component>} managedViewComponentRegistry - the registry of view components
      */
     sjrk.storyTelling.ui.storyEditor.removeSelectedBlocks = function (that, managedViewComponentRegistry)
     {

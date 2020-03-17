@@ -15,6 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     var mockServer;
 
+    // Sets up and tests the getParameterByName function
     jqUnit.test("Test getParameterByName function", function () {
         var testCases = [
             { // test retrieval of set value from provided URL
@@ -71,6 +72,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     });
 
+    // Test cases and sequences for the Server-UI communication functions
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTester", {
         gradeNames: ["fluid.modelComponent", "fluid.test.testCaseHolder"],
         baseTestCase: {
@@ -127,16 +129,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
-    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, clientConfig) {
+    /**
+     * Sets up a mock server response with given data for a given URL
+     *
+     * @param {String} url - the URL for which to set up a response
+     * @param {Object} responseData - JSON data to include in the server response
+     */
+    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, responseData) {
         mockServer = sinon.createFakeServer();
         mockServer.respondImmediately = true;
-        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(clientConfig)]);
+        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(responseData)]);
     };
 
+    /**
+     * Stops the remote server and hands any previously set-up routes back to Kettle
+     */
     sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {
         mockServer.restore();
     };
 
+    /**
+     * A collection of client configuration settings
+     * @typedef {Object.<String, String>} ClientConfig
+     * @property {String} theme - the current theme of the site
+     * @property {String} baseTheme - the base theme of the site
+     * @property {String} authoringEnabled - indicates whether story saving and editing are enabled
+     */
+
+    /**
+     * Verifies that a custom CSS file was loaded for custom themes,
+     * or that none has been loaded if no custom theme has been specified
+     * in the clientConfig
+     *
+     * @param {ClientConfig} clientConfig - the client configuration data
+     * @param {Number} expectedCssInstanceCount - The number of times the CSS file is expected to be present
+     */
     sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded = function (clientConfig, expectedCssInstanceCount) {
         if (clientConfig.theme === clientConfig.baseTheme) {
             expectedCssInstanceCount = 0; // if no custom theme is set, we actually expect zero custom files
@@ -146,6 +173,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         jqUnit.assertEquals("Custom theme CSS file is linked the expected number of instances", expectedCssInstanceCount, actualInstanceCount);
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.storyTellingServerUiTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

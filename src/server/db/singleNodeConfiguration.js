@@ -12,6 +12,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 "use strict";
 
+// the basic configuration
 fluid.defaults("sjrk.storyTelling.server.singleNodeDb.core", {
     gradeNames: ["fluid.couchConfig.pipeline.retrying"],
     listeners: {
@@ -20,20 +21,23 @@ fluid.defaults("sjrk.storyTelling.server.singleNodeDb.core", {
     }
 });
 
+// includes the replicator database name
 fluid.defaults("sjrk.storyTelling.server.replicatorDb", {
-    gradeNames: ["sjrk.storyTelling.server.singleNodeDb.core"],
-    couchOptions: {
-        dbName: "_users"
-    }
-});
-
-fluid.defaults("sjrk.storyTelling.server.usersDb", {
     gradeNames: ["sjrk.storyTelling.server.singleNodeDb.core"],
     couchOptions: {
         dbName: "_replicator"
     }
 });
 
+// includes the users database name
+fluid.defaults("sjrk.storyTelling.server.usersDb", {
+    gradeNames: ["sjrk.storyTelling.server.singleNodeDb.core"],
+    couchOptions: {
+        dbName: "_users"
+    }
+});
+
+// includes the global_changes database name
 fluid.defaults("sjrk.storyTelling.server.globalChangesDb", {
     gradeNames: ["sjrk.storyTelling.server.singleNodeDb.core"],
     couchOptions: {

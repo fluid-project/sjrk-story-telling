@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the video block editor grade
     fluid.defaults("sjrk.storyTelling.blockUi.editor.testVideoBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor.videoBlockEditor"],
         components: {
@@ -26,6 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the video block editor
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -71,6 +73,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.blockUi.editor.videoBlockEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

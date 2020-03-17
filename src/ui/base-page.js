@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The page base grade. This is for coordinating UI's and represents an HTML page
     fluid.defaults("sjrk.storyTelling.base.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
@@ -111,6 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
+            // cookie storage
             cookieStore: {
                 type: "fluid.prefs.cookieStore",
                 options: {
@@ -127,6 +129,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.menu",
                 container: ".sjrkc-st-menu"
             },
+            // the UIO component
             uio: {
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",
@@ -142,9 +145,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Retrieves preferences stored in the cookie and applies them to the component
-     * - "pageComponent": the `page` component that will accept the preferences
-     * - "cookieStore": a fluid.prefs.cookieStore containing the data to laod
+    /**
+     * Retrieves preferences stored in the cookie and applies them to the component
+     *
+     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` that will accept the preferences
+     * @param {Component} cookieStore - a fluid.prefs.cookieStore containing the data to laod
      */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
@@ -159,9 +164,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    /* Resets the page preferences and clears the page model, with event hooks
+    /**
+     * Resets the page preferences and clears the page model, with event hooks
      * before and after the reset
-     * - "pageComponent": the page component to be reset
+     *
+     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` to be reset
      */
     sjrk.storyTelling.base.page.resetPreferences = function (pageComponent) {
         var transaction = pageComponent.applier.initiate();

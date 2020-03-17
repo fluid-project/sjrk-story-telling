@@ -134,10 +134,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Injects the provided template content to the partial templates collection of the template renderer
-     * - "templateRenderer": the template renderer
-     * - "templateContent": the raw content of the template to be loaded at templateName
-     * - "templateName": the template's name
+    /**
+     * Injects the provided template content to the partial templates collection of the template renderer
+     *
+     * @param {Component} templateRenderer - an instance of gpii.handlebars.renderer
+     * @param {String} templateContent - the raw content of the template to be loaded at templateName
+     * @param {String} templateName - the template's name
+     * @param {Object} completionEvent - an event to fire upon completion
      */
     sjrk.storyTelling.templateManager.injectTemplate = function (templateRenderer, templateContent, templateName, completionEvent) {
         templateRenderer.applier.change(["templates", "pages", templateName], templateContent);
@@ -145,31 +148,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire();
     };
 
-    /* Prepares the dynamic values and localized messages to be rendered into the
+    /**
+     * Prepares the dynamic values and localized messages to be rendered into the
      * template and then calls the renderTemplateOnSelf invoker. The invoker
      * provides specifics about how to render the template.
      * Values in localizedMessages are resolved against those in dynamicValues.
      * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
      * dynamicValues, the result is 'msg_auth:"Someone"'.
-     * - "templateManagerComponent": the templateManager component
-     * - "templateContent": the raw content of the template to be loaded at templateName
-     * - "dynamicValues": other values which are likely to change often.
-     * - "completionEvent": component even to fire when complete
+     *
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
+     * @param {Object.<String, String>} localizedMessages - collection of localized message strings
+     * @param {Object} dynamicValues - other values to include in the rendering
      */
     sjrk.storyTelling.templateManager.renderTemplate = function (templateManager, localizedMessages, dynamicValues) {
         localizedMessages = sjrk.storyTelling.templateManager.resolveTerms(localizedMessages, dynamicValues.story);
         templateManager.renderTemplateOnSelf(localizedMessages, dynamicValues);
     };
 
-    /* Renders a template into the templateManager's container with a gpii.handlebars
+    /**
+     * Renders a template into the templateManager's container with a gpii.handlebars
      * client-side renderer, and fires completionEvent when done.
      * Values in localizedMessages are resolved against those in dynamicValues.
      * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
      * dynamicValues, the result is 'msg_auth:"Someone"'.
-     * - "templateManagerComponent": the templateManager component
-     * - "templateContent": the raw content of the template to be loaded at templateName
-     * - "dynamicValues": other values which are likely to change often.
-     * - "completionEvent": component even to fire when complete
+     *
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
+     * @param {String} templateName - the name of the template to render
+     * @param {Object} completionEvent - an event to fire upon completion
+     * @param {Object.<String, String>} localizedMessages - collection of localized message strings
+     * @param {Object} dynamicValues - other values which are likely to change often.
      */
     sjrk.storyTelling.templateManager.renderTemplateOnSelf = function (templateManager, templateName, completionEvent, localizedMessages, dynamicValues) {
         templateManager.templateRenderer.html(templateManager.container, templateName, {
@@ -180,11 +187,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         completionEvent.fire();
     };
 
-    /* Given a set of terms that may contain a mix of strings and references in
+    /**
+     * Given a set of terms that may contain a mix of strings and references in
      * the fluid.stringTemplate syntax, resolves the stringTemplate referenecs
      * against another set of terms.
-     * - "termsToResolve": the terms that will be resolved
-     * - "toResolveAgainst": the terms the first set will be resolved against
+     *
+     * @param {Object} termsToResolve - the terms that will be resolved
+     * @param {Object} toResolveAgainst - the terms the first set will be resolved against
+     *
+     * @return {Object} - a collection of resolved terms
      */
     sjrk.storyTelling.templateManager.resolveTerms = function (termsToResolve, toResolveAgainst) {
         return fluid.transform(termsToResolve, function (term) {
@@ -200,19 +211,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         });
     };
 
-    /* Merges localized UI messages into a component at a given path. Any values
+    /**
+     * Merges localized UI messages into a templateManager at a given path. Any values
      * already extant at the path in question are preserved. If there are any
      * keys which are duplicated, they will be overwritten by the new value.
-     * - "componentMessages": a collection of messages to be merged in
-     * - "component": the infusion component to be affected
-     * - "path": the EL path on the component where messages will be merged
+     *
+     * @param {Object.<String, String>} componentMessages - a collection of messages to be merged in
+     * @param {Component} templateManager - an instance of sjrk.storyTelling.templateManager
+     * @param {String} path - the EL path on the component where messages will be merged
      */
-    sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, component, path) {
-        var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(component, path), JSON.parse(componentMessages)) : fluid.get(component, path);
-        fluid.set(component, path, mergedEndpoint);
+    sjrk.storyTelling.templateManager.loadLocalizedMessages = function (componentMessages, templateManager, path) {
+        var mergedEndpoint = componentMessages ? $.extend({}, fluid.get(templateManager, path), JSON.parse(componentMessages)) : fluid.get(templateManager, path);
+        fluid.set(templateManager, path, mergedEndpoint);
     };
 
-    /* A gpii.handlebars.helper grade which registers a helper function */
+    // A gpii.handlebars.helper grade which registers a helper function
     fluid.defaults("sjrk.storyTelling.templateManager.getIdsHelper", {
         gradeNames: ["gpii.handlebars.helper"],
         helperName: "getIds",
@@ -224,10 +237,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Handlebars block helper function to generate a unique ID (GUID) for
+    /**
+     * Handlebars block helper function to generate a unique ID (GUID) for
      * use in labeling form elements in the component template. Any
      * instances of the value "$id" in the block will be replaced with this ID.
-     * - "prefixForId": prefix to prepend before the GUID
+     *
+     * @param {String} prefixForId - prefix to prepend before the GUID
+     *
+     * @return {String} - the freshly fully-formed ID
      */
     sjrk.storyTelling.templateManager.getIdsHelper.getLabelIds = function () {
         return function (prefixForId, options) {
@@ -241,7 +258,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         };
     };
 
-    /* A gpii.handlebars.helper grade which replaces one string with another */
+    // A gpii.handlebars.helper grade which replaces one string with another
     fluid.defaults("sjrk.storyTelling.templateManager.replaceHelper", {
         gradeNames: ["gpii.handlebars.helper"],
         helperName: "replace",
@@ -253,11 +270,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Handlebars block helper function to replace all instances of one value
+    /**
+     * Handlebars block helper function to replace all instances of one value
      * within a given string with another new value.
-     * - "source": the source string to be modified
-     * - "originalValue": the value to be replaced
-     * - "newValue": the new value to use instead of originalValue
+     *
+     * @param {String} source - the source string to be modified
+     * @param {String} originalValue - the value to be replaced
+     * @param {String} newValue - the new value to use instead of originalValue
+     *
+     * @return {String} - The resulting string content
      */
     sjrk.storyTelling.templateManager.replaceHelper.replace = function () {
         return function (source, originalValue, newValue) {
