@@ -17,7 +17,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.base.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            // only values in this colleciton will be persisted by the cookieStore
+            // Only values in this colleciton will be persisted by the cookieStore.
+            //
+            // Currently, those values are the `uiLanguage` in this grade and
+            // `storyBrowseDisplayPreference` in `sjrk.storyTelling.base.page.storyBrowse`.
+            //
+            // The goal of separating them is to allow the use of other model values
+            // such as the view state values in `sjrk.storyTelling.base.page.storyEdit`
+            // without saving them.
             persistedValues: {
                 uiLanguage: "en" // initial locale set to match the initialModel below
             }
