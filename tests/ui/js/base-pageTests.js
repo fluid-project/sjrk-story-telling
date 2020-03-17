@@ -52,11 +52,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // ensure the initial state is English
                 {
                     func: "{testPage}.applier.change",
-                    args: ["uiLanguage", ""]
+                    args: [["persistedValues", "uiLanguage"], ""]
                 },
                 {
                     func: "{testPage}.applier.change",
-                    args: ["uiLanguage", "en"]
+                    args: [["persistedValues", "uiLanguage"], "en"]
                 },
                 {
                     "event": "{testPage}.menu.events.onControlsBound",
@@ -84,7 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["uiLanguage value is as expected", "es", "{testPage}.model.uiLanguage"]
+                    args: ["uiLanguage value is as expected", "es", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -107,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["uiLanguage value is as expected", "en", "{testPage}.model.uiLanguage"]
+                    args: ["uiLanguage value is as expected", "en", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
@@ -124,9 +124,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
+                    "path": "persistedValues.uiLanguage",
                     "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"es", "{testPage}.model.uiLanguage"]
+                    "args": ["uiLanguage is as expected" ,"es", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
@@ -134,9 +134,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
+                    "path": "persistedValues.uiLanguage",
                     "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.uiLanguage"]
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
@@ -144,19 +144,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
+                    "path": "persistedValues.uiLanguage",
                     "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.uiLanguage"]
+                    "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.applier.change",
-                    args: ["uiLanguage", "en"]
+                    args: [["persistedValues", "uiLanguage"], "en"]
                 },
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
+                    "path": "persistedValues.uiLanguage",
                     "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.uiLanguage"]
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.persistedValues.uiLanguage"]
                 }]
             },
             {
@@ -177,7 +177,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 expect: 5,
                 sequence: [{
                     "func": "{testPage}.applier.change",
-                    "args": ["uiLanguage", "meowish"]
+                    "args": [["persistedValues", "uiLanguage"], "meowish"]
                 },
                 {
                     "event": "{testPage}.cookieStore.events.onWriteResponse",
@@ -186,7 +186,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "func": "{testPage}.applier.change",
-                    "args": ["fuzzyCat", "yes please"]
+                    "args": [["persistedValues", "fuzzyCat"], "yes please"]
                 },
                 {
                     "event": "{testPage}.cookieStore.events.onWriteResponse",
@@ -200,7 +200,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{testPage}.events.onPreferencesLoaded",
                     "listener": "jqUnit.assertEquals",
-                    "args": ["Language is still as expected after cookie load", "meowish", "{testPage}.model.uiLanguage"]
+                    "args": ["Language is still as expected after cookie load", "meowish", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 // reset the cookie to its initial state for subsequent test runs
                 {

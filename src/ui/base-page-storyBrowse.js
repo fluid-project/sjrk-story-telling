@@ -17,7 +17,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.base.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         model: {
-            storyBrowseDisplayPreference: ""
+            persistedValues: {
+                storyBrowseDisplayPreference: ""
+            }
         },
         events: {
             onAllUiComponentsReady: {
@@ -35,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listeners: {
                         "onViewChangeRequested.savePreference": {
                             func: "{storyBrowse}.applier.change",
-                            args: ["storyBrowseDisplayPreference", "{arguments}.0.data"],
+                            args: [["persistedValues", "storyBrowseDisplayPreference"], "{arguments}.0.data"],
                             priority: "first"
                         }
                     },
@@ -44,7 +46,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 model: {
                                     dynamicValues: {
-                                        storyBrowseDisplayPreference: "{storyBrowse}.model.storyBrowseDisplayPreference",
+                                        storyBrowseDisplayPreference: "{storyBrowse}.model.persistedValues.storyBrowseDisplayPreference",
                                         templateConfig: "{that}.options.templateConfig"
                                     }
                                 }
