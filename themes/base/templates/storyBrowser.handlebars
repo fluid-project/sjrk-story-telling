@@ -1,5 +1,5 @@
 <div class="sjrk-st-browser-view-control-container sjrkc-st-browser-view-control-container {{dynamicValues.storyBrowseDisplayPreference}}">
-    {{localizedMessages.message_browseViewText}}: <a class="sjrk-st-browser-view-control-list sjrkc-st-browser-view-control-list" href="javascript:void(0);" aria-label="{{localizedMessages.message_browseListLabel}}">{{localizedMessages.message_browseListText}}</a>
+    {{localizedMessages.message_browseViewText}} <a class="sjrk-st-browser-view-control-list sjrkc-st-browser-view-control-list" href="javascript:void(0);" aria-label="{{localizedMessages.message_browseListLabel}}">{{localizedMessages.message_browseListText}}</a>
     |
     <a class="sjrk-st-browser-view-control-grid sjrkc-st-browser-view-control-grid" href="javascript:void(0);" aria-label="{{localizedMessages.message_browseGridLabel}}">{{localizedMessages.message_browseGridText}}</a>
 </div>
@@ -22,14 +22,14 @@
                         {{/if}}
                     </p>
                     {{#if tags}}
-                        <p class="sjrk-st-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}:
+                        <p class="sjrk-st-browser-story-tags">{{../localizedMessages.message_listTagsLabelText}}
                             {{#each tags}}
                                 {{this}}{{#unless @last}}, {{/unless}}
                             {{/each}}
                         </p>
                     {{/if}}
                     {{#if contentTypes}}
-                        <p class="sjrk-st-browser-story-contains">{{../localizedMessages.message_browseContainsText}}:
+                        <p class="sjrk-st-browser-story-contains">{{../localizedMessages.message_browseContainsText}}
                             {{#each contentTypes}}
                                 {{lookup ../../localizedMessages.contentTypes this}}{{#unless @last}}, {{/unless}}
                             {{/each}}

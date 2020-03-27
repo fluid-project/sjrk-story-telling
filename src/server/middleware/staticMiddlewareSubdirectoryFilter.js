@@ -1,5 +1,7 @@
 /*
-Copyright 2017-2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -13,6 +15,7 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
+// Kettle middleware to prevent serving from directories not present in a whitelist
 fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
     gradeNames: "kettle.middleware",
     invokers: {
@@ -25,6 +28,16 @@ fluid.defaults("sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter", {
     allowedSubdirectories: []
 });
 
+/**
+ * Restricts a given request based on whether the requested resource is contained
+ * within a directory that is on a list of allowed subdirectories
+ *
+ * @param {Objec} request - the kettle request
+ * @param {String[]} allowedSubdirectories - the list of subdirectories from which to allow serving
+ *
+ * @return {Promise} - a fluid-flavoured promise that returns empty on resolve
+ *                     on rejection, an error object is returned indicating a 404 status
+ */
 sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter.handle = function (request, allowedSubdirectories) {
     var togo = fluid.promise();
 

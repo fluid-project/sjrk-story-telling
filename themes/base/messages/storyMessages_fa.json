@@ -19,8 +19,6 @@
     "message_takePhotoText": "گرفتن عکس",
     "message_addTagsText": "اضافه کردن برچسب های  موضوعی",
     "message_addTagsPlaceholder": "برچسب ۱ ، برچسب ۲",
-    "message_summaryInputLabel": "اضافه کردن خلاصه (اختیاری)",
-    "message_summaryInputPlaceholder": "از اینجا شروع به تایپ کنید",
     "message_translateText": "ترجمه داستان من",
     "message_submitButton": "اتمام",
     "message_goBack": "برگشت",
@@ -30,7 +28,6 @@
     "message_readMoreText": "بیشتر بخوانید",
     "message_listTagsLabelText": "برچسب های  موضوعی",
     "message_shareText": "به اشتراک گذاشتن داستان من",
-    "message_saveNoShareText": "ذخیره بدون به اشتراک گذاری",
     "message_languageLabelText": "زبان(ها)",
     "availableCategories": {
         "category_childhood": "دوران کودکی",

@@ -1,0 +1,13 @@
+<div class="sjrk-st-page-header">
+    <a href="https://sojustrepairit.org" class="sjrk-st-page-header-main-title" aria-label="{{localizedMessages.mastheadTitle}}"></a>
+</div>
+<div class="sjrk-st-top-menu{{#if dynamicValues.authoringEnabled}} authoring-enabled{{/if}}">
+    <nav>
+        <ul>
+            <li><a href="storyBrowse.html">{{localizedMessages.link_browse_text}}</a></li>
+        </ul>
+    </nav>
+    {{#if dynamicValues.authoringEnabled}}
+        <a class="sjrk-st-edit-link" href="{{localizedMessages.editor_url}}">{{localizedMessages.link_edit_text}}</a>
+    {{/if}}
+</div>

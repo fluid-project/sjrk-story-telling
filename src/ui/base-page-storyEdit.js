@@ -1,5 +1,7 @@
 /*
-Copyright 2018-2019 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,14 +13,76 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The storyEdit page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
             hiddenEditorClass: "hidden"
         },
+        model: {
+            /* The initial page state is only the Edit Story Step showing.
+             * In much the same way as within the editor grade, the visibility
+             * of the editor and previewer are mutually exclusive, and the latter
+             * is always set to the opposite of the former. The same is true for
+             * editStoryStepVisible and metadataStepVisible within the editor UI.
+             *
+             * The individual steps of the editor (editStoryStep and metadataStep)
+             * are controlled within the editor model, so hiding and showing of
+             * each of the three steps in the editor is achieved by changing
+             * both the editorVisible value in this grade as well as
+             * editStoryStepVisible.
+             *
+             * The three steps and their relevant model states are, in order:
+             * - Edit Story Step
+             *      - editorVisible: true
+             *      - editStoryStepVisible: true
+             * - Metadata Step
+             *      - editorVisible: true
+             *      - editStoryStepVisible: false
+             * - Preview Step
+             *      - editorVisible: false
+             *      - editStoryStepVisible: false
+             */
+            editorVisible: true,
+            previewerVisible: false
+        },
+        modelRelay: {
+            editPageVisibilityMutex: {
+                source: "editorVisible",
+                target: "previewerVisible",
+                singleTransform: {
+                    type: "sjrk.storyTelling.transforms.not"
+                }
+            }
+        },
+        modelListeners: {
+            "editorVisible": [{
+                this: "{storyEditor}.container",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "manageEditorVisibility"
+            },
+            {
+                func: "{that}.events.onContextChangeRequested.fire",
+                args: ["{change}.value"],
+                priority: "last",
+                namespace: "contextChangeOnEditorVisibilityChange"
+            }],
+            "previewerVisible": {
+                this: "{storyPreviewer}.container",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "managePreviewerVisibility"
+            },
+            "{storyEditor}.model.editStoryStepVisible": {
+                func: "{that}.events.onContextChangeRequested.fire",
+                args: ["{change}.value"],
+                priority: "last",
+                namespace: "contextChangeOnEditStoryStepVisibilityChange"
+            }
+        },
         selectors: {
-            mainContainer: ".sjrkc-main-container",
-            pageContainer: ".sjrk-edit-page-container"
+            pageContainer: ".sjrkc-edit-page-container"
         },
         events: {
             onAllUiComponentsReady: {
@@ -27,7 +91,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onVisibilityChanged: null,
             onStoryShareRequested: "{storyPreviewer}.events.onShareRequested",
             onStoryShareComplete: "{storyPreviewer}.events.onShareComplete"
         },
@@ -41,51 +104,66 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "previewerRenderTemplate"
             },
             {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [["{storyEditor}.container"], ["{storyPreviewer}.container"], "{that}.events.onVisibilityChanged"],
-                namespace: "showPreviewerHideEditor"
+                func: "{that}.showEditorHidePreviewer",
+                args: [false],
+                namespace: "hideEditorShowPreviewer"
             }],
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
-                funcName: "sjrk.storyTelling.ui.manageVisibility",
-                args: [["{storyPreviewer}.container"], ["{storyEditor}.container"], "{that}.events.onVisibilityChanged"],
+                func: "{that}.showEditorHidePreviewer",
+                args: [true],
                 namespace: "showEditorHidePreviewer"
             },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
             },
-            "onCreate.setEditorDisplay": {
-                func: "{that}.setEditorDisplay"
+            "onCreate.setAuthoringEnabledClass": {
+                func: "{that}.setAuthoringEnabledClass"
             }
         },
         invokers: {
-            setEditorDisplay: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.setEditorDisplay",
-                args: ["{that}.options.selectors.mainContainer", "{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled", "{that}.options.pageSetup.hiddenEditorClass"]
+            setAuthoringEnabledClass: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.showEditPageContainer",
+                args: ["{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled"]
+            },
+            showEditorHidePreviewer: {
+                func: "{that}.applier.change",
+                args: ["editorVisible", "{arguments}.0"]
             }
         },
         /*
          * For a block of a given type, a block is considered empty unless any
-         * one of the values listed in the corresponding array is truthy
+         * one of the fields listed in its corresponding array is truthy.
+         *
+         * E.g. for an image block, even if heading, altText and description
+         * are truthy, if the imageUrl isn't provided then the block is empty.
          */
-        blockContentValues: {
+        blockFields: {
             "text": ["heading", "text"],
             "image": ["imageUrl"],
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]
         },
         components: {
+            // manaages browser history for in-page forward-back support
+            historian: {
+                type: "gpii.locationBar",
+                options: {
+                    model: {
+                        // because we have model relays that make sure metadataStepVisible
+                        // and previewerVisible are always the opposite of editStoryStepVisible
+                        // and editorVisible, respectively, we only need to track the latter two
+                        editorVisible: "{storyEdit}.model.editorVisible",
+                        editStoryStepVisible: "{storyEditor}.model.editStoryStepVisible"
+                    },
+                    modelToQuery: false,
+                    queryToModel: false
+                }
+            },
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: ".sjrkc-st-story-editor",
-                options: {
-                    listeners: {
-                        "onStorySubmitRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
-                        "onEditorNextRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
-                        "onEditorPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire"
-                    }
-                }
+                container: ".sjrkc-st-story-editor"
             },
             // the story safety and etiquette notice
             storyEtiquette: {
@@ -105,91 +183,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // the story preview context
             storyPreviewer: {
-                type: "sjrk.storyTelling.ui.storyViewer",
+                type: "sjrk.storyTelling.ui.storyPreviewer",
                 container: ".sjrkc-st-story-previewer",
                 options: {
-                    selectors: {
-                        progressArea: ".sjrkc-st-story-share-progress",
-                        responseArea: ".sjrkc-st-story-share-response",
-                        responseText: ".sjrkc-st-story-share-response-text"
-                    },
-                    listeners: {
-                        "onStoryViewerPreviousRequested.requestContextChange": "{page}.events.onContextChangeRequested.fire",
-                        "onShareRequested": [{
-                            func: "{that}.showProgressArea",
-                            namespace: "showProgressArea"
-                        },{
-                            func: "{that}.disableShareButton",
-                            namespace: "disableShareButton"
-                        },{
-                            func: "{that}.hideServerResponse",
-                            namespace: "hideServerResponse"
-                        }],
-                        "onShareComplete": [{
-                            func: "{that}.hideProgressArea",
-                            namespace: "hideProgressArea"
-                        },{
-                            func: "{that}.enableShareButton",
-                            namespace: "enableShareButton"
-                        },{
-                            func: "{that}.setServerResponse",
-                            args: ["{arguments}.0"],
-                            namespace: "setServerResponse"
-                        },{
-                            func: "{that}.showServerResponse",
-                            namespace: "showServerResponse"
-                        }]
-                    },
-                    invokers: {
-                        setShareButtonDisabled: {
-                            this: "{that}.dom.storyShare",
-                            method: "prop",
-                            args: ["disabled", "{arguments}.0"]
-                        },
-                        enableShareButton: {
-                            func: "{that}.setShareButtonDisabled",
-                            args: [false]
-                        },
-                        disableShareButton: {
-                            func: "{that}.setShareButtonDisabled",
-                            args: [true]
-                        },
-                        showProgressArea: {
-                            this: "{that}.dom.progressArea",
-                            method: "show",
-                            args: [0]
-                        },
-                        hideProgressArea: {
-                            this: "{that}.dom.progressArea",
-                            method: "hide",
-                            args: [0]
-                        },
-                        showServerResponse: {
-                            this: "{that}.dom.responseArea",
-                            method: "show",
-                            args: [0]
-                        },
-                        hideServerResponse: {
-                            this: "{that}.dom.responseArea",
-                            method: "hide",
-                            args: [0]
-                        },
-                        setServerResponse: {
-                            this: "{that}.dom.responseText",
-                            method: "text",
-                            args: ["{arguments}.0"]
-                        }
-                    },
                     components: {
-                        templateManager: {
-                            options: {
-                                model: {
-                                    dynamicValues: {
-                                        isEditorPreview: true
-                                    }
-                                }
-                            }
-                        },
                         story: {
                             options: {
                                 model: "{storyEditor}.story.model",
@@ -199,7 +196,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                         singleTransform: {
                                             type: "fluid.transforms.free",
                                             func: "sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks",
-                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockContentValues"]
+                                            args: ["{storyPreviewer}.story.model.content", "{storyEdit}.options.blockFields"]
                                         }
                                     }
                                 }
@@ -211,16 +208,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Removes all empty blocks from a given collection of story blocks
-     * - "blocks": a collection of story blocks (sjrk.storyTelling.block)
-     * - "blockContentValues": a hash map of block types which outlines the values
-     *      that, if at least one is truthy, means a particular block is not empty
+    /**
+     * Removes all empty blocks from a given collection of story blocks
+     *
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Object.<String, String[]>} blockFields - a hash map of block types and the fields
+     * that, if at least one is truthy, means that particular block is not empty
+     *
+     * @return {Object} - a collection of reliably non-empty story blocks
      */
-    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockContentValues) {
+    sjrk.storyTelling.base.page.storyEdit.removeEmptyBlocks = function (blocks, blockFields) {
         var filteredBlocks = [];
 
         fluid.each(blocks, function (block) {
-            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockContentValues[block.blockType])) {
+            if (!sjrk.storyTelling.base.page.storyEdit.isEmptyBlock(block, blockFields[block.blockType])) {
                 filteredBlocks.push(block);
             }
         });
@@ -228,25 +229,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         return filteredBlocks;
     };
 
-    /* Returns true if a block is determined to be empty, based on the values
-     * listed in blockContentValuesForType. If at least one of those values is
+    /**
+     * Returns true if a block is determined to be empty, based on the values
+     * listed in blockFieldsForType. If at least one of those values is
      * truthy, the block is not empty. If the values are empty or otherwise can't
      * be iterated over, then the block is also empty regardless of its contents.
-     * - "block": a single story block (sjrk.storyTelling.block)
-     * - "blockContentValuesForType": an array of values for the block's type
-     *      that, if at least one is truthy, mean the block is not empty
+     *
+     * @param {Component} block - a single story block (sjrk.storyTelling.block)
+     * @param {String[]} blockFieldsForType - a set of model values for this
+     * particular block type that, if at least one is truthy, means the block is not empty
+     *
+     * @return {Boolean} - true if the block is considered empty
      */
-    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockContentValuesForType) {
-        return !fluid.find_if(blockContentValuesForType, function (blockContentValue) {
+    sjrk.storyTelling.base.page.storyEdit.isEmptyBlock = function (block, blockFieldsForType) {
+        return !fluid.find_if(blockFieldsForType, function (blockContentValue) {
             return !!block[blockContentValue];
         });
     };
 
-    sjrk.storyTelling.base.page.storyEdit.setEditorDisplay = function (mainContainer, pageContainer, authoringEnabled, hiddenEditorClass) {
-        $(mainContainer).prop("hidden", !authoringEnabled);
-        $(pageContainer).toggleClass(hiddenEditorClass, !authoringEnabled);
+    /**
+     * If authoring is not enabled, will hide the Edit page container
+     *
+     * @param {jQuery} pageContainer - the Edit page DOM container to show/hide
+     * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+     */
+    sjrk.storyTelling.base.page.storyEdit.showEditPageContainer = function (pageContainer, authoringEnabled) {
+        $(pageContainer).prop("hidden", !authoringEnabled);
     };
 
+    /**
+     * Submits the editor form to the server
+     *
+     * @param {jQuery} storyEditorForm - the Editor UI's HTML form element
+     * @param {Object} storyModel - the model of the story to save
+     * @param {Object} errorEvent - an event to fire on errors
+     */
     sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
         storyEditorForm.attr({
             action: "/stories/",

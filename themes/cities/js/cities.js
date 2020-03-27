@@ -1,5 +1,7 @@
 /*
-Copyright 2018-2019 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -33,10 +35,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }],
         components: {
+            // the masthead of the site
             masthead: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-header-container"
             },
+            // the footer of the site
             footer: {
                 type: "sjrk.storyTelling.ui",
                 container: ".sjrkc-st-page-footer-container",

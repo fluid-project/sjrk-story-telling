@@ -12,7 +12,7 @@
         {{else}}
             <form hidden lang="{{localizedMessages.language}}" class="sjrk-st-story-editor-form sjrkc-st-story-editor-form">
         {{/if}}
-            <div class="sjrk-st-story-editor-page1 sjrkc-st-story-editor-page1">
+            <div class="sjrk-st-story-editor-edit-story-step sjrkc-st-story-editor-edit-story-step">
                 <div class="sjrk-st-story-editor-buttons-container">
                     <div class="sjrk-st-button-text-block-container sjrk-st-image-button-container">
                         <button class="sjrk-st-button sjrk-st-button-text-block sjrkc-st-button-text-block" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_blockAddTextBlock}}</span></button>
@@ -28,9 +28,6 @@
                     </div>
                     <div class="sjrk-st-button-remove-blocks-container sjrk-st-image-button-container">
                         <button class="sjrk-st-button sjrk-st-button-remove-blocks sjrkc-st-button-remove-blocks" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_blockRemoveBlocks}}</span></button>
-                    </div>
-                    <div class="sjrk-st-button-restore-blocks-container sjrk-st-image-button-container">
-                        <button class="sjrk-st-button sjrk-st-button-restore-blocks sjrkc-st-button-restore-blocks" type="button"><span class="sjrk-st-button-text">{{localizedMessages.message_blockRestoreBlocks}}</span></button>
                     </div>
                 </div>
                 <!-- area where blocks will be added -->
@@ -51,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="sjrk-st-story-editor-page2 sjrkc-st-story-editor-page2">
+            <div class="sjrk-st-story-editor-metadata-step sjrkc-st-story-editor-metadata-step">
                 {{#getIds "title"}}
                     <div class="sjrk-st-label-container">
                         <label for="$id">{{../localizedMessages.message_titleInputLabel}}</label>

@@ -1,5 +1,7 @@
 /*
-Copyright 2017-2019 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -12,9 +14,11 @@ var fluid = require("infusion"),
     kettle = require("kettle"),
     fs = require("fs");
 
+// The main Kettle server configuration grade
 fluid.defaults("sjrk.storyTelling.server", {
     gradeNames: ["fluid.component"],
     components: {
+        // the Kettle server proper
         server: {
             type: "kettle.server",
             options: {
@@ -41,15 +45,19 @@ fluid.defaults("sjrk.storyTelling.server", {
                     target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
                 },
                 components: {
+                    // a DataSource to get a list of stories
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view"
                     },
+                    // a DataSource to get or save a single story
                     storyDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.story"
                     },
+                    // a DataSource to delete a single story
                     deleteStoryDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
                     },
+                    // a DataSource to save a single story along with any files it has
                     saveStoryWithBinaries: {
                         type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
                         options: {
@@ -62,9 +70,11 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    // the Kettle app
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
+                    // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {
                         type: "kettle.middleware.basicAuth",
                         options: {
@@ -76,30 +86,38 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    // middleware to restrict serving to only those directories listed
                     nodeModulesFilter: {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
+                                "blueimp-canvas-to-blob",
+                                "blueimp-load-image",
                                 "gpii-binder",
+                                "gpii-express",
                                 "gpii-handlebars",
+                                "gpii-location-bar-relay",
                                 "handlebars",
                                 "infusion",
                                 "markdown-it",
                                 "sinon"]
                         }
                     },
+                    // static middleware for the node_modules directory
                     nodeModules: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "./node_modules"
                         }
                     },
+                    // static middleware for the uploads directory
                     uploads: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "{server}.options.secureConfig.binaryUploadDirectory"
                         }
                     },
+                    // static middleware for the tests directory
                     tests: {
                         type: "kettle.middleware.static",
                         options: {
@@ -109,12 +127,14 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
+                    // static middleware for the testData directory
                     testData: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "./tests/testData"
                         }
                     },
+                    // static middleware for the ui directory
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
@@ -147,6 +167,7 @@ fluid.defaults("sjrk.storyTelling.server", {
     }
 });
 
+// the Kettle app
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     gradeNames: ["kettle.app"],
     requestHandlers: {
@@ -213,21 +234,29 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     }
 });
 
-/* Resolves a JSON file and parses it before returning it
- * - "jsonFilePath": the path to the JSON file to parse
+/**
+ * Resolves a JSON file and parses it before returning it
+ *
+ * @param {String} jsonFilePath - the path to the JSON file to parse
+ *
+ * @return {Object} - the parsed file contents
  */
 sjrk.storyTelling.server.resolveJSONFile = function (jsonFilePath) {
     var file = kettle.resolvers.file(jsonFilePath);
     return JSON.parse(file);
 };
 
-/* Returns the path to the custom theme folder. The theme folder's name is
+/**
+ * Returns the path to the custom theme folder. The theme folder's name is
  * expected to match the theme name being passed in. If the theme is not
  * specified, the path returend will be the current directory ("."). If the
  * theme is specified but the resolved folder doesn't exist within themeFolder,
  * an error will be reported.
- * - "theme": The name of the theme for which to find the path
- * - "themeFolder": The folder/path that contains the theme being retrieved
+ *
+ * @param {String} theme - The name of the theme for which to find the path
+ * @param {String} themeFolder - The folder/path that contains the theme being retrieved
+ *
+ * @return {String} - the custom theme directory's path
  */
 sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     var themePath = ".";

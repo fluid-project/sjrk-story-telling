@@ -14,12 +14,6 @@
     --site-yellow: #f2d17e;
     --site-font: "Work Sans";
     --site-serif-font: "Vollkorn";
-    --uio-yellow: #ffff00;
-    --uio-black: #000000;
-    --uio-white: #ffffff;
-    --uio-grey-light: #bdbdbb;
-    --uio-grey: #888888;
-    --uio-grey-dark: #6c6c6c;
 }
 
 body {
@@ -257,10 +251,6 @@ h3:empty {
     margin-top: 3rem;
 }
 
-.sjrk-st-button-restore-blocks-container {
-    display: none;
-}
-
 .sjrk-st-browser-story-container {
     background-color: var(--site-medium-grey);
 }
@@ -364,7 +354,6 @@ h3:empty {
 .sjrk-st-browser-view-control-list,
 .sjrk-st-browser-view-control-grid {
     position: relative;
-    text-transform: uppercase;
     text-decoration: none;
     font-family: var(--site-font);
     color: var(--site-blue);
@@ -505,6 +494,7 @@ h3:empty {
     flex-grow: 1;
     justify-content: space-between;
     margin-top: 1.5rem;
+    max-width: 100%;
 }
 
 .sjrk-st-page-footer-oak-logo,
