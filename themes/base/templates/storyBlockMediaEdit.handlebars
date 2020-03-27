@@ -25,6 +25,13 @@
         </div>
     {{/getIds}}
 
+    {{#getIds "storyBlockHeading"}}
+        <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
+            <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+            <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+        </div>
+    {{/getIds}}
+
     <div class="sjrk-st-block-media-preview-container">
         {{#equals dynamicValues.blockType "audio"}}
             <audio class="sjrkc-st-block-media-preview sjrk-st-block-media-preview"></audio>
@@ -48,14 +55,7 @@
         {{#equals dynamicValues.blockType "video"}}
             <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
         {{/equals}}
-    </div>
-
-    {{#getIds "storyBlockHeading"}}
-        <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
-            <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
-            <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
-        </div>
-    {{/getIds}}
+    </div>    
 
     {{#getIds "storyBlockDescription"}}
         <div class="sjrk-st-block-media-description-container sjrk-st-block-label">

@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,10 +13,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // The page base grade. This is for coordinating UI's and represents an HTML page
     fluid.defaults("sjrk.storyTelling.base.page", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            uiLanguage: "en" //initial state is English
+            // Only values in this colleciton will be persisted by the cookieStore.
+            //
+            // Currently, those values are the `uiLanguage` in this grade and
+            // `storyBrowseDisplayPreference` in `sjrk.storyTelling.base.page.storyBrowse`.
+            //
+            // The goal of separating them is to allow the use of other model values
+            // such as the view state values in `sjrk.storyTelling.base.page.storyEdit`
+            // without saving them.
+            persistedValues: {
+                uiLanguage: "en" // initial locale set to match the initialModel below
+            }
+        },
+        members: {
+            initialModel: {
+                // the Initial Model of the page only specifies the locale
+                persistedValues: {
+                    uiLanguage: "en" // default locale is set to English
+                }
+            }
         },
         pageSetup: {
             resourcePrefix: ""
@@ -23,41 +44,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // authoring capabilities of the tool and must be present.
             //authoringEnabled: true
         },
-        distributeOptions: [
-            {
+        distributeOptions: {
+            "ui.templateManager.authoringEnabled": {
                 source: "{that}.options.pageSetup.authoringEnabled",
-                target: "{that ui templateManager}.options.model.dynamicValues.authoringEnabled"
+                target: "{that ui > templateManager}.options.model.dynamicValues.authoringEnabled"
             },
-            {
+            "ui.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
-                target: "{that ui}.options.components.templateManager.options.templateConfig.resourcePrefix"
+                target: "{that ui templateManager}.options.templateConfig.resourcePrefix"
             },
-            {
+            "ui.blockManager.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
-                target: "{that ui blockManager}.options.dynamicComponents.managedViewComponents.options.components.templateManager.options.templateConfig.resourcePrefix"
+                target: "{that ui blockManager templateManager}.options.templateConfig.resourcePrefix"
             },
-            {
+            "timeBased.stopMediaPlayerOnContextChange": {
                 record: { "{page}.events.onContextChangeRequested": "{that}.stopMediaPlayer" },
                 target: "{that sjrk.storyTelling.blockUi.timeBased}.options.listeners"
             },
-            {
+            "ui.requestResourceLoadOnRenderAllUiTemplates": {
                 record: { "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": "{templateManager}.events.onResourceLoadRequested.fire" },
                 target: "{that sjrk.storyTelling.ui}.options.listeners"
             },
-            {
+            "templateManager.uiLanguageToTemplateManager": {
                 record: {
                     target: "{that}.model.locale",
                     singleTransform: {
                         type: "fluid.transforms.condition",
-                        condition: "{page}.model.uiLanguage",
-                        true: "{page}.model.uiLanguage",
+                        condition: "{page}.model.persistedValues.uiLanguage",
+                        true: "{page}.model.persistedValues.uiLanguage",
                         false: undefined
                     },
-                    namespace: "uiLanguage"
+                    namespace: "uiLanguageToTemplateManager"
                 },
                 target: "{that sjrk.storyTelling.templateManager}.options.modelRelay"
             }
-        ],
+        },
         events: {
             onAllUiComponentsReady: {
                 events: {
@@ -70,27 +91,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onContextChangeRequested: null, // this includes changes in visibility, language, etc.
             onUioReady: null,
             onUioPanelsUpdated: null,
-            onRenderAllUiTemplates: null
+            onRenderAllUiTemplates: null,
+            beforePreferencesReset: null,
+            onPreferencesReset: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
                 funcName: "sjrk.storyTelling.base.page.getStoredPreferences",
-                args: ["{that}", "{cookieStore}"],
-                priority: "before:reloadUioMessages"
-            },
-            "onCreate.reloadUioMessages": {
-                func: "{that}.reloadUioMessages",
-                args: ["{that}.model.uiLanguage"]
+                args: ["{that}", "{cookieStore}"]
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
-                args: ["uiLanguage", "{arguments}.0.data"],
+                args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"],
                 namespace: "changeUiLanguage"
-            },
-            {
-                func: "{that}.reloadUioMessages",
-                args: "{arguments}.0.data",
-                namespace: "reloadUioMessages"
             },
             {
                 func: "{that}.events.onContextChangeRequested.fire",
@@ -98,34 +111,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 priority: "last"
             }]
         },
-        invokers: {
-            reloadUioMessages: {
-                funcName: "sjrk.storyTelling.base.page.reloadUioMessages",
-                args: [
-                    "{arguments}.0",
-                    "{uio}.prefsEditorLoader.messageLoader",
-                    "options.locale"
-                ]
-            }
-        },
         modelListeners: {
-            uiLanguage: [{
+            "persistedValues.uiLanguage": {
                 funcName: "{that}.events.onRenderAllUiTemplates",
                 namespace: "renderAllUiTemplates"
             },
-            {
-                funcName: "fluid.set",
-                args: ["{uio}", "options.multilingualSettings.locale", "{change}.value"],
-                namespace: "updateUioLanguage"
-            }],
-            "*": {
+            "": {
                 func: "{cookieStore}.set",
-                args: [null, "{page}.model"],
+                args: [null, "{page}.model.persistedValues"],
                 excludeSource: "init",
                 namespace: "setCookie"
             }
         },
         components: {
+            // cookie storage
             cookieStore: {
                 type: "fluid.prefs.cookieStore",
                 options: {
@@ -142,88 +141,56 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.ui.menu",
                 container: ".sjrkc-st-menu"
             },
+            // the UIO component
             uio: {
                 type: "fluid.uiOptions.prefsEditor.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",
                 options: {
-                    components: {
-                        prefsEditorLoader: {
-                            options: {
-                                components: {
-                                    prefsEditor: {
-                                        options: {
-                                            listeners: {
-                                                "onCreate.escalate": "{page}.events.onUioReady.fire",
-                                                "{messageLoader}.events.onResourcesLoaded": [{
-                                                    func: "{that}.events.onPrefsEditorRefresh",
-                                                    namespace: "rerenderUIO"
-                                                },
-                                                {
-                                                    func: "{page}.events.onUioReady.fire",
-                                                    namespace: "escalate"
-                                                },
-                                                {
-                                                    funcName: "sjrk.storyTelling.base.page.updateUioPanelLanguages",
-                                                    args: ["{prefsEditorLoader}", "{page}"],
-                                                    priority: "before:rerenderUIO",
-                                                    namespace: "updateMessageBases"
-                                                }]
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    model: {
+                        locale: "{page}.model.persistedValues.uiLanguage"
+                    },
+                    listeners: {
+                        "onUioReady.escalate": "{page}.events.onUioReady"
                     }
                 }
             }
         }
     });
 
+    /**
+     * Retrieves preferences stored in the cookie and applies them to the component
+     *
+     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` that will accept the preferences
+     * @param {Component} cookieStore - a fluid.prefs.cookieStore containing the data to laod
+     */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
 
         promise.then(function (response) {
-            pageComponent.applier.change("", response);
+            if (response !== undefined) {
+                pageComponent.applier.change("persistedValues", response);
+            }
             pageComponent.events.onPreferencesLoaded.fire();
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
     };
 
-    sjrk.storyTelling.base.page.reloadUioMessages = function (lang, uioMessageLoaderComponent, uioMessageLoaderLocalePath) {
-        // Set the language in the resource loader
-        fluid.set(uioMessageLoaderComponent, uioMessageLoaderLocalePath, lang);
-
-        // Force the resource loader to get the new resources
-        fluid.resourceLoader.loadResources(uioMessageLoaderComponent, uioMessageLoaderComponent.resolveResources());
-    };
-
-    sjrk.storyTelling.base.page.updateUioPanelLanguages = function (prefsEditorLoaderComponent, pageComponent) {
-        if (prefsEditorLoaderComponent && prefsEditorLoaderComponent.prefsEditor) {
-            fluid.each(prefsEditorLoaderComponent.prefsEditor, function (panel, key) {
-                if (key.startsWith("fluid_prefs_panel_")) {
-                    if (panel.msgResolver) {
-                        // language is stored in order to be verifiable
-                        panel.msgResolver.messageLanguage = pageComponent.model.uiLanguage;
-                        panel.msgResolver.messageBase = prefsEditorLoaderComponent.messageLoader.resources[key].resourceText;
-                    }
-                }
-            });
-        }
-
-        var tocHeaders = {
-            "en": "Table of Contents",
-            "es": "Tabla de contenido"
-        };
-
-        // Set the Toc Header String
-        pageComponent.uio.options.multilingualSettings.tocHeader = tocHeaders[pageComponent.model.uiLanguage];
-
-        // Set the language on the body
-
-
-        pageComponent.events.onUioPanelsUpdated.fire();
+    /**
+     * Resets the page preferences and clears the page model, with event hooks
+     * before and after the reset
+     *
+     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` to be reset
+     */
+    sjrk.storyTelling.base.page.resetPreferences = function (pageComponent) {
+        var transaction = pageComponent.applier.initiate();
+        pageComponent.events.beforePreferencesReset.fire(pageComponent);
+        transaction.fireChangeRequest({path: "", type: "DELETE"});
+        transaction.change("", fluid.copy(pageComponent.initialModel));
+        transaction.commit();
+        // setting the cookie expiry to epoch in order to delete it
+        document.cookie = pageComponent.cookieStore.options.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        pageComponent.events.onPreferencesReset.fire(pageComponent);
     };
 
 })(jQuery, fluid);

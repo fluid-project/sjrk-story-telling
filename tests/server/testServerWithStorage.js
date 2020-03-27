@@ -1,10 +1,11 @@
 /*
-Copyright 2018-2019 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
-
 
 "use strict";
 
@@ -31,9 +32,8 @@ var sjrk = fluid.registerNamespace("sjrk");
 
 require("gpii-pouchdb");
 
+// a test story
 var testStoryModel = {
-    "languageFromSelect": "",
-    "languageFromInput": "",
     "title": "History of the Fluid Project",
     "content": [
         {
@@ -44,8 +44,6 @@ var testStoryModel = {
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "The Fluid Project logo",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": {
                 "lastModified": 1524592510016,
                 "lastModifiedDate": "2018-04-24T17:55:10.016Z",
@@ -59,43 +57,28 @@ var testStoryModel = {
             "language": null,
             "heading": null,
             "blockType": "text",
-            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007.",
-            "languageFromSelect": "",
-            "languageFromInput": ""
+            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007."
         }
     ],
     "author": "Alan Harnum",
     "language": "",
-    "images": [],
     "tags": [
         "fluidproject",
         "history"
-    ],
-    "categories": [],
-    "summary": "",
-    "timestampCreated": null,
-    "timestampModified": null,
-    "requestedTranslations": [],
-    "translationOf": null
+    ]
 };
 
+// a story with no content
 var blankStory = {
     "title": "",
     "content": [],
-    "contentString": "",
     "author": "",
     "tags": [
         ""
-    ],
-    "keywordString": "",
-    "summary": "",
-    "thumbnailUrl": "",
-    "thumbnailAltText": "",
-    "contentTypes": [],
-    "languageFromSelect": "",
-    "languageFromInput": ""
+    ]
 };
 
+// a story consisting only of empty blocks
 var blankStoryWithEmptyMediaBlocks = {
     "title": "",
     "content": [
@@ -104,10 +87,7 @@ var blankStoryWithEmptyMediaBlocks = {
             "language": null,
             "heading": null,
             "blockType": "text",
-            "text": null,
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": ""
+            "text": null
         },
         {
             "id": null,
@@ -117,9 +97,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "imageUrl": null,
             "alternativeText": null,
             "description": null,
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": null
         },
         {
@@ -130,9 +107,6 @@ var blankStoryWithEmptyMediaBlocks = {
             "alternativeText": null,
             "description": null,
             "blockType": "audio",
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": null
         },
         {
@@ -143,26 +117,16 @@ var blankStoryWithEmptyMediaBlocks = {
             "alternativeText": null,
             "description": null,
             "blockType": "video",
-            "contentString": "",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": null
         }
     ],
-    "contentString": "",
     "author": "",
     "tags": [
         ""
-    ],
-    "keywordString": "",
-    "summary": "",
-    "thumbnailUrl": "",
-    "thumbnailAltText": "",
-    "contentTypes": [],
-    "languageFromSelect": "",
-    "languageFromInput": ""
+    ]
 };
 
+// a story with image blocks, one having correct orientation and the other without
 var testStoryWithImages = {
     "title": "A story to test image rotation",
     "content": [
@@ -195,6 +159,7 @@ var testStoryWithImages = {
 // different story configurations. And use these generalized pieces to
 // test more story configurations.
 
+// server definitions to test file and database operations on the server
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
     expect: 110,
@@ -366,15 +331,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "{that}.storySave.send"
     }, {
         event: "{storySave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
         args: ["{arguments}.0", "{arguments}.1", "{getSavedStory}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{getSavedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
         args: [
             "{arguments}.0",
             "{arguments}.1",
@@ -395,7 +360,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     {
         event: "{getUploadedImage}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
         args: [
             "{arguments}.0",
             "{arguments}.1",
@@ -411,10 +376,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         func: "{that}.blankStorySave.send"
     }, {
         event: "{blankStorySave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
         args: [
             "{arguments}.0",
-            "{arguments}.1",
             "{that}.events.onBlankStorySaveSuccessful",
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
@@ -429,7 +393,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         ]
     }, {
         event: "{getSavedBlankStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
         args: [
             "{arguments}.0",
             "{arguments}.1",
@@ -444,10 +408,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         func: "{that}.blankStoryWithEmptyMediaBlocksSave.send"
     }, {
         event: "{blankStoryWithEmptyMediaBlocksSave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
         args: [
             "{arguments}.0",
-            "{arguments}.1",
             "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
@@ -462,7 +425,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         ]
     }, {
         event: "{getSavedBlankStoryWithEmptyMediaBlocks}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
         args: [
             "{arguments}.0",
             "{arguments}.1",
@@ -506,8 +469,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         func: "{that}.storyWithImagesSave.send"
     }, {
         event: "{storyWithImagesSave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{arguments}.1", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }, {
         event: "{that}.events.onStorySaveSuccessful",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
@@ -538,6 +501,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     }]
 }];
 
+/**
+ * Removes all files from the test uploads directory
+ *
+ * @param {String} dirPath - the path for the test uploads directory
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = function (dirPath) {
     var testUploadsDir = fs.readdirSync(dirPath);
     fluid.each(testUploadsDir, function (filePath) {
@@ -547,7 +515,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = f
     });
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessful = function (data, request, completionEvent, authoringEnabled) {
+/**
+ * Verifies that a story was posted successfully if authoring is enabled, or
+ * was not posted successfully if authoring is disabled
+ *
+ * @param {String} data - the data returned by the call
+ * @param {Object} completionEvent - an event to fire on test completion
+ * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+ */
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful = function (data, completionEvent, authoringEnabled) {
     var parsedData = JSON.parse(data);
 
     if (authoringEnabled) {
@@ -563,6 +539,14 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPostRequestSuccessfu
     }
 };
 
+/**
+ * Prepares and sends a request to get a story from the server, including its files
+ *
+ * @param {String} storyId - the ID of the story to get
+ * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
+ * @param {Component} getSavedStoryRequest - an instance of kettle.test.request.http
+ * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, binaryRenameMap, getSavedStoryRequest, authoringEnabled) {
     if (authoringEnabled) {
         // We store this material on the request so we can
@@ -573,7 +557,18 @@ sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (sto
     getSavedStoryRequest.send(null, {termMap: {id: storyId}});
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent, authoringEnabled) {
+/**
+ * Verifies that a story and its files are correctly stored on the server and
+ * in the database
+ *
+ * @param {String} data - the data returned by the call
+ * @param {Object} request - the Kettle request component
+ * @param {Object} expectedStory - the expected story model
+ * @param {Object} fileOptions - options related to the uploaded files
+ * @param {Object} completionEvent - an event to fire on test completion
+ * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+ */
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = function (data, request, expectedStory, fileOptions, completionEvent, authoringEnabled) {
     var binaryRenameMap = request.binaryRenameMap;
     var parsedData = JSON.parse(data);
 
@@ -616,6 +611,13 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testStoryPersistence = functi
     }
 };
 
+/**
+ * Prepares and sends a request to get an image file from the server
+ *
+ * @param {String} imageUrl - the URL of the image to get
+ * @param {Component} getUploadedImageRequest - an instance of kettle.test.request.http
+ * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, authoringEnabled) {
     if (authoringEnabled) {
         // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
@@ -629,7 +631,14 @@ sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = funct
     }
 };
 
-sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function (data, request, authoringEnabled) {
+/**
+ * Verifies that an image was successfully retrieved
+ *
+ * @param {String} data - the data returned by the call
+ * @param {Object} request - the Kettle request component
+ * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+ */
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval = function (data, request, authoringEnabled) {
     if (authoringEnabled) {
         jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
         jqUnit.assertEquals("header.content-type is image/png", "image/png", request.nativeResponse.headers["content-type"]);
@@ -641,14 +650,25 @@ sjrk.storyTelling.server.testServerWithStorageDefs.testImageRetrieval = function
     }
 };
 
+/**
+ * Verifies a database response is as expected (less internal DB ID's)
+ *
+ * @param {String} expectedResponse - the expected response data
+ * @param {String} actualResponse - the expected response data
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse = function (expectedResponse, actualResponse) {
     var actualResponseWithoutIds = fluid.censorKeys(JSON.parse(actualResponse), ["id", "rev"]);
 
     jqUnit.assertDeepEq("Story save response was as expected", expectedResponse, actualResponseWithoutIds);
 };
 
-// Verifies whether the orientation of a given set of images is as expected
-// assumes the images have EXIF data that can be read
+/**
+ * Verifies whether the orientation of a given set of images is as expected
+ * assumes the images have EXIF data that can be read
+ *
+ * @param {String[]} images - a set of images
+ * @param {Number[]} expectedOrientations - a set of expected orientation values
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations = function (images, expectedOrientations) {
     fluid.each(images, function (image, index) {
         var actualOrientation = exif.parseSync(image).Orientation;
@@ -656,6 +676,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations = fun
     });
 };
 
+/**
+ * Converts a binaryRenameMap to a set of upload paths relative to the test
+ * uploads directory
+ *
+ * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
+ * @param {String} testUploadsDir - the path for the test uploads directory
+ *
+ * @return {String[]} - a collection of paths to which files were uploaded
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFilePaths = function (binaryRenameMap, testUploadsDir) {
     var uploadedPaths = [];
     fluid.each(binaryRenameMap, function (mapping) {
@@ -664,6 +693,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFile
     return uploadedPaths;
 };
 
+/**
+ * Tests the setMediaBlockUrl function
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests = function () {
     var testCases = [
         { block: { blockType: "image" }, url: "", fieldToCheck: "imageUrl", expected: "" }, // test image block with empty string
@@ -683,6 +715,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests = function
     });
 };
 
+/**
+ * Tests the rotateImageFromExif function
+ *
+ * @return {Promise} - a promise representing the cumulative result of all test cases
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = function () {
     var testCases = {
         nullFile: {
@@ -833,6 +870,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
     return fluid.promise.sequence(testPromises);
 };
 
+/**
+ * Tests the buildBinaryRenameMap function
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests = function () {
     var testImageBlockNoFileDetails = { blockType: "image", imageUrl: "shouldNotBeMapped", mediaUrl: "shouldBeIgnored" };
     var testImageBlockWithFileDetails = { blockType: "image", imageUrl: "shouldNotBeMapped", mediaUrl: "shouldBeIgnored", fileDetails: { name: "testFile.jpg" } };
@@ -891,6 +931,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests = f
     });
 };
 
+/**
+ * Tests the isValidMediaFilename function
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests = function () {
     var testCases = [
         { input: null, expected: false },
@@ -923,6 +966,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests = f
     });
 };
 
+// a database for file and database tests
 fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
     components: {
@@ -947,4 +991,5 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     }
 });
 
+// starts up the test server based on the provided definitions
 kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithStorageDefs);

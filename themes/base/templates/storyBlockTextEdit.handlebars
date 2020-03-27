@@ -8,6 +8,13 @@
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
         </div>
     {{/getIds}}
+    
+    {{#getIds "storyBlockHeading"}}
+    <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
+        <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
+        <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
+    </div>
+    {{/getIds}}
 
     {{#getIds "storyBlockText"}}
         <div class="sjrk-st-block-label">
@@ -16,10 +23,4 @@
         </div>
     {{/getIds}}
 
-    {{#getIds "storyBlockHeading"}}
-        <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
-            <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>
-            <label for="$id">{{../localizedMessages.message_blockHeadingLabel}}</label>
-        </div>
-    {{/getIds}}
 </fieldset>
