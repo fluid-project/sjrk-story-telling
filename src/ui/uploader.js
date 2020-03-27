@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -64,11 +66,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /* Updates the uploader's internal file representation with information
+    /**
+     * Updates the uploader's internal file representation with information
      * stored in the DOM's uploader element. If the file is an image, an attempt
      * will be made to rotate it to match any orientation EXIF data it provides.
-     * - "that": the uploader itself
-     * - "fileInput": the DOM uploader element
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
+     * @param {jQuery} fileInput - the DOM uploader element
      */
     sjrk.storyTelling.block.singleFileUploader.handleFileInputChange = function (that, fileInput) {
         var fileList = fileInput[0].files;
@@ -98,18 +102,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
-    /* Updates the uploader's internal file representation with the provided file
-     * - "that": the uploader itself
-     * - "file": the file object in question
+    /**
+     * Updates the uploader's internal file representation with the provided file
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
+     * @param {Object} file - the file object in question
      */
     sjrk.storyTelling.block.singleFileUploader.processFileChange = function (that, file) {
         that.currentFile = file;
         that.events.onFileChanged.fire();
     };
 
-    /* Given a file, updates the file's metadata as held on the uploader's model
-     * - "that": the uploader itself
-     * - "currentFile": the file whose details are being updated
+    /**
+     * Given a file, updates the file's metadata as held on the uploader's model
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
+     * @param {Object} currentFile - the file whose details are being updated
      */
     sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that, currentFile) {
         if (currentFile) {

@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -24,9 +26,8 @@ kettle.loadTestingSupportQuiet();
 var sjrk = fluid.registerNamespace("sjrk");
 var jqUnit = fluid.registerNamespace("jqUnit");
 
+// a template to use when generating new stories
 var storyTemplate = {
-    "languageFromSelect": "",
-    "languageFromInput": "",
     "title": "%title",
     "content": [
         {
@@ -37,8 +38,6 @@ var storyTemplate = {
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "%imageCaption",
-            "languageFromSelect": "",
-            "languageFromInput": "",
             "fileDetails": {
                 "lastModified": 1524592510016,
                 "lastModifiedDate": "2018-04-24T17:55:10.016Z",
@@ -52,25 +51,16 @@ var storyTemplate = {
             "language": null,
             "heading": null,
             "blockType": "text",
-            "text": "%text",
-            "languageFromSelect": "",
-            "languageFromInput": ""
+            "text": "%text"
         }
     ],
     "author": "%author",
     "language": "",
-    "images": [],
     "tags": [
         "test",
         "%tag1",
         "%tag2"
-    ],
-    "categories": [],
-    "summary": "",
-    "timestampCreated": null,
-    "timestampModified": null,
-    "requestedTranslations": [],
-    "translationOf": null
+    ]
 };
 
 fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest", {

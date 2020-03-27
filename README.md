@@ -36,9 +36,16 @@ to build the web-hosting environment that drives the tool.
   example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
 * Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example`
   and place it in the application root (where the example file is located). See [Configuring the application](#configuring-the-application)
-  for more information on configuring the application.
-* Create a `secrets.json` file in the style of `secrets.json.example`, also in the application root. This file specifies
-  credentials for the story deletion endpoint
+  for more information on configuring the application. To get started using some default values, simply copy the example
+  file and remove `.example` from the filename:
+
+  ```shell
+  cp sjrk.storyTelling.server.config.json5.example sjrk.storyTelling.server.config.json5
+  ```
+
+* Create a `secrets.json` file which contains the following: `{"adminPass": "ADMINPASSWORD"}`, where the `ADMINPASSWORD`
+  part is replaced by a ___secure___ password of your choosing. This new file specifies credentials for the story deletion
+  endpoint. You can find an example of this in `secrets.json.example` in the application root.
 * Run `node .\index.js` to launch the server
 
 ### Development
@@ -46,9 +53,10 @@ to build the web-hosting environment that drives the tool.
 The tool is split up into two main pieces: a webserver to manage communication with the CouchDB database, and an HTML
 interface for creating and sharing stories.
 
-* Server code can be found in `src/server`
-* Common JavaScript code can be found in `src/ui`, though a significant portion of the code may be present in the theme
-  folders (see [Theme Customization](#Theme-Customization)).
+* Server code can be found in `src/server`. A list of grades used on the server side of the project can be found in [GRADES-SERVER.md](docs/GRADES-SERVER.md).
+* User interface code can be found in `src/ui`, though a significant amount of code may be present in the theme
+  folders (see [Theme Customization](#Theme-Customization)). A list of grades used on the client side of the project can
+  be found in [GRADES-UI.md](docs/GRADES-UI.md).
 
 ## Configuring the application
 
@@ -81,6 +89,9 @@ The site comes with some custom themes already available:
 * `karisma` is a fun theme with some hand-drawn illustrations on a welcome page and was created for use as part of the
   SJRK work being done by the [Fundación Karisma](https://karisma.org.co).
 * `sojustrepairit` is designed to match the styling on the main SJRK website: [sojustrepairit.org](https://www.sojustrepairit.org/)
+
+Each theme is hosted from a particular branch in the repository, most of which are present in the main fork. For more
+information on those branches, please see [BRANCHES.md](docs/BRANCHES.md).
 
 #### Creating a new theme
 
@@ -207,4 +218,4 @@ docker-compose -f docker-compose.yml -f docker-compose.cloud.yml rm
 ### Licenses
 
 The Storytelling Tool is provided under the New BSD license. Please see LICENSE.txt or visit <https://opensource.org/licenses/BSD-3-Clause>
-for more details.
+for more details. For a list of copyright holders in the project, please see [AUTHORS.md](docs/AUTHORS.md).

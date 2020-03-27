@@ -1,5 +1,7 @@
 /*
-Copyright 2017-2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -45,18 +47,22 @@ fluid.defaults("sjrk.storyTelling.server.dbSetup.core", {
     }
 });
 
+// sets up a new instance of the core setup along with replicatorDb defined
 sjrk.storyTelling.server.replicatorDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
+// sets up a new instance of the core setup along with usersDb defined
 sjrk.storyTelling.server.usersDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
+// sets up a new instance of the core setup along with globalChangesDb defined
 sjrk.storyTelling.server.globalChangesDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
 
+// sets up a new instance of the core setup along with the storiesDb defined
 sjrk.storyTelling.server.storiesDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });

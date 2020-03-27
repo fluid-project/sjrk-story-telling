@@ -1,19 +1,22 @@
 The Storytelling Tool is available under the terms of the New BSD license.
 As a recipient of Storytelling Tool, you may choose which license to receive this
-code under (except as noted in per-module LICENSE files). All modules are
-Copyright 2017-2019 OCAD University except where noted otherwise in the code itself,
-or if the modules reside in a separate directory, they may contain explicit
-declarations of copyright in both the LICENSE file in the directory in which they
-reside and in the code itself. No external contributions are allowed under
-licenses which are fundamentally incompatible with the BSD license that
-the Storytelling Tool is distributed under.
+code under (except as noted in per-module LICENSE files). Copyright for all
+modules belongs to the copyright holders listed in the AUTHORS.md file,
+except where otherwise noted in the code itself. If the modules reside in a
+separate directory, they may contain explicit declarations of copyright in both
+the LICENSE file in the directory in which they reside and in the code itself.
+No external contributions are allowed under licenses which are fundamentally
+incompatible with the BSD license under which the Storytelling Tool is distributed.
+
+See the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
 
 The text of the BSD license is reproduced below.
 
 The New BSD license
 **********************
 
-Copyright 2017-2019 OCAD University
+Copyright 2017-2020 OCAD University
 
 All rights reserved.
 

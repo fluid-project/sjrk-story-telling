@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the storyEditor grade
     fluid.defaults("sjrk.storyTelling.ui.testStoryEditor", {
         gradeNames: ["sjrk.storyTelling.ui.storyEditor"],
         events: {
@@ -52,6 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the storyEditor
     fluid.defaults("sjrk.storyTelling.ui.storyEditorTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -163,7 +167,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{storyEditor}.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
-                    args: ["{storyEditor}.blockManager", "{arguments}.0", 2]
+                    args: ["{storyEditor}.blockManager", 2]
                 }]
             },
             {
@@ -181,13 +185,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test page visibility",
+                name: "Test step visibility",
                 expect: 6,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "funcName": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage2"],
-                        ["{storyEditor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyMetadataStep"],
+                        ["{storyEditor}.dom.storyEditStoryStep"],
+                        "{storyEditor}.model"
                     ]
                 },
                 {
@@ -195,11 +200,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEditor}.dom.storyEditorNext"
                 },
                 {
-                    "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "changeEvent": "{storyEditor}.applier.modelChanged",
+                    "path": "metadataStepVisible",
+                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage1"],
-                        ["{storyEditor}.dom.storyEditorPage2"]
+                        ["{storyEditor}.dom.storyEditStoryStep"],
+                        ["{storyEditor}.dom.storyMetadataStep"]
                     ]
                 },
                 {
@@ -207,17 +213,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEditor}.dom.storyEditorPrevious"
                 },
                 {
-                    "event": "{storyEditor}.events.onVisibilityChanged",
-                    "listener": "sjrk.storyTelling.testUtils.verifyPageVisibility",
+                    "changeEvent": "{storyEditor}.applier.modelChanged",
+                    "path": "metadataStepVisible",
+                    "listener": "sjrk.storyTelling.testUtils.verifyStepVisibility",
                     "args": [
-                        ["{storyEditor}.dom.storyEditorPage2"],
-                        ["{storyEditor}.dom.storyEditorPage1"]
+                        ["{storyEditor}.dom.storyMetadataStep"],
+                        ["{storyEditor}.dom.storyEditStoryStep"]
                     ]
                 }]
             }]
         }]
     });
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.ui.storyEditorTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

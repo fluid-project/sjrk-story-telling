@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    // testing time-based media using a video as the sample file
+    // Testing time-based media using a video as the sample file
     fluid.defaults("sjrk.storyTelling.blockUi.testTimeBased", {
         gradeNames: ["sjrk.storyTelling.blockUi.timeBased"],
         components: {
@@ -33,6 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the time-based media block UI
     fluid.defaults("sjrk.storyTelling.blockUi.timeBasedTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -73,11 +76,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    /**
+     * Verifies that the media player is at the expected time
+     *
+     * @param {jQuery} mediaPlayer - the media player ("audio" or "video") DOM element
+     * @param {Number} expectedCurrentTime - the expected current playback time on the media player
+     */
     sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime = function (mediaPlayer, expectedCurrentTime) {
         var actualCurrentTime = mediaPlayer[0].currentTime;
         jqUnit.assertEquals("The current time of the media player is as expected", expectedCurrentTime, actualCurrentTime);
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.blockUi.timeBasedTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

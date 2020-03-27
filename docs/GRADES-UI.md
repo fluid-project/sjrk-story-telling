@@ -9,7 +9,7 @@
 * `sjrk.storyTelling.templateManager` renders [handlebars](https://handlebarsjs.com/) templates to HTML, substituting
   in localized messages as well as any dynamic values to be included.
   * Template and message bundle options are configured at `{that}.options.templateConfig`
-  * Localized messages are loaded to the key `{that}.options.templateStrings.localizedMessages`
+  * Localized messages are loaded to the key `{that}.templateStrings.localizedMessages`
   * Localization of content is specified at `{that}.model.locale`, and this is configured at the highest level by the
     `page` (more on this below)
 * `sjrk.storyTelling.binder` is an implementation of [`gpii.binder`](https://github.com/GPII/gpii-binder) that links
@@ -52,6 +52,8 @@
   and keywords fields to their respective model values in the `story`. It makes use of a `dynamicViewComponentManager`
   called **blockManager** to add blocks of varying types on demand.
 * `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.handlebars`.
+  There is also a special version of the `storyViewer` called the `storyPreviewer` which is meant to be used in the
+  `storyEdit` page (more info below).
   * has a `fluid.orator` component called **orator** for reading out various content on demand
 * `sjrk.storyTelling.ui.storyBrowser` shows a list of all the stories in the database. Its handlebars template is `storyBrowse.handlebars`.
 * `sjrk.storyTelling.base.page` represents a single HTML page, including all interactions within that page. It is the
@@ -63,6 +65,6 @@
   * a component for each `ui` in the tool and wiring for communication of relevant information between them.
 * `sjrk.storyTelling.base.page.storyBrowse` represents the Browse page and has a `storyBrowser`
 * `sjrk.storyTelling.base.page.storyView` represents the View page, has a `storyViewer`
-* `sjrk.storyTelling.base.page.storyEdit` represents the Edit page, has a `storyEditor` and a `storyViewer` which
-  together form the story authoring environment. This grade also contains some events, listeners and functions to
-  handle story submission to the server
+* `sjrk.storyTelling.base.page.storyEdit` represents the Edit page, has a `storyEditor` and a `storyPreviewer` which
+  together form the story authoring environment. There is a `gpii.locationBar` to manage browser history states within
+  the page. This grade also contains some events, listeners and functions to handle story submission to the server

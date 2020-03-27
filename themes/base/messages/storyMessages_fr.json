@@ -19,8 +19,6 @@
     "message_takePhotoText": "prendre une photo",
     "message_addTagsText": "Ajouter des mots clés",
     "message_addTagsPlaceholder": "mot 1, mot 2",
-    "message_summaryInputLabel": "Créer un résumé (optionnel)",
-    "message_summaryInputPlaceholder": "Commencez à taper ici",
     "message_translateText": "Traduire mon histoire",
     "message_submitButton": "Soumettre",
     "message_goBack": "Retourner",
@@ -30,7 +28,6 @@
     "message_readMoreText": "Lire en plus",
     "message_listTagsLabelText": "Mots clés de thème:",
     "message_shareText": "Partager mon histoire",
-    "message_saveNoShareText": "Enregistrer sans partager",
     "message_languageLabelText": "Langue(s):",
     "availableCategories": {
         "category_childhood": "Enfance",

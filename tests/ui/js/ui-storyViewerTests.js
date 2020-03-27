@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the storyViewer grade
     fluid.defaults("sjrk.storyTelling.ui.testStoryViewer", {
         gradeNames: ["sjrk.storyTelling.ui.storyViewer"],
         events: {
@@ -84,6 +87,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test cases and sequences for the storyViewer
     fluid.defaults("sjrk.storyTelling.ui.storyViewerTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -163,6 +167,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.ui.storyViewerTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

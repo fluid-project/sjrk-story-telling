@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the storyBrowser grade
     fluid.defaults("sjrk.storyTelling.ui.testStoryBrowser", {
         gradeNames: ["sjrk.storyTelling.ui.storyBrowser"],
         components: {
@@ -24,6 +27,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the storyBrowser
     fluid.defaults("sjrk.storyTelling.ui.storyBrowserTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         invokers: {
@@ -152,6 +156,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    /**
+     * Verifies the current view setting for the list DOM element
+     *
+     * @param {jQuery} viewListElement - the DOM element that represents the list to check
+     * @param {String} expectedViewSetting - the expected setting of the view preference
+     * @param {String} gridViewClassName - the class that indicates the grid view is active
+     */
     sjrk.storyTelling.ui.storyBrowserTester.verifyViewSetting = function (viewListElement, expectedViewSetting, gridViewClassName) {
         var containsGridClass = viewListElement.hasClass(gridViewClassName);
 
@@ -163,6 +174,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.ui.storyBrowserTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

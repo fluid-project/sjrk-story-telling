@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,11 +13,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the base page grade
     fluid.defaults("sjrk.storyTelling.base.page.testPage", {
         gradeNames: ["sjrk.storyTelling.base.page"],
-        events: {
-            onCookieDropped: null
-        },
         pageSetup: {
             resourcePrefix: "../.."
         },
@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     terms: {
                         "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "../../messages/uio"
+                        "messagePrefix": "../../node_modules/infusion/src/framework/preferences/messages"
                     },
                     "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
                     "tocMessage": "../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json"
@@ -36,13 +36,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    // Test cases and sequences for the base page
     fluid.defaults("sjrk.storyTelling.base.page.pageTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
             name: "Test page grade",
             tests: [{
                 name: "Test events and timing",
-                expect: 25,
+                expect: 15,
                 sequence: [{
                     "event": "{pageTest testPage}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
@@ -51,11 +52,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // ensure the initial state is English
                 {
                     func: "{testPage}.applier.change",
-                    args: ["uiLanguage", ""]
+                    args: [["persistedValues", "uiLanguage"], ""]
                 },
                 {
                     func: "{testPage}.applier.change",
-                    args: ["uiLanguage", "en"]
+                    args: [["persistedValues", "uiLanguage"], "en"]
                 },
                 {
                     "event": "{testPage}.menu.events.onControlsBound",
@@ -83,7 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["uiLanguage value is as expected", "es", "{testPage}.model.uiLanguage"]
+                    args: ["uiLanguage value is as expected", "es", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -106,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["uiLanguage value is as expected", "en", "{testPage}.model.uiLanguage"]
+                    args: ["uiLanguage value is as expected", "en", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
@@ -122,18 +123,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: [{data:"es"}]
                 },
                 {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "es"]
+                    "changeEvent": "{testPage}.applier.modelChanged",
+                    "path": "persistedValues.uiLanguage",
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"es", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
                     args: [{data:"en"}]
                 },
                 {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "en"]
+                    "changeEvent": "{testPage}.applier.modelChanged",
+                    "path": "persistedValues.uiLanguage",
+                    "funcName": "jqUnit.assertEquals",
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
@@ -141,24 +144,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
+                    "path": "persistedValues.uiLanguage",
                     "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.uiLanguage"]
+                    "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 {
                     func: "{testPage}.applier.change",
-                    args: ["uiLanguage", "en"]
+                    args: [["persistedValues", "uiLanguage"], "en"]
                 },
                 {
                     "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "uiLanguage",
+                    "path": "persistedValues.uiLanguage",
                     "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.uiLanguage"]
+                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.persistedValues.uiLanguage"]
                 }]
             },
             {
                 name: "Test functions and invokers",
-                expect: 21,
+                expect: 1,
                 sequence: [{
                     "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"]
@@ -166,52 +169,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{testPage}.events.onPreferencesLoaded",
                     "listener": "jqUnit.assertEquals",
-                    "args": ["UIO language is correct after call to getStoredPreferences", "en", "{testPage}.uio.options.multilingualSettings.locale"]
-                },
-                {
-                    "funcName": "sjrk.storyTelling.base.page.reloadUioMessages",
-                    "args": ["en", "{testPage}.uio.prefsEditorLoader.messageLoader", "options.locale"]
-                },
-                {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "en"]
-                },
-                {
-                    "event": "{testPage}.uio.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["UIO messages reloaded successfully", "en", "{testPage}.uio.prefsEditorLoader.messageLoader.options.locale"]
-                },
-                {
-                    "funcName": "{testPage}.reloadUioMessages",
-                    "args": ["en"]
-                },
-                {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "en"]
-                },
-                {
-                    "event": "{testPage}.uio.prefsEditorLoader.prefsEditor.events.onPrefsEditorRefresh",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["UIO messages reloaded successfully", "en", "{testPage}.uio.prefsEditorLoader.messageLoader.options.locale"]
-                },
-                {
-                    "funcName": "sjrk.storyTelling.base.page.updateUioPanelLanguages",
-                    "args": ["{testPage}.uio.prefsEditorLoader", "{testPage}"]
-                },
-                {
-                    "event": "{testPage}.events.onUioPanelsUpdated",
-                    "listener": "sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages",
-                    "args": ["{testPage}", "en"]
+                    "args": ["UIO language is correct after call to getStoredPreferences", "en", "{testPage}.uio.model.locale"]
                 }]
             },
             {
                 name: "Test cookieStore",
-                expect: 4,
+                expect: 5,
                 sequence: [{
                     "func": "{testPage}.applier.change",
-                    "args": ["uiLanguage", "meowish"]
+                    "args": [["persistedValues", "uiLanguage"], "meowish"]
                 },
                 {
                     "event": "{testPage}.cookieStore.events.onWriteResponse",
@@ -220,7 +186,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "func": "{testPage}.applier.change",
-                    "args": ["fuzzyCat", "yes please"]
+                    "args": [["persistedValues", "fuzzyCat"], "yes please"]
                 },
                 {
                     "event": "{testPage}.cookieStore.events.onWriteResponse",
@@ -234,36 +200,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "event": "{testPage}.events.onPreferencesLoaded",
                     "listener": "jqUnit.assertEquals",
-                    "args": ["Language is still as expected after cookie load", "meowish", "{testPage}.model.uiLanguage"]
+                    "args": ["Language is still as expected after cookie load", "meowish", "{testPage}.model.persistedValues.uiLanguage"]
                 },
                 // reset the cookie to its initial state for subsequent test runs
                 {
-                    "funcName": "sjrk.storyTelling.base.page.pageTester.dropCookie",
-                    "args": ["{testPage}.cookieStore.options.cookie.name", "{testPage}.events.onCookieDropped"]
+                    "funcName": "sjrk.storyTelling.base.page.resetPreferences",
+                    "args": ["{testPage}"]
                 },
                 {
-                    "event": "{testPage}.events.onCookieDropped",
-                    "listener": "sjrk.storyTelling.base.page.getStoredPreferences",
-                    "args": ["{testPage}", "{testPage}.cookieStore"]
+                    "event": "{testPage}.events.beforePreferencesReset",
+                    "listener": "jqUnit.assertNotEquals",
+                    "args": ["Model is not equal to initial model before reset", "{testPage}.model", "{testPage}.initialModel"]
                 },
                 {
-                    "event": "{testPage}.events.onPreferencesLoaded",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["Language is still as expected after cookie load", undefined, "{testPage}.model"]
+                    "event": "{testPage}.events.onPreferencesReset",
+                    "listener": "jqUnit.assertDeepEq",
+                    "args": ["Model is equal to initial model after reset", "{testPage}.model", "{testPage}.initialModel"]
                 }]
             }]
         }]
     });
 
-    /* Adapted from fluid.tests.prefs.store.dropCookie
-     * - "cookieName": the name of the cookie to be dropped
-     * - "completionEvent": the event to be fired upon dropping
+    /**
+     * Verifies the language of the UIO component's panels
+     *
+     * @param {Component} pageComponent - an instance of sjrk.storyTelling.base.page
+     * @param {String} expectedLanguage - the single expected langauge of all the UIO panels
      */
-    sjrk.storyTelling.base.page.pageTester.dropCookie = function (cookieName, completionEvent) {
-        document.cookie = cookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-        completionEvent.fire();
-    };
-
     sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
         if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
             fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
@@ -276,6 +239,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.pageTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {

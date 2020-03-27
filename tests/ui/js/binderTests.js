@@ -1,5 +1,7 @@
 /*
-Copyright 2018 OCAD University
+For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
+https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
@@ -11,6 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    // Test component for the binder grade
     fluid.defaults("sjrk.storyTelling.testBinder", {
         gradeNames: ["sjrk.storyTelling.binder"],
         model: {
@@ -21,9 +24,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         selectors: {
             testValueInput: ".testc-input"
+        },
+        invokers: {
+            verifyBinding: {
+                funcName: "sjrk.storyTelling.binderTester.verifyBinding",
+                args: ["{that}", "testValue", "testValueInput", "{arguments}.0"]
+            }
         }
     });
 
+    // Test cases and sequences for the binder
     fluid.defaults("sjrk.storyTelling.binderTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
@@ -36,8 +46,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     "event": "{binder}.events.onBindingApplied",
-                    "listener": "sjrk.storyTelling.binderTester.testBinding",
-                    "args": ["{binder}", "Model and input value are equal at initial creation"]
+                    "listener": "{binder}.verifyBinding",
+                    "args": ["Model and input value are equal at initial creation"]
                 },
                 {
                     "func": "{binder}.applier.change",
@@ -46,8 +56,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "changeEvent": "{binder}.applier.modelChanged",
                     "path": "testValue",
-                    "listener": "sjrk.storyTelling.binderTester.testBinding",
-                    "args": ["{binder}", "Model and input value are equal when model is changed"]
+                    "listener": "{binder}.verifyBinding",
+                    "args": ["Model and input value are equal when model is changed"]
                 },
                 {
                     "func": "sjrk.storyTelling.testUtils.changeFormElement",
@@ -56,19 +66,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     "changeEvent": "{binder}.applier.modelChanged",
                     "path": "testValue",
-                    "listener": "sjrk.storyTelling.binderTester.testBinding",
-                    "args": ["{binder}", "Model and input value are equal when form input is changed"]
+                    "listener": "{binder}.verifyBinding",
+                    "args": ["Model and input value are equal when form input is changed"]
                 }]
             }]
         }]
     });
 
-    sjrk.storyTelling.binderTester.testBinding = function (component, message) {
-        var modelValue = fluid.get(component.model, "testValue");
-        var inputValue = component.locate("testValueInput").val();
-        jqUnit.assertEquals(message, modelValue, inputValue);
+    /**
+     * Verifies that the test binding's model and DOM values are the same
+     *
+     * @param {Component} component - an instance of sjrk.storyTelling.binder
+     * @param {String|String[]} modelPath - the infusion model path to the model value
+     * @param {String} domSelector - the DOM selector for the input element
+     * @param {String} message - the message to display
+     */
+    sjrk.storyTelling.binderTester.verifyBinding = function (component, modelPath, domSelector, message) {
+        var actualModelValue = fluid.get(component.model, modelPath);
+        var actualInputValue = component.locate(domSelector).val();
+        jqUnit.assertEquals(message, actualModelValue, actualInputValue);
     };
 
+    // Test environment
     fluid.defaults("sjrk.storyTelling.binderTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
