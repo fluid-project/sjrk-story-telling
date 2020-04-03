@@ -17,7 +17,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
-            hiddenEditorClass: "hidden"
+            hiddenEditorClass: "hidden",
+            storyAutosaveKey: "storyAutosave"
         },
         model: {
             /* The initial page state is only the Edit Story Step showing.
@@ -163,7 +164,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: ".sjrkc-st-story-editor"
+                container: ".sjrkc-st-story-editor",
+                options: {
+                    components: {
+                        story: {
+                            options: {
+                                modelListeners: {
+                                    "": {
+                                        funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToLocalStorage",
+                                        args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", "{that}.model"],
+                                        excludeSource: "init",
+                                        namespace: "autosaveStory"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             },
             // the story safety and etiquette notice
             storyEtiquette: {
@@ -207,6 +224,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    /**
+     * Saves story content to a given key in the browser's localStorage object.
+     * Since localStorage can only store strings, the content must be serialized.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage}
+     *
+     * @param {String} storyAutosaveKey - the key at which to save the story content
+     * @param {Object} story - the story content (model data) to save
+     */
+    sjrk.storyTelling.base.page.storyEdit.saveStoryToLocalStorage = function (storyAutosaveKey, story) {
+        try {
+            var serialized = JSON.stringify(story);
+            window.localStorage.setItem(storyAutosaveKey, serialized);
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred when saving");
+        }
+    };
 
     /**
      * Removes all empty blocks from a given collection of story blocks

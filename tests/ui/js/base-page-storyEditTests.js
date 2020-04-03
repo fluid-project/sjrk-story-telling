@@ -457,7 +457,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{storyEdit}.storyEditor","storyTitle","Initial test title"]
+                    args: ["{storyEdit}.storyEditor", "storyTitle", "Initial test title"]
                 },
                 {
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
@@ -467,7 +467,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated to match editor","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
+                    args: ["Previewer model updated to match editor", "{storyEdit}.storyEditor.story.model.title", "{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
                     jQueryTrigger: "click",
@@ -497,13 +497,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{storyEdit}.storyEditor","storyTitle","New test title"]
+                    args: ["{storyEdit}.storyEditor", "storyTitle", "New test title"]
                 },
                 {
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
+                    args: ["Previewer model updated", "{storyEdit}.storyEditor.story.model.title", "{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
                     jQueryTrigger: "click",
@@ -521,6 +521,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.testUtils.assertElementText",
                     args: ["{storyEdit}.storyPreviewer.dom.storyTitle", "New test title"]
+                },
+                // reset the title for subsequent tests
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEdit}.storyEditor", "storyTitle", ""]
                 }]
             },
             {
@@ -813,6 +818,60 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         ["{storyEdit}.storyEditor.dom.storyMetadataStep", "{storyEdit}.storyPreviewer.container"],
                         ["{storyEdit}.storyEditor.dom.storyEditStoryStep"]
                     ]
+                }]
+            }]
+        },
+        {
+            name: "Test story autosave functionality",
+            tests: [{
+                name: "Test autosave wiring",
+                expect: 4,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story is empty to begin with", {
+                        author: "",
+                        title: "",
+                        content: [],
+                        tags: []
+                    }, "{storyEdit}.storyEditor.story.model"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEdit}.storyEditor", "storyTitle", "Rootbeer is testing autosave"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "title",
+                    listener: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", {
+                        author: "",
+                        title: "Rootbeer is testing autosave",
+                        content: [],
+                        tags: []
+                    }]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEdit}.storyEditor", "storyAuthor", "Rootbeer"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "author",
+                    listener: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", {
+                        author: "Rootbeer",
+                        title: "Rootbeer is testing autosave",
+                        content: [],
+                        tags: []
+                    }]
                 }]
             }]
         },
@@ -1171,6 +1230,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.base.page.storyEditTester.verifyResponseText = function (el, expectedText) {
         var actualText = el.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
+    };
+
+    /**
+     * Clears the autosave state
+     *
+     * @param {String} storyAutosaveKey - the localStorage key to clear
+     */
+    sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState = function (storyAutosaveKey) {
+        window.localStorage.removeItem(storyAutosaveKey);
+    };
+
+    /**
+     * Verifies the state of the autosave data
+     *
+     * @param {String} storyAutosaveKey - the localStorage key the story content is saved to
+     * @param {Object} expectedAutosaveState - the expected value of the data
+     */
+    sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState = function (storyAutosaveKey, expectedAutosaveState) {
+        var rawAutosaveState = window.localStorage.getItem(storyAutosaveKey);
+        var actualAutosaveState = JSON.parse(rawAutosaveState);
+        jqUnit.assertDeepEq("Story autosave data is in the expected state", expectedAutosaveState, actualAutosaveState);
     };
 
     // Test environment
