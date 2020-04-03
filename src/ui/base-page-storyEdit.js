@@ -109,6 +109,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [false],
                 namespace: "hideEditorShowPreviewer"
             }],
+            "{storyEditor}.events.onReadyToBind": [{
+                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
+                args: ["{that}.options.pageSetup.storyAutosaveKey", "{storyEditor}.story", ""],
+                namespace: "loadStoryFromAutosave"
+            }],
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 func: "{that}.showEditorHidePreviewer",
                 args: [true],
@@ -171,7 +176,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 modelListeners: {
                                     "": {
-                                        funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToLocalStorage",
+                                        funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave",
                                         args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", "{that}.model"],
                                         excludeSource: "init",
                                         namespace: "autosaveStory"
@@ -232,12 +237,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage}
      *
      * @param {String} storyAutosaveKey - the key at which to save the story content
-     * @param {Object} story - the story content (model data) to save
+     * @param {Object} storyContent - the story content (model data) to save
      */
-    sjrk.storyTelling.base.page.storyEdit.saveStoryToLocalStorage = function (storyAutosaveKey, story) {
+    sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave = function (storyAutosaveKey, storyContent) {
         try {
-            var serialized = JSON.stringify(story);
+            var serialized = JSON.stringify(storyContent);
             window.localStorage.setItem(storyAutosaveKey, serialized);
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred when saving");
+        }
+    };
+
+    /**
+     * Loads story content from a given key in the browser's localStorage object.
+     * Since localStorage can only store strings, the content is first parsed.
+     *
+     * @param {String} storyAutosaveKey - the key to load the story content from
+     * @param {Component} story - the story component to load the content into
+     * @param {String|String[]} storyPath - the model path to load the story to
+     */
+    sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave = function (storyAutosaveKey, story, storyPath) {
+        try {
+            var rawStoryContent = window.localStorage.getItem(storyAutosaveKey);
+            var storyContent = JSON.parse(rawStoryContent);
+            story.applier.change(storyPath, storyContent);
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred when saving");
         }
