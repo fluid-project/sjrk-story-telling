@@ -183,6 +183,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
+    /*
+     * Tests the bug described by the former SJRK-335, a Kettle crash
+     * related to the cancellation of in-flight requests.
+     *
+     * Fully aware we're doing bad things, this test creates some requests,
+     * puts them in a collection, fires them off and then immediately
+     * begins making abort calls on them, regardless of their status.
+     */
+    jqUnit.test("Test SJRK-335", function () {
+        jqUnit.expect(1);
+
+        var urlToTest = "/anything";
+        var numberOfRequests = 1000;
+        var requests = [];
+
+        for (var i = 0; i < numberOfRequests; i++) {
+            var req = new XMLHttpRequest();
+            requests.push(req);
+            req.open("GET", urlToTest, true);
+            req.send();
+        }
+
+        fluid.each(requests, function (req) {
+            req.abort();
+        });
+
+        jqUnit.assert("All requests successfully completed.");
+    });
+
     $(document).ready(function () {
         fluid.test.runTests([
             "sjrk.storyTelling.storyTellingServerUiTest"
