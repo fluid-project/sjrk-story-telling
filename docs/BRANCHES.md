@@ -11,6 +11,7 @@ Authoring new stories is normally disabled on all deployed versions except the S
 | Branch name                         | Site | Description |
 | ----------------------------------- | ---- | ----------- |
 | `master`                            | [The Storytelling Project staging site](https://staging-stories.floeproject.org/) | Stories on this site are cleared every 24 hours, it is intended purely as a sandbox demonstration of the Storytelling Tool |
+| `stories-aihec-production`         | [AIHEC Stories site](https://aihec.inclusivedesign.ca/) | Stories gathered in collaboration with [AIHEC](http://www.aihec.org/) |
 | `stories-cities-production`         | [Co-designing Inclusive Cities Stories site](https://stories.cities.inclusivedesign.ca/) | Part of the larger [Co-designing Inclusive Cities](https://cities.inclusivedesign.ca/) project |
 | `stories-floe-production`           | [The Storytelling Project production site](https://stories.floeproject.org/) | This site is set up as part of our work on learning self-reflection and metacognition. More information is available on the site itself |
 | `stories-karisma-production`        | [El planeta es la escuela](https://karisma-stories.floeproject.org/) | Stories gathered in Colombia under the banner of *El planeta es la escuela*, part of the [Social Justice Repair Kit](https://www.sojustrepairit.org/) project |
