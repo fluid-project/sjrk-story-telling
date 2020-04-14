@@ -29,7 +29,7 @@
         "infusion": "3.0.0-dev.20191219T155607Z.32876d29c.FLUID-6145",
         "jpeg-autorotate": "5.0.2",
         "jpeg-exif": "1.1.4",
-        "kettle": "1.11.0",
+        "kettle": "1.12.0",
         "sinon": "7.3.2",
         "uuid": "3.1.0"
     },
