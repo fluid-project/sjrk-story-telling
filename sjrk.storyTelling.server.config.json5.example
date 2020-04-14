@@ -15,7 +15,7 @@
                         /*
                          * the custom theme to load in on top of the base theme
                          * for the base theme, simply remove, comment out or leave this setting empty
-                         * available themes are: karisma, learningReflections, cities, sojustrepairit
+                         * available themes are: aihec, cities, karisma, learningReflections, sojustrepairit
                          */
                         "theme": "learningReflections",
 
