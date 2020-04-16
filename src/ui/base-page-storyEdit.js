@@ -126,7 +126,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
+                args: [
+                    "{storyEditor}.dom.storyEditorForm",
+                    "{storyPreviewer}.story.model",
+                    "{that}.events.onStoryShareComplete",
+                    "{that}.options.pageSetup.storyAutosaveKey"
+                ]
             },
             "onCreate.setAuthoringEnabledClass": {
                 func: "{that}.setAuthoringEnabledClass"
@@ -140,6 +145,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
                 args: ["editorVisible", "{arguments}.0"]
+            },
+            clearAutosave: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                args: ["{that}.options.pageSetup.storyAutosaveKey"]
             }
         },
         /*
@@ -288,6 +297,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     * Clears saved story content from a given key in the browser's localStorage object.
+     *
+     * @param {String} storyAutosaveKey - the key at which story content is saved
+     */
+    sjrk.storyTelling.base.page.storyEdit.clearAutosave = function (storyAutosaveKey) {
+        try {
+            window.localStorage.removeItem(storyAutosaveKey);
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred when clearing autosave", ex);
+        }
+    };
+
+    /**
      * Removes all empty blocks from a given collection of story blocks
      *
      * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
@@ -342,8 +364,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {jQuery} storyEditorForm - the Editor UI's HTML form element
      * @param {Object} storyModel - the model of the story to save
      * @param {Object} errorEvent - an event to fire on errors
+     * @param {String} storyAutosaveKey - the key at which story content is saved
      */
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent, storyAutosaveKey) {
         storyEditorForm.attr({
             action: "/stories/",
             method: "post",
@@ -370,6 +393,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             processData : false,
             type        : "POST",
             success     : function (data, textStatus, jqXHR) {
+                // clear the saved story only once it's successfully published
+                sjrk.storyTelling.base.page.storyEdit.clearAutosave(storyAutosaveKey);
+
                 fluid.log(jqXHR, textStatus);
                 var successResponse = JSON.parse(data);
                 var storyUrl = "/storyView.html?id=" + successResponse.id;
