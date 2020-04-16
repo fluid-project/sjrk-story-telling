@@ -13,18 +13,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
-    // Represents a context or view of a story UI. Contains a story component
-    // to represent the data and a templateManager to handle DOM interaction
+    // Represents a context or view of a UI.
+    // Includes a templateManager to handle DOM interaction.
     fluid.defaults("sjrk.storyTelling.ui", {
         gradeNames: ["fluid.viewComponent"],
-        // common selectors for all UI's
-        selectors: {
-            storyContainer: ".sjrkc-st-story-viewer-main-container",
-            storyTitle: ".sjrkc-st-story-title",
-            storyAuthor: ".sjrkc-st-story-author",
-            storyContent: ".sjrkc-st-story-content",
-            storyTags: ".sjrkc-st-story-tags"
-        },
         events: {
             onReadyToBind: null,
             onControlsBound: null
@@ -111,5 +103,104 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         completionEvent.fire();
     };
+
+    // Represents a UI with a story (sjrk.storyTelling.story), and adds
+    // management of dynamically-created block UIs for each story block
+    fluid.defaults("sjrk.storyTelling.ui.storyUi", {
+        gradeNames: ["sjrk.storyTelling.ui"],
+        // common selectors for all UI's that have stories
+        selectors: {
+            storyContainer: ".sjrkc-st-story-viewer-main-container",
+            storyTitle: ".sjrkc-st-story-title",
+            storyAuthor: ".sjrkc-st-story-author",
+            storyContent: ".sjrkc-st-story-content",
+            storyTags: ".sjrkc-st-story-tags"
+        },
+        events: {
+            onStoryUpdatedFromBlocks: null
+        },
+        components: {
+            // represents the story data
+            story: {
+                type: "sjrk.storyTelling.story"
+            },
+            // the templateManager for this UI
+            templateManager: {
+                options: {
+                    model: {
+                        dynamicValues: {
+                            story: "{story}.model"
+                        }
+                    }
+                }
+            },
+            // for dynamically rendering the story block by block
+            blockManager: {
+                type: "sjrk.dynamicViewComponentManager",
+                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                options: {
+                    blockTypeLookup: {
+                        "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
+                        "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
+                        "text": "sjrk.storyTelling.blockUi.textBlockViewer",
+                        "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
+                    },
+                    invokers: {
+                        createBlocksFromData: {
+                            funcName: "sjrk.storyTelling.ui.createBlocksFromData",
+                            args: ["{arguments}.0", "{that}.options.blockTypeLookup", "{that}.events.viewComponentContainerRequested"]
+                        },
+                        updateStoryFromBlocks: {
+                            funcName: "sjrk.storyTelling.ui.updateStoryFromBlocks",
+                            args: [
+                                "{ui}.story",
+                                "{that}.managedViewComponentRegistry",
+                                "{ui}.events.onStoryUpdatedFromBlocks"
+                            ]
+                        }
+                    },
+                    listeners: {
+                        "onCreate.createBlocksFromData": {
+                            func: "{that}.createBlocksFromData",
+                            args: ["{story}.model.content"]
+                        }
+                    },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                components: {
+                                    templateManager: {
+                                        options: {
+                                            model: {
+                                                locale: "{ui}.templateManager.model.locale"
+                                            }
+                                        }
+                                    },
+                                    block: {
+                                        options: {
+                                            gradeNames: ["{that}.getBlockGrade"],
+                                            invokers: {
+                                                "getBlockGrade": {
+                                                    funcName: "sjrk.storyTelling.ui.getBlockGradeFromEventModelValues",
+                                                    args: ["{blockUi}.options.additionalConfiguration.modelValues"]
+                                                }
+                                            },
+                                            modelListeners: {
+                                                "": {
+                                                    func: "{blockManager}.updateStoryFromBlocks",
+                                                    excludeSource: "init",
+                                                    namespace: "singleBlockToStory"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
 
 })(jQuery, fluid);

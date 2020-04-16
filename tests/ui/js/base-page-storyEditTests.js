@@ -141,9 +141,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: ["{that}.options.field", "{that}.options.value"]
         },
         {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
-        },
-        {
             changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
             path: "content",
             listener: "jqUnit.assertEquals",
@@ -164,9 +161,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: ["{that}.options.field", ""]
         },
         {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
-        },
-        {
             changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
             path: "content",
             listener: "jqUnit.assertDeepEq",
@@ -182,9 +176,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         sequence: [{
             func: "{storyEditTester}.currentBlock.block.applier.change",
             args: ["{that}.options.field", "{that}.options.value"]
-        },
-        {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
         },
         {
             funcName: "jqUnit.assertDeepEq",
@@ -211,9 +202,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         {
             funcName: "fluid.set",
             args: ["{storyEditTester}", "currentBlock", undefined]
-        },
-        {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
         },
         {
             funcName: "jqUnit.assertDeepEq",
@@ -825,7 +813,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 4,
+                expect: 5,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Story is empty to begin with", {
@@ -872,6 +860,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         content: [],
                         tags: []
                     }]
+                },
+                // clean up the autosave after tests have completed
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
                 }]
             }]
         },
