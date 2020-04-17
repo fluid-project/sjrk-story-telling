@@ -19,7 +19,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.base.page.storyEdit"],
         pageSetup: {
             resourcePrefix: "../..",
-            authoringEnabled: false
+            authoringEnabled: false,
+            storyAutosaveKey: "testStoryAutosave"
         },
         selectors: {
             mainContainer: "#testMainContainer",
@@ -101,6 +102,66 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             editStoryStepVisible: false,
             editorVisible: false
         }
+    };
+
+    // A test story before it is saved
+    sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave = {
+        "title": "A story about the cutest cats in the world",
+        "content": [
+            {
+                "blockType": "image",
+                "imageUrl": "Rootbeer and Shyguy.jpeg",
+                "description": "Two cats, maybe even the cutest",
+                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "fileDetails": {
+                    "name": "Rootbeer and Shyguy.jpeg",
+                    "size": 1,
+                    "type": "image/jpeg"
+                }
+            },
+            {
+                "blockType": "video",
+                "imageUrl": "Feeding Time.mp4",
+                "description": "A video of two cats eagerly awaiting delicious food",
+                "fileDetails": {
+                    "name": "Feeding Time.mp4",
+                    "size": 2,
+                    "type": "video/mp4"
+                }
+            }
+        ],
+        "tags": ["cute", "cats"],
+        "author": "RB & SG"
+    };
+
+    // A test story after it is loaded
+    sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad = {
+        "title": "A story about the cutest cats in the world",
+        "content": [
+            {
+                "blockType": "image",
+                "imageUrl": null,
+                "description": "Two cats, maybe even the cutest",
+                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "fileDetails": {
+                    "name": "Rootbeer and Shyguy.jpeg",
+                    "size": 1,
+                    "type": "image/jpeg"
+                }
+            },
+            {
+                "blockType": "video",
+                "imageUrl": null,
+                "description": "A video of two cats eagerly awaiting delicious food",
+                "fileDetails": {
+                    "name": "Feeding Time.mp4",
+                    "size": 2,
+                    "type": "video/mp4"
+                }
+            }
+        ],
+        "tags": ["cute", "cats"],
+        "author": "RB & SG"
     };
 
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.addBlock", {
@@ -815,7 +876,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 5,
+                expect: 9,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Story is empty to begin with", {
@@ -826,7 +887,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     }, "{storyEdit}.storyEditor.story.model"]
                 },
                 {
-                    funcName: "sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState",
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
                 },
                 {
@@ -876,6 +937,42 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
                 // ensures the story was deleted upon successful publishing
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
+                    args: [
+                        "{storyEdit}.options.pageSetup.storyAutosaveKey",
+                        "{storyEdit}.storyEditor",
+                        "",
+                        "{storyEdit}.options.pageSetup.storyAutoloadSourceName"
+                    ]
+                },
+                {
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Editor story is as expected after loading", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad, "{storyEdit}.storyEditor.story.model"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.clearMediaBlockUrlsTest",
+                    args: [
+                        sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave.content,
+                        sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad.content
+                    ]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
@@ -1258,6 +1355,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var rawAutosaveState = window.localStorage.getItem(storyAutosaveKey);
         var actualAutosaveState = JSON.parse(rawAutosaveState);
         jqUnit.assertDeepEq("Story autosave data is in the expected state", expectedAutosaveState, actualAutosaveState);
+    };
+
+    /**
+     * Verifies whether the clearMediaBlockUrls function behaves as expected
+     *
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Component[]} expectedClearedBlocks - the expected resulting collection of blocks
+     */
+    sjrk.storyTelling.base.page.storyEditTester.clearMediaBlockUrlsTest = function (blocks, expectedClearedBlocks) {
+        var actualClearedBlocks = sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(blocks);
+        jqUnit.assertDeepEq("Media blocks have URLs removed as expected", expectedClearedBlocks, actualClearedBlocks);
     };
 
     // Test environment
