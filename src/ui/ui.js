@@ -68,8 +68,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Given a collection of story block data, will fire a creation event for each,
      * specifying a grade name based on a lookup list. The format of the lookup list is:
      *     {
-     *         "x": "the.full.x.block.grade.name",
-     *         "y": "the.full.y.block.grade.name",
+     *         "blockTypeX": "the.full.x.block.grade.name",
+     *         "blockTypeY": "the.full.y.block.grade.name",
      *     }
      *
      * @param {Component[]} storyBlocks - a collection of story blocks (sjrk.storyTelling.block)
@@ -139,12 +139,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.dynamicViewComponentManager",
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
                 options: {
-                    blockTypeLookup: {
-                        "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
-                        "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
-                        "text": "sjrk.storyTelling.blockUi.textBlockViewer",
-                        "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
-                    },
+                    // blockTypeLookup will be supplied by implementing grades
+                    // It is a lookup list for dynamically-created block view components.
+                    // The format of the lookup list is:
+                    //     {
+                    //         "blockTypeX": "the.full.x.block.grade.name",
+                    //         "blockTypeY": "the.full.y.block.grade.name",
+                    //     }
+                    blockTypeLookup: null,
                     invokers: {
                         createBlocksFromData: {
                             funcName: "sjrk.storyTelling.ui.createBlocksFromData",

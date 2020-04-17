@@ -99,7 +99,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // for dynamically rendering the story block by block
             blockManager: {
-                container: "{storyViewer}.options.selectors.storyContent"
+                container: "{storyViewer}.options.selectors.storyContent",
+                options: {
+                    blockTypeLookup: {
+                        "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
+                        "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
+                        "text": "sjrk.storyTelling.blockUi.textBlockViewer",
+                        "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
+                    }
+                }
             }
         }
     });
