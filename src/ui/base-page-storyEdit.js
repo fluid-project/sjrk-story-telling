@@ -262,11 +262,102 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave = function (storyAutosaveKey, storyContent) {
         try {
+            // clear the previously-saved story before saving the current story
+            sjrk.storyTelling.base.page.storyEdit.clearAutosave(storyAutosaveKey);
+
             var serialized = JSON.stringify(storyContent);
             window.localStorage.setItem(storyAutosaveKey, serialized);
+
+            // save uploaded files to localStorage as well
+            //sjrk.storyTelling.base.page.storyEdit.saveFilesToAutosave(storyAutosaveKey, storyContent.content);
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred when saving", ex);
         }
+    };
+
+    /**
+     * Saves all files from story blocks into localStorage
+     *
+     * @param {String} storyAutosaveKey - the key at which to save the story content
+     * @param {Component[]} blocks - the story blocks for which to save files
+     */
+    sjrk.storyTelling.base.page.storyEdit.saveFilesToAutosave = function (storyAutosaveKey, blocks) {
+        fluid.each(blocks, function (block) {
+            var blobUrl = "";
+
+            if (block.blockType === "image") {
+                blobUrl = block.imageUrl;
+            } else if (block.blockType === "audio" || block.blockType === "video") {
+                blobUrl = block.mediaUrl;
+            }
+
+            if (blobUrl) {
+                try {
+                    sjrk.storyTelling.base.page.storyEdit.saveBlobToLocalStorage(storyAutosaveKey, blobUrl);
+                } catch (ex) {
+                    fluid.log(fluid.logLevel.WARN, "An error occurred when saving file " + blobUrl, ex);
+                }
+            }
+        });
+    };
+
+    /**
+     * Saves a blob from a URL to localStorage
+     *
+     * @param {String} storyAutosaveKey - the key at which story content is saved
+     * @param {String} blobUrl - the URL for the blob data
+     */
+    sjrk.storyTelling.base.page.storyEdit.saveBlobToLocalStorage = function (storyAutosaveKey, blobUrl) {
+        var blobKey = sjrk.storyTelling.base.page.storyEdit.getBlobKeyFromUrl(storyAutosaveKey, blobUrl);
+
+        var xhr = new XMLHttpRequest(); // gets the blob data from its url
+        var fileReader = new FileReader(); // reads the blob data as a file
+
+        xhr.open("GET", blobUrl, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+            if (this.status === 200) {
+                fileReader.onload = function (e) {
+                    var result = e.target.result; // the file data in base64
+
+                    try {
+                        localStorage.setItem(blobKey, result);
+                    }
+                    catch (ex) {
+                        fluid.log(fluid.logLevel.WARN, "An error occurred when saving file " + blobUrl, ex);;
+                    }
+                };
+
+                var blob = new Blob([this.response], {type: this.getResponseHeader("content-type")});
+
+                fileReader.readAsDataURL(blob);
+            }
+        };
+
+        xhr.send();
+    };
+
+    /**
+     * Creates a localStorage key at which blob data can be saved
+     *
+     * @param {String} storyAutosaveKey - the key to load the story content from
+     * @param {String} blobUrl - the URL for the blob data
+     *
+     * @return {String} - the requested key
+     */
+    sjrk.storyTelling.base.page.storyEdit.getBlobKeyFromUrl = function (storyAutosaveKey, blobUrl) {
+        return storyAutosaveKey + "::" + blobUrl.substring(blobUrl.lastIndexOf("/") + 1);
+    };
+
+    /**
+     * Creates a blob URL from a localStorage key
+     *
+     * @param {String} blobKey - the localStorage key at which a blob has been saved
+     *
+     * @return {String} - the requested URL
+     */
+    sjrk.storyTelling.base.page.storyEdit.getBlobUrlFromKey = function (blobKey) {
+        return "blob:" + window.location.origin + blobKey.substring(blobKey.lastIndexOf("::") + 1);
     };
 
     /**
