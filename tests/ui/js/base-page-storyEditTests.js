@@ -873,6 +873,53 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         },
         {
+            name: "Test page history state management",
+            tests: [{
+                name: "Test historian component model state",
+                expect: 5,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.metadataStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.previewerStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.metadataStep, "{storyEdit}.historian.model"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyEditor.dom.storyEditorPrevious"
+                },
+                {
+                    "event": "{storyEdit}.events.onContextChangeRequested",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
+                }]
+            }]
+        },
+        {
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
@@ -976,53 +1023,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
-                }]
-            }]
-        },
-        {
-            name: "Test page history state management",
-            tests: [{
-                name: "Test historian component model state",
-                expect: 5,
-                sequence: [{
-                    funcName: "jqUnit.assertDeepEq",
-                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storyEditorNext"
-                },
-                {
-                    "event": "{storyEdit}.events.onContextChangeRequested",
-                    listener: "jqUnit.assertDeepEq",
-                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.metadataStep, "{storyEdit}.historian.model"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storySubmit"
-                },
-                {
-                    "event": "{storyEdit}.events.onContextChangeRequested",
-                    listener: "jqUnit.assertDeepEq",
-                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.previewerStep, "{storyEdit}.historian.model"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyPreviewer.dom.storyViewerPrevious"
-                },
-                {
-                    "event": "{storyEdit}.events.onContextChangeRequested",
-                    listener: "jqUnit.assertDeepEq",
-                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.metadataStep, "{storyEdit}.historian.model"]
-                },
-                {
-                    "jQueryTrigger": "click",
-                    "element": "{storyEdit}.storyEditor.dom.storyEditorPrevious"
-                },
-                {
-                    "event": "{storyEdit}.events.onContextChangeRequested",
-                    listener: "jqUnit.assertDeepEq",
-                    args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
                 }]
             }]
         }]
