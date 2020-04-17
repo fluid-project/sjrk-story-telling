@@ -287,10 +287,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             var savedStory = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
 
             if (savedStory) {
-                storyEditor.story.applier.change(storyPath, savedStory, null, sourceName);
-
                 // media block blob URLs are no longer valid/reliable after a page reload
                 sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(savedStory.content);
+
+                storyEditor.story.applier.change(storyPath, savedStory, null, sourceName);
 
                 // build the storyEditor blockUIs from the story content array
                 storyEditor.blockManager.createBlocksFromData(savedStory.content);
