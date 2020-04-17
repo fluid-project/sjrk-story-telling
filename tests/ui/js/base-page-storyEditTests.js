@@ -25,11 +25,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             mainContainer: "#testMainContainer",
             pageContainer: "#testPageContainer"
         },
-        listeners: {
-            "onStoryShareRequested.submitStory": {
-                funcName: "fluid.identity"
-            }
-        },
         components: {
             uio: {
                 options: {
@@ -761,6 +756,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.prePublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: ["/stories/", "", "application/json"]
+                },
+                {
                     "jQueryTrigger": "click",
                     "element": "{storyEdit}.storyPreviewer.dom.storyShare"
                 },
@@ -768,6 +767,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyEdit}.events.onStoryShareRequested",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
                 {
                     func: "{storyEdit}.events.onStoryShareComplete.fire",
@@ -861,11 +863,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         tags: []
                     }]
                 },
-                // clean up the autosave after tests have completed
+                // publish the story (using a mocked response)
                 {
-                    funcName: "sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState",
-                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: ["/stories/", "", "application/json"]
                 },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyPreviewer.dom.storyShare"
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                },
+                // ensures the story was deleted upon successful publishing
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
