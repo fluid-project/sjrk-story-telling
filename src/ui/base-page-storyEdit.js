@@ -289,6 +289,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             if (savedStory) {
                 storyEditor.story.applier.change(storyPath, savedStory, null, sourceName);
 
+                // media block blob URLs are no longer valid/reliable after a page reload
+                sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(savedStory.content);
+
                 // build the storyEditor blockUIs from the story content array
                 storyEditor.blockManager.createBlocksFromData(savedStory.content);
             } else {
@@ -297,6 +300,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred when loading", ex);
         }
+    };
+
+    /**
+     * Removes the URL values of all media blocks within a collection of blocks
+     *
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     *
+     * @return {Component[]} - a collection of story blocks with nulled-out URL values
+     */
+    sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls = function (blocks) {
+        return fluid.transform(blocks, function (block) {
+            if (block.imageUrl) {
+                block.imageUrl = null;
+            } else if (block.mediaUrl) {
+                block.mediaUrl = null;
+            }
+
+            return block;
+        });
     };
 
     /**
