@@ -15,20 +15,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // a UI for viewing/previewing block-based stories
     fluid.defaults("sjrk.storyTelling.ui.storyViewer", {
-        gradeNames: ["sjrk.storyTelling.ui"],
+        gradeNames: ["sjrk.storyTelling.ui.storyUi"],
         selectors: {
             storyTags: ".sjrkc-st-story-list-tags",
             storyViewerPrevious: ".sjrkc-st-story-viewer-previous"
         },
-        blockTypeLookup: {
-            "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
-            "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
-            "text": "sjrk.storyTelling.blockUi.textBlockViewer",
-            "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
-        },
         events: {
-            onStoryViewerPreviousRequested: null,
-            onStoryUpdatedFromBlocks: null
+            onStoryViewerPreviousRequested: null
         },
         listeners: {
             "onReadyToBind.bindStoryViewerPreviousControl": {
@@ -99,11 +92,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the templateManager for this UI
             templateManager: {
                 options: {
-                    model: {
-                        dynamicValues: {
-                            story: "{story}.model"
-                        }
-                    },
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/storyViewer.handlebars"
                     }
@@ -111,46 +99,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // for dynamically rendering the story block by block
             blockManager: {
-                type: "sjrk.dynamicViewComponentManager",
-                container: "{ui}.options.selectors.storyContent",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                container: "{storyViewer}.options.selectors.storyContent",
                 options: {
-                    listeners: {
-                        "onCreate.createBlocksFromData": {
-                            "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
-                            "args": ["{story}.model.content", "{storyViewer}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
-                        },
-                        "onCreate.updateStoryFromBlocks": {
-                            "funcName": "sjrk.storyTelling.ui.updateStoryFromBlocks",
-                            "args": ["{storyViewer}.story", "{that}.managedViewComponentRegistry", "{storyViewer}.events.onStoryUpdatedFromBlocks"],
-                            "priority": "last"
-                        }
-                    },
-                    dynamicComponents: {
-                        managedViewComponents: {
-                            options: {
-                                components: {
-                                    templateManager: {
-                                        options: {
-                                            model: {
-                                                locale: "{ui}.templateManager.model.locale"
-                                            }
-                                        }
-                                    },
-                                    block: {
-                                        options: {
-                                            gradeNames: ["{that}.getBlockGrade"],
-                                            invokers: {
-                                                "getBlockGrade": {
-                                                    funcName: "sjrk.storyTelling.ui.getBlockGradeFromEventModelValues",
-                                                    args: ["{blockUi}.options.additionalConfiguration.modelValues"]
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    blockTypeLookup: {
+                        "audio": "sjrk.storyTelling.blockUi.audioBlockViewer",
+                        "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
+                        "text": "sjrk.storyTelling.blockUi.textBlockViewer",
+                        "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
                     }
                 }
             }

@@ -7,13 +7,11 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, jqUnit, sjrk, sinon */
+/* global fluid, jqUnit, sjrk */
 
 "use strict";
 
 (function ($, fluid) {
-
-    var mockServer;
 
     // Sets up and tests the getParameterByName function
     jqUnit.test("Test getParameterByName function", function () {
@@ -95,14 +93,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test themed page loading functions with mock values",
                 expect: 1,
                 sequence: [{
-                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.setupMockServer",
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
                     args: ["/clientConfig", "{that}.options.baseTestCase.clientConfig", "application/json"]
                 },{
                     task: "sjrk.storyTelling.loadTheme",
                     resolve: "jqUnit.assertDeepEq",
                     resolveArgs: ["The themed page load resolved as expected", "{that}.options.baseTestCase.clientConfig", "{arguments}.0"]
                 },{
-                    funcName: "sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer"
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 }]
             },{
                 name: "Test themed page loading functions with server config values",
@@ -128,25 +126,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
-
-    /**
-     * Sets up a mock server response with given data for a given URL
-     *
-     * @param {String} url - the URL for which to set up a response
-     * @param {Object} responseData - JSON data to include in the server response
-     */
-    sjrk.storyTelling.storyTellingServerUiTester.setupMockServer = function (url, responseData) {
-        mockServer = sinon.createFakeServer();
-        mockServer.respondImmediately = true;
-        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(responseData)]);
-    };
-
-    /**
-     * Stops the remote server and hands any previously set-up routes back to Kettle
-     */
-    sjrk.storyTelling.storyTellingServerUiTester.teardownMockServer = function () {
-        mockServer.restore();
-    };
 
     /**
      * A collection of client configuration settings
