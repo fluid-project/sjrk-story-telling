@@ -101,4 +101,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }]
     });
 
+    fluid.defaults("sjrk.storyTelling.aihec.page.welcome", {
+        gradeNames: ["sjrk.storyTelling.aihec.page"],
+        distributeOptions: [{
+            target: "{that > welcome > templateManager}.options.templateConfig",
+            record: {
+                messagesPath: "%resourcePrefix/messages/aihecMessages.json",
+                templatePath: "%resourcePrefix/templates/aihec-welcome.handlebars"
+            }
+        }],
+        components: {
+            welcome: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-st-welcome"
+            }
+        }
+    });
+
 })(jQuery, fluid);
