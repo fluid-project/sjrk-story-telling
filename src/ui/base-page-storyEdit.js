@@ -17,7 +17,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
-            hiddenEditorClass: "hidden"
+            hiddenEditorClass: "hidden",
+            storyAutosaveKey: "storyAutosave",
+            storyAutoloadSourceName: "storyAutoload"
         },
         model: {
             /* The initial page state is only the Edit Story Step showing.
@@ -65,6 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 func: "{that}.events.onContextChangeRequested.fire",
                 args: ["{change}.value"],
+                excludeSource: "init",
                 priority: "last",
                 namespace: "contextChangeOnEditorVisibilityChange"
             }],
@@ -77,6 +80,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "{storyEditor}.model.editStoryStepVisible": {
                 func: "{that}.events.onContextChangeRequested.fire",
                 args: ["{change}.value"],
+                excludeSource: "init",
                 priority: "last",
                 namespace: "contextChangeOnEditStoryStepVisibilityChange"
             }
@@ -95,10 +99,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onStoryShareComplete: "{storyPreviewer}.events.onShareComplete"
         },
         listeners: {
-            "onContextChangeRequested.updateStoryFromBlocks": {
-                func: "{storyEditor}.events.onUpdateStoryFromBlocksRequested.fire",
-                priority: "first"
-            },
             "{storyEditor}.events.onStorySubmitRequested": [{
                 func: "{storyPreviewer}.templateManager.renderTemplate",
                 namespace: "previewerRenderTemplate"
@@ -108,6 +108,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [false],
                 namespace: "hideEditorShowPreviewer"
             }],
+            "{storyEditor}.events.onReadyToBind": {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
+                args: [
+                    "{that}.options.pageSetup.storyAutosaveKey",
+                    "{storyEditor}",
+                    "", // it replaces the whole story model
+                    "{that}.options.pageSetup.storyAutoloadSourceName"
+                ],
+                priority: "first",
+                namespace: "loadStoryFromAutosave"
+            },
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 func: "{that}.showEditorHidePreviewer",
                 args: [true],
@@ -115,7 +126,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: ["{storyEditor}.dom.storyEditorForm", "{storyPreviewer}.story.model", "{that}.events.onStoryShareComplete"]
+                args: [
+                    "{storyEditor}.dom.storyEditorForm",
+                    "{storyPreviewer}.story.model",
+                    "{that}.events.onStoryShareComplete",
+                    "{that}.options.pageSetup.storyAutosaveKey"
+                ]
             },
             "onCreate.setAuthoringEnabledClass": {
                 func: "{that}.setAuthoringEnabledClass"
@@ -129,6 +145,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
                 args: ["editorVisible", "{arguments}.0"]
+            },
+            clearAutosave: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                args: ["{that}.options.pageSetup.storyAutosaveKey"]
             }
         },
         /*
@@ -163,7 +183,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the story editing context
             storyEditor: {
                 type: "sjrk.storyTelling.ui.storyEditor",
-                container: ".sjrkc-st-story-editor"
+                container: ".sjrkc-st-story-editor",
+                options: {
+                    components: {
+                        story: {
+                            options: {
+                                modelListeners: {
+                                    "": {
+                                        funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave",
+                                        args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", "{that}.model"],
+                                        excludeSource: ["init", "storyAutoload"],
+                                        namespace: "autosaveStory"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             },
             // the story safety and etiquette notice
             storyEtiquette: {
@@ -189,8 +225,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         story: {
                             options: {
-                                model: "{storyEditor}.story.model",
                                 modelRelay: {
+                                    entireModel: {
+                                        target: "",
+                                        source: "{storyEditor}.story.model",
+                                        backward: "never",
+                                        singleTransform: {
+                                            type: "fluid.transforms.identity"
+                                        }
+                                    },
                                     contentEmptyBlockFilter: {
                                         target: "content",
                                         singleTransform: {
@@ -207,6 +250,89 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    /**
+     * Saves story content to a given key in the browser's localStorage object.
+     * Since localStorage can only store strings, the content must be serialized.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage}
+     *
+     * @param {String} storyAutosaveKey - the key at which to save the story content
+     * @param {Object} storyContent - the story content (model data) to save
+     */
+    sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave = function (storyAutosaveKey, storyContent) {
+        try {
+            // clear the previously-saved story before saving the current story
+            sjrk.storyTelling.base.page.storyEdit.clearAutosave(storyAutosaveKey);
+
+            var serialized = JSON.stringify(storyContent);
+            window.localStorage.setItem(storyAutosaveKey, serialized);
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred when saving", ex);
+        }
+    };
+
+    /**
+     * Loads story content from a given key in the browser's localStorage object.
+     * Once the content is loaded, the storyEditor will be updated to match.
+     *
+     * @param {String} storyAutosaveKey - the key to load the story content from
+     * @param {Component} storyEditor - an instance of `sjrk.storyTelling.ui.storyEditor`
+     * @param {String|String[]} storyPath - the model path to load the story to
+     * @param {String} sourceName - the name of the Infusion change source for this update
+     */
+    sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave = function (storyAutosaveKey, storyEditor, storyPath, sourceName) {
+        try {
+            // localStorage can only store string values
+            var savedStory = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
+
+            if (savedStory) {
+                // media block blob URLs are no longer valid/reliable after a page reload
+                sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(savedStory.content);
+
+                storyEditor.story.applier.change(storyPath, savedStory, null, sourceName);
+
+                // build the storyEditor blockUIs from the story content array
+                storyEditor.blockManager.createBlocksFromData(savedStory.content);
+            } else {
+                fluid.log(fluid.logLevel.WARN, "Story load aborted, no autosaved story was found");
+            }
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred when loading", ex);
+        }
+    };
+
+    /**
+     * Removes the URL values of all media blocks within a collection of blocks
+     *
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     *
+     * @return {Component[]} - a collection of story blocks with nulled-out URL values
+     */
+    sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls = function (blocks) {
+        return fluid.transform(blocks, function (block) {
+            if (block.imageUrl) {
+                block.imageUrl = null;
+            } else if (block.mediaUrl) {
+                block.mediaUrl = null;
+            }
+
+            return block;
+        });
+    };
+
+    /**
+     * Clears saved story content from a given key in the browser's localStorage object.
+     *
+     * @param {String} storyAutosaveKey - the key at which story content is saved
+     */
+    sjrk.storyTelling.base.page.storyEdit.clearAutosave = function (storyAutosaveKey) {
+        try {
+            window.localStorage.removeItem(storyAutosaveKey);
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred when clearing autosave", ex);
+        }
+    };
 
     /**
      * Removes all empty blocks from a given collection of story blocks
@@ -263,8 +389,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {jQuery} storyEditorForm - the Editor UI's HTML form element
      * @param {Object} storyModel - the model of the story to save
      * @param {Object} errorEvent - an event to fire on errors
+     * @param {String} storyAutosaveKey - the key at which story content is saved
      */
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent, storyAutosaveKey) {
         storyEditorForm.attr({
             action: "/stories/",
             method: "post",
@@ -291,6 +418,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             processData : false,
             type        : "POST",
             success     : function (data, textStatus, jqXHR) {
+                // clear the saved story only once it's successfully published
+                sjrk.storyTelling.base.page.storyEdit.clearAutosave(storyAutosaveKey);
+
                 fluid.log(jqXHR, textStatus);
                 var successResponse = JSON.parse(data);
                 var storyUrl = "/storyView.html?id=" + successResponse.id;

@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // a UI for editing block-based stories
     fluid.defaults("sjrk.storyTelling.ui.storyEditor", {
-        gradeNames: ["sjrk.storyTelling.ui"],
+        gradeNames: ["sjrk.storyTelling.ui.storyUi"],
         model: {
             // this is the initial state of the visibility
             editStoryStepVisible: true,
@@ -58,12 +58,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyAddVideoBlock: ".sjrkc-st-button-video-block",
             storyRemoveSelectedBlocks: ".sjrkc-st-button-remove-blocks"
         },
-        blockTypeLookup: {
-            "audio": "sjrk.storyTelling.blockUi.editor.audioBlockEditor",
-            "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor",
-            "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
-            "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
-        },
         events: {
             onStorySubmitRequested: null,
             onEditorNextRequested: null,
@@ -74,8 +68,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
-            onUpdateStoryFromBlocksRequested: null,
-            onStoryUpdatedFromBlocks: null,
             onEditorTemplateRendered: null,
             onBlockManagerCreated: null,
             onReadyToBind: {
@@ -146,20 +138,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         components: {
-            // represents the story data
-            story: {
-                type: "sjrk.storyTelling.story"
-            },
             // the templateManager for this UI
             templateManager: {
                 options: {
-                    model: {
-                        dynamicValues: {
-                            story: "{story}.model"
-                        }
-                    },
                     listeners: {
-                        "onTemplateRendered.escalate": "{ui}.events.onEditorTemplateRendered.fire"
+                        "onTemplateRendered.escalate": "{storyEditor}.events.onEditorTemplateRendered.fire"
                     },
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/storyEditor.handlebars"
@@ -168,15 +151,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // for dynamically adding/removing block UIs
             blockManager: {
-                type: "sjrk.dynamicViewComponentManager",
-                container: "{ui}.options.selectors.storyEditorContent",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                container: "{storyEditor}.options.selectors.storyEditorContent",
                 options: {
+                    blockTypeLookup: {
+                        "audio": "sjrk.storyTelling.blockUi.editor.audioBlockEditor",
+                        "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor",
+                        "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
+                        "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
+                    },
                     listeners: {
-                        "onCreate.createBlocksFromData": {
-                            "funcName": "sjrk.storyTelling.ui.createBlocksFromData",
-                            "args": ["{story}.model.content", "{storyEditor}.options.blockTypeLookup", "{blockManager}.events.viewComponentContainerRequested"]
-                        },
                         "onCreate.escalate": {
                             func: "{storyEditor}.events.onBlockManagerCreated.fire",
                             priority: "last"
@@ -200,38 +183,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addVideoBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.videoBlockEditor"]
-                        },
-                        "{storyEditor}.events.onUpdateStoryFromBlocksRequested": {
-                            funcName: "sjrk.storyTelling.ui.updateStoryFromBlocks",
-                            namespace: "updateStoryFromBlocks",
-                            args: ["{storyEditor}.story", "{that}.managedViewComponentRegistry", "{storyEditor}.events.onStoryUpdatedFromBlocks"],
-                            priority: "first"
-                        }
-                    },
-                    dynamicComponents: {
-                        managedViewComponents: {
-                            options: {
-                                components: {
-                                    templateManager: {
-                                        options: {
-                                            model: {
-                                                locale: "{ui}.templateManager.model.locale"
-                                            }
-                                        }
-                                    },
-                                    block: {
-                                        options: {
-                                            gradeNames: ["{that}.getBlockGrade"],
-                                            invokers: {
-                                                "getBlockGrade": {
-                                                    funcName: "sjrk.storyTelling.ui.getBlockGradeFromEventModelValues",
-                                                    args: ["{blockUi}.options.additionalConfiguration.modelValues"]
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }
@@ -239,12 +190,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // for binding the non-block input fields to the story model
             binder: {
                 type: "sjrk.storyTelling.binder",
-                container: "{ui}.container",
+                container: "{storyEditor}.container",
                 options: {
                     model: "{story}.model",
-                    selectors: "{ui}.options.selectors",
+                    selectors: "{storyEditor}.options.selectors",
                     events: {
-                        onUiReadyToBind: "{ui}.events.onReadyToBind"
+                        onUiReadyToBind: "{storyEditor}.events.onReadyToBind"
                     },
                     bindings: {
                         storyTitle: "title",
@@ -295,6 +246,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 removedBlockKeys.push(blockKey);
             }
         });
+
+        that.blockManager.updateStoryFromBlocks();
+
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
     };
 

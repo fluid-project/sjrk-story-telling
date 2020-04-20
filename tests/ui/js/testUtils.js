@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global fluid, sjrk, jqUnit, sinon */
 
 "use strict";
 
@@ -208,6 +208,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + queryString;
             window.history.pushState({ path:newurl }, "", newurl);
         }
+    };
+
+    // the mock server
+    var mockServer;
+
+    /**
+     * Sets up a mock server response with given data for a given URL
+     *
+     * @param {String} url - the URL for which to set up a response
+     * @param {Object} responseData - JSON data to include in the server response
+     */
+    sjrk.storyTelling.testUtils.setupMockServer = function (url, responseData) {
+        mockServer = sinon.createFakeServer();
+        mockServer.respondImmediately = true;
+        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(responseData)]);
+    };
+
+    /**
+     * Stops the remote server and hands any previously set-up routes back to Kettle
+     */
+    sjrk.storyTelling.testUtils.teardownMockServer = function () {
+        mockServer.restore();
     };
 
 })(jQuery, fluid);
