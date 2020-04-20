@@ -983,7 +983,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
-                // ensures the story was deleted upon successful publishing
+                // ensures the autosaved story was deleted upon successful publishing
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
