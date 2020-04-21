@@ -1,13 +1,29 @@
 <div class="sjrk-st-page-header">
-    <a href="/" class="sjrk-st-page-header-main-title">{{{localizedMessages.mastheadTitle}}}</a>
+    <a href="http://www.aihec.org/" class="sjrk-st-page-header-logo-container">
+        <img class="sjrk-st-page-header-logo" src="img/AIHEClogo.svg" alt="{{localizedMessages.masthead_logo_alt_text}}">
+    </a>
+    <div class="sjrk-st-page-header-main-title">{{{localizedMessages.masthead_title}}}</div>
 </div>
 <div class="sjrk-st-top-menu">
     <nav>
         <ul>
-            <li><a href="storyBrowse.html">{{localizedMessages.link_browse_text}}</a></li>
+            <li>
+                <a href="welcome.html" {{#equals dynamicValues.currentPage "welcome"}}class="current-page"{{/equals}}>
+                    {{localizedMessages.link_home_text}}
+                </a>
+            </li>
+            <li>
+                <a href="storyBrowse.html" {{#equals dynamicValues.currentPage "storyBrowse"}}class="current-page"{{/equals}}>
+                    {{localizedMessages.link_browse_text}}
+                </a>
+            </li>
         </ul>
     </nav>
     {{#if dynamicValues.authoringEnabled}}
-        <a class="sjrk-st-edit-link" href="{{localizedMessages.editor_url}}">{{localizedMessages.link_edit_text}}</a>
+        {{#equals dynamicValues.currentPage "storyEdit"}}
+            {{!-- Don't show this link if we're on the edit page --}}
+        {{else}}
+            <a class="sjrk-st-edit-link" href="{{localizedMessages.editor_url}}">{{localizedMessages.link_edit_text}}</a>
+        {{/equals}}
     {{/if}}
 </div>
