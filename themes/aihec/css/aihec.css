@@ -9,11 +9,11 @@
     --site-dark-grey: #d1d2d4;
     --site-dark-grey-2: #5a5b5e;
     --site-dark-grey-3: #333333;
+    --site-green: #89d0a1;
     --site-teal: #007d94;
     --site-turquoise: #cbe2e1;
     --site-yellow: #f2d17e;
     --site-font: "Work Sans";
-    --site-serif-font: "Vollkorn";
 }
 
 body {
@@ -63,14 +63,29 @@ h3:empty {
 .sjrk-st-page-header {
     display: inline-block;
     font-size: 2.5rem;
-    margin: 0;
+    margin: 0 0 1rem 0;
     line-height: 0.9;
+}
+
+.sjrk-st-page-header-logo-container {
+    align-self: center;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 2rem;
+}
+
+.sjrk-st-page-header-logo {
+    height: 6rem;
+    max-height: 6rem;
+    width: auto;
 }
 
 .sjrk-st-page-header-main-title {
     font-weight: 600;
     color: var(--site-blue);
     text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /* fixes UIO contrast theme related background issues */
@@ -108,6 +123,11 @@ h3:empty {
 .sjrk-st-top-menu nav a,
 .sjrk-st-edit-link {
     color: var(--site-blue);
+}
+
+.sjrk-st-top-menu nav a:hover,
+.sjrk-st-top-menu nav a.current-page {
+    border-bottom: solid 3px var(--site-green);
 }
 
 .sjrk-st-edit-link {
@@ -176,13 +196,26 @@ h3:empty {
 .sjrk-st-page-body figcaption {
     color: var(--site-teal);
     font-size: 2rem;
-    font-family: var(--site-serif-font);
     font-weight: bold;
 }
 
 .sjrk-st-page-body section {
     margin: 0 0 2rem 0;
     padding: 0 4rem;
+}
+
+.sjrk-st-aihec-welcome-message {
+    align-self: center;
+    margin-top: 2rem;
+}
+
+.sjrk-st-aihec-welcome-message > p {
+    font-size: 1.25rem;
+    line-height: 2;
+}
+
+.sjrk-st-aihec-welcome-image {
+    align-self: center;
 }
 
 .sjrk-st-story-editor-content, .sjrk-st-story-content {
@@ -198,10 +231,6 @@ h3:empty {
 
 .sjrk-st-page-body section.sjrk-st-lr-2column>*:nth-child(odd) {
     grid-column-end: span 2;
-}
-
-.sjrk-st-lr-serif {
-    font-family: var(--site-serif-font);
 }
 
 .sjrk-st-lr-knockout {
@@ -545,6 +574,24 @@ h3:empty {
 
     .sjrk-st-page-header {
         font-size: 1.5rem;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-gap: 1rem 0;
+        align-items: center;
+    }
+
+    .sjrk-st-page-header-logo-container {
+        margin-right: 0;
+    }
+
+    .sjrk-st-page-header-logo {
+        height: auto;
+        max-width: 95%;
+    }
+
+    .sjrk-st-aihec-welcome-message {
+        margin-top: 0;
     }
 
     .sjrk-st-browser-stories.grid .sjrk-st-browser-story-thumbnail-placeholder {
