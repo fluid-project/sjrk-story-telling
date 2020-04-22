@@ -118,23 +118,29 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
     var promise = dataSource.get({directStoryId: id});
 
     promise.then(function (response) {
-
-        fluid.transform(response.content, function (block) {
-            if (block.blockType === "image") {
-                if (block.imageUrl) {
-                    block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
+        if (response.published) {
+            fluid.transform(response.content, function (block) {
+                if (block.blockType === "image") {
+                    if (block.imageUrl) {
+                        block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
+                    }
+                    return block;
+                } else if (block.blockType === "audio" || block.blockType === "video") {
+                    if (block.mediaUrl) {
+                        block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
+                    }
+                    return block;
                 }
-                return block;
-            } else if (block.blockType === "audio" || block.blockType === "video") {
-                if (block.mediaUrl) {
-                    block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
-                }
-                return block;
-            }
-        });
+            });
 
-        var responseAsJSON = JSON.stringify(response);
-        request.events.onSuccess.fire(responseAsJSON);
+            var responseAsJSON = JSON.stringify(response);
+            request.events.onSuccess.fire(responseAsJSON);
+        } else {
+            request.events.onError.fire({
+                isError: true,
+                message: "An error occurred while retrieving the requested story"
+            });
+        }
     }, function (error) {
         var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
