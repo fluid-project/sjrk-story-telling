@@ -1,6 +1,6 @@
 {
     "name": "sjrk-story-telling",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
     "main": "index.js",
     "scripts": {
