@@ -35,6 +35,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
         "storyExample": {
             "type": "story",
             "value": {
+                "published": true,
                 "title": "The Story Builder how-to",
                 "content": [{
                     "heading": "Add Content Blocks",
@@ -114,15 +115,16 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
  * @param {Object} doc - a document to evaluate in the view
  */
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
+    if (doc.value.published) {
+        var browseDoc = {
+            "title": doc.value.title,
+            "author": doc.value.author,
+            "tags": doc.value.tags,
+            "content": doc.value.content
+        };
 
-    var browseDoc = {
-        "title": doc.value.title,
-        "author": doc.value.author,
-        "tags": doc.value.tags,
-        "content": doc.value.content
-    };
-
-    emit(doc._id, browseDoc);
+        emit(doc._id, browseDoc);
+    }
 };
 
 /**
