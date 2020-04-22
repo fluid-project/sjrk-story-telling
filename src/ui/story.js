@@ -32,7 +32,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // }
             ],
             author: "",
-            tags: []
+            tags: [],
+            published: false,
+            // These timestamps are intended to be in ISO-8601 format and UTC time
+            // https://en.wikipedia.org/wiki/ISO_8601
+            // E.g. "2020-04-22T16:50:44.324Z"
+            timestampCreated: "",
+            timestampLastModified: "",
+            timestampPublished: ""
         }
     });
 
