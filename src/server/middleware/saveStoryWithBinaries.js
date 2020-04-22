@@ -10,7 +10,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 "use strict";
 
 var fluid = require("infusion");
-var uuidv1 = require("uuid/v1");
+var uuidv4 = require("uuid/v4");
 var path = require("path");
 require("kettle");
 
@@ -56,7 +56,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
  * @param {filenameResolverCallback} cb - the callback
  */
 sjrk.storyTelling.server.middleware.saveStoryWithBinaries.filenameResolver = function (req, file, cb) {
-    var id = uuidv1();
+    var id = uuidv4();
     var extension = path.extname(file.originalname);
     var generatedFileName = id + extension;
     cb(null, generatedFileName);

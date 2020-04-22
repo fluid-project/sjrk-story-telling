@@ -10,7 +10,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 "use strict";
 
 var fluid = require("infusion");
-var uuidv1 = require("uuid/v1");
+var uuidv4 = require("uuid/v4");
 var fse = require("fs-extra");
 var path = require("path");
 var jo = require("jpeg-autorotate");
@@ -209,7 +209,7 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
-    var id = uuidv1();
+    var id = uuidv4();
 
     dataSource.set({directStoryId: id}, storyModel).then(function (response) {
         response.binaryRenameMap = binaryRenameMap;

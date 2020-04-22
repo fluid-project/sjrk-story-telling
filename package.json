@@ -31,7 +31,7 @@
         "jpeg-exif": "1.1.4",
         "kettle": "1.12.0",
         "sinon": "7.3.2",
-        "uuid": "3.1.0"
+        "uuid": "7.0.3"
     },
     "devDependencies": {
         "chance": "1.0.16",

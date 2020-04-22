@@ -15,7 +15,7 @@ var fluid = require("infusion"),
     exif = require("jpeg-exif"),
     jqUnit = fluid.registerNamespace("jqUnit"),
     path = require("path"),
-    uuidv1 = require("uuid/v1");
+    uuidv4 = require("uuid/v4");
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
@@ -826,7 +826,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
         // copy the file to the test uploads dir, if a filename was provided
         if (filePath) {
             var oldFilePath = "./tests/testData/" + testCase.fileName;
-            filePath = "./tests/server/uploads/" + uuidv1() + path.extname(testCase.fileName);
+            filePath = "./tests/server/uploads/" + uuidv4() + path.extname(testCase.fileName);
             fs.copyFileSync(oldFilePath, filePath);
 
             var initialFileStats = fs.statSync(filePath);
