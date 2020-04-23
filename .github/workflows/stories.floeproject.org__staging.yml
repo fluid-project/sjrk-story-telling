@@ -1,9 +1,9 @@
-name: stories.floeproject.org-staging__staging
+name: stories.floeproject.org__staging
 
 on:
   push:
     branches:
-      - stories-floe-production
+      - master
 
 env:
   PROJECT_ID: 006fb6eb
@@ -24,7 +24,7 @@ jobs:
           envs:     PROJECT_ID
           script: |
             cd /srv/$PROJECT_ID/src                                       && \
-            git checkout stories-floe-production                          && \
+            git checkout master                                           && \
             git pull                                                      && \
             source ../deploy.env                                          && \
             /usr/local/bin/docker-compose -p $PROJECT_ID                     \

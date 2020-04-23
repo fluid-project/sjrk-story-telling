@@ -1,4 +1,4 @@
-name: karisma-stories.floeproject.org-staging__production
+name: karisma-stories.floeproject.org__production
 
 on:
   push:
