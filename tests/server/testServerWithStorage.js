@@ -65,7 +65,8 @@ var testStoryModel = {
     "tags": [
         "fluidproject",
         "history"
-    ]
+    ],
+    "published": true
 };
 
 // a story with no content
@@ -75,7 +76,19 @@ var blankStory = {
     "author": "",
     "tags": [
         ""
-    ]
+    ],
+    "published": true
+};
+
+// an unpublished story with no content
+var unpublishedStory = {
+    "title": "",
+    "content": [],
+    "author": "",
+    "tags": [
+        ""
+    ],
+    "published": false
 };
 
 // a story consisting only of empty blocks
@@ -123,7 +136,8 @@ var blankStoryWithEmptyMediaBlocks = {
     "author": "",
     "tags": [
         ""
-    ]
+    ],
+    "published": true
 };
 
 // a story with image blocks, one having correct orientation and the other without
@@ -151,7 +165,8 @@ var testStoryWithImages = {
             }
         }
     ],
-    "author": "Gregor Moss"
+    "author": "Gregor Moss",
+    "published": true
 };
 
 // TODO: Generalize story testing so that components (such as request
@@ -162,7 +177,7 @@ var testStoryWithImages = {
 // server definitions to test file and database operations on the server
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 110,
+    expect: 114,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -177,6 +192,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         // - the ID of the saved story
         // - the binaryRenameMap
         "onBlankStorySaveSuccessful": null,
+        // Receives two arguments:
+        // - the ID of the saved story
+        "onUnpublishedStorySaveSuccessful": null,
         // Receives two arguments:
         // - the ID of the saved story
         // - the binaryRenameMap
@@ -267,6 +285,29 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     // to be filled in at runtime
                     id: null
                 }
+            }
+        },
+        unpublishedStorySave: {
+            type: "kettle.test.request.formData",
+            options: {
+                path: "/stories",
+                method: "POST",
+                formData: {
+                    fields: {
+                        "model": {
+                            expander: {
+                                type: "fluid.noexpand",
+                                value: JSON.stringify(unpublishedStory)
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        getSavedUnpublishedStory: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/stories/%id"
             }
         },
         blankStoryWithEmptyMediaBlocksSave: {
@@ -399,6 +440,35 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.1",
             blankStory,
             null, // No file expected
+            null, // No event needed
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    },
+    // Unpublished story
+    {
+        func: "{that}.unpublishedStorySave.send"
+    }, {
+        event: "{unpublishedStorySave}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
+        args: [
+            "{arguments}.0",
+            "{that}.events.onUnpublishedStorySaveSuccessful",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    }, {
+        event: "{that}.events.onUnpublishedStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{getSavedUnpublishedStory}",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    }, {
+        event: "{getSavedUnpublishedStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails",
+        args: [
+            "{arguments}.0",
             null, // No event needed
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
@@ -604,6 +674,31 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
         if (fileOptions) {
             jqUnit.assert("Uploaded file does not exist");
         }
+
+        if (completionEvent) {
+            completionEvent.fire(undefined);
+        }
+    }
+};
+
+/**
+ * Verifies that a story is not successfully retrieved
+ *
+ * @param {String} data - the data returned by the call
+ * @param {Object} completionEvent - an event to fire on test completion
+ * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
+ */
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails = function (data, completionEvent, authoringEnabled) {
+    var parsedData = JSON.parse(data);
+
+    if (authoringEnabled) {
+        jqUnit.assertEquals("Story request produced an error as expected", true, parsedData.isError);
+
+        if (completionEvent) {
+            completionEvent.fire(parsedData);
+        }
+    } else {
+        jqUnit.assert("Saved story data does not exist");
 
         if (completionEvent) {
             completionEvent.fire(undefined);
