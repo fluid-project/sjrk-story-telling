@@ -1,0 +1,39 @@
+name: karisma-stories.floeproject.org__production
+
+on:
+  push:
+    branches:
+      - stories-karisma-production
+
+env:
+  PROJECT_ID: c00c43b6
+  PROJECT_SMOKETEST_URL: https://karisma-stories.floeproject.org/stories
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy stack
+        uses: appleboy/ssh-action@master
+        with:
+          host:     ${{ secrets.SSH_HOSTNAME }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     ${{ secrets.SSH_PORT }}
+          envs:     PROJECT_ID
+          script: |
+            cd /srv/$PROJECT_ID/src                                       && \
+            git checkout stories-karisma-production                       && \
+            git pull                                                      && \
+            source ../deploy.env                                          && \
+            /usr/local/bin/docker-compose -p $PROJECT_ID                     \
+                                          -f docker-compose.yml              \
+                                          -f docker-compose.cloud.yml        \
+                                          up --force-recreate --build -d
+
+      - name: Wait
+        run: sleep 15
+
+      - name: Smoke test
+        run: curl --location --no-buffer --retry 120 --retry-delay 1 $PROJECT_SMOKETEST_URL
