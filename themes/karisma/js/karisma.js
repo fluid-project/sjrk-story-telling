@@ -16,7 +16,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Provides the Karisma "El planeta es la escuela" framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.karisma.page", {
         gradeNames: ["sjrk.storyTelling.base.page"],
+        pageSetup: {
+            browseLinkUrl: "storyBrowse.html",
+            editLinkUrl: "storyEdit.html"
+        },
         components: {
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                model: {
+                                    dynamicValues: {
+                                        browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl",
+                                        editLinkUrl: "{page}.options.pageSetup.editLinkUrl"
+                                    }
+                                },
+                                templateConfig: {
+                                    templatePath: "%resourcePrefix/templates/karisma-menu.handlebars"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             // masthead/banner section
             karismaMasthead: {
                 type: "sjrk.storyTelling.ui",
@@ -51,6 +74,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.karisma.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.karisma.page", "sjrk.storyTelling.base.page.storyBrowse"],
         components: {
+            menu: {
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                model: {
+                                    dynamicValues: {
+                                        browsePage: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             storyBrowser: {
                 options: {
                     browserConfig: {
@@ -109,6 +147,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     components: {
                         templateManager: {
                             options: {
+                                model: {
+                                    dynamicValues: {
+                                        welcomer: true
+                                    }
+                                },
                                 templateConfig: {
                                     templatePath: "%resourcePrefix/templates/karisma-menu.handlebars"
                                 }
@@ -126,8 +169,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 model: {
                                     dynamicValues: {
-                                        welcomer_browseLinkUrl: "storyBrowse.html",
-                                        welcomer_editLinkUrl: "storyEdit.html"
+                                        welcomer_browseLinkUrl: "{page}.options.pageSetup.browseLinkUrl",
+                                        welcomer_editLinkUrl: "{page}.options.pageSetup.editLinkUrl"
                                     }
                                 },
                                 templateConfig: {

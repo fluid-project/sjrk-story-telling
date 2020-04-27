@@ -2,6 +2,10 @@ body {
     background-color: var(--site-rose);
 }
 
+.sjrk-st-toc-container {
+    background: var(--site-rose);
+}
+
 .sjrk-st-page-header-container {
     padding: 0 1rem;
     display: block;

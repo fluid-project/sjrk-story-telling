@@ -4,6 +4,7 @@
     --site-lavender: #ecebf7;
     --site-purple: #4f3aac;
     --site-yellow: #fbee06;
+    --site-dark-grey: #d1d2d4;
 }
 
 body {
@@ -12,6 +13,10 @@ body {
 
 a {
     color: black;
+}
+
+textarea {
+    font-family: sans-serif;
 }
 
 .sjrk-prefsEditor-container {
@@ -76,37 +81,6 @@ a {
     grid-template-columns: minmax(1rem, 20rem) auto minmax(1rem, 20rem);
 }
 
-.sjrk-st-button {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 8px;
-    border: none;
-    background-size: cover;
-    background-origin: content-box;
-    padding: 0.1em;
-    background-repeat: no-repeat;
-    background-color: var(--site-dark-rose);
-}
-
-.sjrk-st-button-text-block {
-    background-image: url("../img/icons/icon-textBlock.png");
-}
-
-.sjrk-st-button-image-block {
-    background-image: url("../img/icons/icon-imageBlock.png");
-}
-
-.sjrk-st-button-video-block {
-    background-image: url("../img/icons/icon-videoBlock.png");
-}
-
-.sjrk-st-button-remove-blocks {
-    background-image: url("../img/icons/icon-removeBlocks.png");
-}
-
-.sjrk-st-karisma-sidebar {
-}
-
 .sjrk-st-karisma-sidebar img {
     max-height: 80%;
     max-width: 80%;
@@ -123,6 +97,18 @@ a {
 
 .sjrk-st-story-editor-content {
     background: white;
+}
+
+.sjrk-st-story-editor .sjrk-st-block input,
+.sjrk-st-block-alternative-content input,
+.sjrk-st-block-media-description,
+.sjrk-st-block-media-alt-text {
+    font-size: 1rem;
+    padding: 0.25rem;
+    border: 1px solid var(--site-dark-grey);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
 }
 
 .sjrk-st-browser-story-link {
