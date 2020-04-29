@@ -222,9 +222,15 @@ h3:empty {
     font-family: var(--site-serif-font);
 }
 
-.sjrk-st-lr-knockout {
+.sjrk-st-lr-knockout  {
     background: var(--site-orange);
-    color: #fff
+    color: #fff;
+}
+
+/* Used to maintain padding above page headers */
+section.sjrk-st-lr-knockout,
+.sjrk-st-lr-knockout section {
+    padding-top: 2rem;
 }
 
 .sjrk-st-intro-collection {
