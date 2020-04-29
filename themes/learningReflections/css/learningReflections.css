@@ -224,7 +224,8 @@ h3:empty {
 
 .sjrk-st-lr-knockout {
     background: var(--site-orange);
-    color: #fff
+    color: #fff;
+    padding-top: 2rem !important;
 }
 
 .sjrk-st-intro-collection {
