@@ -19,7 +19,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         pageSetup: {
             hiddenEditorClass: "hidden",
             storyAutosaveKey: "storyAutosave",
-            storyAutoloadSourceName: "storyAutoload"
+            storyAutoloadSourceName: "storyAutoload",
+            storySaveUrl: "/stories/"
         },
         model: {
             /* The initial page state is only the Edit Story Step showing.
@@ -127,7 +128,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "onStoryShareRequested.submitStory": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
                 args: [
-                    "{storyEditor}.dom.storyEditorForm",
+                    "{that}.options.pageSetup.storySaveUrl",
                     "{storyPreviewer}.story.model",
                     "{that}.events.onStoryShareComplete",
                     "{that}.options.pageSetup.storyAutosaveKey"
@@ -391,30 +392,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {Object} errorEvent - an event to fire on errors
      * @param {String} storyAutosaveKey - the key at which story content is saved
      */
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent, storyAutosaveKey) {
-        storyEditorForm.attr({
-            action: "/stories/",
-            method: "post",
-            enctype: "multipart/form-data"
-        });
+    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storySaveUrl, storyModel, errorEvent, storyAutosaveKey) {
+        storyModel.published = true;
 
-        // This is the easiest way to be able to submit form
-        // content in the background via ajax
-        var formData = new FormData(storyEditorForm[0]);
-
-        // Stores the entire model as a JSON string in one
-        // field of the multipart form
-        var modelAsJSON = JSON.stringify(storyModel);
-        formData.append("model", modelAsJSON);
-
-        // In the real implementation, this should have
-        // proper handling of feedback on success / failure,
-        // but currently it just logs to console
         $.ajax({
-            url         : storyEditorForm.attr("action"),
-            data        : formData || storyEditorForm.serialize(),
+            url         : storySaveUrl,
+            data        : JSON.stringify(storyModel),
             cache       : false,
-            contentType : false,
+            contentType : "application/json",
             processData : false,
             type        : "POST",
             success     : function (data, textStatus, jqXHR) {
