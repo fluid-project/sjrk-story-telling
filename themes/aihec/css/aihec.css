@@ -29,12 +29,12 @@ h3:empty {
     background-color: #fff;
 }
 
-.sjrk-st-toc-container {
+.flc-toc-tocContainer {
     background: var(--site-dark-grey-3);
     color: #fff;
 }
 
-.sjrk-st-toc-container a {
+.flc-toc-tocContainer a {
     color: #fff;
 }
 
@@ -67,17 +67,15 @@ h3:empty {
     line-height: 0.9;
 }
 
-.sjrk-st-page-header-logo-container {
-    align-self: center;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 2rem;
-}
-
 .sjrk-st-page-header-logo {
+    display: inline-block;
     height: 6rem;
+    width: 16.5rem;
     max-height: 6rem;
-    width: auto;
+    margin-right: 2rem;
+    align-self: center;
+    vertical-align: middle;
+    background: url(../../img/AIHEClogo.svg) no-repeat;
 }
 
 .sjrk-st-page-header-main-title {
@@ -91,7 +89,7 @@ h3:empty {
 /* fixes UIO contrast theme related background issues */
 :not(.fl-theme-default) .sjrk-st-page-header-main-title,
 :not(.fl-theme-default) .sjrk-st-top-menu nav a,
-:not(.fl-theme-default) .sjrk-st-toc-container a
+:not(.fl-theme-default) .flc-toc-tocContainer a
 {
     background: none !important;
 }
@@ -216,6 +214,9 @@ h3:empty {
 
 .sjrk-st-aihec-welcome-image {
     align-self: center;
+    background: url(../../img/AIHEClogo.svg) no-repeat;
+    height: 12.5rem;
+    width: 100%;
 }
 
 .sjrk-st-story-editor-content, .sjrk-st-story-content {
@@ -224,7 +225,7 @@ h3:empty {
 
 .sjrk-st-page-body section.sjrk-st-lr-2column {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     column-gap: 5rem;
     row-gap: 1rem;
 }
@@ -560,6 +561,10 @@ h3:empty {
         padding: 0 1rem;
     }
 
+    .sjrk-st-page-body section.sjrk-st-lr-2column div {
+        grid-column-end: span 2;
+    }
+
     .sjrk-st-page-body h1 {
         font-size: 3rem;
     }
@@ -575,19 +580,21 @@ h3:empty {
     .sjrk-st-page-header {
         font-size: 1.5rem;
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        grid-gap: 1rem 0;
         align-items: center;
-    }
-
-    .sjrk-st-page-header-logo-container {
-        margin-right: 0;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
     }
 
     .sjrk-st-page-header-logo {
-        height: auto;
+        flex: 1 1 auto;
         max-width: 95%;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .sjrk-st-page-header-main-title {
+        flex: 1 1 auto;
     }
 
     .sjrk-st-aihec-welcome-message {
@@ -643,6 +650,12 @@ h3:empty {
     }
 }
 
+@media only screen and (max-width: 21em) {
+    .sjrk-st-page-header-main-title {
+        display: none;
+    }
+}
+
 /* ********* UIO rules ********* */
 .fl-theme-bw .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_black.svg"); }
 .fl-theme-wb .sjrk-st-browser-story-thumbnail { background-image: url("../../img/icons/Book_white.svg"); }
@@ -679,3 +692,12 @@ h3:empty {
 .fl-theme-gw .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_grey_dark.svg"); }
 .fl-theme-gd .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_grey.svg"); }
 .fl-theme-bbr .sjrk-st-page-footer-hewlett-logo { background-image: url("../../img/logo_hewlett_black.svg"); }
+
+.fl-theme-bw .sjrk-st-page-header-logo, .fl-theme-bw .sjrk-st-aihec-welcome-image { background-image: url("../../img/AIHEClogo_black.svg"); }
+.fl-theme-wb .sjrk-st-page-header-logo, .fl-theme-wb .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_white.svg"); }
+.fl-theme-by .sjrk-st-page-header-logo, .fl-theme-by .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_black.svg"); }
+.fl-theme-yb .sjrk-st-page-header-logo, .fl-theme-yb .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-page-header-logo, .fl-theme-lgdg .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-page-header-logo, .fl-theme-gw .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-page-header-logo, .fl-theme-gd .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_grey.svg"); }
+.fl-theme-bbr .sjrk-st-page-header-logo, .fl-theme-bbr .sjrk-st-aihec-welcome-image  { background-image: url("../../img/AIHEClogo_black.svg"); }
