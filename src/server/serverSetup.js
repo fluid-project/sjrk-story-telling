@@ -57,19 +57,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                     deleteStoryDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
                     },
-                    // a DataSource to save a single story along with any files it has
-                    saveStoryWithBinaries: {
-                        type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
-                        options: {
-                            components: {
-                                storage: {
-                                    options: {
-                                        destination: "{server}.options.secureConfig.binaryUploadDirectory"
-                                    }
-                                }
-                            }
-                        }
-                    },
                     // the Kettle app
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"

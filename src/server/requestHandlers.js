@@ -153,11 +153,6 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
 // Kettle request handler for saving a single story and its files
 fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
     gradeNames: "kettle.request.http",
-    requestMiddleware: {
-        "saveStoryWithBinaries": {
-            middleware: "{server}.saveStoryWithBinaries"
-        }
-    },
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
@@ -176,27 +171,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
  */
 sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
-        var rotateImagePromises = [];
-
-        // rotate any images based on their EXIF data, if present
-        fluid.each(request.req.files.file, function (singleFile) {
-            if (singleFile.mimetype && singleFile.mimetype.indexOf("image") === 0) {
-                rotateImagePromises.push(sjrk.storyTelling.server.rotateImageFromExif(singleFile));
-            }
-        });
-
-        fluid.promise.sequence(rotateImagePromises).then(function () {
-            var storyModel = JSON.parse(request.req.body.model);
-            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request.req.files.file);
-
-            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
-        }, function (error) {
-            request.events.onError.fire({
-                errorCode: error.errorCode,
-                isError: true,
-                message: error.message || "Unknown error in image rotation."
-            });
-        });
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.body, request.events.onSuccess, request.events.onError);
     } else {
         request.events.onError.fire({
             isError: true,
@@ -209,16 +184,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
  * @param {Object} storyModel - a single story's model
  * @param {Object} successEvent - an infusion event to fire upon successful completion
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
-sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
+sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
     var id = uuidv4();
 
     dataSource.set({directStoryId: id}, storyModel).then(function (response) {
-        response.binaryRenameMap = binaryRenameMap;
         successEvent.fire(JSON.stringify(response));
     }, function (error) {
         failureEvent.fire({
