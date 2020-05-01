@@ -825,7 +825,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "element": "{storyEdit}.storyPreviewer.dom.storyShare"
                 },
                 {
-                    "event": "{storyEdit}.events.onStoryShareRequested",
+                    "event": "{storyEdit}.events.onStorySaveToServerRequested",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
@@ -833,11 +833,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
                 {
-                    func: "{storyEdit}.events.onStoryShareComplete.fire",
+                    func: "{storyEdit}.events.onStorySaveToServerComplete.fire",
                     args: ["Story about Shyguy didn't save because Rootbeer got jealous"]
                 },
                 {
-                    "event": "{storyEdit}.events.onStoryShareComplete",
+                    "event": "{storyEdit}.events.onStorySaveToServerComplete",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.postPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
@@ -997,12 +997,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
                 },
                 {
-                    funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
                     args: [
                         "{storyEdit}.options.pageSetup.storyAutosaveKey",
                         "{storyEdit}.storyEditor",
-                        "",
-                        "{storyEdit}.options.pageSetup.storyAutoloadSourceName"
+                        ""
                     ]
                 },
                 {
