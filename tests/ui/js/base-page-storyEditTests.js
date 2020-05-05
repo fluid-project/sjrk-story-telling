@@ -26,6 +26,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             mainContainer: "#testMainContainer",
             pageContainer: "#testPageContainer"
         },
+        invokers: {
+            redirectToViewStory: {
+                funcName: "sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory"
+            }
+        },
         components: {
             uio: {
                 options: {
@@ -107,6 +112,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // A test story before it is saved
     sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave = {
         "title": "A story about the cutest cats in the world",
+        "published": false,
         "content": [
             {
                 "blockType": "image",
@@ -137,6 +143,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // A test story after it is loaded
     sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad = {
         "title": "A story about the cutest cats in the world",
+        "published": true,
         "content": [
             {
                 "blockType": "image",
@@ -786,7 +793,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test progress and server response area",
             tests: [{
                 name: "Test progress visibility",
-                expect: 21,
+                expect: 22,
                 sequence: [{
                     // set the currently-visible part of the page to the previewer
                     "jQueryTrigger": "click",
@@ -818,14 +825,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: ["/stories/", "", "application/json"]
+                    args: ["/stories/", {id:"this-is-a-totally-valid-story-id"}, "application/json"]
                 },
                 {
                     "jQueryTrigger": "click",
                     "element": "{storyEdit}.storyPreviewer.dom.storyShare"
                 },
                 {
-                    "event": "{storyEdit}.events.onStorySaveToServerRequested",
+                    "event": "{storyEdit}.events.onStoryPublishRequested",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
@@ -833,11 +840,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
                 {
-                    func: "{storyEdit}.events.onStorySaveToServerComplete.fire",
+                    func: "{storyEdit}.events.onStoryPublishError.fire",
                     args: ["Story about Shyguy didn't save because Rootbeer got jealous"]
                 },
                 {
-                    "event": "{storyEdit}.events.onStorySaveToServerComplete",
+                    "event": "{storyEdit}.events.onStoryPublishError",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.postPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
@@ -998,11 +1005,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
-                    args: [
-                        "{storyEdit}.options.pageSetup.storyAutosaveKey",
-                        "{storyEdit}.storyEditor",
-                        ""
-                    ]
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", "{storyEdit}"]
                 },
                 {
                     funcName: "jqUnit.assertDeepEq",
@@ -1365,6 +1368,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.base.page.storyEditTester.clearMediaBlockUrlsTest = function (blocks, expectedClearedBlocks) {
         var actualClearedBlocks = sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(blocks);
         jqUnit.assertDeepEq("Media blocks have URLs removed as expected", expectedClearedBlocks, actualClearedBlocks);
+    };
+
+    /**
+     * Stubs the `redirectToViewStory` function to prevent actual redirection
+     *
+     * @param {String} storyId - the ID of the story to which the user will be redirected
+     * @param {String} viewPageUrl - the URL for the story View page
+     */
+    sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory = function (storyId, viewPageUrl) {
+        jqUnit.assert(viewPageUrl + "?id=" + storyId);
     };
 
     // Test environment

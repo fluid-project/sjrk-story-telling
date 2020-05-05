@@ -99,10 +99,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }
             },
             onStorySaveToServerRequested: null,
-            onStorySaveToServerComplete: "{storyPreviewer}.events.onShareComplete",
+            onStorySaveToServerComplete: null,
             onStorySaveToServerError: null,
             onStoryPublishRequested: "{storyPreviewer}.events.onShareRequested",
-            onStoryPublishError: null
+            onStoryPublishError: "{storyPreviewer}.events.onShareComplete"
         },
         listeners: {
             "{storyEditor}.events.onStorySubmitRequested": [{
@@ -151,11 +151,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.options.pageSetup.storyAutosaveKey"]
             },
             initializeStory: {
-                funcName: "initializeStory",
+                funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
                 args: ["{that}.options.pageSetup.storyAutosaveKey", "{that}"]
             },
-            loadStoryfromAutosave: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryfromAutosave",
+            loadStoryFromAutosave: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
                 args: [
                     "{arguments}.0", // the saved story model data
                     "{storyEditor}.story",
@@ -178,9 +178,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [
                     "{that}.options.pageSetup.storySaveUrl",
                     "{that}.options.pageSetup.viewPageUrl",
-                    "{storyEditor}.story.model",
+                    "{storyEditor}.story",
+                    "{that}.redirectToViewStory",
                     "{that}.events.onStoryPublishError"
                 ]
+            },
+            redirectToViewStory: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.redirectToViewStory",
+                args: ["{arguments}.0", "{arguments}.1"]
             }
         },
         /*
@@ -320,7 +325,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
             if (savedStoryData) {
                 // a story was loaded from autosave, update the current story
-                storyEdit.loadStoryfromAutosave(savedStoryData);
+                storyEdit.loadStoryFromAutosave(savedStoryData);
             } else {
                 // there's no autosaved story, create a new unpublished story
                 storyEdit.saveNewStoryToServer();
@@ -338,7 +343,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {Component} blockManager - the storyEditor's blockManager component
      * @param {String} sourceName - the name of the Infusion change source for this update
      */
-    sjrk.storyTelling.base.page.storyEdit.loadStoryfromAutosave = function (savedStoryData, story, blockManager, sourceName) {
+    sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave = function (savedStoryData, story, blockManager, sourceName) {
         // media block blob URLs are no longer valid/reliable after a page reload
         sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(savedStoryData.content);
 
@@ -484,14 +489,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {Component} story - an instance of `sjrk.storyTelling.story`
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storySaveUrl, viewPageUrl, story, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storySaveUrl, viewPageUrl, story, successCallback, errorEvent) {
         story.applier.change("published", true);
 
         var storySavePromise = sjrk.storyTelling.base.page.storyEdit.saveStoryToServer(storySaveUrl, story.model);
 
-        storySavePromise.done(function (data) {
-            var successResponse = JSON.parse(data);
-            sjrk.storyTelling.base.page.storyEdit.redirectToViewStory(successResponse.id, viewPageUrl);
+        storySavePromise.done(function () {
+            successCallback(story.model.id, viewPageUrl);
         });
 
         storySavePromise.fail(function (jqXHR, textStatus, errorThrown) {
