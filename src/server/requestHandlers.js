@@ -189,7 +189,13 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
-    var id = uuidv4();
+    var id = "";
+
+    if (storyModel && storyModel.id) {
+        id = storyModel.id;
+    } else {
+        id = uuidv4();
+    }
 
     dataSource.set({directStoryId: id}, storyModel).then(function (response) {
         successEvent.fire(JSON.stringify(response));
