@@ -2,6 +2,13 @@ name: Docker image push
 
 on:
   push:
+    branches:
+      - master
+      - stories-aihec-production
+      - stories-cities-production
+      - stories-floe-production
+      - stories-karisma-production
+      - stories-sojustrepairit-production
 
 env:
   IMAGE_NAME: fluidprojectorg/sjrk-story-telling
