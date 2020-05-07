@@ -1,0 +1,36 @@
+name: Docker image push
+
+on:
+  push:
+    branches:
+      - master
+      - stories-aihec-production
+      - stories-cities-production
+      - stories-floe-production
+      - stories-karisma-production
+      - stories-sojustrepairit-production
+
+env:
+  IMAGE_NAME: fluidprojectorg/sjrk-story-telling
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    if: github.repository == 'fluid-project/sjrk-story-telling'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
+
+      - name: Push image
+        run: |
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          docker tag $IMAGE_NAME $IMAGE_NAME:$VERSION
+          docker push $IMAGE_NAME:$VERSION
