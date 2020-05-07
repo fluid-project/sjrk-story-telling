@@ -16,6 +16,7 @@ env:
 jobs:
   push:
     runs-on: ubuntu-latest
+    if: github.repository == 'fluid-project/sjrk-story-telling'
 
     steps:
       - uses: actions/checkout@v2
