@@ -111,6 +111,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // A test story before it is saved
     sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave = {
+        "id": "the-cats-story-id",
         "title": "A story about the cutest cats in the world",
         "published": false,
         "content": [
@@ -137,13 +138,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         ],
         "tags": ["cute", "cats"],
+        "timestampCreated": "",
+        "timestampLastModified": "",
+        "timestampPublished": "",
         "author": "RB & SG"
     };
 
     // A test story after it is loaded
     sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad = {
+        "id": "the-cats-story-id",
         "title": "A story about the cutest cats in the world",
-        "published": true,
+        "published": false,
         "content": [
             {
                 "blockType": "image",
@@ -168,7 +173,46 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         ],
         "tags": ["cute", "cats"],
+        "timestampCreated": "",
+        "timestampLastModified": "",
+        "timestampPublished": "",
         "author": "RB & SG"
+    };
+
+    sjrk.storyTelling.base.page.storyEditTester.expectedAutosaveStories = {
+        initialStory: {
+            "author": "",
+            "content": [],
+            "id": null,
+            "published": false,
+            "tags": [],
+            "timestampCreated": "",
+            "timestampLastModified": "",
+            "timestampPublished": "",
+            "title": ""
+        },
+        storyWithTitle: {
+            "author": "",
+            "content": [],
+            "id": null,
+            "published": false,
+            "tags": [],
+            "timestampCreated": "",
+            "timestampLastModified": "",
+            "timestampPublished": "",
+            "title": "Rootbeer is testing autosave"
+        },
+        storyWithTitleAndAuthor: {
+            "author": "Rootbeer",
+            "content": [],
+            "id": null,
+            "published": false,
+            "tags": [],
+            "timestampCreated": "",
+            "timestampLastModified": "",
+            "timestampPublished": "",
+            "title": "Rootbeer is testing autosave"
+        }
     };
 
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.addBlock", {
@@ -482,9 +526,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test editor and previewer model binding and updating",
                 expect: 18,
                 sequence: [{
-                    "event": "{storyEditTest storyEdit}.events.onAllUiComponentsReady",
-                    "listener": "jqUnit.assert",
-                    "args": "onAllUiComponentsReady event fired."
+                    event: "{storyEditTest storyEdit}.events.onCreate",
+                    listener: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: ["/stories/", ""]
+                },
+                {
+                    event: "{storyEditTest storyEdit}.events.onAllUiComponentsReady",
+                    listener: "jqUnit.assert",
+                    args: "onAllUiComponentsReady event fired."
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.verifyStepVisibility",
@@ -825,7 +877,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: ["/stories/", {id:"this-is-a-totally-valid-story-id"}, "application/json"]
+                    args: ["/stories/", ""]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -930,15 +982,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 9,
+                expect: 10,
                 sequence: [{
-                    funcName: "jqUnit.assertDeepEq",
-                    args: ["Story is empty to begin with", {
-                        author: "",
-                        title: "",
-                        content: [],
-                        tags: []
-                    }, "{storyEdit}.storyEditor.story.model"]
+                    func: "{storyEdit}.storyEditor.story.applier.change",
+                    args: ["published", false]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "published",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Story is empty to begin with", sjrk.storyTelling.base.page.storyEditTester.expectedAutosaveStories.initialStory, "{storyEdit}.storyEditor.story.model"]
                 },
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
@@ -956,12 +1009,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
-                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", {
-                        author: "",
-                        title: "Rootbeer is testing autosave",
-                        content: [],
-                        tags: []
-                    }]
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.expectedAutosaveStories.storyWithTitle]
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
@@ -971,17 +1019,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "author",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
-                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", {
-                        author: "Rootbeer",
-                        title: "Rootbeer is testing autosave",
-                        content: [],
-                        tags: []
-                    }]
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.expectedAutosaveStories.storyWithTitleAndAuthor]
                 },
                 // publish the story (using a mocked response)
                 {
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: ["/stories/", "", "application/json"]
+                    args: ["/stories/", ""]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -1377,7 +1420,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {String} viewPageUrl - the URL for the story View page
      */
     sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory = function (storyId, viewPageUrl) {
-        jqUnit.assert(viewPageUrl + "?id=" + storyId);
+        jqUnit.assert("Stub for redirectToViewStory was called for URL: " + viewPageUrl + "?id=" + storyId);
     };
 
     // Test environment

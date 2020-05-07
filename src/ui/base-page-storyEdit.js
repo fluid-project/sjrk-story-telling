@@ -124,14 +124,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [true],
                 namespace: "showEditorHidePreviewer"
             },
-            "onStorySaveToServerRequested.saveStoryToServer": {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToServer",
-                args: [
-                    "{that}.options.pageSetup.storySaveUrl",
-                    "{storyPreviewer}.story.model",
-                    "{that}.events.onStorySaveToServerComplete"
-                ]
-            },
+            "onStorySaveToServerRequested.saveStoryToServer": "{that}.saveStoryToServer",
             "onStoryPublishRequested.publishStory": "{that}.publishStory",
             "onCreate.setAuthoringEnabledClass": {
                 func: "{that}.setAuthoringEnabledClass"
@@ -173,10 +166,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.events.onStorySaveToServerError"
                 ]
             },
+            saveStoryToServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToServer",
+                args: [
+                    "{that}.options.pageSetup.storySaveUrl",
+                    "{storyPreviewer}.story.model",
+                    "{that}.events.onStorySaveToServerComplete"
+                ]
+            },
             publishStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.publishStory",
                 args: [
-                    "{that}.options.pageSetup.storySaveUrl",
+                    "{that}",
                     "{that}.options.pageSetup.viewPageUrl",
                     "{storyEditor}.story",
                     "{that}.redirectToViewStory",
@@ -482,19 +483,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     * @callback publishSuccessCallback - a callback to call after successful publishing
+     * @param {String} storyId - the ID of the story to which the user will be redirected
+     * @param {String} viewPageUrl - the URL for the story View page
+     */
+
+    /**
      * Sets a story to "published" and redirects the user to the new story page
      *
-     * @param {String} storySaveUrl - the server URL at which to save a story
+     * @param {Component} storyEditPage - an instance of `sjrk.storyTelling.base.page.storyEdit`
      * @param {String} viewPageUrl - the URL for the story View page
      * @param {Component} story - an instance of `sjrk.storyTelling.story`
+     * @param {publishSuccessCallback} successCallback - to call on successful publish
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storySaveUrl, viewPageUrl, story, successCallback, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, viewPageUrl, story, successCallback, errorEvent) {
         story.applier.change("published", true);
 
-        var storySavePromise = sjrk.storyTelling.base.page.storyEdit.saveStoryToServer(storySaveUrl, story.model);
+        var storySavePromise = storyEditPage.saveStoryToServer();
 
         storySavePromise.done(function () {
+            storyEditPage.clearAutosave();
             successCallback(story.model.id, viewPageUrl);
         });
 
