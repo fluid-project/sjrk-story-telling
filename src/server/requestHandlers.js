@@ -151,11 +151,11 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploade
 };
 
 // Kettle request handler for saving a single story and its files
-fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
+fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
     gradeNames: "kettle.request.http",
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
+            funcName: "sjrk.storyTelling.server.handleSaveStory",
             args: ["{arguments}.0", "{server}.storyDataSource", "{server}.options.globalConfig.authoringEnabled"]
         }
     }
@@ -169,7 +169,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
-sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
+sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
         sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.body, request.events.onSuccess, request.events.onError);
     } else {

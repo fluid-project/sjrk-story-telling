@@ -28,8 +28,7 @@ These request handlers do a bit more heavy lifting, including communication with
   They're sorted by storyId, which is a unique value automatically assigned to each story on publish time
 * `sjrk.storyTelling.server.getStoryHandler` gets a single story from the database by looking for the story ID that's
   passed in. It will also adjust any image or video file URLs in the story content to have working paths
-* `sjrk.storyTelling.server.saveStoryWithBinariesHandler` saves a story to the database, saves any uploaded files to
-  the `uploads` folder and updates the story content to refer to the newly-created file names
+* `sjrk.storyTelling.server.saveStoryHandler` saves a story to the database
 * `sjrk.storyTelling.server.deleteStoryHandler` removes a story from the database and deletes any files associated
   with it
 * `sjrk.storyTelling.server.clientConfigHandler` gets the client-safe config values from the server config file. These

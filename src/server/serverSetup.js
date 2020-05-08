@@ -168,8 +168,8 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/stories/:id",
             "method": "get"
         },
-        saveStoryWithBinariesHandler: {
-            type: "sjrk.storyTelling.server.saveStoryWithBinariesHandler",
+        saveStoryHandler: {
+            type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/stories/",
             "method": "post"
         },
