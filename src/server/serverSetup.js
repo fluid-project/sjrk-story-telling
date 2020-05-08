@@ -173,6 +173,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/stories/",
             "method": "post"
         },
+        saveStoryFileHandler: {
+            type: "sjrk.storyTelling.server.saveStoryFileHandler",
+            "route": "/stories/:id",
+            "method": "post"
+        },
         deleteStoryHandler: {
             type: "sjrk.storyTelling.server.deleteStoryHandler",
             "route": "/admin/deleteStory/:id",

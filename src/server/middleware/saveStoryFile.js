@@ -16,13 +16,13 @@ require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-// Middleware to save all binaries/files associated with a story
-fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
+// Middleware to save a binary/file associated with a story
+fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryFile", {
     gradeNames: ["kettle.middleware.multer"],
     formFieldOptions: {
         method: "fields",
         fields: [
-            {name: "file", maxCount: 50},
+            {name: "file", maxCount: 1},
             {name: "model", maxCount: 1}
         ]
     },
@@ -33,7 +33,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
                 destination: "./binaryUploads",
                 invokers: {
                     filenameResolver: {
-                        funcName: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries.filenameResolver",
+                        funcName: "sjrk.storyTelling.server.middleware.saveStoryFile.filenameResolver",
                         args: ["{arguments}.0", "{arguments}.1", "{arguments}.2"]
                     }
                 }
@@ -55,7 +55,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryWithBinaries", {
  * @param {Object} file - an uploaded file to process
  * @param {filenameResolverCallback} cb - the callback
  */
-sjrk.storyTelling.server.middleware.saveStoryWithBinaries.filenameResolver = function (req, file, cb) {
+sjrk.storyTelling.server.middleware.saveStoryFile.filenameResolver = function (req, file, cb) {
     var id = uuidv4();
     var extension = path.extname(file.originalname);
     var generatedFileName = id + extension;
