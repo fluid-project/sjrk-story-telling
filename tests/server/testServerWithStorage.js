@@ -19,7 +19,7 @@ var fluid = require("infusion"),
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
-require("../../src/server/middleware/saveStoryWithBinaries");
+require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
@@ -34,6 +34,7 @@ require("gpii-pouchdb");
 
 // a test story
 var testStoryModel = {
+    "id": "testStoryModel-ID",
     "title": "History of the Fluid Project",
     "content": [
         {
@@ -66,11 +67,12 @@ var testStoryModel = {
         "fluidproject",
         "history"
     ],
-    "published": true
+    "published": false
 };
 
 // a story with no content
 var blankStory = {
+    "id": "blankStory-ID",
     "title": "",
     "content": [],
     "author": "",
@@ -82,6 +84,7 @@ var blankStory = {
 
 // an unpublished story with no content
 var unpublishedStory = {
+    "id": "unpublishedStory-ID",
     "title": "",
     "content": [],
     "author": "",
@@ -93,6 +96,7 @@ var unpublishedStory = {
 
 // a story consisting only of empty blocks
 var blankStoryWithEmptyMediaBlocks = {
+    "id": "blankStoryWithEmptyMediaBlocks-ID",
     "title": "",
     "content": [
         {
@@ -142,6 +146,7 @@ var blankStoryWithEmptyMediaBlocks = {
 
 // a story with image blocks, one having correct orientation and the other without
 var testStoryWithImages = {
+    "id": "testStoryWithImages-ID",
     "title": "A story to test image rotation",
     "content": [
         {
@@ -302,6 +307,22 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 path: "/stories",
                 method: "POST"
             }
+        },
+        singleFileSave: {
+            type: "kettle.test.request.formData",
+            options: {
+                path: "/stories/testStoryModel-ID",
+                method: "POST",
+                formData: {
+                    fields: {
+                        files: {
+                            "file": [
+                                "{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation"
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     sequence: [{
@@ -310,13 +331,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     // Story with an image
     {
-        // mocks the file upload until that functionality is working again
         event: "{testDB}.dbConfiguration.events.onSuccess",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload",
-        args: [testStoryModel.content[0].imageUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
-    },
-    {
-        event: "{that}.events.onMockUploadComplete",
         listener: "{that}.storySave.send",
         args: [testStoryModel]
     },
@@ -327,7 +342,24 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     {
         event: "{that}.events.onStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        listener: "{that}.singleFileSave.send"
+    },
+    {
+        event: "{singleFileSave}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
+        args: ["{arguments}.0", "{getUploadedImage}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+    },
+    {
+        event: "{getUploadedImage}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    },
+    {
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
         args: ["{arguments}.0", "{getSavedStory}"]
     },
     {
@@ -360,7 +392,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         ]
     },
     {
-        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
     // Blank story
@@ -512,7 +544,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         ]
     },
     {
-        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
     // Unit tests for individual functions
@@ -531,7 +563,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests"
     },
     {
-        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
+        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }]
 }];
@@ -691,7 +723,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails = functio
  */
 sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, authoringEnabled) {
     if (authoringEnabled) {
-        // TODO: this is fragile, find a better way; path.dirname and path.basename may be appropriate
         var imageFilename, handlerPath;
         handlerPath = path.dirname(imageUrl);
         imageFilename = path.basename(imageUrl);

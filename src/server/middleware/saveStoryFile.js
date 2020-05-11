@@ -22,8 +22,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryFile", {
     formFieldOptions: {
         method: "fields",
         fields: [
-            {name: "file", maxCount: 1},
-            {name: "model", maxCount: 1}
+            {name: "file", maxCount: 1}
         ]
     },
     components: {
