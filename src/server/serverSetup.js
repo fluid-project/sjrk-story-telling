@@ -61,6 +61,18 @@ fluid.defaults("sjrk.storyTelling.server", {
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
+                    saveStoryFile: {
+                        type: "sjrk.storyTelling.server.middleware.saveStoryFile",
+                        options: {
+                            components: {
+                                storage: {
+                                    options: {
+                                        destination: "{server}.options.secureConfig.binaryUploadDirectory"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {
                         type: "kettle.middleware.basicAuth",

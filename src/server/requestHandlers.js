@@ -211,16 +211,9 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel,
 fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
     gradeNames: "kettle.request.http",
     // a DataSource to save a single story along with any files it has
-    saveStoryFile: {
-        type: "sjrk.storyTelling.server.middleware.saveStoryFile",
-        options: {
-            components: {
-                storage: {
-                    options: {
-                        destination: "{server}.options.secureConfig.binaryUploadDirectory"
-                    }
-                }
-            }
+    requestMiddleware: {
+        saveStoryFile: {
+            middleware: "{server}.saveStoryFile"
         }
     },
     invokers: {
@@ -237,10 +230,9 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
  *
  * @param {Object} request - a Kettle request with data and files associated with a single story
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {String} uploadedFilesHandlerPath - the path on the server to uploaded files
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
-sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, uploadedFilesHandlerPath, authoringEnabled) {
+sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
         // verify that the story exists and isn't published before continuing
         var id = request.req.params.id;
@@ -252,14 +244,14 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, up
                 var rotateImagePromise;
 
                 // if the file exists and is an image, rotate it based on its EXIF data
-                if (request.req.files.file &&
-                    request.req.files.file.mimetype &&
-                    request.req.files.file.mimetype.indexOf("image") === 0) {
-                    rotateImagePromise = sjrk.storyTelling.server.rotateImageFromExif(request.req.files.file);
+                if (request.req.file &&
+                    request.req.file.mimetype &&
+                    request.req.file.mimetype.indexOf("image") === 0) {
+                    rotateImagePromise = sjrk.storyTelling.server.rotateImageFromExif(request.req.file);
                 }
 
                 rotateImagePromise.then(function () {
-                    request.events.onSuccess.fire(request.req.files.file.filename);
+                    request.events.onSuccess.fire(request.req.file.filename);
                 }, function (error) {
                     request.events.onError.fire({
                         errorCode: error.errorCode,

@@ -314,12 +314,8 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 path: "/stories/testStoryModel-ID",
                 method: "POST",
                 formData: {
-                    fields: {
-                        files: {
-                            "file": [
-                                "{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation"
-                            ]
-                        }
+                    files: {
+                        "file": "{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation"
                     }
                 }
             }
@@ -619,7 +615,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccess
     if (authoringEnabled) {
         jqUnit.assertTrue("Response OK is true", parsedData.ok);
         jqUnit.assertTrue("Response contains ID field", parsedData.id);
-        completionEvent.fire(parsedData.id, parsedData.binaryRenameMap);
+        completionEvent.fire(parsedData.id);
     } else {
         jqUnit.assertTrue("Response isError is true", parsedData.isError);
         jqUnit.assertFalse("Response does not contain ID field", parsedData.id);

@@ -19,12 +19,6 @@ var sjrk = fluid.registerNamespace("sjrk");
 // Middleware to save a binary/file associated with a story
 fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryFile", {
     gradeNames: ["kettle.middleware.multer"],
-    formFieldOptions: {
-        method: "fields",
-        fields: [
-            {name: "file", maxCount: 1}
-        ]
-    },
     components: {
         storage: {
             type: "kettle.middleware.multer.storage.disk",
