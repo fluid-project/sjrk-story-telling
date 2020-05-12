@@ -90,8 +90,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
-                                "blueimp-canvas-to-blob",
-                                "blueimp-load-image",
                                 "gpii-binder",
                                 "gpii-express",
                                 "gpii-handlebars",
