@@ -33,7 +33,7 @@ var sjrk = fluid.registerNamespace("sjrk");
 require("gpii-pouchdb");
 
 // a test story
-var testStoryModel = {
+var testStoryModelPrePublish = {
     "id": "testStoryModel-ID",
     "title": "History of the Fluid Project",
     "content": [
@@ -68,6 +68,43 @@ var testStoryModel = {
         "history"
     ],
     "published": false
+};
+
+var testStoryModelPostPublish = {
+    "id": "testStoryModel-ID",
+    "title": "History of the Fluid Project",
+    "content": [
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "blockType": "image",
+            "imageUrl": "logo_small_fluid_vertical.png",
+            "alternativeText": "Fluid",
+            "description": "The Fluid Project logo",
+            "fileDetails": {
+                "lastModified": 1524592510016,
+                "lastModifiedDate": "2018-04-24T17:55:10.016Z",
+                "name": "logo_small_fluid_vertical.png",
+                "size": 3719,
+                "type": "image/png"
+            }
+        },
+        {
+            "id": null,
+            "language": null,
+            "heading": null,
+            "blockType": "text",
+            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007."
+        }
+    ],
+    "author": "Alan Harnum",
+    "language": "",
+    "tags": [
+        "fluidproject",
+        "history"
+    ],
+    "published": true
 };
 
 // a story with no content
@@ -182,8 +219,10 @@ var testStoryWithImages = {
 // server definitions to test file and database operations on the server
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 107,
+    expect: 95,
     events: {
+        // Receives no arguments
+        "onBlockUpdatedWithUploadedFilename": null,
         // Receives one argument:
         // - the path of the newly "uploaded" file
         "onMockUploadComplete": null,
@@ -222,7 +261,14 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         testDB: {
             type: "sjrk.storyTelling.server.testServerWithStorageDefs.testDB"
         },
-        storySave: {
+        storySavePrePublish: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/stories",
+                method: "POST"
+            }
+        },
+        storySavePostPublish: {
             type: "kettle.test.request.http",
             options: {
                 path: "/stories",
@@ -315,8 +361,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 method: "POST",
                 formData: {
                     files: {
-                        "file": "{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation"
+                        "file": "{testCaseHolder}.options.testUploadOptions.testPNGFile"
                     }
+                },
+                termMap: {
+                    originalFilepath: "{testCaseHolder}.options.testUploadOptions.testPNGFile"
                 }
             }
         }
@@ -327,35 +376,41 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     // Story with an image
     {
+        // initializes the story in its unpublished form
         event: "{testDB}.dbConfiguration.events.onSuccess",
-        listener: "{that}.storySave.send",
-        args: [testStoryModel]
+        listener: "{that}.storySavePrePublish.send",
+        args: [testStoryModelPrePublish]
     },
     {
-        event: "{storySave}.events.onComplete",
+        event: "{storySavePrePublish}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+    },
+    {
+        // uploads the image for the story
+        event: "{that}.events.onStorySaveSuccessful",
+        listener: "{that}.singleFileSave.send"
+    },
+    {
+        // on the client side, the block would receive the updated filename, but we have to mock this step
+        event: "{singleFileSave}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename",
+        args: [testStoryModelPostPublish, "{singleFileSave}", "{arguments}.0", "{that}.events.onBlockUpdatedWithUploadedFilename"]
+    },
+    {
+        // publishes the updated story so it can be retrieved from the server
+        event: "{that}.events.onBlockUpdatedWithUploadedFilename",
+        listener: "{that}.storySavePostPublish.send",
+        args: ["{arguments}.0"]
+    },
+    {
+        event: "{storySavePostPublish}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
         args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
     {
         event: "{that}.events.onStorySaveSuccessful",
-        listener: "{that}.singleFileSave.send"
-    },
-    {
-        event: "{singleFileSave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
-        args: ["{arguments}.0", "{getUploadedImage}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
-    },
-    {
-        event: "{getUploadedImage}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
-        args: [
-            "{arguments}.0",
-            "{arguments}.1",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
         args: ["{arguments}.0", "{getSavedStory}"]
     },
     {
@@ -363,7 +418,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
         args: [
             "{arguments}.0",
-            testStoryModel,
+            testStoryModelPostPublish,
             {
                 urlProp: "imageUrl",
                 expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
@@ -621,7 +676,33 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccess
 };
 
 /**
- * Prepares and sends a request to get a story from the server, including its files
+ * Updates the filename of a single media block in a given story model
+ * (where the original filename of the block's file matches the one passed in with the request)
+ * with the given dynamically-created filename
+ *
+ * @param {Object} testStory - the test story that is to be updated
+ * @param {Component} request - an instance of kettle.test.request.formData
+ * @param {String} uploadedFilename - the filename of the uploaded file
+ * @param {Object} completionEvent - an event to fire on test completion
+*/
+sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename = function (testStory, request, uploadedFilename, completionEvent) {
+    var originalFilename = path.basename(request.options.termMap.originalFilepath);
+
+    // Look for the block that matches the original file name
+    var mediaBlock = fluid.find_if(testStory.content, function (block) {
+        return block.fileDetails.name === originalFilename;
+    });
+
+    // If we find a match, update the media URL. If not, clear it.
+    if (mediaBlock) {
+        sjrk.storyTelling.server.setMediaBlockUrl(mediaBlock, uploadedFilename);
+    }
+
+    completionEvent.fire(testStory);
+};
+
+/**
+ * Prepares and sends a request to get a story from the server
  *
  * @param {String} storyId - the ID of the story to get
  * @param {Component} getSavedStoryRequest - an instance of kettle.test.request.http
@@ -648,23 +729,21 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
         // dynamically-generated file name before we
         // test on it
         var updatedModel = fluid.copy(expectedStory);
+
         if (fileOptions) {
-            updatedModel.content[0][fileOptions.urlProp] =
-                fileOptions.expectedUploadedFilesHandlerPath
-                + testStoryModel.content[0][fileOptions.urlProp];
+            var filePath = parsedData.content[0][fileOptions.urlProp];
+
+            updatedModel.content[0][fileOptions.urlProp] = filePath;
+
+            // verify that the file exists in the expected location
+            var exists = fs.existsSync(filePath);
+            jqUnit.assertTrue("Uploaded file exists: " + filePath, exists);
         }
 
         // Strip the _rev field from the parsedData
         parsedData = fluid.censorKeys(parsedData, "_rev");
 
         jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
-
-        if (fileOptions) {
-            var exists = fs.existsSync(fileOptions.expectedUploadDirectory
-                + testStoryModel.content[0][fileOptions.urlProp]);
-
-            jqUnit.assertTrue("Uploaded file exists", exists);
-        }
 
         if (completionEvent && fileOptions) {
             completionEvent.fire(parsedData.content[0][fileOptions.urlProp]);
