@@ -553,9 +553,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         resolveArgs: ["The rotateImageFromExif tests have completed successfully"]
     },
     {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests"
-    },
-    {
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests"
     },
     {
@@ -966,67 +963,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = fu
     });
 
     return fluid.promise.sequence(testPromises);
-};
-
-/**
- * Tests the buildBinaryRenameMap function
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.buildBinaryRenameMapTests = function () {
-    var testImageBlockNoFileDetails = { blockType: "image", imageUrl: "shouldNotBeMapped", mediaUrl: "shouldBeIgnored" };
-    var testImageBlockWithFileDetails = { blockType: "image", imageUrl: "shouldNotBeMapped", mediaUrl: "shouldBeIgnored", fileDetails: { name: "testFile.jpg" } };
-
-    var testAudioBlockNoFileDetails = { blockType: "audio", imageUrl: "shouldBeIgnored", mediaUrl: "shouldNotBeMapped" };
-    var testAudioBlockWithFileDetails = { blockType: "audio", imageUrl: "shouldBeIgnored", mediaUrl: "shouldNotBeMapped", fileDetails: { name: "testFile.mp3" } };
-
-    var testVideoBlockNoFileDetails = { blockType: "video", imageUrl: "shouldBeIgnored", mediaUrl: "shouldNotBeMapped" };
-    var testVideoBlockWithFileDetails = { blockType: "video", imageUrl: "shouldBeIgnored", mediaUrl: "shouldNotBeMapped", fileDetails: { name: "testFile.mp4" } };
-
-    var testImageFile = { filename: "aNewFileName.jpg", originalname: "testFile.jpg" };
-    var testAudioFile = { filename: "aNewFileName.mp3", originalname: "testFile.mp3" };
-    var testVideoFile = { filename: "aNewFileName.mp4", originalname: "testFile.mp4" };
-    var testDuplicateImageFile = { filename: "aDifferentNewFileName.jpg", originalname: "testFile.jpg" };
-    var testBogusFile = { filename: "aNewFileName.jpg", originalname: "notReallyAFile.jpg" };
-
-    var testCases = [
-        { content: [], files: [], expectedResult: {} },
-        { content: null, files: null, expectedResult: {} },
-        { content: [{ blockType: "text", text: "", imageUrl: "shouldBeIgnored", mediaUrl: "shouldAlsoBeIgnored" }], files: [], expectedResult: {} },
-        // testing blocks with no file details and no files
-        { content: [testImageBlockNoFileDetails], files: [], expectedResult: {} },
-        { content: [testAudioBlockNoFileDetails], files: [], expectedResult: {} },
-        { content: [testVideoBlockNoFileDetails], files: [], expectedResult: {} },
-        // testing blocks with file details but no matching blocks
-        { content: [testImageBlockWithFileDetails], files: [testAudioFile, testVideoFile, testBogusFile], expectedResult: {} },
-        { content: [testAudioBlockWithFileDetails], files: [testImageFile, testVideoFile, testBogusFile], expectedResult: {} },
-        { content: [testVideoBlockWithFileDetails], files: [testImageFile, testAudioFile, testBogusFile], expectedResult: {} },
-        // testing blocks with file details and one matching block each
-        { content: [testImageBlockWithFileDetails], files: [testImageFile, testBogusFile], expectedResult: { "testFile.jpg": "aNewFileName.jpg" } },
-        { content: [testAudioBlockWithFileDetails], files: [testAudioFile, testBogusFile], expectedResult: { "testFile.mp3": "aNewFileName.mp3" } },
-        { content: [testVideoBlockWithFileDetails], files: [testVideoFile, testBogusFile], expectedResult: { "testFile.mp4": "aNewFileName.mp4" } },
-        // testing image block with two files that have the same original name, which we expect only one match out of
-        { content: [testImageBlockWithFileDetails, testImageBlockWithFileDetails], files: [testImageFile, testDuplicateImageFile, testBogusFile], expectedResult: { "testFile.jpg": "aNewFileName.jpg" } },
-        // testing multiple blocks all with matching files
-        { content: [
-            testImageBlockWithFileDetails,
-            testAudioBlockWithFileDetails,
-            testVideoBlockWithFileDetails
-        ], files: [
-            testImageFile,
-            testAudioFile,
-            testVideoFile,
-            testBogusFile
-        ], expectedResult: {
-            "testFile.jpg": "aNewFileName.jpg",
-            "testFile.mp3": "aNewFileName.mp3",
-            "testFile.mp4": "aNewFileName.mp4"
-        }}
-    ];
-
-    fluid.each(testCases, function (testCase) {
-        var actualResult = sjrk.storyTelling.server.buildBinaryRenameMap(testCase.content, testCase.files);
-
-        jqUnit.assertDeepEq("Binary rename map was produced as expected", testCase.expectedResult, actualResult);
-    });
 };
 
 /**
