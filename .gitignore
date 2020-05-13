@@ -1,4 +1,3 @@
-.vscode/*
 node_modules
 package-lock.json
 tests/server/uploads/*
@@ -11,3 +10,16 @@ secrets.json
 couchdb
 sjrk.storyTelling.server.config.json*
 !sjrk.storyTelling.server.config.json*.example
+
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/

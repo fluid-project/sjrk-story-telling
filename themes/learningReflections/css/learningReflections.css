@@ -29,12 +29,12 @@ h3:empty {
     background-color: #fff;
 }
 
-.sjrk-st-toc-container {
+.flc-toc-tocContainer {
     background: var(--site-orange);
     color: #fff;
 }
 
-.sjrk-st-toc-container a {
+.flc-toc-tocContainer a {
     color: #fff;
 }
 
@@ -77,7 +77,7 @@ h3:empty {
 /* fixes UIO contrast theme related background issues */
 :not(.fl-theme-default) .sjrk-st-page-header-main-title,
 :not(.fl-theme-default) .sjrk-st-top-menu nav a,
-:not(.fl-theme-default) .sjrk-st-toc-container a
+:not(.fl-theme-default) .flc-toc-tocContainer a
 {
     background: none !important;
 }
@@ -222,9 +222,15 @@ h3:empty {
     font-family: var(--site-serif-font);
 }
 
-.sjrk-st-lr-knockout {
+.sjrk-st-lr-knockout  {
     background: var(--site-orange);
-    color: #fff
+    color: #fff;
+}
+
+/* Used to maintain padding above page headers */
+section.sjrk-st-lr-knockout,
+.sjrk-st-lr-knockout section {
+    padding-top: 2rem;
 }
 
 .sjrk-st-intro-collection {
