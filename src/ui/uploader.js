@@ -28,13 +28,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         members: {
             currentFile: null
         },
-        // Holds a fileObjectURL for file preview purposes
         model: {
-            fileObjectURL: null,
-            fileDetails: null
+            fileObjectURL: null, // for file preview purposes
+            fileDetails: null,
+            serverUploadURL: null // to be provided by implementing grade
         },
         events: {
             onUploadRequested: null,
+            onUploadComplete: null,
+            onUploadError: null,
             onFileChanged: null
         },
         selectors: {
@@ -44,24 +46,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "onCreate.addFileInputChangeListener": {
-                "this": "{that}.dom.fileInput",
-                "method": "change",
-                "args": ["{that}.handleFileInputChange"]
+                this: "{that}.dom.fileInput",
+                method: "change",
+                args: ["{that}.handleFileInputChange"]
             },
             "onUploadRequested.clickHiddenFileInput": {
-                "this": "{that}.dom.fileInput",
-                "method": "click",
-                "args": []
+                this: "{that}.dom.fileInput",
+                method: "click",
+                args: []
             },
             "onFileChanged.updateFileObjectInformation": {
-                "func": "sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation",
-                "args": ["{that}", "{that}.currentFile"]
+                func: "sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation",
+                args: ["{that}", "{that}.currentFile"]
+            },
+            "onFileChanged.uploadFileToServer": {
+                func: "{that}.uploadFileToServer",
+                args: ["{that}.currentFile"]
+            },
+            "onUploadComplete.updateFileURL": {
+                func: "{that}.applier.change",
+                args: ["fileObjectURL", "{arguments}.0"]
             }
         },
         invokers: {
             "handleFileInputChange": {
                 funcName: "sjrk.storyTelling.block.singleFileUploader.handleFileInputChange",
                 args: ["{that}", "{that}.dom.fileInput"]
+            },
+            "uploadFileToServer": {
+                funcName: "sjrk.storyTelling.block.singleFileUploader.uploadFileToServer",
+                args: ["{arguments}.0", "{that}.model.serverUploadURL", "{that}.events.onUploadComplete", "{that}.events.onUploadError"]
             }
         }
     });
@@ -77,6 +91,43 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var fileList = fileInput[0].files;
         that.currentFile = fileList[0];
         that.events.onFileChanged.fire();
+    };
+
+    /**
+     * Uploads the file to the server and sets the URL to the newly-saved
+     * dynamic file name upon completion
+     */
+    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, serverUploadURL, completionEvent, errorEvent) {
+        // This is the easiest way to be able to submit form
+        // content in the background via ajax
+        var formData = new FormData();
+        formData.files = {
+            file: fileToUpload
+        };
+
+        $.ajax({
+            url         : serverUploadURL,
+            data        : formData,
+            cache       : false,
+            contentType : false,
+            processData : false,
+            type        : "POST",
+            success     : function (data, textStatus, jqXHR) {
+                fluid.log(jqXHR, textStatus);
+
+                completionEvent.fire(data);
+            },
+            error       : function (jqXHR, textStatus, errorThrown) {
+                fluid.log(jqXHR, textStatus, errorThrown);
+
+                errorEvent.fire({
+                    isError: true,
+                    message: fluid.get(jqXHR, ["responseJSON", "message"]) ||
+                        errorThrown ||
+                        "Server error occurred while uploading file"
+                });
+            }
+        });
     };
 
     /**
