@@ -64,7 +64,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     model: {
                         fileObjectUrl: "{block}.model.mediaUrl",
-                        fileDetails: "{block}.model.fileDetails"
+                        fileDetails: "{block}.model.fileDetails",
+                        storyId: "{editor}.storyId"
                     },
                     listeners: {
                         "{mediaBlockEditor}.events.onMediaUploadRequested": {
