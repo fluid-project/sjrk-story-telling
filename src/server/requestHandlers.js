@@ -111,27 +111,13 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {String} uploadedFilesHandlerPath - the path on the server to uploaded files
  */
-sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploadedFilesHandlerPath) {
+sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
 
     promise.then(function (response) {
         if (response.published) {
-            fluid.transform(response.content, function (block) {
-                if (block.blockType === "image") {
-                    if (block.imageUrl) {
-                        block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
-                    }
-                    return block;
-                } else if (block.blockType === "audio" || block.blockType === "video") {
-                    if (block.mediaUrl) {
-                        block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
-                    }
-                    return block;
-                }
-            });
 
             var responseAsJSON = JSON.stringify(response);
             request.events.onSuccess.fire(responseAsJSON);
