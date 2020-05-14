@@ -73,7 +73,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{block}.model.mediaUrl",
+                        fileObjectUrl: "{block}.model.mediaUrl",
                         fileDetails: "{block}.model.fileDetails"
                     },
                     listeners: {
@@ -83,9 +83,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     modelListeners: {
-                        "fileObjectURL": {
+                        "fileObjectUrl": {
                             func: "{videoBlockEditor}.updateMediaPlayer",
-                            args: "{that}.model.fileObjectURL",
+                            args: "{that}.model.fileObjectUrl",
                             excludeSource: "init"
                         }
                     }

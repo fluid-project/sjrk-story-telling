@@ -16,6 +16,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // the base blockUi for editing individual blocks, contains shared elements
     fluid.defaults("sjrk.storyTelling.blockUi.editor", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
+        members: {
+            // the ID of the story of which the block being edited is a part
+            storyId: ""
+        },
         selectors: {
             selectedCheckbox: ".sjrkc-st-block-selection-checkbox"
         },

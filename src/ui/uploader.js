@@ -29,9 +29,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             currentFile: null
         },
         model: {
-            fileObjectURL: null, // for file preview purposes
             fileDetails: null,
-            serverUploadURL: null // to be provided by implementing grade
+            fileObjectUrl: null, // for file preview purposes
+            serverUploadUrl: "/stories/",
+            storyId: null // to be provided by implementing grade
         },
         events: {
             onUploadRequested: null,
@@ -65,7 +66,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onUploadComplete.updateFileURL": {
                 func: "{that}.applier.change",
-                args: ["fileObjectURL", "{arguments}.0"]
+                args: ["fileObjectUrl", "{arguments}.0"]
             }
         },
         invokers: {
@@ -75,7 +76,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "uploadFileToServer": {
                 funcName: "sjrk.storyTelling.block.singleFileUploader.uploadFileToServer",
-                args: ["{arguments}.0", "{that}.model.serverUploadURL", "{that}.events.onUploadComplete", "{that}.events.onUploadError"]
+                args: [
+                    "{arguments}.0",
+                    "{that}.model.storyId",
+                    "{that}.model.serverUploadUrl",
+                    "{that}.events.onUploadComplete",
+                    "{that}.events.onUploadError"
+                ]
             }
         }
     });
@@ -97,37 +104,39 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Uploads the file to the server and sets the URL to the newly-saved
      * dynamic file name upon completion
      */
-    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, serverUploadURL, completionEvent, errorEvent) {
-        // This is the easiest way to be able to submit form
-        // content in the background via ajax
-        var formData = new FormData();
-        formData.files = {
-            file: fileToUpload
-        };
+    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, serverUploadUrl, completionEvent, errorEvent) {
+        if (fileToUpload) {
+            // This is the easiest way to be able to submit form
+            // content in the background via ajax
+            var formData = new FormData();
+            formData.append("file", fileToUpload);
 
-        $.ajax({
-            url         : serverUploadURL,
-            data        : formData,
-            cache       : false,
-            contentType : false,
-            processData : false,
-            type        : "POST",
-            success     : function (data, textStatus, jqXHR) {
-                fluid.log(jqXHR, textStatus);
+            var fileUploadUrl = serverUploadUrl + storyId;
 
-                completionEvent.fire(data);
-            },
-            error       : function (jqXHR, textStatus, errorThrown) {
-                fluid.log(jqXHR, textStatus, errorThrown);
+            $.ajax({
+                url         : fileUploadUrl,
+                data        : formData,
+                cache       : false,
+                contentType : false,
+                processData : false,
+                type        : "POST",
+                success     : function (data, textStatus, jqXHR) {
+                    fluid.log(jqXHR, textStatus);
 
-                errorEvent.fire({
-                    isError: true,
-                    message: fluid.get(jqXHR, ["responseJSON", "message"]) ||
+                    completionEvent.fire(data);
+                },
+                error       : function (jqXHR, textStatus, errorThrown) {
+                    fluid.log(jqXHR, textStatus, errorThrown);
+
+                    errorEvent.fire({
+                        isError: true,
+                        message: fluid.get(jqXHR, ["responseJSON", "message"]) ||
                         errorThrown ||
                         "Server error occurred while uploading file"
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     };
 
     /**
@@ -146,11 +155,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: currentFile.type
             };
 
-            URL.revokeObjectURL(that.model.fileObjectURL);
-            that.applier.change("fileObjectURL", URL.createObjectURL(currentFile));
+            URL.revokeObjectURL(that.model.fileObjectUrl);
+            that.applier.change("fileObjectUrl", URL.createObjectURL(currentFile));
             that.applier.change("fileDetails", fileDetails);
         } else {
-            that.applier.change("fileObjectURL", "");
+            that.applier.change("fileObjectUrl", "");
             that.applier.change("fileDetails", "");
         }
     };

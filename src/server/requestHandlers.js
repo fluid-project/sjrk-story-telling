@@ -234,39 +234,48 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
  */
 sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
-        // verify that the story exists and isn't published before continuing
-        var id = request.req.params.id;
-        var getStoryPromise = dataSource.get({directStoryId: id});
+        try {
+            // verify that the story exists and isn't published before continuing
+            var id = request.req.params.id;
+            var getStoryPromise = dataSource.get({directStoryId: id});
 
-        getStoryPromise.then(function (story) {
-            if (story && !story.published) {
+            getStoryPromise.then(function (story) {
+                if (story && !story.published) {
 
-                var rotateImagePromise;
+                    var rotateImagePromise;
 
-                // if the file exists and is an image, rotate it based on its EXIF data
-                if (request.req.file &&
-                    request.req.file.mimetype &&
-                    request.req.file.mimetype.indexOf("image") === 0) {
-                    rotateImagePromise = sjrk.storyTelling.server.rotateImageFromExif(request.req.file);
-                }
+                    // if the file exists and is an image, rotate it based on its EXIF data
+                    if (request.req.file &&
+                        request.req.file.mimetype &&
+                        request.req.file.mimetype.indexOf("image") === 0) {
+                        rotateImagePromise = sjrk.storyTelling.server.rotateImageFromExif(request.req.file);
+                    }
 
-                rotateImagePromise.then(function () {
-                    request.events.onSuccess.fire(request.req.file.filename);
-                }, function (error) {
-                    request.events.onError.fire({
-                        errorCode: error.errorCode,
-                        isError: true,
-                        message: error.message || "Unknown error in image rotation."
+                    rotateImagePromise.then(function () {
+                        var uploadedFileUrl = request.req.file.destination + "/" + request.req.file.filename;
+
+                        request.events.onSuccess.fire(uploadedFileUrl);
+                    }, function (error) {
+                        request.events.onError.fire({
+                            errorCode: error.errorCode,
+                            isError: true,
+                            message: error.message || "Unknown error in image rotation."
+                        });
                     });
+                }
+            }, function (err) {
+                request.events.onError.fire({
+                    isError: true,
+                    message: "Error retrieving story with ID: " + id,
+                    error: err
                 });
-            }
-        }, function (err) {
+            });
+        } catch (ex) {
             request.events.onError.fire({
                 isError: true,
-                message: "Error retrieving story with ID: " + id,
-                error: err
+                message: "An error occured while saving the file:" + ex
             });
-        });
+        }
     } else {
         // delete the file?
 

@@ -88,8 +88,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         fileInput: "{that}.container"
                     },
                     model: {
-                        fileObjectURL: "{block}.model.imageUrl",
-                        fileDetails: "{block}.model.fileDetails"
+                        fileObjectUrl: "{block}.model.imageUrl",
+                        fileDetails: "{block}.model.fileDetails",
+                        storyId: "{editor}.storyId"
                     },
                     listeners: {
                         "{imageBlockEditor}.events.onImageUploadRequested": {
@@ -98,9 +99,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     modelListeners: {
-                        "fileObjectURL": {
+                        "fileObjectUrl": {
                             func: "{imageBlockEditor}.updateImagePreview",
-                            args: "{that}.model.fileObjectURL",
+                            args: "{that}.model.fileObjectUrl",
                             excludeSource: "init"
                         }
                     }

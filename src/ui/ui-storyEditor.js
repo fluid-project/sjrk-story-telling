@@ -159,6 +159,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
                         "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
                     },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                members: {
+                                    storyId: "{story}.model.id"
+                                }
+                            }
+                        }
+                    },
                     listeners: {
                         "onCreate.escalate": {
                             func: "{storyEditor}.events.onBlockManagerCreated.fire",
