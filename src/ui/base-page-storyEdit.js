@@ -345,9 +345,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {String} sourceName - the name of the Infusion change source for this update
      */
     sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave = function (savedStoryData, story, blockManager, sourceName) {
-        // media block blob URLs are no longer valid/reliable after a page reload
-        sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(savedStoryData.content);
-
         story.applier.change("", savedStoryData, null, sourceName);
 
         // build the blockUIs from the story content array
@@ -379,25 +376,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 isError: true,
                 message: fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error"
             });
-        });
-    };
-
-    /**
-     * Removes the URL values of all media blocks within a collection of blocks
-     *
-     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
-     *
-     * @return {Component[]} - a collection of story blocks with nulled-out URL values
-     */
-    sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls = function (blocks) {
-        return fluid.transform(blocks, function (block) {
-            if (block.imageUrl) {
-                block.imageUrl = null;
-            } else if (block.mediaUrl) {
-                block.mediaUrl = null;
-            }
-
-            return block;
         });
     };
 
