@@ -116,22 +116,28 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
 
+    var noAccessErrorMessage = "An error occurred while retrieving the requested story";
+
     promise.then(function (response) {
         if (response.published) {
 
             var responseAsJSON = JSON.stringify(response);
             request.events.onSuccess.fire(responseAsJSON);
         } else {
+            fluid.log("Unauthorized: cannot access an unpublished story: " + id);
+
             request.events.onError.fire({
                 isError: true,
-                message: "An error occurred while retrieving the requested story"
+                message: noAccessErrorMessage
             });
         }
     }, function (error) {
         var errorAsJSON = JSON.stringify(error);
+        fluid.log("Error getting story with ID " + id + ", error detail: " + errorAsJSON);
+
         request.events.onError.fire({
             isError: true,
-            message: errorAsJSON
+            message: noAccessErrorMessage
         });
     });
 };
