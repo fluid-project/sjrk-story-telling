@@ -984,8 +984,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test autosave wiring",
                 expect: 9,
                 sequence: [{
-                    func: "{storyEdit}.storyEditor.story.applier.change",
-                    args: ["published", false]
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.resetStoryModel",
+                    args: ["{storyEdit}.storyEditor.story"]
                 },
                 {
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
@@ -1381,6 +1381,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState = function (storyAutosaveKey) {
         window.localStorage.removeItem(storyAutosaveKey);
+    };
+
+
+    /**
+     * Resets the story model state to its initial values
+     *
+     * @param {Component} story - the `sjrk.storyTelling.story` to reset
+     */
+    sjrk.storyTelling.base.page.storyEditTester.resetStoryModel = function (story) {
+        story.applier.change("", {
+            author: "",
+            content: [],
+            id: null,
+            published: false,
+            tags: [],
+            timestampCreated: "",
+            timestampLastModified: "",
+            timestampPublished: "",
+            title: ""
+        });
     };
 
     /**
