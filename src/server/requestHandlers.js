@@ -199,7 +199,11 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
     requestMiddleware: {
         saveStoryFile: {
             middleware: "{server}.saveStoryFile"
-        }
+        }//,
+        // removePreviousStoryFile: {
+        //     middleware: "{server}.removePreviousStoryFile",
+        //     priority: "after:saveStoryFile"
+        // }
     },
     invokers: {
         handleRequest: {
@@ -255,7 +259,7 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
         }, function (err) {
             request.events.onError.fire({
                 isError: true,
-                message: "Error retrieving story with ID: " + id,
+                message: "Error retrieving story with ID " + id,
                 error: err
             });
         });

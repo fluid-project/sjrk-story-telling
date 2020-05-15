@@ -61,6 +61,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     app: {
                         type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
+                    // middleware to save a block's file to the server filesystem
                     saveStoryFile: {
                         type: "sjrk.storyTelling.server.middleware.saveStoryFile",
                         options: {
@@ -72,6 +73,10 @@ fluid.defaults("sjrk.storyTelling.server", {
                                 }
                             }
                         }
+                    },
+                    // middleware to delete a block's previous file from the server filesystem
+                    removePreviousStoryFile: {
+                        type: "sjrk.storyTelling.server.middleware.removePreviousStoryFile"
                     },
                     // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {

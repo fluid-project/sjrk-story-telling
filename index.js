@@ -13,6 +13,7 @@ var fluid = require("infusion");
 var kettle = require("kettle");
 require("./src/server/staticHandlerBase");
 require("./src/server/middleware/basicAuth");
+require("./src/server/middleware/removePreviousStoryFile");
 require("./src/server/middleware/saveStoryFile");
 require("./src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("./src/server/dataSource");
