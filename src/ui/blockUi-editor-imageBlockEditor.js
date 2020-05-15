@@ -200,7 +200,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             },
                             {
                                 func: "{imageBlockEditor}.setServerResponse",
-                                args: ["{arguments}.0"],
+                                args: ["{arguments}.0.message"],
                                 namespace: "setServerResponse"
                             }
                         ]
