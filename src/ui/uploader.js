@@ -35,6 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyId: null // to be provided by implementing grade
         },
         events: {
+            onFileSelectionRequested: null,
             onUploadRequested: null,
             onUploadComplete: null,
             onUploadError: null,
@@ -51,7 +52,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 method: "change",
                 args: ["{that}.handleFileInputChange"]
             },
-            "onUploadRequested.clickHiddenFileInput": {
+            "onFileSelectionRequested.clickHiddenFileInput": {
                 this: "{that}.dom.fileInput",
                 method: "click",
                 args: []
@@ -80,6 +81,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{arguments}.0",
                     "{that}.model.storyId",
                     "{that}.model.serverUploadUrl",
+                    "{that}.events.onUploadRequested",
                     "{that}.events.onUploadComplete",
                     "{that}.events.onUploadError"
                 ]
@@ -104,7 +106,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Uploads the file to the server and sets the URL to the newly-saved
      * dynamic file name upon completion
      */
-    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, serverUploadUrl, completionEvent, errorEvent) {
+    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, serverUploadUrl, uploadingEvent, completionEvent, errorEvent) {
         if (fileToUpload) {
             // This is the easiest way to be able to submit form
             // content in the background via ajax
@@ -112,6 +114,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             formData.append("file", fileToUpload);
 
             var fileUploadUrl = serverUploadUrl + storyId;
+
+            uploadingEvent.fire();
 
             $.ajax({
                 url         : fileUploadUrl,
@@ -155,13 +159,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: currentFile.type
             };
 
-            URL.revokeObjectURL(that.model.fileObjectUrl);
-            that.applier.change("fileObjectUrl", URL.createObjectURL(currentFile));
             that.applier.change("fileDetails", fileDetails);
         } else {
-            that.applier.change("fileObjectUrl", "");
             that.applier.change("fileDetails", "");
         }
+
+        that.applier.change("fileObjectUrl", "");
     };
 
 })(jQuery, fluid);

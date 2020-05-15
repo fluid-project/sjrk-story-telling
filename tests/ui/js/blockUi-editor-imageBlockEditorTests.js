@@ -62,12 +62,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     jQueryTrigger: "click",
-                    element: "{imageBlockEditor}.dom.imageUploadButton"
+                    element: "{imageBlockEditor}.dom.mediaUploadButton"
                 },
                 {
-                    event: "{imageBlockEditor}.events.onImageUploadRequested",
+                    event: "{imageBlockEditor}.events.onMediaUploadRequested",
                     listener: "jqUnit.assert",
-                    args: ["The imageUploadButton event fired"]
+                    args: ["The mediaUploadButton event fired"]
                 }]
             }]
         }]

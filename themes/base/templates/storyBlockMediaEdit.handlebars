@@ -43,6 +43,14 @@
         {{#equals dynamicValues.blockType "video"}}
             <video class="sjrkc-st-block-media-preview sjrk-st-block-media-preview"></video>
         {{/equals}}
+
+        <div class="sjrkc-st-file-share-progress sjrk-st-file-share-progress" role="alert">
+            <div class="sjrk-st-file-share-progress-indicator" aria-describedby="sjrkc-st-file-share-progress-text"></div>
+            <span id="sjrkc-st-file-share-progress-text">{{localizedMessages.message_uploadProgressText}}</span>
+        </div>
+        <div class="sjrkc-st-file-share-response sjrk-st-file-share-response" role="alert">
+            {{localizedMessages.message_uploadResponseText}} <span class="sjrkc-st-file-share-response-text"></span>
+        </div>
     </div>
 
     <div class="sjrk-st-block-media-buttons-container">
@@ -55,7 +63,7 @@
         {{#equals dynamicValues.blockType "video"}}
             <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
         {{/equals}}
-    </div>    
+    </div>
 
     {{#getIds "storyBlockDescription"}}
         <div class="sjrk-st-block-media-description-container sjrk-st-block-label">

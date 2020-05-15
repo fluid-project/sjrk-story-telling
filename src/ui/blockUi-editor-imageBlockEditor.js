@@ -16,16 +16,94 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // an editing interface for individual image-type blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor"],
+        model: {
+            // fileUploadState can be one of the following values:
+            // "ready" (the initial state), "uploading", "errorReceived"
+            fileUploadState: "ready",
+            previewVisible: true,
+            progressAreaVisible: false,
+            responseAreaVisible: false,
+            uploadButtonDisabled: false
+        },
+        modelRelay: {
+            "fileUploadState": {
+                target: "",
+                singleTransform: {
+                    type: "fluid.transforms.valueMapper",
+                    defaultInputPath: "fileUploadState",
+                    match: {
+                        "ready": {
+                            outputValue: {
+                                previewVisible: true,
+                                progressAreaVisible: false,
+                                responseAreaVisible: false,
+                                uploadButtonDisabled: false
+                            }
+                        },
+                        "uploading": {
+                            outputValue: {
+                                previewVisible: false,
+                                progressAreaVisible: true,
+                                responseAreaVisible: false,
+                                uploadButtonDisabled: true
+                            }
+                        },
+                        "errorReceived": {
+                            outputValue: {
+                                previewVisible: true,
+                                progressAreaVisible: false,
+                                responseAreaVisible: true,
+                                uploadButtonDisabled: false
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        modelListeners: {
+            previewVisible: {
+                this: "{that}.dom.imagePreview",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "previewVisibleChange"
+            },
+            progressAreaVisible: {
+                this: "{that}.dom.progressArea",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "progressAreaVisibleChange"
+            },
+            responseAreaVisible: {
+                this: "{that}.dom.responseArea",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "responseAreaVisibleChange"
+            },
+            uploadButtonDisabled: {
+                this: "{that}.dom.imageUploadButton",
+                method: "prop",
+                args: ["disabled", "{change}.value"],
+                namespace: "uploadButtonDisabledChange"
+            }
+        },
         selectors: {
             imagePreview: ".sjrkc-st-block-media-preview",
             imageUploadButton: ".sjrkc-st-block-media-upload-button",
+            progressArea: ".sjrkc-st-file-share-progress",
+            responseArea: ".sjrkc-st-file-share-response",
+            responseText: ".sjrkc-st-file-share-response-text",
             singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
         invokers: {
-            "updateImagePreview": {
-                "this": "{that}.dom.imagePreview",
-                "method": "attr",
-                "args": ["src", "{arguments}.0"]
+            updateImagePreview: {
+                this: "{that}.dom.imagePreview",
+                method: "attr",
+                args: ["src", "{arguments}.0"]
+            },
+            setServerResponse: {
+                this: "{that}.dom.responseText",
+                method: "text",
+                args: ["{arguments}.0"]
             }
         },
         events: {
@@ -94,9 +172,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     listeners: {
                         "{imageBlockEditor}.events.onImageUploadRequested": {
-                            func: "{that}.events.onUploadRequested.fire",
-                            namespace: "fireUploadForImageUpload"
-                        }
+                            func: "{that}.events.onFileSelectionRequested.fire",
+                            namespace: "fireSelectionForImageUpload"
+                        },
+                        "onUploadRequested": {
+                            func: "{imageBlockEditor}.applier.change",
+                            args: ["fileUploadState", "uploading"],
+                            namespace: "setStateUploading"
+                        },
+                        "onUploadComplete": [
+                            {
+                                func: "{imageBlockEditor}.applier.change",
+                                args: ["fileUploadState", "ready"],
+                                namespace: "setStateReady"
+                            },
+                            {
+                                func: "{imageBlockEditor}.setServerResponse",
+                                args: [""],
+                                namespace: "clearServerResponse"
+                            }
+                        ],
+                        "onUploadError": [
+                            {
+                                func: "{imageBlockEditor}.applier.change",
+                                args: ["fileUploadState", "errorReceived"],
+                                namespace: "setStateErrorReceived"
+                            },
+                            {
+                                func: "{imageBlockEditor}.setServerResponse",
+                                args: ["{arguments}.0"],
+                                namespace: "setServerResponse"
+                            }
+                        ]
                     },
                     modelListeners: {
                         "fileObjectUrl": {
