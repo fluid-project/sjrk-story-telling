@@ -98,7 +98,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onStorySaveToServerRequested: null,
             onStorySaveToServerComplete: null,
             onStorySaveToServerError: null,
             onStoryPublishRequested: "{storyPreviewer}.events.onShareRequested",
@@ -124,7 +123,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [true],
                 namespace: "showEditorHidePreviewer"
             },
-            "onStorySaveToServerRequested.saveStoryToServer": "{that}.saveStoryToServer",
             "onStoryPublishRequested.publishStory": "{that}.publishStory",
             "onCreate.setAuthoringEnabledClass": {
                 func: "{that}.setAuthoringEnabledClass"
