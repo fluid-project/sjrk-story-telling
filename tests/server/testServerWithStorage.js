@@ -749,7 +749,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
             completionEvent.fire(parsedData.content[0][fileOptions.urlProp]);
         }
     } else {
-        jqUnit.assert("Saved story data does not exist");
+        jqUnit.assertEquals("Story error message is as expected", "An error occurred while retrieving the requested story", parsedData.message);
 
         if (fileOptions) {
             jqUnit.assert("Uploaded file does not exist");
@@ -772,7 +772,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails = functio
     var parsedData = JSON.parse(data);
 
     if (authoringEnabled) {
-        jqUnit.assertEquals("Story request produced an error as expected", true, parsedData.isError);
+        jqUnit.assertEquals("Story error message is as expected", "An error occurred while retrieving the requested story", parsedData.message);
 
         if (completionEvent) {
             completionEvent.fire(parsedData);

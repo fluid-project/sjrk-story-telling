@@ -181,13 +181,7 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
-    var id = "";
-
-    if (storyModel && storyModel.id) {
-        id = storyModel.id;
-    } else {
-        id = uuidv4();
-    }
+    var id = storyModel && storyModel.id ? storyModel.id : uuidv4();
 
     dataSource.set({directStoryId: id}, storyModel).then(function (response) {
         successEvent.fire(JSON.stringify(response));
@@ -202,7 +196,6 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel,
 // Kettle request handler for saving a single file associated with a pre-existing story
 fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
     gradeNames: "kettle.request.http",
-    // a DataSource to save a single story along with any files it has
     requestMiddleware: {
         saveStoryFile: {
             middleware: "{server}.saveStoryFile"
@@ -218,19 +211,24 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
 
 /**
  * Saves a single file to the server filesystem and responds to the HTTP request.
- * If authoring is not enabled, the request raises an error.
+ * If the file is an image,
+ * Errors will be raised in the following situations:
+ * - Authoring is not enabled
+ * - An error is encountered while trying to get the story (invalid ID, DB offline, etc.)
+ * - The story that the file is associated with is already published
+ * - The provided file is not valid
+ * - An error is encountered while rotating an image to its correct orientation
  *
- * @param {Object} request - a Kettle request with data and files associated with a single story
+ * @param {Object} request - a Kettle request containing a single file associated with a story
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
 sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
-        // verify that the story exists and isn't published before continuing
         var id = request.req.params.id;
-        var getStoryPromise = dataSource.get({directStoryId: id});
 
-        getStoryPromise.then(function (story) {
+        // verify that the story exists and isn't published before continuing
+        dataSource.get({directStoryId: id}).then(function (story) {
             if (story && !story.published && request.req.file) {
                 // if the file is an image, rotate it based on its EXIF data
                 if (request.req.file.mimetype &&
@@ -262,8 +260,6 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
             });
         });
     } else {
-        // delete the file?
-
         request.events.onError.fire({
             isError: true,
             message: "Saving is currently disabled."

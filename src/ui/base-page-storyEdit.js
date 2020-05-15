@@ -131,24 +131,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         invokers: {
+            // Sets the visibility of page elements depending on authoringEnabled
             setAuthoringEnabledClass: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.showEditPageContainer",
                 args: ["{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled"]
             },
+            // Shows the editor and hides the previewer if true, vice versa if false
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
                 args: ["editorVisible", "{arguments}.0"]
             },
+            // Clears the localStorage autosave (does not remove story from database)
             clearAutosave: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
                 args: ["{that}.options.pageSetup.storyAutosaveKey"]
             },
+            // Loads a from localStorage if present, otherwise creates a new one
             initializeStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
                 args: ["{that}.options.pageSetup.storyAutosaveKey", "{that}"]
             },
-            loadStoryFromAutosave: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
+            // Loads the story content into the Editor
+            loadStoryContent: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryContent",
                 args: [
                     "{arguments}.0", // the saved story model data
                     "{storyEditor}.story",
@@ -156,6 +161,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.options.pageSetup.storyAutoloadSourceName"
                 ]
             },
+            // Saves a new story to the server
             saveNewStoryToServer: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.saveNewStoryToServer",
                 args: [
@@ -166,6 +172,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.events.onStorySaveToServerError"
                 ]
             },
+            // Saves the current story to the server
             saveStoryToServer: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToServer",
                 args: [
@@ -174,6 +181,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.events.onStorySaveToServerComplete"
                 ]
             },
+            // Publishes the story
             publishStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.publishStory",
                 args: [
@@ -184,6 +192,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.events.onStoryPublishError"
                 ]
             },
+            // Redirects the user to the given story
             redirectToViewStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.redirectToViewStory",
                 args: ["{arguments}.0", "{arguments}.1"]
@@ -326,7 +335,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
             if (savedStoryData) {
                 // a story was loaded from autosave, update the current story
-                storyEdit.loadStoryFromAutosave(savedStoryData);
+                storyEdit.loadStoryContent(savedStoryData);
             } else {
                 // there's no autosaved story, create a new unpublished story
                 storyEdit.saveNewStoryToServer();
@@ -344,7 +353,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {Component} blockManager - the storyEditor's blockManager component
      * @param {String} sourceName - the name of the Infusion change source for this update
      */
-    sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave = function (savedStoryData, story, blockManager, sourceName) {
+    sjrk.storyTelling.base.page.storyEdit.loadStoryContent = function (savedStoryData, story, blockManager, sourceName) {
         story.applier.change("", savedStoryData, null, sourceName);
 
         // build the blockUIs from the story content array
@@ -369,7 +378,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // store the ID on the story model for later use
             story.applier.change(storyIdPath, successResponse.id, null, sourceName);
         }, function (jqXHR, textStatus, errorThrown) {
-            fluid.log(fluid.logLevel.WARN, "Something went wrong");
+            fluid.log(fluid.logLevel.WARN, "Error saving a new story to server:");
             fluid.log(jqXHR, textStatus, errorThrown);
 
             errorEvent.fire({
