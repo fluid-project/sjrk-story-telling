@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 "use strict";
 
@@ -41,7 +41,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             timestampCreated: "",
             timestampLastModified: "",
             timestampPublished: ""
+        },
+        invokers: {
+            "updateLastModified": {
+                funcName: "sjrk.storyTelling.story.updateLastModified",
+                args: "{that}"
+            }
+        },
+        modelListeners: {
+            "": {
+                func: "{that}.updateLastModified",
+                excludeSource: "init",
+                namespace: "updateLastModified"
+            }
         }
     });
+
+    /**
+     * Updates timestampLastModified with the current date and time
+     *
+     * @param {Component} storyComponent - an instance of `sjrk.storyTelling.story`
+     */
+    sjrk.storyTelling.story.updateLastModified = function (storyComponent) {
+        storyComponent.applier.change("timestampLastModified", new Date().toISOString());
+    };
 
 })(jQuery, fluid);
