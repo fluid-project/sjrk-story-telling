@@ -30,7 +30,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         model: {
             fileDetails: null,
-            fileObjectUrl: null, // for file preview purposes
+            fileObjectUrl: null, // for the file preview
+            previousFileObjectUrl: null, // for file deletion on change/upload
             serverUploadUrl: "/stories/",
             storyId: null // to be provided by implementing grade
         },
@@ -63,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onFileChanged.uploadFileToServer": {
                 func: "{that}.uploadFileToServer",
-                args: ["{that}.currentFile"]
+                args: ["{that}.currentFile", "{that}.model.previousFileObjectUrl"]
             },
             "onUploadComplete.updateFileURL": {
                 func: "{that}.applier.change",
@@ -107,12 +108,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Uploads the file to the server and sets the URL to the newly-saved
      * dynamic file name upon completion
      */
-    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, previousFile, serverUploadUrl, uploadingEvent, completionEvent, errorEvent) {
+    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, previousFileUrl, serverUploadUrl, uploadingEvent, completionEvent, errorEvent) {
         if (fileToUpload) {
             // This is the easiest way to be able to submit form
             // content in the background via ajax
             var formData = new FormData();
             formData.append("file", fileToUpload);
+
+            if (previousFileUrl) {
+                formData.append("previousFileUrl", previousFileUrl);
+            }
 
             var fileUploadUrl = serverUploadUrl + storyId;
 
@@ -165,6 +170,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             that.applier.change("fileDetails", "");
         }
 
+        that.applier.change("previousFileObjectUrl", that.model.fileObjectUrl);
         that.applier.change("fileObjectUrl", "");
     };
 

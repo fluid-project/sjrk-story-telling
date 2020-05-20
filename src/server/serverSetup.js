@@ -76,7 +76,10 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     // middleware to delete a block's previous file from the server filesystem
                     removePreviousStoryFile: {
-                        type: "sjrk.storyTelling.server.middleware.removePreviousStoryFile"
+                        type: "sjrk.storyTelling.server.middleware.removePreviousStoryFile",
+                        options: {
+                            uploadedFilesDirectory: "{server}.options.secureConfig.binaryUploadDirectory"
+                        }
                     },
                     // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {
