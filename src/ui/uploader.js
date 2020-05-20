@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             "onFileChanged.uploadFileToServer": {
                 func: "{that}.uploadFileToServer",
-                args: ["{that}.currentFile", "{change}.oldValue"]
+                args: ["{that}.currentFile"]
             },
             "onUploadComplete.updateFileURL": {
                 func: "{that}.applier.change",

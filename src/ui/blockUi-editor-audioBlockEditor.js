@@ -16,6 +16,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // an editing interface for individual audio-type blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.audioBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor.mediaBlockEditor"],
+        selectors: {
+            previewPlaceholder: ".sjrkc-st-block-audio-preview-placeholder"
+        },
+        modelListeners: {
+            previewVisible: {
+                this: "{that}.dom.previewPlaceholder",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "placeholderVisibleChange"
+            }
+        },
         components: {
             // the block itself
             block: {
