@@ -45,14 +45,7 @@ var testStoryModelPrePublish = {
             "blockType": "image",
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
-            "description": "The Fluid Project logo",
-            "fileDetails": {
-                "lastModified": 1524592510016,
-                "lastModifiedDate": "2018-04-24T17:55:10.016Z",
-                "name": "logo_small_fluid_vertical.png",
-                "size": 3719,
-                "type": "image/png"
-            }
+            "description": "The Fluid Project logo"
         },
         {
             "id": null,
@@ -82,14 +75,7 @@ var testStoryModelPostPublish = {
             "blockType": "image",
             "imageUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
-            "description": "The Fluid Project logo",
-            "fileDetails": {
-                "lastModified": 1524592510016,
-                "lastModifiedDate": "2018-04-24T17:55:10.016Z",
-                "name": "logo_small_fluid_vertical.png",
-                "size": 3719,
-                "type": "image/png"
-            }
+            "description": "The Fluid Project logo"
         },
         {
             "id": null,
@@ -151,8 +137,7 @@ var blankStoryWithEmptyMediaBlocks = {
             "blockType": "image",
             "imageUrl": null,
             "alternativeText": null,
-            "description": null,
-            "fileDetails": null
+            "description": null
         },
         {
             "id": null,
@@ -161,8 +146,7 @@ var blankStoryWithEmptyMediaBlocks = {
             "mediaUrl": null,
             "alternativeText": null,
             "description": null,
-            "blockType": "audio",
-            "fileDetails": null
+            "blockType": "audio"
         },
         {
             "id": null,
@@ -171,8 +155,7 @@ var blankStoryWithEmptyMediaBlocks = {
             "mediaUrl": null,
             "alternativeText": null,
             "description": null,
-            "blockType": "video",
-            "fileDetails": null
+            "blockType": "video"
         }
     ],
     "author": "",
@@ -190,22 +173,12 @@ var testStoryWithImages = {
         {
             "blockType": "image",
             "imageUrl": "incorrectOrientation.jpeg",
-            "description": "A photo of a cup that starts out with incorrect orientation",
-            "fileDetails": {
-                "name": "incorrectOrientation.jpeg",
-                "size": 1143772,
-                "type": "image/jpeg"
-            }
+            "description": "A photo of a cup that starts out with incorrect orientation"
         },
         {
             "blockType": "image",
             "imageUrl": "correctOrientation.jpg",
-            "description": "A photo of a virtual room that has the correct orientation already",
-            "fileDetails": {
-                "name": "correctOrientation.jpg",
-                "size": 1064578,
-                "type": "image/jpeg"
-            }
+            "description": "A photo of a virtual room that has the correct orientation already"
         }
     ],
     "author": "Gregor Moss",
@@ -396,7 +369,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         // on the client side, the block would receive the updated filename, but we have to mock this step
         event: "{singleFileSave}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename",
-        args: [testStoryModelPostPublish, "{singleFileSave}", "{arguments}.0", "{that}.events.onBlockUpdatedWithUploadedFilename"]
+        args: [testStoryModelPostPublish, "{arguments}.0", "{that}.events.onBlockUpdatedWithUploadedFilename"]
     },
     {
         // publishes the updated story so it can be retrieved from the server
@@ -682,22 +655,11 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccess
  * with the given dynamically-created filename
  *
  * @param {Object} testStory - the test story that is to be updated
- * @param {Component} request - an instance of kettle.test.request.formData
  * @param {String} uploadedFilename - the filename of the uploaded file
  * @param {Object} completionEvent - an event to fire on test completion
 */
-sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename = function (testStory, request, uploadedFilename, completionEvent) {
-    var originalFilename = path.basename(request.options.termMap.originalFilepath);
-
-    // Look for the block that matches the original file name
-    var mediaBlock = fluid.find_if(testStory.content, function (block) {
-        return block.fileDetails.name === originalFilename;
-    });
-
-    // If we find a match, update the media URL. If not, clear it.
-    if (mediaBlock) {
-        sjrk.storyTelling.server.setMediaBlockUrl(mediaBlock, uploadedFilename);
-    }
+sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename = function (testStory, uploadedFilename, completionEvent) {
+    sjrk.storyTelling.server.setMediaBlockUrl(testStory.content[0], uploadedFilename);
 
     completionEvent.fire(testStory);
 };

@@ -29,7 +29,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             currentFile: null
         },
         model: {
-            fileDetails: null,
             fileObjectUrl: null, // for the file preview
             previousFileObjectUrl: null, // for file deletion on change/upload
             serverUploadUrl: "/stories/",
@@ -58,9 +57,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 method: "click",
                 args: []
             },
-            "onFileChanged.updateFileObjectInformation": {
+            "onFileChanged.clearFileUrl": {
                 func: "sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation",
-                args: ["{that}", "{that}.currentFile"]
+                args: ["{that}"]
             },
             "onFileChanged.uploadFileToServer": {
                 func: "{that}.uploadFileToServer",
@@ -153,23 +152,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Given a file, updates the file's metadata as held on the uploader's model
      *
      * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
-     * @param {Object} currentFile - the file whose details are being updated
      */
-    sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that, currentFile) {
-        if (currentFile) {
-            var fileDetails = {
-                lastModified: currentFile.lastModified,
-                lastModifiedDate: currentFile.lastModifiedDate,
-                name: currentFile.name,
-                size: currentFile.size,
-                type: currentFile.type
-            };
-
-            that.applier.change("fileDetails", fileDetails);
-        } else {
-            that.applier.change("fileDetails", "");
-        }
-
+    sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that) {
         that.applier.change("previousFileObjectUrl", that.model.fileObjectUrl);
         that.applier.change("fileObjectUrl", "");
     };

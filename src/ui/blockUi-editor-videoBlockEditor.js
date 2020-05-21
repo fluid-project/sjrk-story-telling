@@ -23,7 +23,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: {
                         // mediaUrl: relayed from uploader
-                        // fileDetails: relayed from uploader
                     }
                 }
             }

@@ -131,7 +131,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: {
                         // imageURL: relayed from uploader
-                        // fileDetails: relayed from uploader
                     }
                 }
             },
@@ -167,7 +166,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     model: {
                         fileObjectUrl: "{block}.model.imageUrl",
-                        fileDetails: "{block}.model.fileDetails",
                         storyId: "{editor}.storyId"
                     },
                     listeners: {

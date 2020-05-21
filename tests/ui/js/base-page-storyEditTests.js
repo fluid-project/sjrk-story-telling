@@ -130,22 +130,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "blockType": "image",
                 "imageUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
-                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots",
-                "fileDetails": {
-                    "name": "Rootbeer and Shyguy.jpeg",
-                    "size": 1,
-                    "type": "image/jpeg"
-                }
+                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots"
             },
             {
                 "blockType": "video",
                 "imageUrl": "Feeding Time.mp4",
-                "description": "A video of two cats eagerly awaiting delicious food",
-                "fileDetails": {
-                    "name": "Feeding Time.mp4",
-                    "size": 2,
-                    "type": "video/mp4"
-                }
+                "description": "A video of two cats eagerly awaiting delicious food"
             }
         ],
         "tags": ["cute", "cats"],
@@ -165,22 +155,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "blockType": "image",
                 "imageUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
-                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots",
-                "fileDetails": {
-                    "name": "Rootbeer and Shyguy.jpeg",
-                    "size": 1,
-                    "type": "image/jpeg"
-                }
+                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots"
             },
             {
                 "blockType": "video",
                 "imageUrl": "Feeding Time.mp4",
-                "description": "A video of two cats eagerly awaiting delicious food",
-                "fileDetails": {
-                    "name": "Feeding Time.mp4",
-                    "size": 2,
-                    "type": "video/mp4"
-                }
+                "description": "A video of two cats eagerly awaiting delicious food"
             }
         ],
         "tags": ["cute", "cats"],
