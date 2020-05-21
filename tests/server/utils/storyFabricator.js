@@ -35,7 +35,7 @@ var storyTemplate = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            "imageUrl": "logo_small_fluid_vertical.png",
+            "mediaUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "%imageCaption"
         },

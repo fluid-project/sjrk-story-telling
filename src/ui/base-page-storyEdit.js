@@ -201,11 +201,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
          * one of the fields listed in its corresponding array is truthy.
          *
          * E.g. for an image block, even if heading, altText and description
-         * are truthy, if the imageUrl isn't provided then the block is empty.
+         * are truthy, if the mediaUrl isn't provided then the block is empty.
          */
         blockFields: {
             "text": ["heading", "text"],
-            "image": ["imageUrl"],
+            "image": ["mediaUrl"],
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]
         },

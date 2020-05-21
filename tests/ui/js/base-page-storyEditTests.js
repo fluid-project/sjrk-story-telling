@@ -128,13 +128,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         "content": [
             {
                 "blockType": "image",
-                "imageUrl": "Rootbeer and Shyguy.jpeg",
+                "mediaUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
                 "altText": "Two brown/grey Mackerel Tabbies with Bengal spots"
             },
             {
                 "blockType": "video",
-                "imageUrl": "Feeding Time.mp4",
+                "mediaUrl": "Feeding Time.mp4",
                 "description": "A video of two cats eagerly awaiting delicious food"
             }
         ],
@@ -153,13 +153,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         "content": [
             {
                 "blockType": "image",
-                "imageUrl": "Rootbeer and Shyguy.jpeg",
+                "mediaUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
                 "altText": "Two brown/grey Mackerel Tabbies with Bengal spots"
             },
             {
                 "blockType": "video",
-                "imageUrl": "Feeding Time.mp4",
+                "mediaUrl": "Feeding Time.mp4",
                 "description": "A video of two cats eagerly awaiting delicious food"
             }
         ],
@@ -390,10 +390,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 priority: "after:changeDescriptionAndConfirmNoChange"
             },
-            changeImageUrlAndWaitToVerify: {
+            changeMediaUrlAndWaitToVerify: {
                 gradeNames: "sjrk.storyTelling.base.page.storyEditTester.changeValueAndWaitToVerify",
                 options: {
-                    field: "imageUrl",
+                    field: "mediaUrl",
                     value: "notarealcatphotosadly.jpg"
                 },
                 priority: "after:changeAlternativeTextAndConfirmNoChange"
@@ -786,7 +786,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["Story model block imageUrl is as expected", "notarealcatphotosadly.jpg", "{storyEdit}.storyPreviewer.story.model.content.0.imageUrl"]
+                    args: ["Story model block mediaUrl is as expected", "notarealcatphotosadly.jpg", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
                 }]
             },
             {
@@ -807,7 +807,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["Story model block imageUrl is as expected", "notarealmeowrecordingsadly.wav", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
+                    args: ["Story model block mediaUrl is as expected", "notarealmeowrecordingsadly.wav", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
                 }]
             },
             {
@@ -828,7 +828,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "jqUnit.assertEquals",
-                    args: ["Story model block imageUrl is as expected", "notarealvideosadly.mp4", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
+                    args: ["Story model block mediaUrl is as expected", "notarealvideosadly.mp4", "{storyEdit}.storyPreviewer.story.model.content.0.mediaUrl"]
                 }]
             }]
         },
@@ -1162,7 +1162,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 heading: "",
                 alternativeText: "",
                 description: "",
-                imageUrl: ""
+                mediaUrl: ""
             }
         },
         "blockIsImageBlockHeadingOnly": { expectedEmpty: true,
@@ -1171,7 +1171,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 heading: "An actual heading",
                 alternativeText: "",
                 description: "",
-                imageUrl: ""
+                mediaUrl: ""
             }
         },
         "blockIsImageBlockAltTextOnly": { expectedEmpty: true,
@@ -1180,7 +1180,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 heading: "",
                 alternativeText: "Some alternative text",
                 description: "",
-                imageUrl: ""
+                mediaUrl: ""
             }
         },
         "blockIsImageBlockDescriptionOnly": { expectedEmpty: true,
@@ -1189,16 +1189,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 heading: "",
                 alternativeText: "",
                 description: "A real description",
-                imageUrl: ""
+                mediaUrl: ""
             }
         },
-        "blockIsImageBlockImageUrlOnly": { expectedEmpty: false,
+        "blockIsImageBlockMediaUrlOnly": { expectedEmpty: false,
             block: {
                 blockType: "image",
                 heading: "",
                 alternativeText: "",
                 description: "",
-                imageUrl: "Not really a URL"
+                mediaUrl: "Not really a URL"
             }
         },
         "blockIsAudioBlockEmptyContent": { expectedEmpty: true,

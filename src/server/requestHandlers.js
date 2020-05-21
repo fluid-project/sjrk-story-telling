@@ -318,20 +318,6 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
     return togo;
 };
 
-/**
- * Sets the "URL" field of a media block (image, audio, video) to the given URL
- *
- * @param {Component} block - the sjrk.storyTelling.block to update
- * @param {String} url - the URL to the block's media file
- */
-sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
-    if (block.blockType === "image") {
-        block.imageUrl = url;
-    } else if (block.blockType === "audio" || block.blockType === "video") {
-        block.mediaUrl = url;
-    }
-};
-
 // Kettle request handler for deleting a single story and its files
 fluid.defaults("sjrk.storyTelling.server.deleteStoryHandler", {
     gradeNames: "kettle.request.http",
@@ -449,18 +435,10 @@ sjrk.storyTelling.server.deleteStoryFiles = function (deleteStoryHandler, storyC
     var filesToDelete = [];
 
     fluid.each(storyContent, function (block) {
-        var blockFileName = "";
-
-        if (block.blockType === "image") {
-            blockFileName = block.imageUrl;
-        } else if (block.blockType === "audio" || block.blockType === "video") {
-            blockFileName = block.mediaUrl;
-        }
-
-        if (sjrk.storyTelling.server.isValidMediaFilename(blockFileName)) {
-            filesToDelete.push(blockFileName);
+        if (sjrk.storyTelling.server.isValidMediaFilename(block.mediaUrl)) {
+            filesToDelete.push(block.mediaUrl);
         } else {
-            fluid.log("Invalid filename:", blockFileName);
+            fluid.log("Invalid filename:", block.mediaUrl);
         }
     });
 

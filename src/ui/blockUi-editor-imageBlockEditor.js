@@ -15,76 +15,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     // an editing interface for individual image-type blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.blockUi.editor"],
-        model: {
-            previewVisible: true,
-            progressAreaVisible: false,
-            responseAreaVisible: false,
-            uploadButtonDisabled: false
-        },
-        modelListeners: {
-            previewVisible: {
-                this: "{that}.dom.imagePreview",
-                method: "toggle",
-                args: ["{change}.value"],
-                namespace: "previewVisibleChange"
-            },
-            progressAreaVisible: {
-                this: "{that}.dom.progressArea",
-                method: "toggle",
-                args: ["{change}.value"],
-                namespace: "progressAreaVisibleChange"
-            },
-            responseAreaVisible: {
-                this: "{that}.dom.responseArea",
-                method: "toggle",
-                args: ["{change}.value"],
-                namespace: "responseAreaVisibleChange"
-            },
-            uploadButtonDisabled: {
-                this: "{that}.dom.imageUploadButton",
-                method: "prop",
-                args: ["disabled", "{change}.value"],
-                namespace: "uploadButtonDisabledChange"
+        gradeNames: ["sjrk.storyTelling.blockUi.editor.withFileUploader"],
+        listeners: {
+            "{templateManager}.events.onTemplateRendered": {
+                func: "{that}.updateMediaPreview",
+                args: ["{that}.block.model.mediaUrl"],
+                namespace: "updateMediaPreviewUrl"
             }
-        },
-        selectors: {
-            imagePreview: ".sjrkc-st-block-media-preview",
-            imageUploadButton: ".sjrkc-st-block-media-upload-button",
-            progressArea: ".sjrkc-st-file-share-progress",
-            responseArea: ".sjrkc-st-file-share-response",
-            responseText: ".sjrkc-st-file-share-response-text",
-            singleFileUploader: ".sjrkc-st-block-uploader-input"
         },
         invokers: {
-            updateImagePreview: {
-                this: "{that}.dom.imagePreview",
+            updateMediaPreview: {
+                this: "{that}.dom.mediaPreview",
                 method: "attr",
                 args: ["src", "{arguments}.0"]
-            },
-            setServerResponse: {
-                this: "{that}.dom.responseText",
-                method: "text",
-                args: ["{arguments}.0"]
             }
-        },
-        events: {
-            onImageUploadRequested: null
-        },
-        listeners: {
-            "{templateManager}.events.onTemplateRendered": [
-                {
-                    this: "{that}.dom.imageUploadButton",
-                    method: "click",
-                    args: ["{that}.events.onImageUploadRequested.fire"],
-                    namespace: "bindOnImageUploadRequested"
-                },
-                {
-                    func: "{blockUi}.updateImagePreview",
-                    args: ["{that}.block.model.imageUrl"],
-                    namespace: "updateImagePreview"
-                }
-            ]
         },
         components: {
             // the block itself
@@ -92,7 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 type: "sjrk.storyTelling.block.imageBlock",
                 options: {
                     model: {
-                        // imageURL: relayed from uploader
+                        // mediaUrl: relayed from uploader
                     }
                 }
             },
@@ -114,79 +58,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     bindings: {
                         imageAltText: "alternativeText",
                         imageDescription: "description"
-                    }
-                }
-            },
-            // handles previewing and uploading a single image for storage
-            singleFileUploader: {
-                type: "sjrk.storyTelling.block.singleFileUploader",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{imageBlockEditor}.dom.singleFileUploader",
-                options: {
-                    modelRelay: {
-                        "uploadState": {
-                            target: "{imageBlockEditor}.model",
-                            singleTransform: {
-                                type: "fluid.transforms.valueMapper",
-                                defaultInputPath: "uploadState",
-                                match: {
-                                    "ready": {
-                                        outputValue: {
-                                            previewVisible: true,
-                                            progressAreaVisible: false,
-                                            responseAreaVisible: false,
-                                            uploadButtonDisabled: false
-                                        }
-                                    },
-                                    "uploading": {
-                                        outputValue: {
-                                            previewVisible: false,
-                                            progressAreaVisible: true,
-                                            responseAreaVisible: false,
-                                            uploadButtonDisabled: true
-                                        }
-                                    },
-                                    "errorReceived": {
-                                        outputValue: {
-                                            previewVisible: true,
-                                            progressAreaVisible: false,
-                                            responseAreaVisible: true,
-                                            uploadButtonDisabled: false
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    selectors: {
-                        fileInput: "{that}.container"
-                    },
-                    model: {
-                        fileObjectUrl: "{block}.model.imageUrl",
-                        storyId: "{editor}.storyId"
-                    },
-                    listeners: {
-                        "{imageBlockEditor}.events.onImageUploadRequested": {
-                            func: "{that}.events.onFileSelectionRequested.fire",
-                            namespace: "fireSelectionForImageUpload"
-                        },
-                        "onUploadComplete": {
-                            func: "{imageBlockEditor}.setServerResponse",
-                            args: [""],
-                            namespace: "clearServerResponse"
-                        },
-                        "onUploadError": {
-                            func: "{imageBlockEditor}.setServerResponse",
-                            args: ["{arguments}.0.message"],
-                            namespace: "setServerResponse"
-                        }
-                    },
-                    modelListeners: {
-                        "fileObjectUrl": {
-                            func: "{imageBlockEditor}.updateImagePreview",
-                            args: "{that}.model.fileObjectUrl",
-                            excludeSource: "init"
-                        }
                     }
                 }
             }

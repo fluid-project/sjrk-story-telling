@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.timeBased", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         selectors: {
-            mediaPlayer: ".sjrkc-st-block-media-preview"
+            mediaPreview: ".sjrkc-st-block-media-preview"
         },
         events: {
             onTemplateReady: "{that}.templateManager.events.onTemplateRendered",
@@ -28,9 +28,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onMediaEnded: null
         },
         invokers: {
-            updateMediaPlayer: {
-                "funcName": "sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer",
-                "args": ["{that}.dom.mediaPlayer", "{arguments}.0"]
+            updateMediaPreview: {
+                "funcName": "sjrk.storyTelling.blockUi.timeBased.updateMediaPreview",
+                "args": ["{that}.dom.mediaPreview", "{arguments}.0"]
             },
             stopMediaPlayer: {
                 func: "{that}.events.onMediaPlayerStop.fire",
@@ -38,41 +38,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             playMediaPlayer: {
                 "funcName": "sjrk.storyTelling.blockUi.timeBased.playMediaPlayer",
-                "args": ["{that}.dom.mediaPlayer"]
+                "args": ["{that}.dom.mediaPreview"]
             }
         },
         listeners: {
-            "onTemplateReady.updateMediaPlayerUrl": {
-                func: "{that}.updateMediaPlayer",
+            "onTemplateReady.updateMediaPreviewUrl": {
+                func: "{that}.updateMediaPreview",
                 args: ["{that}.block.model.mediaUrl"]
             },
             "onTemplateReady.bindOnMediaReady": {
-                "this": "{that}.dom.mediaPlayer.0",
+                "this": "{that}.dom.mediaPreview.0",
                 method: "addEventListener",
                 args: ["canplay", "{that}.events.onMediaReady.fire"]
             },
             "onTemplateReady.bindOnMediaDurationChange": {
-                "this": "{that}.dom.mediaPlayer.0",
+                "this": "{that}.dom.mediaPreview.0",
                 method: "addEventListener",
                 args: ["durationchange", "{that}.events.onMediaDurationChange.fire"]
             },
             "onTemplateReady.bindOnMediaEnded": {
-                "this": "{that}.dom.mediaPlayer.0",
+                "this": "{that}.dom.mediaPreview.0",
                 method: "addEventListener",
                 args: ["ended", "{that}.events.onMediaEnded.fire"]
             },
             "onTemplateReady.bindOnMediaPlay": {
-                "this": "{that}.dom.mediaPlayer.0",
+                "this": "{that}.dom.mediaPreview.0",
                 method: "addEventListener",
                 args: ["play", "{that}.events.onMediaPlay.fire"]
             },
             "onMediaPlayerStop.pauseMediaPlayer": {
-                "this": "{that}.dom.mediaPlayer.0",
+                "this": "{that}.dom.mediaPreview.0",
                 method: "pause"
             },
             "onMediaPlayerStop.resetMediaPlayerTime": {
                 funcName: "sjrk.storyTelling.blockUi.timeBased.resetMediaPlayerTime",
-                args: ["{that}.dom.mediaPlayer.0"],
+                args: ["{that}.dom.mediaPreview.0"],
                 priority: "after:pauseMediaPlayer"
             }
         },
@@ -88,7 +88,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {jQuery} mediaPlayer - the jQueryable containing the HTML video or audio element
      * @param {String} mediaUrl - the URL of the media source file
      */
-    sjrk.storyTelling.blockUi.timeBased.updateMediaPlayer = function (mediaPlayer, mediaUrl) {
+    sjrk.storyTelling.blockUi.timeBased.updateMediaPreview = function (mediaPlayer, mediaUrl) {
         mediaPlayer.prop("controls", !!mediaUrl);
         mediaPlayer.attr("src", mediaUrl);
         mediaPlayer[0].load();

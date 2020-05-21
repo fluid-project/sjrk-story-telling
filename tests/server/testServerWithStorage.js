@@ -43,7 +43,7 @@ var testStoryModelPrePublish = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            "imageUrl": "logo_small_fluid_vertical.png",
+            "mediaUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "The Fluid Project logo"
         },
@@ -73,7 +73,7 @@ var testStoryModelPostPublish = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            "imageUrl": "logo_small_fluid_vertical.png",
+            "mediaUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
             "description": "The Fluid Project logo"
         },
@@ -135,7 +135,7 @@ var blankStoryWithEmptyMediaBlocks = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            "imageUrl": null,
+            "mediaUrl": null,
             "alternativeText": null,
             "description": null
         },
@@ -172,12 +172,12 @@ var testStoryWithImages = {
     "content": [
         {
             "blockType": "image",
-            "imageUrl": "incorrectOrientation.jpeg",
+            "mediaUrl": "incorrectOrientation.jpeg",
             "description": "A photo of a cup that starts out with incorrect orientation"
         },
         {
             "blockType": "image",
-            "imageUrl": "correctOrientation.jpg",
+            "mediaUrl": "correctOrientation.jpg",
             "description": "A photo of a virtual room that has the correct orientation already"
         }
     ],
@@ -193,7 +193,7 @@ var testStoryWithImages = {
 // server definitions to test file and database operations on the server
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 95,
+    expect: 89,
     events: {
         // Receives no arguments
         "onBlockUpdatedWithUploadedFilename": null,
@@ -394,7 +394,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             "{arguments}.0",
             testStoryModelPostPublish,
             {
-                urlProp: "imageUrl",
                 expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
                 expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
             },
@@ -535,12 +534,12 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     // Verify image with incorrect orientation was rotated after uploading
     {
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload",
-        args: [testStoryWithImages.content[0].imageUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
+        args: [testStoryWithImages.content[0].mediaUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
     },
     {
         event: "{that}.events.onMockUploadComplete",
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload",
-        args: [testStoryWithImages.content[1].imageUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
+        args: [testStoryWithImages.content[1].mediaUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
     },
     {
         event: "{that}.events.onMockUploadComplete",
@@ -573,9 +572,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
     // Unit tests for individual functions
-    {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests"
-    },
     {
         task: "sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests",
         resolve: "jqUnit.assert",
@@ -659,8 +655,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccess
  * @param {Object} completionEvent - an event to fire on test completion
 */
 sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename = function (testStory, uploadedFilename, completionEvent) {
-    sjrk.storyTelling.server.setMediaBlockUrl(testStory.content[0], uploadedFilename);
-
+    testStory.content[0].mediaUrl = uploadedFilename;
     completionEvent.fire(testStory);
 };
 
@@ -694,9 +689,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
         var updatedModel = fluid.copy(expectedStory);
 
         if (fileOptions) {
-            var filePath = parsedData.content[0][fileOptions.urlProp];
+            var filePath = parsedData.content[0].mediaUrl;
 
-            updatedModel.content[0][fileOptions.urlProp] = filePath;
+            updatedModel.content[0].mediaUrl = filePath;
 
             // verify that the file exists in the expected location
             var exists = fs.existsSync(filePath);
@@ -709,7 +704,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
         jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
 
         if (completionEvent && fileOptions) {
-            completionEvent.fire(parsedData.content[0][fileOptions.urlProp]);
+            completionEvent.fire(parsedData.content[0].mediaUrl);
         }
     } else {
         jqUnit.assertEquals("Story error message is as expected", "An error occurred while retrieving the requested story", parsedData.message);
@@ -752,15 +747,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails = functio
 /**
  * Prepares and sends a request to get an image file from the server
  *
- * @param {String} imageUrl - the URL of the image to get
+ * @param {String} mediaUrl - the URL of the image to get
  * @param {Component} getUploadedImageRequest - an instance of kettle.test.request.http
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
  */
-sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (imageUrl, getUploadedImageRequest, authoringEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (mediaUrl, getUploadedImageRequest, authoringEnabled) {
     if (authoringEnabled) {
         var imageFilename, handlerPath;
-        handlerPath = path.dirname(imageUrl);
-        imageFilename = path.basename(imageUrl);
+        handlerPath = path.dirname(mediaUrl);
+        imageFilename = path.basename(mediaUrl);
 
         getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
     } else {
@@ -828,28 +823,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFile
         uploadedPaths.push(testUploadsDir + mapping);
     });
     return uploadedPaths;
-};
-
-/**
- * Tests the setMediaBlockUrl function
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.setMediaBlockTests = function () {
-    var testCases = [
-        { block: { blockType: "image" }, url: "", fieldToCheck: "imageUrl", expected: "" }, // test image block with empty string
-        { block: { blockType: "audio" }, url: "", fieldToCheck: "mediaUrl", expected: "" }, // test audio block with empty string
-        { block: { blockType: "video" }, url: "", fieldToCheck: "mediaUrl", expected: "" }, // test video block with empty string
-        { block: { blockType: "image" }, url: "testUrl", fieldToCheck: "imageUrl", expected: "testUrl" }, // test image block with set string
-        { block: { blockType: "audio" }, url: "testUrl", fieldToCheck: "mediaUrl", expected: "testUrl" }, // test audio block with set string
-        { block: { blockType: "video" }, url: "testUrl", fieldToCheck: "mediaUrl", expected: "testUrl" } // test video block with set string
-    ];
-
-    fluid.each(testCases, function (testCase) {
-        sjrk.storyTelling.server.setMediaBlockUrl(testCase.block, testCase.url);
-        var actual = testCase.block[testCase.fieldToCheck];
-
-        var message = "Media block URL is as expected: " + testCase.expected;
-        jqUnit.assertEquals(message, testCase.expected, actual);
-    });
 };
 
 /**
