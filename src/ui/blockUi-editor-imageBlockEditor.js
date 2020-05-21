@@ -17,48 +17,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor"],
         model: {
-            // fileUploadState can be one of the following values:
-            // "ready" (the initial state), "uploading", "errorReceived"
-            fileUploadState: "ready",
             previewVisible: true,
             progressAreaVisible: false,
             responseAreaVisible: false,
             uploadButtonDisabled: false
-        },
-        modelRelay: {
-            "fileUploadState": {
-                target: "",
-                singleTransform: {
-                    type: "fluid.transforms.valueMapper",
-                    defaultInputPath: "fileUploadState",
-                    match: {
-                        "ready": {
-                            outputValue: {
-                                previewVisible: true,
-                                progressAreaVisible: false,
-                                responseAreaVisible: false,
-                                uploadButtonDisabled: false
-                            }
-                        },
-                        "uploading": {
-                            outputValue: {
-                                previewVisible: false,
-                                progressAreaVisible: true,
-                                responseAreaVisible: false,
-                                uploadButtonDisabled: true
-                            }
-                        },
-                        "errorReceived": {
-                            outputValue: {
-                                previewVisible: true,
-                                progressAreaVisible: false,
-                                responseAreaVisible: true,
-                                uploadButtonDisabled: false
-                            }
-                        }
-                    }
-                }
-            }
         },
         modelListeners: {
             previewVisible: {
@@ -161,6 +123,41 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{templateManager}.events.onTemplateRendered",
                 container: "{imageBlockEditor}.dom.singleFileUploader",
                 options: {
+                    modelRelay: {
+                        "uploadState": {
+                            target: "{imageBlockEditor}.model",
+                            singleTransform: {
+                                type: "fluid.transforms.valueMapper",
+                                defaultInputPath: "uploadState",
+                                match: {
+                                    "ready": {
+                                        outputValue: {
+                                            previewVisible: true,
+                                            progressAreaVisible: false,
+                                            responseAreaVisible: false,
+                                            uploadButtonDisabled: false
+                                        }
+                                    },
+                                    "uploading": {
+                                        outputValue: {
+                                            previewVisible: false,
+                                            progressAreaVisible: true,
+                                            responseAreaVisible: false,
+                                            uploadButtonDisabled: true
+                                        }
+                                    },
+                                    "errorReceived": {
+                                        outputValue: {
+                                            previewVisible: true,
+                                            progressAreaVisible: false,
+                                            responseAreaVisible: true,
+                                            uploadButtonDisabled: false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     selectors: {
                         fileInput: "{that}.container"
                     },
@@ -173,35 +170,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.onFileSelectionRequested.fire",
                             namespace: "fireSelectionForImageUpload"
                         },
-                        "onUploadRequested": {
-                            func: "{imageBlockEditor}.applier.change",
-                            args: ["fileUploadState", "uploading"],
-                            namespace: "setStateUploading"
+                        "onUploadComplete": {
+                            func: "{imageBlockEditor}.setServerResponse",
+                            args: [""],
+                            namespace: "clearServerResponse"
                         },
-                        "onUploadComplete": [
-                            {
-                                func: "{imageBlockEditor}.applier.change",
-                                args: ["fileUploadState", "ready"],
-                                namespace: "setStateReady"
-                            },
-                            {
-                                func: "{imageBlockEditor}.setServerResponse",
-                                args: [""],
-                                namespace: "clearServerResponse"
-                            }
-                        ],
-                        "onUploadError": [
-                            {
-                                func: "{imageBlockEditor}.applier.change",
-                                args: ["fileUploadState", "errorReceived"],
-                                namespace: "setStateErrorReceived"
-                            },
-                            {
-                                func: "{imageBlockEditor}.setServerResponse",
-                                args: ["{arguments}.0.message"],
-                                namespace: "setServerResponse"
-                            }
-                        ]
+                        "onUploadError": {
+                            func: "{imageBlockEditor}.setServerResponse",
+                            args: ["{arguments}.0.message"],
+                            namespace: "setServerResponse"
+                        }
                     },
                     modelListeners: {
                         "fileObjectUrl": {

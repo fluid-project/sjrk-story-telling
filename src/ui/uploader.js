@@ -29,6 +29,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             currentFile: null
         },
         model: {
+            // uploadState can be one of the following values:
+            // "ready" (the initial state), "uploading", "errorReceived"
+            uploadState: "ready",
             fileObjectUrl: null, // for the file preview
             previousFileObjectUrl: null, // for file deletion on change/upload
             serverUploadUrl: "/stories/",
@@ -65,9 +68,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{that}.uploadFileToServer",
                 args: ["{that}.currentFile", "{that}.model.previousFileObjectUrl"]
             },
-            "onUploadComplete.updateFileURL": {
+            "onUploadRequested": {
                 func: "{that}.applier.change",
-                args: ["fileObjectUrl", "{arguments}.0"]
+                args: ["uploadState", "uploading"],
+                namespace: "setStateUploading"
+            },
+            "onUploadComplete": [
+                {
+                    func: "{that}.applier.change",
+                    args: ["fileObjectUrl", "{arguments}.0"],
+                    namespace: "updateFileURL"
+                },
+                {
+                    func: "{that}.applier.change",
+                    args: ["uploadState", "ready"],
+                    namespace: "setStateReady"
+                }
+            ],
+            "onUploadError": {
+                func: "{that}.applier.change",
+                args: ["uploadState", "errorReceived"],
+                namespace: "setStateErrorReceived"
             }
         },
         invokers: {
