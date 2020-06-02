@@ -153,6 +153,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             blockManager: {
                 container: "{storyEditor}.options.selectors.storyEditorContent",
                 options: {
+                    distributeOptions: {
+                        target: "{that blockUi}.options.listeners",
+                        record: {
+                            "onReadyToBind": {
+                                func: "{reorderer}.refresh",
+                                namespace: "refreshReorderer",
+                                priority: "last"
+                            }
+                        }
+                    },
                     blockTypeLookup: {
                         "audio": "sjrk.storyTelling.blockUi.editor.audioBlockEditor",
                         "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor",
@@ -222,6 +232,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                 }
                             }
                         }
+                    }
+                }
+            },
+            reorderer: {
+                type: "fluid.reorderList",
+                container: "{storyEditor}.dom.storyEditorContent",
+                createOnEvent: "{storyEditor}.events.onEditorTemplateRendered",
+                options: {
+                    selectors: {
+                        movables: ".sjrkc-dynamic-view-component",
+                        selectables: ".sjrkc-dynamic-view-component",
+                        dropTargets: ".sjrkc-dynamic-view-component"
                     }
                 }
             }
