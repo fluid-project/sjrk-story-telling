@@ -1,3 +1,11 @@
+<div class="sjrk-st-reorderer-buttons">
+    <button type="button" class="sjrkc-st-reorderer-move-up sjrk-st-reorderer-move-up">
+        <img class="sjrk-st-icon-up" src="./img/icons/icon-up_TEMP.png" />
+    </button>{{!-- this is necessary to avoid a space between the buttons
+    --}}<button type="button" class="sjrkc-st-reorderer-move-down sjrk-st-reorderer-move-down">
+        <img class="sjrk-st-icon-down" src="./img/icons/icon-down_TEMP.png" />
+    </button>
+</div>
 <fieldset lang="{{localizedMessages.language}}" class="sjrk-st-block">
     <legend class="fl-hidden-accessible">{{localizedMessages.message_textBlock}}</legend>
     {{#getIds "storySelectionCheckbox"}}
@@ -8,7 +16,7 @@
             <input id="$id" class="sjrk-st-block-selection-checkbox sjrkc-st-block-selection-checkbox" type="checkbox">
         </div>
     {{/getIds}}
-    
+
     {{#getIds "storyBlockHeading"}}
     <div class="sjrk-st-block-alternative-content sjrk-st-block-label">
         <input id="$id" class="sjrk-st-block-heading sjrkc-st-block-heading" placeholder="{{../localizedMessages.message_blockHeadingPlaceholder}}"></input>

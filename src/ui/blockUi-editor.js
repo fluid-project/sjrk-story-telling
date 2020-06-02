@@ -17,7 +17,34 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.blockUi.editor", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
         selectors: {
+            moveBlockDownButton: ".sjrkc-st-reorderer-move-down",
+            moveBlockUpButton: ".sjrkc-st-reorderer-move-up",
             selectedCheckbox: ".sjrkc-st-block-selection-checkbox"
+        },
+        events: {
+            onReadyToBind: null,
+            onBlockControlsBound: null,
+            onMoveBlockDown: null,
+            onMoveBlockUp: null
+        },
+        listeners: {
+            "onReadyToBind": [{
+                this: "{that}.dom.moveBlockDownButton",
+                method: "click",
+                args: ["{that}", "{that}.events.onMoveBlockDown.fire"],
+                namespace: "bindBlockDownButton"
+            },
+            {
+                this: "{that}.dom.moveBlockUpButton",
+                method: "click",
+                args: ["{that}", "{that}.events.onMoveBlockUp.fire"],
+                namespace: "bindBlockUpButton"
+            },
+            {
+                func: "{that}.events.onBlockControlsBound.fire",
+                priority: "last",
+                namespace: "fireOnBlockControlsBound"
+            }]
         },
         components: {
             // binds user input DOM elements to model values on the block
@@ -33,7 +60,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         heading: "heading"
                     },
                     events: {
-                        onUiReadyToBind: "{templateManager}.events.onTemplateRendered"
+                        onUiReadyToBind: "{editor}.events.onReadyToBind"
+                    }
+                }
+            },
+            // loads the localized messages and template for the block
+            templateManager: {
+                options: {
+                    listeners: {
+                        "onTemplateRendered.escalate": "{editor}.events.onReadyToBind.fire"
                     }
                 }
             }

@@ -1,3 +1,11 @@
+<div class="sjrk-st-reorderer-buttons">
+    <button type="button" class="sjrkc-st-reorderer-move-up sjrk-st-reorderer-move-up">
+        <img class="sjrk-st-icon-up" src="./img/icons/icon-up_TEMP.png" />
+    </button>{{!-- this is necessary to avoid a space between the buttons
+    --}}<button type="button" class="sjrkc-st-reorderer-move-down sjrk-st-reorderer-move-down">
+        <img class="sjrk-st-icon-down" src="./img/icons/icon-down_TEMP.png" />
+    </button>
+</div>
 <fieldset lang="{{localizedMessages.language}}" class="sjrk-st-block">
     {{#equals dynamicValues.blockType "audio"}}
         <legend class="fl-hidden-accessible">{{localizedMessages.message_audioBlock}}</legend>
@@ -55,7 +63,7 @@
         {{#equals dynamicValues.blockType "video"}}
             <button type="button" class="sjrkc-st-block-media-upload-button sjrk-st-block-media-upload-button">{{localizedMessages.message_uploadButtonVideo}}</button>
         {{/equals}}
-    </div>    
+    </div>
 
     {{#getIds "storyBlockDescription"}}
         <div class="sjrk-st-block-media-description-container sjrk-st-block-label">

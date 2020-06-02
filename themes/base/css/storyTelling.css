@@ -242,6 +242,41 @@ fieldset ul {
     position: relative;
 }
 
+.sjrk-st-reorderer-buttons {
+    display: inline-block;
+    border: solid 1px var(--site-border-grey);
+    border-radius: 2px;
+    background: #fff;
+    line-height: 0;
+}
+
+.sjrk-st-reorderer-move-up,
+.sjrk-st-reorderer-move-down {
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 2rem;
+    background: #fff;
+    height: 2rem;
+}
+
+.sjrk-st-reorderer-move-up .sjrk-st-icon-up,
+.sjrk-st-reorderer-move-down .sjrk-st-icon-down {
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    padding: 0.5rem;
+}
+
+.sjrk-st-reorderer-move-up {
+    border-right: solid 1px var(--site-border-grey);
+}
+
+.sjrk-st-reorderer-move-down {
+    border-left: solid 1px var(--site-border-grey);
+}
+
 .sjrk-st-story-editor-content > .sjrk-dynamic-view-component:last-of-type > .sjrk-st-block,
 .sjrk-st-story-content > .sjrk-dynamic-view-component:last-of-type > .sjrk-st-block {
     margin: 0;
