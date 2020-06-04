@@ -156,11 +156,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     distributeOptions: {
                         target: "{that blockUi}.options.listeners",
                         record: {
-                            "onReadyToBind": {
-                                func: "{reorderer}.refresh",
-                                namespace: "refreshReorderer",
-                                priority: "last"
-                            },
                             "onMoveBlockDown.moveBlockDown": {
                                 func: "{reorderer}.reorderBlockDown",
                                 args: ["{arguments}.0.data.container"]
@@ -266,6 +261,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         reorderBlockUp: {
                             func: "{that}.reorderBlock",
                             args: ["{arguments}.0", fluid.direction.UP]
+                        }
+                    },
+                    listeners: {
+                        // We should be refreshin the reorderer on each new block
+                        // being added, but we can't reliably know when a block
+                        // has finished being rendered. It would also be possible
+                        // to refresh while a block is being added, which we want
+                        // to avoid. This is the workaround:
+                        "onCreate.bindFocusListener": {
+                            this: "{that}.container",
+                            method: "on",
+                            args: ["focusin", "{that}.refresh"]
                         }
                     }
                 }
