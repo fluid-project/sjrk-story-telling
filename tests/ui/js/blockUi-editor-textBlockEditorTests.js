@@ -36,11 +36,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Text Block Editor.",
             tests: [{
                 name: "Test heading field",
-                expect: 3,
+                expect: 6,
                 sequence: [{
                     event: "{textBlockEditorTest textBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
                     args: ["The template has been loaded and rendered"]
+                },
+                {
+                    event: "{textBlockEditorTest textBlockEditor}.events.onBlockControlsBound",
+                    listener: "jqUnit.assert",
+                    args: ["Block controls have been bound"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
@@ -61,6 +66,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "heading",
                     listener: "sjrk.storyTelling.testUtils.assertElementValue",
                     args: ["{textBlockEditor}.binder.dom.heading", "Story about cats"]
+                },
+                {
+                    jQueryTrigger: "click",
+                    element: "{textBlockEditor}.dom.moveBlockDownButton"
+                },
+                {
+                    event: "{textBlockEditor}.events.onMoveBlockDown",
+                    listener: "jqUnit.assert",
+                    args: ["onMoveBlockDown binding working as expected"]
+                },
+                {
+                    jQueryTrigger: "click",
+                    element: "{textBlockEditor}.dom.moveBlockUpButton"
+                },
+                {
+                    event: "{textBlockEditor}.events.onMoveBlockUp",
+                    listener: "jqUnit.assert",
+                    args: ["onMoveBlockUp binding working as expected"]
                 }]
             },
             {

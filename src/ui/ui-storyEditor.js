@@ -264,7 +264,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     listeners: {
-                        // We should be refreshin the reorderer on each new block
+                        // We should be refreshing the reorderer on each new block
                         // being added, but we can't reliably know when a block
                         // has finished being rendered. It would also be possible
                         // to refresh while a block is being added, which we want
