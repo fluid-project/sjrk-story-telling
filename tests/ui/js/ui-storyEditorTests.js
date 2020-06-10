@@ -19,6 +19,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onNewBlockTemplateRendered: null
         },
+        model: {
+            lastAddedBlock: null
+        },
         components: {
             templateManager: {
                 options: {
@@ -41,7 +44,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                             listeners: {
                                                 "onTemplateRendered.notifyTestStoryEditor": {
                                                     func: "{testStoryEditor}.events.onNewBlockTemplateRendered.fire",
-                                                    args: ["{that}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
+                                                    args: ["{editor}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
+                                                },
+                                                "onTemplateRendered.setLastAddedBlock": {
+                                                    funcName: "{testStoryEditor}.applier.change",
+                                                    args: ["lastAddedBlock", "{editor}"]
                                                 }
                                             }
                                         }
@@ -95,8 +102,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     listener: "jqUnit.assert",
                     args: "onEditorPreviousRequested event fired."
                 },
-                // Click to add a text block
                 {
+                    // Click to add a text block
                     "jQueryTrigger": "click",
                     "element": "{storyEditor}.dom.storyAddTextBlock"
                 },
@@ -108,14 +115,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "fluid.identity"
                 },
-                // Wait for block to fully render
                 {
+                    // Wait for block to fully render
                     "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
                 },
-                // Click to add an image block
                 {
+                    // Click to add an image block
                     "jQueryTrigger": "click",
                     "element": "{storyEditor}.dom.storyAddImageBlock"
                 },
@@ -127,14 +134,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "fluid.identity"
                 },
-                // Wait for block to fully render
                 {
+                    // Wait for block to fully render
                     "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
                 },
-                // Add a second text block
                 {
+                    // Add a second text block
                     "jQueryTrigger": "click",
                     "element": "{storyEditor}.dom.storyAddTextBlock"
                 },
@@ -146,28 +153,111 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "fluid.identity"
                 },
-                // Wait for block to fully render because it doesn't have a
-                // checkbox for the next item in the sequence until then.
                 {
+                    // Wait for block to fully render because it doesn't have a
+                    // checkbox for the next item in the sequence until then.
                     "event": "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "jqUnit.assert",
                     args: ["New block template fully rendered"]
                 },
-                // Select the checkbox of the first block
                 {
+                    // Select the checkbox of the first block
                     func: "sjrk.storyTelling.testUtils.checkBlockCheckboxes",
                     args: ["{storyEditor}.blockManager", true]
                 },
-                // Click the "remove selected blocks" button
                 {
+                    // Click the "remove selected blocks" button
                     "jQueryTrigger": "click",
                     "element": "{storyEditor}.dom.storyRemoveSelectedBlocks"
                 },
-                // Verify removal
                 {
+                    // Verify removal
                     "event": "{storyEditor}.events.onRemoveBlocksCompleted",
                     listener: "sjrk.storyTelling.testUtils.verifyBlocksRemoved",
                     args: ["{storyEditor}.blockManager", 2]
+                }]
+            },
+            {
+                name: "Test block reorderer",
+                expect: 12,
+                sequence: [{
+                    // add a first block
+                    jQueryTrigger: "click",
+                    element: "{storyEditor}.dom.storyAddTextBlock"
+                },
+                {
+                    event: "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                },
+                {
+                    // add a second block
+                    jQueryTrigger: "click",
+                    element: "{storyEditor}.dom.storyAddTextBlock"
+                },
+                {
+                    event: "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                },
+                {
+                    // force the reorderer to refresh so it knows about these blocks
+                    func: "{storyEditor}.reorderer.refresh"
+                },
+                {
+                    event: "{storyEditor}.reorderer.events.onRefresh",
+                    listener: "jqUnit.assert",
+                    args: ["Reorderer onRefresh fired as expected"]
+                },
+                {
+                    // Click its reorder button up, listen for reorderer onMove
+                    jQueryTrigger: "click",
+                    element: "{storyEditor}.model.lastAddedBlock.dom.moveBlockUpButton"
+                },
+                {
+                    event: "{storyEditor}.reorderer.events.onMove",
+                    listener: "jqUnit.assert",
+                    args: ["Reorderer onMove fired on moveBlockUp button clicked"]
+                },
+                {
+                    // Click its reorder button down, listen for reorderer onMove
+                    jQueryTrigger: "click",
+                    element: "{storyEditor}.model.lastAddedBlock.dom.moveBlockDownButton"
+                },
+                {
+                    event: "{storyEditor}.reorderer.events.onMove",
+                    listener: "jqUnit.assert",
+                    args: ["Reorderer onMove fired on moveBlockDown button clicked"]
+                },
+                {
+                    // Call reorderBlockUp, listen for reorderer onMove
+                    func: "{storyEditor}.reorderer.reorderBlockUp",
+                    args: ["{storyEditor}.model.lastAddedBlock.container"]
+                },
+                {
+                    event: "{storyEditor}.reorderer.events.onMove",
+                    listener: "jqUnit.assert",
+                    args: ["Reorderer onMove fired on reorderBlockUp call"]
+                },
+                {
+                    // Call reorderBlockDown, listen for reorderer onMove
+                    func: "{storyEditor}.reorderer.reorderBlockDown",
+                    args: ["{storyEditor}.model.lastAddedBlock.container"]
+                },
+                {
+                    event: "{storyEditor}.reorderer.events.onMove",
+                    listener: "jqUnit.assert",
+                    args: ["Reorderer onMove fired on reorderBlockDown call"]
+                },
+                {
+                    // Mock focusin event, listen for reorderer onRefresh
+                    jQueryTrigger: "focusin",
+                    element: "{storyEditor}.reorderer.container"
+                },
+                {
+                    event: "{storyEditor}.reorderer.events.onRefresh",
+                    listener: "jqUnit.assert",
+                    args: ["Reorderer onRefresh fired on focusin event"]
                 }]
             },
             {
