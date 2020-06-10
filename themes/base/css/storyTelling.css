@@ -1,5 +1,6 @@
 :root {
     --site-grey: #f2f2f2;
+    --site-grey-50p: #f2f2f288;
     --site-green: #d0e2ac;
     --site-border-grey: #aaa;
     --site-medium-grey: #e6e6e6;
@@ -275,6 +276,22 @@ fieldset ul {
 
 .sjrk-st-reorderer-move-down {
     border-left: solid 1px var(--site-border-grey);
+}
+
+.sjrk-st-reorderer-block-avatar {
+    background: var(--site-grey-50p);
+}
+
+.sjrk-st-reorderer-block-avatar .sjrk-st-reorderer-buttons,
+.sjrk-st-reorderer-block-avatar .sjrk-st-block-selection-checkbox-container {
+    display: none;
+}
+
+.sjrk-st-reorderer-block-dropmarker {
+    background-color: var(--site-green);
+    height: 3px;
+    padding: 0;
+    margin: 1rem 2rem 2rem 2rem;
 }
 
 .sjrk-st-story-editor-content > .sjrk-dynamic-view-component:last-of-type > .sjrk-st-block,

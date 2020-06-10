@@ -244,6 +244,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 createOnEvent: "{storyEditor}.events.onEditorTemplateRendered",
                 options: {
                     disableWrap: true,
+                    styles: {
+                        avatar: "sjrk-st-reorderer-block-avatar",
+                        dropMarker: "sjrk-st-reorderer-block-dropmarker"
+                    },
                     selectors: {
                         movables: ".sjrkc-dynamic-view-component",
                         selectables: ".sjrkc-dynamic-view-component",

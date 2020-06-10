@@ -321,6 +321,10 @@ h3:empty {
     margin: 0 auto 2rem auto !important;
 }
 
+.sjrk-st-reorderer-block-dropmarker {
+    background-color: var(--site-teal);
+}
+
 .sjrk-st-lr-padding {
     line-height: 1rem;
     font-size: 1rem;
