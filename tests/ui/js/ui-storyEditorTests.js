@@ -179,7 +179,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block reorderer",
-                expect: 12,
+                expect: 9,
                 sequence: [{
                     // add a first block
                     jQueryTrigger: "click",
@@ -201,13 +201,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
                 {
-                    // force the reorderer to refresh so it knows about these blocks
-                    func: "{storyEditor}.reorderer.refresh"
+                    // Mock focusin event, listen for reorderer onRefresh
+                    jQueryTrigger: "focusin",
+                    element: "{storyEditor}.reorderer.container"
                 },
                 {
                     event: "{storyEditor}.reorderer.events.onRefresh",
                     listener: "jqUnit.assert",
-                    args: ["Reorderer onRefresh fired as expected"]
+                    args: ["Reorderer onRefresh fired on focusin event"]
                 },
                 {
                     // Click its reorder button up, listen for reorderer onMove
@@ -228,36 +229,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{storyEditor}.reorderer.events.onMove",
                     listener: "jqUnit.assert",
                     args: ["Reorderer onMove fired on moveBlockDown button clicked"]
-                },
-                {
-                    // Call reorderBlockUp, listen for reorderer onMove
-                    func: "{storyEditor}.reorderer.reorderBlockUp",
-                    args: ["{storyEditor}.model.lastAddedBlock.container"]
-                },
-                {
-                    event: "{storyEditor}.reorderer.events.onMove",
-                    listener: "jqUnit.assert",
-                    args: ["Reorderer onMove fired on reorderBlockUp call"]
-                },
-                {
-                    // Call reorderBlockDown, listen for reorderer onMove
-                    func: "{storyEditor}.reorderer.reorderBlockDown",
-                    args: ["{storyEditor}.model.lastAddedBlock.container"]
-                },
-                {
-                    event: "{storyEditor}.reorderer.events.onMove",
-                    listener: "jqUnit.assert",
-                    args: ["Reorderer onMove fired on reorderBlockDown call"]
-                },
-                {
-                    // Mock focusin event, listen for reorderer onRefresh
-                    jQueryTrigger: "focusin",
-                    element: "{storyEditor}.reorderer.container"
-                },
-                {
-                    event: "{storyEditor}.reorderer.events.onRefresh",
-                    listener: "jqUnit.assert",
-                    args: ["Reorderer onRefresh fired on focusin event"]
                 }]
             },
             {

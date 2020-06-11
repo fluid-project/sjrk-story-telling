@@ -23,27 +23,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         events: {
             onReadyToBind: null,
-            onBlockControlsBound: null,
-            onMoveBlockDown: null,
-            onMoveBlockUp: null
+            onMoveBlock: null
         },
         listeners: {
             "onReadyToBind": [{
                 this: "{that}.dom.moveBlockDownButton",
                 method: "click",
-                args: ["{that}", "{that}.events.onMoveBlockDown.fire"],
+                args: [fluid.direction.DOWN, "{that}.events.onMoveBlock.fire"],
                 namespace: "bindBlockDownButton"
             },
             {
                 this: "{that}.dom.moveBlockUpButton",
                 method: "click",
-                args: ["{that}", "{that}.events.onMoveBlockUp.fire"],
+                args: [fluid.direction.UP, "{that}.events.onMoveBlock.fire"],
                 namespace: "bindBlockUpButton"
-            },
-            {
-                func: "{that}.events.onBlockControlsBound.fire",
-                priority: "last",
-                namespace: "fireOnBlockControlsBound"
             }]
         },
         components: {

@@ -52,8 +52,8 @@
   handlebars template associated with it called `storyEditor.handlebars`, and a `binder` to connect the title, author
   and keywords fields to their respective model values in the `story`. It makes use of a `dynamicViewComponentManager`
   called **blockManager** to add blocks of varying types on demand. The `reorderer` component is for reordering individual
-  blocks via buttons on each (see `sjrk.storyTelling.block.editor` above), using CTRL+UP or CTRL+DOWN or by dragging and
-  dropping a block.
+  blocks via buttons on each (see `sjrk.storyTelling.block.editor` above), by pressing `CTRL + UP` or `CTRL + DOWN` (or
+  in macOS, `CTRL + SHIFT + UP` or `CTRL + SHIFT + DOWN`) or by dragging and dropping a block.
 * `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.handlebars`.
   There is also a special version of the `storyViewer` called the `storyPreviewer` which is meant to be used in the
   `storyEdit` page (more info below).

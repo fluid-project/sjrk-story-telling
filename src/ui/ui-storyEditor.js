@@ -156,13 +156,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     distributeOptions: {
                         target: "{that blockUi}.options.listeners",
                         record: {
-                            "onMoveBlockDown.moveBlockDown": {
-                                func: "{reorderer}.reorderBlockDown",
-                                args: ["{arguments}.0.data.container"]
-                            },
-                            "onMoveBlockUp.moveBlockUp": {
-                                func: "{reorderer}.reorderBlockUp",
-                                args: ["{arguments}.0.data.container"]
+                            "onMoveBlock.reorderBlock": {
+                                func: "{reorderer}.reorderBlock",
+                                args: ["{that}.container", "{arguments}.0.data"]
                             }
                         }
                     },
@@ -257,14 +253,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         reorderBlock: {
                             funcName: "sjrk.storyTelling.ui.storyEditor.reorderBlock",
                             args: ["{that}", "{arguments}.0", "{arguments}.1"] // blockUi, direction
-                        },
-                        reorderBlockDown: {
-                            func: "{that}.reorderBlock",
-                            args: ["{arguments}.0", fluid.direction.DOWN]
-                        },
-                        reorderBlockUp: {
-                            func: "{that}.reorderBlock",
-                            args: ["{arguments}.0", fluid.direction.UP]
                         }
                     },
                     listeners: {
@@ -312,7 +300,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Reorders the specified block UI component in the specified direction
      *
      * @param {Component} reorderer - an instance of fluid.reorderList
-     * @param {Component} blockUi - an instance of sjrk.storyTelling.blockUi
+     * @param {jQuery} blockUi - a jQueryable of an sjrk.storyTelling.blockUi.editor's container
      * @param {Number} direction - a member of fluid.direction
      */
     sjrk.storyTelling.ui.storyEditor.reorderBlock = function (reorderer, blockUi, direction) {
