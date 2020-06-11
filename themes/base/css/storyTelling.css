@@ -243,7 +243,7 @@ fieldset ul {
     position: relative;
 }
 
-.sjrk-st-reorderer-buttons {
+.sjrk-st-reorderer-move-buttons {
     display: inline-block;
     border: solid 1px var(--site-border-grey);
     border-radius: 2px;
@@ -251,6 +251,7 @@ fieldset ul {
     line-height: 0;
 }
 
+.sjrk-st-reorderer-grab-handle,
 .sjrk-st-reorderer-move-up,
 .sjrk-st-reorderer-move-down {
     border: none;
@@ -258,23 +259,29 @@ fieldset ul {
     padding: 0;
     margin: 0;
     width: 2rem;
-    background: #fff;
     height: 2rem;
+    display: inline-block;
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    box-sizing: content-box;
 }
 
-.sjrk-st-reorderer-move-up .sjrk-st-icon-up,
-.sjrk-st-reorderer-move-down .sjrk-st-icon-down {
-    display: inline-block;
-    height: 1rem;
-    width: 1rem;
-    padding: 0.5rem;
+.sjrk-st-reorderer-grab-handle {
+    background-image: url("../img/icons/block_move.svg");
+    border: solid 1px var(--site-border-grey);
+    background-size: 75%;
+    /* cursor: move; */
 }
 
 .sjrk-st-reorderer-move-up {
+    background-image: url("../img/icons/block_up.svg");
     border-right: solid 1px var(--site-border-grey);
 }
 
 .sjrk-st-reorderer-move-down {
+    background-image: url("../img/icons/block_down.svg");
     border-left: solid 1px var(--site-border-grey);
 }
 
