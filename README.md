@@ -27,7 +27,7 @@ to build the web-hosting environment that drives the tool.
 * `npm install` to install dependencies
 * Run a CouchDB server on `localhost:5984`
   * Docker is an easy way to do this, we recommend the `apache/couchdb` image. To use that image via Docker, run this
-    command: `docker run -p 5984:5984 -d apache/couchdb`
+    command: `docker run -p 5984:5984 -d apache/couchdb:2.3.1`
 * Run `node .\src\server\db\dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB
   instance is set up in [single-node mode](https://docs.couchdb.org/en/stable/setup/single-node.html))
   * If you have an [admin user](https://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB
