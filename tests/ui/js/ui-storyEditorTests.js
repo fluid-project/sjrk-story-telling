@@ -186,7 +186,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     element: "{storyEditor}.dom.storyAddTextBlock"
                 },
                 {
-                    event: "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    event: "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
                     args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
@@ -196,7 +196,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     element: "{storyEditor}.dom.storyAddTextBlock"
                 },
                 {
-                    event: "{storyEditor}.blockManager.events.viewComponentRegisteredWithManager",
+                    event: "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
                     args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
                 },
