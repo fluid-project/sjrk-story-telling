@@ -247,7 +247,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     selectors: {
                         movables: ".sjrkc-dynamic-view-component",
                         selectables: ".sjrkc-dynamic-view-component",
-                        dropTargets: ".sjrkc-dynamic-view-component"
+                        dropTargets: ".sjrkc-dynamic-view-component",
+                        grabHandle: ".sjrkc-st-reorderer-grab-handle"
                     },
                     invokers: {
                         reorderBlock: {

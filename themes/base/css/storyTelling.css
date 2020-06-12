@@ -272,7 +272,7 @@ fieldset ul {
     background-image: url("../img/icons/block_move.svg");
     border: solid 1px var(--site-border-grey);
     background-size: 75%;
-    /* cursor: move; */
+    cursor: move;
 }
 
 .sjrk-st-reorderer-move-up {
