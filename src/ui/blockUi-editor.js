@@ -16,6 +16,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // the base blockUi for editing individual blocks, contains shared elements
     fluid.defaults("sjrk.storyTelling.blockUi.editor", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
+        model: {
+            // reorder buttons are disabled depending on the block's order:
+            // if the block is first in the order, the "up" button is disabled
+            // if the block is last in the order, the "down" button is disabled
+            moveBlockDownDisabled: "{block}.model.lastInOrder",
+            moveBlockUpDisabled: "{block}.model.firstInOrder"
+        },
+        modelListeners: {
+            "moveBlockDownDisabled": {
+                this: "{that}.dom.moveBlockDownButton",
+                method: "prop",
+                args: ["disabled", "{change}.value"],
+                excludeSource: ["init"],
+                namespace: "setMoveBlockDownDisabled"
+            },
+            "moveBlockUpDisabled": {
+                this: "{that}.dom.moveBlockUpButton",
+                method: "prop",
+                args: ["disabled", "{change}.value"],
+                excludeSource: ["init"],
+                namespace: "setMoveBlockUpDisabled"
+            }
+        },
         selectors: {
             moveBlockDownButton: ".sjrkc-st-reorderer-move-down",
             moveBlockUpButton: ".sjrkc-st-reorderer-move-up",

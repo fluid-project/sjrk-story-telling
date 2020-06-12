@@ -280,9 +280,17 @@ fieldset ul {
     border-right: solid 1px var(--site-border-grey);
 }
 
+.sjrk-st-reorderer-move-up:disabled {
+    background-image: url("../img/icons/block_up_disabled.svg");
+}
+
 .sjrk-st-reorderer-move-down {
     background-image: url("../img/icons/block_down.svg");
     border-left: solid 1px var(--site-border-grey);
+}
+
+.sjrk-st-reorderer-move-down:disabled {
+    background-image: url("../img/icons/block_down_disabled.svg") !important;
 }
 
 .sjrk-st-reorderer-block-avatar {
