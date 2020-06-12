@@ -70,6 +70,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onRemoveBlocksCompleted: null,
             onEditorTemplateRendered: null,
             onBlockManagerCreated: null,
+            onBlockOrderUpdated: null,
             onReadyToBind: {
                 events: {
                     onEditorTemplateRendered: "{that}.events.onEditorTemplateRendered",
@@ -192,6 +193,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addVideoBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.videoBlockEditor"]
+                        },
+                        "{reorderer}.events.onRefresh": {
+                            func: "sjrk.storyTelling.ui.updateBlockOrder",
+                            args: ["{storyEditor}", "{storyEditor}.events.onBlockOrderUpdated"],
+                            namespace: "updateBlockOrderAfterReorder"
                         }
                     }
                 }

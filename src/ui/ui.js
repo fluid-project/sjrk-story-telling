@@ -116,6 +116,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyContent: ".sjrkc-st-story-content",
             storyTags: ".sjrkc-st-story-tags"
         },
+        // the name of the model change source when block order is updated
+        orderUpdateSource: "orderUpdate",
         events: {
             onStoryUpdatedFromBlocks: null
         },
@@ -190,7 +192,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                             modelListeners: {
                                                 "": {
                                                     func: "{blockManager}.updateStoryFromBlocks",
-                                                    excludeSource: "init",
+                                                    excludeSource: ["init", "orderUpdate"],
                                                     namespace: "singleBlockToStory"
                                                 }
                                             }
@@ -204,5 +206,75 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    /**
+     * Updates the order of each block model according to the order of the blockUi
+     * elements in the story content editing area
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.ui.storyUi
+     * @param {Object} completionEvent - the event to be fired upon successful completion
+     */
+    sjrk.storyTelling.ui.updateBlockOrder = function (that, completionEvent) {
+        var blockUis = that.reorderer.container.children();
+        var loopCounter = 0;
+        var numberOfBlocks = blockUis.length;
+
+        // used to retrieve the class name for each block
+        // within the blockManager's managedViewComponentRegistry
+        var managedClassNamePattern = sjrk.storyTelling.ui.getManagedClassNamePattern(that.blockManager);
+
+        fluid.each(blockUis, function (blockUi) {
+            var managedClassName = fluid.find(blockUi.classList, function (value) {
+                if (typeof value === "string") {
+                    var patternMatches = value.match(managedClassNamePattern);
+                    return patternMatches === null ? undefined : patternMatches.input;
+                }
+            });
+
+            var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
+
+            block.applier.change("order", loopCounter++, null, that.options.orderUpdateSource);
+            block.applier.change("firstInOrder", loopCounter === 1 ? true : false, null, that.options.orderUpdateSource);
+            block.applier.change("lastInOrder", loopCounter === numberOfBlocks ? true : false, null, that.options.orderUpdateSource);
+        });
+
+        // update the story model based on the blocks, then sort it
+        that.blockManager.updateStoryFromBlocks();
+        sjrk.storyTelling.ui.sortStoryContent(that.story);
+
+        completionEvent.fire();
+    };
+
+    /**
+     * Builds a class name pattern that can, for example, be matched against a
+     * list of class names of a managed dynamic view component (e.g. a blockUi)
+     *
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     */
+    sjrk.storyTelling.ui.getManagedClassNamePattern = function (blockManager) {
+        return "^" + blockManager.options.selectors.managedViewComponents.substring(1) + "-";
+    };
+
+    /**
+     * Sorts a story's content array (block model array) according to
+     * each block's `order` value
+     *
+     * @param {Component} story - an instance of sjrk.storyTelling.story
+     */
+    sjrk.storyTelling.ui.sortStoryContent = function (story) {
+        var contentCopy = fluid.copy(story.model.content);
+
+        fluid.stableSort(contentCopy, function (a, b) {
+            if (a.order > b.order) {
+                return 1;
+            } else if (a.order < b.order) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        story.applier.change("content", contentCopy);
+    };
 
 })(jQuery, fluid);
