@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk */
 
 "use strict";
 
@@ -25,16 +25,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         modelListeners: {
             "moveBlockDownDisabled": {
-                this: "{that}.dom.moveBlockDownButton",
-                method: "prop",
-                args: ["disabled", "{change}.value"],
+                func: "{that}.setButtonDisabled",
+                args: ["{that}.dom.moveBlockDownButton", "{change}.value"],
                 excludeSource: ["init"],
                 namespace: "setMoveBlockDownDisabled"
             },
             "moveBlockUpDisabled": {
-                this: "{that}.dom.moveBlockUpButton",
-                method: "prop",
-                args: ["disabled", "{change}.value"],
+                func: "{that}.setButtonDisabled",
+                args: ["{that}.dom.moveBlockUpButton", "{change}.value"],
                 excludeSource: ["init"],
                 namespace: "setMoveBlockUpDisabled"
             }
@@ -48,6 +46,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onReadyToBind: null,
             onMoveBlock: null
         },
+        invokers: {
+            setButtonDisabled: "sjrk.storyTelling.blockUi.editor.setButtonDisabled"
+        },
         listeners: {
             "onReadyToBind": [{
                 this: "{that}.dom.moveBlockDownButton",
@@ -60,6 +61,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 method: "click",
                 args: [fluid.direction.UP, "{that}.events.onMoveBlock.fire"],
                 namespace: "bindBlockUpButton"
+            },
+            {
+                func: "{that}.setButtonDisabled",
+                args: ["{that}.dom.moveBlockDownButton", "{that}.model.moveBlockDownDisabled"],
+                namespace: "setMoveBlockDownDisabledOnReady"
+            },
+            {
+                func: "{that}.setButtonDisabled",
+                args: ["{that}.dom.moveBlockUpButton", "{that}.model.moveBlockUpDisabled"],
+                namespace: "setMoveBlockUpDisabledOnReady"
             }]
         },
         components: {
@@ -90,5 +101,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    sjrk.storyTelling.blockUi.editor.setButtonDisabled = function (button, isDisabled) {
+        $(button).prop("disabled", isDisabled);
+    };
 
 })(jQuery, fluid);
