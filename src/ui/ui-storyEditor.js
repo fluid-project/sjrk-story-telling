@@ -209,8 +209,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: "{story}.model",
                     selectors: "{storyEditor}.options.selectors",
-                    events: {
-                        onUiReadyToBind: "{storyEditor}.events.onReadyToBind"
+                    listeners: {
+                        "{storyEditor}.events.onReadyToBind": {
+                            func: "{that}.events.onUiReadyToBind",
+                            namespace: "applyStoryEditorBinding"
+                        }
                     },
                     bindings: {
                         storyTitle: "title",

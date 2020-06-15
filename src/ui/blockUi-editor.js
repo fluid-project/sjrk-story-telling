@@ -86,8 +86,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     bindings: {
                         heading: "heading"
                     },
-                    events: {
-                        onUiReadyToBind: "{editor}.events.onReadyToBind"
+                    listeners: {
+                        "{editor}.events.onReadyToBind": {
+                            func: "{that}.events.onUiReadyToBind",
+                            namespace: "applyBinding"
+                        }
                     }
                 }
             },
@@ -95,7 +98,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     listeners: {
-                        "onTemplateRendered.escalate": "{editor}.events.onReadyToBind.fire"
+                        "onTemplateRendered.escalate": "{editor}.events.onReadyToBind"
                     }
                 }
             }
