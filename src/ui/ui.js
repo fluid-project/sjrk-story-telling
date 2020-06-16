@@ -216,15 +216,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.ui.updateBlockOrder = function (that, completionEvent) {
         var blockUis = that.reorderer.container.children();
-        var loopCounter = 0;
-        var numberOfBlocks = blockUis.length;
 
         // used to retrieve the class name for each block
         // within the blockManager's managedViewComponentRegistry
         var managedClassNamePattern = sjrk.storyTelling.ui.getManagedClassNamePattern(that.blockManager);
 
-        fluid.each(blockUis, function (blockUi) {
-            var managedClassName = fluid.find(blockUi.classList, function (value) {
+        for (var i = 0; i < blockUis.length; i++) {
+            var managedClassName = fluid.find(blockUis[i].classList, function (value) {
                 if (typeof value === "string") {
                     var patternMatches = value.match(managedClassNamePattern);
                     return patternMatches === null ? undefined : patternMatches.input;
@@ -233,10 +231,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
             var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
 
-            block.applier.change("order", loopCounter++, null, that.options.orderUpdateSource);
-            block.applier.change("firstInOrder", loopCounter === 1 ? true : false, null, that.options.orderUpdateSource);
-            block.applier.change("lastInOrder", loopCounter === numberOfBlocks ? true : false, null, that.options.orderUpdateSource);
-        });
+            block.applier.change("order", i, null, that.options.orderUpdateSource);
+            block.applier.change("firstInOrder", i === 0 ? true : false, null, that.options.orderUpdateSource);
+            block.applier.change("lastInOrder", i === blockUis.length - 1 ? true : false, null, that.options.orderUpdateSource);
+        }
 
         // update the story model based on the blocks, then sort it
         that.blockManager.updateStoryFromBlocks();
