@@ -36,7 +36,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Text Block Editor.",
             tests: [{
                 name: "Test heading field",
-                expect: 5,
+                expect: 3,
                 sequence: [{
                     event: "{textBlockEditorTest textBlockEditor binder}.events.onUiReadyToBind",
                     listener: "jqUnit.assert",
@@ -61,6 +61,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     path: "heading",
                     listener: "sjrk.storyTelling.testUtils.assertElementValue",
                     args: ["{textBlockEditor}.binder.dom.heading", "Story about cats"]
+                }]
+            },
+            {
+                name: "Test reorder buttons and model listeners",
+                expect: 2,
+                sequence: [{
+                    funcName: "jqUnit.assertEquals",
+                    args: ["moveBlockDownDisabled is true to begin with", true, "{textBlockEditor}.model.moveBlockDownDisabled"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["moveBlockUpDisabled is true to begin with", true, "{textBlockEditor}.model.moveBlockUpDisabled"]
+                },
+                {
+                    func: "{textBlockEditor}.applier.change",
+                    args: ["moveBlockDownDisabled", false]
+                },
+                {
+                    changeEvent: "{textBlockEditor}.applier.modelChanged",
+                    path: "moveBlockDownDisabled",
+                    listener: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{textBlockEditor}.dom.moveBlockDownButton", "disabled", false]
+                },
+                {
+                    func: "{textBlockEditor}.applier.change",
+                    args: ["moveBlockUpDisabled", false]
+                },
+                {
+                    changeEvent: "{textBlockEditor}.applier.modelChanged",
+                    path: "moveBlockUpDisabled",
+                    listener: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{textBlockEditor}.dom.moveBlockUpButton", "disabled", false]
                 },
                 {
                     jQueryTrigger: "click",
