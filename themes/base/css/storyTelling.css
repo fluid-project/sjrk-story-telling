@@ -245,7 +245,7 @@ fieldset ul {
 }
 
 /* represents the entire block viewComponent during focus, including its controls */
-.fl-reorderer-movable-selected {
+*:focus {
     outline-color: var(--site-focus);
     outline-style: solid;
     outline-width: 2px;
@@ -722,6 +722,11 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
 .fl-theme-gw .sjrk-st-reorderer-move-down { background-image: url("../img/icons/block_down_grey_dark.svg"); }
 .fl-theme-gd .sjrk-st-reorderer-move-down { background-image: url("../img/icons/block_down_grey.svg"); }
 .fl-theme-bbr .sjrk-st-reorderer-move-down { background-image: url("../img/icons/block_down_black.svg"); }
+
+body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-down:disabled,
+body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-up:disabled {
+    display: none;
+}
 
 .fl-theme-bw .sjrk-st-story-editor-previous-arrow, .fl-theme-bw .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_black.svg"); }
 .fl-theme-wb .sjrk-st-story-editor-previous-arrow, .fl-theme-wb .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_white.svg"); }
