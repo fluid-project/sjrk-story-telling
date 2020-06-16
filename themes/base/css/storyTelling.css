@@ -4,6 +4,7 @@
     --site-green: #d0e2ac;
     --site-border-grey: #aaa;
     --site-medium-grey: #e6e6e6;
+    --site-focus: #0c0c0c;
     --site-font: "Source Sans Pro";
 }
 
@@ -243,12 +244,24 @@ fieldset ul {
     position: relative;
 }
 
+/* represents the entire block viewComponent during focus, including its controls */
+.fl-reorderer-movable-selected {
+    outline-color: var(--site-focus);
+    outline-style: solid;
+    outline-width: 2px;
+}
+
+.sjrk-st-reorderer-buttons {
+    margin-bottom: 0.25rem;
+}
+
 .sjrk-st-reorderer-move-buttons {
     display: inline-block;
     border: solid 1px var(--site-border-grey);
     border-radius: 2px;
     background: #fff;
     line-height: 0;
+    vertical-align: middle;
 }
 
 .sjrk-st-reorderer-grab-handle,
@@ -273,6 +286,7 @@ fieldset ul {
     border: solid 1px var(--site-border-grey);
     background-size: 75%;
     cursor: move;
+    vertical-align: middle;
 }
 
 .sjrk-st-reorderer-move-up {
