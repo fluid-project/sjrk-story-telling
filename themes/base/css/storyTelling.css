@@ -6,6 +6,12 @@
     --site-medium-grey: #e6e6e6;
     --site-focus: #0c0c0c;
     --site-font: "Source Sans Pro";
+    --uio-black: #000;
+    --uio-grey: #888;
+    --uio-grey-dark: #6c6c6c;
+    --uio-grey-light: #bdbdbb;
+    --uio-white: #fff;
+    --uio-yellow: #ff0;
 }
 
 body {
@@ -727,6 +733,15 @@ body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-down:disabled,
 body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-up:disabled {
     display: none;
 }
+
+.fl-theme-bw *:focus { outline-color: var(--uio-black); }
+.fl-theme-wb *:focus { outline-color: var(--uio-white); }
+.fl-theme-by *:focus { outline-color: var(--uio-black); }
+.fl-theme-yb *:focus { outline-color: var(--uio-yellow); }
+.fl-theme-lgdg *:focus { outline-color: var(--uio-grey-light); }
+.fl-theme-gw *:focus { outline-color: var(--uio-grey-dark); }
+.fl-theme-gd *:focus { outline-color: var(--uio-grey); }
+.fl-theme-bbr *:focus { outline-color: var(--uio-black); }
 
 .fl-theme-bw .sjrk-st-story-editor-previous-arrow, .fl-theme-bw .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_black.svg"); }
 .fl-theme-wb .sjrk-st-story-editor-previous-arrow, .fl-theme-wb .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_white.svg"); }
