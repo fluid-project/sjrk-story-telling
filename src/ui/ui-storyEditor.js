@@ -258,7 +258,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             args: ["focusin", "{that}.refresh"]
                         },
                         "onRefresh.updateBlockOrderAfterReorder": {
-                            func: "sjrk.storyTelling.ui.updateBlockOrder",
+                            func: "sjrk.storyTelling.ui.storyEditor.updateBlockOrder",
                             args: ["{storyEditor}", "{storyEditor}.events.onBlockOrderUpdated"]
                         }
                     }
@@ -302,6 +302,74 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var relativePosition = reorderer.layoutHandler.getRelativePosition(blockUi, direction);
 
         reorderer.requestMovement(relativePosition, blockUi);
+    };
+
+    /**
+     * Updates the order of each block model according to the order of the blockUi
+     * elements in the story content editing area
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.ui.storyUi
+     * @param {Object} completionEvent - the event to be fired upon successful completion
+     */
+    sjrk.storyTelling.ui.storyEditor.updateBlockOrder = function (that, completionEvent) {
+        var blockUis = that.reorderer.container.children();
+
+        // used to retrieve the class name for each block
+        // within the blockManager's managedViewComponentRegistry
+        var managedClassNamePattern = sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern(that.blockManager);
+
+        for (var i = 0; i < blockUis.length; i++) {
+            var managedClassName = fluid.find(blockUis[i].classList, function (value) {
+                if (typeof value === "string") {
+                    var patternMatches = value.match(managedClassNamePattern);
+                    return patternMatches === null ? undefined : patternMatches.input;
+                }
+            });
+
+            var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
+
+            block.applier.change("order", i, null, that.options.orderUpdateSource);
+            block.applier.change("firstInOrder", i === 0 ? true : false, null, that.options.orderUpdateSource);
+            block.applier.change("lastInOrder", i === blockUis.length - 1 ? true : false, null, that.options.orderUpdateSource);
+        }
+
+        // update the story model based on the blocks, then sort it
+        that.blockManager.updateStoryFromBlocks();
+        sjrk.storyTelling.ui.storyEditor.sortStoryContent(that.story);
+
+        completionEvent.fire();
+    };
+
+    /**
+     * Builds a class name pattern that can, for example, be matched against a
+     * list of class names of a managed dynamic view component (e.g. a blockUi)
+     *
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     */
+    sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern = function (blockManager) {
+        return "^" + blockManager.options.selectors.managedViewComponents.substring(1) + "-";
+    };
+
+    /**
+     * Sorts a story's content array (block model array) according to
+     * each block's `order` value
+     *
+     * @param {Component} story - an instance of sjrk.storyTelling.story
+     */
+    sjrk.storyTelling.ui.storyEditor.sortStoryContent = function (story) {
+        var contentCopy = fluid.copy(story.model.content);
+
+        fluid.stableSort(contentCopy, function (a, b) {
+            if (a.order > b.order) {
+                return 1;
+            } else if (a.order < b.order) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        story.applier.change("content", contentCopy);
     };
 
 })(jQuery, fluid);

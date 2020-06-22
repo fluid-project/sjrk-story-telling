@@ -135,7 +135,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["StoryUi is ready, initial story is as expected", sjrk.storyTelling.ui.testStoryUi.testStoryInitial, "{storyUi}.story.model"]
                 },
                 {
-                    funcName: "sjrk.storyTelling.ui.createBlocksFromData",
+                    funcName: "sjrk.storyTelling.ui.storyUi.createBlocksFromData",
                     args: [sjrk.storyTelling.ui.testStoryUi.testStoryPopulated.content, "{storyUi}.blockManager.options.blockTypeLookup", "{storyUi}.blockManager.events.viewComponentContainerRequested"]
                 },
                 {

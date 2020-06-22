@@ -49,66 +49,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     });
 
-    /**
-     * Fabricates a grade based on the model values passed in from the event
-     * This roundabout approach is necessary to ensure that we can have
-     * model values from the event merged successfully with the base values
-     * of the block
-     *
-     * @param {Object} modelValuesFromEvent - the model values to use
-     *
-     * @return {String} - the new grade's name
-     */
-    sjrk.storyTelling.ui.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
-        var gradeName = "sjrk.storyTelling.block-" + fluid.allocateGuid();
-        fluid.defaults(gradeName, {
-            // TODO: this should test that modelValuesFromEvent is a legitimate
-            // model object, rather than simply existing
-            model: modelValuesFromEvent ? modelValuesFromEvent : {}
-        });
-        return gradeName;
-    };
-
-    /**
-     * Given a collection of story block data, will fire a creation event for each,
-     * specifying a grade name based on a lookup list. The format of the lookup list is:
-     *     {
-     *         "blockTypeX": "the.full.x.block.grade.name",
-     *         "blockTypeY": "the.full.y.block.grade.name",
-     *     }
-     *
-     * @param {Component[]} storyBlocks - a collection of story blocks (sjrk.storyTelling.block)
-     * @param {Object.<String, String>} blockTypeLookup - the list of blockType names and associated grades
-     * @param {Object} createEvent - the event that is to be fired in order to create the blocks
-     */
-    sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
-        fluid.each(storyBlocks, function (blockData) {
-            var gradeNames = blockTypeLookup[blockData.blockType];
-            createEvent.fire(gradeNames, {modelValues: blockData});
-        });
-    };
-
-    /**
-     * Updates a story's model based on the individual models of all blocks,
-     * in the order in which they're stored.
-     *
-     * @param {Component} story - an instance of sjrk.storyTelling.story
-     * @param {Component[]} blockUis - a collection of sjrk.storyTelling.blockUI components
-     * @param {Object} completionEvent - the event to be fired upon successful completion
-     */
-    sjrk.storyTelling.ui.updateStoryFromBlocks = function (story, blockUis, completionEvent) {
-        var storyContent = [];
-
-        fluid.each(blockUis, function (ui) {
-            var blockData = ui.block.model;
-            storyContent.push(blockData);
-        });
-
-        story.applier.change("content", storyContent);
-
-        completionEvent.fire();
-    };
-
     // Represents a UI with a story (sjrk.storyTelling.story), and adds
     // management of dynamically-created block UIs for each story block
     fluid.defaults("sjrk.storyTelling.ui.storyUi", {
@@ -121,7 +61,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyContent: ".sjrkc-st-story-content",
             storyTags: ".sjrkc-st-story-tags"
         },
-        // the name of the model change source when block order is updated
+        // The name of the model change source when block order is updated.
+        // This should match the source specified in the block modelListeners
         orderUpdateSource: "orderUpdate",
         events: {
             onStoryUpdatedFromBlocks: null,
@@ -163,11 +104,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     blockTypeLookup: null,
                     invokers: {
                         createBlocksFromData: {
-                            funcName: "sjrk.storyTelling.ui.createBlocksFromData",
+                            funcName: "sjrk.storyTelling.ui.storyUi.createBlocksFromData",
                             args: ["{arguments}.0", "{that}.options.blockTypeLookup", "{that}.events.viewComponentContainerRequested"]
                         },
                         updateStoryFromBlocks: {
-                            funcName: "sjrk.storyTelling.ui.updateStoryFromBlocks",
+                            funcName: "sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks",
                             args: [
                                 "{ui}.story",
                                 "{that}.managedViewComponentRegistry",
@@ -198,7 +139,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                             gradeNames: ["{that}.getBlockGrade"],
                                             invokers: {
                                                 "getBlockGrade": {
-                                                    funcName: "sjrk.storyTelling.ui.getBlockGradeFromEventModelValues",
+                                                    funcName: "sjrk.storyTelling.ui.storyUi.getBlockGradeFromEventModelValues",
                                                     args: ["{blockUi}.options.additionalConfiguration.modelValues"]
                                                 }
                                             },
@@ -221,71 +162,63 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     });
 
     /**
-     * Updates the order of each block model according to the order of the blockUi
-     * elements in the story content editing area
+     * Fabricates a grade based on the model values passed in from the event
+     * This roundabout approach is necessary to ensure that we can have
+     * model values from the event merged successfully with the base values
+     * of the block
      *
-     * @param {Component} that - an instance of sjrk.storyTelling.ui.storyUi
-     * @param {Object} completionEvent - the event to be fired upon successful completion
+     * @param {Object} modelValuesFromEvent - the model values to use
+     *
+     * @return {String} - the new grade's name
      */
-    sjrk.storyTelling.ui.updateBlockOrder = function (that, completionEvent) {
-        var blockUis = that.reorderer.container.children();
-
-        // used to retrieve the class name for each block
-        // within the blockManager's managedViewComponentRegistry
-        var managedClassNamePattern = sjrk.storyTelling.ui.getManagedClassNamePattern(that.blockManager);
-
-        for (var i = 0; i < blockUis.length; i++) {
-            var managedClassName = fluid.find(blockUis[i].classList, function (value) {
-                if (typeof value === "string") {
-                    var patternMatches = value.match(managedClassNamePattern);
-                    return patternMatches === null ? undefined : patternMatches.input;
-                }
-            });
-
-            var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
-
-            block.applier.change("order", i, null, that.options.orderUpdateSource);
-            block.applier.change("firstInOrder", i === 0 ? true : false, null, that.options.orderUpdateSource);
-            block.applier.change("lastInOrder", i === blockUis.length - 1 ? true : false, null, that.options.orderUpdateSource);
-        }
-
-        // update the story model based on the blocks, then sort it
-        that.blockManager.updateStoryFromBlocks();
-        sjrk.storyTelling.ui.sortStoryContent(that.story);
-
-        completionEvent.fire();
+    sjrk.storyTelling.ui.storyUi.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
+        var gradeName = "sjrk.storyTelling.block-" + fluid.allocateGuid();
+        fluid.defaults(gradeName, {
+            // TODO: this should test that modelValuesFromEvent is a legitimate
+            // model object, rather than simply existing
+            model: modelValuesFromEvent ? modelValuesFromEvent : {}
+        });
+        return gradeName;
     };
 
     /**
-     * Builds a class name pattern that can, for example, be matched against a
-     * list of class names of a managed dynamic view component (e.g. a blockUi)
+     * Given a collection of story block data, will fire a creation event for each,
+     * specifying a grade name based on a lookup list. The format of the lookup list is:
+     *     {
+     *         "blockTypeX": "the.full.x.block.grade.name",
+     *         "blockTypeY": "the.full.y.block.grade.name",
+     *     }
      *
-     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     * @param {Component[]} storyBlocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Object.<String, String>} blockTypeLookup - the list of blockType names and associated grades
+     * @param {Object} createEvent - the event that is to be fired in order to create the blocks
      */
-    sjrk.storyTelling.ui.getManagedClassNamePattern = function (blockManager) {
-        return "^" + blockManager.options.selectors.managedViewComponents.substring(1) + "-";
+    sjrk.storyTelling.ui.storyUi.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
+        fluid.each(storyBlocks, function (blockData) {
+            var gradeNames = blockTypeLookup[blockData.blockType];
+            createEvent.fire(gradeNames, {modelValues: blockData});
+        });
     };
 
     /**
-     * Sorts a story's content array (block model array) according to
-     * each block's `order` value
+     * Updates a story's model based on the individual models of all blocks,
+     * in the order in which they're stored.
      *
      * @param {Component} story - an instance of sjrk.storyTelling.story
+     * @param {Component[]} blockUis - a collection of sjrk.storyTelling.blockUI components
+     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
-    sjrk.storyTelling.ui.sortStoryContent = function (story) {
-        var contentCopy = fluid.copy(story.model.content);
+    sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks = function (story, blockUis, completionEvent) {
+        var storyContent = [];
 
-        fluid.stableSort(contentCopy, function (a, b) {
-            if (a.order > b.order) {
-                return 1;
-            } else if (a.order < b.order) {
-                return -1;
-            } else {
-                return 0;
-            }
+        fluid.each(blockUis, function (ui) {
+            var blockData = ui.block.model;
+            storyContent.push(blockData);
         });
 
-        story.applier.change("content", contentCopy);
+        story.applier.change("content", storyContent);
+
+        completionEvent.fire();
     };
 
 })(jQuery, fluid);
