@@ -316,7 +316,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         // used to retrieve the class name for each block
         // within the blockManager's managedViewComponentRegistry
-        var managedClassNamePattern = sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern(that.blockManager);
+        var managedClassNamePattern = sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern(that.blockManager.options.selectors.managedViewComponents);
 
         for (var i = 0; i < blockUis.length; i++) {
             var managedClassName = fluid.find(blockUis[i].classList, function (value) {
@@ -341,13 +341,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Builds a class name pattern that can, for example, be matched against a
+     * Builds a class selector pattern that can, for example, be matched against a
      * list of class names of a managed dynamic view component (e.g. a blockUi)
      *
-     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     * @param {String} managedViewComponentSelector - a CSS selector
      */
-    sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern = function (blockManager) {
-        return "^" + blockManager.options.selectors.managedViewComponents.substring(1) + "-";
+    sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern = function (managedViewComponentSelector) {
+        if (managedViewComponentSelector && typeof managedViewComponentSelector === "string") {
+            return "^" + managedViewComponentSelector.substring(1) + "-";
+        } else {
+            return undefined;
+        }
     };
 
     /**

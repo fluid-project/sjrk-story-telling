@@ -155,7 +155,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
-                name: "Test block order updating and model listener",
+                name: "Test block model listener",
                 expect: 5,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",

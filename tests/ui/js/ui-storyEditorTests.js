@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid */
+/* global fluid, sjrk, jqUnit */
 
 "use strict";
 
@@ -241,6 +241,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
+                name: "Block reordering function unit tests",
+                expect: 19,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.ui.storyEditorTester.sortStoryContentTests"
+                },
+                {
+                    funcName: "sjrk.storyTelling.ui.storyEditorTester.getManagedClassNamePatternTests"
+                }]
+            },
+            {
                 name: "Test tags model relay",
                 expect: 1,
                 sequence: [{
@@ -294,6 +304,92 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
+
+    /**
+     * Tests the sortStoryContent function
+     */
+    sjrk.storyTelling.ui.storyEditorTester.sortStoryContentTests = function () {
+        var testCases = {
+            aLessThanB: {
+                content: [{ id: "a", order: 0 }, { id: "b", order: 1 }],
+                expectedContent: [{ id: "a", order: 0 }, { id: "b", order: 1 }]
+            },
+            bLessThanA: {
+                content: [{ id: "a", order: 1 }, { id: "b", order: 0 }],
+                expectedContent: [{ id: "b", order: 0 }, { id: "a", order: 1 }]
+            },
+            aSameAsB: {
+                content: [{ id: "a", order: 0 }, { id: "b", order: 0 }],
+                expectedContent: [{ id: "a", order: 0 }, { id: "b", order: 0 }]
+            },
+            bothFalse: {
+                content: [{ id: "a", order: false }, { id: "b", order: false }],
+                expectedContent: [{ id: "a", order: false }, { id: "b", order: false }]
+            },
+            bothTrue: {
+                content: [{ id: "a", order: true }, { id: "b", order: true }],
+                expectedContent: [{ id: "a", order: true }, { id: "b", order: true }]
+            },
+            bothUndefined: {
+                content: [{ id: "a", order: undefined }, { id: "b", order: undefined }],
+                expectedContent: [{ id: "a" }, { id: "b" }]
+            },
+            bothNull: {
+                content: [{ id: "a", order: null }, { id: "b", order: null }],
+                expectedContent: [{ id: "a", order: null }, { id: "b", order: null }]
+            },
+            bothStrings: {
+                content: [{ id: "a", order: "incorrect" }, { id: "b", order: "values" }],
+                expectedContent: [{ id: "a", order: "incorrect" }, { id: "b", order: "values" }]
+            },
+            oneBlock: {
+                content: [{ id: "a", order: 0 }],
+                expectedContent: [{ id: "a", order: 0 }]
+            },
+            noBlocks: {
+                content: [],
+                expectedContent: []
+            }
+        };
+
+        fluid.each(testCases, function (testCase, caseName) {
+            // create a new story component with the provided content array
+            var testStory = sjrk.storyTelling.story({
+                soandso: "this is a thing",
+                model: {
+                    content: testCase.content
+                }
+            });
+
+            sjrk.storyTelling.ui.storyEditor.sortStoryContent(testStory);
+            var actualContent = testStory.model.content;
+
+            jqUnit.assertDeepEq("Story content is as expected after reorder: " + caseName, testCase.expectedContent, actualContent);
+        });
+    };
+
+    /**
+     * Tests the getManagedClassNamePattern function
+     */
+    sjrk.storyTelling.ui.storyEditorTester.getManagedClassNamePatternTests = function () {
+        var testCases = {
+            normal: { selector: ".test-selector", expected: "\^test-selector-" },
+            incorrectFormat: { selector: "test-selector", expected: "\^est-selector-" },
+            charArray: { selector: [".","t","e","s","t"], expected: undefined },
+            emptyObject: { selector: {}, expected: undefined },
+            numberZero: { selector: 0, expected: undefined },
+            numberOne: { selector: 1, expected: undefined },
+            boolTrue: { selector: true, expected: undefined },
+            boolFalse: { selector: true, expected: undefined },
+            missingField: { expected: undefined }
+        };
+
+        fluid.each(testCases, function (testCase, caseName) {
+            var actual = sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern(testCase.selector);
+
+            jqUnit.assertDeepEq("Generated class name pattern is as expected: " + caseName, testCase.expected, actual);
+        });
+    };
 
     // Test environment
     fluid.defaults("sjrk.storyTelling.ui.storyEditorTest", {
