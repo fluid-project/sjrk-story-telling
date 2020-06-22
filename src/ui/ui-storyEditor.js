@@ -68,15 +68,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
             onRemoveBlocksCompleted: null,
-            onEditorTemplateRendered: null,
-            onBlockManagerCreated: null,
-            onBlockOrderUpdated: null,
-            onReadyToBind: {
-                events: {
-                    onEditorTemplateRendered: "{that}.events.onEditorTemplateRendered",
-                    onBlockManagerCreated: "{that}.events.onBlockManagerCreated"
-                }
-            }
+            onBlockOrderUpdated: null
         },
         listeners: {
             "onReadyToBind.bindAddAudioBlock": {
@@ -142,9 +134,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the templateManager for this UI
             templateManager: {
                 options: {
-                    listeners: {
-                        "onTemplateRendered.escalate": "{storyEditor}.events.onEditorTemplateRendered.fire"
-                    },
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/storyEditor.handlebars"
                     }
@@ -170,10 +159,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
                     },
                     listeners: {
-                        "onCreate.escalate": {
-                            func: "{storyEditor}.events.onBlockManagerCreated.fire",
-                            priority: "last"
-                        },
                         "{storyEditor}.events.onAudioBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addAudioBlock",
@@ -193,11 +178,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addVideoBlock",
                             args: ["sjrk.storyTelling.blockUi.editor.videoBlockEditor"]
-                        },
-                        "{reorderer}.events.onRefresh": {
-                            func: "sjrk.storyTelling.ui.updateBlockOrder",
-                            args: ["{storyEditor}", "{storyEditor}.events.onBlockOrderUpdated"],
-                            namespace: "updateBlockOrderAfterReorder"
                         }
                     }
                 }
@@ -246,7 +226,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             reorderer: {
                 type: "fluid.reorderList",
                 container: "{storyEditor}.dom.storyEditorContent",
-                createOnEvent: "{storyEditor}.events.onEditorTemplateRendered",
+                createOnEvent: "{storyEditor}.events.onTemplateRendered",
                 options: {
                     disableWrap: true,
                     selectablesTabindex: 0,
@@ -276,6 +256,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             this: "{that}.container",
                             method: "on",
                             args: ["focusin", "{that}.refresh"]
+                        },
+                        "onRefresh.updateBlockOrderAfterReorder": {
+                            func: "sjrk.storyTelling.ui.updateBlockOrder",
+                            args: ["{storyEditor}", "{storyEditor}.events.onBlockOrderUpdated"]
                         }
                     }
                 }

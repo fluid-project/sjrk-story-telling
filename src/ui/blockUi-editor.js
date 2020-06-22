@@ -24,6 +24,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             moveBlockUpDisabled: "{block}.model.firstInOrder"
         },
         modelListeners: {
+            // The use of excludeSource: ["init"] in these two model listeners
+            // is to prevent calling the invoker on model initialization, which
+            // would have no effect as it would occur before the template is
+            // rendered. This can be improved with some changes to the templateManager
+            // grade which are described in SJRK-364:
+            // https://issues.fluidproject.org/browse/SJRK-364
+            //
+            // This is also discussed in review for SJRK-288/SJRK-359 pull request:
+            // https://github.com/fluid-project/sjrk-story-telling/pull/84#pullrequestreview-431017684
             "moveBlockDownDisabled": {
                 func: "{that}.setButtonDisabled",
                 args: ["{that}.dom.moveBlockDownButton", "{change}.value"],

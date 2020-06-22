@@ -71,7 +71,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test UI controls",
                 expect: 17,
                 sequence: [{
-                    "event": "{storyEditorTest storyEditor}.events.onControlsBound",
+                    event: "{storyEditorTest storyEditor}.events.onReadyToBind",
                     listener: "jqUnit.assert",
                     args: ["Story editor's onControlsBound event fired"]
                 },
@@ -179,7 +179,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block reorderer",
-                expect: 9,
+                expect: 10,
                 sequence: [{
                     // add a first block
                     jQueryTrigger: "click",
@@ -229,6 +229,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     event: "{storyEditor}.reorderer.events.onMove",
                     listener: "jqUnit.assert",
                     args: ["Reorderer onMove fired on moveBlockDown button clicked"]
+                },
+                {
+                    // Refresh the reorderer, listen for onBlockOrderUpdated after it's done
+                    func: "{storyEditor}.reorderer.refresh"
+                },
+                {
+                    event: "{storyEditor}.events.onBlockOrderUpdated",
+                    listener: "jqUnit.assert",
+                    args: ["onBlockOrderUpdated fired on reorderer refresh, as expected"]
                 }]
             },
             {

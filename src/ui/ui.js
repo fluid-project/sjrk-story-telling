@@ -18,8 +18,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui", {
         gradeNames: ["fluid.viewComponent"],
         events: {
-            onReadyToBind: null,
-            onControlsBound: null
+            onTemplateRendered: null,
+            onControlsBound: null,
+            onReadyToBind: {
+                events: {
+                    onTemplateRendered: "{that}.events.onTemplateRendered"
+                }
+            }
         },
         listeners: {
             "onReadyToBind.fireOnControlsBound": {
@@ -34,7 +39,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.container",
                 options: {
                     listeners: {
-                        "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
+                        "onTemplateRendered.escalate": "{ui}.events.onTemplateRendered"
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/messages/storyMessages.json"
@@ -119,7 +124,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         // the name of the model change source when block order is updated
         orderUpdateSource: "orderUpdate",
         events: {
-            onStoryUpdatedFromBlocks: null
+            onStoryUpdatedFromBlocks: null,
+            onBlockManagerCreated: null,
+            onReadyToBind: {
+                events: {
+                    onBlockManagerCreated: "{that}.events.onBlockManagerCreated"
+                }
+            }
         },
         components: {
             // represents the story data
@@ -139,7 +150,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // for dynamically rendering the story block by block
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
+                container: "{ui}.container",
+                createOnEvent: "{ui}.events.onTemplateRendered",
                 options: {
                     // blockTypeLookup will be supplied by implementing grades
                     // It is a lookup list for dynamically-created block view components.
@@ -164,6 +176,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     listeners: {
+                        "onCreate.escalate": "{ui}.events.onBlockManagerCreated",
                         "onCreate.createBlocksFromData": {
                             func: "{that}.createBlocksFromData",
                             args: ["{story}.model.content"]

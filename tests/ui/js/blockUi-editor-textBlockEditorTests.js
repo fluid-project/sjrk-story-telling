@@ -65,7 +65,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test reorder buttons and model listeners",
-                expect: 2,
+                expect: 6,
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
                     args: ["moveBlockDownDisabled is true to begin with", true, "{textBlockEditor}.model.moveBlockDownDisabled"]
