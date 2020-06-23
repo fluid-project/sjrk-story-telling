@@ -1,0 +1,202 @@
+<html>
+    <head>
+        <link rel="stylesheet" media="screen" href="../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
+
+        <script src="../../node_modules/infusion/dist/infusion-all.js"></script>
+
+        <script src="../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
+        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
+        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
+        <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
+
+        <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
+        <script src="../../node_modules/gpii-binder/src/js/transforms.js"></script>
+
+        <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
+        <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/equals.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/helper.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/jsonify.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/md-common.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/messageHelper.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/renderer.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/ajaxCapable.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/md-client.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/messageHelper.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateFormControl.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateManager.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateMessage.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateRequestAndRender.js"></script>
+
+        <script src="../../src/dynamicViewComponentManager.js"></script>
+        <script src="../../src/binder.js"></script>
+        <script src="../../src/block.js"></script>
+        <script src="../../src/block-audio.js"></script>
+        <script src="../../src/block-image.js"></script>
+        <script src="../../src/block-text.js"></script>
+        <script src="../../src/block-timeBased.js"></script>
+        <script src="../../src/block-video.js"></script>
+        <script src="../../src/blockUi.js"></script>
+        <script src="../../src/blockUi-editor.js"></script>
+        <script src="../../src/blockUi-timeBased.js"></script>
+        <script src="../../src/blockUi-editor-audioBlockEditor.js"></script>
+        <script src="../../src/blockUi-editor-imageBlockEditor.js"></script>
+        <script src="../../src/blockUi-editor-mediaBlockEditor.js"></script>
+        <script src="../../src/blockUi-editor-textBlockEditor.js"></script>
+        <script src="../../src/blockUi-editor-videoBlockEditor.js"></script>
+        <script src="../../src/story.js"></script>
+        <script src="../../src/templateManager.js"></script>
+        <script src="../../src/ui.js"></script>
+        <script src="../../src/ui-storyEditor.js"></script>
+        <script src="../../src/uploader.js"></script>
+        <script src="../../src/transforms.js"></script>
+
+        <title>Story Editor UI - Manual Tests</title>
+
+        <style>
+        .sjrk-st-reorderer-buttons {
+            margin-bottom: 0.25rem;
+        }
+
+        .sjrk-st-reorderer-move-buttons {
+            display: inline-block;
+            border: solid 1px #aaa;
+            border-radius: 2px;
+            background: #fff;
+            line-height: 0;
+            vertical-align: middle;
+        }
+
+        .sjrk-st-reorderer-grab-handle,
+        .sjrk-st-reorderer-move-up,
+        .sjrk-st-reorderer-move-down {
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            background-color: #fff;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 60%;
+            box-sizing: content-box;
+        }
+
+        .sjrk-st-reorderer-grab-handle {
+            background-image: url("../../img/icons/block_move.svg");
+            border: solid 1px #aaa;
+            background-size: 75%;
+            cursor: move;
+            vertical-align: middle;
+        }
+
+        .sjrk-st-reorderer-move-up {
+            background-image: url("../../img/icons/block_up.svg");
+            border-right: solid 1px #aaa;
+        }
+
+        .sjrk-st-reorderer-move-up:disabled {
+            background-image: url("../../img/icons/block_up_disabled.svg") !important;
+        }
+
+        .sjrk-st-reorderer-move-down {
+            background-image: url("../../img/icons/block_down.svg");
+            border-left: solid 1px #aaa;
+        }
+
+        .sjrk-st-reorderer-move-down:disabled {
+            background-image: url("../../img/icons/block_down_disabled.svg") !important;
+        }
+
+        .sjrk-st-reorderer-block-dropmarker {
+            background-color: #d0e2ac;
+            height: 3px;
+            padding: 0;
+            margin: 1rem 2rem 2rem 2rem;
+        }
+        </style>
+    </head>
+    <body id="body">
+        <h1>Story Editor - Manual Tests</h1>
+        <h2>Instructions</h2>
+        <ol>
+            <li>Click "Add a text block"</li>
+            <li>Click "Add an image block"</li>
+            <li>Click "Add an audio block"</li>
+            <li>Click "Add a video block"</li>
+            <li>Confirm they have all appeared on the page</li>
+            <li>Click on the empty space of one of the blocks</li>
+            <li>
+                Confirm the move up/down buttons are enabled where appropriate:
+                <ol>
+                    <li>The top (text) block should only have "move down" enabled</li>
+                    <li>The middle (image and audio) blocks should have both buttons enabled</li>
+                    <li>The bottom (video) block should only have "move up" enabled</li>
+                </ol>
+            </li>
+            <li>Click the "move down" button on the text block</li>
+            <li>Confirm the image block and bext block have switched positions and that the buttons are enabled/disabled according to their position</li>
+            <li>Click the "move up" button on the text block</li>
+            <li>Confirm the image block and text block have switched back</li>
+            <li>Click on the instructions (here! :))</li>
+            <li>Keyboard navigate (tab) to the "Remove selected blocks" button</li>
+            <li>Tab forward one time and confirm that the entire text block group is selected (move/up/down buttons, block fields)</li>
+            <li>With focus held on that block, press the down ↓ and up ↑ arrow keys to ensure focus switches from block to block</li>
+            <li>Press the "M" and "I" keys and confirm the same behaviour</li>
+            <li>With the text block selected, hold "Ctrl" (Windows) or "Control" + "Shift" (Mac) and press the down arrow key ↓</li>
+            <li>Confirm the text block and image block have swapped positions</li>
+            <li>Do the same with the up arrow key ↑ and confirm they have switched back</li>
+            <li>Repeat the last three steps, substituting "I" & "M" keys for "up" ↑ & "down" ↓</li>
+            <li>Click and hold the mouse on the "move block" button of the text block</li>
+            <li>Drag the block to another position between two other blocks</li>
+            <li>Confirm the insertion line appears, and when you release the mouse confirm the block is moved there</li>
+            <li>Confirm all of the move up/down buttons are set correctly after the block was moved</li>
+        </ol>
+        <div id="testStoryEditor"></div>
+
+        <script>
+        $(document).ready(function () {
+            sjrk.storyTelling.ui.storyEditor("#testStoryEditor", {
+                components: {
+                    templateManager: {
+                        options: {
+                            model: {
+                                dynamicValues: {
+                                    authoringEnabled: true
+                                }
+                            },
+                            templateConfig: {
+                                resourcePrefix: "../.."
+                            }
+                        }
+                    },
+                    blockManager: {
+                        options: {
+                            dynamicComponents: {
+                                managedViewComponents: {
+                                    options: {
+                                        components: {
+                                            templateManager: {
+                                                options: {
+                                                    templateConfig: {
+                                                        resourcePrefix: "../.."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        </script>
+    </body>
+</html>
