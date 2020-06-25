@@ -250,8 +250,18 @@ fieldset ul {
     position: relative;
 }
 
-/* represents the entire block viewComponent during focus, including its controls */
 *:focus {
+    outline-color: var(--site-focus);
+    outline-style: solid;
+    outline-width: 2px;
+}
+
+/* adds the same focus rule to Firefox buttons. other browsers ignore the rule if
+ * it's defined alongside the one above, hence the repetition */
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
     outline-color: var(--site-focus);
     outline-style: solid;
     outline-width: 2px;
