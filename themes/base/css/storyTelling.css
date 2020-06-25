@@ -431,12 +431,12 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-audio-preview-plac
 
 .sjrk-st-story-editor-next-arrow {
     margin-left: 0.25rem;
-    background: url("../img/icons/Forward.svg") no-repeat;
+    background: url("../img/icons/Forward.svg") center no-repeat;
 }
 
 .sjrk-st-story-editor-previous-arrow,
 .sjrk-st-story-viewer-previous-arrow {
-    background: url("../img/icons/Back.svg") no-repeat;
+    background: url("../img/icons/Back.svg") center no-repeat;
 }
 
 .sjrk-st-story-share-progress {
