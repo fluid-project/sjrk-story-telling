@@ -71,7 +71,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test UI controls",
                 expect: 17,
                 sequence: [{
-                    event: "{storyEditorTest storyEditor}.events.onReadyToBind",
+                    event: "{storyEditorTest storyEditor}.events.onStoryUiReady",
                     listener: "jqUnit.assert",
                     args: ["Story editor's onControlsBound event fired"]
                 },

@@ -226,7 +226,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             reorderer: {
                 type: "fluid.reorderList",
                 container: "{storyEditor}.dom.storyEditorContent",
-                createOnEvent: "{storyEditor}.events.onTemplateRendered",
+                createOnEvent: "{storyEditor}.events.onReadyToBind",
                 options: {
                     disableWrap: true,
                     selectablesTabindex: 0,

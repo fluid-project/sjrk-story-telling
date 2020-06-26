@@ -18,13 +18,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.ui", {
         gradeNames: ["fluid.viewComponent"],
         events: {
-            onTemplateRendered: null,
-            onControlsBound: null,
-            onReadyToBind: {
-                events: {
-                    onTemplateRendered: "{that}.events.onTemplateRendered"
-                }
-            }
+            onReadyToBind: null,
+            onControlsBound: null
         },
         listeners: {
             "onReadyToBind.fireOnControlsBound": {
@@ -39,7 +34,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.container",
                 options: {
                     listeners: {
-                        "onTemplateRendered.escalate": "{ui}.events.onTemplateRendered"
+                        "onTemplateRendered.escalate": "{ui}.events.onReadyToBind"
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/messages/storyMessages.json"
@@ -67,8 +62,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onStoryUpdatedFromBlocks: null,
             onBlockManagerCreated: null,
-            onReadyToBind: {
+            onStoryUiReady: {
                 events: {
+                    onReadyToBind: "{that}.events.onReadyToBind",
                     onBlockManagerCreated: "{that}.events.onBlockManagerCreated"
                 }
             }
@@ -92,7 +88,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             blockManager: {
                 type: "sjrk.dynamicViewComponentManager",
                 container: "{ui}.container",
-                createOnEvent: "{ui}.events.onTemplateRendered",
+                createOnEvent: "{ui}.events.onReadyToBind",
                 options: {
                     // blockTypeLookup will be supplied by implementing grades
                     // It is a lookup list for dynamically-created block view components.

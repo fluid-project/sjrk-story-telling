@@ -16,11 +16,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Test component for the UI grade
     fluid.defaults("sjrk.storyTelling.ui.testStoryUi", {
         gradeNames: ["sjrk.storyTelling.ui.storyUi"],
-        events: {
-            blockCreateEvent: null,
-            onTemplateRendered: null,
-            onBlockManagerCreated: null
-        },
         components: {
             story: {
                 options: {
@@ -130,7 +125,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 name: "Test createBlocksFromData function",
                 expect: 7,
                 sequence: [{
-                    event: "{storyUiTest storyUi}.events.onReadyToBind",
+                    event: "{storyUiTest storyUi}.events.onStoryUiReady",
                     listener: "jqUnit.assertDeepEq",
                     args: ["StoryUi is ready, initial story is as expected", sjrk.storyTelling.ui.testStoryUi.testStoryInitial, "{storyUi}.story.model"]
                 },
