@@ -113,11 +113,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     listeners: {
-                        "onCreate.escalate": "{ui}.events.onBlockManagerCreated",
-                        "onCreate.createBlocksFromData": {
-                            func: "{that}.createBlocksFromData",
-                            args: ["{story}.model.content"]
-                        }
+                        "onCreate.escalate": "{ui}.events.onBlockManagerCreated"
                     },
                     dynamicComponents: {
                         managedViewComponents: {
