@@ -247,11 +247,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     listeners: {
-                        // We should be refreshing the reorderer on each new block
-                        // being added, but we can't reliably know when a block
-                        // has finished being rendered. It would also be possible
-                        // to refresh while a block is being added, which we want
-                        // to avoid. This is the workaround:
+                        // TODO: This listener is necessary to avoid a race condition that
+                        // is created when the refresh operation is being run while
+                        // a new block is still being added. If the DOM container
+                        // for a new block is present but its template has not been
+                        // rendered, the operation will fail.
+                        //
+                        // This bug and a potential solution are detailed in SJRK-369:
+                        // https://issues.fluidproject.org/browse/SJRK-369
                         "onCreate.bindFocusListener": {
                             this: "{that}.container",
                             method: "on",
