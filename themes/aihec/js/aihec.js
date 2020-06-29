@@ -64,10 +64,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the AIHEC shell to the storyView page
     fluid.defaults("sjrk.storyTelling.aihec.page.storyView", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyView"],
-        distributeOptions: {
+        distributeOptions: [{
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
-        }
+        },{
+            target: "{that > masthead > templateManager}.options.model.dynamicValues",
+            record: {
+                currentPage: "{storyViewer}.story.model.id"
+            }
+        }]
     });
 
     // Applies the AIHEC shell to the storyBrowse page

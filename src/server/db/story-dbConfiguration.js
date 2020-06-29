@@ -35,6 +35,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
         "storyExample": {
             "type": "story",
             "value": {
+                "id": "storyExample",
                 "title": "The Story Builder how-to",
                 "content": [{
                     "heading": "Add Content Blocks",
