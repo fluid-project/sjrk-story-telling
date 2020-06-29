@@ -361,27 +361,39 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /**
      * Sorts a story's content array (block model array) according to
-     * each block's `order` value
+     * each block's `order` value. If any order value is non-numeric, nothing
+     * will be changed or updated
      *
      * @param {Component} story - an instance of sjrk.storyTelling.story
      */
     sjrk.storyTelling.ui.storyEditor.sortStoryContent = function (story) {
-        var contentCopy = fluid.copy(story.model.content);
-
-        fluid.stableSort(contentCopy, function (a, b) {
-            if (a.order > b.order) {
-                return 1;
-            } else if (a.order < b.order) {
-                return -1;
-            } else {
-                return 0;
+        var invalidOrderPresent = false;
+        fluid.each(story.model.content, function (block) {
+            if (typeof block.order !== "number") {
+                invalidOrderPresent = true;
             }
         });
 
-        var storyUpdateTransaction = story.applier.initiate();
-        storyUpdateTransaction.fireChangeRequest({path: "content", type: "DELETE"});
-        storyUpdateTransaction.fireChangeRequest({path: "content", value: contentCopy});
-        storyUpdateTransaction.commit();
+        if (invalidOrderPresent) {
+            return;
+        } else {
+            var contentCopy = fluid.copy(story.model.content);
+
+            fluid.stableSort(contentCopy, function (a, b) {
+                if (a.order > b.order) {
+                    return 1;
+                } else if (a.order < b.order) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+
+            var storyUpdateTransaction = story.applier.initiate();
+            storyUpdateTransaction.fireChangeRequest({path: "content", type: "DELETE"});
+            storyUpdateTransaction.fireChangeRequest({path: "content", value: contentCopy});
+            storyUpdateTransaction.commit();
+        }
     };
 
 })(jQuery, fluid);

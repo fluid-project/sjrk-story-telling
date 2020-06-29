@@ -277,7 +277,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Block reordering function unit tests",
-                expect: 19,
+                expect: 21,
                 sequence: [{
                     funcName: "sjrk.storyTelling.ui.storyEditorTester.sortStoryContentTests"
                 },
@@ -371,6 +371,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 content: [{ id: "a", order: 0 }, { id: "b", order: 0 }],
                 expectedContent: [{ id: "a", order: 0 }, { id: "b", order: 0 }]
             },
+            bFalseOnly: {
+                content: [{ id: "a", order: 0 }, { id: "b", order: false }],
+                expectedContent: [{ id: "a", order: 0 }, { id: "b", order: false }]
+            },
             bothFalse: {
                 content: [{ id: "a", order: false }, { id: "b", order: false }],
                 expectedContent: [{ id: "a", order: false }, { id: "b", order: false }]
@@ -378,6 +382,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             bothTrue: {
                 content: [{ id: "a", order: true }, { id: "b", order: true }],
                 expectedContent: [{ id: "a", order: true }, { id: "b", order: true }]
+            },
+            aTrueBFalse: {
+                content: [{ id: "a", order: true }, { id: "b", order: false }],
+                expectedContent: [{ id: "a", order: true }, { id: "b", order: false }]
             },
             bothUndefined: {
                 content: [{ id: "a", order: undefined }, { id: "b", order: undefined }],
