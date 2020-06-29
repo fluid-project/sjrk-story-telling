@@ -67,8 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onTextBlockAdditionRequested: null,
             onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
-            onRemoveBlocksCompleted: null,
-            onBlockOrderUpdated: null
+            onRemoveBlocksCompleted: null
         },
         listeners: {
             "onReadyToBind.bindAddAudioBlock": {
@@ -262,7 +261,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         },
                         "onRefresh.updateBlockOrderAfterReorder": {
                             func: "sjrk.storyTelling.ui.storyEditor.updateBlockOrder",
-                            args: ["{storyEditor}", "{storyEditor}.events.onBlockOrderUpdated"]
+                            args: ["{storyEditor}"]
                         }
                     }
                 }
@@ -312,9 +311,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * elements in the story content editing area
      *
      * @param {Component} that - an instance of sjrk.storyTelling.ui.storyUi
-     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
-    sjrk.storyTelling.ui.storyEditor.updateBlockOrder = function (that, completionEvent) {
+    sjrk.storyTelling.ui.storyEditor.updateBlockOrder = function (that) {
         var blockUis = that.reorderer.container.children();
 
         // used to retrieve the class name for each block
@@ -331,16 +329,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
             var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
 
-            block.applier.change("order", i, null, that.options.orderUpdateSource);
-            block.applier.change("firstInOrder", i === 0 ? true : false, null, that.options.orderUpdateSource);
-            block.applier.change("lastInOrder", i === blockUis.length - 1 ? true : false, null, that.options.orderUpdateSource);
+            var firstInOrder = i === 0 ? true : false;
+            var lastInOrder = i === blockUis.length - 1 ? true : false;
+
+            // these updates are bundled in a transaction in order to avoid multiple
+            // calls to the updateStoryFromBlocks model listener in the storyUi grade
+            var orderUpdateTransaction = block.applier.initiate();
+            orderUpdateTransaction.fireChangeRequest({path: "order", value: i});
+            orderUpdateTransaction.fireChangeRequest({path: "firstInOrder", value: firstInOrder});
+            orderUpdateTransaction.fireChangeRequest({path: "lastInOrder", value: lastInOrder});
+            orderUpdateTransaction.commit();
         }
 
-        // update the story model based on the blocks, then sort it
-        that.blockManager.updateStoryFromBlocks();
+        // sort the content array in the story model, now that the block orders are updated
         sjrk.storyTelling.ui.storyEditor.sortStoryContent(that.story);
-
-        completionEvent.fire();
     };
 
     /**
@@ -376,7 +378,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         });
 
-        story.applier.change("content", contentCopy);
+        var storyUpdateTransaction = story.applier.initiate();
+        storyUpdateTransaction.fireChangeRequest({path: "content", type: "DELETE"});
+        storyUpdateTransaction.fireChangeRequest({path: "content", value: contentCopy});
+        storyUpdateTransaction.commit();
     };
 
 })(jQuery, fluid);

@@ -198,6 +198,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     * Retrieves the specified block component from the blockManager's registry.
+     * Since the order is determined by the order of the keys alone, it may not
+     * coincide with the block order values or order within the story model
+     *
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     * @param {Number} index - the index of the block to retrieve (zero-based)
+     */
+    sjrk.storyTelling.testUtils.getBlockByIndex = function (blockManager, index) {
+        return Object.values(blockManager.managedViewComponentRegistry)[index].block;
+    };
+
+    /**
      * Alters URL without pageload, via code from StackOverflow
      * {@link https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page}
      *

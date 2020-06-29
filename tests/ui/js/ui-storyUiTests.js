@@ -84,7 +84,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             {
                 blockType: "text",
                 firstInOrder: true,
-                heading: "An old cat",
+                heading: "A new cat",
                 id: null,
                 language: null,
                 lastInOrder: true,
@@ -151,15 +151,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block model listener",
-                expect: 5,
+                expect: 3,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Story model is as expected before model change is triggered", sjrk.storyTelling.ui.testStoryUi.testStoryInitial, "{storyUi}.story.model"]
                 },
                 {
-                    // Trigger a block model change with a source of "orderUpdate"
+                    // Trigger a block model change without a source specified
                     func: "sjrk.storyTelling.ui.storyUiTester.changeFirstBlockModel",
-                    args: ["{storyUi}.blockManager", "heading", "A new cat", "orderUpdate"]
+                    args: ["{storyUi}.blockManager", "heading", "A new cat", null]
                 },
                 {
                     // verify that the first block did change
@@ -168,30 +168,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         blockType: "text",
                         firstInOrder: true,
                         heading: "A new cat",
-                        id: null,
-                        language: null,
-                        lastInOrder: true,
-                        order: 0,
-                        text: "orange fur"
-                    }]
-                },
-                {
-                    // verify that the story did not change
-                    funcName: "jqUnit.assertDeepEq",
-                    args: ["Story model has not changed after block change with orderUpdate source", sjrk.storyTelling.ui.testStoryUi.testStoryInitial, "{storyUi}.story.model"]
-                },
-                {
-                    // Trigger a block model change without a source specified
-                    func: "sjrk.storyTelling.ui.storyUiTester.changeFirstBlockModel",
-                    args: ["{storyUi}.blockManager", "heading", "An old cat", null]
-                },
-                {
-                    // verify that the first block did change
-                    funcName: "sjrk.storyTelling.ui.storyUiTester.verifyFirstBlockModel",
-                    args: ["{storyUi}.blockManager", {
-                        blockType: "text",
-                        firstInOrder: true,
-                        heading: "An old cat",
                         id: null,
                         language: null,
                         lastInOrder: true,
@@ -217,7 +193,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {String} changeSource - the source of the change
      */
     sjrk.storyTelling.ui.storyUiTester.changeFirstBlockModel = function (blockManager, path, newValue, changeSource) {
-        var firstBlock = sjrk.storyTelling.ui.storyUiTester.getFirstBlock(blockManager);
+        var firstBlock = sjrk.storyTelling.testUtils.getBlockByIndex(blockManager, 0);
         firstBlock.applier.change(path, newValue, null, changeSource);
     };
 
@@ -228,19 +204,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {Object} expectedBlockModel - the expected model of the first block
      */
     sjrk.storyTelling.ui.storyUiTester.verifyFirstBlockModel = function (blockManager, expectedBlockModel) {
-        var firstBlock = sjrk.storyTelling.ui.storyUiTester.getFirstBlock(blockManager);
+        var firstBlock = sjrk.storyTelling.testUtils.getBlockByIndex(blockManager, 0);
         jqUnit.assertDeepEq("The first block's model is as expected", expectedBlockModel, firstBlock.model);
-    };
-
-    /**
-     * Retrieves the block component of the "first" block in the blockManager's registry.
-     * Since "first" is determined by the order of the keys alone,
-     * it may not be the block that was first added
-     *
-     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
-     */
-    sjrk.storyTelling.ui.storyUiTester.getFirstBlock = function (blockManager) {
-        return blockManager.managedViewComponentRegistry[Object.keys(blockManager.managedViewComponentRegistry)[0]].block;
     };
 
     /**

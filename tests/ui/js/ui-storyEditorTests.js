@@ -19,9 +19,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         events: {
             onNewBlockTemplateRendered: null
         },
-        model: {
-            lastAddedBlock: null
-        },
         components: {
             templateManager: {
                 options: {
@@ -45,10 +42,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                                 "onTemplateRendered.notifyTestStoryEditor": {
                                                     func: "{testStoryEditor}.events.onNewBlockTemplateRendered.fire",
                                                     args: ["{editor}.options.managedViewComponentRequiredConfig.containerIndividualClass"]
-                                                },
-                                                "onTemplateRendered.setLastAddedBlock": {
-                                                    funcName: "{testStoryEditor}.applier.change",
-                                                    args: ["lastAddedBlock", "{editor}"]
                                                 }
                                             }
                                         }
@@ -61,6 +54,47 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         }
     });
+
+    fluid.registerNamespace("sjrk.storyTelling.ui.storyEditorTester");
+    sjrk.storyTelling.ui.storyEditorTester.testStoryPreReorder = [{
+        "alternativeText": null, "blockType": "image", "description": null,
+        "fileDetails": null, "firstInOrder": true, "heading": null, "id": null,
+        "imageUrl": null, "language": null, "lastInOrder": false, "order": 0
+    },
+    {
+        "blockType": "text", "firstInOrder": false, "heading": null, "id": null,
+        "language": null, "lastInOrder": false, "order": 1, "text": null
+    },
+    {
+        "alternativeText": null, "blockType": "audio", "description": null,
+        "fileDetails": null, "firstInOrder": false, "heading": null, "id": null,
+        "language": null, "lastInOrder": false, "mediaUrl": null, "order": 2
+    },
+    {
+        "alternativeText": null, "blockType": "video", "description": null,
+        "firstInOrder": false, "heading": null, "id": null,
+        "language": null, "lastInOrder": true, "mediaUrl": null, "order": 3
+    }];
+
+    sjrk.storyTelling.ui.storyEditorTester.testStoryAfterFirstReorder = [{
+        "alternativeText": null, "blockType": "image", "description": null,
+        "fileDetails": null, "firstInOrder": true, "heading": null, "id": null,
+        "imageUrl": null, "language": null, "lastInOrder": false, "order": 0
+    },
+    {
+        "alternativeText": null, "blockType": "audio", "description": null,
+        "fileDetails": null, "firstInOrder": false, "heading": null, "id": null,
+        "language": null, "lastInOrder": false, "mediaUrl": null, "order": 1
+    },
+    {
+        "blockType": "text", "firstInOrder": false, "heading": null, "id": null,
+        "language": null, "lastInOrder": false, "order": 2, "text": null
+    },
+    {
+        "alternativeText": null, "blockType": "video", "description": null,
+        "firstInOrder": false, "heading": null, "id": null,
+        "language": null, "lastInOrder": true, "mediaUrl": null, "order": 3
+    }];
 
     // Test cases and sequences for the storyEditor
     fluid.defaults("sjrk.storyTelling.ui.storyEditorTester", {
@@ -179,26 +213,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block reorderer",
-                expect: 10,
+                expect: 11,
                 sequence: [{
-                    // add a first block
+                    // add a third block
                     jQueryTrigger: "click",
-                    element: "{storyEditor}.dom.storyAddTextBlock"
+                    element: "{storyEditor}.dom.storyAddAudioBlock"
                 },
                 {
                     event: "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
-                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.audioBlockEditor"]
                 },
                 {
-                    // add a second block
+                    // add a fourth block
                     jQueryTrigger: "click",
-                    element: "{storyEditor}.dom.storyAddTextBlock"
+                    element: "{storyEditor}.dom.storyAddVideoBlock"
                 },
                 {
                     event: "{storyEditor}.events.onNewBlockTemplateRendered",
                     listener: "sjrk.storyTelling.testUtils.verifyBlockAdded",
-                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.textBlockEditor"]
+                    args: ["{storyEditor}.blockManager", "{arguments}.0", "sjrk.storyTelling.blockUi.editor.videoBlockEditor"]
                 },
                 {
                     // Mock focusin event, listen for reorderer onRefresh
@@ -207,13 +241,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     event: "{storyEditor}.reorderer.events.onRefresh",
-                    listener: "jqUnit.assert",
-                    args: ["Reorderer onRefresh fired on focusin event"]
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Block orders are as expected after reorderer refresh", sjrk.storyTelling.ui.storyEditorTester.testStoryPreReorder, "{storyEditor}.story.model.content"]
                 },
                 {
-                    // Click its reorder button up, listen for reorderer onMove
-                    jQueryTrigger: "click",
-                    element: "{storyEditor}.model.lastAddedBlock.dom.moveBlockUpButton"
+                    // Click its reorder button up, listen for reorderer onMove and check order
+                    funcName: "sjrk.storyTelling.ui.storyEditorTester.clickBlockButton",
+                    args: ["{storyEditor}.blockManager", 2, "moveBlockUpButton"]
                 },
                 {
                     event: "{storyEditor}.reorderer.events.onMove",
@@ -221,9 +255,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Reorderer onMove fired on moveBlockUp button clicked"]
                 },
                 {
-                    // Click its reorder button down, listen for reorderer onMove
-                    jQueryTrigger: "click",
-                    element: "{storyEditor}.model.lastAddedBlock.dom.moveBlockDownButton"
+                    event: "{storyEditor}.reorderer.events.afterMove",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Block orders are as expected after reorder up", sjrk.storyTelling.ui.storyEditorTester.testStoryAfterFirstReorder, "{storyEditor}.story.model.content"]
+                },
+                {
+                    // Click its reorder button down, listen for reorderer onMove and check order
+                    funcName: "sjrk.storyTelling.ui.storyEditorTester.clickBlockButton",
+                    args: ["{storyEditor}.blockManager", 2, "moveBlockDownButton"]
                 },
                 {
                     event: "{storyEditor}.reorderer.events.onMove",
@@ -231,13 +270,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Reorderer onMove fired on moveBlockDown button clicked"]
                 },
                 {
-                    // Refresh the reorderer, listen for onBlockOrderUpdated after it's done
-                    func: "{storyEditor}.reorderer.refresh"
-                },
-                {
-                    event: "{storyEditor}.events.onBlockOrderUpdated",
-                    listener: "jqUnit.assert",
-                    args: ["onBlockOrderUpdated fired on reorderer refresh, as expected"]
+                    event: "{storyEditor}.reorderer.events.afterMove",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["Block orders are as expected after reorder down (original order)", sjrk.storyTelling.ui.storyEditorTester.testStoryPreReorder, "{storyEditor}.story.model.content"]
                 }]
             },
             {
@@ -304,6 +339,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
+
+    /**
+     * Triggers a jQuery click event on a specified button on the block that is
+     * in a given position in the collection (independent of block order)
+     *
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     * @param {Number} blockIndex - the index of the block to click on (0-indexed)
+     * @param {String} buttonSelector - the selector name for the button to click
+     */
+    sjrk.storyTelling.ui.storyEditorTester.clickBlockButton = function (blockManager, blockIndex, buttonSelector) {
+        var blockUi = Object.values(blockManager.managedViewComponentRegistry)[blockIndex];
+        var button = blockUi.dom.locate(buttonSelector);
+        $(button).click();
+    };
 
     /**
      * Tests the sortStoryContent function

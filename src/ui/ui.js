@@ -56,18 +56,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyContent: ".sjrkc-st-story-content",
             storyTags: ".sjrkc-st-story-tags"
         },
-        // The name of the model change source when block order is updated.
-        // This should match the source specified in the block modelListeners
-        orderUpdateSource: "orderUpdate",
         events: {
-            onStoryUpdatedFromBlocks: null,
-            onBlockManagerCreated: null,
-            onStoryUiReady: {
-                events: {
-                    onReadyToBind: "{that}.events.onReadyToBind",
-                    onBlockManagerCreated: "{that}.events.onBlockManagerCreated"
-                }
-            }
+            onStoryUiReady: null
         },
         components: {
             // represents the story data
@@ -105,15 +95,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         },
                         updateStoryFromBlocks: {
                             funcName: "sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks",
-                            args: [
-                                "{ui}.story",
-                                "{that}.managedViewComponentRegistry",
-                                "{ui}.events.onStoryUpdatedFromBlocks"
-                            ]
+                            args: ["{ui}.story", "{that}.managedViewComponentRegistry"]
                         }
                     },
                     listeners: {
-                        "onCreate.escalate": "{ui}.events.onBlockManagerCreated"
+                        "onCreate.escalate": "{ui}.events.onStoryUiReady"
                     },
                     dynamicComponents: {
                         managedViewComponents: {
@@ -138,7 +124,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                             modelListeners: {
                                                 "": {
                                                     func: "{blockManager}.updateStoryFromBlocks",
-                                                    excludeSource: ["init", "orderUpdate"],
+                                                    excludeSource: ["init"],
                                                     namespace: "singleBlockToStory"
                                                 }
                                             }
@@ -198,9 +184,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *
      * @param {Component} story - an instance of sjrk.storyTelling.story
      * @param {Component[]} blockUis - a collection of sjrk.storyTelling.blockUI components
-     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
-    sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks = function (story, blockUis, completionEvent) {
+    sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks = function (story, blockUis) {
         var storyContent = [];
 
         fluid.each(blockUis, function (ui) {
@@ -208,9 +193,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyContent.push(blockData);
         });
 
-        story.applier.change("content", storyContent);
-
-        completionEvent.fire();
+        var storyUpdateTransaction = story.applier.initiate();
+        storyUpdateTransaction.fireChangeRequest({path: "content", type: "DELETE"});
+        storyUpdateTransaction.fireChangeRequest({path: "content", value: storyContent});
+        storyUpdateTransaction.commit();
     };
 
 })(jQuery, fluid);
