@@ -35,11 +35,22 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
         "storyExample": {
             "type": "story",
             "value": {
+                "id": "storyExample",
                 "title": "The Story Builder how-to",
                 "content": [{
                     "heading": "Add Content Blocks",
                     "blockType": "text",
-                    "text": "The Story Builder is designed based on building blocks. There are four types of blocks you can use to build your story:\n\n1. Written content—type directly in the tool\n2. Images (photos of items, drawings, diagrams, etc.)—capture photos or upload files\n3. Audio (sound)—record audio or upload files\n4. Video (audio and visual)—record video or upload files\n\nTo add content blocks and start creating your story, click on an icon at the top of the Story Builder to add a block. You can add as many blocks as you like.\n\nYou won’t be able to reorder the blocks once you have added them, thus, it may be helpful to outline your story blocks before you add them in the Story Builder Tool."
+                    "text": "The Story Builder is designed based on building blocks. There are four types of blocks you can use to build your story:\n\n1. Written content—type directly in the tool\n2. Images (photos of items, drawings, diagrams, etc.)—capture photos or upload files\n3. Audio (sound)—record audio or upload files\n4. Video (audio and visual)—record video or upload files\n\nTo add content blocks and start creating your story, click on an icon at the top of the Story Builder to add a block. You can add as many blocks as you like."
+                },
+                {
+                    "heading": "Reorder Content Blocks",
+                    "blockType": "text",
+                    "text": "You can reorder your content blocks using the mouse or keyboard as follows.\n#### Mouse/Touch\n* Select and drag the block handle to move a block. You will see an insertion line appear at the position where the block will be relocated. To leave the block in the same position, move it until the insertion line is immediately above or below the block you’re moving.\n* Select the up/down buttons to move a block one position up or down.\n#### Keyboard\n* With focus on the up/down buttons, select enter or spacebar to move a block one position up or down, or\n* Use keyboard shortcuts to move a block up or down as follows:\n  * With focus on the whole block, use the up/down arrow keys on your keyboard together with Shift-Control (Mac) or Control/Cntrl (Windows) to move the block up or down."
+                },
+                {
+                    "heading": "Navigating through Content Blocks",
+                    "blockType": "text",
+                    "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block.\n\n**Note:** focus must be on the whole block in order to use this keyboard control (rather than on any one element within the block). We are working on fixing a bug in the tool that limits the ability to move focus from block to block with the keyboard. See Current Bugs section for more detail."
                 },
                 {
                     "heading": "Remove Content Blocks",
@@ -49,17 +60,17 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                 {
                     "heading": "Add Descriptions (Metadata) to Content Blocks",
                     "blockType": "text",
-                    "text": "Each block you add to your story includes a few extra text fields where you can enter additional information about the content of that block. This information is called ‘Metadata’ and it helps screen readers, search engines and other assistive technologies find and access the content of each block."
+                    "text": "Each block you add to your story includes a few extra text fields where you can enter additional information about the content of that block. This optional information is called ‘Metadata’ and it helps screen readers, search engines and other assistive technologies find and access the content of each block."
                 },
                 {
                     "heading": "Add Story Title, Author Name and Keywords",
                     "blockType": "text",
-                    "text": "When you've added all the blocks to your story, select \"Continue\" to give your story a title, author name and some keywords. This information helps others find your story and attribute it to you when they are reusing it. If you plan to enter several keywords, make sure they are separated by a comma."
+                    "text": "When you've added all the blocks to your story, select “Continue” to give your story a title, author name and some keywords. This information helps others find your story and attribute it to you when they are reusing it. If you plan to enter several keywords, make sure they are separated by a comma."
                 },
                 {
                     "heading": "Preview Story",
                     "blockType": "text",
-                    "text": "Selecting the “Preview My Story” button will display how your story will look like when it is published. You can always select the “Back” button to go to the previous section and edit your story."
+                    "text": "Selecting the “Preview My Story” button will display your story as it will appear when published. You can always select the “Back” button to go back to the previous section and continue editing your story."
                 },
                 {
                     "heading": "Publish Story",
@@ -67,9 +78,19 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "text": "Once you are ready to publish your story on The Storytelling Project website, you can select the “Publish My Story” button. Please note that published stories are licensed under Creative Commons Attribution BY 4.0. This means others can reuse the content, make modifications, and attribute to the original author. Published stories are not editable and you cannot remove them from the site.\n\nIf you wish to remove your story from the website, please send an email to the address listed on the footer to request removal of your story."
                 },
                 {
+                    "heading": "Saving Your Story",
+                    "blockType": "text",
+                    "text": "A draft of your story is saved automatically as you work. Text entered into an active text field will not be saved until you navigate out of that text field.\n\nIf you close the Story Tool browser window without publishing your story, your draft will be loaded the next time you open the story tool, as long as you are using the same browser on the same device. At the moment, files (such as videos, images or audio clips) will not be saved with your story, so you will have to add them back in again after loading your story (see Currently Known Bugs section)."
+                },
+                {
                     "heading": "Browse Stories",
                     "blockType": "text",
-                    "text": "Select the “Browse Stories” button on the main page to browse through a collection of published stories by various contributors."
+                    "text": "Select the “Browse Stories” button to browse through a collection of published stories by various contributors."
+                },
+                {
+                    "heading": "Currently Known Bugs",
+                    "blockType": "text",
+                    "text": "Thank you for your patience as we work on improving the Story Tool! Any feedback you can provide is very helpful. You can contact us at stories@idrc.ocadu.ca.\n#### Keyboard focus\n* Using the keyboard to navigate through the Story Builder, you will notice that when focus lands on the first block it encompasses all the buttons as well as the editable block fields.\n* This allows you to navigate from block to block using your keyboard up/down arrow keys, and to reorder your blocks using keyboard shortcuts (see Reorder Content Blocks section for more details).\n* At the moment, however, tabbing from one block to another will not move focus to the whole block, rather it will move focus to the first element within the block.\n* In addition, Shift-tab will not move focus to the whole block.\n* Currently, to focus the whole block, the author must use the keyboard to navigate back to the delete key and then back into the story edit area, or select the desired block using the mouse (mouse click in the upper bar of the block, or on the reorder handle).\n#### Up/down reorder buttons activation\n* The up/down reorder buttons on a newly added block will remain inactive until focus lands on any story block. To focus on a block, you can click/touch anywhere within the block or navigate to it with the keyboard.\n#### Auto-saving\n* At the moment, files (such as videos, images or audio clips) will not be saved with your story. If you close the Story Tool and return, only the text content of your story will be reloaded. You will have to add them back in again after loading your story.\n* Text entered into an active text field will not be saved until you navigate out of that text field.\n"
                 }],
                 "author": "IDRC",
                 "tags": [

@@ -15,6 +15,11 @@
                     {{localizedMessages.link_browse_text}}
                 </a>
             </li>
+            <li>
+                <a href="storyView.html?id=storyExample" {{#equals dynamicValues.currentPage "storyExample"}}class="current-page"{{/equals}}>
+                    {{localizedMessages.link_help_text}}
+                </a>
+            </li>
         </ul>
     </nav>
     {{#if dynamicValues.authoringEnabled}}
