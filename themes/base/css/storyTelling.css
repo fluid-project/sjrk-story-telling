@@ -753,6 +753,15 @@ body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-up:disabled {
 .fl-theme-gd *:focus { outline-color: var(--uio-grey); }
 .fl-theme-bbr *:focus { outline-color: var(--uio-black); }
 
+.fl-theme-bw .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-black) !important; }
+.fl-theme-wb .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-white) !important; }
+.fl-theme-by .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-black) !important; }
+.fl-theme-yb .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-yellow) !important; }
+.fl-theme-lgdg .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-grey-light) !important; }
+.fl-theme-gw .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-grey-dark) !important; }
+.fl-theme-gd .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-grey) !important; }
+.fl-theme-bbr .sjrk-st-reorderer-block-dropmarker { background-color: var(--uio-black) !important; }
+
 .fl-theme-bw .sjrk-st-story-editor-previous-arrow, .fl-theme-bw .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_black.svg"); }
 .fl-theme-wb .sjrk-st-story-editor-previous-arrow, .fl-theme-wb .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_white.svg"); }
 .fl-theme-by .sjrk-st-story-editor-previous-arrow, .fl-theme-by .sjrk-st-story-viewer-previous-arrow { background-image: url("../img/icons/Back_black.svg"); }
