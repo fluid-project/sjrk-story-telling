@@ -329,16 +329,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
             var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
 
-            var firstInOrder = i === 0 ? true : false;
-            var lastInOrder = i === blockUis.length - 1 ? true : false;
-
-            // these updates are bundled in a transaction in order to avoid multiple
-            // calls to the updateStoryFromBlocks model listener in the storyUi grade
-            var orderUpdateTransaction = block.applier.initiate();
-            orderUpdateTransaction.fireChangeRequest({path: "order", value: i});
-            orderUpdateTransaction.fireChangeRequest({path: "firstInOrder", value: firstInOrder});
-            orderUpdateTransaction.fireChangeRequest({path: "lastInOrder", value: lastInOrder});
-            orderUpdateTransaction.commit();
+            block.applier.change("", {
+                order: i,
+                firstInOrder: i === 0,
+                lastInOrder: i === blockUis.length - 1
+            });
         }
 
         // sort the content array in the story model, now that the block orders are updated
