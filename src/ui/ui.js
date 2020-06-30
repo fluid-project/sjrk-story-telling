@@ -76,6 +76,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // for dynamically rendering the story block by block
             blockManager: {
+                // TODO: Considering the size of this component, it should be split into
+                // its own Grade. This work is captured in SJRK-126:
+                //
+                // https://issues.fluidproject.org/browse/SJRK-126
                 type: "sjrk.dynamicViewComponentManager",
                 container: "{ui}.container",
                 createOnEvent: "{ui}.events.onReadyToBind",
@@ -114,6 +118,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     },
                                     block: {
                                         options: {
+                                            // TODO: This factoring is not ideal and should be
+                                            // revised. This is detailed in SJRK-115.
+                                            // Also relevant are SJRK-61 and SJRK-262:
+                                            //
+                                            // https://issues.fluidproject.org/browse/SJRK-115
+                                            // https://issues.fluidproject.org/browse/SJRK-61
+                                            // https://issues.fluidproject.org/browse/SJRK-262
                                             gradeNames: ["{that}.getBlockGrade"],
                                             invokers: {
                                                 "getBlockGrade": {

@@ -320,6 +320,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         var managedClassNamePattern = sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern(that.blockManager.options.selectors.managedViewComponents);
 
         for (var i = 0; i < blockUis.length; i++) {
+            // TODO: The way the class name is found is overly complex and should be rewritten.
+            // This work is outlined in SJRK-371:
+            //
+            // https://issues.fluidproject.org/browse/SJRK-371
             var managedClassName = fluid.find(blockUis[i].classList, function (value) {
                 if (typeof value === "string") {
                     var patternMatches = value.match(managedClassNamePattern);
