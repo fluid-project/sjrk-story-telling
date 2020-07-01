@@ -11,7 +11,7 @@ env:
 
 jobs:
   deploy:
-    if: github.repository == 'fluidproject/sjrk-story-telling'
+    if: github.repository == 'fluid-project/sjrk-story-telling'
 
     runs-on: ubuntu-latest
 
