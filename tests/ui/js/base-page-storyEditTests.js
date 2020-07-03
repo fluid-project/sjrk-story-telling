@@ -19,16 +19,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["sjrk.storyTelling.base.page.storyEdit"],
         pageSetup: {
             resourcePrefix: "../..",
-            authoringEnabled: false
+            authoringEnabled: false,
+            storyAutosaveKey: "testStoryAutosave"
         },
         selectors: {
             mainContainer: "#testMainContainer",
             pageContainer: "#testPageContainer"
-        },
-        listeners: {
-            "onStoryShareRequested.submitStory": {
-                funcName: "fluid.identity"
-            }
         },
         components: {
             uio: {
@@ -108,6 +104,92 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         }
     };
 
+    // A test story before it is saved
+    sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave = {
+        "title": "A story about the cutest cats in the world",
+        "content": [
+            {
+                "blockType": "image",
+                "imageUrl": "Rootbeer and Shyguy.jpeg",
+                "description": "Two cats, maybe even the cutest",
+                "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "fileDetails": {
+                    "name": "Rootbeer and Shyguy.jpeg",
+                    "size": 1,
+                    "type": "image/jpeg"
+                },
+                "firstInOrder": true,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": false,
+                "order": 0
+            },
+            {
+                "blockType": "video",
+                "mediaUrl": "Feeding Time.mp4",
+                "description": "A video of two cats eagerly awaiting delicious food",
+                "alternativeText": "Two cats looking into the camera lens",
+                "fileDetails": {
+                    "name": "Feeding Time.mp4",
+                    "size": 2,
+                    "type": "video/mp4"
+                },
+                "firstInOrder": false,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": true,
+                "order": 1
+            }
+        ],
+        "tags": ["cute", "cats"],
+        "author": "RB & SG"
+    };
+
+    // A test story after it is loaded
+    sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad = {
+        "title": "A story about the cutest cats in the world",
+        "content": [
+            {
+                "blockType": "image",
+                "imageUrl": null,
+                "description": "Two cats, maybe even the cutest",
+                "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "fileDetails": {
+                    "name": "Rootbeer and Shyguy.jpeg",
+                    "size": 1,
+                    "type": "image/jpeg"
+                },
+                "firstInOrder": true,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": false,
+                "order": 0
+            },
+            {
+                "blockType": "video",
+                "mediaUrl": null,
+                "description": "A video of two cats eagerly awaiting delicious food",
+                "alternativeText": "Two cats looking into the camera lens",
+                "fileDetails": {
+                    "name": "Feeding Time.mp4",
+                    "size": 2,
+                    "type": "video/mp4"
+                },
+                "firstInOrder": false,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": true,
+                "order": 1
+            }
+        ],
+        "tags": ["cute", "cats"],
+        "author": "RB & SG"
+    };
+
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTester.addBlock", {
         gradeNames: "fluid.test.sequenceElement",
         // blockAddButtonSelector: null, // to be supplied by the implementing test
@@ -141,9 +223,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: ["{that}.options.field", "{that}.options.value"]
         },
         {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
-        },
-        {
             changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
             path: "content",
             listener: "jqUnit.assertEquals",
@@ -164,9 +243,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             args: ["{that}.options.field", ""]
         },
         {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
-        },
-        {
             changeEvent: "{storyEdit}.storyPreviewer.story.applier.modelChanged",
             path: "content",
             listener: "jqUnit.assertDeepEq",
@@ -182,9 +258,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         sequence: [{
             func: "{storyEditTester}.currentBlock.block.applier.change",
             args: ["{that}.options.field", "{that}.options.value"]
-        },
-        {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
         },
         {
             funcName: "jqUnit.assertDeepEq",
@@ -211,9 +284,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         {
             funcName: "fluid.set",
             args: ["{storyEditTester}", "currentBlock", undefined]
-        },
-        {
-            func: "{storyEdit}.events.onContextChangeRequested.fire"
         },
         {
             funcName: "jqUnit.assertDeepEq",
@@ -457,7 +527,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{storyEdit}.storyEditor","storyTitle","Initial test title"]
+                    args: ["{storyEdit}.storyEditor", "storyTitle", "Initial test title"]
                 },
                 {
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
@@ -467,7 +537,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated to match editor","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
+                    args: ["Previewer model updated to match editor", "{storyEdit}.storyEditor.story.model.title", "{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
                     jQueryTrigger: "click",
@@ -497,13 +567,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     func: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{storyEdit}.storyEditor","storyTitle","New test title"]
+                    args: ["{storyEdit}.storyEditor", "storyTitle", "New test title"]
                 },
                 {
                     changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
                     path: "title",
                     func: "jqUnit.assertEquals",
-                    args: ["Previewer model updated","{storyEdit}.storyEditor.story.model.title","{storyEdit}.storyPreviewer.story.model.title"]
+                    args: ["Previewer model updated", "{storyEdit}.storyEditor.story.model.title", "{storyEdit}.storyPreviewer.story.model.title"]
                 },
                 {
                     jQueryTrigger: "click",
@@ -521,6 +591,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     func: "sjrk.storyTelling.testUtils.assertElementText",
                     args: ["{storyEdit}.storyPreviewer.dom.storyTitle", "New test title"]
+                },
+                // reset the title for subsequent tests
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEdit}.storyEditor", "storyTitle", ""]
                 }]
             },
             {
@@ -768,6 +843,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.prePublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
                 },
                 {
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: ["/stories/", "", "application/json"]
+                },
+                {
                     "jQueryTrigger": "click",
                     "element": "{storyEdit}.storyPreviewer.dom.storyShare"
                 },
@@ -775,6 +854,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "event": "{storyEdit}.events.onStoryShareRequested",
                     listener: "sjrk.storyTelling.base.page.storyEditTester.verifyPublishStates",
                     args: [sjrk.storyTelling.base.page.storyEditTester.expectedVisibility.duringPublish, "{storyEdit}.storyPreviewer.dom.progressArea", "{storyEdit}.storyPreviewer.dom.responseArea", "{storyEdit}.storyPreviewer.dom.storyShare"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 },
                 {
                     func: "{storyEdit}.events.onStoryShareComplete.fire",
@@ -862,8 +944,127 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["Historian model is as expected", sjrk.storyTelling.base.page.storyEditTester.expectedHistoryStates.editStoryStep, "{storyEdit}.historian.model"]
                 }]
             }]
+        },
+        {
+            name: "Test story autosave functionality",
+            tests: [{
+                name: "Test autosave wiring",
+                expect: 10,
+                sequence: [{
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Story is empty to begin with", {
+                        author: "",
+                        title: "",
+                        content: [],
+                        tags: []
+                    }, "{storyEdit}.storyEditor.story.model"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEdit}.storyEditor", "storyTitle", "Rootbeer is testing autosave"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "title",
+                    listener: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", {
+                        author: "",
+                        title: "Rootbeer is testing autosave",
+                        content: [],
+                        tags: []
+                    }]
+                },
+                {
+                    func: "sjrk.storyTelling.testUtils.changeFormElement",
+                    args: ["{storyEdit}.storyEditor", "storyAuthor", "Rootbeer"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "author",
+                    listener: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", {
+                        author: "Rootbeer",
+                        title: "Rootbeer is testing autosave",
+                        content: [],
+                        tags: []
+                    }]
+                },
+                // publish the story (using a mocked response)
+                {
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: ["/stories/", "", "application/json"]
+                },
+                {
+                    "jQueryTrigger": "click",
+                    "element": "{storyEdit}.storyPreviewer.dom.storyShare"
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                },
+                // ensures the autosaved story was deleted upon successful publishing
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
+                },
+                {
+                    // restart the entire load process
+                    func: "{storyEdit}.storyEditor.blockManager.events.onCreate.fire"
+                },
+                {
+                    // check the block UI's aren't created twice
+                    event: "{storyEdit}.storyEditor.events.onStoryUiReady",
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyBlockManager",
+                    args: ["{storyEdit}", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad.content]
+                },
+                {
+                    // make sure the editor's story model is correct, too
+                    funcName: "jqUnit.assertDeepEq",
+                    args: ["Editor story is as expected after loading", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad, "{storyEdit}.storyEditor.story.model"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.clearMediaBlockUrlsTest",
+                    args: [
+                        sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave.content,
+                        sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad.content
+                    ]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                }]
+            }]
         }]
     });
+
+    sjrk.storyTelling.base.page.storyEditTester.verifyBlockManager = function (storyEdit, expectedBlockModels) {
+        var actualBlockModels = [];
+
+        fluid.each(storyEdit.storyEditor.blockManager.managedViewComponentRegistry, function (blockUi) {
+            actualBlockModels.push(blockUi.block.model);
+        });
+
+        jqUnit.assertDeepEq("blockManager contains the expected blocks", expectedBlockModels, actualBlockModels);
+    };
 
     /**
      * Triggers a click on a given element
@@ -1171,6 +1372,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     sjrk.storyTelling.base.page.storyEditTester.verifyResponseText = function (el, expectedText) {
         var actualText = el.text().trim();
         jqUnit.assertEquals("The response text is as expected", expectedText, actualText);
+    };
+
+    /**
+     * Clears the autosave state
+     *
+     * @param {String} storyAutosaveKey - the localStorage key to clear
+     */
+    sjrk.storyTelling.base.page.storyEditTester.clearAutosaveState = function (storyAutosaveKey) {
+        window.localStorage.removeItem(storyAutosaveKey);
+    };
+
+    /**
+     * Verifies the state of the autosave data
+     *
+     * @param {String} storyAutosaveKey - the localStorage key the story content is saved to
+     * @param {Object} expectedAutosaveState - the expected value of the data
+     */
+    sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState = function (storyAutosaveKey, expectedAutosaveState) {
+        var rawAutosaveState = window.localStorage.getItem(storyAutosaveKey);
+        var actualAutosaveState = JSON.parse(rawAutosaveState);
+        jqUnit.assertDeepEq("Story autosave data is in the expected state", expectedAutosaveState, actualAutosaveState);
+    };
+
+    /**
+     * Verifies whether the clearMediaBlockUrls function behaves as expected
+     *
+     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
+     * @param {Component[]} expectedClearedBlocks - the expected resulting collection of blocks
+     */
+    sjrk.storyTelling.base.page.storyEditTester.clearMediaBlockUrlsTest = function (blocks, expectedClearedBlocks) {
+        var actualClearedBlocks = sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(blocks);
+        jqUnit.assertDeepEq("Media blocks have URLs removed as expected", expectedClearedBlocks, actualClearedBlocks);
     };
 
     // Test environment

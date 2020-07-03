@@ -64,19 +64,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Applies the AIHEC shell to the storyView page
     fluid.defaults("sjrk.storyTelling.aihec.page.storyView", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyView"],
-        distributeOptions: {
+        distributeOptions: [{
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
-        }
+        },{
+            target: "{that > masthead > templateManager}.options.model.dynamicValues",
+            record: {
+                currentPage: "{storyViewer}.story.model.id"
+            }
+        }]
     });
 
     // Applies the AIHEC shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.aihec.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyBrowse"],
-        distributeOptions: {
+        distributeOptions: [{
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/aihec-storyBrowser.handlebars"
-        },
+        },{
+            target: "{that > masthead > templateManager}.options.model.dynamicValues",
+            record: {
+                currentPage: "storyBrowse"
+            }
+        }],
         components: {
             storyBrowser: {
                 options: {
@@ -98,7 +108,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         {
             target: "{that > storyPreviewer > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
+        },
+        {
+            target: "{that > masthead > templateManager}.options.model.dynamicValues",
+            record: {
+                currentPage: "storyEdit"
+            }
         }]
+    });
+
+    fluid.defaults("sjrk.storyTelling.aihec.page.welcome", {
+        gradeNames: ["sjrk.storyTelling.aihec.page"],
+        distributeOptions: [{
+            target: "{that > welcome > templateManager}.options.templateConfig",
+            record: {
+                messagesPath: "%resourcePrefix/messages/aihecMessages.json",
+                templatePath: "%resourcePrefix/templates/aihec-welcome.handlebars"
+            }
+        },
+        {
+            target: "{that > masthead > templateManager}.options.model.dynamicValues",
+            record: {
+                currentPage: "welcome"
+            }
+        }],
+        components: {
+            welcome: {
+                type: "sjrk.storyTelling.ui",
+                container: ".sjrkc-st-welcome"
+            }
+        }
     });
 
 })(jQuery, fluid);

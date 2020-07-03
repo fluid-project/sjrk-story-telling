@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.dynamicViewComponentManager", {
         gradeNames: ["fluid.viewComponent"],
         selectors: {
-            managedViewComponents: ".sjrk-dynamic-view-component"
+            managedViewComponents: ".sjrkc-dynamic-view-component"
         },
         events: {
             // single-argument event - requires a specified "type" for the
@@ -65,9 +65,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }
         },
         dynamicViewComponentManagerOptions: {
-            containerGlobalClass: "sjrk-dynamic-view-component",
+            containerGlobalClass: "sjrkc-dynamic-view-component sjrk-dynamic-view-component",
             // Can use %guid
-            containerIndividualClassTemplate: "sjrk-dynamic-view-component-%guid"
+            containerIndividualClassTemplate: "sjrkc-dynamic-view-component-%guid"
         },
         listeners: {
             "viewComponentContainerRequested.addComponentContainer": {
