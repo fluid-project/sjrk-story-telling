@@ -1,3 +1,14 @@
+{{#if dynamicValues.welcomer}}
+    {{!-- render nothing here if it's the welcome page --}}
+{{else}}
+    <div lang="{{localizedMessages.language}}" class="sjrk-st-menu-story-builder-title">
+        {{#if dynamicValues.browsePage}}
+            <a href="{{dynamicValues.editLinkUrl}}">{{localizedMessages.message_editTitleText}}</a>
+        {{else}}
+            <a href="{{dynamicValues.browseLinkUrl}}">{{localizedMessages.message_menu_browseLinkText}}</a>
+        {{/if}}
+    </div>
+{{/if}}
 <div lang="{{localizedMessages.language}}" class="sjrk-st-menu-languages-container">
     <a href="javascript:void(0)" class="sjrk-st-menu-languages-en sjrkc-st-menu-languages-en">{{localizedMessages.message_menu_english}}</a> |
     <a href="javascript:void(0)" class="sjrk-st-menu-languages-es sjrkc-st-menu-languages-es" lang="es">{{localizedMessages.message_menu_spanish}}</a>

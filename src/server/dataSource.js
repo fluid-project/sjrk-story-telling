@@ -51,7 +51,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
     path: "/%db/_design/%designDoc/_view/%viewId?limit=%limit&reduce=%reduce&skip=%skip",
     termMap: {
         viewId: "%directViewId",
-        limit: "100",
+        limit: "500",
         reduce: "false",
         db: "stories",
         designDoc: "stories",
