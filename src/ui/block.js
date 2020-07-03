@@ -20,7 +20,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             //blockType: "", // to be supplied by implementing block formats
             id: null,
             language: null,
-            heading: null
+            heading: null,
+            order: 0,
+            firstInOrder: true,
+            lastInOrder: true
         }
     });
 

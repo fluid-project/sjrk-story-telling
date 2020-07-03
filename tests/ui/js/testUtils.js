@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global fluid, sjrk, jqUnit, sinon */
 
 "use strict";
 
@@ -67,7 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {String} expectedVisibility - the expected value of the property
      */
     sjrk.storyTelling.testUtils.assertElementPropertyValue = function (element, propertyName, expectedVisibility) {
-        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected visibility", expectedVisibility, element.prop(propertyName));
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected property value", expectedVisibility, element.prop(propertyName));
     };
 
     /**
@@ -198,6 +198,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     * Retrieves the specified block component from the blockManager's registry.
+     * Since the order is determined by the order of the keys alone, it may not
+     * coincide with the block order values or order within the story model
+     *
+     * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
+     * @param {Number} index - the index of the block to retrieve (zero-based)
+     */
+    sjrk.storyTelling.testUtils.getBlockByIndex = function (blockManager, index) {
+        return Object.values(blockManager.managedViewComponentRegistry)[index].block;
+    };
+
+    /**
      * Alters URL without pageload, via code from StackOverflow
      * {@link https://stackoverflow.com/questions/10970078/modifying-a-query-string-without-reloading-the-page}
      *
@@ -208,6 +220,28 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + queryString;
             window.history.pushState({ path:newurl }, "", newurl);
         }
+    };
+
+    // the mock server
+    var mockServer;
+
+    /**
+     * Sets up a mock server response with given data for a given URL
+     *
+     * @param {String} url - the URL for which to set up a response
+     * @param {Object} responseData - JSON data to include in the server response
+     */
+    sjrk.storyTelling.testUtils.setupMockServer = function (url, responseData) {
+        mockServer = sinon.createFakeServer();
+        mockServer.respondImmediately = true;
+        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(responseData)]);
+    };
+
+    /**
+     * Stops the remote server and hands any previously set-up routes back to Kettle
+     */
+    sjrk.storyTelling.testUtils.teardownMockServer = function () {
+        mockServer.restore();
     };
 
 })(jQuery, fluid);
