@@ -34,6 +34,7 @@ jobs:
             rm -rf ../uploads/*                                       && \
             rm -rf ../deleted_uploads/*
 
+      # This step duplicates code from stack_master.yml
       - name: Redeploy stack
         uses: appleboy/ssh-action@master
         with:
