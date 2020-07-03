@@ -37,7 +37,8 @@
 * `sjrk.storyTelling.blockUi.timeBased` provides common shared controls related to playback of audio and video blocks
   and is used for both viewing and editing.
 * `sjrk.storyTelling.blockUi.editor` is for editing a block, providing the common elements for the various individual
-  editor types. The `editor` grades are:
+  editor types. This includes events and button selectors to reorder the block up or down. The `editor` derived grades
+  are:
   * `sjrk.storyTelling.blockUi.editor.textBlockEditor` for text blocks
   * `sjrk.storyTelling.blockUi.editor.imageBlockEditor` for image blocks
   * `sjrk.storyTelling.blockUi.editor.mediaBlockEditor` for time-based media types:
@@ -50,7 +51,9 @@
 * `sjrk.storyTelling.ui.storyEditor` is an editing interface for a `story` (which it has as a component). It has a
   handlebars template associated with it called `storyEditor.handlebars`, and a `binder` to connect the title, author
   and keywords fields to their respective model values in the `story`. It makes use of a `dynamicViewComponentManager`
-  called **blockManager** to add blocks of varying types on demand.
+  called **blockManager** to add blocks of varying types on demand. The `reorderer` component is for reordering individual
+  blocks via buttons on each (see `sjrk.storyTelling.block.editor` above), by pressing `CTRL + UP` or `CTRL + DOWN` (or
+  in macOS, `CTRL + SHIFT + UP` or `CTRL + SHIFT + DOWN`) or by dragging and dropping a block.
 * `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.handlebars`.
   There is also a special version of the `storyViewer` called the `storyPreviewer` which is meant to be used in the
   `storyEdit` page (more info below).

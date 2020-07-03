@@ -106,6 +106,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "image": "sjrk.storyTelling.blockUi.imageBlockViewer",
                         "text": "sjrk.storyTelling.blockUi.textBlockViewer",
                         "video": "sjrk.storyTelling.blockUi.videoBlockViewer"
+                    },
+                    listeners: {
+                        "onCreate.createBlocksFromData": {
+                            func: "{that}.createBlocksFromData",
+                            args: ["{story}.model.content"]
+                        }
                     }
                 }
             }

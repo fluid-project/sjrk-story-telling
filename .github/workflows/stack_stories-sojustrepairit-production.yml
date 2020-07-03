@@ -1,16 +1,18 @@
-name: stories.cities.inclusivedesign.ca__production
+name: stories.sojustrepairit.org__production
 
 on:
   push:
     branches:
-      - stories-cities-production
+      - stories-sojustrepairit-production
 
 env:
-  PROJECT_ID: 6d4309f7
-  PROJECT_SMOKETEST_URL: https://stories.cities.inclusivedesign.ca/stories
+  PROJECT_ID: 4f500770
+  PROJECT_SMOKETEST_URL: https://stories.sojustrepairit.org/stories
 
 jobs:
   deploy:
+    if: github.repository == 'fluid-project/sjrk-story-telling'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +26,7 @@ jobs:
           envs:     PROJECT_ID
           script: |
             cd /srv/$PROJECT_ID/src                                       && \
-            git checkout stories-cities-production                        && \
+            git checkout stories-sojustrepairit-production                && \
             git pull                                                      && \
             source ../deploy.env                                          && \
             /usr/local/bin/docker-compose -p $PROJECT_ID                     \

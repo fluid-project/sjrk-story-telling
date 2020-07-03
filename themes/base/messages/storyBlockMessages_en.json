@@ -18,5 +18,8 @@
     "message_descriptionInputPlaceholder": "Add description",
     "message_uploadButtonAudio": "Upload audio",
     "message_uploadButtonImage": "Upload image",
-    "message_uploadButtonVideo": "Upload video"
+    "message_uploadButtonVideo": "Upload video",
+    "message_reorderMoveHandle": "Move block grab handle",
+    "message_reorderMoveDown": "Move block down",
+    "message_reorderMoveUp": "Move block up"
 }

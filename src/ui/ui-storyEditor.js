@@ -67,15 +67,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             onTextBlockAdditionRequested: null,
             onVideoBlockAdditionRequested: null,
             onRemoveBlocksRequested: null,
-            onRemoveBlocksCompleted: null,
-            onEditorTemplateRendered: null,
-            onBlockManagerCreated: null,
-            onReadyToBind: {
-                events: {
-                    onEditorTemplateRendered: "{that}.events.onEditorTemplateRendered",
-                    onBlockManagerCreated: "{that}.events.onBlockManagerCreated"
-                }
-            }
+            onRemoveBlocksCompleted: null
         },
         listeners: {
             "onReadyToBind.bindAddAudioBlock": {
@@ -141,9 +133,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the templateManager for this UI
             templateManager: {
                 options: {
-                    listeners: {
-                        "onTemplateRendered.escalate": "{storyEditor}.events.onEditorTemplateRendered.fire"
-                    },
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/storyEditor.handlebars"
                     }
@@ -153,6 +142,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             blockManager: {
                 container: "{storyEditor}.options.selectors.storyEditorContent",
                 options: {
+                    distributeOptions: {
+                        target: "{that blockUi}.options.listeners",
+                        record: {
+                            "onMoveBlock.reorderBlock": {
+                                func: "{reorderer}.reorderBlock",
+                                args: ["{that}.container", "{arguments}.0.data"]
+                            }
+                        }
+                    },
                     blockTypeLookup: {
                         "audio": "sjrk.storyTelling.blockUi.editor.audioBlockEditor",
                         "image": "sjrk.storyTelling.blockUi.editor.imageBlockEditor",
@@ -160,10 +158,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
                     },
                     listeners: {
-                        "onCreate.escalate": {
-                            func: "{storyEditor}.events.onBlockManagerCreated.fire",
-                            priority: "last"
-                        },
                         "{storyEditor}.events.onAudioBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
                             namespace: "addAudioBlock",
@@ -194,8 +188,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     model: "{story}.model",
                     selectors: "{storyEditor}.options.selectors",
-                    events: {
-                        onUiReadyToBind: "{storyEditor}.events.onReadyToBind"
+                    listeners: {
+                        "{storyEditor}.events.onReadyToBind": {
+                            func: "{that}.events.onUiReadyToBind",
+                            namespace: "applyStoryEditorBinding"
+                        }
                     },
                     bindings: {
                         storyTitle: "title",
@@ -221,6 +218,50 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            },
+            reorderer: {
+                type: "fluid.reorderList",
+                container: "{storyEditor}.dom.storyEditorContent",
+                createOnEvent: "{storyEditor}.events.onReadyToBind",
+                options: {
+                    disableWrap: true,
+                    selectablesTabindex: 0,
+                    styles: {
+                        avatar: "sjrk-st-reorderer-block-avatar",
+                        dropMarker: "sjrk-st-reorderer-block-dropmarker"
+                    },
+                    selectors: {
+                        movables: ".sjrkc-dynamic-view-component",
+                        selectables: ".sjrkc-dynamic-view-component",
+                        dropTargets: ".sjrkc-dynamic-view-component",
+                        grabHandle: ".sjrkc-st-reorderer-grab-handle"
+                    },
+                    invokers: {
+                        reorderBlock: {
+                            funcName: "sjrk.storyTelling.ui.storyEditor.reorderBlock",
+                            args: ["{that}", "{arguments}.0", "{arguments}.1"] // blockUi, direction
+                        }
+                    },
+                    listeners: {
+                        // TODO: This listener is necessary to avoid a race condition that
+                        // is created when the refresh operation is being run while
+                        // a new block is still being added. If the DOM container
+                        // for a new block is present but its template has not been
+                        // rendered, the operation will fail.
+                        //
+                        // This bug and a potential solution are detailed in SJRK-369:
+                        // https://issues.fluidproject.org/browse/SJRK-369
+                        "onCreate.bindFocusListener": {
+                            this: "{that}.container",
+                            method: "on",
+                            args: ["focusin", "{that}.refresh"]
+                        },
+                        "onRefresh.updateBlockOrderAfterReorder": {
+                            func: "sjrk.storyTelling.ui.storyEditor.updateBlockOrder",
+                            args: ["{storyEditor}"]
                         }
                     }
                 }
@@ -250,6 +291,108 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         that.blockManager.updateStoryFromBlocks();
 
         that.events.onRemoveBlocksCompleted.fire(removedBlockKeys);
+    };
+
+    /**
+     * Reorders the specified block UI component in the specified direction
+     *
+     * @param {Component} reorderer - an instance of fluid.reorderList
+     * @param {jQuery} blockUi - a jQueryable of an sjrk.storyTelling.blockUi.editor's container
+     * @param {Number} direction - a member of fluid.direction
+     */
+    sjrk.storyTelling.ui.storyEditor.reorderBlock = function (reorderer, blockUi, direction) {
+        var relativePosition = reorderer.layoutHandler.getRelativePosition(blockUi, direction);
+
+        reorderer.requestMovement(relativePosition, blockUi);
+    };
+
+    /**
+     * Updates the order of each block model according to the order of the blockUi
+     * elements in the story content editing area
+     *
+     * @param {Component} that - an instance of sjrk.storyTelling.ui.storyUi
+     */
+    sjrk.storyTelling.ui.storyEditor.updateBlockOrder = function (that) {
+        var blockUis = that.reorderer.container.children();
+
+        // used to retrieve the class name for each block
+        // within the blockManager's managedViewComponentRegistry
+        var managedClassNamePattern = sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern(that.blockManager.options.selectors.managedViewComponents);
+
+        for (var i = 0; i < blockUis.length; i++) {
+            // TODO: The way the class name is found is overly complex and should be rewritten.
+            // This work is outlined in SJRK-371:
+            //
+            // https://issues.fluidproject.org/browse/SJRK-371
+            var managedClassName = fluid.find(blockUis[i].classList, function (value) {
+                if (typeof value === "string") {
+                    var patternMatches = value.match(managedClassNamePattern);
+                    return patternMatches === null ? undefined : patternMatches.input;
+                }
+            });
+
+            var block = that.blockManager.managedViewComponentRegistry[managedClassName].block;
+
+            block.applier.change("", {
+                order: i,
+                firstInOrder: i === 0,
+                lastInOrder: i === blockUis.length - 1
+            });
+        }
+
+        // sort the content array in the story model, now that the block orders are updated
+        sjrk.storyTelling.ui.storyEditor.sortStoryContent(that.story);
+    };
+
+    /**
+     * Builds a class selector pattern that can, for example, be matched against a
+     * list of class names of a managed dynamic view component (e.g. a blockUi)
+     *
+     * @param {String} managedViewComponentSelector - a CSS selector
+     */
+    sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern = function (managedViewComponentSelector) {
+        if (managedViewComponentSelector && typeof managedViewComponentSelector === "string") {
+            return "^" + managedViewComponentSelector.substring(1) + "-";
+        } else {
+            return undefined;
+        }
+    };
+
+    /**
+     * Sorts a story's content array (block model array) according to
+     * each block's `order` value. If any order value is non-numeric, nothing
+     * will be changed or updated
+     *
+     * @param {Component} story - an instance of sjrk.storyTelling.story
+     */
+    sjrk.storyTelling.ui.storyEditor.sortStoryContent = function (story) {
+        var invalidOrderPresent = false;
+        fluid.each(story.model.content, function (block) {
+            if (typeof block.order !== "number") {
+                invalidOrderPresent = true;
+            }
+        });
+
+        if (invalidOrderPresent) {
+            return;
+        } else {
+            var contentCopy = fluid.copy(story.model.content);
+
+            fluid.stableSort(contentCopy, function (a, b) {
+                if (a.order > b.order) {
+                    return 1;
+                } else if (a.order < b.order) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+
+            var storyUpdateTransaction = story.applier.initiate();
+            storyUpdateTransaction.fireChangeRequest({path: "content", type: "DELETE"});
+            storyUpdateTransaction.fireChangeRequest({path: "content", value: contentCopy});
+            storyUpdateTransaction.commit();
+        }
     };
 
 })(jQuery, fluid);

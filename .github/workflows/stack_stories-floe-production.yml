@@ -1,16 +1,18 @@
-name: aihec.inclusivedesign.ca__production
+name: stories.floeproject.org__production
 
 on:
   push:
     branches:
-      - stories-aihec-production
+      - stories-floe-production
 
 env:
-  PROJECT_ID: 240dabdd
-  PROJECT_SMOKETEST_URL: https://aihec.inclusivedesign.ca/stories
+  PROJECT_ID: f92c97d2
+  PROJECT_SMOKETEST_URL: https://stories.floeproject.org/stories
 
 jobs:
   deploy:
+    if: github.repository == 'fluid-project/sjrk-story-telling'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +26,7 @@ jobs:
           envs:     PROJECT_ID
           script: |
             cd /srv/$PROJECT_ID/src                                       && \
-            git checkout stories-aihec-production                         && \
+            git checkout stories-floe-production                          && \
             git pull                                                      && \
             source ../deploy.env                                          && \
             /usr/local/bin/docker-compose -p $PROJECT_ID                     \

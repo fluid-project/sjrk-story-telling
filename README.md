@@ -27,7 +27,7 @@ to build the web-hosting environment that drives the tool.
 * `npm install` to install dependencies
 * Run a CouchDB server on `localhost:5984`
   * Docker is an easy way to do this, we recommend the `apache/couchdb` image. To use that image via Docker, run this
-    command: `docker run -p 5984:5984 -d apache/couchdb`
+    command: `docker run -p 5984:5984 -d apache/couchdb:2.3.1`
 * Run `node .\src\server\db\dbSetup.js` to configure necessary CouchDB databases (this will also ensure your CouchDB
   instance is set up in [single-node mode](https://docs.couchdb.org/en/stable/setup/single-node.html))
   * If you have an [admin user](https://docs.couchdb.org/en/stable/intro/security.html) configured on you CouchDB
@@ -124,6 +124,7 @@ To create new a custom theme, follow these steps:
 ### Testing
 
 Before running any tests, please ensure you have followed the steps outlined in [Running the site](#Running-the-site).
+All tests should be run before any commits are made in order to catch any bugs or regressions introduced by code changes.
 
 #### Server tests
 
@@ -132,8 +133,21 @@ Run `node .\tests\server\all-tests.js` to execute the server code tests.
 #### Browser tests
 
 Run the server locally via `node .\index.js` and navigate to `http://localhost:8081/tests/` to run the static browser test
-battery. You may be prompted with a file upload dialogue for some of the grade tests; it is safe to close these without
+collection. You may be prompted with a file upload dialogue for some of the grade tests; it is safe to close these without
 interacting with them.
+
+#### Manual Browser tests
+
+There are a number of features that must currently be tested manually (i.e. with direct user interaction), either due to
+automation that has not yet been implemented or due to browser security restrictions. Each manual test page provides instructions
+on how to proceed and what to expect in the successful case. Here are the current manual browser test pages:
+
+* [Story Editor UI manual tests](http://localhost:8081/tests/html/ui-storyEditor-manual-Tests.html)
+* [Audio Block Editor manual tests](http://localhost:8081/tests/html/blockUi-editor-audioBlockEditor-manual-Tests.html)
+* [Image Block Editor manual tests](http://localhost:8081/tests/html/blockUi-editor-imageBlockEditor-manual-Tests.html)
+* [Video Block Editor manual tests](http://localhost:8081/tests/html/blockUi-editor-videoBlockEditor-manual-Tests.html)
+
+For more information on the grades and files being tested, please refer to the UI Grades documentation: [GRADES-UI.md](docs/GRADES-UI.md).
 
 ### Deploying: Dockerfile and using docker-compose
 
