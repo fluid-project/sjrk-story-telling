@@ -112,22 +112,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "blockType": "image",
                 "imageUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
-                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
                 "fileDetails": {
                     "name": "Rootbeer and Shyguy.jpeg",
                     "size": 1,
                     "type": "image/jpeg"
-                }
+                },
+                "firstInOrder": true,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": false,
+                "order": 0
             },
             {
                 "blockType": "video",
-                "imageUrl": "Feeding Time.mp4",
+                "mediaUrl": "Feeding Time.mp4",
                 "description": "A video of two cats eagerly awaiting delicious food",
+                "alternativeText": "Two cats looking into the camera lens",
                 "fileDetails": {
                     "name": "Feeding Time.mp4",
                     "size": 2,
                     "type": "video/mp4"
-                }
+                },
+                "firstInOrder": false,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": true,
+                "order": 1
             }
         ],
         "tags": ["cute", "cats"],
@@ -142,22 +155,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "blockType": "image",
                 "imageUrl": null,
                 "description": "Two cats, maybe even the cutest",
-                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
                 "fileDetails": {
                     "name": "Rootbeer and Shyguy.jpeg",
                     "size": 1,
                     "type": "image/jpeg"
-                }
+                },
+                "firstInOrder": true,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": false,
+                "order": 0
             },
             {
                 "blockType": "video",
-                "imageUrl": null,
+                "mediaUrl": null,
                 "description": "A video of two cats eagerly awaiting delicious food",
+                "alternativeText": "Two cats looking into the camera lens",
                 "fileDetails": {
                     "name": "Feeding Time.mp4",
                     "size": 2,
                     "type": "video/mp4"
-                }
+                },
+                "firstInOrder": false,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": true,
+                "order": 1
             }
         ],
         "tags": ["cute", "cats"],
@@ -923,7 +949,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 9,
+                expect: 10,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Story is empty to begin with", {
@@ -997,15 +1023,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
                 },
                 {
-                    funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
-                    args: [
-                        "{storyEdit}.options.pageSetup.storyAutosaveKey",
-                        "{storyEdit}.storyEditor",
-                        "",
-                        "{storyEdit}.options.pageSetup.storyAutoloadSourceName"
-                    ]
+                    // restart the entire load process
+                    func: "{storyEdit}.storyEditor.blockManager.events.onCreate.fire"
                 },
                 {
+                    // check the block UI's aren't created twice
+                    event: "{storyEdit}.storyEditor.events.onStoryUiReady",
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyBlockManager",
+                    args: ["{storyEdit}", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad.content]
+                },
+                {
+                    // make sure the editor's story model is correct, too
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Editor story is as expected after loading", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad, "{storyEdit}.storyEditor.story.model"]
                 },
@@ -1027,6 +1055,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
+
+    sjrk.storyTelling.base.page.storyEditTester.verifyBlockManager = function (storyEdit, expectedBlockModels) {
+        var actualBlockModels = [];
+
+        fluid.each(storyEdit.storyEditor.blockManager.managedViewComponentRegistry, function (blockUi) {
+            actualBlockModels.push(blockUi.block.model);
+        });
+
+        jqUnit.assertDeepEq("blockManager contains the expected blocks", expectedBlockModels, actualBlockModels);
+    };
 
     /**
      * Triggers a click on a given element

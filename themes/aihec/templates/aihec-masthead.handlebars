@@ -1,7 +1,5 @@
 <div class="sjrk-st-page-header">
-    <a href="http://www.aihec.org/" class="sjrk-st-page-header-logo-container">
-        <img class="sjrk-st-page-header-logo" src="img/AIHEClogo.svg" alt="{{localizedMessages.masthead_logo_alt_text}}">
-    </a>
+    <a class="sjrk-st-page-header-logo" href="http://www.aihec.org/" aria-label="{{localizedMessages.masthead_logo_alt_text}}"></a>
     <div class="sjrk-st-page-header-main-title">{{{localizedMessages.masthead_title}}}</div>
 </div>
 <div class="sjrk-st-top-menu">
@@ -15,6 +13,11 @@
             <li>
                 <a href="storyBrowse.html" {{#equals dynamicValues.currentPage "storyBrowse"}}class="current-page"{{/equals}}>
                     {{localizedMessages.link_browse_text}}
+                </a>
+            </li>
+            <li>
+                <a href="storyView.html?id=storyExample" {{#equals dynamicValues.currentPage "storyExample"}}class="current-page"{{/equals}}>
+                    {{localizedMessages.link_help_text}}
                 </a>
             </li>
         </ul>

@@ -64,6 +64,56 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 }]
             },
             {
+                name: "Test reorder buttons and model listeners",
+                expect: 6,
+                sequence: [{
+                    funcName: "jqUnit.assertEquals",
+                    args: ["moveBlockDownDisabled is true to begin with", true, "{textBlockEditor}.model.moveBlockDownDisabled"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["moveBlockUpDisabled is true to begin with", true, "{textBlockEditor}.model.moveBlockUpDisabled"]
+                },
+                {
+                    func: "{textBlockEditor}.applier.change",
+                    args: ["moveBlockDownDisabled", false]
+                },
+                {
+                    changeEvent: "{textBlockEditor}.applier.modelChanged",
+                    path: "moveBlockDownDisabled",
+                    listener: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{textBlockEditor}.dom.moveBlockDownButton", "disabled", false]
+                },
+                {
+                    func: "{textBlockEditor}.applier.change",
+                    args: ["moveBlockUpDisabled", false]
+                },
+                {
+                    changeEvent: "{textBlockEditor}.applier.modelChanged",
+                    path: "moveBlockUpDisabled",
+                    listener: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{textBlockEditor}.dom.moveBlockUpButton", "disabled", false]
+                },
+                {
+                    jQueryTrigger: "click",
+                    element: "{textBlockEditor}.dom.moveBlockDownButton"
+                },
+                {
+                    event: "{textBlockEditor}.events.onMoveBlock",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onMoveBlock binding working as expected", fluid.direction.DOWN, "{arguments}.0.data"]
+                },
+                {
+                    jQueryTrigger: "click",
+                    element: "{textBlockEditor}.dom.moveBlockUpButton"
+                },
+                {
+                    event: "{textBlockEditor}.events.onMoveBlock",
+                    listener: "jqUnit.assertEquals",
+                    args: ["onMoveBlock binding working as expected", fluid.direction.UP, "{arguments}.0.data"]
+                }]
+            },
+            {
                 name: "Test text field",
                 expect: 2,
                 sequence: [{

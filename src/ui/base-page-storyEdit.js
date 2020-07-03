@@ -108,7 +108,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: [false],
                 namespace: "hideEditorShowPreviewer"
             }],
-            "{storyEditor}.events.onReadyToBind": {
+            "{storyEditor}.events.onStoryUiReady": {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
                 args: [
                     "{that}.options.pageSetup.storyAutosaveKey",
