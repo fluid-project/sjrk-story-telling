@@ -1,9 +1,8 @@
-name: stories.floeproject.org__staging
+name: staging-stories.floeproject.org daily cleanup
 
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: '0 0 * * *'
 
 env:
   PROJECT_ID: 006fb6eb
@@ -16,9 +15,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Stop and clean resources
+        uses: appleboy/ssh-action@master
+        with:
+          host:     ${{ secrets.SSH_HOSTNAME }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     ${{ secrets.SSH_PORT }}
+          envs:     PROJECT_ID
+          script: |
+            cd /srv/$PROJECT_ID/src                                   && \
+            source ../deploy.env                                      && \
+            /usr/local/bin/docker-compose -p $PROJECT_ID                 \
+                                          -f docker-compose.yml          \
+                                          -f docker-compose.cloud.yml    \
+                                          down                        && \
+            rm -rf ../couchdb/*                                       && \
+            rm -rf ../uploads/*                                       && \
+            rm -rf ../deleted_uploads/*
 
-      # This step also exists in stack_master_cleanup.yml
-      - name: Deploy stack
+      # This step duplicates code from stack_master.yml
+      - name: Redeploy stack
         uses: appleboy/ssh-action@master
         with:
           host:     ${{ secrets.SSH_HOSTNAME }}
