@@ -30,9 +30,9 @@ jobs:
                                           -f docker-compose.yml          \
                                           -f docker-compose.cloud.yml    \
                                           down                        && \
-            rm -rf ../couchdb/*                                       && \
-            rm -rf ../uploads/*                                       && \
-            rm -rf ../deleted_uploads/*
+            sudo rm -rf ../couchdb/*                                  && \
+            sudo rm -rf ../uploads/*                                  && \
+            sudo rm -rf ../deleted_uploads/*
 
       # This step duplicates code from stack_master.yml
       - name: Redeploy stack
