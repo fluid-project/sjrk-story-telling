@@ -196,8 +196,12 @@ h3:empty {
     padding: 0 4rem;
 }
 
-.sjrk-st-story-editor-content, .sjrk-st-story-content {
+.sjrk-st-story-content {
     line-height: 1.5;
+}
+
+.sjrk-st-story-content ul {
+    padding-left: 2.5rem;
 }
 
 .sjrk-st-page-body section.sjrk-st-lr-2column {
@@ -348,7 +352,7 @@ section.sjrk-st-lr-knockout,
 
 .sjrk-st-lr-padding h3 {
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.25rem;
     margin-bottom: 1rem;
 }
 
@@ -530,6 +534,11 @@ section.sjrk-st-lr-knockout,
     .sjrk-st-story-content {
         padding: 1.5rem;
         margin: 1.5rem 0 1rem 0;
+    }
+
+    .sjrkc-st-story-content ul,
+    .sjrkc-st-story-content ol {
+        padding-left: 0.5rem;
     }
 
     .sjrk-st-top-menu {

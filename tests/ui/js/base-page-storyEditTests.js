@@ -56,7 +56,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             options: {
                                 invokers: {
                                     updateLastModified: {
-                                        funcName: "sjrk.storyTelling.base.page.storyEditTester.stubUpdateLastModified"
+                                        funcName: "sjrk.storyTelling.testUtils.stubUpdateLastModified"
                                     }
                                 }
                             }
@@ -130,12 +130,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "blockType": "image",
                 "mediaUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
-                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots"
+                "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "firstInOrder": true,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": false,
+                "order": 0
             },
             {
                 "blockType": "video",
                 "mediaUrl": "Feeding Time.mp4",
-                "description": "A video of two cats eagerly awaiting delicious food"
+                "description": "A video of two cats eagerly awaiting delicious food",
+                "alternativeText": "Two cats looking into the camera lens",
+                "firstInOrder": false,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": true,
+                "order": 1
             }
         ],
         "tags": ["cute", "cats"],
@@ -155,12 +168,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 "blockType": "image",
                 "mediaUrl": "Rootbeer and Shyguy.jpeg",
                 "description": "Two cats, maybe even the cutest",
-                "altText": "Two brown/grey Mackerel Tabbies with Bengal spots"
+                "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                "firstInOrder": true,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": false,
+                "order": 0
             },
             {
                 "blockType": "video",
                 "mediaUrl": "Feeding Time.mp4",
-                "description": "A video of two cats eagerly awaiting delicious food"
+                "description": "A video of two cats eagerly awaiting delicious food",
+                "alternativeText": "Two cats looking into the camera lens",
+                "firstInOrder": false,
+                "heading": null,
+                "id": null,
+                "language": null,
+                "lastInOrder": true,
+                "order": 1
             }
         ],
         "tags": ["cute", "cats"],
@@ -973,7 +999,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 15,
+                expect: 16,
                 sequence: [{
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.resetStoryModel",
                     args: ["{storyEdit}.storyEditor.story"]
@@ -1038,10 +1064,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", sjrk.storyTelling.base.page.storyEditTester.testStoryPreSave]
                 },
                 {
-                    funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
-                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", "{storyEdit}"]
+                    // restart the entire load process
+                    func: "{storyEdit}.storyEditor.blockManager.events.onCreate.fire"
                 },
                 {
+                    // check the block UI's aren't created twice
+                    event: "{storyEdit}.storyEditor.events.onStoryUiReady",
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyBlockManager",
+                    args: ["{storyEdit}", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad.content]
+                },
+                {
+                    // make sure the editor's story model is correct, too
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Editor story is as expected after loading", sjrk.storyTelling.base.page.storyEditTester.testStoryPostLoad, "{storyEdit}.storyEditor.story.model"]
                 },
@@ -1056,6 +1089,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             }]
         }]
     });
+
+    sjrk.storyTelling.base.page.storyEditTester.verifyBlockManager = function (storyEdit, expectedBlockModels) {
+        var actualBlockModels = [];
+
+        fluid.each(storyEdit.storyEditor.blockManager.managedViewComponentRegistry, function (blockUi) {
+            actualBlockModels.push(blockUi.block.model);
+        });
+
+        jqUnit.assertDeepEq("blockManager contains the expected blocks", expectedBlockModels, actualBlockModels);
+    };
 
     /**
      * Triggers a click on a given element
@@ -1414,13 +1457,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory = function (storyId, viewPageUrl) {
         jqUnit.assert("Stub for redirectToViewStory was called for URL: " + viewPageUrl + "?id=" + storyId);
-    };
-
-    /**
-     * Stubs the story `updateLastModified` function to prevent actual redirection
-     */
-    sjrk.storyTelling.base.page.storyEditTester.stubUpdateLastModified = function () {
-        jqUnit.assert("Stub for updateLastModified was called");
     };
 
     // Test environment

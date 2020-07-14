@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global fluid */
 
 "use strict";
 
@@ -16,31 +16,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // Test component for the UI grade
     fluid.defaults("sjrk.storyTelling.testUi", {
         gradeNames: ["sjrk.storyTelling.ui"],
-        events: {
-            blockCreateEvent: null
-        },
-        blockTypeLookup: {
-            "cat": "cat.grade.name",
-            "otherCat": "cat.other.grade.name"
-        },
-        storyBlocks: [
-            {
-                blockType: "cat",
-                fur: "orange"
-            },
-            {
-                blockType: "cat",
-                fur: "spotted"
-            },
-            {
-                blockType: "otherCat",
-                fur: "none"
-            }
-        ],
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
+                        // there is no "plain" UI template, so we'll co-op the storyViewer
                         templatePath: "%resourcePrefix/templates/storyViewer.handlebars",
                         resourcePrefix: "../.."
                     }
@@ -53,45 +33,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.uiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Story UI.",
+            name: "Test UI.",
             tests: [{
-                name: "Test createBlocksFromData function",
-                expect: 6,
+                name: "Test event wiring",
+                expect: 2,
                 sequence: [{
-                    funcName: "sjrk.storyTelling.ui.createBlocksFromData",
-                    args: ["{ui}.options.storyBlocks", "{ui}.options.blockTypeLookup", "{ui}.events.blockCreateEvent"]
+                    event: "{uiTest ui}.events.onReadyToBind",
+                    listener: "jqUnit.assert",
+                    args: ["The onReadyToBind event fired"]
                 },
                 {
-                    event: "{ui}.events.blockCreateEvent",
-                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
-                    args: ["{arguments}.0", "{arguments}.1", "cat.grade.name", {blockType: "cat", fur: "orange"}]
+                    funcName: "fluid.identity"
                 },
                 {
-                    event: "{ui}.events.blockCreateEvent",
-                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
-                    args: ["{arguments}.0", "{arguments}.1", "cat.grade.name", {blockType: "cat", fur: "spotted"}]
-                },
-                {
-                    event: "{ui}.events.blockCreateEvent",
-                    listener: "sjrk.storyTelling.uiTester.verifyBlocksCreated",
-                    args: ["{arguments}.0", "{arguments}.1", "cat.other.grade.name", {blockType: "otherCat", fur: "none"}]
+                    event: "{ui}.events.onControlsBound",
+                    listener: "jqUnit.assert",
+                    args: ["The onControlsBound event fired after onReadyToBind"]
                 }]
             }]
         }]
     });
-
-    /**
-     * Verifies that a block has been created as expected
-     *
-     * @param {Array} gradeNames - the actual gradeNames of the created block
-     * @param {Object} blockData - the model data of the given block
-     * @param {Array} expectedGradeNames - the expected grade names
-     * @param {Object} expectedModelValues - the expected model values
-     */
-    sjrk.storyTelling.uiTester.verifyBlocksCreated = function (gradeNames, blockData, expectedGradeNames, expectedModelValues) {
-        jqUnit.assertEquals("The grade names are as expected", expectedGradeNames, gradeNames);
-        jqUnit.assertDeepEq("The model values are as expected", expectedModelValues, blockData.modelValues);
-    };
 
     // Test environment
     fluid.defaults("sjrk.storyTelling.uiTest", {

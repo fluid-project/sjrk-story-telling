@@ -11,9 +11,13 @@ env:
 
 jobs:
   deploy:
+    if: github.repository == 'fluid-project/sjrk-story-telling'
+
     runs-on: ubuntu-latest
 
     steps:
+
+      # This step also exists in stack_master_cleanup.yml
       - name: Deploy stack
         uses: appleboy/ssh-action@master
         with:

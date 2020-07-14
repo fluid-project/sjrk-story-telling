@@ -34,10 +34,116 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 container: "{ui}.container",
                 options: {
                     listeners: {
-                        "onTemplateRendered.escalate": "{ui}.events.onReadyToBind.fire"
+                        "onTemplateRendered.escalate": "{ui}.events.onReadyToBind"
                     },
                     templateConfig: {
                         messagesPath: "%resourcePrefix/messages/storyMessages.json"
+                    }
+                }
+            }
+        }
+    });
+
+    // Represents a UI with a story (sjrk.storyTelling.story), and adds
+    // management of dynamically-created block UIs for each story block
+    fluid.defaults("sjrk.storyTelling.ui.storyUi", {
+        gradeNames: ["sjrk.storyTelling.ui"],
+        // common selectors for all UI's that have stories
+        selectors: {
+            storyContainer: ".sjrkc-st-story-viewer-main-container",
+            storyTitle: ".sjrkc-st-story-title",
+            storyAuthor: ".sjrkc-st-story-author",
+            storyContent: ".sjrkc-st-story-content",
+            storyTags: ".sjrkc-st-story-tags"
+        },
+        events: {
+            onStoryUiReady: null
+        },
+        components: {
+            // represents the story data
+            story: {
+                type: "sjrk.storyTelling.story"
+            },
+            // the templateManager for this UI
+            templateManager: {
+                options: {
+                    model: {
+                        dynamicValues: {
+                            story: "{story}.model"
+                        }
+                    }
+                }
+            },
+            // for dynamically rendering the story block by block
+            blockManager: {
+                // TODO: Considering the size of this component, it should be split into
+                // its own Grade. This work is captured in SJRK-126:
+                //
+                // https://issues.fluidproject.org/browse/SJRK-126
+                type: "sjrk.dynamicViewComponentManager",
+                container: "{ui}.container",
+                createOnEvent: "{ui}.events.onReadyToBind",
+                options: {
+                    // blockTypeLookup will be supplied by implementing grades
+                    // It is a lookup list for dynamically-created block view components.
+                    // The format of the lookup list is:
+                    //     {
+                    //         "blockTypeX": "the.full.x.block.grade.name",
+                    //         "blockTypeY": "the.full.y.block.grade.name",
+                    //     }
+                    blockTypeLookup: null,
+                    invokers: {
+                        createBlocksFromData: {
+                            funcName: "sjrk.storyTelling.ui.storyUi.createBlocksFromData",
+                            args: ["{arguments}.0", "{that}.options.blockTypeLookup", "{that}.events.viewComponentContainerRequested"]
+                        },
+                        updateStoryFromBlocks: {
+                            funcName: "sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks",
+                            args: ["{ui}.story", "{that}.managedViewComponentRegistry"]
+                        }
+                    },
+                    listeners: {
+                        "onCreate.escalate": "{ui}.events.onStoryUiReady"
+                    },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                components: {
+                                    templateManager: {
+                                        options: {
+                                            model: {
+                                                locale: "{ui}.templateManager.model.locale"
+                                            }
+                                        }
+                                    },
+                                    block: {
+                                        options: {
+                                            // TODO: This factoring is not ideal and should be
+                                            // revised. This is detailed in SJRK-115.
+                                            // Also relevant are SJRK-61 and SJRK-262:
+                                            //
+                                            // https://issues.fluidproject.org/browse/SJRK-115
+                                            // https://issues.fluidproject.org/browse/SJRK-61
+                                            // https://issues.fluidproject.org/browse/SJRK-262
+                                            gradeNames: ["{that}.getBlockGrade"],
+                                            invokers: {
+                                                "getBlockGrade": {
+                                                    funcName: "sjrk.storyTelling.ui.storyUi.getBlockGradeFromEventModelValues",
+                                                    args: ["{blockUi}.options.additionalConfiguration.modelValues"]
+                                                }
+                                            },
+                                            modelListeners: {
+                                                "": {
+                                                    func: "{blockManager}.updateStoryFromBlocks",
+                                                    excludeSource: ["init"],
+                                                    namespace: "singleBlockToStory"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -54,7 +160,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *
      * @return {String} - the new grade's name
      */
-    sjrk.storyTelling.ui.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
+    sjrk.storyTelling.ui.storyUi.getBlockGradeFromEventModelValues = function (modelValuesFromEvent) {
         var gradeName = "sjrk.storyTelling.block-" + fluid.allocateGuid();
         fluid.defaults(gradeName, {
             // TODO: this should test that modelValuesFromEvent is a legitimate
@@ -76,7 +182,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {Object.<String, String>} blockTypeLookup - the list of blockType names and associated grades
      * @param {Object} createEvent - the event that is to be fired in order to create the blocks
      */
-    sjrk.storyTelling.ui.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
+    sjrk.storyTelling.ui.storyUi.createBlocksFromData = function (storyBlocks, blockTypeLookup, createEvent) {
         fluid.each(storyBlocks, function (blockData) {
             var gradeNames = blockTypeLookup[blockData.blockType];
             createEvent.fire(gradeNames, {modelValues: blockData});
@@ -89,9 +195,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *
      * @param {Component} story - an instance of sjrk.storyTelling.story
      * @param {Component[]} blockUis - a collection of sjrk.storyTelling.blockUI components
-     * @param {Object} completionEvent - the event to be fired upon successful completion
      */
-    sjrk.storyTelling.ui.updateStoryFromBlocks = function (story, blockUis, completionEvent) {
+    sjrk.storyTelling.ui.storyUi.updateStoryFromBlocks = function (story, blockUis) {
         var storyContent = [];
 
         fluid.each(blockUis, function (ui) {
@@ -99,110 +204,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyContent.push(blockData);
         });
 
-        story.applier.change("content", storyContent);
-
-        completionEvent.fire();
+        var storyUpdateTransaction = story.applier.initiate();
+        storyUpdateTransaction.fireChangeRequest({path: "content", type: "DELETE"});
+        storyUpdateTransaction.fireChangeRequest({path: "content", value: storyContent});
+        storyUpdateTransaction.commit();
     };
-
-    // Represents a UI with a story (sjrk.storyTelling.story), and adds
-    // management of dynamically-created block UIs for each story block
-    fluid.defaults("sjrk.storyTelling.ui.storyUi", {
-        gradeNames: ["sjrk.storyTelling.ui"],
-        // common selectors for all UI's that have stories
-        selectors: {
-            storyContainer: ".sjrkc-st-story-viewer-main-container",
-            storyTitle: ".sjrkc-st-story-title",
-            storyAuthor: ".sjrkc-st-story-author",
-            storyContent: ".sjrkc-st-story-content",
-            storyTags: ".sjrkc-st-story-tags"
-        },
-        events: {
-            onStoryUpdatedFromBlocks: null
-        },
-        components: {
-            // represents the story data
-            story: {
-                type: "sjrk.storyTelling.story"
-            },
-            // the templateManager for this UI
-            templateManager: {
-                options: {
-                    model: {
-                        dynamicValues: {
-                            story: "{story}.model"
-                        }
-                    }
-                }
-            },
-            // for dynamically rendering the story block by block
-            blockManager: {
-                type: "sjrk.dynamicViewComponentManager",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
-                options: {
-                    // blockTypeLookup will be supplied by implementing grades
-                    // It is a lookup list for dynamically-created block view components.
-                    // The format of the lookup list is:
-                    //     {
-                    //         "blockTypeX": "the.full.x.block.grade.name",
-                    //         "blockTypeY": "the.full.y.block.grade.name",
-                    //     }
-                    blockTypeLookup: null,
-                    invokers: {
-                        createBlocksFromData: {
-                            funcName: "sjrk.storyTelling.ui.createBlocksFromData",
-                            args: ["{arguments}.0", "{that}.options.blockTypeLookup", "{that}.events.viewComponentContainerRequested"]
-                        },
-                        updateStoryFromBlocks: {
-                            funcName: "sjrk.storyTelling.ui.updateStoryFromBlocks",
-                            args: [
-                                "{ui}.story",
-                                "{that}.managedViewComponentRegistry",
-                                "{ui}.events.onStoryUpdatedFromBlocks"
-                            ]
-                        }
-                    },
-                    listeners: {
-                        "onCreate.createBlocksFromData": {
-                            func: "{that}.createBlocksFromData",
-                            args: ["{story}.model.content"]
-                        }
-                    },
-                    dynamicComponents: {
-                        managedViewComponents: {
-                            options: {
-                                components: {
-                                    templateManager: {
-                                        options: {
-                                            model: {
-                                                locale: "{ui}.templateManager.model.locale"
-                                            }
-                                        }
-                                    },
-                                    block: {
-                                        options: {
-                                            gradeNames: ["{that}.getBlockGrade"],
-                                            invokers: {
-                                                "getBlockGrade": {
-                                                    funcName: "sjrk.storyTelling.ui.getBlockGradeFromEventModelValues",
-                                                    args: ["{blockUi}.options.additionalConfiguration.modelValues"]
-                                                }
-                                            },
-                                            modelListeners: {
-                                                "": {
-                                                    func: "{blockManager}.updateStoryFromBlocks",
-                                                    excludeSource: "init",
-                                                    namespace: "singleBlockToStory"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
 
 })(jQuery, fluid);

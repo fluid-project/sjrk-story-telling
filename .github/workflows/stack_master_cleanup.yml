@@ -1,0 +1,60 @@
+name: staging-stories.floeproject.org daily cleanup
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  PROJECT_ID: 006fb6eb
+  PROJECT_SMOKETEST_URL: https://staging-stories.floeproject.org/stories
+
+jobs:
+  deploy:
+    if: github.repository == 'fluid-project/sjrk-story-telling'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Stop and clean resources
+        uses: appleboy/ssh-action@master
+        with:
+          host:     ${{ secrets.SSH_HOSTNAME }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     ${{ secrets.SSH_PORT }}
+          envs:     PROJECT_ID
+          script: |
+            cd /srv/$PROJECT_ID/src                                   && \
+            source ../deploy.env                                      && \
+            /usr/local/bin/docker-compose -p $PROJECT_ID                 \
+                                          -f docker-compose.yml          \
+                                          -f docker-compose.cloud.yml    \
+                                          down                        && \
+            sudo rm -rf ../couchdb/*                                  && \
+            sudo rm -rf ../uploads/*                                  && \
+            sudo rm -rf ../deleted_uploads/*
+
+      # This step duplicates code from stack_master.yml
+      - name: Redeploy stack
+        uses: appleboy/ssh-action@master
+        with:
+          host:     ${{ secrets.SSH_HOSTNAME }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     ${{ secrets.SSH_PORT }}
+          envs:     PROJECT_ID
+          script: |
+            cd /srv/$PROJECT_ID/src                                       && \
+            git checkout master                                           && \
+            git pull                                                      && \
+            source ../deploy.env                                          && \
+            /usr/local/bin/docker-compose -p $PROJECT_ID                     \
+                                          -f docker-compose.yml              \
+                                          -f docker-compose.cloud.yml        \
+                                          up --force-recreate --build -d
+
+      - name: Wait
+        run: sleep 15
+
+      - name: Smoke test
+        run: curl --location --no-buffer --retry 120 --retry-delay 1 $PROJECT_SMOKETEST_URL
