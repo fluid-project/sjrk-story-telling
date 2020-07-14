@@ -111,6 +111,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateRenderer: {
                 type: "gpii.handlebars.renderer",
                 options: {
+                    distributeOptions: {
+                        record: true,
+                        target: "{that gpii.handlebars.helper.md}.options.markdownItOptions.linkify"
+                    },
                     components: {
                         getIds: {
                             type: "sjrk.storyTelling.templateManager.getIdsHelper"
