@@ -386,9 +386,9 @@ video.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-video-preview-plac
     background: url(../img/icons/Video-background.svg) center center no-repeat;
 }
 
+audio:not([controls]),
 video:not([controls]) {
   display: none;
-  height: 0;
 }
 
 audio.sjrk-st-block-media-preview[src=""] + .sjrk-st-block-audio-preview-placeholder,
