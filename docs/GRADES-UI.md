@@ -12,8 +12,8 @@
   * Localized messages are loaded to the key `{that}.templateStrings.localizedMessages`
   * Localization of content is specified at `{that}.model.locale`, and this is configured at the highest level by the
     `page` (more on this below)
-* `sjrk.storyTelling.binder` is an implementation of [`gpii.binder`](https://github.com/GPII/gpii-binder) that links
-  DOM elements to model values and provides a couple of events to tie into the `ui` grade (see below).
+* `sjrk.storyTelling.binder` is an implementation of [`fluid.binder`](https://github.com/fluid-project/fluid-binder)
+  that links DOM elements to model values and provides a couple of events to tie into the `ui` grade (see below).
 * `sjrk.storyTelling.block.singleFileUploader` provides some wiring for the Edit page to upload files to the server
 
 ## Blocks and Stories

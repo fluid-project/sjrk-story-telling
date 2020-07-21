@@ -30,7 +30,7 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-require("gpii-pouchdb");
+require("fluid-pouchdb");
 
 // a test story
 var testStoryModel = {
@@ -971,7 +971,7 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
     components: {
         pouchHarness: {
-            type: "gpii.pouch.harness",
+            type: "fluid.pouch.harness",
             options: {
                 port: 6789
             }
