@@ -12,16 +12,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 (function ($, fluid) {
 
     // a less-than-ideal implementation of internationalized UIO
-    fluid.defaults("fluid.uiOptions.prefsEditor.multilingualDemo", {
-        gradeNames: ["fluid.uiOptions.prefsEditor"],
-        terms: {
-            "messagePrefix": "node_modules/infusion/src/framework/preferences/messages",
-            "templatePrefix": "node_modules/infusion/src/framework/preferences/html"
-        },
-        "tocTemplate": "node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
-        "tocMessage": "node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
-        "ignoreForToC": {
-            "overviewPanel": ".flc-overviewPanel"
+    fluid.defaults("fluid.uiOptions.multilingualDemo", {
+        gradeNames: ["fluid.uiOptions"],
+        auxiliarySchema: {
+            terms: {
+                "messagePrefix": "node_modules/infusion/src/framework/preferences/messages",
+                "templatePrefix": "node_modules/infusion/src/framework/preferences/html"
+            },
+            "fluid.prefs.tableOfContents": {
+                enactor: {
+                    "tocTemplate": "node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                    "tocMessage": "node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json"
+                }
+            }
         },
         model: {
             locale: "en",
@@ -32,7 +35,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "onPrefsEditorReady.addLanguageAttributesToBody": {
-                func: "fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody",
+                func: "fluid.uiOptions.multilingualDemo.addLanguageAttributesToBody",
                 args: ["{that}.prefsEditorLoader.prefsEditor.container", "{that}.model.locale", "{that}.model.direction"]
             },
             "onPrefsEditorReady.escalate": "{that}.events.onUioReady"
@@ -74,7 +77,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         namespace: "rerenderUIO"
                     },
                     {
-                        func: "{fluid.uiOptions.prefsEditor.multilingualDemo}.events.onUioReady.fire",
+                        func: "{fluid.uiOptions.multilingualDemo}.events.onUioReady.fire",
                         priority: "after:rerenderUIO",
                         namespace: "escalate"
                     }]
@@ -91,7 +94,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {String} locale - the locale to apply
      * @param {String} direction - the text orientation to apply
      */
-    fluid.uiOptions.prefsEditor.multilingualDemo.addLanguageAttributesToBody = function (prefsEditorContainer, locale, direction) {
+    fluid.uiOptions.multilingualDemo.addLanguageAttributesToBody = function (prefsEditorContainer, locale, direction) {
         prefsEditorContainer.attr("lang", locale);
         prefsEditorContainer.attr("dir", direction);
     };
