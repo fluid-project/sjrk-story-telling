@@ -15,7 +15,7 @@ var fluid = require("infusion"),
     exif = require("jpeg-exif"),
     jqUnit = fluid.registerNamespace("jqUnit"),
     path = require("path"),
-    uuidv1 = require("uuid/v1");
+    { v1: uuidv1 } = require("uuid");
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
