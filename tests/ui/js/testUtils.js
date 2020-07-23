@@ -231,12 +231,43 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * Sets up a mock server response with given data for a given URL
      *
      * @param {String} url - the URL for which to set up a response
-     * @param {Object} responseData - JSON data to include in the server response
+     * @param {Integer} statusCode - HTML status code to return
+     * @param {String} contentType - the Content-Type to return in the response header
+     * @param {Object} response - the data to include in the server response
      */
-    sjrk.storyTelling.testUtils.setupMockServer = function (url, responseData) {
+    sjrk.storyTelling.testUtils.addPathToMockServer = function (url, statusCode, contentType, response) {
+        if (contentType === "application/json" && typeof (response) !== "string") {
+            response = JSON.stringify(response);
+        }
+        mockServer.respondWith(url, [statusCode, { "Content-Type": contentType }, response]);
+    };
+
+    /**
+     * Sets up a mock server and responding to the specified urls.
+     *
+     * @param {Object[]} urlConfig - an Object or array of Objects containing configuration for URL and responses.
+     *                               e.g.: {url: "url", statusCode: 200, contentType: "application/json", response: ""}
+     */
+    sjrk.storyTelling.testUtils.setupMockServer = function (urlConfig) {
         mockServer = sinon.createFakeServer();
         mockServer.respondImmediately = true;
-        mockServer.respondWith(url, [200, { "Content-Type": "application/json"}, JSON.stringify(responseData)]);
+
+        // Prevents the ajax requests from appending a time stamp to prevent caching.
+        // This timestamp prevents sinon mockserver from matching the requests.
+        $.ajaxPrefilter(function (options) {
+            options.cache = true;
+        });
+
+        urlConfig = fluid.makeArray(urlConfig);
+
+        fluid.each(urlConfig, function (config) {
+            sjrk.storyTelling.testUtils.addPathToMockServer(
+                config.url, 
+                config.statusCode || 200, 
+                config.contentType || "application/json",
+                config.response || "{}"
+            );
+        });
     };
 
     /**
