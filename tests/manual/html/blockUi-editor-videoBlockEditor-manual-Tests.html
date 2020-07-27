@@ -2,17 +2,10 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
 
         <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
 
-        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
-
         <script src="../../../node_modules/fluid-binder/src/js/binder.js"></script>
-
         <script src="../../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../../node_modules/markdown-it/dist/markdown-it.js"></script>
         <script src="../../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
@@ -44,10 +37,7 @@
         <script src="../../../src/ui/templateManager.js"></script>
         <script src="../../../src/ui/transforms.js"></script>
 
-        <script src="../js/blockUi-editor-videoBlockEditorTests.js"></script>
-        <script src="../js/testUtils.js"></script>
-
-        <title>Video Block Editor - Tests</title>
+        <title>Video Block Editor - Manual Tests</title>
         <style>
             .sjrk-st-block-media-preview-container {
                 width: 20em;
@@ -95,7 +85,16 @@
 
         <script>
         $(document).ready(function () {
-            sjrk.storyTelling.blockUi.editor.testVideoBlockEditor("#testVideoBlockEditorManual");
+            sjrk.storyTelling.blockUi.editor.videoBlockEditor("#testVideoBlockEditorManual", {
+                distributeOptions: {
+                    "imageBlockEditor.template": {
+                        record: {
+                            resourcePrefix: "../../../themes/base"
+                        },
+                        target: "{that templateManager}.options.templateConfig"
+                    }
+                }
+            });
         });
         </script>
 

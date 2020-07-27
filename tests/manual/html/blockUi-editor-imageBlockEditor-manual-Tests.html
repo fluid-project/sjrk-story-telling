@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html>
-    <head lang="en">
+<html lang="en">
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
 
         <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
 
-        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
-
         <script src="../../../node_modules/fluid-binder/src/js/binder.js"></script>
-
+        <script src="../../../node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js"></script>
+        <script src="../../../node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
         <script src="../../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../../node_modules/markdown-it/dist/markdown-it.js"></script>
         <script src="../../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
@@ -35,50 +30,46 @@
         <script src="../../../src/ui/binder.js"></script>
         <script src="../../../src/ui/uploader.js"></script>
         <script src="../../../src/ui/block.js"></script>
-        <script src="../../../src/ui/block-timeBased.js"></script>
-        <script src="../../../src/ui/block-audio.js"></script>
+        <script src="../../../src/ui/block-image.js"></script>
         <script src="../../../src/ui/blockUi.js"></script>
-        <script src="../../../src/ui/blockUi-timeBased.js"></script>
         <script src="../../../src/ui/blockUi-editor.js"></script>
-        <script src="../../../src/ui/blockUi-editor-audioBlockEditor.js"></script>
-        <script src="../../../src/ui/blockUi-editor-mediaBlockEditor.js"></script>
+        <script src="../../../src/ui/blockUi-editor-imageBlockEditor.js"></script>
         <script src="../../../src/ui/templateManager.js"></script>
         <script src="../../../src/ui/transforms.js"></script>
 
-        <script src="../js/blockUi-editor-audioBlockEditorTests.js"></script>
-        <script src="../js/testUtils.js"></script>
-
-        <title>Audio Block Editor - Tests</title>
+        <title>Image Block Editor - Manual Tests</title>
         <style>
-            .sjrk-st-block-uploader-container {
-                display: none;
+            .sjrk-st-block-media-preview-container {
+                width: 10em;
+            }
+
+            .sjrk-st-block-media-preview {
+                max-width: 100%;
+                height: auto;
             }
         </style>
     </head>
     <body id="body">
-        <h1>Audio Block Editor - Manual Tests</h1>
+        <h1>Image Block Editor - Manual Tests</h1>
         <h2>Instructions</h2>
         <ol>
             <li>
-                Upload an audio file with the Upload Audio button
+                Download the two test images: <a href="/testData/incorrectOrientation.jpeg">incorrectOrientation</a> and <a href="/testData/test_gif.gif">Test GIF</a>
             </li>
             <li>
-                Confirm the preview appears
+                Upload the "Test GIF" file with the Upload Image button
             </li>
             <li>
-                Confirm the preview plays properly
+                Confirm the preview appears and that the image appears right-side up in landscape mode with the "ground" on the bottom
             </li>
             <li>
-                Upload a different audio file with the Upload Audio button
+                Upload the "incorrectOrientation" file with the Upload Image button
             </li>
             <li>
-                Confirm the preview updates
+                Confirm the preview updates and that the image appears right-side up in portrait mode with the red lid on top of the cup
             </li>
             <li>
-                Confirm the preview plays properly
-            </li>
-            <li>
-                Click the Upload Audio button
+                Click the Upload Image button
             </li>
             <li>
                 Cancel out of the file choice dialog
@@ -87,12 +78,19 @@
                 Confirm the preview disappears
             </li>
         </ol>
-        <div id="testAudioBlockEditorManual"></div>
+        <div id="testImageBlockEditorManual"></div>
 
         <script>
-        $(document).ready(function () {
-            sjrk.storyTelling.blockUi.editor.testAudioBlockEditor("#testAudioBlockEditorManual");
-        });
+            sjrk.storyTelling.blockUi.editor.imageBlockEditor("#testImageBlockEditorManual", {
+                distributeOptions: {
+                    "imageBlockEditor.template": {
+                        record: {
+                            resourcePrefix: "../../../themes/base"
+                        },
+                        target: "{that templateManager}.options.templateConfig"
+                    }
+                }
+            });
         </script>
 
     </body>
