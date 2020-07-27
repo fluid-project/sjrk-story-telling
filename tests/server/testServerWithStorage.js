@@ -163,6 +163,7 @@ var testStoryWithImages = {
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
     expect: 110,
+    port: 8082,
     events: {
         // Receives two arguments:
         // - the ID of the saved story
@@ -319,6 +320,16 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     }
                 }
             }
+        }
+    },
+    distributeOptions: {
+        "server.port": {
+            source: "{that}.options.port",
+            target: "{that server}.options.port"
+        },
+        "request.port": {
+            source: "{that}.options.port",
+            target: "{that kettle.test.request.http}.options.port"
         }
     },
     sequence: [{
