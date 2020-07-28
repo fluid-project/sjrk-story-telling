@@ -4,7 +4,14 @@
     "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",
+        "test": "npm run test:browser && npm run test:node",
+        "test:browser": "node node_modules/testem/testem.js ci --file tests/ui/testem.js",
+        "test:node": "node node_modules/nyc/bin/nyc.js node tests/server/all-tests.js",
+        "test:vagrant": "vagrant up && vagrant ssh -c 'cd /home/vagrant/sync/; DISPLAY=:0 npm test'",
+        "test:vagrantBrowser": "vagrant up && vagrant ssh -c 'cd /home/vagrant/sync/; DISPLAY=:0 npm run test:browser'",
+        "test:vagrantNode": "vagrant up && vagrant ssh -c 'cd /home/vagrant/sync/; DISPLAY=:0 npm run test:node'",
+        "posttest": "node node_modules/nyc/bin/nyc.js report -r text-summary -r html -r json"
     },
     "repository": {
         "type": "git",
@@ -31,7 +38,6 @@
         "jpeg-exif": "1.1.4",
         "kettle": "1.15.1",
         "markdown-it": "11.0.0",
-        "sinon": "9.0.2",
         "uuid": "8.3.0"
     },
     "devDependencies": {
@@ -40,8 +46,12 @@
         "eslint-plugin-markdown": "1.0.2",
         "fluid-grunt-lint-all": "1.0.8",
         "fluid-pouchdb": "1.0.17",
+        "fluid-testem": "2.1.13",
         "grunt": "1.2.1",
         "node-jqunit": "1.1.8",
+        "nyc": "15.1.0",
+        "rimraf": "3.0.2",
+        "sinon": "9.0.2",
         "testem": "3.2.0"
     }
 }
