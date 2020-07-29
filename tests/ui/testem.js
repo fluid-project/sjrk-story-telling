@@ -12,10 +12,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 var fluid = require("infusion");
 fluid.setLogging(true);
 
-require("gpii-testem");
+require("fluid-testem");
 
 fluid.defaults("fluid.tests.testem", {
-    gradeNames: ["gpii.testem.instrumentation"],
+    gradeNames: ["fluid.testem.instrumentation"],
     coverageDir: "coverage",
     reportsDir: "reports",
     testPages: ["tests/ui/all-tests.html"],
@@ -32,7 +32,7 @@ fluid.defaults("fluid.tests.testem", {
         tests: "tests"
     },
     testemOptions: {
-        launch: "Chrome,Firefox",
+        launch: "Headless Chrome,Headless Firefox",
         ignore_missing_launchers: true,
         disable_watching: true,
         tap_quiet_logs: true
