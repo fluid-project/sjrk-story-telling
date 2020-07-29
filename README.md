@@ -1,5 +1,8 @@
 # The Storytelling Tool
 
+![CI build status badge](https://github.com/fluid-project/sjrk-story-telling/workflows/CI/badge.svg)
+[![Coverage status badge](https://codecov.io/github/fluid-project/sjrk-story-telling/coverage.svg?branch=master)](https://codecov.io/github/fluid-project/infusion?branch=master)
+
 ## Social Justice Repair Kit
 
 <https://sojustrepairit.org/>
@@ -128,7 +131,8 @@ All tests should be run before any commits are made in order to catch any bugs o
 
 #### All tests
 
-Run `npm test` which will run the server and browser tests and output a coverage report. The coverage summary will be displayed in the log and reports are populated in the `reports` directory.
+Run `npm test` which will run the server and browser tests and output a coverage report. The coverage summary will be
+displayed in the log and reports are populated in the `reports` directory.
 
 #### Server tests
 
@@ -138,13 +142,15 @@ Run `npm run test:node` to execute the server code tests.
 
 Run `npm run test:browser` to execute the browser tests in headless browsers.
 
-If you would like to manually execute the browser tests in browser, use a webserver to serve the project and navigate to the all-tests.hmtl file or any of the indivdual test files in the tests/ui/html directory.
+If you would like to manually execute the browser tests in browser, use a webserver to serve the project and navigate to
+the all-tests.hmtl file or any of the indivdual test files in the tests/ui/html directory.
 
 #### Manual Browser tests
 
 There are a number of features that must currently be tested manually (i.e. with direct user interaction), either due to
-automation that has not yet been implemented or due to browser security restrictions. Each manual test page provides instructions
-on how to proceed and what to expect in the successful case. You'll need to use a webserver to serve the project in order to access the manual tests.
+automation that has not yet been implemented or due to browser security restrictions. Each manual test page provides
+instructions on how to proceed and what to expect in the successful case. You'll need to use a webserver to serve the
+project in order to access the manual tests.
 
 Here are the current manual browser test pages:
 

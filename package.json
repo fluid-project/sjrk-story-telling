@@ -8,7 +8,8 @@
         "test": "npm run test:browser && npm run test:node",
         "test:browser": "node node_modules/testem/testem.js ci --file tests/ui/testem.js",
         "test:node": "node node_modules/nyc/bin/nyc.js node tests/server/all-tests.js",
-        "posttest": "node node_modules/nyc/bin/nyc.js report -r text-summary -r html -r json"
+        "posttest": "node node_modules/nyc/bin/nyc.js report -r text-summary -r html -r json",
+        "lint": "grunt lint"
     },
     "repository": {
         "type": "git",

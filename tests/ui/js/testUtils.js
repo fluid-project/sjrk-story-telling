@@ -262,8 +262,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
         fluid.each(urlConfig, function (config) {
             sjrk.storyTelling.testUtils.addPathToMockServer(
-                config.url, 
-                config.statusCode || 200, 
+                config.url,
+                config.statusCode || 200,
                 config.contentType || "application/json",
                 config.response || "{}"
             );

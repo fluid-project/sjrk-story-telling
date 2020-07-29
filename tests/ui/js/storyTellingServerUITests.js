@@ -101,7 +101,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             contentType: "application/javascript",
                             response: "var test = 123;"
                         }
-                ]]
+                    ]]
                 },{
                     task: "sjrk.storyTelling.loadTheme",
                     resolve: "jqUnit.assertDeepEq",
