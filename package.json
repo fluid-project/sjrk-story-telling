@@ -39,10 +39,9 @@
         "eslint-config-fluid": "1.4.0",
         "eslint-plugin-markdown": "1.0.2",
         "fluid-grunt-lint-all": "1.0.8",
-        "fluid-pouchdb": "1.0.16",
+        "fluid-pouchdb": "1.0.17",
         "grunt": "1.2.1",
         "node-jqunit": "1.1.8",
-        "rimraf": "3.0.2",
         "testem": "3.2.0"
     }
 }
