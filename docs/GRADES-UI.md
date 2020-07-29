@@ -69,5 +69,5 @@
 * `sjrk.storyTelling.base.page.storyBrowse` represents the Browse page and has a `storyBrowser`
 * `sjrk.storyTelling.base.page.storyView` represents the View page, has a `storyViewer`
 * `sjrk.storyTelling.base.page.storyEdit` represents the Edit page, has a `storyEditor` and a `storyPreviewer` which
-  together form the story authoring environment. There is a `gpii.locationBar` to manage browser history states within
+  together form the story authoring environment. There is a `fluid.locationBar` to manage browser history states within
   the page. This grade also contains some events, listeners and functions to handle story submission to the server
