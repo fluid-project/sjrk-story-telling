@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 (function ($, fluid) {
 
     // A grade which coordinates the loading of a handlebars template and
-    // localized UI text, then uses a client-side gpii.handlebars renderer
+    // localized UI text, then uses a client-side fluid.handlebars renderer
     // to insert the resulting combined markup into the DOM
     fluid.defaults("sjrk.storyTelling.templateManager", {
         gradeNames: "fluid.viewComponent",
@@ -109,7 +109,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // For rendering the handlebars template with all applicable values
             templateRenderer: {
-                type: "gpii.handlebars.renderer",
+                type: "fluid.handlebars.renderer",
                 options: {
                     components: {
                         getIds: {
@@ -137,7 +137,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Injects the provided template content to the partial templates collection of the template renderer
      *
-     * @param {Component} templateRenderer - an instance of gpii.handlebars.renderer
+     * @param {Component} templateRenderer - an instance of fluid.handlebars.renderer
      * @param {String} templateContent - the raw content of the template to be loaded at templateName
      * @param {String} templateName - the template's name
      * @param {Object} completionEvent - an event to fire upon completion
@@ -166,7 +166,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Renders a template into the templateManager's container with a gpii.handlebars
+     * Renders a template into the templateManager's container with a fluid.handlebars
      * client-side renderer, and fires completionEvent when done.
      * Values in localizedMessages are resolved against those in dynamicValues.
      * E.g. given 'msg_auth:"%author"' in localizedMessages and 'author:"Someone"' in
@@ -225,9 +225,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         fluid.set(templateManager, path, mergedEndpoint);
     };
 
-    // A gpii.handlebars.helper grade which registers a helper function
+    // A fluid.handlebars.helper grade which registers a helper function
     fluid.defaults("sjrk.storyTelling.templateManager.getIdsHelper", {
-        gradeNames: ["gpii.handlebars.helper"],
+        gradeNames: ["fluid.handlebars.helper"],
         helperName: "getIds",
         invokers: {
             "getHelper": {
@@ -258,9 +258,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         };
     };
 
-    // A gpii.handlebars.helper grade which replaces one string with another
+    // A fluid.handlebars.helper grade which replaces one string with another
     fluid.defaults("sjrk.storyTelling.templateManager.replaceHelper", {
-        gradeNames: ["gpii.handlebars.helper"],
+        gradeNames: ["fluid.handlebars.helper"],
         helperName: "replace",
         invokers: {
             "getHelper": {
