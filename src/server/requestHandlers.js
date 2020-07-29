@@ -549,26 +549,6 @@ sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secu
     });
 };
 
-// Kettle request handler for the tests directory
-fluid.defaults("sjrk.storyTelling.server.testsHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.tests"
-        }
-    }
-});
-
-// Kettle request handler for the testData directory
-fluid.defaults("sjrk.storyTelling.server.testDataHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.testData"
-        }
-    }
-});
-
 // Kettle request handler for the ui directory
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
