@@ -37,7 +37,8 @@ fluid.defaults("sjrk.storyTelling.server", {
                     binaryUploadDirectory: "./uploads",
                     uploadedFilesHandlerPath: "/uploads",
                     deletedFilesRecoveryPath: "/deleted_uploads",
-                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
+                    secretsConfigPath: "./secrets.json",
+                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile({that}.options.secureConfig.secretsConfigPath)"
                 },
                 port: "{that}.options.globalConfig.port",
                 distributeOptions: {
