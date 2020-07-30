@@ -143,7 +143,7 @@ Run `npm run test:node` to execute the server code tests.
 Run `npm run test:browser` to execute the browser tests in headless browsers.
 
 If you would like to manually execute the browser tests in browser, use a webserver to serve the project and navigate to
-the all-tests.hmtl file or any of the indivdual test files in the tests/ui/html directory.
+tests/ui/all-tests.html file or any of the indivdual test files in the tests/ui/html directory.
 
 #### Manual Browser tests
 
