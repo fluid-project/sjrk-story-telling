@@ -14,14 +14,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 (function ($, fluid) {
     // To be used for binding the story editor model to the UI
     fluid.defaults("sjrk.storyTelling.binder", {
-        gradeNames: ["gpii.binder"],
+        gradeNames: ["fluid.binder"],
         events: {
             onUiReadyToBind: null,
             onBindingApplied: null
         },
         listeners: {
             "onUiReadyToBind.applyBinding": {
-                funcName: "gpii.binder.applyBinding",
+                funcName: "fluid.binder.applyBinding",
                 args: "{that}"
             },
             "onUiReadyToBind.fireOnBindingApplied": {
