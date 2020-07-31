@@ -93,10 +93,9 @@ fluid.defaults("sjrk.storyTelling.server", {
                             allowedSubdirectories: [
                                 "blueimp-canvas-to-blob",
                                 "blueimp-load-image",
-                                "gpii-binder",
-                                "gpii-express",
-                                "gpii-handlebars",
-                                "gpii-location-bar-relay",
+                                "fluid-binder",
+                                "fluid-handlebars",
+                                "fluid-location-bar-relay",
                                 "handlebars",
                                 "infusion",
                                 "markdown-it",

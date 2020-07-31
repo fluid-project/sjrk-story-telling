@@ -28,7 +28,7 @@ module.exports = function (grunt) {
     });
 
     // Load the plugin(s):
-    grunt.loadNpmTasks("gpii-grunt-lint-all");
+    grunt.loadNpmTasks("fluid-grunt-lint-all");
 
     // Custom tasks:
     grunt.registerTask("default", ["lint"]);
