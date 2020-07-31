@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     /**
      * Changes the content of a specified HTML element to the given value.
-     * This is abstracted to a utility function in order to use it with gpii-binder
+     * This is abstracted to a utility function in order to use it with fluid-binder
      * when setting up tests. It triggers the change event in order to ensure
      * the form value is relayed to the model, as val on its own does not.
      *
@@ -204,6 +204,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      *
      * @param {Component} blockManager - an instance of sjrk.dynamicViewComponentManager
      * @param {Number} index - the index of the block to retrieve (zero-based)
+     *
+     * @return {Component} - the sjrk.storyTelling.blockUi at the specified index
      */
     sjrk.storyTelling.testUtils.getBlockByIndex = function (blockManager, index) {
         return Object.values(blockManager.managedViewComponentRegistry)[index].block;

@@ -12,8 +12,8 @@
   * Localized messages are loaded to the key `{that}.templateStrings.localizedMessages`
   * Localization of content is specified at `{that}.model.locale`, and this is configured at the highest level by the
     `page` (more on this below)
-* `sjrk.storyTelling.binder` is an implementation of [`gpii.binder`](https://github.com/GPII/gpii-binder) that links
-  DOM elements to model values and provides a couple of events to tie into the `ui` grade (see below).
+* `sjrk.storyTelling.binder` is an implementation of [`fluid.binder`](https://github.com/fluid-project/fluid-binder)
+  that links DOM elements to model values and provides a couple of events to tie into the `ui` grade (see below).
 * `sjrk.storyTelling.block.singleFileUploader` provides some wiring for the Edit page to upload files to the server
 
 ## Blocks and Stories
@@ -69,5 +69,5 @@
 * `sjrk.storyTelling.base.page.storyBrowse` represents the Browse page and has a `storyBrowser`
 * `sjrk.storyTelling.base.page.storyView` represents the View page, has a `storyViewer`
 * `sjrk.storyTelling.base.page.storyEdit` represents the Edit page, has a `storyEditor` and a `storyPreviewer` which
-  together form the story authoring environment. There is a `gpii.locationBar` to manage browser history states within
+  together form the story authoring environment. There is a `fluid.locationBar` to manage browser history states within
   the page. This grade also contains some events, listeners and functions to handle story submission to the server
