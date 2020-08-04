@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<html>
+    <head lang="en">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
 
         <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
 
-        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
-
         <script src="../../../node_modules/fluid-binder/src/js/binder.js"></script>
-
         <script src="../../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../../node_modules/markdown-it/dist/markdown-it.js"></script>
         <script src="../../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
@@ -33,30 +26,71 @@
         <script src="../../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
         <script src="../../../src/ui/binder.js"></script>
+        <script src="../../../src/ui/uploader.js"></script>
         <script src="../../../src/ui/block.js"></script>
-        <script src="../../../src/ui/block-text.js"></script>
+        <script src="../../../src/ui/block-timeBased.js"></script>
+        <script src="../../../src/ui/block-audio.js"></script>
         <script src="../../../src/ui/blockUi.js"></script>
+        <script src="../../../src/ui/blockUi-timeBased.js"></script>
         <script src="../../../src/ui/blockUi-editor.js"></script>
-        <script src="../../../src/ui/blockUi-editor-textBlockEditor.js"></script>
+        <script src="../../../src/ui/blockUi-editor-audioBlockEditor.js"></script>
+        <script src="../../../src/ui/blockUi-editor-mediaBlockEditor.js"></script>
         <script src="../../../src/ui/templateManager.js"></script>
         <script src="../../../src/ui/transforms.js"></script>
 
-        <!-- Required to send coverage data at the end of the test run on this page -->
-        <script src="/testem.js"></script>
-        <script src="/coverage/client/coverageSender.js"></script>
-
-        <script src="../js/blockUi-editor-textBlockEditorTests.js"></script>
-        <script src="../js/testUtils.js"></script>
-
-        <title>Text Block Editor - Tests</title>
+        <title>Audio Block Editor - Manual Tests</title>
+        <style>
+            .sjrk-st-block-uploader-container {
+                display: none;
+            }
+        </style>
     </head>
     <body id="body">
-        <h1 id="qunit-header">Text Block Editor - Tests</h1>
-        <h2 id="qunit-banner"></h2>
-        <div id="qunit-testrunner-toolbar"></div>
-        <h2 id="qunit-userAgent"></h2>
-        <ol id="qunit-tests"></ol>
+        <h1>Audio Block Editor - Manual Tests</h1>
+        <h2>Instructions</h2>
+        <ol>
+            <li>
+                Upload an audio file with the Upload Audio button
+            </li>
+            <li>
+                Confirm the preview appears
+            </li>
+            <li>
+                Confirm the preview plays properly
+            </li>
+            <li>
+                Upload a different audio file with the Upload Audio button
+            </li>
+            <li>
+                Confirm the preview updates
+            </li>
+            <li>
+                Confirm the preview plays properly
+            </li>
+            <li>
+                Click the Upload Audio button
+            </li>
+            <li>
+                Cancel out of the file choice dialog
+            </li>
+            <li>
+                Confirm the preview disappears
+            </li>
+        </ol>
+        <div id="testAudioBlockEditorManual"></div>
 
-        <div id="testTextBlockEditor"></div>
+        <script>
+            sjrk.storyTelling.blockUi.editor.audioBlockEditor("#testAudioBlockEditorManual", {
+                distributeOptions: {
+                    "audioBlockEditor.template": {
+                        record: {
+                            resourcePrefix: "../../../themes/base"
+                        },
+                        target: "{that templateManager}.options.templateConfig"
+                    }
+                }
+            });
+        </script>
+
     </body>
 </html>

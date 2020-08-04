@@ -1,0 +1,16 @@
+coverage:
+  status:
+    project:
+      default:
+        # Will fail if coverage drops by 2%
+        # see: https://docs.codecov.io/docs/commit-status
+        target: auto
+        threshold: 2%
+
+comment:
+  layout: "diff,flags,tree"
+  after_n_builds: 6
+
+parsers:
+  javascript:
+    enable_partials: yes

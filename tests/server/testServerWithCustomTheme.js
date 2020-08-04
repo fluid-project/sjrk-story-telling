@@ -29,6 +29,7 @@ var sjrk = fluid.registerNamespace("sjrk");
 sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
     name: "Custom theme server tests",
     expect: 10,
+    port: 8082,
     config: {
         configName: "sjrk.storyTelling.server.testServerWithCustomTheme",
         configPath: "./tests/server/configs"
@@ -68,6 +69,16 @@ sjrk.storyTelling.server.testServerWithCustomThemeDefs = [{
                 path: "/notARealFile.txt",
                 method: "GET"
             }
+        }
+    },
+    distributeOptions: {
+        "server.port": {
+            source: "{that}.options.port",
+            target: "{that server}.options.port"
+        },
+        "request.port": {
+            source: "{that}.options.port",
+            target: "{that kettle.test.request.http}.options.port"
         }
     },
     sequence: [{
