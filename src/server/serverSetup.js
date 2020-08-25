@@ -37,7 +37,8 @@ fluid.defaults("sjrk.storyTelling.server", {
                     binaryUploadDirectory: "./uploads",
                     uploadedFilesHandlerPath: "/uploads",
                     deletedFilesRecoveryPath: "/deleted_uploads",
-                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
+                    secretsConfigPath: "./secrets.json",
+                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile({that}.options.secureConfig.secretsConfigPath)"
                 },
                 port: "{that}.options.globalConfig.port",
                 distributeOptions: {
@@ -98,10 +99,9 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
-                                "gpii-binder",
-                                "gpii-express",
-                                "gpii-handlebars",
-                                "gpii-location-bar-relay",
+                                "fluid-binder",
+                                "fluid-handlebars",
+                                "fluid-location-bar-relay",
                                 "handlebars",
                                 "infusion",
                                 "markdown-it",
@@ -120,23 +120,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "{server}.options.secureConfig.binaryUploadDirectory"
-                        }
-                    },
-                    // static middleware for the tests directory
-                    tests: {
-                        type: "kettle.middleware.static",
-                        options: {
-                            "root": "./tests/ui",
-                            middlewareOptions: {
-                                index: "all-tests.html"
-                            }
-                        }
-                    },
-                    // static middleware for the testData directory
-                    testData: {
-                        type: "kettle.middleware.static",
-                        options: {
-                            "root": "./tests/testData"
                         }
                     },
                     // static middleware for the ui directory
@@ -201,12 +184,6 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/admin/deleteStory/:id",
             "method": "get"
         },
-        testDataHandler: {
-            type: "sjrk.storyTelling.server.testDataHandler",
-            "route": "/*",
-            "prefix": "/testData",
-            "method": "get"
-        },
         uiHandler: {
             type: "sjrk.storyTelling.server.uiHandler",
             "route": "/*",
@@ -224,12 +201,6 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/*",
             "method": "get",
             "prefix": "{server}.options.secureConfig.uploadedFilesHandlerPath"
-        },
-        testsHandler: {
-            type: "sjrk.storyTelling.server.testsHandler",
-            "route": "/*",
-            "prefix": "/tests",
-            "method": "get"
         },
         clientConfigHandler: {
             type: "sjrk.storyTelling.server.clientConfigHandler",

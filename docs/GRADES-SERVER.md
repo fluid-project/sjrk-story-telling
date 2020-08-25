@@ -12,8 +12,6 @@
 
 These request handlers don't do much beyond serve requests for a particular route
 
-* `sjrk.storyTelling.server.testsHandler`
-* `sjrk.storyTelling.server.testDataHandler`
 * `sjrk.storyTelling.server.uiHandler`
 * `sjrk.storyTelling.server.uploadsHandler`
 * `sjrk.storyTelling.server.nodeModulesHandler`

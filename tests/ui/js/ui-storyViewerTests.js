@@ -21,7 +21,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         members: {
             oratorRecord: "",
-            textToRead: "A story about cats\n            by Cat friend\n\n        Rootbeer\n        Rootbeer is a cute kitty."
+            textToRead: "A story about cats\n            by Cat friend\n\n        Rootbeer\nRootbeer is a cute kitty."
         },
         components: {
             story: {
@@ -45,7 +45,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         }
                     },
                     templateConfig: {
-                        resourcePrefix: "../.."
+                        // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
+                        resourcePrefix: "../../../themes/base"
                     }
                 }
             },
@@ -58,7 +59,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     templateManager: {
                                         options: {
                                             templateConfig: {
-                                                resourcePrefix: "../.."
+                                                // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
+                                                resourcePrefix: "../../../themes/base"
                                             },
                                             listeners: {
                                                 "onTemplateRendered.notifyTestStoryViewer": {

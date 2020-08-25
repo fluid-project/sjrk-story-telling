@@ -358,6 +358,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * list of class names of a managed dynamic view component (e.g. a blockUi)
      *
      * @param {String} managedViewComponentSelector - a CSS selector
+     *
+     * @return {String} - a selector, or `undefined` if the `managedViewComponentSelector` is not a string.
      */
     sjrk.storyTelling.ui.storyEditor.getManagedClassNamePattern = function (managedViewComponentSelector) {
         if (managedViewComponentSelector && typeof managedViewComponentSelector === "string") {

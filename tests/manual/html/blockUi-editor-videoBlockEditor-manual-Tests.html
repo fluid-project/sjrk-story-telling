@@ -2,17 +2,10 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
 
         <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
 
-        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
-
         <script src="../../../node_modules/fluid-binder/src/js/binder.js"></script>
-
         <script src="../../../node_modules/handlebars/dist/handlebars.js"></script>
         <script src="../../../node_modules/markdown-it/dist/markdown-it.js"></script>
         <script src="../../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
@@ -33,30 +26,77 @@
         <script src="../../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
         <script src="../../../src/ui/binder.js"></script>
+        <script src="../../../src/ui/uploader.js"></script>
         <script src="../../../src/ui/block.js"></script>
-        <script src="../../../src/ui/block-text.js"></script>
+        <script src="../../../src/ui/block-timeBased.js"></script>
+        <script src="../../../src/ui/block-video.js"></script>
         <script src="../../../src/ui/blockUi.js"></script>
+        <script src="../../../src/ui/blockUi-timeBased.js"></script>
         <script src="../../../src/ui/blockUi-editor.js"></script>
-        <script src="../../../src/ui/blockUi-editor-textBlockEditor.js"></script>
+        <script src="../../../src/ui/blockUi-editor-videoBlockEditor.js"></script>
         <script src="../../../src/ui/templateManager.js"></script>
         <script src="../../../src/ui/transforms.js"></script>
 
-        <!-- Required to send coverage data at the end of the test run on this page -->
-        <script src="/testem.js"></script>
-        <script src="/coverage/client/coverageSender.js"></script>
+        <title>Video Block Editor - Manual Tests</title>
+        <style>
+            .sjrk-st-block-media-preview-container {
+                width: 20em;
+            }
 
-        <script src="../js/blockUi-editor-textBlockEditorTests.js"></script>
-        <script src="../js/testUtils.js"></script>
-
-        <title>Text Block Editor - Tests</title>
+            .sjrk-st-block-media-preview {
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
     </head>
     <body id="body">
-        <h1 id="qunit-header">Text Block Editor - Tests</h1>
-        <h2 id="qunit-banner"></h2>
-        <div id="qunit-testrunner-toolbar"></div>
-        <h2 id="qunit-userAgent"></h2>
-        <ol id="qunit-tests"></ol>
+        <h1>Video Block Editor - Manual Tests</h1>
+        <h2>Instructions</h2>
+        <ol>
+            <li>
+                Upload an video file with the Upload Video button
+            </li>
+            <li>
+                Confirm the preview appears
+            </li>
+            <li>
+                Confirm the preview plays properly
+            </li>
+            <li>
+                Upload a different video file with the Upload Video button
+            </li>
+            <li>
+                Confirm the preview updates
+            </li>
+            <li>
+                Confirm the preview plays properly
+            </li>
+            <li>
+                Click the Upload Video button
+            </li>
+            <li>
+                Cancel out of the file choice dialog
+            </li>
+            <li>
+                Confirm the preview disappears
+            </li>
+        </ol>
+        <div id="testVideoBlockEditorManual"></div>
 
-        <div id="testTextBlockEditor"></div>
+        <script>
+        $(document).ready(function () {
+            sjrk.storyTelling.blockUi.editor.videoBlockEditor("#testVideoBlockEditorManual", {
+                distributeOptions: {
+                    "imageBlockEditor.template": {
+                        record: {
+                            resourcePrefix: "../../../themes/base"
+                        },
+                        target: "{that templateManager}.options.templateConfig"
+                    }
+                }
+            });
+        });
+        </script>
+
     </body>
 </html>

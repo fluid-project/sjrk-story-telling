@@ -43,7 +43,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 options: {
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/storyViewer.handlebars",
-                        resourcePrefix: "../.."
+                        // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
+                        resourcePrefix: "../../../themes/base"
                     }
                 }
             }

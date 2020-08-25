@@ -118,7 +118,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             promise.then(function () {
                 fluid.log("Media player playback triggered");
             }, function (error) {
-                console.error("Error:", error, "message:", error.message);
+                fluid.log(fluid.logLevel.WARN, "Error:", error, "message:", error.message);
             });
         }
     };

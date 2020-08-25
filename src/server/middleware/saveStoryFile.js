@@ -10,7 +10,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 "use strict";
 
 var fluid = require("infusion");
-var uuidv4 = require("uuid/v4");
+var { v4: uuidv4 } = require("uuid");
 var path = require("path");
 require("kettle");
 

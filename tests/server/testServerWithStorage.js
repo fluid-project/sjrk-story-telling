@@ -15,7 +15,7 @@ var fluid = require("infusion"),
     exif = require("jpeg-exif"),
     jqUnit = fluid.registerNamespace("jqUnit"),
     path = require("path"),
-    uuidv4 = require("uuid/v4");
+    { v4: uuidv4 } = require("uuid");
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
@@ -31,7 +31,7 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-require("gpii-pouchdb");
+require("fluid-pouchdb");
 
 // a test story
 var testStoryModelPrePublish = {
@@ -194,6 +194,7 @@ var testStoryWithImages = {
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
     expect: 89,
+    port: 8082,
     events: {
         // Receives no arguments
         "onBlockUpdatedWithUploadedFilename": null,
@@ -342,6 +343,16 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     originalFilepath: "{testCaseHolder}.options.testUploadOptions.testPNGFile"
                 }
             }
+        }
+    },
+    distributeOptions: {
+        "server.port": {
+            source: "{that}.options.port",
+            target: "{that server}.options.port"
+        },
+        "request.port": {
+            source: "{that}.options.port",
+            target: "{that kettle.test.request.http}.options.port"
         }
     },
     sequence: [{
@@ -1020,7 +1031,7 @@ fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
     gradeNames: ["fluid.component"],
     components: {
         pouchHarness: {
-            type: "gpii.pouch.harness",
+            type: "fluid.pouch.harness",
             options: {
                 port: 6789
             }

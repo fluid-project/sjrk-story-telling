@@ -143,7 +143,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             // the UIO component
             uio: {
-                type: "fluid.uiOptions.prefsEditor.multilingualDemo",
+                type: "fluid.uiOptions.multilingualDemo",
                 container: ".flc-prefsEditor-separatedPanel",
                 options: {
                     model: {

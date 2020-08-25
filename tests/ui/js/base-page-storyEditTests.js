@@ -17,8 +17,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // authoring is disabled in this component, regardless of the server setting
     fluid.defaults("sjrk.storyTelling.base.page.testStoryEdit", {
         gradeNames: ["sjrk.storyTelling.base.page.storyEdit"],
+        // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
         pageSetup: {
-            resourcePrefix: "../..",
+            resourcePrefix: "../../../themes/base",
             authoringEnabled: false,
             storyAutosaveKey: "testStoryAutosave"
         },
@@ -34,12 +35,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             uio: {
                 options: {
-                    terms: {
-                        "templatePrefix": "../../node_modules/infusion/src/framework/preferences/html",
-                        "messagePrefix": "../../node_modules/infusion/src/framework/preferences/messages"
-                    },
-                    "tocMessage": "../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json",
-                    "tocTemplate": "../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html"
+                    auxiliarySchema: {
+                        terms: {
+                            "messagePrefix": "../../../node_modules/infusion/src/framework/preferences/messages",
+                            "templatePrefix": "../../../node_modules/infusion/src/framework/preferences/html"
+                        },
+                        "fluid.prefs.tableOfContents": {
+                            enactor: {
+                                "tocTemplate": "../../../node_modules/infusion/src/components/tableOfContents/html/TableOfContents.html",
+                                "tocMessage": "../../../node_modules/infusion/src/framework/preferences/messages/tableOfContents-enactor.json"
+                            }
+                        }
+                    }
                 }
             },
             menu: {
@@ -894,7 +901,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: ["/stories/", ""]
+                    args: [{url: "/stories/", response: ""}]
                 },
                 {
                     "jQueryTrigger": "click",
@@ -1041,7 +1048,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 // publish the story (using a mocked response)
                 {
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: ["/stories/", ""]
+                    args: [{url: "/stories/", response: ""}]
                 },
                 {
                     "jQueryTrigger": "click",

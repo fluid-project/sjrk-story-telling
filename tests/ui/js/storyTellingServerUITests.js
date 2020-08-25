@@ -91,37 +91,36 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test Storytelling Server UI code",
             tests: [{
                 name: "Test themed page loading functions with mock values",
-                expect: 1,
+                expect: 4,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: ["/clientConfig", "{that}.options.baseTestCase.clientConfig", "application/json"]
+                    args: [[
+                        {url: "/clientConfig", response: "{that}.options.baseTestCase.clientConfig"},
+                        {
+                            url: "/js/customTheme.js",
+                            contentType: "application/javascript",
+                            response: "var test = 123;"
+                        }
+                    ]]
                 },{
                     task: "sjrk.storyTelling.loadTheme",
                     resolve: "jqUnit.assertDeepEq",
                     resolveArgs: ["The themed page load resolved as expected", "{that}.options.baseTestCase.clientConfig", "{arguments}.0"]
                 },{
-                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
-                }]
-            },{
-                name: "Test themed page loading functions with server config values",
-                expect: 3,
-                sequence: [{
-                    task: "$.get",
-                    args: ["/clientConfig"],
-                    resolve: "fluid.set",
-                    resolveArgs: ["{that}", "clientConfig", "{arguments}.0"]
-                },{
-                    task: "sjrk.storyTelling.loadTheme",
-                    resolve: "jqUnit.assertEquals",
-                    resolveArgs: ["The themed page load resolved as expected", "{that}.clientConfig.theme", "{arguments}.0.theme"]
-                },{
                     funcName: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
-                    args: ["{that}.clientConfig", 1]
+                    args: ["{that}.options.baseTestCase.clientConfig", 1]
+                },{
+                    task: "sjrk.storyTelling.loadCustomThemeFiles",
+                    args: ["{that}.clientConfig"],
+                    resolve: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
+                    resolveArgs: ["{that}.clientConfig", 1]
                 },{
                     task: "sjrk.storyTelling.loadCustomThemeFiles",
                     args: ["{that}.clientConfig"],
                     resolve: "sjrk.storyTelling.storyTellingServerUiTester.verifyCustomCssLoaded",
                     resolveArgs: ["{that}.clientConfig", 2]
+                },{
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 }]
             }]
         }]

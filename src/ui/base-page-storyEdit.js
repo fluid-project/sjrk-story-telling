@@ -212,7 +212,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             // manaages browser history for in-page forward-back support
             historian: {
-                type: "gpii.locationBar",
+                type: "fluid.locationBar",
                 options: {
                     model: {
                         // because we have model relays that make sure metadataStepVisible

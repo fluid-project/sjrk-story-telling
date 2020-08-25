@@ -10,7 +10,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 "use strict";
 
 var fluid = require("infusion");
-var uuidv4 = require("uuid/v4");
+var { v4: uuidv4 } = require("uuid");
 var fse = require("fs-extra");
 var path = require("path");
 var jo = require("jpeg-autorotate");
@@ -537,26 +537,6 @@ sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secu
         authoringEnabled: globalConfig.authoringEnabled
     });
 };
-
-// Kettle request handler for the tests directory
-fluid.defaults("sjrk.storyTelling.server.testsHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.tests"
-        }
-    }
-});
-
-// Kettle request handler for the testData directory
-fluid.defaults("sjrk.storyTelling.server.testDataHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.testData"
-        }
-    }
-});
 
 // Kettle request handler for the ui directory
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
