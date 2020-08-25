@@ -601,16 +601,17 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
  * Mocks a single file upload by copying a file from a given path
  * to the test uploads directory. Fires an event upon successful completion
  *
- * @param {String} filePath - the path to the file to "upload"
- * @param {String} dirPath - the path for the test uploads directory
- * @param {Object} completionEvent - an event to fire on completion
+ * @param {String} fileName - the name of the file to mock upload
+ * @param {String} sourceDirPath - the path for the original file (to be copied)
+ * @param {String} testUploadDirPath - the path for the test uploads directory
+ * @param {Object} completionEvent - the event to fire on successful completion
  */
-sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload = function (fileName, sourceDirPath, copyDirPath, completionEvent) {
+sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload = function (fileName, sourceDirPath, testUploadDirPath, completionEvent) {
     if (fileName) {
         var sourcePath = path.join(sourceDirPath, fileName);
 
         if (fs.existsSync(sourcePath)) {
-            var copyPath = path.join(copyDirPath, fileName);
+            var copyPath = path.join(testUploadDirPath, fileName);
             fs.copyFileSync(sourcePath, copyPath);
 
             if (fs.existsSync(copyPath)) {

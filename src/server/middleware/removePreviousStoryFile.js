@@ -34,6 +34,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.removePreviousStoryFile", {
  * {@link https://github.com/fluid-project/kettle/blob/master/docs/Middleware.md}
  *
  * @param {Object} request - the incoming request
+ * @param {String} uploadedFilesDirectory - the directory where uploaded files are stored
  */
 sjrk.storyTelling.server.middleware.removePreviousStoryFile.handle = function (request, uploadedFilesDirectory) {
     if (request.req.body.previousFileUrl) {

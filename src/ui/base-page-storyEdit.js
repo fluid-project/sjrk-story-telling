@@ -324,7 +324,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * to the server.
      *
      * @param {String} storyAutosaveKey - the key to load the story content from
-     * @param {Component} storyEditPage - an instance of `sjrk.storyTelling.base.page.storyEdit`
+     * @param {Component} storyEdit - an instance of `sjrk.storyTelling.base.page.storyEdit`
      */
     sjrk.storyTelling.base.page.storyEdit.initializeStory = function (storyAutosaveKey, storyEdit) {
         try {

@@ -127,6 +127,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     /**
      * Uploads the file to the server and sets the URL to the newly-saved
      * dynamic file name upon completion
+     *
+     * @param {Object} fileToUpload - the file data
+     * @param {String} storyId - the story with which the file will be associated
+     * @param {String} previousFileUrl - the previous URL for the file, if it exists
+     * @param {String} serverUploadUrl - the URL to which files are uploaded
+     * @param {Object} uploadingEvent - the event to be fired upon starting the upload
+     * @param {Object} completionEvent - the event to be fired upon successful completion
+     * @param {Object} errorEvent - the event to be fired in case of an error
      */
     sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, previousFileUrl, serverUploadUrl, uploadingEvent, completionEvent, errorEvent) {
         if (fileToUpload) {
