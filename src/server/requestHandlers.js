@@ -181,7 +181,7 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
-    var id = storyModel && storyModel.id ? storyModel.id : uuidv4();
+    var id = fluid.get(storyModel, "id") || uuidv4();
 
     dataSource.set({directStoryId: id}, storyModel).then(function (response) {
         successEvent.fire(JSON.stringify(response));
@@ -215,7 +215,8 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
 
 /**
  * Saves a single file to the server filesystem and responds to the HTTP request.
- * If the file is an image,
+ * If the file is an image, it will be rotated to match its EXIF orientation data.
+ *
  * Errors will be raised in the following situations:
  * - Authoring is not enabled
  * - An error is encountered while trying to get the story (invalid ID, DB offline, etc.)
@@ -228,47 +229,49 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
 sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
-    if (authoringEnabled) {
-        var id = request.req.params.id;
-
-        // verify that the story exists and isn't published before continuing
-        dataSource.get({directStoryId: id}).then(function (story) {
-            if (story && !story.published && request.req.file) {
-                // if the file is an image, rotate it based on its EXIF data
-                if (request.req.file.mimetype &&
-                    request.req.file.mimetype.indexOf("image") === 0) {
-
-                    sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
-                        request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
-                    }, function (error) {
-                        request.events.onError.fire({
-                            errorCode: error.errorCode,
-                            isError: true,
-                            message: error.message || "Unknown error in image rotation."
-                        });
-                    });
-                } else {
-                    request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
-                }
-            } else {
-                request.events.onError.fire({
-                    isError: true,
-                    message: "Error saving file: file was not provided or story is already published"
-                });
-            }
-        }, function (err) {
-            request.events.onError.fire({
-                isError: true,
-                message: "Error retrieving story with ID " + id,
-                error: err
-            });
-        });
-    } else {
+    if (!authoringEnabled) {
         request.events.onError.fire({
             isError: true,
             message: "Saving is currently disabled."
         });
+
+        return;
     }
+
+    var id = request.req.params.id;
+
+    // verify that the story exists and isn't published before continuing
+    dataSource.get({directStoryId: id}).then(function (story) {
+        if (story && !story.published && request.req.file) {
+            // if the file is an image, rotate it based on its EXIF data
+            if (request.req.file.mimetype &&
+                request.req.file.mimetype.indexOf("image") === 0) {
+
+                sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
+                    request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+                }, function (error) {
+                    request.events.onError.fire({
+                        errorCode: error.errorCode,
+                        isError: true,
+                        message: error.message || "Unknown error in image rotation."
+                    });
+                });
+            } else {
+                request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+            }
+        } else {
+            request.events.onError.fire({
+                isError: true,
+                message: "Error saving file: file was not provided or story is already published"
+            });
+        }
+    }, function (err) {
+        request.events.onError.fire({
+            isError: true,
+            message: "Error retrieving story with ID " + id,
+            error: err
+        });
+    });
 };
 
 /**
