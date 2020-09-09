@@ -193,7 +193,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             singleTransform: {
                                 type: "fluid.transforms.valueMapper",
                                 defaultInputPath: "uploadState",
-                                outputPath: "{editor}.model",
                                 match: {
                                     "ready": {
                                         outputValue: {
