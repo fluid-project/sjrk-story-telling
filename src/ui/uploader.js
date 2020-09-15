@@ -151,6 +151,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
             uploadingEvent.fire();
 
+            var timeout = 300000; // 5 minutes, in ms
+
             $.ajax({
                 url         : fileUploadUrl,
                 data        : formData,
@@ -158,6 +160,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 contentType : false,
                 processData : false,
                 type        : "POST",
+                timeout     : timeout,
                 success     : function (data, textStatus, jqXHR) {
                     fluid.log(jqXHR, textStatus);
 
@@ -166,11 +169,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 error       : function (jqXHR, textStatus, errorThrown) {
                     fluid.log(jqXHR, textStatus, errorThrown);
 
+                    var timeoutMessage = fluid.stringTemplate("Connection to the server timed out after %time seconds", {time: timeout / 1000});
+
+                    var messageText = fluid.get(jqXHR, ["responseJSON", "message"]) ||
+                    errorThrown === "timeout" ? timeoutMessage : errorThrown ||
+                    jqXHR.readyState === 0 ? "Unable to connect to the server" : "An unspecified server error occurred";
+
                     errorEvent.fire({
                         isError: true,
-                        message: fluid.get(jqXHR, ["responseJSON", "message"]) ||
-                        errorThrown ||
-                        "Server error occurred while uploading file"
+                        message: messageText
                     });
                 }
             });

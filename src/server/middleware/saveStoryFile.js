@@ -50,7 +50,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.saveStoryFile", {
  */
 sjrk.storyTelling.server.middleware.saveStoryFile.filenameResolver = function (req, file, cb) {
     var generatedFileName = fluid.stringTemplate("%storyId_%fileId%extension", {
-        storyId: req.url.substring(req.url.lastIndexOf("/")),
+        storyId: req.url.substring(req.url.lastIndexOf("/") + 1),
         fileId: uuidv4(),
         extension: path.extname(file.originalname)
     });
