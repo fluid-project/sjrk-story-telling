@@ -68,10 +68,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{that}.uploadFileToServer",
                 args: ["{that}.currentFile", "{that}.model.previousFileObjectUrl"]
             },
-            "onUploadRequested": {
+            "onUploadRequested.setStateUploading": {
                 func: "{that}.applier.change",
-                args: ["uploadState", "uploading"],
-                namespace: "setStateUploading"
+                args: ["uploadState", "uploading"]
             },
             "onUploadComplete": [
                 {
@@ -85,10 +84,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     namespace: "setStateReady"
                 }
             ],
-            "onUploadError": {
+            "onUploadError.setStateErrorReceived": {
                 func: "{that}.applier.change",
-                args: ["uploadState", "errorReceived"],
-                namespace: "setStateErrorReceived"
+                args: ["uploadState", "errorReceived"]
             }
         },
         invokers: {
@@ -107,6 +105,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.events.onUploadComplete",
                     "{that}.events.onUploadError"
                 ]
+            },
+            "resetUploadState": {
+                func: "{that}.applier.change",
+                args: ["uploadState", "ready"]
             }
         }
     });

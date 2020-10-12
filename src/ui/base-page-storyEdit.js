@@ -16,6 +16,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // The storyEdit page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
+        distributeOptions: {
+            "editor.uploadStateToCounters": {
+                target: "{that editor singleFileUploader}.options.modelListeners",
+                record: {
+                    "uploadState": {
+                        func: "{storyEdit}.updateUploadCounters",
+                        args: ["{change}.oldValue", "{change}.value"],
+                        namespace: "uploadStateToCounters"
+                    }
+                }
+            }
+        },
         pageSetup: {
             hiddenEditorClass: "hidden",
             storyAutosaveKey: "storyAutosave",
@@ -49,7 +61,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
              *      - editStoryStepVisible: false
              */
             editorVisible: true,
-            previewerVisible: false
+            previewerVisible: false,
+            uploadCounters: {
+                errors: 0,
+                uploads: 0
+            },
+            // true when a file is uploading to the server or an error has been received
+            previewingDisabled: false
         },
         modelRelay: {
             editPageVisibilityMutex: {
@@ -57,6 +75,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 target: "previewerVisible",
                 singleTransform: {
                     type: "sjrk.storyTelling.transforms.not"
+                }
+            },
+            uploadCountersToPreviewingDisabled: {
+                target: "previewingDisabled",
+                singleTransform: {
+                    type: "fluid.transforms.condition",
+                    condition: {
+                        transform: {
+                            "type": "fluid.transforms.binaryOp",
+                            "left": "{that}.model.uploadCounters.errors",
+                            "right": "{that}.model.uploadCounters.uploads",
+                            "operator": "||"
+                        }
+                    },
+                    true: true,
+                    false: false
                 }
             }
         },
@@ -86,6 +120,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 excludeSource: "init",
                 priority: "last",
                 namespace: "contextChangeOnEditStoryStepVisibilityChange"
+            },
+            "previewingDisabled": {
+                this: "{that}.storyEditor.dom.storySubmit",
+                method: "prop",
+                args: ["disabled", "{change}.value"],
+                namespace: "disablePreviewingOnUploadChange"
             }
         },
         selectors: {
@@ -194,6 +234,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             redirectToViewStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.redirectToViewStory",
                 args: ["{arguments}.0", "{arguments}.1"]
+            },
+            // Increments or decrements counters for blocks currently uploading or in error states
+            updateUploadCounters: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.updateUploadCounters",
+                args: ["{arguments}.0", "{arguments}.1", "{that}"] // prev state, next state
             }
         },
         /*
@@ -400,6 +445,43 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred when clearing autosave", ex);
         }
+    };
+
+    /**
+     * Increments or decrements a pair of counters depending on the previous and new
+     * states of a particular value. The expected possible state transitions are:
+     *
+     * - undefined to ready
+     * - ready to uploading
+     * - uploading to ready
+     * - uploading to errorReceived
+     * - errorReceived to uploading
+     *
+     * @typedef {Object.<String, Number>} UploadStateCounters
+     * @property {Number} UploadStateCounters.errors - the number of blocks in an "errorReceived" state
+     * @property {Number} UploadStateCounters.uploads - the number of blocks in an "uploading" state
+     *
+     * @param {String} previousState - the previous state of the value
+     * @param {String} newState - the new state of the value
+     * @param {Component} storyEdit - an instance of `sjrk.storyTelling.base.page.storyEdit`
+     */
+    sjrk.storyTelling.base.page.storyEdit.updateUploadCounters = function (previousState, newState, storyEdit) {
+        var counters = fluid.copy(storyEdit.model.uploadCounters);
+
+        if (previousState === "errorReceived") {
+            counters.errors--;
+            counters.uploads++;
+        } else if (previousState === "uploading") {
+            counters.uploads--;
+
+            if (newState === "errorReceived") {
+                counters.errors++;
+            }
+        } else if (previousState === "ready") {
+            counters.uploads++;
+        }
+
+        storyEdit.applier.change(["uploadCounters"], counters);
     };
 
     /**

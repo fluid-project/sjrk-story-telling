@@ -292,6 +292,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             var checked = managedComponent.locate("selectedCheckbox").prop("checked");
 
             if (checked) {
+                managedComponent.singleFileUploader.resetUploadState();
                 managedComponent.destroy();
                 removedBlockKeys.push(blockKey);
             }
