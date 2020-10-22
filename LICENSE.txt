@@ -9,7 +9,7 @@ No external contributions are allowed under licenses which are fundamentally
 incompatible with the BSD license under which the Storytelling Tool is distributed.
 
 See the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 The text of the BSD license is reproduced below.
 
