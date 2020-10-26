@@ -17,12 +17,12 @@ require("kettle");
 var sjrk = fluid.registerNamespace("sjrk");
 
 // Middleware to remove the previous file associated with a story block
-fluid.defaults("sjrk.storyTelling.server.middleware.removePreviousStoryFile", {
+fluid.defaults("sjrk.storyTelling.server.middleware.deleteFile", {
     gradeNames: ["kettle.middleware"],
     uploadedFilesDirectory: "./binaryUploads",
     invokers: {
         handle: {
-            funcName: "sjrk.storyTelling.server.middleware.removePreviousStoryFile.handle",
+            funcName: "sjrk.storyTelling.server.middleware.deleteFile.handle",
             args: ["{arguments}.0", "{that}.options.uploadedFilesDirectory"]
         }
     }
@@ -36,7 +36,7 @@ fluid.defaults("sjrk.storyTelling.server.middleware.removePreviousStoryFile", {
  * @param {Object} request - the incoming request
  * @param {String} uploadedFilesDirectory - the directory where uploaded files are stored
  */
-sjrk.storyTelling.server.middleware.removePreviousStoryFile.handle = function (request, uploadedFilesDirectory) {
+sjrk.storyTelling.server.middleware.deleteFile.handle = function (request, uploadedFilesDirectory) {
     if (request.req.body.previousFileUrl) {
         var fileToDelete = path.join(uploadedFilesDirectory, path.basename(request.req.body.previousFileUrl));
 

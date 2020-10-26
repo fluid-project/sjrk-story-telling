@@ -19,7 +19,7 @@ var fluid = require("infusion"),
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
-require("../../src/server/middleware/removePreviousStoryFile");
+require("../../src/server/middleware/deleteFile");
 require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");

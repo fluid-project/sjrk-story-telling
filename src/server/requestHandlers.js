@@ -200,8 +200,8 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
         saveStoryFile: {
             middleware: "{server}.saveStoryFile"
         },
-        removePreviousStoryFile: {
-            middleware: "{server}.removePreviousStoryFile",
+        deleteFile: {
+            middleware: "{server}.deleteFile",
             priority: "after:saveStoryFile"
         }
     },
