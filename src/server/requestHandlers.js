@@ -40,13 +40,11 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDataSource
     var promise = viewDataSource.get({directViewId: "storiesById"});
     promise.then(function (response) {
         var extracted = sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse(response);
-        var responseAsJSON = JSON.stringify(extracted);
-        request.events.onSuccess.fire(responseAsJSON);
+        request.events.onSuccess.fire(JSON.stringify(extracted));
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
             isError: true,
-            message: errorAsJSON
+            message: JSON.stringify(error)
         });
     });
 };
@@ -120,9 +118,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
 
     promise.then(function (response) {
         if (response.published) {
-
-            var responseAsJSON = JSON.stringify(response);
-            request.events.onSuccess.fire(responseAsJSON);
+            request.events.onSuccess.fire(JSON.stringify(response));
         } else {
             fluid.log("Unauthorized: cannot access an unpublished story: " + id);
 
@@ -132,8 +128,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
             });
         }
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
-        fluid.log("Error getting story with ID " + id + ", error detail: " + errorAsJSON);
+        fluid.log("Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
 
         request.events.onError.fire({
             isError: true,
@@ -371,10 +366,9 @@ sjrk.storyTelling.server.handleDeleteStory = function (request) {
             message: "DELETE request received successfully for story with id: " + request.req.params.id
         });
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
             isError: true,
-            message: errorAsJSON
+            message: JSON.stringify(error)
         });
     });
 };
