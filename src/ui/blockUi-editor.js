@@ -231,7 +231,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     },
                     listeners: {
                         "{editor}.events.onMediaUploadRequested": {
-                            func: "{that}.events.onFileSelectionRequested.fire",
+                            func: "{that}.events.onFileSelectionRequested",
                             namespace: "fireSelectionForFileUpload"
                         },
                         "onUploadComplete": {
