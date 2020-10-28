@@ -277,11 +277,4 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         mockServer.restore();
     };
 
-    /**
-     * Stubs the story `updateLastModified` function to prevent actual redirection
-     */
-    sjrk.storyTelling.testUtils.stubUpdateLastModified = function () {
-        jqUnit.assert("Stub for updateLastModified was called");
-    };
-
 })(jQuery, fluid);

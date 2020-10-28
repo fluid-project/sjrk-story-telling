@@ -58,17 +58,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             storyEditor: {
                 container: "#testStoryEditor",
                 options: {
-                    components: {
-                        story: {
-                            options: {
-                                invokers: {
-                                    updateLastModified: {
-                                        funcName: "sjrk.storyTelling.testUtils.stubUpdateLastModified"
-                                    }
-                                }
-                            }
-                        }
-                    },
                     distributeOptions: {
                         notifyTestEvent: {
                             target: "{that blockManager templateManager}.options.listeners",
@@ -160,7 +149,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         ],
         "tags": ["cute", "cats"],
         "timestampCreated": "",
-        "timestampLastModified": "",
         "timestampPublished": "",
         "author": "RB & SG"
     };
@@ -198,7 +186,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         ],
         "tags": ["cute", "cats"],
         "timestampCreated": "",
-        "timestampLastModified": "",
         "timestampPublished": "",
         "author": "RB & SG"
     };
@@ -211,7 +198,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "published": false,
             "tags": [],
             "timestampCreated": "",
-            "timestampLastModified": "",
             "timestampPublished": "",
             "title": ""
         },
@@ -222,7 +208,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "published": false,
             "tags": [],
             "timestampCreated": "",
-            "timestampLastModified": "",
             "timestampPublished": "",
             "title": "Rootbeer is testing autosave"
         },
@@ -233,7 +218,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             "published": false,
             "tags": [],
             "timestampCreated": "",
-            "timestampLastModified": "",
             "timestampPublished": "",
             "title": "Rootbeer is testing autosave"
         }
@@ -548,7 +532,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 22,
+                expect: 18,
                 sequence: [{
                     event: "{storyEditTest storyEdit}.events.onCreate",
                     listener: "sjrk.storyTelling.testUtils.setupMockServer",
@@ -680,7 +664,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test block controls",
             tests: [{
                 name: "Test block operations within the page context",
-                expect: 18,
+                expect: 16,
                 sequence: [{
                     // set the currently-visible part of the page back to the block editor
                     jQueryTrigger: "click",
@@ -798,12 +782,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 13,
+                expect: 8,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
                 name: "Test block filtering model relay: Image block",
-                expect: 17,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.imageBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -824,7 +808,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Audio block",
-                expect: 17,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -845,7 +829,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block filtering model relay: Video block",
-                expect: 17,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -869,7 +853,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test progress and server response area",
             tests: [{
                 name: "Test progress visibility",
-                expect: 24,
+                expect: 22,
                 sequence: [{
                     // set the currently-visible part of the page to the previewer
                     "jQueryTrigger": "click",
@@ -1006,7 +990,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 16,
+                expect: 10,
                 sequence: [{
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.resetStoryModel",
                     args: ["{storyEdit}.storyEditor.story"]
@@ -1438,7 +1422,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             published: false,
             tags: [],
             timestampCreated: "",
-            timestampLastModified: "",
             timestampPublished: "",
             title: ""
         });

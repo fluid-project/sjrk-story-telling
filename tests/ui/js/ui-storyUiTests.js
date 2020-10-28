@@ -19,11 +19,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         components: {
             story: {
                 options: {
-                    invokers: {
-                        updateLastModified: {
-                            funcName: "sjrk.storyTelling.testUtils.stubUpdateLastModified"
-                        }
-                    },
                     model: {
                         title: "cat story",
                         author: "Shyguy & Rootbeer",
@@ -59,7 +54,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         id: null,
         published: false,
         timestampCreated: "",
-        timestampLastModified: "",
         timestampPublished: ""
     };
 
@@ -90,7 +84,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         id: null,
         published: false,
         timestampCreated: "",
-        timestampLastModified: "",
         timestampPublished: ""
     };
 
@@ -133,7 +126,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         id: null,
         published: false,
         timestampCreated: "",
-        timestampLastModified: "",
         timestampPublished: ""
     };
 
