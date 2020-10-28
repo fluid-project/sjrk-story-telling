@@ -569,8 +569,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, viewPageUrl, story, successCallback, errorEvent) {
         // set the publish timestamp to now and the flag to "true"
-        story.applier.change("timestampPublished", new Date().toISOString());
-        story.applier.change("published", true);
+story.applier.change("", {
+    "timestampPublished": new Date().toISOString(),
+    "published": true
+});
 
         var storySavePromise = storyEditPage.saveStoryToServer();
 
