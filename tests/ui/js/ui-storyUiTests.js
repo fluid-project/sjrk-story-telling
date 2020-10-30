@@ -164,7 +164,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             },
             {
                 name: "Test block model listener",
-                expect: 4,
+                expect: 3,
                 sequence: [{
                     funcName: "jqUnit.assertDeepEq",
                     args: ["Story model is as expected before model change is triggered", sjrk.storyTelling.ui.testStoryUi.testStoryInitial, "{storyUi}.story.model"]

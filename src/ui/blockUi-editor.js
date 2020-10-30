@@ -20,12 +20,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the ID of the story of which the block being edited is a part
             storyId: ""
         },
-        model: {
+        modelRelay: {
             // reorder buttons are disabled depending on the block's order:
-            // if the block is first in the order, the "up" button is disabled
             // if the block is last in the order, the "down" button is disabled
-            moveBlockDownDisabled: "{block}.model.lastInOrder",
-            moveBlockUpDisabled: "{block}.model.firstInOrder"
+            blockLastInOrderToDownButtonDisabled: {
+                source: "{block}.model.lastInOrder",
+                target: "moveBlockDownDisabled",
+                singleTransform: {
+                    type: "fluid.transforms.value"
+                },
+                backward: "never"
+            },
+            // if the block is first in the order, the "up" button is disabled
+            blockFirstInOrderToUpButtonDisabled: {
+                source: "{block}.model.firstInOrder",
+                target: "moveBlockUpDisabled",
+                singleTransform: {
+                    type: "fluid.transforms.value"
+                },
+                backward: "never"
+            }
         },
         modelListeners: {
             // The use of excludeSource: ["init"] in these two model listeners
