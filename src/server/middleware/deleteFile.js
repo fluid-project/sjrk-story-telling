@@ -40,7 +40,7 @@ sjrk.storyTelling.server.middleware.deleteFile.handle = function (request, uploa
     if (request.req.body.previousFileUrl) {
         var fileToDelete = path.join(uploadedFilesDirectory, path.basename(request.req.body.previousFileUrl));
 
-        fluid.log(fluid.logLevel.WARN, "Deleting file: " + fileToDelete + "...");
+        fluid.log(fluid.logLevel.WARN, "Deleting file: ", fileToDelete, "...");
 
         try {
             if (fs.existsSync(fileToDelete)) {
@@ -49,9 +49,10 @@ sjrk.storyTelling.server.middleware.deleteFile.handle = function (request, uploa
                 throw "The specified file did not exist, and could not be deleted: " + fileToDelete;
             }
 
-            fluid.log(fluid.logLevel.WARN, "Successfully deleted file: " + fileToDelete);
+            fluid.log(fluid.logLevel.WARN, "Successfully deleted file: ", fileToDelete);
         } catch (err) {
-            fluid.fail("Error deleting file \"", fileToDelete, "\". Error detail: ", err.toString());
+            fluid.log(fluid.logLevel.FAIL, "Error deleting file \"", fileToDelete, "\".");
+            fluid.log(fluid.logLevel.FAIL, "Error detail: ", err.toString());
         }
     }
 };

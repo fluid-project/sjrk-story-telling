@@ -174,8 +174,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     var timeoutMessage = fluid.stringTemplate("Connection to the server timed out after %time seconds", {time: timeout / 1000});
 
                     var messageText = fluid.get(jqXHR, ["responseJSON", "message"]) ||
-                    errorThrown === "timeout" ? timeoutMessage : errorThrown ||
-                    jqXHR.readyState === 0 ? "Unable to connect to the server" : "An unspecified server error occurred";
+                    (errorThrown === "timeout" ? timeoutMessage : errorThrown) ||
+                    (jqXHR.readyState === 0 ? "Unable to connect to the server" : "An unspecified server error occurred");
 
                     errorEvent.fire({
                         isError: true,
