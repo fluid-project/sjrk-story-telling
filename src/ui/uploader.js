@@ -26,7 +26,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block.singleFileUploader", {
         gradeNames: ["fluid.viewComponent"],
         members: {
-            currentFile: null
+            currentFile: null,
+            serverUploadUrl: "/stories/"
         },
         model: {
             // uploadState can be one of the following values:
@@ -34,13 +35,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             uploadState: "ready",
             fileObjectUrl: null, // for the file preview
             previousFileObjectUrl: null, // for file deletion on change/upload
-            serverUploadUrl: "/stories/",
             storyId: null // to be provided by implementing grade
         },
         events: {
             onFileSelectionRequested: null,
             onUploadRequested: null,
-            onUploadComplete: null,
+            onUploadSuccess: null,
             onUploadError: null,
             onFileChanged: null
         },
@@ -72,7 +72,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 func: "{that}.applier.change",
                 args: ["uploadState", "uploading"]
             },
-            "onUploadComplete": [
+            "onUploadSuccess": [
                 {
                     func: "{that}.applier.change",
                     args: ["fileObjectUrl", "{arguments}.0"],
@@ -100,9 +100,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{arguments}.0",
                     "{that}.model.storyId",
                     "{arguments}.1",
-                    "{that}.model.serverUploadUrl",
+                    "{that}.serverUploadUrl",
                     "{that}.events.onUploadRequested",
-                    "{that}.events.onUploadComplete",
+                    "{that}.events.onUploadSuccess",
                     "{that}.events.onUploadError"
                 ]
             },

@@ -138,8 +138,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onStorySaveToServerComplete: null,
-            onStorySaveToServerError: null,
+            onStoryUpdateOnServerComplete: null,
+            onStoryCreateOnServerError: null,
             onStoryPublishRequested: "{storyPreviewer}.events.onShareRequested",
             onStoryPublishError: "{storyPreviewer}.events.onShareComplete"
         },
@@ -199,24 +199,24 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     "{that}.options.pageSetup.storyAutoloadSourceName"
                 ]
             },
-            // Saves a new story to the server
-            saveNewStoryToServer: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.saveNewStoryToServer",
+            // Creates a new story on the server
+            createNewStoryOnServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer",
                 args: [
                     "{that}.options.pageSetup.storySaveUrl",
                     "{storyEditor}.story",
                     "{that}.options.pageSetup.storyIdPath",
                     "{that}.options.pageSetup.storyAutoloadSourceName",
-                    "{that}.events.onStorySaveToServerError"
+                    "{that}.events.onStoryCreateOnServerError"
                 ]
             },
-            // Saves the current story to the server
-            saveStoryToServer: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.saveStoryToServer",
+            // Updates the current story on the server
+            updateStoryOnServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer",
                 args: [
                     "{that}.options.pageSetup.storySaveUrl",
                     "{storyPreviewer}.story.model",
-                    "{that}.events.onStorySaveToServerComplete"
+                    "{that}.events.onStoryUpdateOnServerComplete"
                 ]
             },
             // Publishes the story
@@ -381,7 +381,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 storyEdit.loadStoryContent(savedStoryData);
             } else {
                 // there's no autosaved story, create a new unpublished story
-                storyEdit.saveNewStoryToServer();
+                storyEdit.createNewStoryOnServer();
             }
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred while initializing story", ex);
@@ -404,7 +404,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Saves a new story to the server and sets the current story's ID accordingly
+     * Creates a new story on the server and sets the current story's ID accordingly
      *
      * @param {String} storySaveUrl - the server URL at which to save a story
      * @param {Component} story - an instance of `sjrk.storyTelling.story`
@@ -412,11 +412,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      * @param {String} sourceName - the name of the Infusion change source for this update
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.base.page.storyEdit.saveNewStoryToServer = function (storySaveUrl, story, storyIdPath, sourceName, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer = function (storySaveUrl, story, storyIdPath, sourceName, errorEvent) {
         // The "story created" moment is now
         story.applier.change("timestampCreated", new Date().toISOString());
 
-        var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.saveStoryToServer(storySaveUrl, story.model);
+        var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
 
         serverSavePromise.then(function (data) {
             var successResponse = JSON.parse(data);
@@ -534,14 +534,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Saves the story to the server
+     * Updates the story on the server with the provided model data
      *
      * @param {String} storySaveUrl - the server URL at which to save a story
      * @param {Object} storyModel - the model of the story to save
      *
      * @return {jqXHR} - the jqXHR for the server request
      */
-    sjrk.storyTelling.base.page.storyEdit.saveStoryToServer = function (storySaveUrl, storyModel) {
+    sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer = function (storySaveUrl, storyModel) {
         return $.ajax({
             url         : storySaveUrl,
             data        : JSON.stringify(storyModel),
@@ -569,19 +569,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
      */
     sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, viewPageUrl, story, successCallback, errorEvent) {
         // set the publish timestamp to now and the flag to "true"
-story.applier.change("", {
-    "timestampPublished": new Date().toISOString(),
-    "published": true
-});
+        story.applier.change("", {
+            "timestampPublished": new Date().toISOString(),
+            "published": true
+        });
 
-        var storySavePromise = storyEditPage.saveStoryToServer();
+        var storyUpdatePromise = storyEditPage.updateStoryOnServer();
 
-        storySavePromise.done(function () {
+        storyUpdatePromise.done(function () {
             storyEditPage.clearAutosave();
             successCallback(story.model.id, viewPageUrl);
         });
 
-        storySavePromise.fail(function (jqXHR, textStatus, errorThrown) {
+        storyUpdatePromise.fail(function (jqXHR, textStatus, errorThrown) {
             var errorMessage = fluid.get(jqXHR, ["responseJSON", "message"]) ||
                 errorThrown ||
                 "Internal server error";

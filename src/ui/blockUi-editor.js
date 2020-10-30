@@ -248,7 +248,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                             func: "{that}.events.onFileSelectionRequested",
                             namespace: "fireSelectionForFileUpload"
                         },
-                        "onUploadComplete": {
+                        "onUploadSuccess": {
                             func: "{editor}.setServerResponse",
                             args: [""],
                             namespace: "clearServerResponse"
