@@ -206,11 +206,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 container: "{editor}.dom.singleFileUploader",
                 options: {
                     modelRelay: {
-                        "uploadState": {
+                        uploadStateToDomFlags: {
                             target: "{editor}.model",
                             singleTransform: {
                                 type: "fluid.transforms.valueMapper",
-                                defaultInputPath: "uploadState",
+                                defaultInput: "{that}.model.uploadState",
                                 match: {
                                     "ready": {
                                         outputValue: {
