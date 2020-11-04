@@ -66,3 +66,8 @@ sjrk.storyTelling.server.globalChangesDb({
 sjrk.storyTelling.server.storiesDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });
+
+// sets up a new instance of the core setup along with the storyUsersDb defined
+sjrk.storyTelling.server.storyUsersDb({
+    gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
+});

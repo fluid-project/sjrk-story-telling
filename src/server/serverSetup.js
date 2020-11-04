@@ -12,7 +12,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 var fluid = require("infusion"),
     sjrk = fluid.registerNamespace("sjrk"),
     kettle = require("kettle"),
-    fs = require("fs");
+    fs = require("fs"),
+    MemoryStore = require('memorystore')(kettle.npm.expressSession);
+
+require("fluid-express-user");
+var { v1: uuidv1 } = require("uuid");
 
 // The main Kettle server configuration grade
 fluid.defaults("sjrk.storyTelling.server", {
@@ -22,6 +26,7 @@ fluid.defaults("sjrk.storyTelling.server", {
         server: {
             type: "kettle.server",
             options: {
+                gradeNames: ["kettle.server.sessionAware"],
                 globalConfig: {
                     // Config values are stored in the external config file
                     // named "sjrk.storyTelling.server.themed.json5"
@@ -41,11 +46,53 @@ fluid.defaults("sjrk.storyTelling.server", {
                     secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile({that}.options.secureConfig.secretsConfigPath)"
                 },
                 port: "{that}.options.globalConfig.port",
+                session: {
+                    store: "@expand:sjrk.storyTelling.server.makeMemorySessionStore()",
+                    middlewareOptions: {
+                        secret: "{server}.options.secureConfig.secrets.session"
+                    }
+                },
                 distributeOptions: {
-                    record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
-                    target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
+                    couchDBURL: {
+                        record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
+                        target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
+                    },
+                    couchDBURLUsers: {
+                        record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
+                        target: "{that gexpressUserUtils}.options.dataSourceConfig.host"
+                    },
+                    sessionOptions: {
+                        source: "{that}.options.session",
+                        target: "{that > kettle.middlewareHolder > session}.options"
+                    }
                 },
                 components: {
+                    // user authentication
+                    expressUserUtils: {
+                        type: "fluid.express.user.utils",
+                        options: {
+                            dataSourceConfig: {
+                                host: "http://localhost:5984",
+                                path: "users"
+                            },
+                            rules: {
+                                createUserWrite: {
+                                    "authorID": "authorID"
+                                }
+                            },
+                            couch: {
+                                userDbUrl: {
+                                    expander: {
+                                        funcName: "fluid.stringTemplate",
+                                        args: ["%host/%path", {
+                                            host: "{expressUserUtils}.options.dataSourceConfig.host",
+                                            path: "{expressUserUtils}.options.dataSourceConfig.path"
+                                        }]
+                                    }
+                                }
+                            }
+                        }
+                    },
                     // a DataSource to get a list of stories
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view"
@@ -197,6 +244,26 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             route: "/clientConfig",
             method: "get"
         },
+        sesstionTest: {
+            type: "sjrk.storyTelling.server.sessionTestHandler",
+            "route": "/session",
+            method: "get"
+        },
+        signupTest: {
+            type: "sjrk.storyTelling.server.signupTestHandler",
+            "route": "/users/signup",
+            method: "post"
+        },
+        loginTest: {
+            type: "sjrk.storyTelling.server.loginTestHandler",
+            "route": "/users/login",
+            method: "post"
+        },
+        logoutTest: {
+            type: "sjrk.storyTelling.server.logoutTestHandler",
+            "route": "/users/logout",
+            method: "post"
+        },
         themeHandler: {
             type: "sjrk.storyTelling.server.themeHandler",
             "route": "/*",
@@ -204,6 +271,122 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         }
     }
 });
+
+/***************************
+ * Test setup for sessions *
+ ***************************/
+
+fluid.defaults("sjrk.storyTelling.server.sessionTestHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleSessionTestRequest",
+            args: ["{request}"]
+        }
+    }
+});
+
+/**
+ * Test handler for using sessions.
+ *
+ * @param {Object} request - a Kettle request
+ */
+sjrk.storyTelling.server.handleSessionTestRequest = function (request) {
+    // TODO: update this to be the
+    // request.req.session.text = request.req.session.text || `testing - ${request.req.sessionID}`;
+    // request.events.onSuccess.fire(`session request: ${request.req.session.text}\n`);
+    request.events.onSuccess.fire(`authorID: ${request.req.session.authorID || "unknown"}\n`);
+};
+
+/**************************************
+ * Test setup for signup/login/logout *
+ **************************************/
+
+fluid.defaults("sjrk.storyTelling.server.signupTestHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleSignupTestRequest",
+            args: ["{request}", "{expressUserUtils}"]
+        }
+    }
+});
+
+/**
+ * Test handler for signup.
+ *
+ * @param {Object} request - a Kettle request
+ */
+sjrk.storyTelling.server.handleSignupTestRequest = function (request, expressUserUtils) {
+    var promise = expressUserUtils.createNewUser({
+        username: request.req.body.username,
+        email: request.req.body.email,
+        password: request.req.body.password,
+        authorID: uuidv1()
+    });
+
+    promise.then(function (record) {
+        request.req.session.authorID = record.authorID;
+        request.events.onSuccess.fire("success");
+    }, function (error) {
+        request.events.onError.fire(error);
+    });
+
+    // request.events.onSuccess.fire("not created");
+};
+
+fluid.defaults("sjrk.storyTelling.server.loginTestHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleLoginTestRequest",
+            args: ["{request}", "{expressUserUtils}"]
+        }
+    }
+});
+
+/**
+ * Test handler for login.
+ *
+ * @param {Object} request - a Kettle request
+ */
+sjrk.storyTelling.server.handleLoginTestRequest = function (request, expressUserUtils) {
+    var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
+
+    promise.then(function (record) {
+        request.req.session.authorID = record.authorID;
+        request.events.onSuccess.fire("success");
+    }, function (error) {
+        request.events.onError.fire(error);
+    });
+
+    // request.events.onSuccess.fire("not logged in");
+};
+
+fluid.defaults("sjrk.storyTelling.server.logoutTestHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleLogoutTestRequest",
+            args: ["{request}"]
+        }
+    }
+});
+
+/**
+ * Test handler for logout.
+ *
+ * @param {Object} request - a Kettle request
+ */
+sjrk.storyTelling.server.handleLogoutTestRequest = function (request, expressUserUtils) {
+    request.req.session.destroy();
+    request.events.onSuccess.fire("logout successful");
+};
+
+/******************************************
+ * End Test setup for signup/login/logout *
+ ******************************************/
+
 
 /**
  * Resolves a JSON file and parses it before returning it
@@ -241,4 +424,12 @@ sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     }
 
     return themePath;
+};
+
+sjrk.storyTelling.server.makeMemorySessionStore = function () {
+    // TODO: Currently using https://www.npmjs.com/package/memorystore as it is a production ready memory store;
+    //       however, the session should eventually be stored in a database to prevent clearing on server restart.
+    return new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+    });
 };
