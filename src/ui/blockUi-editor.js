@@ -20,6 +20,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             // the ID of the story of which the block being edited is a part
             storyId: ""
         },
+        model: {
+            moveBlockDownDisabled: true,
+            moveBlockUpDisabled: true
+        },
         modelRelay: {
             // reorder buttons are disabled depending on the block's order:
             // if the block is last in the order, the "down" button is disabled
@@ -239,9 +243,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     selectors: {
                         fileInput: "{that}.container"
                     },
-                    model: {
-                        fileObjectUrl: "{block}.model.mediaUrl",
+                    members: {
                         storyId: "{editor}.storyId"
+                    },
+                    model: {
+                        fileObjectUrl: "{block}.model.mediaUrl"
                     },
                     listeners: {
                         "{editor}.events.onMediaUploadRequested": {

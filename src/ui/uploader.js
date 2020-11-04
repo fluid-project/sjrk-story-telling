@@ -27,15 +27,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         gradeNames: ["fluid.viewComponent"],
         members: {
             currentFile: null,
-            serverUploadUrl: "/stories/"
+            // these values configure the file upload server call
+            uploadUrl: "/stories/",
+            uploadMethod: "POST",
+            uploadTimeout: 300000, // 5 minutes, in ms
+            storyId: null // to be provided by implementing grade
         },
         model: {
             // uploadState can be one of the following values:
             // "ready" (the initial state), "uploading", "errorReceived"
             uploadState: "ready",
             fileObjectUrl: null, // for the file preview
-            previousFileObjectUrl: null, // for file deletion on change/upload
-            storyId: null // to be provided by implementing grade
+            previousFileObjectUrl: null // for file deletion on change/upload
         },
         events: {
             onFileSelectionRequested: null,
@@ -69,24 +72,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 args: ["{that}.currentFile", "{that}.model.previousFileObjectUrl"]
             },
             "onUploadRequested.setStateUploading": {
-                func: "{that}.applier.change",
-                args: ["uploadState", "uploading"]
+                changePath: "uploadState",
+                value: "uploading",
+                source: "fileUploadOnUploadRequested"
             },
-            "onUploadSuccess": [
-                {
-                    func: "{that}.applier.change",
-                    args: ["fileObjectUrl", "{arguments}.0"],
-                    namespace: "updateFileURL"
+            "onUploadSuccess.resetStateAfterUpload": {
+                changePath: "",
+                value: {
+                    fileObjectUrl: "{arguments}.0",
+                    uploadState: "ready"
                 },
-                {
-                    func: "{that}.applier.change",
-                    args: ["uploadState", "ready"],
-                    namespace: "setStateReady"
-                }
-            ],
+                source: "fileUploadOnUploadSuccess"
+            },
             "onUploadError.setStateErrorReceived": {
-                func: "{that}.applier.change",
-                args: ["uploadState", "errorReceived"]
+                changePath: "uploadState",
+                value: "errorReceived",
+                source: "fileUploadOnUploadError"
             }
         },
         invokers: {
@@ -98,12 +99,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 funcName: "sjrk.storyTelling.block.singleFileUploader.uploadFileToServer",
                 args: [
                     "{arguments}.0",
-                    "{that}.model.storyId",
+                    "{that}.storyId",
                     "{arguments}.1",
-                    "{that}.serverUploadUrl",
-                    "{that}.events.onUploadRequested",
-                    "{that}.events.onUploadSuccess",
-                    "{that}.events.onUploadError"
+                    {
+                        uploadUrl: "{that}.uploadUrl",
+                        uploadMethod: "{that}.uploadMethod",
+                        uploadTimeout: "{that}.uploadTimeout",
+                        uploadingEvent: "{that}.events.onUploadRequested",
+                        completionEvent: "{that}.events.onUploadSuccess",
+                        errorEvent: "{that}.events.onUploadError"
+                    }
                 ]
             },
             "resetUploadState": {
@@ -127,18 +132,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
+     *  Expected options for configuring the file upload call to the server
+     * @typedef {Object} FileUploadOptions
+     * @property {String} uploadUrl - the URL to which files are uploaded
+     * @property {String} uploadMethod - the HTTP method by which files are uploaded
+     * @property {String} uploadTimeout - the time (in ms) to wait for files to upload
+     * @property {Object} uploadingEvent - the event to be fired upon starting the upload
+     * @property {Object} completionEvent - the event to be fired upon successful completion
+     * @property {Object} errorEvent - the event to be fired in case of an error
+     */
+
+    /**
      * Uploads the file to the server and sets the URL to the newly-saved
      * dynamic file name upon completion
      *
      * @param {Object} fileToUpload - the file data
      * @param {String} storyId - the story with which the file will be associated
      * @param {String} previousFileUrl - the previous URL for the file, if it exists
-     * @param {String} serverUploadUrl - the URL to which files are uploaded
-     * @param {Object} uploadingEvent - the event to be fired upon starting the upload
-     * @param {Object} completionEvent - the event to be fired upon successful completion
-     * @param {Object} errorEvent - the event to be fired in case of an error
+     * @param {FileUploadOptions} uploadOptions - options for the upload server call
      */
-    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, previousFileUrl, serverUploadUrl, uploadingEvent, completionEvent, errorEvent) {
+    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, previousFileUrl, uploadOptions) {
         if (fileToUpload) {
             // This is the easiest way to be able to submit form
             // content in the background via ajax
@@ -149,11 +162,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 formData.append("previousFileUrl", previousFileUrl);
             }
 
-            var fileUploadUrl = serverUploadUrl + storyId;
+            var fileUploadUrl = uploadOptions.uploadUrl + storyId;
 
-            uploadingEvent.fire();
-
-            var timeout = 300000; // 5 minutes, in ms
+            uploadOptions.uploadingEvent.fire();
 
             $.ajax({
                 url         : fileUploadUrl,
@@ -161,23 +172,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 cache       : false,
                 contentType : false,
                 processData : false,
-                type        : "POST",
-                timeout     : timeout,
+                type        : uploadOptions.uploadMethod,
+                timeout     : uploadOptions.uploadTimeout,
                 success     : function (data, textStatus, jqXHR) {
                     fluid.log(jqXHR, textStatus);
 
-                    completionEvent.fire(data);
+                    uploadOptions.completionEvent.fire(data);
                 },
                 error       : function (jqXHR, textStatus, errorThrown) {
                     fluid.log(jqXHR, textStatus, errorThrown);
 
-                    var timeoutMessage = fluid.stringTemplate("Connection to the server timed out after %time seconds", {time: timeout / 1000});
+                    var timeoutMessage = fluid.stringTemplate("Connection to the server timed out after %time seconds", {time: uploadOptions.uploadTimeout / 1000});
 
                     var messageText = fluid.get(jqXHR, ["responseJSON", "message"]) ||
                     (errorThrown === "timeout" ? timeoutMessage : errorThrown) ||
                     (jqXHR.readyState === 0 ? "Unable to connect to the server" : "An unspecified server error occurred");
 
-                    errorEvent.fire({
+                    uploadOptions.errorEvent.fire({
                         isError: true,
                         message: messageText
                     });
