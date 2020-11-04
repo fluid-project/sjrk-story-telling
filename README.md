@@ -1,7 +1,7 @@
 # The Storytelling Tool
 
 ![CI build status badge](https://github.com/fluid-project/sjrk-story-telling/workflows/CI/badge.svg)
-[![Coverage status badge](https://codecov.io/github/fluid-project/sjrk-story-telling/coverage.svg?branch=master)](https://codecov.io/github/fluid-project/infusion?branch=master)
+[![Coverage status badge](https://codecov.io/github/fluid-project/sjrk-story-telling/coverage.svg?branch=main)](https://codecov.io/github/fluid-project/sjrk-story-telling?branch=main)
 
 ## Social Justice Repair Kit
 
