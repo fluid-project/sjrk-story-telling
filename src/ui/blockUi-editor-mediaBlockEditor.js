@@ -16,6 +16,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // an editing interface for individual media blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.mediaBlockEditor", {
         gradeNames: ["sjrk.storyTelling.blockUi.editor.withFileUploader", "sjrk.storyTelling.blockUi.timeBased"],
+        selectors: {
+            previewPlaceholder: ".sjrkc-st-block-media-preview-placeholder"
+        },
+        // links preview placeholder visibility with the preview itself.
+        // this model listener is duplicated in the mediaBlockEditor grade, and
+        // the work to combine these grades is laid out by SJRK-175:
+        // https://issues.fluidproject.org/browse/SJRK-175
+        modelListeners: {
+            previewVisible: {
+                this: "{that}.dom.previewPlaceholder",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "placeholderVisibleChange"
+            }
+        },
         components: {
             // the block's templateManager
             templateManager: {
