@@ -21,6 +21,7 @@ fluid.setLogging(true);
 var sjrk = fluid.registerNamespace("sjrk");
 
 require("./singleNodeConfiguration");
+require("./authors-dbConfiguration");
 require("./story-dbConfiguration");
 
 
@@ -68,6 +69,6 @@ sjrk.storyTelling.server.storiesDb({
 });
 
 // sets up a new instance of the core setup along with the storyUsersDb defined
-sjrk.storyTelling.server.storyUsersDb({
+sjrk.storyTelling.server.authorsDb({
     gradeNames: ["sjrk.storyTelling.server.dbSetup.core"]
 });

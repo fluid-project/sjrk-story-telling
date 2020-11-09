@@ -57,7 +57,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
                         target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
                     },
-                    couchDBURLUsers: {
+                    couchDBAuthorsURL: {
                         record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
                         target: "{that gexpressUserUtils}.options.dataSourceConfig.host"
                     },
@@ -73,7 +73,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         options: {
                             dataSourceConfig: {
                                 host: "http://localhost:5984",
-                                path: "users"
+                                path: "authors"
                             },
                             rules: {
                                 createUserWrite: {
@@ -251,17 +251,17 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         },
         signupTest: {
             type: "sjrk.storyTelling.server.signupTestHandler",
-            "route": "/users/signup",
+            "route": "/authors/signup",
             method: "post"
         },
         loginTest: {
             type: "sjrk.storyTelling.server.loginTestHandler",
-            "route": "/users/login",
+            "route": "/authors/login",
             method: "post"
         },
         logoutTest: {
             type: "sjrk.storyTelling.server.logoutTestHandler",
-            "route": "/users/logout",
+            "route": "/authors/logout",
             method: "post"
         },
         themeHandler: {
@@ -351,6 +351,7 @@ fluid.defaults("sjrk.storyTelling.server.loginTestHandler", {
  * @param {Object} request - a Kettle request
  */
 sjrk.storyTelling.server.handleLoginTestRequest = function (request, expressUserUtils) {
+    console.log(request.req.body.username, request.req.body.password);
     var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
 
     promise.then(function (record) {
