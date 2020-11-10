@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 source: "{block}.model.lastInOrder",
                 target: "moveBlockDownDisabled",
                 singleTransform: {
-                    type: "fluid.transforms.value"
+                    type: "fluid.transforms.identity"
                 },
                 backward: "never"
             },
@@ -40,7 +40,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 source: "{block}.model.firstInOrder",
                 target: "moveBlockUpDisabled",
                 singleTransform: {
-                    type: "fluid.transforms.value"
+                    type: "fluid.transforms.identity"
                 },
                 backward: "never"
             }

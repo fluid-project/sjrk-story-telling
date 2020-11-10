@@ -51,8 +51,8 @@ sjrk.storyTelling.server.middleware.deleteFile.handle = function (request, uploa
 
             fluid.log(fluid.logLevel.INFO, "Successfully deleted file: ", fileToDelete);
         } catch (err) {
-            fluid.log(fluid.logLevel.FAIL, "Error deleting file \"", fileToDelete, "\".");
-            fluid.log(fluid.logLevel.FAIL, "Error detail: ", err.toString());
+            fluid.log(fluid.logLevel.WARN, "Error deleting file \"", fileToDelete, "\".");
+            fluid.log(fluid.logLevel.WARN, "Error detail: ", err.toString());
         }
     }
 };

@@ -405,13 +405,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
     sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer = function (storySaveUrl, story, storyIdPath, sourceName, errorEvent) {
-        // The "story created" moment is now
-        story.applier.change("timestampCreated", new Date().toISOString());
-
         var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
 
         serverSavePromise.then(function (data) {
             var successResponse = JSON.parse(data);
+
+            // The "story created" moment is now, since the story was created successfully
+            story.applier.change("timestampCreated", new Date().toISOString(), null, sourceName);
 
             // store the ID on the story model for later use
             story.applier.change(storyIdPath, successResponse.id, null, sourceName);
@@ -459,7 +459,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
         if (previousState === "errorReceived") {
             counters.errors--;
-            counters.uploads++;
+
+            if (newState === "uploading") {
+                counters.uploads++;
+            }
         } else if (previousState === "uploading") {
             counters.uploads--;
 
