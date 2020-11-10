@@ -64,8 +64,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: []
             },
             "onFileChanged.clearFileUrl": {
-                func: "sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation",
-                args: ["{that}"]
+                changePath: "",
+                value: {
+                    previousFileObjectUrl: "{that}.model.fileObjectUrl",
+                    fileObjectUrl: ""
+                }
             },
             "onFileChanged.uploadFileToServer": {
                 func: "{that}.uploadFileToServer",
@@ -180,7 +183,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     uploadOptions.completionEvent.fire(data);
                 },
                 error       : function (jqXHR, textStatus, errorThrown) {
-                    fluid.log(jqXHR, textStatus, errorThrown);
+                    fluid.log(fluid.logLevel.WARN, jqXHR, textStatus, errorThrown);
 
                     var timeoutMessage = fluid.stringTemplate("Connection to the server timed out after %time seconds", {time: uploadOptions.uploadTimeout / 1000});
 
@@ -195,16 +198,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 }
             });
         }
-    };
-
-    /**
-     * Given a file, updates the file's metadata as held on the uploader's model
-     *
-     * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
-     */
-    sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that) {
-        that.applier.change("previousFileObjectUrl", that.model.fileObjectUrl);
-        that.applier.change("fileObjectUrl", "");
     };
 
 })(jQuery, fluid);

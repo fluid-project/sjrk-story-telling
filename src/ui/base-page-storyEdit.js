@@ -457,9 +457,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * - uploading to errorReceived
      * - errorReceived to uploading
      *
-     * @typedef {Object.<String, Number>} UploadStateCounters
-     * @property {Number} UploadStateCounters.errors - the number of blocks in an "errorReceived" state
-     * @property {Number} UploadStateCounters.uploads - the number of blocks in an "uploading" state
      *
      * @param {String} previousState - the previous state of the value
      * @param {String} newState - the new state of the value

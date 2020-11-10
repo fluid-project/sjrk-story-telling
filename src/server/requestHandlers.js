@@ -120,7 +120,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
         if (response.published) {
             request.events.onSuccess.fire(JSON.stringify(response));
         } else {
-            fluid.log("Unauthorized: cannot access an unpublished story: " + id);
+            fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
             request.events.onError.fire({
                 isError: true,
@@ -128,7 +128,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
             });
         }
     }, function (error) {
-        fluid.log("Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
+        fluid.log(fluid.logLevel.WARN, "Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
 
         request.events.onError.fire({
             isError: true,
@@ -235,10 +235,10 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
 
     var id = request.req.params.id;
 
-    // verify that the story exists and isn't published before continuing
     dataSource.get({directStoryId: id}).then(function (story) {
-        if (story && !story.published && request.req.file) {
-            // if the file is an image, rotate it based on its EXIF data
+        // verify that the story isn't published and there is a file to save before continuing
+        if (!story.published && request.req.file) {
+            // if the file is an image, attmept to rotate it based on its EXIF data
             if (request.req.file.mimetype &&
                 request.req.file.mimetype.indexOf("image") === 0) {
 

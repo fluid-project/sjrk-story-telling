@@ -43,10 +43,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         },
         // describes the relationship of DOM events to associated Infusion events
         mediaPlayerEventMapping : {
-            canplay: "{that}.events.onMediaReady.fire",
-            durationchange: "{that}.events.onMediaDurationChange.fire",
-            ended: "{that}.events.onMediaEnded.fire",
-            play: "{that}.events.onMediaPlay.fire"
+            canplay: "onMediaReady",
+            durationchange: "onMediaDurationChange",
+            ended: "onMediaEnded",
+            play: "onMediaPlay"
         },
         listeners: {
             "onTemplateReady.updateMediaPreviewUrl": {
@@ -55,7 +55,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             "onTemplateReady.registerMediaPlayerEvents": {
                 funcName: "sjrk.storyTelling.blockUi.timeBased.registerMediaPlayerEvents",
-                args: ["{that}.dom.mediaPreview.0", "{that}.options.mediaPlayerEventMapping"]
+                args: ["{that}", "{that}.dom.mediaPreview.0", "{that}.options.mediaPlayerEventMapping"]
             },
             "onMediaPlayerStop.pauseMediaPlayer": {
                 "this": "{that}.dom.mediaPreview.0",
@@ -78,15 +78,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * the pattern is { domEventName: "{component}.events.eventName.fire" }
      *
+     * @param {Component} that - an instance of `sjrk.storyTelling.blockUi.timeBased`
      * @param {jQuery} mediaPlayer - the jQueryable containing the HTML video or audio element
      * @param {Object.<String, String>} eventMapping - a mapping between DOM and Infusion events
      */
-    sjrk.storyTelling.blockUi.timeBased.registerMediaPlayerEvents = function (mediaPlayer, eventMapping) {
-        fluid.each(eventMapping, function (infusionEventFunction, domEvent) {
-            mediaPlayer.addEventListener(domEvent, infusionEventFunction);
+    sjrk.storyTelling.blockUi.timeBased.registerMediaPlayerEvents = function (that, mediaPlayer, eventMapping) {
+        fluid.each(eventMapping, function (infusionEvent, domEvent) {
+            mediaPlayer.addEventListener(domEvent, that.events[infusionEvent].fire);
         });
     };
-
 
     /**
      * Updates the HTML preview of a media player associated with a given block.
