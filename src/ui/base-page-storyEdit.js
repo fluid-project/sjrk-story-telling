@@ -26,6 +26,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                         namespace: "uploadStateToCounters"
                     }
                 }
+            },
+            "blockManager.loadStoryContentIntoBlockUIs": {
+                record: {
+                    "{storyEditor}.story.model": {
+                        func: "{that}.createBlocksFromData",
+                        args: ["{change}.value.content"],
+                        includeSource: ["storyAutoload"],
+                        namespace: "loadStoryContentIntoBlockUIs"
+                    }
+                },
+                target: "{that storyEditor blockManager}.options.modelListeners"
             }
         },
         pageSetup: {
@@ -191,13 +202,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             // Loads the story content into the Editor
             loadStoryContent: {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryContent",
-                args: [
-                    "{arguments}.0", // the saved story model data
-                    "{storyEditor}.story",
-                    "{storyEditor}.blockManager",
-                    "{that}.options.pageSetup.storyAutoloadSourceName"
-                ]
+                changePath: "{storyEditor}.story.model",
+                value: "{arguments}.0",
+                source: "storyAutoload"
             },
             // Creates a new story on the server
             createNewStoryOnServer: {
@@ -386,21 +393,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred while initializing story", ex);
         }
-    };
-
-    /**
-     * Updates the storyEditor's story and blockManager with saved story data
-     *
-     * @param {Object} savedStoryData - story model data loaded from autosave
-     * @param {Component} story - an instance of `sjrk.storyTelling.base.page.storyEdit`
-     * @param {Component} blockManager - the storyEditor's blockManager component
-     * @param {String} sourceName - the name of the Infusion change source for this update
-     */
-    sjrk.storyTelling.base.page.storyEdit.loadStoryContent = function (savedStoryData, story, blockManager, sourceName) {
-        story.applier.change("", savedStoryData, null, sourceName);
-
-        // build the blockUIs from the story content array
-        blockManager.createBlocksFromData(savedStoryData.content);
     };
 
     /**
