@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "blockManager.loadStoryContentIntoBlockUIs": {
                 record: {
                     "{storyEditor}.story.model": {
-                        func: "{that}.createBlocksFromData",
+                        func: "{blockManager}.createBlocksFromData",
                         args: ["{change}.value.content"],
                         includeSource: ["storyAutoload"],
                         namespace: "loadStoryContentIntoBlockUIs"
