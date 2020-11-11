@@ -152,6 +152,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             onStoryUpdateOnServerComplete: null,
             onStoryCreateOnServerError: null,
             onStoryPublishRequested: "{storyPreviewer}.events.onShareRequested",
+            onStoryPublishSuccess: null,
             onStoryPublishError: "{storyPreviewer}.events.onShareComplete"
         },
         listeners: {
@@ -175,6 +176,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 namespace: "showEditorHidePreviewer"
             },
             "onStoryPublishRequested.publishStory": "{that}.publishStory",
+            "onStoryPublishSuccess.redirectToViewStory": "{that}.redirectToViewStory",
             "onCreate.setAuthoringEnabledClass": {
                 func: "{that}.setAuthoringEnabledClass"
             }
@@ -231,16 +233,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 funcName: "sjrk.storyTelling.base.page.storyEdit.publishStory",
                 args: [
                     "{that}",
-                    "{that}.options.pageSetup.viewPageUrl",
                     "{storyEditor}.story",
-                    "{that}.redirectToViewStory",
+                    "{that}.events.onStoryPublishSuccess",
                     "{that}.events.onStoryPublishError"
                 ]
             },
             // Redirects the user to the given story
             redirectToViewStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.redirectToViewStory",
-                args: ["{arguments}.0", "{arguments}.1"]
+                args: ["{arguments}.0", "{that}.options.pageSetup.viewPageUrl"] // storyId
             },
             // Increments or decrements counters for blocks currently uploading or in error states
             updateUploadCounters: {
@@ -545,21 +546,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     };
 
     /**
-     * @callback publishSuccessCallback - a callback to call after successful publishing
-     * @param {String} storyId - the ID of the story to which the user will be redirected
-     * @param {String} viewPageUrl - the URL for the story View page
-     */
-
-    /**
      * Sets a story to "published" and redirects the user to the new story page
      *
      * @param {Component} storyEditPage - an instance of `sjrk.storyTelling.base.page.storyEdit`
-     * @param {String} viewPageUrl - the URL for the story View page
      * @param {Component} story - an instance of `sjrk.storyTelling.story`
-     * @param {publishSuccessCallback} successCallback - to call on successful publish
+     * @param {Object} successEvent - the event to be fired on successful publish
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, viewPageUrl, story, successCallback, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, story, successEvent, errorEvent) {
         // set the publish timestamp to now and the flag to "true"
         story.applier.change("", {
             "timestampPublished": new Date().toISOString(),
@@ -570,7 +564,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
         storyUpdatePromise.done(function () {
             storyEditPage.clearAutosave();
-            successCallback(story.model.id, viewPageUrl);
+            successEvent.fire(story.model.id);
         });
 
         storyUpdatePromise.fail(function (jqXHR, textStatus, errorThrown) {
