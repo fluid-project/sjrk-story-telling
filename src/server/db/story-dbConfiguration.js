@@ -141,7 +141,8 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
  * @param {Object} doc - a document to evaluate in the view
  */
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
-    if (doc.value.published) {
+    // only returns published stories or stories that predate the "published" flag
+    if (typeof doc.value.published === "undefined" || doc.value.published) {
         var browseDoc = {
             "title": doc.value.title,
             "author": doc.value.author,

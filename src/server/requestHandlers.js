@@ -117,7 +117,8 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
     var noAccessErrorMessage = "An error occurred while retrieving the requested story";
 
     promise.then(function (response) {
-        if (response.published) {
+        // only returns published stories or stories that predate the "published" flag
+        if (typeof response.published === "undefined" || response.published) {
             request.events.onSuccess.fire(JSON.stringify(response));
         } else {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
