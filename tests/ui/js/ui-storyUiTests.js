@@ -50,7 +50,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         title: "cat story",
         author: "Shyguy & Rootbeer",
         content: [],
-        tags: []
+        tags: [],
+        id: null,
+        published: false,
+        timestampCreated: "",
+        timestampPublished: ""
     };
 
     sjrk.storyTelling.ui.testStoryUi.testStoryPopulated = {
@@ -76,7 +80,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         ],
         tags: [],
-        title: "cat story"
+        title: "cat story",
+        id: null,
+        published: false,
+        timestampCreated: "",
+        timestampPublished: ""
     };
 
     sjrk.storyTelling.ui.testStoryUi.testStoryAfterChange = {
@@ -114,7 +122,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         ],
         tags: [],
-        title: "cat story"
+        title: "cat story",
+        id: null,
+        published: false,
+        timestampCreated: "",
+        timestampPublished: ""
     };
 
     // Test cases and sequences for the UI grade

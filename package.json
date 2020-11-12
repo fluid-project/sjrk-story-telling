@@ -1,6 +1,6 @@
 {
     "name": "sjrk-story-telling",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
     "main": "index.js",
     "scripts": {
@@ -22,8 +22,6 @@
     },
     "homepage": "https://github.com/fluid-project/sjrk-story-telling",
     "dependencies": {
-        "blueimp-canvas-to-blob": "3.28.0",
-        "blueimp-load-image": "5.14.0",
         "express-basic-auth": "1.2.0",
         "fluid-binder": "1.1.1",
         "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",

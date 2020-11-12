@@ -15,36 +15,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // an editing interface for individual image-type blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.imageBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.blockUi.editor"],
+        gradeNames: ["sjrk.storyTelling.blockUi.editor.withFileUploader"],
         selectors: {
-            imagePreview: ".sjrkc-st-block-media-preview",
-            imageUploadButton: ".sjrkc-st-block-media-upload-button",
-            singleFileUploader: ".sjrkc-st-block-uploader-input"
+            previewPlaceholder: ".sjrkc-st-block-media-preview-placeholder"
         },
-        invokers: {
-            "updateImagePreview": {
-                "this": "{that}.dom.imagePreview",
-                "method": "attr",
-                "args": ["src", "{arguments}.0"]
+        // links preview placeholder visibility with the preview itself.
+        // this model listener is duplicated in the imageBlockEditor grade, and
+        // the work to combine these grades is laid out by SJRK-175:
+        // https://issues.fluidproject.org/browse/SJRK-175
+        modelListeners: {
+            previewVisible: {
+                this: "{that}.dom.previewPlaceholder",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "placeholderVisibleChange"
             }
         },
-        events: {
-            onImageUploadRequested: null
-        },
         listeners: {
-            "{templateManager}.events.onTemplateRendered": [
-                {
-                    this: "{that}.dom.imageUploadButton",
-                    method: "click",
-                    args: ["{that}.events.onImageUploadRequested.fire"],
-                    namespace: "bindOnImageUploadRequested"
-                },
-                {
-                    func: "{blockUi}.updateImagePreview",
-                    args: ["{that}.block.model.imageUrl"],
-                    namespace: "updateImagePreview"
-                }
-            ]
+            "{templateManager}.events.onTemplateRendered": {
+                func: "{that}.updateMediaPreview",
+                args: ["{that}.block.model.mediaUrl"],
+                namespace: "updateMediaPreviewUrl"
+            }
+        },
+        invokers: {
+            updateMediaPreview: {
+                this: "{that}.dom.mediaPreview",
+                method: "attr",
+                args: ["src", "{arguments}.0"]
+            }
         },
         components: {
             // the block itself
@@ -52,8 +51,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 type: "sjrk.storyTelling.block.imageBlock",
                 options: {
                     model: {
-                        // imageURL: relayed from uploader
-                        // fileDetails: relayed from uploader
+                        // mediaUrl: relayed from uploader
                     }
                 }
             },
@@ -75,34 +73,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     bindings: {
                         imageAltText: "alternativeText",
                         imageDescription: "description"
-                    }
-                }
-            },
-            // handles previewing and uploading a single image for storage
-            singleFileUploader: {
-                type: "sjrk.storyTelling.block.singleFileUploader",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{imageBlockEditor}.dom.singleFileUploader",
-                options: {
-                    selectors: {
-                        fileInput: "{that}.container"
-                    },
-                    model: {
-                        fileObjectURL: "{block}.model.imageUrl",
-                        fileDetails: "{block}.model.fileDetails"
-                    },
-                    listeners: {
-                        "{imageBlockEditor}.events.onImageUploadRequested": {
-                            func: "{that}.events.onUploadRequested.fire",
-                            namespace: "fireUploadForImageUpload"
-                        }
-                    },
-                    modelListeners: {
-                        "fileObjectURL": {
-                            func: "{imageBlockEditor}.updateImagePreview",
-                            args: "{that}.model.fileObjectURL",
-                            excludeSource: "init"
-                        }
                     }
                 }
             }

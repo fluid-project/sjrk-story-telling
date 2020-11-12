@@ -35,16 +35,9 @@ var storyTemplate = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            "imageUrl": "logo_small_fluid_vertical.png",
+            "mediaUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
-            "description": "%imageCaption",
-            "fileDetails": {
-                "lastModified": 1524592510016,
-                "lastModifiedDate": "2018-04-24T17:55:10.016Z",
-                "name": "logo_small_fluid_vertical.png",
-                "size": 3719,
-                "type": "image/png"
-            }
+            "description": "%imageCaption"
         },
         {
             "id": null,

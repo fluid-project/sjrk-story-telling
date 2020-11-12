@@ -58,9 +58,13 @@ fluid.defaults("sjrk.storyTelling.server", {
                     deleteStoryDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
                     },
-                    // a DataSource to save a single story along with any files it has
-                    saveStoryWithBinaries: {
-                        type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
+                    // the Kettle app
+                    app: {
+                        type: "sjrk.storyTelling.server.app.storyTellingHandlers"
+                    },
+                    // middleware to save a block's file to the server filesystem
+                    saveStoryFile: {
+                        type: "sjrk.storyTelling.server.middleware.saveStoryFile",
                         options: {
                             components: {
                                 storage: {
@@ -71,9 +75,12 @@ fluid.defaults("sjrk.storyTelling.server", {
                             }
                         }
                     },
-                    // the Kettle app
-                    app: {
-                        type: "sjrk.storyTelling.server.app.storyTellingHandlers"
+                    // middleware to delete a block's previous file from the server filesystem
+                    deleteFile: {
+                        type: "sjrk.storyTelling.server.middleware.deleteFile",
+                        options: {
+                            uploadedFilesDirectory: "{server}.options.secureConfig.binaryUploadDirectory"
+                        }
                     },
                     // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {
@@ -92,8 +99,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
-                                "blueimp-canvas-to-blob",
-                                "blueimp-load-image",
                                 "fluid-binder",
                                 "fluid-handlebars",
                                 "fluid-location-bar-relay",
@@ -122,6 +127,13 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "./src/ui"
+                        }
+                    },
+                    // static middleware for the static files directory
+                    static: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./src/static"
                         }
                     },
                     // the custom theme for the site, loaded in "on top" of base
@@ -164,9 +176,14 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/stories/:id",
             "method": "get"
         },
-        saveStoryWithBinariesHandler: {
-            type: "sjrk.storyTelling.server.saveStoryWithBinariesHandler",
+        saveStoryHandler: {
+            type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/stories/",
+            "method": "post"
+        },
+        saveStoryFileHandler: {
+            type: "sjrk.storyTelling.server.saveStoryFileHandler",
+            "route": "/stories/:id",
             "method": "post"
         },
         deleteStoryHandler: {

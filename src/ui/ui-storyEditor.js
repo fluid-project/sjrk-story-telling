@@ -157,6 +157,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                         "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
                         "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
                     },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                members: {
+                                    storyId: "{story}.model.id"
+                                }
+                            }
+                        }
+                    },
                     listeners: {
                         "{storyEditor}.events.onAudioBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
@@ -283,6 +292,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             var checked = managedComponent.locate("selectedCheckbox").prop("checked");
 
             if (checked) {
+                // If it's a media block, reset its uploadState before removing
+                if (managedComponent.singleFileUploader) {
+                    managedComponent.singleFileUploader.resetUploadState();
+                }
+
                 managedComponent.destroy();
                 removedBlockKeys.push(blockKey);
             }
