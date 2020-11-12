@@ -29,7 +29,7 @@ var sjrk = fluid.registerNamespace("sjrk");
 // basic test server definitions
 sjrk.storyTelling.server.testServerDefs = [{
     name: "Basic server tests",
-    expect: 2,
+    expect: 3,
     port: 8082,
     config: {
         configName: "sjrk.storyTelling.server.test",
@@ -47,6 +47,13 @@ sjrk.storyTelling.server.testServerDefs = [{
             type: "kettle.test.request.http",
             options: {
                 path: "/node_modules/nano/lib/nano.js",
+                method: "GET"
+            }
+        },
+        staticFileRequest: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/robots.txt",
                 method: "GET"
             }
         }
@@ -71,6 +78,11 @@ sjrk.storyTelling.server.testServerDefs = [{
     }, {
         event: "{invalidNodeModulesRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerDefs.verifyGetRequestFailed"
+    }, {
+        func: "{staticFileRequest}.send"
+    }, {
+        event: "{staticFileRequest}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerDefs.verifyGetRequestSuccessful"
     }]
 }];
 

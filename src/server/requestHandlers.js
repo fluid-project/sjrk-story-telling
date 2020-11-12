@@ -550,8 +550,13 @@ fluid.defaults("sjrk.storyTelling.server.uiHandler", {
 fluid.defaults("sjrk.storyTelling.server.themeHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {
+        // includes things like robots.txt and (in the future) favicon
+        "staticFiles": {
+            middleware: "{server}.static"
+        },
         "baseTheme": {
-            middleware: "{server}.baseTheme"
+            middleware: "{server}.baseTheme",
+            priority: "before:staticFiles"
         },
         "currentTheme": {
             middleware: "{server}.currentTheme",

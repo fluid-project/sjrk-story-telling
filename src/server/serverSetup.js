@@ -129,6 +129,13 @@ fluid.defaults("sjrk.storyTelling.server", {
                             "root": "./src/ui"
                         }
                     },
+                    // static middleware for the static files directory
+                    static: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./src/static"
+                        }
+                    },
                     // the custom theme for the site, loaded in "on top" of base
                     currentTheme: {
                         type: "kettle.middleware.static",
