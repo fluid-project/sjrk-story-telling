@@ -42,7 +42,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         pageSetup: {
             hiddenEditorClass: "hidden",
             storyAutosaveKey: "storyAutosave",
-            storyAutoloadSourceName: "storyAutoload",
             storySaveUrl: "/stories/",
             viewPageUrl: "storyView.html",
             storyIdPath: "id"
@@ -215,7 +214,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     "{that}.options.pageSetup.storySaveUrl",
                     "{storyEditor}.story",
                     "{that}.options.pageSetup.storyIdPath",
-                    "{that}.options.pageSetup.storyAutoloadSourceName",
+                    "storyCreation",
                     "{that}.events.onStoryCreateOnServerError"
                 ]
             },
