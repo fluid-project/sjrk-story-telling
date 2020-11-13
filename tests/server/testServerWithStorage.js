@@ -536,11 +536,9 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     {
         event: "{getSavedPrePublishedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails",
         args: [
             "{arguments}.0",
-            prePublishedStory,
-            null, // No file expected
             null, // No event needed
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
