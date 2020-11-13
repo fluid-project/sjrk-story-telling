@@ -141,6 +141,10 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
  * @param {Object} doc - a document to evaluate in the view
  */
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
+    // TODO: this restriction should be reverted to allow only published stories
+    // once the flag is present in all previously-published stories. Please see
+    // SJRK-425 for more info: https://issues.fluidproject.org/browse/SJRK-425
+
     // only returns published stories or stories that predate the "published" flag
     if (typeof doc.value.published === "undefined" || doc.value.published) {
         var browseDoc = {
