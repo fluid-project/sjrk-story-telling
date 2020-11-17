@@ -118,17 +118,6 @@ var unpublishedStory = {
     "published": false
 };
 
-// a story predating the published flag with no content
-var prePublishedStory = {
-    "id": "prePublishedStory-ID",
-    "title": "",
-    "content": [],
-    "author": "",
-    "tags": [
-        ""
-    ]
-};
-
 // a story consisting only of empty blocks
 var blankStoryWithEmptyMediaBlocks = {
     "id": "blankStoryWithEmptyMediaBlocks-ID",
@@ -204,7 +193,7 @@ var testStoryWithImages = {
 // server definitions to test file and database operations on the server
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 92,
+    expect: 89,
     port: 8082,
     events: {
         // Receives no arguments
@@ -226,9 +215,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         // Receives one argument:
         // - the ID of the saved story
         "onUnpublishedStorySaveSuccessful": null,
-        // Receives one argument:
-        // - the ID of the saved story
-        "onPrePublishedStorySaveSuccessful": null,
         // Receives one argument:
         // - the ID of the saved story
         "onBlankStoryWithEmptyMediaBlocksSaveSuccessful": null
@@ -313,19 +299,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             }
         },
         getSavedUnpublishedStory: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories/%id"
-            }
-        },
-        prePublishedStorySave: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        getSavedPrePublishedStory: {
             type: "kettle.test.request.http",
             options: {
                 path: "/stories/%id"
@@ -511,36 +484,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails",
         args: [
             "{arguments}.0",
-            null, // No event needed
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    // Pre-published story
-    {
-        func: "{that}.prePublishedStorySave.send",
-        args: [prePublishedStory]
-    },
-    {
-        event: "{prePublishedStorySave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: [
-            "{arguments}.0",
-            "{that}.events.onPrePublishedStorySaveSuccessful",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        event: "{that}.events.onPrePublishedStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getSavedPrePublishedStory}"]
-    },
-    {
-        event: "{getSavedPrePublishedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
-        args: [
-            "{arguments}.0",
-            prePublishedStory,
-            null, // No file expected
             null, // No event needed
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
