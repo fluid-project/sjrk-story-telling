@@ -57,14 +57,9 @@ var storyTemplate = {
 };
 
 fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest", {
-    gradeNames: ["kettle.test.request.formData"],
+    gradeNames: ["kettle.test.request.http"],
     path: "/stories",
-    method: "POST",
-    formData: {
-        files: {
-            "file": ["./tests/testData/logo_small_fluid_vertical.png"]
-        }
-    }
+    method: "POST"
 });
 
 jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
@@ -83,16 +78,6 @@ jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
     var fabricatedStoryModel = fluid.stringTemplate(JSON.stringify(storyTemplate), storyValues);
 
     var req = sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest({
-        formData: {
-            fields: {
-                "model": {
-                    expander: {
-                        type: "fluid.noexpand",
-                        value: fabricatedStoryModel
-                    }
-                }
-            }
-        },
         listeners: {
             "onComplete.testDone": {
                 "this": "jqUnit",
@@ -102,5 +87,5 @@ jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
         }
     });
 
-    req.send();
+    req.send(fabricatedStoryModel);
 });
