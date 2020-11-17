@@ -79,7 +79,7 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
                 isError: true,
                 message: errorThrown
             });
-        });;
+        });
     } else {
         storyPromise.reject({
             isError: true,
