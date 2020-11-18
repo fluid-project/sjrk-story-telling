@@ -19,7 +19,6 @@ var fluid = require("infusion"),
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
-require("../../src/server/middleware/deleteFile");
 require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
@@ -355,7 +354,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     }
                 }
             }
-        },
+        }
     },
     distributeOptions: {
         "server.port": {
@@ -495,24 +494,18 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         ]
     },
     {
-        // Test that the replaced image is no longer reachable
-        funcName: "{that}.getReplacedImage.send",
+        // Test that the replaced image is still reachable
+        funcName: "{that}.getReplacedImage.send"
     },
     {
         event: "{getReplacedImage}.events.onComplete",
-        listener: "kettle.test.assertErrorResponse",
-        args: {
-            message: "Attempt to retrieve a deleted file",
-            errorTexts: {
-                expander: {
-                    "funcName": "sjrk.storyTelling.server.testServerWithStorageDefs.assembleErrorExpectedErrorText",
-                    args: ["Cannot GET /%handlerPath/%fileName", "{replaceFile}.options.formData.fields.previousFileUrl"]
-                }
-            },
-            statusCode: 404,
-            string: "{arguments}.0",
-            request: "{getReplacedImage}"
-        }
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.options.testUploadOptions.testPNGFileHeaders",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
     },
     {
         // Clean up
@@ -692,6 +685,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
  * @param {String} template - A string template taking tokens: %filePath (the filePath passed in), %handlerPath (the
  *                            directory path to the file, encoded), and %fileName (the file name)
  * @param {String} filePath - the URI to the file that the error is reported for
+ * @return {String} - The assembled error text
  */
 sjrk.storyTelling.server.testServerWithStorageDefs.assembleErrorExpectedErrorText = function (template, filePath) {
     return fluid.stringTemplate(template, {
@@ -884,6 +878,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = funct
  *
  * @param {String} data - the data returned by the call
  * @param {Object} request - the Kettle request component
+ * @param {Object} expectedHeaders - key/value pairs for headers and their expected values
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
  */
 sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval = function (data, request, expectedHeaders, authoringEnabled) {
