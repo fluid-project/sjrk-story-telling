@@ -43,7 +43,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{videoBlockEditor}.binder", "videoAltText", "Alternative text for the video"]
+                    args: ["{videoBlockEditor}.binder", "mediaAltText", "Alternative text for the video"]
                 },
                 {
                     changeEvent: "{videoBlockEditor}.block.applier.modelChanged",
@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.changeFormElement",
-                    args: ["{videoBlockEditor}.binder", "videoDescription", "Description for video"]
+                    args: ["{videoBlockEditor}.binder", "mediaDescription", "Description for video"]
                 },
                 {
                     changeEvent: "{videoBlockEditor}.block.applier.modelChanged",
@@ -63,12 +63,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     jQueryTrigger: "click",
-                    element: "{videoBlockEditor}.dom.videoUploadButton"
+                    element: "{videoBlockEditor}.dom.uploadButton"
                 },
                 {
-                    event: "{videoBlockEditor}.events.onVideoUploadRequested",
+                    event: "{videoBlockEditor}.events.onMediaUploadRequested",
                     listener: "jqUnit.assert",
-                    args: ["The videoUploadButton event fired"]
+                    args: ["The uploadButton event fired"]
                 }]
             }]
         }]

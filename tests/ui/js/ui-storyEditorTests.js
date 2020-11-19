@@ -60,8 +60,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.registerNamespace("sjrk.storyTelling.ui.storyEditorTester");
     sjrk.storyTelling.ui.storyEditorTester.testStoryPreReorder = [{
         "alternativeText": null, "blockType": "image", "description": null,
-        "fileDetails": null, "firstInOrder": true, "heading": null, "id": null,
-        "imageUrl": null, "language": null, "lastInOrder": false, "order": 0
+        "firstInOrder": true, "heading": null, "id": null,
+        "mediaUrl": null, "language": null, "lastInOrder": false, "order": 0
     },
     {
         "blockType": "text", "firstInOrder": false, "heading": null, "id": null,
@@ -69,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     },
     {
         "alternativeText": null, "blockType": "audio", "description": null,
-        "fileDetails": null, "firstInOrder": false, "heading": null, "id": null,
+        "firstInOrder": false, "heading": null, "id": null,
         "language": null, "lastInOrder": false, "mediaUrl": null, "order": 2
     },
     {
@@ -80,12 +80,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     sjrk.storyTelling.ui.storyEditorTester.testStoryAfterFirstReorder = [{
         "alternativeText": null, "blockType": "image", "description": null,
-        "fileDetails": null, "firstInOrder": true, "heading": null, "id": null,
-        "imageUrl": null, "language": null, "lastInOrder": false, "order": 0
+        "firstInOrder": true, "heading": null, "id": null,
+        "mediaUrl": null, "language": null, "lastInOrder": false, "order": 0
     },
     {
         "alternativeText": null, "blockType": "audio", "description": null,
-        "fileDetails": null, "firstInOrder": false, "heading": null, "id": null,
+        "firstInOrder": false, "heading": null, "id": null,
         "language": null, "lastInOrder": false, "mediaUrl": null, "order": 1
     },
     {

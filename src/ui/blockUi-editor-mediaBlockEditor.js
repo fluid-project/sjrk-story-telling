@@ -15,20 +15,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // an editing interface for individual media blocks
     fluid.defaults("sjrk.storyTelling.blockUi.editor.mediaBlockEditor", {
-        gradeNames: ["sjrk.storyTelling.blockUi.editor", "sjrk.storyTelling.blockUi.timeBased"],
+        gradeNames: ["sjrk.storyTelling.blockUi.editor.withFileUploader", "sjrk.storyTelling.blockUi.timeBased"],
         selectors: {
-            mediaUploadButton: ".sjrkc-st-block-media-upload-button",
-            singleFileUploader: ".sjrkc-st-block-uploader-input"
+            previewPlaceholder: ".sjrkc-st-block-media-preview-placeholder"
         },
-        events: {
-            onMediaUploadRequested: null
-        },
-        listeners: {
-            "{templateManager}.events.onTemplateRendered": {
-                this: "{that}.dom.mediaUploadButton",
-                method: "click",
-                args: ["{that}.events.onMediaUploadRequested.fire"],
-                namespace: "bindOnMediaUploadRequested"
+        // links preview placeholder visibility with the preview itself.
+        // this model listener is duplicated in the mediaBlockEditor grade, and
+        // the work to combine these grades is laid out by SJRK-175:
+        // https://issues.fluidproject.org/browse/SJRK-175
+        modelListeners: {
+            previewVisible: {
+                this: "{that}.dom.previewPlaceholder",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "placeholderVisibleChange"
             }
         },
         components: {
@@ -50,34 +50,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     bindings: {
                         mediaAltText: "alternativeText",
                         mediaDescription: "description"
-                    }
-                }
-            },
-            // handles previewing and uploading a single file for storage
-            singleFileUploader: {
-                type: "sjrk.storyTelling.block.singleFileUploader",
-                createOnEvent: "{templateManager}.events.onTemplateRendered",
-                container: "{mediaBlockEditor}.dom.singleFileUploader",
-                options: {
-                    selectors: {
-                        fileInput: "{that}.container"
-                    },
-                    model: {
-                        fileObjectURL: "{block}.model.mediaUrl",
-                        fileDetails: "{block}.model.fileDetails"
-                    },
-                    listeners: {
-                        "{mediaBlockEditor}.events.onMediaUploadRequested": {
-                            func: "{that}.events.onUploadRequested.fire",
-                            namespace: "fireUploadForMediaUpload"
-                        }
-                    },
-                    modelListeners: {
-                        "fileObjectURL": {
-                            func: "{mediaBlockEditor}.updateMediaPlayer",
-                            args: "{that}.model.fileObjectURL",
-                            excludeSource: "init"
-                        }
                     }
                 }
             }

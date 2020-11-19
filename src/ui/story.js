@@ -17,9 +17,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.defaults("sjrk.storyTelling.story", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            title: "",
+            id: null, // the story ID, a UUID-V4 which is generated on creation
+            title: "", // the story's title
             content: [
-                // a collection of sjrk.storyTelling.block data.
+                // a collection of sjrk.storyTelling.block model data.
                 // blocks contain the type of block and fields
                 // specific to and consistent with that type.
                 // e.g.
@@ -31,8 +32,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 //     text: "This is the main text of this block",
                 // }
             ],
-            author: "",
-            tags: []
+            author: "", // the author of the story, as displayed in the site
+            tags: [], // the keywords associated with this story
+            published: false, // indicates whether the story has been published
+            // These timestamps are intended to be in ISO-8601 format and UTC time
+            // https://en.wikipedia.org/wiki/ISO_8601
+            // E.g. "2020-04-22T16:50:44.324Z"
+            timestampCreated: "", // the date/time the story was initially created
+            timestampPublished: "" // the date/time the story was initially published
         }
     });
 

@@ -99,7 +99,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 {
                     event: "{timeBased}.events.onMediaEnded",
                     listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
-                    args: ["{timeBased}.dom.mediaPlayer", "{timeBased}.dom.mediaPlayer.0.duration"]
+                    args: ["{timeBased}.dom.mediaPreview", "{timeBased}.dom.mediaPreview.0.duration"]
                 },
                 {
                     func: "{timeBased}.stopMediaPlayer"
@@ -107,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 {
                     event: "{timeBased}.events.onMediaPlayerStop",
                     listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
-                    args: ["{timeBased}.dom.mediaPlayer", 0]
+                    args: ["{timeBased}.dom.mediaPreview", 0]
                 }]
             }]
         }]
