@@ -588,3 +588,97 @@ fluid.defaults("sjrk.storyTelling.server.nodeModulesHandler", {
         }
     }
 });
+
+/********************************************
+ * Request Handlers for signup/login/logout *
+ *******************************************/
+
+fluid.defaults("sjrk.storyTelling.server.signupHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleSignupRequest",
+            args: ["{request}", "{expressUserUtils}"]
+        }
+    }
+});
+
+/**
+ * Creates a new user account and stores it to the database
+ *
+ * @param {Object} request - a Kettle request
+ * @param {fluid.express.user.utils} - an instance of `fluid.express.user.utils`
+ */
+sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUtils) {
+    if (!request.req.session.authorID) {
+        var promise = expressUserUtils.createNewUser({
+            username: request.req.body.username,
+            email: request.req.body.email,
+            password: request.req.body.password,
+            authorID: uuidv4()
+        });
+
+        promise.then(function (record) {
+            request.req.session.authorID = record.authorID;
+            request.events.onSuccess.fire("success");
+        }, function (error) {
+            request.events.onError.fire(error);
+        });
+    } else {
+        request.events.onError.fire({message: "User already logged in"});
+    }
+
+
+};
+
+fluid.defaults("sjrk.storyTelling.server.loginHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleLoginRequest",
+            args: ["{request}", "{expressUserUtils}"]
+        }
+    }
+});
+
+/**
+ * Logs in an existing user with the password and username provided in the request.
+ *
+ * @param {Object} request - a Kettle request
+ * @param {fluid.express.user.utils} - an instance of `fluid.express.user.utils`
+ */
+sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtils) {
+    console.log(request.req.body.username, request.req.body.password);
+    var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
+
+    promise.then(function (record) {
+        request.req.session.authorID = record.authorID;
+        request.events.onSuccess.fire("success");
+    }, function (error) {
+        request.events.onError.fire(error);
+    });
+};
+
+fluid.defaults("sjrk.storyTelling.server.logoutHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleLogoutRequest",
+            args: ["{request}"]
+        }
+    }
+});
+
+/**
+ * Logs out of the session
+ *
+ * @param {Object} request - a Kettle request
+ */
+sjrk.storyTelling.server.handleLogoutRequest = function (request) {
+    request.req.session.destroy();
+    request.events.onSuccess.fire("logout successful");
+};
+
+/****************************************
+ * End Handlers for signup/login/logout *
+ ***************************************/

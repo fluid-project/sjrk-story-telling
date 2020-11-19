@@ -266,18 +266,18 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/session",
             method: "get"
         },
-        signupTest: {
-            type: "sjrk.storyTelling.server.signupTestHandler",
+        signupHandler: {
+            type: "sjrk.storyTelling.server.signupHandler",
             "route": "/authors/signup",
             method: "post"
         },
-        loginTest: {
-            type: "sjrk.storyTelling.server.loginTestHandler",
+        loginHandler: {
+            type: "sjrk.storyTelling.server.loginHandler",
             "route": "/authors/login",
             method: "post"
         },
-        logoutTest: {
-            type: "sjrk.storyTelling.server.logoutTestHandler",
+        logoutHandler: {
+            type: "sjrk.storyTelling.server.logoutHandler",
             "route": "/authors/logout",
             method: "post"
         },
@@ -293,6 +293,7 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
  * Test setup for sessions *
  ***************************/
 
+// TODO: Remove this, as it is only for testing purposes
 fluid.defaults("sjrk.storyTelling.server.sessionTestHandler", {
     gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
     invokers: {
@@ -314,96 +315,6 @@ sjrk.storyTelling.server.handleSessionTestRequest = function (request) {
     // request.events.onSuccess.fire(`session request: ${request.req.session.text}\n`);
     request.events.onSuccess.fire(`authorID: ${request.req.session.authorID || "unknown"}\n`);
 };
-
-/**************************************
- * Test setup for signup/login/logout *
- **************************************/
-
-fluid.defaults("sjrk.storyTelling.server.signupTestHandler", {
-    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
-    invokers: {
-        handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleSignupTestRequest",
-            args: ["{request}", "{expressUserUtils}"]
-        }
-    }
-});
-
-/**
- * Test handler for signup.
- *
- * @param {Object} request - a Kettle request
- */
-sjrk.storyTelling.server.handleSignupTestRequest = function (request, expressUserUtils) {
-    var promise = expressUserUtils.createNewUser({
-        username: request.req.body.username,
-        email: request.req.body.email,
-        password: request.req.body.password,
-        authorID: uuidv1()
-    });
-
-    promise.then(function (record) {
-        request.req.session.authorID = record.authorID;
-        request.events.onSuccess.fire("success");
-    }, function (error) {
-        request.events.onError.fire(error);
-    });
-
-    // request.events.onSuccess.fire("not created");
-};
-
-fluid.defaults("sjrk.storyTelling.server.loginTestHandler", {
-    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
-    invokers: {
-        handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleLoginTestRequest",
-            args: ["{request}", "{expressUserUtils}"]
-        }
-    }
-});
-
-/**
- * Test handler for login.
- *
- * @param {Object} request - a Kettle request
- */
-sjrk.storyTelling.server.handleLoginTestRequest = function (request, expressUserUtils) {
-    console.log(request.req.body.username, request.req.body.password);
-    var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
-
-    promise.then(function (record) {
-        request.req.session.authorID = record.authorID;
-        request.events.onSuccess.fire("success");
-    }, function (error) {
-        request.events.onError.fire(error);
-    });
-
-    // request.events.onSuccess.fire("not logged in");
-};
-
-fluid.defaults("sjrk.storyTelling.server.logoutTestHandler", {
-    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
-    invokers: {
-        handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleLogoutTestRequest",
-            args: ["{request}"]
-        }
-    }
-});
-
-/**
- * Test handler for logout.
- *
- * @param {Object} request - a Kettle request
- */
-sjrk.storyTelling.server.handleLogoutTestRequest = function (request, expressUserUtils) {
-    request.req.session.destroy();
-    request.events.onSuccess.fire("logout successful");
-};
-
-/******************************************
- * End Test setup for signup/login/logout *
- ******************************************/
 
 
 /**
