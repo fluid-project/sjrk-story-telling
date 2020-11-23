@@ -12,45 +12,48 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 //    1. Get all stories from the database
 //    2. Update all stories to include the following fields & values where it
 //       was not previously included:
-//        - value.data_version: "0.4.0"
-//        - value.id: < the _id value from CouchDB >
-//        - value.published: true
-//        - value.timestampCreated: Date.now() (in the absence of proper information)
-//        - value.timestampPublished: Date.now()
-//        - value.content.*.order: # (assign its order in the content array)
-//        - value.content.*.firstInOrder: true/false (depending on order)
-//        - value.content.*.lastInOrder: true/false (depending on order)
+//       a - value.schemaVersion: "0.4.0"
+//       b - value.id: < the _id value from CouchDB >
+//       c - value.published: true
+//       d - value.timestampCreated: Date.now() (in the absence of proper information)
+//       e - value.timestampPublished: Date.now()
+//       f - value.content.*.order: # (assign its order in the content array)
+//       g - value.content.*.firstInOrder: true/false (depending on order)
+//       h - value.content.*.lastInOrder: true/false (depending on order)
 //    3. Convert all `value.content.*.imageUrl` keys to `value.content.*.mediaUrl`
-//    4. Remove old/unused fields from story data
-//        - authoringEnabled
-//        - categories
-//        - contentString
-//        - contentTypes (this field is calculated dynamically, now)
-//        - keywordString
-//        - languageFromSelect
-//        - languageFromInput
-//        - requestedTranslations
-//        - summary
-//        - thumbnailAltText
-//        - thumbnailUrl
-//        - translationOf
-//    5. Remove old/unused fields from block data
-//        - authoringEnabled
-//        - contentString
-//        - hasMobileCamera
-//        - hasTranscript
-//        - languageFromSelect
-//        - languageFromInput
-//        - savingEnabled
-//        - simplifiedText
-//        - transcript
-//    6. Prepend "./uploads/" to all `value.mediaUrl` values
+//    4. Remove old/unused fields from block data
+//       a - authoringEnabled
+//       b - contentString
+//       c - hasMobileCamera
+//       d - hasTranscript
+//       e - languageFromSelect
+//       f - languageFromInput
+//       g - savingEnabled
+//       h - simplifiedText
+//       i - transcript
+//    5. Remove old/unused fields from story data
+//       a - authoringEnabled
+//       b - categories
+//       c - contentString
+//       d - contentTypes (this field is calculated dynamically, now)
+//       e - keywordString
+//       f - languageFromSelect
+//       g - languageFromInput
+//       h - requestedTranslations
+//       i - summary
+//       j - thumbnailAltText
+//       k - thumbnailUrl
+//       l - translationOf
+//    6. Prepend "./uploads/" to all `value.mediaUrl` values where it isn't already present
 //    7. Upload the freshly-modified stories to the database
 //    8. Get all the stories from the database
 //    9. Verify the update was successful
 
-// A sample command that runs this script:
+// The command arguments are as follows:
 // node migrate_0.3.0_to_0.4.0.js $COUCHDBURL [maxDocsInBatchPerRequest]
+//
+// A sample command that runs this script on the "stories" database at "localhost:5984":
+// node migrate_0.3.0_to_0.4.0.js http://localhost:5984/stories
 //
 // @param {String} CouchDB-url - The url to the CouchDB where docoments should be migrated.
 // @param {Number} maxDocsInBatchPerRequest - [optional] Limit the number of stories to be processed in a batch.
@@ -76,6 +79,40 @@ if (process.argv.length < 3) {
 }
 
 sjrk.storyUpdate.defaultMaxDocsInBatchPerRequest = 100;
+
+// these value should be updated with every migration
+sjrk.storyUpdate.oldSchemaVersion = undefined;
+sjrk.storyUpdate.newSchemaVersion = "0.4.0";
+
+sjrk.storyUpdate.uploadsDirectoryPrefix = "./uploads/";
+
+sjrk.storyUpdate.blockValuesToRemove = [
+    "imageUrl",                 // 3
+    "authoringEnabled",         // 4.a
+    "contentString",            // 4.b
+    "hasMobileCamera",          // 4.c
+    "hasTranscript",            // 4.d
+    "languageFromSelect",       // 4.e
+    "languageFromInput",        // 4.f
+    "savingEnabled",            // 4.g
+    "simplifiedText",           // 4.h
+    "transcript"                // 4.i
+];
+
+sjrk.storyUpdate.storyValuesToRemove = [
+    "authoringEnabled",         // 5.a
+    "categories",               // 5.b
+    "contentString",            // 5.c
+    "contentTypes",             // 5.d
+    "keywordString",            // 5.e
+    "languageFromSelect",       // 5.f
+    "languageFromInput",        // 5.g
+    "requestedTranslations",    // 5.h
+    "summary",                  // 5.i
+    "thumbnailAltText",         // 5.j
+    "thumbnailUrl",             // 5.k
+    "translationOf"             // 5.l
+];
 
 /**
  * Create a set of options for data loader and a function to retreive them.
@@ -121,7 +158,7 @@ sjrk.storyUpdate.initOptions = function (processArgv) {
  *
  * @param {Object} options - options for the query
  *
- * @return {Promise} - A promise that resolves retrieving the tokens.
+ * @return {Promise} - A promise that resolves retrieving the stories.
  */
 sjrk.storyUpdate.retrieveStories = function (options) {
     var details = {
@@ -151,17 +188,51 @@ sjrk.storyUpdate.updateStoriesData = function (responseString, options) {
             var aDoc = aRow.doc;
             // To filter out the "_design/views" doc that doesn't have the "schemaVersion" field
             if (aDoc.type === "story") {
-                // To filter out the "_design/views" doc that doesn't have the "schemaVersion" field
-                // aDoc.schemaVersion = sjrk.storyUpdate.newSchemaVersion;
+                // Make the required updates, adding missing fields
+                // Please consult the list at the top of this file for details on each item
 
-                // do the heavy lifting here
+                if (!aDoc.schemaVersion || aDoc.schemaVersion < sjrk.storyUpdate.newSchemaVersion) {
 
-                fluid.log("Updating the story with ID: ", aDoc._id);
-                updatedDocs.push(aDoc);
+                    aDoc.schemaVersion = sjrk.storyUpdate.newSchemaVersion; // 2.a
+
+                    aDoc.value.id = aDoc.value.id || aDoc._id; // 2.b
+                    aDoc.value.published = aDoc.value.published || true; // 2.c
+                    aDoc.value.timestampCreated = aDoc.value.timestampCreated || new Date().toDateString(); // 2.d
+                    aDoc.value.timestampPublished = aDoc.value.timestampPublished || new Date().toDateString(); // 2.e
+
+                    var blocks = fluid.copy(aDoc.value.content);
+
+                    fluid.each(blocks, function (block, i) {
+                        block.order = block.order || i; // 2.f
+                        block.firstInOrder = block.firstInOrder || i === 0 ? true : false; // 2.g
+                        block.lastInOrder = block.lastInOrder || i === aDoc.value.content.length - 1 ? true : false; // 2.h
+
+                        if (block.imageUrl) {
+                            block.mediaUrl = block.imageUrl; // 3
+                        }
+
+                        if (block.mediaUrl && !block.mediaUrl.startsWith(sjrk.storyUpdate.uploadsDirectoryPrefix)) {
+                            block.mediaUrl = sjrk.storyUpdate.uploadsDirectoryPrefix + block.mediaUrl; // 6
+                        }
+
+                        // remove obsolete/unused block keys, steps 3 & 4
+                        block = fluid.censorKeys(block, sjrk.storyUpdate.blockValuesToRemove);
+
+                        aDoc.value.content[i] = block;
+                    });
+
+                    // remove obsolete/unused story keys, step 5
+                    aDoc.value = fluid.censorKeys(aDoc.value, sjrk.storyUpdate.storyValuesToRemove);
+
+                    fluid.log("Updating the story with ID: ", aDoc._id);
+                    updatedDocs.push(aDoc);
+                }
             }
         });
+
         options.updatedDocs = updatedDocs;
     }
+
     return updatedDocs;
 };
 
@@ -175,9 +246,10 @@ sjrk.storyUpdate.updateStoriesData = function (responseString, options) {
  */
 sjrk.storyUpdate.updateDB = function (options) {
     var details = {
-        // dataToPost: options.updatedDocs,
+        dataToPost: options.updatedDocs,
         responseDataHandler: sjrk.storyUpdate.logUpdateDB
     };
+
     return gpii.dbRequest.configureStep(details, options);
 };
 
@@ -191,8 +263,128 @@ sjrk.storyUpdate.updateDB = function (options) {
  * @return {Number} - the number of documents updated.
  */
 sjrk.storyUpdate.logUpdateDB = function (responseString, options) {
+    fluid.log("-- -- --");
     fluid.log("Updated ", options.updatedDocs.length, " of ", options.totalNumOfDocs, " story documents.");
+    fluid.log("-- -- --");
     return options.updatedDocs.length;
+};
+
+/**
+ * Create the step that retrieves stories from the database
+ *
+ * @param {Object} options - The documents to be verified:
+ * @param {Array} options.updatedDocs - The documents to verify
+ *
+ * @return {Promise} - The promise that resolves the verificatioon
+ */
+sjrk.storyUpdate.verifyStories = function (options) {
+    var details = {
+        requestUrl: options.storiesUrl,
+        requestErrMsg: "Error retrieving stories from the database: ",
+        responseDataHandler: sjrk.storyUpdate.verifyStoriesData,
+        responseErrMsg: "Error retrieving stories from database: "
+    };
+    return gpii.dbRequest.configureStep(details, options);
+};
+
+/**
+ * Check all database documents for errors related to the data update
+ *
+ * @param {String} responseString - the response from the request to get all documents
+ * @param {Object} options - Where to store any potentially-discovered invalid documents
+ *
+ * @return {Array} - The invalid documents found during verification
+ */
+sjrk.storyUpdate.verifyStoriesData = function (responseString, options) {
+    var allDocs = JSON.parse(responseString);
+
+    if (allDocs.total_rows !== options.totalNumOfDocs) {
+        throw "Number of records retrieved for verification does not match number of records retrieved for updating";
+    }
+
+    var invalidDocs = [];
+
+    if (allDocs.rows) {
+        fluid.each(allDocs.rows, function (aRow) {
+            var aDoc = aRow.doc;
+            // To filter out the "_design/views" doc that doesn't have the "schemaVersion" field
+            if (aDoc.type === "story") {
+
+                // assume all stories were successfully migrated
+                // if an error is discovered, the cause will be tracked
+                var invalidStoryReasons = [];
+
+                if (!aDoc.schemaVersion || aDoc.schemaVersion < sjrk.storyUpdate.newSchemaVersion) {
+                    invalidStoryReasons.push("Story schema version is not up to date");
+                }
+
+                if (!aDoc.value.id || aDoc.value.id !== aDoc._id) {
+                    invalidStoryReasons.push("Story ID and internal database ID do not match");
+                }
+
+                var requiredStoryValues = [
+                    "published",
+                    "timestampCreated",
+                    "timestampPublished"
+                ];
+
+                fluid.each(requiredStoryValues, function (requiredValue) {
+                    if (typeof aDoc.value[requiredValue] === "undefined") {
+                        invalidStoryReasons.push("Story does not have the required value " + requiredValue);
+                    }
+                });
+
+                fluid.each(aDoc.value.content, function (block, i) {
+                    var requiredBlockValues = [
+                        "order",
+                        "firstInOrder",
+                        "lastInOrder"
+                    ];
+
+                    fluid.each(requiredBlockValues, function (requiredValue) {
+                        if (typeof block[requiredValue] === "undefined") {
+                            invalidStoryReasons.push("Block at position " + i + " does not have the required value " + requiredValue);
+                        }
+                    });
+
+                    if (block.mediaUrl && !block.mediaUrl.startsWith(sjrk.storyUpdate.uploadsDirectoryPrefix)) {
+                        invalidStoryReasons.push("Block at position " + i + ": mediaUrl does not start with " + sjrk.storyUpdate.uploadsDirectoryPrefix);
+                    }
+
+                    // check for obsolete/unused block keys
+                    fluid.each(fluid.filterKeys(block, sjrk.storyUpdate.blockValuesToRemove), function (blockValue, key) {
+                        invalidStoryReasons.push("Block at position " + i + " still has removed value: " + key);
+                    });
+                });
+
+                // check for obsolete/unused story keys
+                fluid.each(fluid.filterKeys(aDoc.value, sjrk.storyUpdate.storyValuesToRemove), function (storyValue, key) {
+                    invalidStoryReasons.push("Story still has removed value: " + key);
+                });
+
+                if (invalidStoryReasons.length > 0) {
+                    fluid.log(fluid.logLevel.WARN, aDoc._id + " is invalid:");
+
+                    fluid.each(invalidStoryReasons, function (reason) {
+                        fluid.log(fluid.logLevel.WARN, "- " + reason);
+                    });
+
+                    invalidDocs.push(aDoc);
+                }
+            }
+        });
+
+        options.invalidDocs = invalidDocs;
+    }
+
+    if (invalidDocs.length > 0) {
+        throw {
+            isError: true,
+            message: "" + invalidDocs.length + " invalid document" + (invalidDocs.length === 1 ? "" : "s") + " detected"
+        };
+    }
+
+    return invalidDocs;
 };
 
 /**
@@ -202,7 +394,8 @@ sjrk.storyUpdate.updateAllStoryData = function () {
     var options = sjrk.storyUpdate.initOptions(process.argv);
     var sequence = [
         sjrk.storyUpdate.retrieveStories,
-        sjrk.storyUpdate.updateDB
+        sjrk.storyUpdate.updateDB,
+        sjrk.storyUpdate.verifyStories
     ];
     fluid.promise.sequence(sequence, options).then(
         function (/*result*/) {
@@ -210,7 +403,9 @@ sjrk.storyUpdate.updateAllStoryData = function () {
             process.exit(0);
         },
         function (error) {
-            fluid.log(error);
+            fluid.log(fluid.logLevel.WARN, "-- -- --");
+            fluid.log(fluid.logLevel.WARN, error);
+            fluid.log(fluid.logLevel.WARN, "-- -- --");
             process.exit(1);
         }
     );
