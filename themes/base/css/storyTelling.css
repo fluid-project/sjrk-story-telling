@@ -551,6 +551,31 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
     font-weight: normal;
 }
 
+.sjrk-st-story-notFound {
+    background-color: var(--site-yellow);
+    max-width: 39.5rem;
+    padding: 1.3125rem 2.3125rem 2.3125rem 1.3125rem;
+}
+
+.sjrk-st-story-notFound .sjrk-st-story-notFound-heading {
+    font-size: 1.375rem;
+    color: #000;
+}
+
+.sjrk-st-story-notFound .sjrk-st-story-notFound-heading:before {
+    content: "\26A0";
+    padding-right: 0.75rem;
+}
+
+.sjrk-st-story-notFound .sjrk-st-story-notFound-content {
+    padding-left: 2.1rem;
+    font-size: 0.875rem;
+}
+
+.sjrk-st-story-notFound .sjrk-st-story-notFound-storyId {
+    display: inline-block;
+}
+
 .sjrk-st-view-separator {
     border: 0;
     border-bottom: 2px dashed;

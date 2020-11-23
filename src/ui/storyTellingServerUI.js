@@ -74,17 +74,11 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
             var storyViewComponent = sjrk.storyTelling[clientConfig.theme].page.storyView(options);
 
             storyPromise.resolve(storyViewComponent);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            storyPromise.reject({
-                isError: true,
-                message: errorThrown
-            });
+        }).fail(function () {
+            sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyID: storyId});
         });
     } else {
-        storyPromise.reject({
-            isError: true,
-            message: "Story not loaded: no story ID provided"
-        });
+        sjrk.storyTelling[clientConfig.theme].page.storyNotFound();
     }
 
     return storyPromise;

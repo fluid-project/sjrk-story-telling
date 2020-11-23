@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     "{storyEditor}.story.model": {
                         func: "{blockManager}.createBlocksFromData",
                         args: ["{change}.value.content"],
-                        includeSource: ["storyAutoload", "storyServerLoad"],
+                        includeSource: ["storyAutoload"],
                         namespace: "loadStoryContentIntoBlockUIs"
                     }
                 },
@@ -202,16 +202,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: ["{that}.options.pageSetup.storyAutosaveKey", "{that}"]
             },
             // Loads the story content into the Editor from local storage
-            loadStoryFromLocalStorage: {
+            loadStoryContent: {
                 changePath: "{storyEditor}.story.model",
                 value: "{arguments}.0",
                 source: "storyAutoload"
-            },
-            // Loads the story content into the Editor from the server
-            loadStoryFromServer: {
-                changePath: "{storyEditor}.story.model",
-                value: "{arguments}.0",
-                source: "storyServerLoad"
             },
             // Creates a new story on the server
             createNewStoryOnServer: {
@@ -386,34 +380,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @param {Component} storyEdit - an instance of `sjrk.storyTelling.base.page.storyEdit`
      */
     sjrk.storyTelling.base.page.storyEdit.initializeStory = function (storyAutosaveKey, storyEdit) {
-        var storyId = sjrk.storyTelling.getParameterByName("id");
-        if (storyId) {
-            // load in from server
-            $.get("/stories/" + storyId, function (data) {
-                // remove database revision
-                delete data._rev;
-                storyEdit.loadStoryFromServer(data);
-            }, "json").fail(function (jqXHR, textStatus, errorThrown) {
-                //TODO: Report error to the user. Waiting on designs.
-                fluid.log(fluid.logLevel.WARN, textStatus, errorThrown, jqXHR);
-            });
-        } else {
-            try {
-                // localStorage can only store string values
-                var savedStoryData = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
 
-                if (savedStoryData) {
-                    // a story was loaded from autosave, update the current story
-                    storyEdit.loadStoryFromLocalStorage(savedStoryData);
-                } else {
-                    // there's no autosaved story, create a new unpublished story
-                    storyEdit.createNewStoryOnServer();
-                }
-            } catch (ex) {
-                fluid.log(fluid.logLevel.WARN, "An error occurred while initializing story", ex);
+        try {
+            /*
+            * load from existing story model if available
+            *
+            * no initalStoryData && no savedStoryData -> create new story
+            * initalStoryData && no savedStoryData -> use initalStoryData
+            * no initialStoryData && savedStoryData -> use savedStoryData
+            * initialStoryData && savedStoryData (different ids) ->use initialStoryData
+            * initialStoryData && savedStoryData (same ids) -> use savedStoryData
+            */
+            var initialStoryData = fluid.get(storyEdit, ["storyEditor", "story", "model"]);
+            var savedStoryData = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
+
+            if (initialStoryData.id && initialStoryData.id !== fluid.get(savedStoryData, "id")) {
+                storyEdit.storyEditor.blockManager.createBlocksFromData(initialStoryData.content);
+            } else if (savedStoryData) {
+                storyEdit.loadStoryContent(savedStoryData);
+            } else {
+                storyEdit.createNewStoryOnServer();
             }
-        };
-
+        } catch (ex) {
+            fluid.log(fluid.logLevel.WARN, "An error occurred while initializing story", ex);
+        }
     };
 
     /**

@@ -39,6 +39,7 @@
     "message_browseThumbAltText": "Story thumbnail",
     "message_browseContainsText": "Contains:",
     "message_editTitleText": "Story Tool",
+    "message_notFoundTitleText": "Story not found",
     "message_viewTitleText": "Stories",
     "message_menu_browseLinkText": "Browse stories",
     "message_menu_storyBuilderText": "Story Builder",
