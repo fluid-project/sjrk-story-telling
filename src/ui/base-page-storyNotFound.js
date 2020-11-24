@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk */
+/* global fluid */
 
 // TODO: Once https://issues.fluidproject.org/browse/SJRK-416 has been completed to make the end points more restful,
 // it may be possible to remove this component and related work. Which is a stop gap for rendering a page indicating
@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // The storyNotFound page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyNotFound", {
         gradeNames: ["sjrk.storyTelling.base.page"],
-        storyID: "unknown",
+        storyId: "",
         components: {
             notFound: {
                 type: "sjrk.storyTelling.ui.storyNotFound",
@@ -28,8 +28,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         },
         distributeOptions: {
-            "storyID": {
-                source: "{that}.options.storyID",
+            "storyId": {
+                source: "{that}.options.storyId",
                 target: "{that notFound templateManager}.options.model.dynamicValues.story.id"
             }
         }

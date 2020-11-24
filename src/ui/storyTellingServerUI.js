@@ -75,7 +75,7 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
 
             storyPromise.resolve(storyViewComponent);
         }).fail(function () {
-            sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyID: storyId});
+            sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyId: storyId});
         });
     } else {
         sjrk.storyTelling[clientConfig.theme].page.storyNotFound();
