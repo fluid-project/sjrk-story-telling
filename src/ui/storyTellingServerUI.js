@@ -75,10 +75,12 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
 
             storyPromise.resolve(storyViewComponent);
         }).fail(function () {
-            sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyId: storyId});
+            var storyNotFoundComponent = sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyId: storyId});
+            storyPromise.reject(storyNotFoundComponent);
         });
     } else {
-        sjrk.storyTelling[clientConfig.theme].page.storyNotFound();
+        var storyNotFoundComponent = sjrk.storyTelling[clientConfig.theme].page.storyNotFound();
+        storyPromise.reject(storyNotFoundComponent);
     }
 
     return storyPromise;
