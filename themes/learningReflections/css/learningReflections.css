@@ -340,7 +340,7 @@ section.sjrk-st-lr-knockout,
 
 .sjrk-st-story-viewer .sjrk-st-lr-padding,
 .sjrk-st-story-editor .sjrk-st-lr-padding,
-.sjrkc-st-story-notFoundNotice .sjrk-st-lr-padding {
+.sjrk-st-story-notFoundNotice .sjrk-st-lr-padding {
     max-width: 765px;
     margin: 0 auto 2rem auto !important;
 }

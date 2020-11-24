@@ -70,6 +70,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
+    // Applies the sojustrepairit shell to the storyNotFound page
+    fluid.defaults("sjrk.storyTelling.sojustrepairit.page.storyNotFound", {
+        gradeNames: ["sjrk.storyTelling.sojustrepairit.page", "sjrk.storyTelling.base.page.storyNotFound"],
+        distributeOptions: {
+            target: "{that > notFound > templateManager}.options.templateConfig.templatePath",
+            record: "%resourcePrefix/templates/sojustrepairit-storyNotFound.handlebars"
+        }
+    });
+
     // Applies the sojustrepairit shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.sojustrepairit.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.sojustrepairit.page", "sjrk.storyTelling.base.page.storyBrowse"],

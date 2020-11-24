@@ -70,6 +70,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
+    // Applies the Cities shell to the storyNotFound page
+    fluid.defaults("sjrk.storyTelling.cities.page.storyNotFound", {
+        gradeNames: ["sjrk.storyTelling.cities.page", "sjrk.storyTelling.base.page.storyNotFound"],
+        distributeOptions: {
+            target: "{that > notFound > templateManager}.options.templateConfig.templatePath",
+            record: "%resourcePrefix/templates/cities-storyNotFound.handlebars"
+        }
+    });
+
     // Applies the Cities shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.cities.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.cities.page", "sjrk.storyTelling.base.page.storyBrowse"],

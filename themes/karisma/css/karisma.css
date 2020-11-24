@@ -111,6 +111,11 @@ textarea {
     border-right: none;
 }
 
+.sjrk-st-story-notFoundNotice .sjrk-st-lr-padding {
+    max-width: 765px;
+    margin: 0 auto 2rem auto !important;
+}
+
 .sjrk-st-browser-story-link {
     background: white;
 }
@@ -142,5 +147,13 @@ textarea {
 
     .sjrk-st-karisma-sidebar {
         display: none;
+    }
+
+    .sjrk-st-story-notFound {
+        max-width: 100%;
+    }
+
+    .sjrk-st-story-notFound .sjrk-st-story-notFound-content {
+        padding-left: 0;
     }
 }
