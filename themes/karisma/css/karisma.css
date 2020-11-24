@@ -149,11 +149,11 @@ textarea {
         display: none;
     }
 
-    .sjrk-st-story-notFound {
+    .sjrk-st-story-notFound-notice {
         max-width: 100%;
     }
 
-    .sjrk-st-story-notFound .sjrk-st-story-notFound-content {
+    .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-content {
         padding-left: 0;
     }
 }

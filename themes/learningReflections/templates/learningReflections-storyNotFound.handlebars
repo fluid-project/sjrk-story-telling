@@ -1,17 +1,17 @@
 <div class="sjrk-st-page-body">
     <section class="sjrk-st-lr-knockout">
-        <h1>{{localizedMessages.message_notFoundTitleText}}</h1>
+        <h1 class="sjrk-st-story-notFound-heading sjrkc-st-story-notFound-heading">{{localizedMessages.message_notFoundTitleText}}</h1>
     </section>
     <section class="sjrk-st-lr-padding">
-        <div lang="{{localizedMessages.language}}" class="sjrk-st-story-notFound">
-            <h2 class="sjrk-st-story-notFound-heading">{{localizedMessages.message_notFoundTitleText}}</h2>
-            <p class="sjrk-st-story-notFound-content">
+        <div lang="{{localizedMessages.language}}" class="sjrk-st-story-notFound-notice sjrkc-st-story-notFound-notice">
+            <h2 class="sjrk-st-story-notFound-notice-heading sjrkc-st-story-notFound-notice-heading">{{localizedMessages.message_notFoundTitleText}}</h2>
+            <p class="sjrk-st-story-notFound-notice-content sjrkc-st-story-notFound-notice-content">
                 {{localizedMessages.message_notFoundIdentifierText}}
-                <strong class="sjrk-st-story-notFound-storyId">
+                <strong class="sjrk-st-story-notFound-notice-storyId sjrkc-st-story-notFound-notice-storyId">
                     {{dynamicValues.story.id}}
                 </strong>
             </p>
-            <p class="sjrk-st-story-notFound-content">{{localizedMessages.message_notFoundReasonText}}</p>
+            <p class="sjrk-st-story-notFound-notice-content sjrkc-st-story-notFound-notice-content">{{localizedMessages.message_notFoundReasonText}}</p>
         </div>
     </section>
 </div>

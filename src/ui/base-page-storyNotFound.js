@@ -21,6 +21,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.defaults("sjrk.storyTelling.base.page.storyNotFound", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         storyId: "",
+        events: {
+            onAllUiComponentsReady: {
+                events: {
+                    onViewerReady: "{notFound}.events.onControlsBound"
+                }
+            }
+        },
         components: {
             notFound: {
                 type: "sjrk.storyTelling.ui.storyNotFound",
