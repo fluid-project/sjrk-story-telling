@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global fluid, jqUnit, sinon, sjrk */
 
 "use strict";
 
@@ -1462,6 +1462,185 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 type: "sjrk.storyTelling.base.page.storyEditTester"
             }
         }
+    });
+
+    // Test sjrk.storyTelling.base.page.storyEdit.initializeStory
+
+        // test cases
+        // - initialModel
+        // - storyAutosaveKey
+        // - storyAutoSave data
+        // - createBlocksFromData called, and with what value
+        // - loadStoryContent called and with what value
+        // - createNewStoryOnServer called
+
+    sjrk.storyTelling.base.page.testStoryEdit.initializeStoryTestCases = {
+        "no initial or saved story": {
+            autoSaveKey: "test-initializeStory",
+            createNewStoryOnServer: true
+        },
+        "initial story": {
+            initialModel: {
+                id: "test-id",
+                content: [{
+                    "blockType": "image",
+                    "mediaUrl": "Rootbeer and Shyguy.jpeg",
+                    "description": "Two cats, maybe even the cutest",
+                    "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                    "firstInOrder": true,
+                    "heading": null,
+                    "id": null,
+                    "language": null,
+                    "lastInOrder": false,
+                    "order": 0
+                }]
+            },
+            autoSaveKey: "test-initializeStory",
+            createBlocksFromData: "initialModel.content"
+        },
+        "saved story": {
+            savedStory: {
+                id: "test-id",
+                content: [{
+                    "blockType": "image",
+                    "mediaUrl": "Rootbeer and Shyguy.jpeg",
+                    "description": "Two cats, maybe even the cutest",
+                    "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                    "firstInOrder": true,
+                    "heading": null,
+                    "id": null,
+                    "language": null,
+                    "lastInOrder": false,
+                    "order": 0
+                }]},
+            autoSaveKey: "test-initializeStory",
+            loadStoryContent: "savedStory"
+        },
+        "initial and saved story - same ids": {
+            initialModel: {
+                id: "test-id",
+                content: [{
+                    "blockType": "image",
+                    "mediaUrl": "Rootbeer and Shyguy.jpeg",
+                    "description": "Two cats, maybe even the cutest",
+                    "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                    "firstInOrder": true,
+                    "heading": null,
+                    "id": null,
+                    "language": null,
+                    "lastInOrder": false,
+                    "order": 0
+                }]
+            },
+            savedStory: {
+                id: "test-id",
+                content: [{
+                    "blockType": "video",
+                    "mediaUrl": "Feeding Time.mp4",
+                    "description": "A video of two cats eagerly awaiting delicious food",
+                    "alternativeText": "Two cats looking into the camera lens",
+                    "firstInOrder": false,
+                    "heading": null,
+                    "id": null,
+                    "language": null,
+                    "lastInOrder": true,
+                    "order": 0
+                }]
+            },
+            autoSaveKey: "test-initializeStory",
+            loadStoryContent: "savedStory"
+        },
+        "initial and saved story - different ids": {
+            initialModel: {
+                id: "test-id-1",
+                content: [{
+                    "blockType": "image",
+                    "mediaUrl": "Rootbeer and Shyguy.jpeg",
+                    "description": "Two cats, maybe even the cutest",
+                    "alternativeText": "Two brown/grey Mackerel Tabbies with Bengal spots",
+                    "firstInOrder": true,
+                    "heading": null,
+                    "id": null,
+                    "language": null,
+                    "lastInOrder": false,
+                    "order": 0
+                }]
+            },
+            savedStory: {
+                id: "test-id-2",
+                content: [{
+                    "blockType": "video",
+                    "mediaUrl": "Feeding Time.mp4",
+                    "description": "A video of two cats eagerly awaiting delicious food",
+                    "alternativeText": "Two cats looking into the camera lens",
+                    "firstInOrder": false,
+                    "heading": null,
+                    "id": null,
+                    "language": null,
+                    "lastInOrder": true,
+                    "order": 0
+                }]
+            },
+            autoSaveKey: "test-initializeStory",
+            createBlocksFromData: "initialModel.content"
+        }
+    };
+
+    /*
+    * load from existing story model if available
+    *
+    * no initalStoryData && no savedStoryData -> create new story
+    * initalStoryData && no savedStoryData -> use initalStoryData
+    * no initialStoryData && savedStoryData -> use savedStoryData
+    * initialStoryData && savedStoryData (different ids) ->use initialStoryData
+    * initialStoryData && savedStoryData (same ids) -> use savedStoryData
+    */
+    jqUnit.test("sjrk.storyTelling.base.page.storyEdit.initializeStory tests", function () {
+        var sandbox = sinon.createSandbox();
+        var mockStoryEdit = {};
+
+        fluid.set(mockStoryEdit, ["storyEditor", "blockManager", "createBlocksFromData"], sandbox.stub());
+        mockStoryEdit.loadStoryContent = sandbox.stub();
+        mockStoryEdit.createNewStoryOnServer = sandbox.stub();
+        // set fake localStorage
+
+        fluid.each(sjrk.storyTelling.base.page.testStoryEdit.initializeStoryTestCases, function (testCase, testName) {
+            // setup
+            fluid.set(mockStoryEdit, ["storyEditor", "story", "model"], testCase.initialModel || {});
+            if (testCase.savedStory) {
+                localStorage.setItem(testCase.autoSaveKey, JSON.stringify(testCase.savedStory));
+            }
+
+            // tests
+            sjrk.storyTelling.base.page.storyEdit.initializeStory(testCase.autoSaveKey, mockStoryEdit);
+
+            if (testCase.createBlocksFromData) {
+                var isCreateBlocksFromDataCalled = mockStoryEdit.storyEditor.blockManager.createBlocksFromData.calledOnceWithExactly(fluid.get(testCase, testCase.createBlocksFromData));
+                jqUnit.assertTrue(testName + ": createBlocksFromData called with the initial content.", isCreateBlocksFromDataCalled);
+            } else {
+                jqUnit.assertTrue(testName + ": createBlocksFromData not called", mockStoryEdit.storyEditor.blockManager.createBlocksFromData.notCalled);
+            }
+
+            if (testCase.loadStoryContent) {
+                var isLoadStoryContentCalled = mockStoryEdit.loadStoryContent.calledOnceWithExactly(fluid.get(testCase, testCase.loadStoryContent));
+                jqUnit.assertTrue(testName + ": loadStoryContent called with the correct arguments.", isLoadStoryContentCalled);
+            } else {
+                jqUnit.assertTrue(testName + ": loadStoryContent not called", mockStoryEdit.loadStoryContent.notCalled);
+            }
+
+            if (testCase.createNewStoryOnServer) {
+                jqUnit.assertTrue(testName + ": createNewStoryOnServer called.", mockStoryEdit.createNewStoryOnServer.calledOnce);
+            } else {
+                jqUnit.assertTrue(testName + ": createNewStoryOnServer not called", mockStoryEdit.createNewStoryOnServer.notCalled);
+            }
+
+            // teardown
+            sandbox.reset();
+            localStorage.removeItem(testCase.autoSaveKey);
+            delete mockStoryEdit.storyEditor.story.model;
+        });
+
+        sandbox.restore();
     });
 
     $(document).ready(function () {
