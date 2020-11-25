@@ -614,18 +614,25 @@ sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUti
         var promise = expressUserUtils.createNewUser({
             username: request.req.body.username,
             email: request.req.body.email,
+            confirm: request.req.body.confirm,
             password: request.req.body.password,
             authorID: uuidv4()
         });
 
         promise.then(function (record) {
             request.req.session.authorID = record.authorID;
-            request.events.onSuccess.fire("success");
+            request.events.onSuccess.fire();
         }, function (error) {
-            request.events.onError.fire(error);
+            request.events.onError.fire({
+                statusCode: 409,
+                message: "Unable to create account."
+            });
         });
     } else {
-        request.events.onError.fire({message: "User already logged in"});
+        request.events.onError.fire({
+            statusCode: 409,
+            message: "Already logged in."
+        });
     }
 
 
@@ -653,9 +660,11 @@ sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtil
 
     promise.then(function (record) {
         request.req.session.authorID = record.authorID;
-        request.events.onSuccess.fire("success");
+        request.events.onSuccess.fire();
     }, function (error) {
-        request.events.onError.fire(error);
+        request.events.onError.fire({
+            statusCode: 401
+        });
     });
 };
 
