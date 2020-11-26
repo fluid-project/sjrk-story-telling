@@ -24,11 +24,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         events: {
             onAllUiComponentsReady: {
                 events: {
-                    onViewerReady: "{notFound}.events.onControlsBound"
+                    onNotFoundNoticeReady: "{notFound}.events.onControlsBound"
                 }
             }
         },
         components: {
+            // error message interface
             notFound: {
                 type: "sjrk.storyTelling.ui.storyNotFound",
                 container: ".sjrkc-st-story-notFoundNotice"

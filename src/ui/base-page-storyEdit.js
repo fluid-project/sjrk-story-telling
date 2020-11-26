@@ -262,7 +262,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "video": ["mediaUrl"]
         },
         components: {
-            // manaages browser history for in-page forward-back support
+            // manages browser history for in-page forward-back support
             historian: {
                 type: "fluid.locationBar",
                 options: {
