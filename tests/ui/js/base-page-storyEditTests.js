@@ -1592,7 +1592,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     * no initalStoryData && no savedStoryData -> create new story
     * initalStoryData && no savedStoryData -> use initalStoryData
     * no initialStoryData && savedStoryData -> use savedStoryData
-    * initialStoryData && savedStoryData (different ids) ->use initialStoryData
+    * initialStoryData && savedStoryData (different ids) -> use initialStoryData
     * initialStoryData && savedStoryData (same ids) -> use savedStoryData
     */
     jqUnit.test("sjrk.storyTelling.base.page.storyEdit.initializeStory tests", function () {

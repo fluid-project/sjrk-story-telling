@@ -370,8 +370,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     };
 
     /**
-     * Loads an existing story from the server if a story id provide as a query
-     * paramter. Otherwise loads story content from a given key in the browser's
+     * Loads an existing story from the server if a story id is provided as a query
+     * parameter. Otherwise loads story content from a given key in the browser's
      * localStorage object. If a story was successfully loaded, then the current
      * story is updated with this previously-saved data. If no story is loaded,
      * then a new one is saved to the server.
@@ -388,7 +388,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             * no initalStoryData && no savedStoryData -> create new story
             * initalStoryData && no savedStoryData -> use initalStoryData
             * no initialStoryData && savedStoryData -> use savedStoryData
-            * initialStoryData && savedStoryData (different ids) ->use initialStoryData
+            * initialStoryData && savedStoryData (different ids) -> use initialStoryData
             * initialStoryData && savedStoryData (same ids) -> use savedStoryData
             */
             var initialStoryData = fluid.get(storyEdit, ["storyEditor", "story", "model"]);

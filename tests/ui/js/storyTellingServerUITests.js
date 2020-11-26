@@ -81,7 +81,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         },
         retrievedStory: "{}",
-        // retrievedStory: "{\"title\":\"test story\"}",
         members: {
             clientConfig: {
                 theme: "customTheme",
