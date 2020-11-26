@@ -40,6 +40,7 @@
     "message_browseContainsText": "Contains:",
     "message_editTitleText": "Story Tool",
     "message_notFoundIdentifierText": "No story could be found with the id",
+    "message_notFoundNoIdentifierText": "No story id provided",
     "message_notFoundReasonText": "This story may have been deleted, or your id may be incorrect.",
     "message_notFoundTitleText": "Story not found",
     "message_viewTitleText": "Stories",

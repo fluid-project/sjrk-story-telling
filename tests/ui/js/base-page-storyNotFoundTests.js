@@ -55,13 +55,54 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.storyNotFoundTest", {
         gradeNames: ["fluid.test.testEnvironment"],
+        markupFixture: ".sjrkc-st-markupFixture",
         components: {
             storyNotFound: {
                 type: "sjrk.storyTelling.base.page.testStoryNotFound",
                 createOnEvent: "{storyNotFoundTester}.events.onTestCaseStart"
             },
             storyNotFoundTester: {
-                type: "sjrk.storyTelling.base.page.storyNotFoundTester"
+                type: "sjrk.storyTelling.base.page.storyNotFoundTester",
+                options: {
+                    testOpts: {
+                        expectedMessages: {
+                            title: "Story not found",
+                            heading: "Story not found",
+                            storyId: "test-id",
+                            content: [
+                                "No story could be found with the id test-id",
+                                "This story may have been deleted, or your id may be incorrect."
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Test environment - no id provided
+    fluid.defaults("sjrk.storyTelling.base.page.storyNotFoundNoIdTest", {
+        gradeNames: ["fluid.test.testEnvironment"],
+        markupFixture: ".sjrkc-st-markupFixture",
+        components: {
+            storyNotFound: {
+                type: "sjrk.storyTelling.base.page.testStoryNotFound",
+                createOnEvent: "{storyNotFoundTester}.events.onTestCaseStart",
+                options: {
+                    storyId: ""
+                }
+            },
+            storyNotFoundTester: {
+                type: "sjrk.storyTelling.base.page.storyNotFoundTester",
+                options: {
+                    testOpts: {
+                        expectedMessages: {
+                            title: "Story not found",
+                            heading: "Story not found",
+                            content: "No story id provided"
+                        }
+                    }
+                }
             }
         }
     });
@@ -69,24 +110,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // Main test sequences for the Edit page
     fluid.defaults("sjrk.storyTelling.base.page.storyNotFoundTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
-        testOpts: {
-            expectedMessages: {
-                title: "Story not found",
-                heading: "Story not found",
-                storyId: "test-id",
-                content: [
-                    "No story could be found with the id test-id",
-                    "This story may have been deleted, or your id may be incorrect."
-                ]
-            }
-        },
         modules: [{
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 5,
                 sequence: [{
-                    event: "{storyNotFoundTest > sjrk.storyTelling.base.page.testStoryNotFound}.events.onAllUiComponentsReady",
+                    event: "{testEnvironment > sjrk.storyTelling.base.page.testStoryNotFound}.events.onAllUiComponentsReady",
                     listener: "sjrk.storyTelling.base.page.storyNotFoundTester.assertRendering",
                     args: ["{storyNotFound}.notFound", "{that}.options.testOpts.expectedMessages"]
                 }]
@@ -131,7 +160,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.base.page.storyNotFoundTest"
+            "sjrk.storyTelling.base.page.storyNotFoundTest",
+            "sjrk.storyTelling.base.page.storyNotFoundNoIdTest"
         ]);
     });
 

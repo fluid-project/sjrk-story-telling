@@ -5,6 +5,7 @@
     <section class="sjrk-st-lr-padding">
         <div lang="{{localizedMessages.language}}" class="sjrk-st-story-notFound-notice sjrkc-st-story-notFound-notice">
             <h2 class="sjrk-st-story-notFound-notice-heading sjrkc-st-story-notFound-notice-heading">{{localizedMessages.message_notFoundTitleText}}</h2>
+            {{#if dynamicValues.story.id}}
             <p class="sjrk-st-story-notFound-notice-content sjrkc-st-story-notFound-notice-content">
                 {{localizedMessages.message_notFoundIdentifierText}}
                 <strong class="sjrk-st-story-notFound-notice-storyId sjrkc-st-story-notFound-notice-storyId">
@@ -12,6 +13,9 @@
                 </strong>
             </p>
             <p class="sjrk-st-story-notFound-notice-content sjrkc-st-story-notFound-notice-content">{{localizedMessages.message_notFoundReasonText}}</p>
+            {{else}}
+            <p class="sjrk-st-story-notFound-notice-content sjrkc-st-story-notFound-notice-content">{{localizedMessages.message_notFoundNoIdentifierText}}</p>
+            {{/if}}
         </div>
     </section>
 </div>
