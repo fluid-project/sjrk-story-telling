@@ -16,7 +16,6 @@ var fluid = require("infusion"),
     MemoryStore = require('memorystore')(kettle.npm.expressSession);
 
 require("fluid-express-user");
-var { v1: uuidv1 } = require("uuid");
 
 // The main Kettle server configuration grade
 fluid.defaults("sjrk.storyTelling.server", {
@@ -212,6 +211,14 @@ fluid.defaults("sjrk.storyTelling.server", {
 // the Kettle app
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     gradeNames: ["kettle.app"],
+    components: {
+        loginValidator: {
+            type: "sjrk.storyTelling.server.loginValidator"
+        },
+        signupValidator: {
+            type: "sjrk.storyTelling.server.signupValidator"
+        }
+    },
     requestHandlers: {
         browseStoriesHandler: {
             type: "sjrk.storyTelling.server.browseStoriesHandler",

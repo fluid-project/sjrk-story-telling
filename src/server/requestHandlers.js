@@ -595,6 +595,11 @@ fluid.defaults("sjrk.storyTelling.server.nodeModulesHandler", {
 
 fluid.defaults("sjrk.storyTelling.server.signupHandler", {
     gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    requestMiddleware: {
+        validate: {
+            middleware: "{sjrk.storyTelling.server.signupValidator}"
+        }
+    },
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSignupRequest",
@@ -611,35 +616,45 @@ fluid.defaults("sjrk.storyTelling.server.signupHandler", {
  */
 sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUtils) {
     if (!request.req.session.authorID) {
-        var promise = expressUserUtils.createNewUser({
-            username: request.req.body.username,
-            email: request.req.body.email,
-            confirm: request.req.body.confirm,
-            password: request.req.body.password,
-            authorID: uuidv4()
-        });
 
-        promise.then(function (record) {
-            request.req.session.authorID = record.authorID;
-            request.events.onSuccess.fire();
-        }, function (error) {
+        if (request.req.body.password !== request.req.body.confirm) {
             request.events.onError.fire({
-                statusCode: 409,
-                message: "Unable to create account."
+                statusCode: 400,
+                message: "The password and confirmation password do not match."
             });
-        });
+        } else {
+            var promise = expressUserUtils.createNewUser({
+                username: request.req.body.username,
+                email: request.req.body.email,
+                password: request.req.body.password,
+                authorID: uuidv4()
+            });
+
+            promise.then(function (record) {
+                request.req.session.authorID = record.authorID;
+                request.events.onSuccess.fire();
+            }, function (error) {
+                request.events.onError.fire({
+                    statusCode: 409,
+                    message: "Unable to create account."
+                });
+            });
+        }
     } else {
         request.events.onError.fire({
             statusCode: 409,
             message: "Already logged in."
         });
     }
-
-
 };
 
 fluid.defaults("sjrk.storyTelling.server.loginHandler", {
     gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    requestMiddleware: {
+        validate: {
+            middleware: "{sjrk.storyTelling.server.loginValidator}"
+        }
+    },
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleLoginRequest",
@@ -655,7 +670,6 @@ fluid.defaults("sjrk.storyTelling.server.loginHandler", {
  * @param {fluid.express.user.utils} - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtils) {
-    console.log(request.req.body.username, request.req.body.password);
     var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
 
     promise.then(function (record) {
