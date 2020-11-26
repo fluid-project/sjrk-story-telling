@@ -75,6 +75,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }]
     });
 
+    // Applies the AIHEC shell to the storyNotFound page
+    fluid.defaults("sjrk.storyTelling.aihec.page.storyNotFound", {
+        gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyNotFound"]
+    });
+
     // Applies the AIHEC shell to the storyBrowse page
     fluid.defaults("sjrk.storyTelling.aihec.page.storyBrowse", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyBrowse"],

@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, jqUnit, sjrk */
+/* global fluid, jqUnit, sinon, sjrk */
 
 "use strict";
 
@@ -80,12 +80,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 authoringEnabled: true
             }
         },
+        retrievedStory: "{}",
         members: {
             clientConfig: {
                 theme: "customTheme",
                 baseTheme: "base",
                 authoringEnabled: true
-            }
+            },
+            sandbox: null
         },
         modules: [{
             name: "Test Storytelling Server UI code",
@@ -122,9 +124,177 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },{
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 }]
+            }, {
+                name: "Test loadStoryFromParameter with mock values",
+                expect: 9,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [
+                        {
+                            url: "/stories/test-id",
+                            contentType: "text/strings",
+                            response: ""
+                        }
+                    ]
+                }, {
+                    // test storyView triggered
+                    funcName: "fluid.set",
+                    args: ["{that}", "sandbox", {
+                        expander: {
+                            funcName: "sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox",
+                            args: ["base", "storyView", "test-id"]
+                        }
+                    }]
+                }, {
+                    task: "sjrk.storyTelling.loadStoryFromParameter",
+                    args: ["{that}.options.baseTestCase.clientConfig"],
+                    resolve: "sjrk.storyTelling.storyTellingServerUiTester.assertStoryLoaded",
+                    resolveArgs: ["base", "storyView"]
+                }, {
+                    // clean up
+                    func: "{that}.sandbox.restore"
+                }, {
+                    // test storyNotFound triggered due to missing story id
+                    funcName: "fluid.set",
+                    args: ["{that}", "sandbox", {
+                        expander: {
+                            funcName: "sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox",
+                            args: ["base", "storyView", null]
+                        }
+                    }]
+                }, {
+                    task: "sjrk.storyTelling.loadStoryFromParameter",
+                    args: ["{that}.options.baseTestCase.clientConfig"],
+                    reject: "sjrk.storyTelling.storyTellingServerUiTester.assertStoryNotFound",
+                    rejectArgs: ["base", "storyView"]
+                }, {
+                    // clean up
+                    func: "{that}.sandbox.restore"
+                }, {
+                    // test story not found due to ajax request failure
+                    funcName: "fluid.set",
+                    args: ["{that}", "sandbox", {
+                        expander: {
+                            funcName: "sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox",
+                            args: ["base", "storyView", "test-missing-id"]
+                        }
+                    }]
+                }, {
+                    task: "sjrk.storyTelling.loadStoryFromParameter",
+                    args: ["{that}.options.baseTestCase.clientConfig"],
+                    reject: "sjrk.storyTelling.storyTellingServerUiTester.assertStoryNotFound",
+                    rejectArgs: ["base", "storyView"]
+                }, {
+                    // clean up
+                    func: "{that}.sandbox.restore"
+                }, {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                }]
+            }, {
+                name: "Test loadStoryEditWithParameter with mock values",
+                expect: 9,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [
+                        {
+                            url: "/stories/test-id",
+                            contentType: "text/strings",
+                            response: ""
+                        }
+                    ]
+                }, {
+                    // test storyEdit triggered
+                    funcName: "fluid.set",
+                    args: ["{that}", "sandbox", {
+                        expander: {
+                            funcName: "sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox",
+                            args: ["base", "storyEdit", "test-id"]
+                        }
+                    }]
+                }, {
+                    task: "sjrk.storyTelling.loadStoryEditWithParameter",
+                    args: ["{that}.options.baseTestCase.clientConfig"],
+                    resolve: "sjrk.storyTelling.storyTellingServerUiTester.assertStoryLoaded",
+                    resolveArgs: ["base", "storyEdit"]
+                }, {
+                    // clean up
+                    func: "{that}.sandbox.restore"
+                }, {
+                    // test storyEdit triggered without story id
+                    funcName: "fluid.set",
+                    args: ["{that}", "sandbox", {
+                        expander: {
+                            funcName: "sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox",
+                            args: ["base", "storyEdit", null]
+                        }
+                    }]
+                }, {
+                    task: "sjrk.storyTelling.loadStoryEditWithParameter",
+                    args: ["{that}.options.baseTestCase.clientConfig"],
+                    resolve: "sjrk.storyTelling.storyTellingServerUiTester.assertStoryLoaded",
+                    resolveArgs: ["base", "storyEdit"]
+                }, {
+                    // clean up
+                    func: "{that}.sandbox.restore"
+                }, {
+                    // test story not found due to ajax request failure
+                    funcName: "fluid.set",
+                    args: ["{that}", "sandbox", {
+                        expander: {
+                            funcName: "sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox",
+                            args: ["base", "storyEdit", "test-missing-id"]
+                        }
+                    }]
+                }, {
+                    task: "sjrk.storyTelling.loadStoryEditWithParameter",
+                    args: ["{that}.options.baseTestCase.clientConfig"],
+                    reject: "sjrk.storyTelling.storyTellingServerUiTester.assertStoryNotFound",
+                    rejectArgs: ["base", "storyEdit"]
+                }, {
+                    // clean up
+                    func: "{that}.sandbox.restore"
+                }, {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                }]
             }]
         }]
     });
+
+    sjrk.storyTelling.storyTellingServerUiTester.loadStoryFromParameterSandbox = function (theme, viewName, storyId) {
+        var sandbox = sinon.createSandbox();
+
+        // stub sjrk.storyTelling.getParameterByName
+        sandbox.stub(sjrk.storyTelling, "getParameterByName");
+        sjrk.storyTelling.getParameterByName.returns(storyId);
+
+        fluid.registerNamespace("sjrk.storyTelling" + theme + ".page");
+        var page = sjrk.storyTelling[theme].page;
+
+        // stub storyView
+        page[viewName] = sandbox.stub();
+        page[viewName].returns({});
+
+        // stub storyNotFound
+        page.storyNotFound = sandbox.stub();
+        page.storyNotFound.returns({});
+
+        return sandbox;
+    };
+
+    // asser that story loaded
+    sjrk.storyTelling.storyTellingServerUiTester.assertStoryLoaded = function (theme, viewName) {
+        jqUnit.assertTrue("sjrk.storyTelling.getParameterByName was called once", sjrk.storyTelling.getParameterByName.calledOnce);
+        jqUnit.assertTrue("sjrk.storyTelling" + theme + ".page." + viewName + " was called once", sjrk.storyTelling[theme].page[viewName].calledOnce);
+        jqUnit.assertTrue("sjrk.storyTelling" + theme + ".page.storyNotFound was not called", sjrk.storyTelling[theme].page.storyNotFound.notCalled);
+    };
+
+    // asssert story not found
+    sjrk.storyTelling.storyTellingServerUiTester.assertStoryNotFound = function (theme, viewName) {
+        jqUnit.assertTrue("sjrk.storyTelling.getParameterByName was called once", sjrk.storyTelling.getParameterByName.calledOnce);
+        jqUnit.assertTrue("sjrk.storyTelling" + theme + ".page." + viewName + " was not called", sjrk.storyTelling[theme].page[viewName].notCalled);
+        jqUnit.assertTrue("sjrk.storyTelling" + theme + ".page.storyNotFound was called once", sjrk.storyTelling[theme].page.storyNotFound.calledOnce);
+    };
+
 
     /**
      * A collection of client configuration settings
