@@ -94,10 +94,27 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }]
     });
 
+    /**
+     * Removes whitespace from the ends, and collapses interior whitespace down to a single " ". This is needed when
+     * comparing a reference string to text pulled from the DOM; which may contain the formatting whitespace characters
+     * used in the markup.
+     *
+     * @param {String} str - the string for which the whitespace shoudl be collapsed
+     * @return {String} - a new string with the whitespace collapsed
+     */
     sjrk.storyTelling.base.page.storyNotFoundTester.collapseText = function (str) {
         return str.trim().replace(/\s+/g, " ");
     };
 
+    /**
+     * Asserts that the expected messages have been rendered into the associated selectors for the provided component.
+     *
+     * @param {sjrk.storyTelling.ui.storyNotFound} that - an instance of `sjrk.storyTelling.ui.storyNotFound`
+     * @param {Object} expectedMessages - key/value pairs where the key matches a selector name, and the value is the
+     *                                    expected text associated with that selector. If the value is an array it is
+     *                                    iterated over and expected to match a similar array of elements retrieved from
+     *                                    the associated selector.
+     */
     sjrk.storyTelling.base.page.storyNotFoundTester.assertRendering = function (that, expectedMessages) {
         fluid.each(expectedMessages, function (expectedMessage, key) {
             if (typeof(expectedMessage) === "string") {
