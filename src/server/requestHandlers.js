@@ -194,10 +194,6 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
     requestMiddleware: {
         saveStoryFile: {
             middleware: "{server}.saveStoryFile"
-        },
-        deleteFile: {
-            middleware: "{server}.deleteFile",
-            priority: "after:saveStoryFile"
         }
     },
     invokers: {
@@ -215,7 +211,6 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
  * Errors will be raised in the following situations:
  * - Authoring is not enabled
  * - An error is encountered while trying to get the story (invalid ID, DB offline, etc.)
- * - The story that the file is associated with is already published
  * - The provided file is not valid
  * - An error is encountered while rotating an image to its correct orientation
  *
@@ -235,9 +230,9 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
 
     var id = request.req.params.id;
 
-    dataSource.get({directStoryId: id}).then(function (story) {
-        // verify that the story isn't published and there is a file to save before continuing
-        if (!story.published && request.req.file) {
+    dataSource.get({directStoryId: id}).then(function () {
+        // verify there is a file to save before continuing
+        if (request.req.file) {
             // if the file is an image, attmept to rotate it based on its EXIF data
             if (request.req.file.mimetype &&
                 request.req.file.mimetype.indexOf("image") === 0) {
@@ -257,7 +252,7 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
         } else {
             request.events.onError.fire({
                 isError: true,
-                message: "Error saving file: file was not provided or story is already published"
+                message: "Error saving file: file was not provided"
             });
         }
     }, function (err) {
