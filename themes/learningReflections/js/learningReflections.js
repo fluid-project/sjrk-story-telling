@@ -103,11 +103,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // Applies the Learning Reflections shell to the storyNotFound page
     fluid.defaults("sjrk.storyTelling.learningReflections.page.storyNotFound", {
-        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyNotFound"],
-        distributeOptions: {
-            target: "{that > notFound > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/learningReflections-storyNotFound.handlebars"
-        }
+        gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyNotFound"]
     });
 
     fluid.defaults("sjrk.storyTelling.learningReflections.page.introduction", {
