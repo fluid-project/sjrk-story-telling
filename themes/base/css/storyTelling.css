@@ -551,6 +551,32 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
     font-weight: normal;
 }
 
+.sjrk-st-story-notFound-notice {
+    background-color: var(--site-yellow);
+    border: 1px solid transparent;
+    max-width: 39.5rem;
+    padding: 1.3125rem 2.3125rem 2.3125rem 1.3125rem;
+}
+
+.sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading {
+    font-size: 1.375rem;
+    color: #000;
+    padding-left: 2rem;
+    background-image: url("../img/icons/Warning.svg");
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 1em;
+}
+
+.sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-content {
+    padding-left: 2.1rem;
+    font-size: 0.875rem;
+}
+
+.sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-storyId {
+    display: inline-block;
+}
+
 .sjrk-st-view-separator {
     border: 0;
     border-bottom: 2px dashed;
@@ -752,6 +778,15 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 .fl-theme-gw .sjrk-st-reorderer-move-down { background-image: url("../img/icons/block_down_grey_dark.svg"); }
 .fl-theme-gd .sjrk-st-reorderer-move-down { background-image: url("../img/icons/block_down_grey.svg"); }
 .fl-theme-bbr .sjrk-st-reorderer-move-down { background-image: url("../img/icons/block_down_black.svg"); }
+
+.fl-theme-bw .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_black.svg"); }
+.fl-theme-wb .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_white.svg"); }
+.fl-theme-by .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_black.svg"); }
+.fl-theme-yb .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_yellow.svg"); }
+.fl-theme-lgdg .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_grey_light.svg"); }
+.fl-theme-gw .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_grey_dark.svg"); }
+.fl-theme-gd .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_grey.svg"); }
+.fl-theme-bbr .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-heading { background-image: url("../img/icons/Warning_black.svg"); }
 
 body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-down:disabled,
 body:not(.fl-theme-prefsEditor-default) .sjrk-st-reorderer-move-up:disabled {

@@ -196,12 +196,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
                 args: ["{that}.options.pageSetup.storyAutosaveKey"]
             },
-            // Loads a from localStorage if present, otherwise creates a new one
+            // Loads a story if present, otherwise creates a new one
             initializeStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
                 args: ["{that}.options.pageSetup.storyAutosaveKey", "{that}"]
             },
-            // Loads the story content into the Editor
+            // Loads the story content into the Editor from local storage
             loadStoryContent: {
                 changePath: "{storyEditor}.story.model",
                 value: "{arguments}.0",
@@ -262,7 +262,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "video": ["mediaUrl"]
         },
         components: {
-            // manaages browser history for in-page forward-back support
+            // manages browser history for in-page forward-back support
             historian: {
                 type: "fluid.locationBar",
                 options: {
@@ -370,24 +370,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     };
 
     /**
-     * Loads story content from a given key in the browser's localStorage object.
-     * If a story was successfully loaded, then the current story is updated with
-     * this previously-saved data. If no story is loaded, then a new one is saved
-     * to the server.
+     * Loads an existing story from the server if a story id is provided as a query
+     * parameter. Otherwise loads story content from a given key in the browser's
+     * localStorage object. If a story was successfully loaded, then the current
+     * story is updated with this previously-saved data. If no story is loaded,
+     * then a new one is saved to the server.
      *
      * @param {String} storyAutosaveKey - the key to load the story content from
      * @param {Component} storyEdit - an instance of `sjrk.storyTelling.base.page.storyEdit`
      */
     sjrk.storyTelling.base.page.storyEdit.initializeStory = function (storyAutosaveKey, storyEdit) {
+
         try {
-            // localStorage can only store string values
+            /*
+            * load from existing story model if available
+            *
+            * no initalStoryData && no savedStoryData -> create new story
+            * initalStoryData && no savedStoryData -> use initalStoryData
+            * no initialStoryData && savedStoryData -> use savedStoryData
+            * initialStoryData && savedStoryData (different ids) -> use initialStoryData
+            * initialStoryData && savedStoryData (same ids) -> use savedStoryData
+            */
+            var initialStoryData = fluid.get(storyEdit, ["storyEditor", "story", "model"]);
             var savedStoryData = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
 
-            if (savedStoryData) {
-                // a story was loaded from autosave, update the current story
+            if (initialStoryData.id && initialStoryData.id !== fluid.get(savedStoryData, "id")) {
+                storyEdit.storyEditor.blockManager.createBlocksFromData(initialStoryData.content);
+            } else if (savedStoryData) {
                 storyEdit.loadStoryContent(savedStoryData);
             } else {
-                // there's no autosaved story, create a new unpublished story
                 storyEdit.createNewStoryOnServer();
             }
         } catch (ex) {

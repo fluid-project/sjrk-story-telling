@@ -19,7 +19,6 @@ var fluid = require("infusion"),
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
-require("../../src/server/middleware/deleteFile");
 require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
@@ -64,35 +63,7 @@ var testStoryModelPrePublish = {
     "published": false
 };
 
-var testStoryModelPostPublish = {
-    "id": "testStoryModel-ID",
-    "title": "History of the Fluid Project",
-    "content": [
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "blockType": "image",
-            "mediaUrl": "logo_small_fluid_vertical.png",
-            "alternativeText": "Fluid",
-            "description": "The Fluid Project logo"
-        },
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "blockType": "text",
-            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007."
-        }
-    ],
-    "author": "Alan Harnum",
-    "language": "",
-    "tags": [
-        "fluidproject",
-        "history"
-    ],
-    "published": true
-};
+var testStoryModelPostPublish = fluid.merge("replace", testStoryModelPrePublish, {"published": true});
 
 // a story with no content
 var blankStory = {
@@ -107,16 +78,10 @@ var blankStory = {
 };
 
 // an unpublished story with no content
-var unpublishedStory = {
+var unpublishedStory = fluid.merge("replace", testStoryModelPrePublish, {
     "id": "unpublishedStory-ID",
-    "title": "",
-    "content": [],
-    "author": "",
-    "tags": [
-        ""
-    ],
     "published": false
-};
+});
 
 // a story consisting only of empty blocks
 var blankStoryWithEmptyMediaBlocks = {
@@ -193,7 +158,7 @@ var testStoryWithImages = {
 // server definitions to test file and database operations on the server
 sjrk.storyTelling.server.testServerWithStorageDefs = [{
     name: "Test server with storage",
-    expect: 89,
+    expect: 99,
     port: 8082,
     events: {
         // Receives no arguments
@@ -221,6 +186,15 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     testUploadOptions: {
         testPNGFile: "./tests/testData/logo_small_fluid_vertical.png",
+        testPNGFileHeaders: {
+            "content-type": "image/png",
+            "content-length": "3719"
+        },
+        testJPGFile: "./tests/testData/obliterationroom.jpg",
+        testJPGFileHeaders: {
+            "content-type": "image/jpeg",
+            "content-length": "1583244"
+        },
         testImageWithCorrectOrientation: "./tests/testData/correctOrientation.jpg",
         testImageWithIncorrectOrientation: "./tests/testData/incorrectOrientation.jpeg",
         testDirectory: "./tests/server/uploads/",
@@ -250,27 +224,29 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                 method: "POST"
             }
         },
+        storySaveRepublish: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/stories",
+                method: "POST"
+            }
+        },
         getSavedStory: {
             type: "kettle.test.request.http",
             options: {
-                path: "/stories/%id",
-                termMap: {
-                    // We don't know this until the story is saved, so needs
-                    // to be filled in at runtime
-                    id: null
-                }
+                path: "/stories/%id"
+            }
+        },
+        getRepublishedStory: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/stories/%id"
             }
         },
         getUploadedImage: {
             type: "kettle.test.request.http",
             options: {
-                path: "/%handlerPath/%imageFilename",
-                termMap: {
-                    // We don't know this until after story is saved, so needs
-                    // to be filled in at runtime
-                    imageFilename: null,
-                    handlerPath: null
-                }
+                path: "/%handlerPath/%imageFilename"
             }
         },
         blankStorySave: {
@@ -283,12 +259,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         getSavedBlankStory: {
             type: "kettle.test.request.http",
             options: {
-                path: "/stories/%id",
-                termMap: {
-                    // We don't know this until the story is saved, so needs
-                    // to be filled in at runtime
-                    id: null
-                }
+                path: "/stories/%id"
             }
         },
         unpublishedStorySave: {
@@ -314,12 +285,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         getSavedBlankStoryWithEmptyMediaBlocks: {
             type: "kettle.test.request.http",
             options: {
-                path: "/stories/%id",
-                termMap: {
-                    // We don't know this until the story is saved, so needs
-                    // to be filled in at runtime
-                    id: null
-                }
+                path: "/stories/%id"
             }
         },
         storyWithImagesSave: {
@@ -338,9 +304,54 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
                     files: {
                         "file": "{testCaseHolder}.options.testUploadOptions.testPNGFile"
                     }
-                },
+                }
+            }
+        }
+    },
+    dynamicComponents: {
+        replaceFile: {
+            type: "kettle.test.request.formData",
+            createOnEvent: "onBlockUpdatedWithUploadedFilename",
+            options: {
+                path: "/stories/testStoryModel-ID",
+                method: "POST",
+                formData: {
+                    files: {
+                        "file": "{testCaseHolder}.options.testUploadOptions.testJPGFile"
+                    },
+                    fields: {
+                        previousFileUrl: "{arguments}.0.content.0.mediaUrl"
+                    }
+                }
+            }
+        },
+        getReplacementImage: {
+            type: "kettle.test.request.http",
+            createOnEvent: "onBlockUpdatedWithUploadedFilename",
+            options: {
+                path: "/%handlerPath/%imageFilename"
+            }
+        },
+        getReplacedImage: {
+            type: "kettle.test.request.http",
+            createOnEvent: "onBlockUpdatedWithUploadedFilename",
+            options: {
+                path: "/%handlerPath/%imageFilename",
                 termMap: {
-                    originalFilepath: "{testCaseHolder}.options.testUploadOptions.testPNGFile"
+                    imageFilename: {
+                        expander: {
+                            "this": "path",
+                            method: "basename",
+                            args: ["{arguments}.0.content.0.mediaUrl"]
+                        }
+                    },
+                    handlerPath: {
+                        expander: {
+                            "this": "path",
+                            method: "dirname",
+                            args: ["{arguments}.0.content.0.mediaUrl"]
+                        }
+                    }
                 }
             }
         }
@@ -423,10 +434,81 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: [
             "{arguments}.0",
             "{arguments}.1",
+            "{that}.options.testUploadOptions.testPNGFileHeaders",
             "{that}.configuration.server.options.globalConfig.authoringEnabled"
         ]
     },
     {
+        // replace the uploaded image file
+        funcName: "{that}.replaceFile.send"
+    },
+    {
+        // on the client side, the block would receive the updated filename, but we have to mock this step
+        event: "{replaceFile}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename",
+        args: [testStoryModelPostPublish, "{arguments}.0", "{that}.events.onBlockUpdatedWithUploadedFilename"]
+    },
+    {
+        // republishes the updated story so it can be retrieved from the server
+        event: "{that}.events.onBlockUpdatedWithUploadedFilename",
+        listener: "{that}.storySaveRepublish.send",
+        args: ["{arguments}.0"]
+    },
+    {
+        event: "{storySaveRepublish}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
+        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+    },
+    {
+        event: "{that}.events.onStorySaveSuccessful",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
+        args: ["{arguments}.0", "{getRepublishedStory}"]
+    },
+    {
+        event: "{getRepublishedStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
+        args: [
+            "{arguments}.0",
+            testStoryModelPostPublish,
+            {
+                expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
+                expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
+            },
+            "{testCaseHolder}.events.onTestImageRetrieval",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    },
+    {
+        event: "{that}.events.onTestImageRetrieval",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
+        args: ["{arguments}.0", "{getReplacementImage}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+    },
+    {
+        event: "{getReplacementImage}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.options.testUploadOptions.testJPGFileHeaders",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    },
+    {
+        // Test that the replaced image is still reachable
+        funcName: "{that}.getReplacedImage.send"
+    },
+    {
+        event: "{getReplacedImage}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
+        args: [
+            "{arguments}.0",
+            "{arguments}.1",
+            "{that}.options.testUploadOptions.testPNGFileHeaders",
+            "{that}.configuration.server.options.globalConfig.authoringEnabled"
+        ]
+    },
+    {
+        // Clean up
         funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     },
@@ -596,6 +678,22 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
     }]
 }];
+
+/**
+ * Assembles the error text reported when trying to access a file on the server.
+ *
+ * @param {String} template - A string template taking tokens: %filePath (the filePath passed in), %handlerPath (the
+ *                            directory path to the file, encoded), and %fileName (the file name)
+ * @param {String} filePath - the URI to the file that the error is reported for
+ * @return {String} - The assembled error text
+ */
+sjrk.storyTelling.server.testServerWithStorageDefs.assembleErrorExpectedErrorText = function (template, filePath) {
+    return fluid.stringTemplate(template, {
+        filePath: filePath,
+        handlerPath: encodeURIComponent(path.dirname(filePath)),
+        fileName: path.basename(filePath)
+    });
+};
 
 /**
  * Mocks a single file upload by copying a file from a given path
@@ -780,18 +878,23 @@ sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = funct
  *
  * @param {String} data - the data returned by the call
  * @param {Object} request - the Kettle request component
+ * @param {Object} expectedHeaders - key/value pairs for headers and their expected values
  * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
  */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval = function (data, request, authoringEnabled) {
+sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval = function (data, request, expectedHeaders, authoringEnabled) {
     if (authoringEnabled) {
         jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
-        jqUnit.assertEquals("header.content-type is image/png", "image/png", request.nativeResponse.headers["content-type"]);
-        jqUnit.assertEquals("header.content-length is 3719", "3719", request.nativeResponse.headers["content-length"]);
+        fluid.each(expectedHeaders, function (value, header) {
+            jqUnit.assertEquals("header." + header + " is " + value, value, request.nativeResponse.headers[header]);
+        });
     } else {
         jqUnit.assertEquals("Status code from retrieving image is 404", 404, request.nativeResponse.statusCode);
-        jqUnit.assertNotEquals("header.content-type is not image/png", "image/png", request.nativeResponse.headers["content-type"]);
-        jqUnit.assertNotEquals("header.content-length is not 3719", "3719", request.nativeResponse.headers["content-length"]);
+        fluid.each(expectedHeaders, function (value, header) {
+            jqUnit.assertNotEquals("header." + header + " is not" + value, value, request.nativeResponse.headers[header]);
+        });
     }
+
+
 };
 
 /**
