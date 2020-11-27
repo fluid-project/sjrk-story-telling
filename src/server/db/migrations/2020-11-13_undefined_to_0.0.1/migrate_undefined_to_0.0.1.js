@@ -353,6 +353,7 @@ sjrk.storyUpdate.verifyStoriesData = function (responseString, options) {
                 fluid.each(invalidStoryReasons, function (reason) {
                     fluid.log(fluid.logLevel.WARN, "- " + reason);
                 });
+                fluid.log(fluid.logLevel.WARN, "--");
 
                 invalidDocs.push(aDoc);
             }
