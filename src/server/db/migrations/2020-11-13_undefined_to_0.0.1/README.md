@@ -32,12 +32,12 @@ node migrate_undefined_to_0.0.1.js http://localhost:5984/stories
 those errors will be listed by story, and the program will exit before it reaches the "Done." step. It is possible that
 the validator finds issues when there is nothing actually wrong. Here are some potential cases where the validator will
 complain:
-  - The value of `published` being `false` rather than `true`. This will be the case for unpublished stories authored
-  during the initial rollout of version `0.4.0` of the Storytelling Tool
-  - Values for `timestampCreated` or `timestampPublished` that don't match the newly-generated "now" value which the
-  validator will be looking for
-  - Values for block `order` that don't match their index within the `content` array. This is likely for some stories
-  which were authored after version `0.3.0` of the Storytelling Tool but before `0.4.0`, of which there are very few.
+   - The value of `published` being `false` rather than `true`. This will be the case for unpublished stories authored
+   during the initial rollout of version `0.4.0` of the Storytelling Tool
+   - Values for `timestampCreated` or `timestampPublished` that don't match the newly-generated "now" value which the
+   validator will be looking for
+   - Values for block `order` that don't match their index within the `content` array. This is likely for some stories
+   which were authored after version `0.3.0` of the Storytelling Tool but before `0.4.0`, of which there are very few.
 7. After running the script and any and all data issues are dealt with, navigate to the site and ensure all stories
 which were previously available are still served. Check the `/stories` endpoint once again and make sure the
 `totalResults` value matches
