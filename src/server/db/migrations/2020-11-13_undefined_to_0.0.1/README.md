@@ -48,40 +48,39 @@ which were previously available are still served. Check the `/stories` endpoint 
 When run, this script will
 
 1. Get all stories from the database
-2. Update all stories to include the following fields & values where it
-  was not previously included:
-  1. `value.schemaVersion`: "0.0.1"
-  2. `value.id`: set it to the value of `_id`
-  3. `value.published`: `true`
-  4. `value.timestampCreated`: set to the current server time when the script is run
-  5. `value.timestampPublished`: same as above
-  6. `value.content.*.order`: assign its order in the content array
-  7. `value.content.*.firstInOrder`: `true`/`false` (depending on order)
-  8. `value.content.*.lastInOrder`: `true`/`false` (depending on order)
+2. Update all stories to include the following fields & values where it was not previously included:
+   1. `value.schemaVersion`: "0.0.1"
+   2. `value.id`: set it to the value of `_id`
+   3. `value.published`: `true`
+   4. `value.timestampCreated`: set to the current server time when the script is run
+   5. `value.timestampPublished`: same as above
+   6. `value.content.*.order`: assign its order in the content array
+   7. `value.content.*.firstInOrder`: `true`/`false` (depending on order)
+   8. `value.content.*.lastInOrder`: `true`/`false` (depending on order)
 3. Rename all `value.content.*.imageUrl` keys to `value.content.*.mediaUrl`
 4. Remove old/unused fields from block data
-  1. `authoringEnabled`
-  2. `contentString`
-  3. `hasMobileCamera`
-  4. `hasTranscript`
-  5. `languageFromSelect`
-  6. `languageFromInput`
-  7. `savingEnabled`
-  8. `simplifiedText`
-  9. `transcript`
+   1. `authoringEnabled`
+   2. `contentString`
+   3. `hasMobileCamera`
+   4. `hasTranscript`
+   5. `languageFromSelect`
+   6. `languageFromInput`
+   7. `savingEnabled`
+   8. `simplifiedText`
+   9. `transcript`
 5. Remove old/unused fields from story data
-  1. `authoringEnabled`
-  2. `categories`
-  3. `contentString`
-  4. `contentTypes` (this field is calculated dynamically, now)
-  5. `keywordString`
-  6. `languageFromSelect`
-  7. `languageFromInput`
-  8. `requestedTranslations`
-  9. `summary`
-  10. `thumbnailAltText`
-  11. `thumbnailUrl`
-  12. `translationOf`
+   1. `authoringEnabled`
+   2. `categories`
+   3. `contentString`
+   4. `contentTypes` (this field is calculated dynamically, now)
+   5. `keywordString`
+   6. `languageFromSelect`
+   7. `languageFromInput`
+   8. `requestedTranslations`
+   9. `summary`
+   10. `thumbnailAltText`
+   11. `thumbnailUrl`
+   12. `translationOf`
 6. Prepend `"./uploads/"` to all `mediaUrl` values where it isn't already present
 7. Upload the freshly-modified stories to the database
 8. Get all the stories from the database
