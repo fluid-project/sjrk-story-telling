@@ -98,7 +98,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleGetStory",
-            args: ["{request}", "{server}.storyDataSource", "{server}.options.secureConfig.uploadedFilesHandlerPath"]
+            args: ["{request}", "{server}.storyDataSource"]
         }
     }
 });
