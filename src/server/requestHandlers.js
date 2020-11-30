@@ -139,7 +139,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
 
 // Kettle request handler for saving a single story
 fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
-    gradeNames: "kettle.request.http",
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStory",
@@ -157,28 +157,50 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
 sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, authoringEnabled) {
-    if (authoringEnabled) {
-        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.body, request.events.onSuccess, request.events.onError);
-    } else {
+    if (!authoringEnabled) {
         request.events.onError.fire({
+            statusCode: 403,
             isError: true,
             message: "Saving is currently disabled."
         });
+
+        return;
     }
+
+    var id = request.req.params.id;
+
+    dataSource.get({directStoryId: id}).then(function (response) {
+        if (request.req.session.authorID === response.authorID) {
+            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+        } else {
+            request.events.onError.fire({
+                statusCode: 403
+            });
+        }
+    }, function () {
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+    });
 };
 
 /**
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
+ * @param {String|Undefined} authorID - (optional) Used to identify the author account for the story. If provided, will
+ *                             be stored with the storyModel for use in future requests to access the story.
  * @param {Object} storyModel - a single story's model
  * @param {Object} successEvent - an infusion event to fire upon successful completion
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
-sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
+sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, authorID, storyModel, successEvent, failureEvent) {
     var id = fluid.get(storyModel, "id") || uuidv4();
+    var story = fluid.copy(storyModel);
 
-    dataSource.set({directStoryId: id}, storyModel).then(function (response) {
+    if (authorID) {
+        story.authorID = authorID;
+    }
+
+    dataSource.set({directStoryId: id}, story).then(function (response) {
         successEvent.fire(JSON.stringify(response));
     }, function (error) {
         failureEvent.fire({
@@ -190,7 +212,7 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel,
 
 // Kettle request handler for saving a single file associated with a pre-existing story
 fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
-    gradeNames: "kettle.request.http",
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
     requestMiddleware: {
         saveStoryFile: {
             middleware: "{server}.saveStoryFile"
@@ -221,6 +243,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
 sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
     if (!authoringEnabled) {
         request.events.onError.fire({
+            statusCode: 403,
             isError: true,
             message: "Saving is currently disabled."
         });
@@ -228,38 +251,45 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
         return;
     }
 
+    // verify there is a file to save before continuing
+    if (!request.req.file) {
+        request.events.onError.fire({
+            statusCode: 400,
+            message: "Error saving file: file was not provided"
+        });
+
+        return;
+    }
+
     var id = request.req.params.id;
 
-    dataSource.get({directStoryId: id}).then(function () {
+    dataSource.get({directStoryId: id}).then(function (response) {
         // verify there is a file to save before continuing
-        if (request.req.file) {
-            // if the file is an image, attmept to rotate it based on its EXIF data
-            if (request.req.file.mimetype &&
-                request.req.file.mimetype.indexOf("image") === 0) {
-
-                sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
-                    request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
-                }, function (error) {
-                    request.events.onError.fire({
-                        errorCode: error.errorCode,
-                        isError: true,
-                        message: error.message || "Unknown error in image rotation."
-                    });
-                });
-            } else {
-                request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
-            }
-        } else {
+        if (request.req.session.authorID !== response.authorID) {
             request.events.onError.fire({
-                isError: true,
-                message: "Error saving file: file was not provided"
+                statusCode: 403
             });
+
+            return;
         }
-    }, function (err) {
+
+        // if the file is an image, attmept to rotate it based on its EXIF data
+        if (request.req.file.mimetype && request.req.file.mimetype.indexOf("image") === 0) {
+            sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
+                request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+            }, function (error) {
+                request.events.onError.fire({
+                    statusCode: 500,
+                    message: error.message || "Unknown error in image rotation."
+                });
+            });
+        } else {
+            request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+        }
+    }, function () {
         request.events.onError.fire({
-            isError: true,
-            message: "Error retrieving story with ID " + id,
-            error: err
+            statusCode: 404,
+            message: "Error retrieving story with ID " + id
         });
     });
 };
@@ -607,7 +637,7 @@ fluid.defaults("sjrk.storyTelling.server.signupHandler", {
  * Creates a new user account and stores it to the database
  *
  * @param {Object} request - a Kettle request
- * @param {fluid.express.user.utils} - an instance of `fluid.express.user.utils`
+ * @param {fluid.express.user.utils} expressUserUtils - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUtils) {
     if (!request.req.session.authorID) {
@@ -628,7 +658,7 @@ sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUti
             promise.then(function (record) {
                 request.req.session.authorID = record.authorID;
                 request.events.onSuccess.fire();
-            }, function (error) {
+            }, function () {
                 request.events.onError.fire({
                     statusCode: 409,
                     message: "Unable to create account."
@@ -662,7 +692,7 @@ fluid.defaults("sjrk.storyTelling.server.loginHandler", {
  * Logs in an existing user with the password and username provided in the request.
  *
  * @param {Object} request - a Kettle request
- * @param {fluid.express.user.utils} - an instance of `fluid.express.user.utils`
+ * @param {fluid.express.user.utils} expressUserUtils - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtils) {
     var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
@@ -670,7 +700,7 @@ sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtil
     promise.then(function (record) {
         request.req.session.authorID = record.authorID;
         request.events.onSuccess.fire();
-    }, function (error) {
+    }, function () {
         request.events.onError.fire({
             statusCode: 401
         });

@@ -13,7 +13,7 @@ var fluid = require("infusion"),
     sjrk = fluid.registerNamespace("sjrk"),
     kettle = require("kettle"),
     fs = require("fs"),
-    MemoryStore = require('memorystore')(kettle.npm.expressSession);
+    MemoryStore = require("memorystore")(kettle.npm.expressSession);
 
 require("fluid-express-user");
 

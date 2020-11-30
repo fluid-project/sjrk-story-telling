@@ -14,8 +14,6 @@ var fluid = require("infusion");
 require("kettle");
 fluid.require("fluid-json-schema");
 
-var sjrk = fluid.registerNamespace("sjrk");
-
 fluid.defaults("sjrk.storyTelling.server.signupValidator", {
     gradeNames: ["fluid.schema.kettle.validator.body"],
     requestSchema: {
@@ -65,4 +63,3 @@ fluid.defaults("sjrk.storyTelling.server.loginValidator", {
         }
     }
 });
-
