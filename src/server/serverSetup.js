@@ -70,6 +70,9 @@ fluid.defaults("sjrk.storyTelling.server", {
                     expressUserUtils: {
                         type: "fluid.express.user.utils",
                         options: {
+                            iterations: 10,
+                            keyLength: 20,
+                            digest: "sha256",
                             dataSourceConfig: {
                                 host: "http://localhost:5984",
                                 path: "authors"
