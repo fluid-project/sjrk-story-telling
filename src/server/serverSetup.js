@@ -71,15 +71,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "fluid.express.user.utils",
                         options: {
                             iterations: 10,
-                            keyLength: 20,
-                            digest: "sha256",
+                            digest: "blake2b512",
                             dataSourceConfig: {
                                 host: "http://localhost:5984",
                                 path: "authors"
                             },
                             rules: {
                                 createUserWrite: {
-                                    "authorID": "authorID"
+                                    "_id": "userData.authorID",
+                                    "authorID": "userData.authorID" // may only need _id in the document
                                 }
                             },
                             couch: {
