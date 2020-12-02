@@ -10,7 +10,8 @@
                     },
                     "secureConfig": {
                         "binaryUploadDirectory": "./tests/server/uploads",
-                        "uploadedFilesHandlerPath": "./tests/server/uploads"
+                        "uploadedFilesHandlerPath": "./tests/server/uploads",
+                        secretsConfigPath: "./secrets.json.example"
                     },
                     "components": {
                         "storyDataSource": {

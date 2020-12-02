@@ -1,43 +1,49 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <link rel="stylesheet" media="screen" href="../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
 
-        <script src="../../node_modules/infusion/dist/infusion-all.js"></script>
+        <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
 
-        <script src="../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
-        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
-        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
+        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
 
-        <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
-        <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/helper.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/jsonify.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/md-common.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/messageHelper.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/renderer.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/ajaxCapable.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/hasRequiredOptions.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/md-client.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/messageHelper.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/renderer.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateAware.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateFormControl.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateManager.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateMessage.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
-        <script src="../../node_modules/sinon/pkg/sinon.js"></script>
+        <script src="../../../node_modules/handlebars/dist/handlebars.js"></script>
+        <script src="../../../node_modules/markdown-it/dist/markdown-it.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/helper.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/jsonify.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/md-common.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/messageHelper.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/renderer.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/ajaxCapable.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/md-client.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/messageHelper.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/renderer.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateAware.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateFormControl.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateManager.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateMessage.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
+        <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
 
-        <script src="../../src/dynamicViewComponentManager.js"></script>
-        <script src="../../src/base-page.js"></script>
-        <script src="../../src/base-page-storyBrowse.js"></script>
-        <script src="../../src/templateManager.js"></script>
-        <script src="../../src/ui.js"></script>
-        <script src="../../src/ui-menu.js"></script>
-        <script src="../../src/ui-storyBrowser.js"></script>
-        <script src="../../src/storyTellingServerUI.js"></script>
-        <script src="../../src/UIOMultilingualDemo.js"></script>
+        <script src="../../../src/ui/dynamicViewComponentManager.js"></script>
+        <script src="../../../src/ui/base-page.js"></script>
+        <script src="../../../src/ui/base-page-storyBrowse.js"></script>
+        <script src="../../../src/ui/templateManager.js"></script>
+        <script src="../../../src/ui/ui.js"></script>
+        <script src="../../../src/ui/ui-menu.js"></script>
+        <script src="../../../src/ui/ui-storyBrowser.js"></script>
+        <script src="../../../src/ui/storyTellingServerUI.js"></script>
+        <script src="../../../src/ui/UIOMultilingualDemo.js"></script>
+
+        <!-- Required to send coverage data at the end of the test run on this page -->
+        <script src="/testem.js"></script>
+        <script src="/coverage/client/coverageSender.js"></script>
 
         <script src="../js/storyTellingServerUITests.js"></script>
         <script src="../js/testUtils.js"></script>

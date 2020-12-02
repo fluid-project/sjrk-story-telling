@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 /* global fluid, sjrk */
@@ -16,10 +16,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     // The storyEdit page base grade
     fluid.defaults("sjrk.storyTelling.base.page.storyEdit", {
         gradeNames: ["sjrk.storyTelling.base.page"],
+        distributeOptions: {
+            "editor.uploadStateToCounters": {
+                target: "{that editor singleFileUploader}.options.modelListeners",
+                record: {
+                    "uploadState": {
+                        func: "{storyEdit}.updateUploadCounters",
+                        args: ["{change}.oldValue", "{change}.value"],
+                        namespace: "uploadStateToCounters"
+                    }
+                }
+            },
+            "blockManager.loadStoryContentIntoBlockUIs": {
+                record: {
+                    "{storyEditor}.story.model": {
+                        func: "{blockManager}.createBlocksFromData",
+                        args: ["{change}.value.content"],
+                        includeSource: ["storyAutoload"],
+                        namespace: "loadStoryContentIntoBlockUIs"
+                    }
+                },
+                target: "{that storyEditor blockManager}.options.modelListeners"
+            }
+        },
         pageSetup: {
             hiddenEditorClass: "hidden",
             storyAutosaveKey: "storyAutosave",
-            storyAutoloadSourceName: "storyAutoload"
+            storySaveUrl: "/stories/",
+            viewPageUrl: "storyView.html",
+            storyIdPath: "id"
         },
         model: {
             /* The initial page state is only the Edit Story Step showing.
@@ -46,7 +71,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
              *      - editStoryStepVisible: false
              */
             editorVisible: true,
-            previewerVisible: false
+            previewerVisible: false,
+            uploadCounters: {
+                errors: 0,
+                uploads: 0
+            },
+            // true when a file is uploading to the server or an error has been received
+            previewingDisabled: false
         },
         modelRelay: {
             editPageVisibilityMutex: {
@@ -54,6 +85,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 target: "previewerVisible",
                 singleTransform: {
                     type: "sjrk.storyTelling.transforms.not"
+                }
+            },
+            uploadCountersToPreviewingDisabled: {
+                target: "previewingDisabled",
+                singleTransform: {
+                    type: "fluid.transforms.condition",
+                    condition: {
+                        transform: {
+                            "type": "fluid.transforms.binaryOp",
+                            "left": "{that}.model.uploadCounters.errors",
+                            "right": "{that}.model.uploadCounters.uploads",
+                            "operator": "||"
+                        }
+                    },
+                    true: true,
+                    false: false
                 }
             }
         },
@@ -83,6 +130,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 excludeSource: "init",
                 priority: "last",
                 namespace: "contextChangeOnEditStoryStepVisibilityChange"
+            },
+            "previewingDisabled": {
+                this: "{that}.storyEditor.dom.storySubmit",
+                method: "prop",
+                args: ["disabled", "{change}.value"],
+                namespace: "disablePreviewingOnUploadChange"
             }
         },
         selectors: {
@@ -95,8 +148,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                     onPreviewerReady: "{storyPreviewer}.events.onControlsBound"
                 }
             },
-            onStoryShareRequested: "{storyPreviewer}.events.onShareRequested",
-            onStoryShareComplete: "{storyPreviewer}.events.onShareComplete"
+            onStoryUpdateOnServerComplete: null,
+            onStoryCreateOnServerError: null,
+            onStoryPublishRequested: "{storyPreviewer}.events.onShareRequested",
+            onStoryPublishSuccess: null,
+            onStoryPublishError: "{storyPreviewer}.events.onShareComplete"
         },
         listeners: {
             "{storyEditor}.events.onStorySubmitRequested": [{
@@ -109,46 +165,87 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 namespace: "hideEditorShowPreviewer"
             }],
             "{storyEditor}.events.onStoryUiReady": {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave",
-                args: [
-                    "{that}.options.pageSetup.storyAutosaveKey",
-                    "{storyEditor}",
-                    "", // it replaces the whole story model
-                    "{that}.options.pageSetup.storyAutoloadSourceName"
-                ],
+                funcName: "{that}.initializeStory",
                 priority: "first",
-                namespace: "loadStoryFromAutosave"
+                namespace: "initializeStory"
             },
             "{storyPreviewer}.events.onStoryViewerPreviousRequested": {
                 func: "{that}.showEditorHidePreviewer",
                 args: [true],
                 namespace: "showEditorHidePreviewer"
             },
-            "onStoryShareRequested.submitStory": {
-                funcName: "sjrk.storyTelling.base.page.storyEdit.submitStory",
-                args: [
-                    "{storyEditor}.dom.storyEditorForm",
-                    "{storyPreviewer}.story.model",
-                    "{that}.events.onStoryShareComplete",
-                    "{that}.options.pageSetup.storyAutosaveKey"
-                ]
-            },
+            "onStoryPublishRequested.publishStory": "{that}.publishStory",
+            "onStoryPublishSuccess.redirectToViewStory": "{that}.redirectToViewStory",
             "onCreate.setAuthoringEnabledClass": {
                 func: "{that}.setAuthoringEnabledClass"
             }
         },
         invokers: {
+            // Sets the visibility of page elements depending on authoringEnabled
             setAuthoringEnabledClass: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.showEditPageContainer",
                 args: ["{that}.options.selectors.pageContainer", "{that}.options.pageSetup.authoringEnabled"]
             },
+            // Shows the editor and hides the previewer if true, vice versa if false
             showEditorHidePreviewer: {
                 func: "{that}.applier.change",
                 args: ["editorVisible", "{arguments}.0"]
             },
+            // Clears the localStorage autosave (does not remove story from database)
             clearAutosave: {
                 funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
                 args: ["{that}.options.pageSetup.storyAutosaveKey"]
+            },
+            // Loads a story if present, otherwise creates a new one
+            initializeStory: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.initializeStory",
+                args: ["{that}.options.pageSetup.storyAutosaveKey", "{that}"]
+            },
+            // Loads the story content into the Editor from local storage
+            loadStoryContent: {
+                changePath: "{storyEditor}.story.model",
+                value: "{arguments}.0",
+                source: "storyAutoload"
+            },
+            // Creates a new story on the server
+            createNewStoryOnServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer",
+                args: [
+                    "{that}.options.pageSetup.storySaveUrl",
+                    "{storyEditor}.story",
+                    "{that}.options.pageSetup.storyIdPath",
+                    "storyCreation",
+                    "{that}.events.onStoryCreateOnServerError"
+                ]
+            },
+            // Updates the current story on the server
+            updateStoryOnServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer",
+                args: [
+                    "{that}.options.pageSetup.storySaveUrl",
+                    "{storyPreviewer}.story.model",
+                    "{that}.events.onStoryUpdateOnServerComplete"
+                ]
+            },
+            // Publishes the story
+            publishStory: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.publishStory",
+                args: [
+                    "{that}",
+                    "{storyEditor}.story",
+                    "{that}.events.onStoryPublishSuccess",
+                    "{that}.events.onStoryPublishError"
+                ]
+            },
+            // Redirects the user to the given story
+            redirectToViewStory: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.redirectToViewStory",
+                args: ["{arguments}.0", "{that}.options.pageSetup.viewPageUrl"] // storyId
+            },
+            // Increments or decrements counters for blocks currently uploading or in error states
+            updateUploadCounters: {
+                funcName: "sjrk.storyTelling.base.page.storyEdit.updateUploadCounters",
+                args: ["{arguments}.0", "{arguments}.1", "{that}"] // prev state, next state
             }
         },
         /*
@@ -156,16 +253,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
          * one of the fields listed in its corresponding array is truthy.
          *
          * E.g. for an image block, even if heading, altText and description
-         * are truthy, if the imageUrl isn't provided then the block is empty.
+         * are truthy, if the mediaUrl isn't provided then the block is empty.
          */
         blockFields: {
             "text": ["heading", "text"],
-            "image": ["imageUrl"],
+            "image": ["mediaUrl"],
             "audio": ["mediaUrl"],
             "video": ["mediaUrl"]
         },
         components: {
-            // manaages browser history for in-page forward-back support
+            // manages browser history for in-page forward-back support
             historian: {
                 type: "fluid.locationBar",
                 options: {
@@ -273,51 +370,70 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Loads story content from a given key in the browser's localStorage object.
-     * Once the content is loaded, the storyEditor will be updated to match.
+     * Loads an existing story from the server if a story id is provided as a query
+     * parameter. Otherwise loads story content from a given key in the browser's
+     * localStorage object. If a story was successfully loaded, then the current
+     * story is updated with this previously-saved data. If no story is loaded,
+     * then a new one is saved to the server.
      *
      * @param {String} storyAutosaveKey - the key to load the story content from
-     * @param {Component} storyEditor - an instance of `sjrk.storyTelling.ui.storyEditor`
-     * @param {String|String[]} storyPath - the model path to load the story to
-     * @param {String} sourceName - the name of the Infusion change source for this update
+     * @param {Component} storyEdit - an instance of `sjrk.storyTelling.base.page.storyEdit`
      */
-    sjrk.storyTelling.base.page.storyEdit.loadStoryFromAutosave = function (storyAutosaveKey, storyEditor, storyPath, sourceName) {
+    sjrk.storyTelling.base.page.storyEdit.initializeStory = function (storyAutosaveKey, storyEdit) {
+
         try {
-            // localStorage can only store string values
-            var savedStory = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
+            /*
+            * load from existing story model if available
+            *
+            * no initalStoryData && no savedStoryData -> create new story
+            * initalStoryData && no savedStoryData -> use initalStoryData
+            * no initialStoryData && savedStoryData -> use savedStoryData
+            * initialStoryData && savedStoryData (different ids) -> use initialStoryData
+            * initialStoryData && savedStoryData (same ids) -> use savedStoryData
+            */
+            var initialStoryData = fluid.get(storyEdit, ["storyEditor", "story", "model"]);
+            var savedStoryData = JSON.parse(window.localStorage.getItem(storyAutosaveKey));
 
-            if (savedStory) {
-                // media block blob URLs are no longer valid/reliable after a page reload
-                sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls(savedStory.content);
-
-                storyEditor.story.applier.change(storyPath, savedStory, null, sourceName);
-
-                // build the storyEditor blockUIs from the story content array
-                storyEditor.blockManager.createBlocksFromData(savedStory.content);
+            if (initialStoryData.id && initialStoryData.id !== fluid.get(savedStoryData, "id")) {
+                storyEdit.storyEditor.blockManager.createBlocksFromData(initialStoryData.content);
+            } else if (savedStoryData) {
+                storyEdit.loadStoryContent(savedStoryData);
             } else {
-                fluid.log(fluid.logLevel.WARN, "Story load aborted, no autosaved story was found");
+                storyEdit.createNewStoryOnServer();
             }
         } catch (ex) {
-            fluid.log(fluid.logLevel.WARN, "An error occurred when loading", ex);
+            fluid.log(fluid.logLevel.WARN, "An error occurred while initializing story", ex);
         }
     };
 
     /**
-     * Removes the URL values of all media blocks within a collection of blocks
+     * Creates a new story on the server and sets the current story's ID accordingly
      *
-     * @param {Component[]} blocks - a collection of story blocks (sjrk.storyTelling.block)
-     *
-     * @return {Component[]} - a collection of story blocks with nulled-out URL values
+     * @param {String} storySaveUrl - the server URL at which to save a story
+     * @param {Component} story - an instance of `sjrk.storyTelling.story`
+     * @param {String|String[]} storyIdPath - the model path to the story ID
+     * @param {String} sourceName - the name of the Infusion change source for this update
+     * @param {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.base.page.storyEdit.clearMediaBlockUrls = function (blocks) {
-        return fluid.transform(blocks, function (block) {
-            if (block.imageUrl) {
-                block.imageUrl = null;
-            } else if (block.mediaUrl) {
-                block.mediaUrl = null;
-            }
+    sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer = function (storySaveUrl, story, storyIdPath, sourceName, errorEvent) {
+        var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
 
-            return block;
+        serverSavePromise.then(function (data) {
+            var successResponse = JSON.parse(data);
+
+            // The "story created" moment is now, since the story was created successfully
+            story.applier.change("timestampCreated", new Date().toISOString(), null, sourceName);
+
+            // store the ID on the story model for later use
+            story.applier.change(storyIdPath, successResponse.id, null, sourceName);
+        }, function (jqXHR, textStatus, errorThrown) {
+            fluid.log(fluid.logLevel.WARN, "Error saving a new story to server:");
+            fluid.log(jqXHR, textStatus, errorThrown);
+
+            errorEvent.fire({
+                isError: true,
+                message: fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error"
+            });
         });
     };
 
@@ -332,6 +448,43 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred when clearing autosave", ex);
         }
+    };
+
+    /**
+     * Increments or decrements a pair of counters depending on the previous and new
+     * states of a particular value. The expected possible state transitions are:
+     *
+     * - undefined to ready
+     * - ready to uploading
+     * - uploading to ready
+     * - uploading to errorReceived
+     * - errorReceived to uploading
+     *
+     *
+     * @param {String} previousState - the previous state of the value
+     * @param {String} newState - the new state of the value
+     * @param {Component} storyEdit - an instance of `sjrk.storyTelling.base.page.storyEdit`
+     */
+    sjrk.storyTelling.base.page.storyEdit.updateUploadCounters = function (previousState, newState, storyEdit) {
+        var counters = fluid.copy(storyEdit.model.uploadCounters);
+
+        if (previousState === "errorReceived") {
+            counters.errors--;
+
+            if (newState === "uploading") {
+                counters.uploads++;
+            }
+        } else if (previousState === "uploading") {
+            counters.uploads--;
+
+            if (newState === "errorReceived") {
+                counters.errors++;
+            }
+        } else if (previousState === "ready") {
+            counters.uploads++;
+        }
+
+        storyEdit.applier.change(["uploadCounters"], counters);
     };
 
     /**
@@ -384,55 +537,67 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     };
 
     /**
-     * Submits the editor form to the server
+     * Updates the story on the server with the provided model data
      *
-     * @param {jQuery} storyEditorForm - the Editor UI's HTML form element
+     * @param {String} storySaveUrl - the server URL at which to save a story
      * @param {Object} storyModel - the model of the story to save
-     * @param {Object} errorEvent - an event to fire on errors
-     * @param {String} storyAutosaveKey - the key at which story content is saved
+     *
+     * @return {jqXHR} - the jqXHR for the server request
      */
-    sjrk.storyTelling.base.page.storyEdit.submitStory = function (storyEditorForm, storyModel, errorEvent, storyAutosaveKey) {
-        storyEditorForm.attr({
-            action: "/stories/",
-            method: "post",
-            enctype: "multipart/form-data"
-        });
-
-        // This is the easiest way to be able to submit form
-        // content in the background via ajax
-        var formData = new FormData(storyEditorForm[0]);
-
-        // Stores the entire model as a JSON string in one
-        // field of the multipart form
-        var modelAsJSON = JSON.stringify(storyModel);
-        formData.append("model", modelAsJSON);
-
-        // In the real implementation, this should have
-        // proper handling of feedback on success / failure,
-        // but currently it just logs to console
-        $.ajax({
-            url         : storyEditorForm.attr("action"),
-            data        : formData || storyEditorForm.serialize(),
+    sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer = function (storySaveUrl, storyModel) {
+        return $.ajax({
+            url         : storySaveUrl,
+            data        : JSON.stringify(storyModel),
             cache       : false,
-            contentType : false,
+            contentType : "application/json",
             processData : false,
-            type        : "POST",
-            success     : function (data, textStatus, jqXHR) {
-                // clear the saved story only once it's successfully published
-                sjrk.storyTelling.base.page.storyEdit.clearAutosave(storyAutosaveKey);
-
-                fluid.log(jqXHR, textStatus);
-                var successResponse = JSON.parse(data);
-                var storyUrl = "/storyView.html?id=" + successResponse.id;
-                window.location.assign(storyUrl);
-            },
-            error       : function (jqXHR, textStatus, errorThrown) {
-                fluid.log("Something went wrong");
-                fluid.log(jqXHR, textStatus, errorThrown);
-
-                errorEvent.fire(fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error");
-            }
+            type        : "POST"
         });
+    };
+
+    /**
+     * Sets a story to "published" and redirects the user to the new story page
+     *
+     * @param {Component} storyEditPage - an instance of `sjrk.storyTelling.base.page.storyEdit`
+     * @param {Component} story - an instance of `sjrk.storyTelling.story`
+     * @param {Object} successEvent - the event to be fired on successful publish
+     * @param {Object} errorEvent - the event to be fired in case of an error
+     */
+    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, story, successEvent, errorEvent) {
+        // set the publish timestamp to now and the flag to "true"
+        story.applier.change("", {
+            "timestampPublished": new Date().toISOString(),
+            "published": true
+        });
+
+        var storyUpdatePromise = storyEditPage.updateStoryOnServer();
+
+        storyUpdatePromise.done(function () {
+            storyEditPage.clearAutosave();
+            successEvent.fire(story.model.id);
+        });
+
+        storyUpdatePromise.fail(function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = fluid.get(jqXHR, ["responseJSON", "message"]) ||
+                errorThrown ||
+                "Internal server error";
+
+            errorEvent.fire({
+                isError: true,
+                message: errorMessage
+            });
+        });
+    };
+
+    /**
+     * Given a story ID and a URL to the view page, redirects the user to the
+     * view page for that story.
+     *
+     * @param {String} storyId - the ID of the story to which the user will be redirected
+     * @param {String} viewPageUrl - the URL for the story View page
+     */
+    sjrk.storyTelling.base.page.storyEdit.redirectToViewStory = function (storyId, viewPageUrl) {
+        window.location.assign(viewPageUrl + "?id=" + storyId);
     };
 
 })(jQuery, fluid);
