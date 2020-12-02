@@ -13,6 +13,11 @@ var fluid = require("infusion");
 require("kettle");
 
 var sjrk = fluid.registerNamespace("sjrk");
+fluid.registerNamespace("sjrk.storyTelling.server.dataSource.couch.story");
+
+// This is the data schema version for the project.
+// All new stories will have their version set to this value.
+sjrk.storyTelling.server.dataSource.couch.story.schemaVersion = "0.0.1";
 
 // A CouchDB-compatible Kettle DataSource, providing core functionality
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.core", {
@@ -70,7 +75,13 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
                     input: "story"
                 }
             },
-            value: ""
+            value: "",
+            schemaVersion: {
+                transform: {
+                    type: "fluid.transforms.literalValue",
+                    input: sjrk.storyTelling.server.dataSource.couch.story.schemaVersion
+                }
+            }
         },
         readPayload: {
             "_rev": "_rev",
