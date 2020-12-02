@@ -34,7 +34,7 @@ jobs:
             sudo rm -rf ../uploads/*                                  && \
             sudo rm -rf ../deleted_uploads/*
 
-      # This step duplicates code from stack_master.yml
+      # This step duplicates code from stack_main.yml
       - name: Redeploy stack
         uses: appleboy/ssh-action@master
         with:
@@ -45,7 +45,7 @@ jobs:
           envs:     PROJECT_ID
           script: |
             cd /srv/$PROJECT_ID/src                                       && \
-            git checkout master                                           && \
+            git checkout main                                             && \
             git pull                                                      && \
             source ../deploy.env                                          && \
             /usr/local/bin/docker-compose -p $PROJECT_ID                     \

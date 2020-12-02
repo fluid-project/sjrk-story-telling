@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 "use strict";
@@ -15,7 +15,7 @@ var fluid = require("infusion"),
 
 require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
-require("../../src/server/middleware/saveStoryWithBinaries");
+require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
@@ -28,7 +28,8 @@ var sjrk = fluid.registerNamespace("sjrk");
 // basic test server definitions
 sjrk.storyTelling.server.testServerDefs = [{
     name: "Basic server tests",
-    expect: 2,
+    expect: 3,
+    port: 8082,
     config: {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/server/configs"
@@ -47,6 +48,23 @@ sjrk.storyTelling.server.testServerDefs = [{
                 path: "/node_modules/nano/lib/nano.js",
                 method: "GET"
             }
+        },
+        staticFileRequest: {
+            type: "kettle.test.request.http",
+            options: {
+                path: "/robots.txt",
+                method: "GET"
+            }
+        }
+    },
+    distributeOptions: {
+        "server.port": {
+            source: "{that}.options.port",
+            target: "{that server}.options.port"
+        },
+        "request.port": {
+            source: "{that}.options.port",
+            target: "{that kettle.test.request.http}.options.port"
         }
     },
     sequence: [{
@@ -59,6 +77,11 @@ sjrk.storyTelling.server.testServerDefs = [{
     }, {
         event: "{invalidNodeModulesRequest}.events.onComplete",
         listener: "sjrk.storyTelling.server.testServerDefs.verifyGetRequestFailed"
+    }, {
+        func: "{staticFileRequest}.send"
+    }, {
+        event: "{staticFileRequest}.events.onComplete",
+        listener: "sjrk.storyTelling.server.testServerDefs.verifyGetRequestSuccessful"
     }]
 }];
 

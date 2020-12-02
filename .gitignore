@@ -10,6 +10,8 @@ secrets.json
 couchdb
 sjrk.storyTelling.server.config.json*
 !sjrk.storyTelling.server.config.json*.example
+reports
+coverage
 
 # Common backup files
 *.swp

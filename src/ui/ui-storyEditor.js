@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 /* global fluid, sjrk */
@@ -157,6 +157,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                         "text": "sjrk.storyTelling.blockUi.editor.textBlockEditor",
                         "video": "sjrk.storyTelling.blockUi.editor.videoBlockEditor"
                     },
+                    dynamicComponents: {
+                        managedViewComponents: {
+                            options: {
+                                members: {
+                                    storyId: "{story}.model.id"
+                                }
+                            }
+                        }
+                    },
                     listeners: {
                         "{storyEditor}.events.onAudioBlockAdditionRequested": {
                             func: "{that}.events.viewComponentContainerRequested",
@@ -283,6 +292,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             var checked = managedComponent.locate("selectedCheckbox").prop("checked");
 
             if (checked) {
+                // If it's a media block, reset its uploadState before removing
+                if (managedComponent.singleFileUploader) {
+                    managedComponent.singleFileUploader.resetUploadState();
+                }
+
                 managedComponent.destroy();
                 removedBlockKeys.push(blockKey);
             }
