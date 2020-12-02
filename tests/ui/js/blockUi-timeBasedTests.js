@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 /* global fluid, sjrk, jqUnit */
@@ -13,6 +13,33 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
 (function ($, fluid) {
 
+    fluid.registerNamespace("sjrk.storyTelling");
+
+    // Feature detection to see if mp4 video format is supported
+    // Once SJRK-381 has been addressed we should be able to provide the fallback video sources
+    // rather than using context awareness.
+    // see: https://issues.fluidproject.org/browse/SJRK-381
+    sjrk.storyTelling.isVideoFormatSupported = function (format) {
+        var video = document.createElement("video");
+        return !!video.canPlayType(format); // !! forces a boolean result
+    };
+
+    fluid.contextAware.makeChecks({
+        "fluid.supportsMP4": sjrk.storyTelling.isVideoFormatSupported("video/mp4")
+    });
+
+    fluid.defaults("sjrk.storyTelling.blockUi.testTimeBased.webm", {
+        model: {
+            mediaUrl: "../../testData/shyguy_and_rootbeer.webm"
+        }
+    });
+
+    fluid.defaults("sjrk.storyTelling.blockUi.testTimeBased.mp4", {
+        model: {
+            mediaUrl: "../../testData/shyguy_and_rootbeer.mp4"
+        }
+    });
+
     // Testing time-based media using a video as the sample file
     fluid.defaults("sjrk.storyTelling.blockUi.testTimeBased", {
         gradeNames: ["sjrk.storyTelling.blockUi.timeBased"],
@@ -20,15 +47,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        resourcePrefix: "../..",
+                        // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
+                        resourcePrefix: "../../../themes/base",
                         templatePath: "%resourcePrefix/templates/storyBlockVideoView.handlebars"
                     }
                 }
             },
             block: {
                 options: {
-                    model: {
-                        mediaUrl: "../../testData/shyguy_and_rootbeer.mp4"
+                    gradeNames: ["fluid.contextAware"],
+                    contextAwareness: {
+                        videoFormat: {
+                            checks: {
+                                supportsMP4: {
+                                    contextValue: "{fluid.supportsMP4}",
+                                    gradeNames: "sjrk.storyTelling.blockUi.testTimeBased.mp4"
+                                }
+                            },
+                            defaultGradeNames: "sjrk.storyTelling.blockUi.testTimeBased.webm"
+                        }
                     }
                 }
             }
@@ -62,7 +99,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     event: "{timeBased}.events.onMediaEnded",
                     listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
-                    args: ["{timeBased}.dom.mediaPlayer", "{timeBased}.dom.mediaPlayer.0.duration"]
+                    args: ["{timeBased}.dom.mediaPreview", "{timeBased}.dom.mediaPreview.0.duration"]
                 },
                 {
                     func: "{timeBased}.stopMediaPlayer"
@@ -70,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                 {
                     event: "{timeBased}.events.onMediaPlayerStop",
                     listener: "sjrk.storyTelling.blockUi.timeBasedTester.verifyMediaPlayerTime",
-                    args: ["{timeBased}.dom.mediaPlayer", 0]
+                    args: ["{timeBased}.dom.mediaPreview", 0]
                 }]
             }]
         }]

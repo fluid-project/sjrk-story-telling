@@ -48,6 +48,7 @@
 <script src="src/blockUi-videoBlockViewer.js"></script>
 <script src="src/blockUi-timeBased.js"></script>
 <script src="src/base-page-storyView.js"></script>
+<script src="src/base-page-storyNotFound.js"></script>
 <script src="src/base-page.js"></script>
 <script src="src/story.js"></script>
 <script src="src/templateManager.js"></script>
@@ -110,6 +111,7 @@
     <div class="sjrk-main-container">
         <div class="sjrk-st-menu sjrkc-st-menu"></div>
         <div class="sjrk-st-story-viewer sjrkc-st-story-viewer"></div>
+        <div class="sjrk-st-story-notFoundNotice sjrkc-st-story-notFoundNotice"></div>
     </div>
 </main>
 
@@ -117,9 +119,7 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.loadTheme().then(function (clientConfig) {
-            sjrk.storyTelling.loadStoryFromParameter(clientConfig);
-        });
+        sjrk.storyTelling.loadTheme().then(sjrk.storyTelling.loadStoryFromParameter);
     });
 </script>
 

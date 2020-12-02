@@ -290,7 +290,8 @@ h3:empty {
 }
 
 .sjrk-st-story-viewer .sjrk-st-lr-padding,
-.sjrk-st-story-editor .sjrk-st-lr-padding {
+.sjrk-st-story-editor .sjrk-st-lr-padding,
+.sjrk-st-story-notFoundNotice .sjrk-st-lr-padding {
     max-width: 765px;
     margin: 0 auto 2rem auto !important;
 }
@@ -391,8 +392,7 @@ h3:empty {
 }
 
 .sjrk-st-story-submit,
-.sjrk-st-story-share,
- {
+.sjrk-st-story-share {
     background: var(--site-light-blue);
     border: none;
     padding: 0.75rem 1rem;
@@ -533,6 +533,14 @@ h3:empty {
     .sjrk-st-story-editor .sjrk-st-lr-padding,
     .sjrk-st-story-editor+.sjrk-st-story-viewer .sjrk-st-lr-padding {
         margin: 0 0.5rem;
+    }
+
+    .sjrk-st-story-notFound-notice {
+        max-width: 100%;
+    }
+
+    .sjrk-st-story-notFound-notice .sjrk-st-story-notFound-notice-content {
+        padding-left: 0;
     }
 
     .sjrk-st-page-body section {

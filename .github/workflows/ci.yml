@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+
+    timeout-minutes: 20
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node-version: [12.x, 14.x]
+
+    env:
+      HEADLESS: true
+
+    steps:
+    - name: Prepare git
+      run: git config --global core.autocrlf false
+
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Get npm cache directory
+      id: npm-cache
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.npm-cache.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install Node.js dependencies
+      run: npm install
+
+    - name: Code linter
+      run: npm run lint
+
+    - name: Browser tests
+      run: npm run test:browser
+
+    - name: Node.js tests
+      run: npm run test:node
+
+    - name: Code coverage
+      run: npm run posttest
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./reports/coverage-final.json
+        flags: unit-tests

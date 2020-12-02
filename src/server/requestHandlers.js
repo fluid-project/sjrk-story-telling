@@ -1,16 +1,16 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 "use strict";
 
 var fluid = require("infusion");
-var { v1: uuidv1 } = require("uuid");
+var { v4: uuidv4 } = require("uuid");
 var fse = require("fs-extra");
 var path = require("path");
 var jo = require("jpeg-autorotate");
@@ -40,13 +40,11 @@ sjrk.storyTelling.server.handleBrowseStories = function (request, viewDataSource
     var promise = viewDataSource.get({directViewId: "storiesById"});
     promise.then(function (response) {
         var extracted = sjrk.storyTelling.server.browseStoriesHandler.extractFromCouchResponse(response);
-        var responseAsJSON = JSON.stringify(extracted);
-        request.events.onSuccess.fire(responseAsJSON);
+        request.events.onSuccess.fire(JSON.stringify(extracted));
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
             isError: true,
-            message: errorAsJSON
+            message: JSON.stringify(error)
         });
     });
 };
@@ -100,7 +98,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleGetStory",
-            args: ["{request}", "{server}.storyDataSource", "{server}.options.secureConfig.uploadedFilesHandlerPath"]
+            args: ["{request}", "{server}.storyDataSource"]
         }
     }
 });
@@ -111,50 +109,40 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {String} uploadedFilesHandlerPath - the path on the server to uploaded files
  */
-sjrk.storyTelling.server.handleGetStory = function (request, dataSource, uploadedFilesHandlerPath) {
+sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
     var id = request.req.params.id;
     var promise = dataSource.get({directStoryId: id});
 
+    var noAccessErrorMessage = "An error occurred while retrieving the requested story";
+
     promise.then(function (response) {
+        if (response.published) {
+            request.events.onSuccess.fire(JSON.stringify(response));
+        } else {
+            fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
-        fluid.transform(response.content, function (block) {
-            if (block.blockType === "image") {
-                if (block.imageUrl) {
-                    block.imageUrl = uploadedFilesHandlerPath + "/" + block.imageUrl;
-                }
-                return block;
-            } else if (block.blockType === "audio" || block.blockType === "video") {
-                if (block.mediaUrl) {
-                    block.mediaUrl = uploadedFilesHandlerPath + "/" + block.mediaUrl;
-                }
-                return block;
-            }
-        });
-
-        var responseAsJSON = JSON.stringify(response);
-        request.events.onSuccess.fire(responseAsJSON);
+            request.events.onError.fire({
+                isError: true,
+                message: noAccessErrorMessage
+            });
+        }
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
+        fluid.log(fluid.logLevel.WARN, "Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
+
         request.events.onError.fire({
             isError: true,
-            message: errorAsJSON
+            message: noAccessErrorMessage
         });
     });
 };
 
-// Kettle request handler for saving a single story and its files
-fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
+// Kettle request handler for saving a single story
+fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
     gradeNames: "kettle.request.http",
-    requestMiddleware: {
-        "saveStoryWithBinaries": {
-            middleware: "{server}.saveStoryWithBinaries"
-        }
-    },
     invokers: {
         handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleSaveStoryWithBinaries",
+            funcName: "sjrk.storyTelling.server.handleSaveStory",
             args: ["{arguments}.0", "{server}.storyDataSource", "{server}.options.globalConfig.authoringEnabled"]
         }
     }
@@ -168,29 +156,9 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryWithBinariesHandler", {
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
-sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSource, authoringEnabled) {
+sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, authoringEnabled) {
     if (authoringEnabled) {
-        var rotateImagePromises = [];
-
-        // rotate any images based on their EXIF data, if present
-        fluid.each(request.req.files.file, function (singleFile) {
-            if (singleFile.mimetype && singleFile.mimetype.indexOf("image") === 0) {
-                rotateImagePromises.push(sjrk.storyTelling.server.rotateImageFromExif(singleFile));
-            }
-        });
-
-        fluid.promise.sequence(rotateImagePromises).then(function () {
-            var storyModel = JSON.parse(request.req.body.model);
-            var binaryRenameMap = sjrk.storyTelling.server.buildBinaryRenameMap(storyModel.content, request.req.files.file);
-
-            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, binaryRenameMap, storyModel, request.events.onSuccess, request.events.onError);
-        }, function (error) {
-            request.events.onError.fire({
-                errorCode: error.errorCode,
-                isError: true,
-                message: error.message || "Unknown error in image rotation."
-            });
-        });
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.body, request.events.onSuccess, request.events.onError);
     } else {
         request.events.onError.fire({
             isError: true,
@@ -203,16 +171,14 @@ sjrk.storyTelling.server.handleSaveStoryWithBinaries = function (request, dataSo
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
  * @param {Object} storyModel - a single story's model
  * @param {Object} successEvent - an infusion event to fire upon successful completion
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
-sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenameMap, storyModel, successEvent, failureEvent) {
-    var id = uuidv1();
+sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
+    var id = fluid.get(storyModel, "id") || uuidv4();
 
     dataSource.set({directStoryId: id}, storyModel).then(function (response) {
-        response.binaryRenameMap = binaryRenameMap;
         successEvent.fire(JSON.stringify(response));
     }, function (error) {
         failureEvent.fire({
@@ -222,42 +188,80 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, binaryRenam
     });
 };
 
-/**
- * Update any media URLs to refer to the changed file names
- *
- * @param {Object} blocks - a collection of story blocks with file references
- * @param {Object} files - a list of files to refer to
- *
- * @return {Object.<String, String>} - a key-value collection linking uploaded filenames to server paths
- */
-sjrk.storyTelling.server.buildBinaryRenameMap = function (blocks, files) {
-    // key-value pairs of original filename : generated filename
-    // this is used primarily by tests, but may be of use
-    // to client-side components too
-    var binaryRenameMap = {};
-
-    fluid.each(blocks, function (block) {
-        if (block.blockType === "image" || block.blockType === "audio" || block.blockType === "video") {
-            if (block.fileDetails) {
-                // Look for the uploaded file matching this block
-                var mediaFile = fluid.find_if(files, function (file) {
-                    return file.originalname === block.fileDetails.name;
-                });
-
-                // If we find a match, update the media URL. If not, clear it.
-                if (mediaFile) {
-                    sjrk.storyTelling.server.setMediaBlockUrl(block, mediaFile.filename);
-                    binaryRenameMap[mediaFile.originalname] = mediaFile.filename;
-                } else {
-                    sjrk.storyTelling.server.setMediaBlockUrl(block, null);
-                }
-            } else {
-                sjrk.storyTelling.server.setMediaBlockUrl(block, null);
-            }
+// Kettle request handler for saving a single file associated with a pre-existing story
+fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
+    gradeNames: "kettle.request.http",
+    requestMiddleware: {
+        saveStoryFile: {
+            middleware: "{server}.saveStoryFile"
         }
-    });
+    },
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleSaveStoryFile",
+            args: ["{arguments}.0", "{server}.storyDataSource", "{server}.options.globalConfig.authoringEnabled"]
+        }
+    }
+});
 
-    return binaryRenameMap;
+/**
+ * Saves a single file to the server filesystem and responds to the HTTP request.
+ * If the file is an image, it will be rotated to match its EXIF orientation data.
+ *
+ * Errors will be raised in the following situations:
+ * - Authoring is not enabled
+ * - An error is encountered while trying to get the story (invalid ID, DB offline, etc.)
+ * - The provided file is not valid
+ * - An error is encountered while rotating an image to its correct orientation
+ *
+ * @param {Object} request - a Kettle request containing a single file associated with a story
+ * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
+ * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
+ */
+sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
+    if (!authoringEnabled) {
+        request.events.onError.fire({
+            isError: true,
+            message: "Saving is currently disabled."
+        });
+
+        return;
+    }
+
+    var id = request.req.params.id;
+
+    dataSource.get({directStoryId: id}).then(function () {
+        // verify there is a file to save before continuing
+        if (request.req.file) {
+            // if the file is an image, attmept to rotate it based on its EXIF data
+            if (request.req.file.mimetype &&
+                request.req.file.mimetype.indexOf("image") === 0) {
+
+                sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
+                    request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+                }, function (error) {
+                    request.events.onError.fire({
+                        errorCode: error.errorCode,
+                        isError: true,
+                        message: error.message || "Unknown error in image rotation."
+                    });
+                });
+            } else {
+                request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+            }
+        } else {
+            request.events.onError.fire({
+                isError: true,
+                message: "Error saving file: file was not provided"
+            });
+        }
+    }, function (err) {
+        request.events.onError.fire({
+            isError: true,
+            message: "Error retrieving story with ID " + id,
+            error: err
+        });
+    });
 };
 
 /**
@@ -305,20 +309,6 @@ sjrk.storyTelling.server.rotateImageFromExif = function (file, options) {
     }
 
     return togo;
-};
-
-/**
- * Sets the "URL" field of a media block (image, audio, video) to the given URL
- *
- * @param {Component} block - the sjrk.storyTelling.block to update
- * @param {String} url - the URL to the block's media file
- */
-sjrk.storyTelling.server.setMediaBlockUrl = function (block, url) {
-    if (block.blockType === "image") {
-        block.imageUrl = url;
-    } else if (block.blockType === "audio" || block.blockType === "video") {
-        block.mediaUrl = url;
-    }
 };
 
 // Kettle request handler for deleting a single story and its files
@@ -371,10 +361,9 @@ sjrk.storyTelling.server.handleDeleteStory = function (request) {
             message: "DELETE request received successfully for story with id: " + request.req.params.id
         });
     }, function (error) {
-        var errorAsJSON = JSON.stringify(error);
         request.events.onError.fire({
             isError: true,
-            message: errorAsJSON
+            message: JSON.stringify(error)
         });
     });
 };
@@ -438,18 +427,10 @@ sjrk.storyTelling.server.deleteStoryFiles = function (deleteStoryHandler, storyC
     var filesToDelete = [];
 
     fluid.each(storyContent, function (block) {
-        var blockFileName = "";
-
-        if (block.blockType === "image") {
-            blockFileName = block.imageUrl;
-        } else if (block.blockType === "audio" || block.blockType === "video") {
-            blockFileName = block.mediaUrl;
-        }
-
-        if (sjrk.storyTelling.server.isValidMediaFilename(blockFileName)) {
-            filesToDelete.push(blockFileName);
+        if (sjrk.storyTelling.server.isValidMediaFilename(block.mediaUrl)) {
+            filesToDelete.push(block.mediaUrl);
         } else {
-            fluid.log("Invalid filename:", blockFileName);
+            fluid.log("Invalid filename:", block.mediaUrl);
         }
     });
 
@@ -549,26 +530,6 @@ sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secu
     });
 };
 
-// Kettle request handler for the tests directory
-fluid.defaults("sjrk.storyTelling.server.testsHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.tests"
-        }
-    }
-});
-
-// Kettle request handler for the testData directory
-fluid.defaults("sjrk.storyTelling.server.testDataHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.testData"
-        }
-    }
-});
-
 // Kettle request handler for the ui directory
 fluid.defaults("sjrk.storyTelling.server.uiHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
@@ -584,8 +545,13 @@ fluid.defaults("sjrk.storyTelling.server.uiHandler", {
 fluid.defaults("sjrk.storyTelling.server.themeHandler", {
     gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
     requestMiddleware: {
+        // includes things like robots.txt and (in the future) favicon
+        "staticFiles": {
+            middleware: "{server}.static"
+        },
         "baseTheme": {
-            middleware: "{server}.baseTheme"
+            middleware: "{server}.baseTheme",
+            priority: "before:staticFiles"
         },
         "currentTheme": {
             middleware: "{server}.currentTheme",

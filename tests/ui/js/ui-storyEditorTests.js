@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 /* global fluid, sjrk, jqUnit */
@@ -23,7 +23,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
             templateManager: {
                 options: {
                     templateConfig: {
-                        resourcePrefix: "../.."
+                        // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
+                        resourcePrefix: "../../../themes/base"
                     }
                 }
             },
@@ -36,7 +37,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
                                     templateManager: {
                                         options: {
                                             templateConfig: {
-                                                resourcePrefix: "../.."
+                                                // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
+                                                resourcePrefix: "../../../themes/base"
                                             },
                                             listeners: {
                                                 "onTemplateRendered.notifyTestStoryEditor": {
@@ -58,8 +60,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.registerNamespace("sjrk.storyTelling.ui.storyEditorTester");
     sjrk.storyTelling.ui.storyEditorTester.testStoryPreReorder = [{
         "alternativeText": null, "blockType": "image", "description": null,
-        "fileDetails": null, "firstInOrder": true, "heading": null, "id": null,
-        "imageUrl": null, "language": null, "lastInOrder": false, "order": 0
+        "firstInOrder": true, "heading": null, "id": null,
+        "mediaUrl": null, "language": null, "lastInOrder": false, "order": 0
     },
     {
         "blockType": "text", "firstInOrder": false, "heading": null, "id": null,
@@ -67,7 +69,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     },
     {
         "alternativeText": null, "blockType": "audio", "description": null,
-        "fileDetails": null, "firstInOrder": false, "heading": null, "id": null,
+        "firstInOrder": false, "heading": null, "id": null,
         "language": null, "lastInOrder": false, "mediaUrl": null, "order": 2
     },
     {
@@ -78,12 +80,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
 
     sjrk.storyTelling.ui.storyEditorTester.testStoryAfterFirstReorder = [{
         "alternativeText": null, "blockType": "image", "description": null,
-        "fileDetails": null, "firstInOrder": true, "heading": null, "id": null,
-        "imageUrl": null, "language": null, "lastInOrder": false, "order": 0
+        "firstInOrder": true, "heading": null, "id": null,
+        "mediaUrl": null, "language": null, "lastInOrder": false, "order": 0
     },
     {
         "alternativeText": null, "blockType": "audio", "description": null,
-        "fileDetails": null, "firstInOrder": false, "heading": null, "id": null,
+        "firstInOrder": false, "heading": null, "id": null,
         "language": null, "lastInOrder": false, "mediaUrl": null, "order": 1
     },
     {

@@ -1,7 +1,5 @@
 node_modules
 tests
-!tests/testData/**/*
-!tests/ui/**/*
 npm-debug.log
 .git
 .gitignore
