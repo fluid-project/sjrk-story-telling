@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 /* global sjrk */
@@ -38,6 +38,8 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
  * @property {String} authoringEnabled - indicates whether story saving and editing are enabled
  */
 
+// TODO: With https://issues.fluidproject.org/browse/SJRK-416 loading stories and returning 404/403 errors will be
+// revised.
 /**
  * Loads a story View page and a particular story from a story ID from the query string
  *
@@ -45,7 +47,7 @@ sjrk.storyTelling.getParameterByName = function (name, url) {
  * @param {Object} options - additional options to merge into the View page
  *
  * @return {Promise} - a fluid-flavoured promise which will return a storyView page component on resolve
- *                     returns an error object on rejection
+ *                     returns storyNotFound page component on rejection
  */
 sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
     var storyPromise = fluid.promise();
@@ -74,17 +76,56 @@ sjrk.storyTelling.loadStoryFromParameter = function (clientConfig, options) {
             var storyViewComponent = sjrk.storyTelling[clientConfig.theme].page.storyView(options);
 
             storyPromise.resolve(storyViewComponent);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            storyPromise.reject({
-                isError: true,
-                message: errorThrown
-            });
-        });;
-    } else {
-        storyPromise.reject({
-            isError: true,
-            message: "Story not loaded: no story ID provided"
+        }).fail(function () {
+            var storyNotFoundComponent = sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyId: storyId});
+            storyPromise.reject(storyNotFoundComponent);
         });
+    } else {
+        var storyNotFoundComponent = sjrk.storyTelling[clientConfig.theme].page.storyNotFound();
+        storyPromise.reject(storyNotFoundComponent);
+    }
+
+    return storyPromise;
+};
+
+// TODO: With https://issues.fluidproject.org/browse/SJRK-416 loading stories and returning 404/403 errors will be
+// revised.
+/**
+ * Attempts to load a story Edit page and a particular story from a story ID from the query string if provided
+ *
+ * @param {ClientConfig} clientConfig - client configuration settings
+ * @param {Object} options - additional options to merge into the Edit page
+ *
+ * @return {Promise} - a fluid-flavoured promise which will return a storyEdit page component on resolve
+ *                     returns storyNotFound page component on rejection
+ */
+sjrk.storyTelling.loadStoryEditWithParameter = function (clientConfig, options) {
+    var storyPromise = fluid.promise();
+    var storyId = sjrk.storyTelling.getParameterByName("id");
+    options = options || {
+        pageSetup: {
+            authoringEnabled: clientConfig.authoringEnabled
+        }
+    };
+
+    if (storyId) {
+        $.get("/stories/" + storyId, function (data) {
+            var retrievedStory = JSON.parse(data);
+
+            options.distributeOptions = [{
+                "target": "{that story}.options.model",
+                "record": retrievedStory
+            }];
+
+            var storyEditComponent = sjrk.storyTelling[clientConfig.theme].page.storyEdit(options);
+            storyPromise.resolve(storyEditComponent);
+        }).fail(function () {
+            var storyNotFoundComponent = sjrk.storyTelling[clientConfig.theme].page.storyNotFound({storyId: storyId});
+            storyPromise.reject(storyNotFoundComponent);
+        });
+    } else {
+        var storyEditComponent = sjrk.storyTelling[clientConfig.theme].page.storyEdit(options);
+        storyPromise.resolve(storyEditComponent);
     }
 
     return storyPromise;

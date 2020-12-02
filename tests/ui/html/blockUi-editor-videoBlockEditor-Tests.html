@@ -1,46 +1,53 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <link rel="stylesheet" media="screen" href="../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
 
-        <script src="../../node_modules/infusion/dist/infusion-all.js"></script>
+        <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
 
-        <script src="../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
-        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
-        <script src="../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
+        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
 
-        <script src="../../node_modules/fluid-binder/src/js/binder.js"></script>
+        <script src="../../../node_modules/fluid-binder/src/js/binder.js"></script>
 
-        <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
-        <script src="../../node_modules/markdown-it/dist/markdown-it.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/helper.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/jsonify.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/md-common.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/messageHelper.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/common/renderer.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/ajaxCapable.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/hasRequiredOptions.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/md-client.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/messageHelper.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/renderer.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateAware.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateFormControl.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateManager.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateMessage.js"></script>
-        <script src="../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
+        <script src="../../../node_modules/handlebars/dist/handlebars.js"></script>
+        <script src="../../../node_modules/markdown-it/dist/markdown-it.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/equals.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/helper.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/jsonify.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/md-common.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/messageHelper.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/common/renderer.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/ajaxCapable.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/md-client.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/messageHelper.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/renderer.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateAware.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateFormControl.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateManager.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateMessage.js"></script>
+        <script src="../../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
 
-        <script src="../../src/binder.js"></script>
-        <script src="../../src/uploader.js"></script>
-        <script src="../../src/block.js"></script>
-        <script src="../../src/block-timeBased.js"></script>
-        <script src="../../src/block-video.js"></script>
-        <script src="../../src/blockUi.js"></script>
-        <script src="../../src/blockUi-timeBased.js"></script>
-        <script src="../../src/blockUi-editor.js"></script>
-        <script src="../../src/blockUi-editor-videoBlockEditor.js"></script>
-        <script src="../../src/templateManager.js"></script>
-        <script src="../../src/transforms.js"></script>
+        <script src="../../../src/ui/binder.js"></script>
+        <script src="../../../src/ui/uploader.js"></script>
+        <script src="../../../src/ui/block.js"></script>
+        <script src="../../../src/ui/block-timeBased.js"></script>
+        <script src="../../../src/ui/block-video.js"></script>
+        <script src="../../../src/ui/blockUi.js"></script>
+        <script src="../../../src/ui/blockUi-timeBased.js"></script>
+        <script src="../../../src/ui/blockUi-editor.js"></script>
+        <script src="../../../src/ui/blockUi-editor-mediaBlockEditor.js"></script>
+        <script src="../../../src/ui/blockUi-editor-videoBlockEditor.js"></script>
+        <script src="../../../src/ui/templateManager.js"></script>
+        <script src="../../../src/ui/transforms.js"></script>
+
+        <!-- Required to send coverage data at the end of the test run on this page -->
+        <script src="/testem.js"></script>
+        <script src="/coverage/client/coverageSender.js"></script>
 
         <script src="../js/blockUi-editor-videoBlockEditorTests.js"></script>
         <script src="../js/testUtils.js"></script>

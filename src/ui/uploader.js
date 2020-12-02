@@ -1,13 +1,13 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk, loadImage */
+/* global fluid, sjrk */
 
 "use strict";
 
@@ -26,15 +26,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
     fluid.defaults("sjrk.storyTelling.block.singleFileUploader", {
         gradeNames: ["fluid.viewComponent"],
         members: {
-            currentFile: null
+            currentFile: null,
+            // these values configure the file upload server call
+            uploadUrl: "/stories/",
+            uploadMethod: "POST",
+            uploadTimeout: 300000, // 5 minutes, in ms
+            storyId: null // to be provided by implementing grade
         },
-        // Holds a fileObjectURL for file preview purposes
         model: {
-            fileObjectURL: null,
-            fileDetails: null
+            // uploadState can be one of the following values:
+            // "ready" (the initial state), "uploading", "errorReceived"
+            uploadState: "ready",
+            fileObjectUrl: null, // for the file preview
+            previousFileObjectUrl: null // for file deletion on change/upload
         },
         events: {
+            onFileSelectionRequested: null,
             onUploadRequested: null,
+            onUploadSuccess: null,
+            onUploadError: null,
             onFileChanged: null
         },
         selectors: {
@@ -44,97 +54,149 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENS
         },
         listeners: {
             "onCreate.addFileInputChangeListener": {
-                "this": "{that}.dom.fileInput",
-                "method": "change",
-                "args": ["{that}.handleFileInputChange"]
+                this: "{that}.dom.fileInput",
+                method: "change",
+                args: ["{that}.handleFileInputChange"]
             },
-            "onUploadRequested.clickHiddenFileInput": {
-                "this": "{that}.dom.fileInput",
-                "method": "click",
-                "args": []
+            "onFileSelectionRequested.clickHiddenFileInput": {
+                this: "{that}.dom.fileInput",
+                method: "click",
+                args: []
             },
-            "onFileChanged.updateFileObjectInformation": {
-                "func": "sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation",
-                "args": ["{that}", "{that}.currentFile"]
+            "onFileChanged.clearFileUrl": {
+                changePath: "",
+                value: {
+                    previousFileObjectUrl: "{that}.model.fileObjectUrl",
+                    fileObjectUrl: ""
+                }
+            },
+            "onFileChanged.uploadFileToServer": {
+                func: "{that}.uploadFileToServer",
+                args: ["{that}.currentFile", "{that}.model.previousFileObjectUrl"]
+            },
+            "onUploadRequested.setStateUploading": {
+                changePath: "uploadState",
+                value: "uploading",
+                source: "fileUploadOnUploadRequested"
+            },
+            "onUploadSuccess.resetStateAfterUpload": {
+                changePath: "",
+                value: {
+                    fileObjectUrl: "{arguments}.0",
+                    uploadState: "ready"
+                },
+                source: "fileUploadOnUploadSuccess"
+            },
+            "onUploadError.setStateErrorReceived": {
+                changePath: "uploadState",
+                value: "errorReceived",
+                source: "fileUploadOnUploadError"
             }
         },
         invokers: {
             "handleFileInputChange": {
                 funcName: "sjrk.storyTelling.block.singleFileUploader.handleFileInputChange",
                 args: ["{that}", "{that}.dom.fileInput"]
+            },
+            "uploadFileToServer": {
+                funcName: "sjrk.storyTelling.block.singleFileUploader.uploadFileToServer",
+                args: [
+                    "{arguments}.0",
+                    "{that}.storyId",
+                    "{arguments}.1",
+                    {
+                        uploadUrl: "{that}.uploadUrl",
+                        uploadMethod: "{that}.uploadMethod",
+                        uploadTimeout: "{that}.uploadTimeout",
+                        uploadingEvent: "{that}.events.onUploadRequested",
+                        completionEvent: "{that}.events.onUploadSuccess",
+                        errorEvent: "{that}.events.onUploadError"
+                    }
+                ]
+            },
+            "resetUploadState": {
+                func: "{that}.applier.change",
+                args: ["uploadState", "ready"]
             }
         }
     });
 
     /**
      * Updates the uploader's internal file representation with information
-     * stored in the DOM's uploader element. If the file is an image, an attempt
-     * will be made to rotate it to match any orientation EXIF data it provides.
+     * stored in the DOM's uploader element.
      *
      * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
      * @param {jQuery} fileInput - the DOM uploader element
      */
     sjrk.storyTelling.block.singleFileUploader.handleFileInputChange = function (that, fileInput) {
         var fileList = fileInput[0].files;
-        var currentFile = fileList[0];
-
-        if (currentFile && currentFile.type.indexOf("image") === 0) {
-            // loadImage is the call that rotates the image by virtue of the
-            // orientation option in the third argument. Setting the orientation
-            // option also means the callback argument is a canvas element,
-            // so we call .toBlob to retrieve file data that we can pass along.
-            // For more information, please see the documentation for the library:
-            // https://github.com/blueimp/JavaScript-Load-Image#options
-            loadImage(currentFile, function (img) {
-                if (img.type !== "error" && img.toBlob) {
-                    img.toBlob(function (blob) {
-                        blob.name = currentFile.name;
-                        blob.lastModified = currentFile.lastModified;
-                        blob.lastModifiedDate = currentFile.lastModifiedDate;
-                        sjrk.storyTelling.block.singleFileUploader.processFileChange(that, blob);
-                    });
-                } else {
-                    sjrk.storyTelling.block.singleFileUploader.processFileChange(that, currentFile);
-                }
-            }, { orientation: true });
-        } else {
-            sjrk.storyTelling.block.singleFileUploader.processFileChange(that, currentFile);
-        }
-    };
-
-    /**
-     * Updates the uploader's internal file representation with the provided file
-     *
-     * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
-     * @param {Object} file - the file object in question
-     */
-    sjrk.storyTelling.block.singleFileUploader.processFileChange = function (that, file) {
-        that.currentFile = file;
+        that.currentFile = fileList[0];
         that.events.onFileChanged.fire();
     };
 
     /**
-     * Given a file, updates the file's metadata as held on the uploader's model
-     *
-     * @param {Component} that - an instance of sjrk.storyTelling.block.singleFileUploader
-     * @param {Object} currentFile - the file whose details are being updated
+     *  Expected options for configuring the file upload call to the server
+     * @typedef {Object} FileUploadOptions
+     * @property {String} uploadUrl - the URL to which files are uploaded
+     * @property {String} uploadMethod - the HTTP method by which files are uploaded
+     * @property {String} uploadTimeout - the time (in ms) to wait for files to upload
+     * @property {Object} uploadingEvent - the event to be fired upon starting the upload
+     * @property {Object} completionEvent - the event to be fired upon successful completion
+     * @property {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.block.singleFileUploader.updateFileObjectInformation = function (that, currentFile) {
-        if (currentFile) {
-            var fileDetails = {
-                lastModified: currentFile.lastModified,
-                lastModifiedDate: currentFile.lastModifiedDate,
-                name: currentFile.name,
-                size: currentFile.size,
-                type: currentFile.type
-            };
 
-            URL.revokeObjectURL(that.model.fileObjectURL);
-            that.applier.change("fileObjectURL", URL.createObjectURL(currentFile));
-            that.applier.change("fileDetails", fileDetails);
-        } else {
-            that.applier.change("fileObjectURL", "");
-            that.applier.change("fileDetails", "");
+    /**
+     * Uploads the file to the server and sets the URL to the newly-saved
+     * dynamic file name upon completion
+     *
+     * @param {Object} fileToUpload - the file data
+     * @param {String} storyId - the story with which the file will be associated
+     * @param {String} previousFileUrl - the previous URL for the file, if it exists
+     * @param {FileUploadOptions} uploadOptions - options for the upload server call
+     */
+    sjrk.storyTelling.block.singleFileUploader.uploadFileToServer = function (fileToUpload, storyId, previousFileUrl, uploadOptions) {
+        if (fileToUpload) {
+            // This is the easiest way to be able to submit form
+            // content in the background via ajax
+            var formData = new FormData();
+            formData.append("file", fileToUpload);
+
+            if (previousFileUrl) {
+                formData.append("previousFileUrl", previousFileUrl);
+            }
+
+            var fileUploadUrl = uploadOptions.uploadUrl + storyId;
+
+            uploadOptions.uploadingEvent.fire();
+
+            $.ajax({
+                url         : fileUploadUrl,
+                data        : formData,
+                cache       : false,
+                contentType : false,
+                processData : false,
+                type        : uploadOptions.uploadMethod,
+                timeout     : uploadOptions.uploadTimeout,
+                success     : function (data, textStatus, jqXHR) {
+                    fluid.log(jqXHR, textStatus);
+
+                    uploadOptions.completionEvent.fire(data);
+                },
+                error       : function (jqXHR, textStatus, errorThrown) {
+                    fluid.log(fluid.logLevel.WARN, jqXHR, textStatus, errorThrown);
+
+                    var timeoutMessage = fluid.stringTemplate("Connection to the server timed out after %time seconds", {time: uploadOptions.uploadTimeout / 1000});
+
+                    var messageText = fluid.get(jqXHR, ["responseJSON", "message"]) ||
+                    (errorThrown === "timeout" ? timeoutMessage : errorThrown) ||
+                    (jqXHR.readyState === 0 ? "Unable to connect to the server" : "An unspecified server error occurred");
+
+                    uploadOptions.errorEvent.fire({
+                        isError: true,
+                        message: messageText
+                    });
+                }
+            });
         }
     };
 

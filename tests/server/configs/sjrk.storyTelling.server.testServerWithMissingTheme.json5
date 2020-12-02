@@ -7,6 +7,9 @@
                 "options": {
                     "globalConfig": {
                         "theme": "aThemeThatIsntReal"
+                    },
+                    "secureConfig": {
+                        secretsConfigPath: "./secrets.json.example"
                     }
                 }
             }
