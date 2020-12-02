@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 "use strict";
@@ -37,7 +37,8 @@ fluid.defaults("sjrk.storyTelling.server", {
                     binaryUploadDirectory: "./uploads",
                     uploadedFilesHandlerPath: "/uploads",
                     deletedFilesRecoveryPath: "/deleted_uploads",
-                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile(./secrets.json)"
+                    secretsConfigPath: "./secrets.json",
+                    secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile({that}.options.secureConfig.secretsConfigPath)"
                 },
                 port: "{that}.options.globalConfig.port",
                 distributeOptions: {
@@ -57,9 +58,13 @@ fluid.defaults("sjrk.storyTelling.server", {
                     deleteStoryDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
                     },
-                    // a DataSource to save a single story along with any files it has
-                    saveStoryWithBinaries: {
-                        type: "sjrk.storyTelling.server.middleware.saveStoryWithBinaries",
+                    // the Kettle app
+                    app: {
+                        type: "sjrk.storyTelling.server.app.storyTellingHandlers"
+                    },
+                    // middleware to save a block's file to the server filesystem
+                    saveStoryFile: {
+                        type: "sjrk.storyTelling.server.middleware.saveStoryFile",
                         options: {
                             components: {
                                 storage: {
@@ -69,10 +74,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                                 }
                             }
                         }
-                    },
-                    // the Kettle app
-                    app: {
-                        type: "sjrk.storyTelling.server.app.storyTellingHandlers"
                     },
                     // middleware to coordinate HTTP Basic Authentication
                     basicAuth: {
@@ -91,8 +92,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
-                                "blueimp-canvas-to-blob",
-                                "blueimp-load-image",
                                 "fluid-binder",
                                 "fluid-handlebars",
                                 "fluid-location-bar-relay",
@@ -116,28 +115,18 @@ fluid.defaults("sjrk.storyTelling.server", {
                             "root": "{server}.options.secureConfig.binaryUploadDirectory"
                         }
                     },
-                    // static middleware for the tests directory
-                    tests: {
-                        type: "kettle.middleware.static",
-                        options: {
-                            "root": "./tests/ui",
-                            middlewareOptions: {
-                                index: "all-tests.html"
-                            }
-                        }
-                    },
-                    // static middleware for the testData directory
-                    testData: {
-                        type: "kettle.middleware.static",
-                        options: {
-                            "root": "./tests/testData"
-                        }
-                    },
                     // static middleware for the ui directory
                     ui: {
                         type: "kettle.middleware.static",
                         options: {
                             "root": "./src/ui"
+                        }
+                    },
+                    // static middleware for the static files directory
+                    static: {
+                        type: "kettle.middleware.static",
+                        options: {
+                            "root": "./src/static"
                         }
                     },
                     // the custom theme for the site, loaded in "on top" of base
@@ -180,20 +169,19 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/stories/:id",
             "method": "get"
         },
-        saveStoryWithBinariesHandler: {
-            type: "sjrk.storyTelling.server.saveStoryWithBinariesHandler",
+        saveStoryHandler: {
+            type: "sjrk.storyTelling.server.saveStoryHandler",
             "route": "/stories/",
+            "method": "post"
+        },
+        saveStoryFileHandler: {
+            type: "sjrk.storyTelling.server.saveStoryFileHandler",
+            "route": "/stories/:id",
             "method": "post"
         },
         deleteStoryHandler: {
             type: "sjrk.storyTelling.server.deleteStoryHandler",
             "route": "/admin/deleteStory/:id",
-            "method": "get"
-        },
-        testDataHandler: {
-            type: "sjrk.storyTelling.server.testDataHandler",
-            "route": "/*",
-            "prefix": "/testData",
             "method": "get"
         },
         uiHandler: {
@@ -213,12 +201,6 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             "route": "/*",
             "method": "get",
             "prefix": "{server}.options.secureConfig.uploadedFilesHandlerPath"
-        },
-        testsHandler: {
-            type: "sjrk.storyTelling.server.testsHandler",
-            "route": "/*",
-            "prefix": "/tests",
-            "method": "get"
         },
         clientConfigHandler: {
             type: "sjrk.storyTelling.server.clientConfigHandler",

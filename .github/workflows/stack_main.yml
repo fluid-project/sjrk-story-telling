@@ -3,7 +3,7 @@ name: stories.floeproject.org__staging
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
   PROJECT_ID: 006fb6eb
@@ -17,7 +17,7 @@ jobs:
 
     steps:
 
-      # This step also exists in stack_master_cleanup.yml
+      # This step also exists in stack_main_cleanup.yml
       - name: Deploy stack
         uses: appleboy/ssh-action@master
         with:
@@ -28,7 +28,7 @@ jobs:
           envs:     PROJECT_ID
           script: |
             cd /srv/$PROJECT_ID/src                                       && \
-            git checkout master                                           && \
+            git checkout main                                             && \
             git pull                                                      && \
             source ../deploy.env                                          && \
             /usr/local/bin/docker-compose -p $PROJECT_ID                     \

@@ -1,10 +1,10 @@
 /*
 For copyright information, see the AUTHORS.md file in the docs directory of this distribution and at
-https://github.com/fluid-project/sjrk-story-telling/blob/master/docs/AUTHORS.md
+https://github.com/fluid-project/sjrk-story-telling/blob/main/docs/AUTHORS.md
 
 Licensed under the New BSD license. You may not use this file except in compliance with this licence.
 You may obtain a copy of the BSD License at
-https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/master/LICENSE.txt
+https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
 // This utility generates random stories with "lorem ipsum"-style
@@ -35,16 +35,9 @@ var storyTemplate = {
             "language": null,
             "heading": null,
             "blockType": "image",
-            "imageUrl": "logo_small_fluid_vertical.png",
+            "mediaUrl": "logo_small_fluid_vertical.png",
             "alternativeText": "Fluid",
-            "description": "%imageCaption",
-            "fileDetails": {
-                "lastModified": 1524592510016,
-                "lastModifiedDate": "2018-04-24T17:55:10.016Z",
-                "name": "logo_small_fluid_vertical.png",
-                "size": 3719,
-                "type": "image/png"
-            }
+            "description": "%imageCaption"
         },
         {
             "id": null,
@@ -64,14 +57,9 @@ var storyTemplate = {
 };
 
 fluid.defaults("sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest", {
-    gradeNames: ["kettle.test.request.formData"],
+    gradeNames: ["kettle.test.request.http"],
     path: "/stories",
-    method: "POST",
-    formData: {
-        files: {
-            "file": ["./tests/testData/logo_small_fluid_vertical.png"]
-        }
-    }
+    method: "POST"
 });
 
 jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
@@ -90,16 +78,6 @@ jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
     var fabricatedStoryModel = fluid.stringTemplate(JSON.stringify(storyTemplate), storyValues);
 
     var req = sjrk.storyTelling.server.storyFabricator.fabricateStoryRequest({
-        formData: {
-            fields: {
-                "model": {
-                    expander: {
-                        type: "fluid.noexpand",
-                        value: fabricatedStoryModel
-                    }
-                }
-            }
-        },
         listeners: {
             "onComplete.testDone": {
                 "this": "jqUnit",
@@ -109,5 +87,5 @@ jqUnit.asyncTest("kettle.JSON.readFileSync of invalid JSON", function () {
         }
     });
 
-    req.send();
+    req.send(fabricatedStoryModel);
 });

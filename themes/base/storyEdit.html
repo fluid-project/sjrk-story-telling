@@ -12,8 +12,6 @@
 <link rel="stylesheet" type="text/css" href="/node_modules/infusion/dist/assets/src/framework/preferences/css/SeparatedPanelPrefsEditor.css" />
 <link rel="stylesheet" type="text/css" href="/node_modules/infusion/src/components/orator/css/Orator.css" />
 
-<script src="/node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js"></script>
-<script src="/node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
 <script src="/node_modules/handlebars/dist/handlebars.js"></script>
 <script src="/node_modules/markdown-it/dist/markdown-it.js"></script>
 <script src="/node_modules/fluid-binder/src/js/binder.js"></script>
@@ -58,6 +56,7 @@
 <script src="src/blockUi-videoBlockViewer.js"></script>
 <script src="src/blockUi-timeBased.js"></script>
 <script src="src/base-page-storyEdit.js"></script>
+<script src="src/base-page-storyNotFound.js"></script>
 <script src="src/base-page.js"></script>
 <script src="src/story.js"></script>
 <script src="src/templateManager.js"></script>
@@ -124,6 +123,7 @@
         <div class="sjrk-st-menu sjrkc-st-menu"></div>
         <div class="sjrk-st-story-editor sjrkc-st-story-editor"></div>
         <div class="sjrk-st-story-viewer sjrkc-st-story-previewer"></div>
+        <div class="sjrk-st-story-notFoundNotice sjrkc-st-story-notFoundNotice"></div>
     </div>
     <div class="sjrk-edit-right-container sjrkc-edit-right-container"></div>
 </main>
@@ -133,13 +133,7 @@
 
 <script>
     $(document).ready(function () {
-        sjrk.storyTelling.loadTheme().then(function (clientConfig) {
-            sjrk.storyTelling[clientConfig.theme].page.storyEdit({
-                pageSetup: {
-                    authoringEnabled: clientConfig.authoringEnabled
-                }
-            });
-        });
+        sjrk.storyTelling.loadTheme().then(sjrk.storyTelling.loadStoryEditWithParameter);
     });
 </script>
 

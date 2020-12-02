@@ -3,7 +3,7 @@ name: Docker image push
 on:
   push:
     branches:
-      - master
+      - main
       - stories-aihec-production
       - stories-cities-production
       - stories-floe-production
