@@ -99,6 +99,10 @@ fluid.defaults("sjrk.storyTelling.server", {
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view"
                     },
+                    // a DataSource to get a stories by author
+                    storyByAuthorDataSource: {
+                        type: "sjrk.storyTelling.server.dataSource.couch.authorStoriesView"
+                    },
                     // a DataSource to get or save a single story
                     storyDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.story"
@@ -224,6 +228,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
             "route": "/stories/:id",
+            "method": "get"
+        },
+        getEditStoryHandler: {
+            type: "sjrk.storyTelling.server.getEditStoryHandler",
+            "route": "/stories/:id/edit",
             "method": "get"
         },
         saveStoryHandler: {

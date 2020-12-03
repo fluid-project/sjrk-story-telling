@@ -115,6 +115,9 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                 },
                 "storiesById": {
                     "map": "sjrk.storyTelling.server.storiesDb.storiesByIdFunction"
+                },
+                "storiesByAuthor": {
+                    "map": "sjrk.storyTelling.server.storiesDb.storiesByAuthorFunction"
                 }
             },
             validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"
@@ -141,7 +144,7 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
  * @param {Object} doc - a document to evaluate in the view
  */
 sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
-    if (doc.value.published) {
+    if (doc.type === "story" && doc.value.published) {
         var browseDoc = {
             "title": doc.value.title,
             "author": doc.value.author,
@@ -150,6 +153,17 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
         };
 
         emit(doc._id, browseDoc);
+    }
+};
+
+/**
+ * This function is used as a "view" design doc once it's migrated to CouchDB
+ *
+ * @param {Object} doc - a document to evaluate in the view
+ */
+sjrk.storyTelling.server.storiesDb.storiesByAuthorFunction = function (doc) {
+    if (doc.type === "story" && doc.authorID) {
+        emit([doc.authorID, doc._id], doc.value);
     }
 };
 

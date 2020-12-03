@@ -109,7 +109,7 @@ sjrk.storyTelling.loadStoryEditWithParameter = function (clientConfig, options) 
     };
 
     if (storyId) {
-        $.get("/stories/" + storyId, function (data) {
+        $.get("/stories/" + storyId + "/edit", function (data) {
             var retrievedStory = JSON.parse(data);
 
             options.distributeOptions = [{

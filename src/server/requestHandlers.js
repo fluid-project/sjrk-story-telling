@@ -123,6 +123,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
             request.events.onError.fire({
+                statusCode: 403,
                 isError: true,
                 message: noAccessErrorMessage
             });
@@ -131,9 +132,57 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
         fluid.log(fluid.logLevel.WARN, "Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
 
         request.events.onError.fire({
+            statusCode: 404,
             isError: true,
             message: noAccessErrorMessage
         });
+    });
+};
+
+// Kettle request handler for a single story (View)
+fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleGetEditStory",
+            args: ["{request}", "{server}.storyByAuthorDataSource"]
+        }
+    }
+});
+
+/**
+ * Gets a single story's data from the database, parses it, rebuilds any URLs to
+ * files associated with that story and responds to the HTTP request
+ *
+ * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
+ * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
+ * @param {Function } assembleDirectModel - (optional) a function to create a direct model object for instructing how
+ *                                          to access the resource.
+ */
+sjrk.storyTelling.server.handleGetEditStory = function (request, dataSource) {
+    var id = request.req.params.id;
+    var directModel = {
+        authorID: request.req.session.authorID,
+        storyId: id
+    };
+
+    var promise = dataSource.get(directModel);
+    var noAccessError = {
+        statusCode: 404,
+        message: "An error occurred while retrieving the requested story"
+    };
+
+    promise.then(function (response) {
+        var storyModel = fluid.get(response, ["rows", "0", "value"]);
+        if (storyModel) {
+            request.events.onSuccess.fire(JSON.stringify(storyModel));
+        } else {
+            fluid.log(fluid.logLevel.WARN, "Story with id " + id + " not found for authenitcated user, or no user authenticated");
+            request.events.onError.fire(noAccessError);
+        }
+    }, function (error) {
+        fluid.log(fluid.logLevel.WARN, "Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
+        request.events.onError.fire(noAccessError);
     });
 };
 
@@ -194,7 +243,7 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
  */
 sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, authorID, storyModel, successEvent, failureEvent) {
     var id = fluid.get(storyModel, "id") || uuidv4();
-    var story = fluid.copy(storyModel);
+    var story = {value: storyModel};
 
     if (authorID) {
         story.authorID = authorID;
