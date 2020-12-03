@@ -197,7 +197,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
                     args: [
                         {
-                            url: "/stories/test-id",
+                            url: "/stories/test-id/edit",
                             contentType: "text/strings",
                             response: ""
                         }

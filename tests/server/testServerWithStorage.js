@@ -24,6 +24,7 @@ require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
 require("../../src/server/requestHandlers");
+require("../../src/server/validators");
 require("../../src/server/db/story-dbConfiguration");
 
 kettle.loadTestingSupport();
@@ -185,6 +186,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         "onBlankStoryWithEmptyMediaBlocksSaveSuccessful": null
     },
     testUploadOptions: {
+        testAuthorID: "test-author-id",
         testPNGFile: "./tests/testData/logo_small_fluid_vertical.png",
         testPNGFileHeaders: {
             "content-type": "image/png",
@@ -605,6 +607,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
         funcName: "sjrk.storyTelling.server.saveStoryToDatabase",
         args: [
             "{server}.server.storyDataSource",
+            "{testCaseHolder}.options.testUploadOptions.testAuthorID",
             { modelKey: "testValue" },
             "{that}.events.onStorySaveSuccessful",
             "{that}.events.onStorySaveUnsuccessful"
@@ -617,7 +620,13 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     {
         funcName: "sjrk.storyTelling.server.saveStoryToDatabase",
-        args: ["{server}.server.storyDataSource", null, "{that}.events.onStorySaveSuccessful", "{that}.events.onStorySaveUnsuccessful"]
+        args: [
+            "{server}.server.storyDataSource",
+            "{testCaseHolder}.options.testUploadOptions.testAuthorID",
+            null,
+            "{that}.events.onStorySaveSuccessful",
+            "{that}.events.onStorySaveUnsuccessful"
+        ]
     },
     {
         event: "{that}.events.onStorySaveSuccessful",

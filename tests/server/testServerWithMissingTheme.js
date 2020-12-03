@@ -20,6 +20,7 @@ require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
 require("../../src/server/requestHandlers");
+require("../../src/server/validators");
 require("./utils/serverTestUtils.js");
 
 kettle.loadTestingSupport();
