@@ -689,16 +689,31 @@ fluid.defaults("sjrk.storyTelling.server.signupHandler", {
  * @param {fluid.express.user.utils} expressUserUtils - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUtils) {
-    if (!request.req.session.authorID) {
+    if (request.req.session.authorID) {
+        request.events.onError.fire({
+            statusCode: 409,
+            message: "An account is already logged in."
+        });
+        return;
+    }
 
-        if (request.req.body.password !== request.req.body.confirm) {
+    if (request.req.body.password !== request.req.body.confirm) {
+        request.events.onError.fire({
+            statusCode: 400,
+            message: "The password and confirmation password do not match."
+        });
+        return;
+    }
+
+    expressUserUtils.byUsernameOrEmailReader.get({username: request.req.body.email}).then(function (body) {
+        if (body.email) {
             request.events.onError.fire({
-                statusCode: 400,
-                message: "The password and confirmation password do not match."
+                statusCode: 409,
+                message: "Account already exists for " + request.req.body.email
             });
+            return;
         } else {
             var promise = expressUserUtils.createNewUser({
-                username: request.req.body.username,
                 email: request.req.body.email,
                 password: request.req.body.password,
                 authorID: uuidv4()
@@ -714,12 +729,12 @@ sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUti
                 });
             });
         }
-    } else {
+    }, function () {
         request.events.onError.fire({
-            statusCode: 409,
-            message: "Already logged in."
+            statusCode: 500
         });
-    }
+        return;
+    });
 };
 
 fluid.defaults("sjrk.storyTelling.server.loginHandler", {
@@ -744,7 +759,15 @@ fluid.defaults("sjrk.storyTelling.server.loginHandler", {
  * @param {fluid.express.user.utils} expressUserUtils - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtils) {
-    var promise = expressUserUtils.unlockUser(request.req.body.username, request.req.body.password);
+    if (request.req.session.authorID) {
+        request.events.onError.fire({
+            statusCode: 409,
+            message: "An account is already logged in."
+        });
+        return;
+    }
+
+    var promise = expressUserUtils.unlockUser(request.req.body.email, request.req.body.password);
 
     promise.then(function (record) {
         request.req.session.authorID = record.authorID;

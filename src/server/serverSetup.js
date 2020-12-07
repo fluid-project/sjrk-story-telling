@@ -79,7 +79,8 @@ fluid.defaults("sjrk.storyTelling.server", {
                             rules: {
                                 createUserWrite: {
                                     "_id": "userData.authorID",
-                                    "authorID": "userData.authorID" // may only need _id in the document
+                                    "authorID": "userData.authorID", // may only need _id in the document,
+                                    "username": "userData.email"
                                 }
                             },
                             couch: {

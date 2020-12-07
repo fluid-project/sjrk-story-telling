@@ -20,11 +20,6 @@ fluid.defaults("sjrk.storyTelling.server.signupValidator", {
         "$schema": "fss-v7-full#",
         type: "object",
         properties: {
-            username: {
-                type: "string",
-                required: true,
-                minLength: 1
-            },
             email: {
                 type: "string",
                 required: true,
@@ -50,10 +45,10 @@ fluid.defaults("sjrk.storyTelling.server.loginValidator", {
         "$schema": "fss-v7-full#",
         type: "object",
         properties: {
-            username: {
+            email: {
                 type: "string",
                 required: true,
-                minLength: 1
+                format: "email"
             },
             password: {
                 type: "string",
