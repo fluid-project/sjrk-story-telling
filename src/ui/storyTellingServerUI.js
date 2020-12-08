@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global sjrk */
-
 "use strict";
 
 /**
@@ -16,7 +14,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
  * {@link https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript}
  *
  * @param {String} name - the name of the query string variable to retrieve
- * @param {String} url - an optional URL to parse. Uses actual page URL if not provided
+ * @param {String} [url] - (optional) an URL to parse. Uses actual page URL if not provided
  *
  * @return {String} - The query string value
  */

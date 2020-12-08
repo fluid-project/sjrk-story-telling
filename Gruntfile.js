@@ -8,7 +8,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 */
 
 // Declare dependencies
-/* global module */
 
 "use strict";
 

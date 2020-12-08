@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk */
-
 "use strict";
 
 (function ($, fluid) {
@@ -21,17 +19,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     });
 
     /**
-    * A transform to turn a delimited string into an array. If input is not a
-    * string, then it will return an empty array.
-    * It is partly invertible via "sjrk.storyTelling.transforms.arrayToString".
-    *
-    * @param {Object} input - the input for the transform function, unused
-    * @param {Object} transformSpec - specifications for the transformation function
-    * @param {String} transformSpec.[delimiter] - the delimiter of terms within the given strings, defaults to ","
-    * @param {Boolean} transformSpec.[trim] - flag to trim excess whitespace from each term. defaults to true
-    *
-    * @return {String[]} - the resulting array of strings split according to the transformSpec
-    */
+     * A transform to turn a delimited string into an array. If input is not a
+     * string, then it will return an empty array.
+     * It is partly invertible via "sjrk.storyTelling.transforms.arrayToString".
+     *
+     * @param {Object} input - the input for the transform function, unused
+     * @param {Object} [transformSpec] - (optional) specifications for the transformation function. Takes properities:
+     * @param {String} [transformSpec.delimiter] - (optional) the delimiter of terms within the given strings, defaults
+     *                                             to ","
+     * @param {Boolean} [transformSpec.trim] - (optional) flag to trim excess whitespace from each term. defaults to true
+     *
+     * @return {String[]} - the resulting array of strings split according to the transformSpec
+     */
     sjrk.storyTelling.transforms.stringToArray = function (input, transformSpec) {
         if (!input || typeof input !== "string") {
             return [];
@@ -60,18 +59,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     });
 
     /**
-    * A transform to turn an array into a delimited string.
-    * Values can also be accessed via a specific object path relative to each term.
-    * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
-    *
-    * @param {String[]} input - the input for the transform function, unused
-    * @param {Object} transformSpec - specifications for the transformation function
-    * @param {String} transformSpec.[delimiter] - the delimiter to be inserted between each term. defaults to ", "
-    * @param {Boolean} transformSpec.[stringOnly] - flag to allow only non-empty strings. defaults to true
-    * @param {String} transformSpec.[path] - an EL path on each item in the terms collection
-    *
-    * @return {String} - the resulting string compiled according to the transformSpec
-    */
+     * A transform to turn an array into a delimited string.
+     * Values can also be accessed via a specific object path relative to each term.
+     * It is partly invertible via "sjrk.storyTelling.transforms.stringToArray".
+     *
+     * @param {String[]} input - the input for the transform function, unused
+     * @param {Object} [transformSpec] - (optional) specifications for the transformation function
+     * @param {String} [transformSpec.delimiter] - (optional) the delimiter to be inserted between each term. defaults to
+     *                                              ", "
+     * @param {Boolean} [transformSpec.stringOnly] - (optional) flag to allow only non-empty strings. defaults to true
+     * @param {String} [transformSpec.path] - (optional) an EL path on each item in the terms collection
+     *
+     * @return {String} - the resulting string compiled according to the transformSpec
+     */
     sjrk.storyTelling.transforms.arrayToString = function (input, transformSpec) {
         var delimiter = transformSpec.delimiter || ", ",
             stringOnly = fluid.isValue(transformSpec.stringOnly) ? transformSpec.stringOnly : true,
@@ -105,17 +105,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     });
 
     /**
-    * A transform which, given a collection and an index, will the value of the
-    * collection at the specified index or, if that is not truthy, the index itself
-    *
-    * @param {Object} input - the input for the transform function, unused
-    * @param {Object} extraInputs - a collection of extra input values
-    * @param {Object} extraInputs.component - the component with the collection
-    * @param {String} extraInputs.path - the EL path on the component where the collection resides
-    * @param {String|Number} extraInputs.index - the index value to be checked
-    *
-    * @return {*} - the value of a collection at a given index or the index itself
-    */
+     * A transform which, given a collection and an index, will the value of the
+     * collection at the specified index or, if that is not truthy, the index itself
+     *
+     * @param {Object} input - the input for the transform function, unused
+     * @param {Object} extraInputs - a collection of extra input values
+     * @param {Object} extraInputs.component - the component with the collection
+     * @param {String} extraInputs.path - the EL path on the component where the collection resides
+     * @param {String|Number} extraInputs.index - the index value to be checked
+     *
+     * @return {Any} - the value of a collection at a given index or the index itself
+     */
     sjrk.storyTelling.transforms.valueOrIndex = function (input, extraInputs) {
         var component = extraInputs.component();
         var path = extraInputs.path();
@@ -124,7 +124,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         return fluid.get(component, path)[index] || index;
     };
 
-    /* A transform which, given a value, will return the logical `not` of that value
+    /*
+     * A transform which, given a value, will return the logical `not` of that value
      * This is achieved via a simple "!" (not) operator, there is no fancy logic
      * to deal with particular types of data.
      * - "input": the value to negate

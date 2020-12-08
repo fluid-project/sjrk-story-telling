@@ -156,8 +156,6 @@ fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {Function } assembleDirectModel - (optional) a function to create a direct model object for instructing how
- *                                          to access the resource.
  */
 sjrk.storyTelling.server.handleGetEditStory = function (request, dataSource) {
     var id = request.req.params.id;
@@ -235,8 +233,9 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
- * @param {String|Undefined} authorID - (optional) Used to identify the author account for the story. If provided, will
- *                             be stored with the storyModel for use in future requests to access the story.
+ * @param {String|undefined} [authorID] - (optional) Used to identify the author account for the story. If provided,
+ *                                        will be stored with the storyModel for use in future requests to access the
+ *                                        story.
  * @param {Object} storyModel - a single story's model
  * @param {Object} successEvent - an infusion event to fire upon successful completion
  * @param {Object} failureEvent - an infusion event to fire on failure

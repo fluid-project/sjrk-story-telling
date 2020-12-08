@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 // globals or arguments that will be prevent in CouchDB design doc functions
 // such as views or validate_doc_update
 
-/* global sjrk, emit, newDoc, oldDoc, userCtx, secObj */
+/* global emit, newDoc, oldDoc, userCtx, secObj */
 /*eslint no-unused-vars: ["error", { "vars": "local", "argsIgnorePattern": "newDoc|oldDoc|userCtx|secObj" }]*/
 
 "use strict";

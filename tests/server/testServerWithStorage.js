@@ -772,7 +772,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccess
  * @param {Object} testStory - the test story that is to be updated
  * @param {String} uploadedFilename - the filename of the uploaded file
  * @param {Object} completionEvent - an event to fire on test completion
-*/
+ */
 sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename = function (testStory, uploadedFilename, completionEvent) {
     testStory.content[0].mediaUrl = uploadedFilename;
     completionEvent.fire(testStory);

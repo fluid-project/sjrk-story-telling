@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, jqUnit, sinon, sjrk */
+/* global jqUnit, sinon */
 
 "use strict";
 
@@ -1345,9 +1345,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     /**
      * Represents a progress state as the visibility of three parts of the page
      * @typedef {Object} PublishingState
-     * @property {boolean} progressArea - the visibility of the progress area
-     * @property {boolean} responseArea - the visibility of the server response area
-     * @property {boolean} shareButton - the visibility of the share story button
+     * @property {Boolean} progressArea - the visibility of the progress area
+     * @property {Boolean} responseArea - the visibility of the server response area
+     * @property {Boolean} shareButton - the visibility of the share story button
      */
 
     /**
@@ -1466,13 +1466,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // Test sjrk.storyTelling.base.page.storyEdit.initializeStory
 
-        // test cases
-        // - initialModel
-        // - storyAutosaveKey
-        // - storyAutoSave data
-        // - createBlocksFromData called, and with what value
-        // - loadStoryContent called and with what value
-        // - createNewStoryOnServer called
+    // test cases
+    // - initialModel
+    // - storyAutosaveKey
+    // - storyAutoSave data
+    // - createBlocksFromData called, and with what value
+    // - loadStoryContent called and with what value
+    // - createNewStoryOnServer called
 
     sjrk.storyTelling.base.page.testStoryEdit.initializeStoryTestCases = {
         "no initial or saved story": {

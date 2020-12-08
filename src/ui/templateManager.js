@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk */
-
 "use strict";
 
 (function ($, fluid) {
@@ -242,11 +240,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * use in labeling form elements in the component template. Any
      * instances of the value "$id" in the block will be replaced with this ID.
      *
-     * @param {String} prefixForId - prefix to prepend before the GUID
-     *
-     * @return {String} - the freshly fully-formed ID
+     * @return {Function} - A function returning the freshly fully-formed ID
      */
     sjrk.storyTelling.templateManager.getIdsHelper.getLabelIds = function () {
+        /**
+         * Handlebars block helper function to generate a unique ID (GUID) for
+         * use in labeling form elements in the component template. Any
+         * instances of the value "$id" in the block will be replaced with this ID.
+         *
+         * @param {String} prefixForId - prefix to prepend before the GUID
+         * @param {Object} options - configure the function for sourcing the string to modify
+         *
+         * @return {String} - the freshly fully-formed ID
+         */
         return function (prefixForId, options) {
             if (prefixForId && typeof prefixForId === "string") {
                 prefixForId = prefixForId + "-" + fluid.allocateGuid();
@@ -274,13 +280,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * Handlebars block helper function to replace all instances of one value
      * within a given string with another new value.
      *
-     * @param {String} source - the source string to be modified
-     * @param {String} originalValue - the value to be replaced
-     * @param {String} newValue - the new value to use instead of originalValue
-     *
-     * @return {String} - The resulting string content
+     * @return {Function} - A function for performing the string replacement
      */
     sjrk.storyTelling.templateManager.replaceHelper.replace = function () {
+        /**
+         * Handlebars block helper function to replace all instances of one value
+         * within a given string with another new value.
+         *
+         * @param {String} source - the source string to be modified
+         * @param {String} originalValue - the value to be replaced
+         * @param {String} newValue - the new value to use instead of originalValue
+         *
+         * @return {String} - The resulting string content
+         */
         return function (source, originalValue, newValue) {
             var modifiedSource = source;
             return modifiedSource.replace(new RegExp(originalValue, "g"), newValue);
