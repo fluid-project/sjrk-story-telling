@@ -312,7 +312,6 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
     var id = request.req.params.id;
 
     dataSource.get({directStoryId: id}).then(function (response) {
-        // verify there is a file to save before continuing
         if (request.req.session.authorID !== response.authorID) {
             request.events.onError.fire({
                 statusCode: 403

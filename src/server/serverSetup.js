@@ -274,11 +274,6 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             route: "/clientConfig",
             method: "get"
         },
-        sesstionTest: {
-            type: "sjrk.storyTelling.server.sessionTestHandler",
-            "route": "/session",
-            method: "get"
-        },
         signupHandler: {
             type: "sjrk.storyTelling.server.signupHandler",
             "route": "/authors/signup",
@@ -301,34 +296,6 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         }
     }
 });
-
-/***************************
- * Test setup for sessions *
- ***************************/
-
-// TODO: Remove this, as it is only for testing purposes
-fluid.defaults("sjrk.storyTelling.server.sessionTestHandler", {
-    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
-    invokers: {
-        handleRequest: {
-            funcName: "sjrk.storyTelling.server.handleSessionTestRequest",
-            args: ["{request}"]
-        }
-    }
-});
-
-/**
- * Test handler for using sessions.
- *
- * @param {Object} request - a Kettle request
- */
-sjrk.storyTelling.server.handleSessionTestRequest = function (request) {
-    // TODO: update this to be the
-    // request.req.session.text = request.req.session.text || `testing - ${request.req.sessionID}`;
-    // request.events.onSuccess.fire(`session request: ${request.req.session.text}\n`);
-    request.events.onSuccess.fire(`authorID: ${request.req.session.authorID || "unknown"}\n`);
-};
-
 
 /**
  * Resolves a JSON file and parses it before returning it
