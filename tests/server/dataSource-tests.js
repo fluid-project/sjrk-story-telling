@@ -142,6 +142,7 @@ sjrk.test.storyTelling.server.dataSource.mockRecords.tagsResponse = {
  * Converts an object of dbDocuments to a the expected response object from a call to the stories view.
  *
  * @param {Object} records - a set of dbDocuments to convert to the expected stories view response.
+ * @return {Object} - a couchDB style view response.
  */
 sjrk.test.storyTelling.server.dataSource.recordsToStoryViewResponse = function (records) {
     var filter = ["title", "author", "tags", "content"];
