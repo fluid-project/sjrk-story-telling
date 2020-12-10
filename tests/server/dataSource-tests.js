@@ -138,7 +138,11 @@ sjrk.test.storyTelling.server.dataSource.mockRecords.tagsResponse = {
     }]
 };
 
-// options: ids, path, filter, filterExclude
+/**
+ * Converts an object of dbDocuments to a the expected response object from a call to the stories view.
+ *
+ * @param {Object} records - a set of dbDocuments to convert to the expected stories view response.
+ */
 sjrk.test.storyTelling.server.dataSource.recordsToStoryViewResponse = function (records) {
     var filter = ["title", "author", "tags", "content"];
 
@@ -165,7 +169,6 @@ sjrk.test.storyTelling.server.dataSource.recordsToStoryViewResponse = function (
     return response;
 };
 
-// a database for file and database tests
 fluid.defaults("sjrk.test.storyTelling.server.dataSource.testDB", {
     gradeNames: ["fluid.component"],
     events: {
@@ -216,7 +219,6 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.testDB", {
     }
 });
 
-// Test environment - no id provided
 fluid.defaults("sjrk.test.storyTelling.server.dataSource.testEnvironment", {
     gradeNames: ["fluid.test.testEnvironment"],
     components: {
@@ -258,7 +260,6 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.testEnvironment", {
     }
 });
 
-// Main test sequences for the Edit page
 fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
     gradeNames: ["fluid.test.testCaseHolder"],
     members: {
