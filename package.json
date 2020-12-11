@@ -25,7 +25,7 @@
         "express-basic-auth": "1.2.0",
         "fluid-binder": "1.1.1",
         "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
-        "fluid-express-user": "2.0.0-dev.20201201T093241Z.c2278e5.GH-14",
+        "fluid-express-user": "2.0.0",
         "fluid-handlebars": "2.1.3",
         "fluid-json-schema": "2.1.4",
         "fluid-location-bar-relay": "1.0.6",
