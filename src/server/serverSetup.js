@@ -334,6 +334,11 @@ sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     return themePath;
 };
 
+/**
+ * Creates an in memory session store for use by the session middleware. Configured for sessions to expire after 24hrs.
+ *
+ * @return {Object} - a MemoryStore instance
+ */
 sjrk.storyTelling.server.makeMemorySessionStore = function () {
     // TODO: Currently using https://www.npmjs.com/package/memorystore as it is a production ready memory store;
     //       however, the session should eventually be stored in a database to prevent clearing on server restart.

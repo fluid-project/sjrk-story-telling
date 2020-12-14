@@ -682,7 +682,7 @@ fluid.defaults("sjrk.storyTelling.server.signupHandler", {
  * Creates a new user account and stores it to the database
  *
  * @param {Object} request - a Kettle request
- * @param {fluid.express.user.utils} expressUserUtils - an instance of `fluid.express.user.utils`
+ * @param {Component} expressUserUtils - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUtils) {
     if (request.req.session.authorID) {
@@ -752,7 +752,7 @@ fluid.defaults("sjrk.storyTelling.server.loginHandler", {
  * Logs in an existing user with the password and username provided in the request.
  *
  * @param {Object} request - a Kettle request
- * @param {fluid.express.user.utils} expressUserUtils - an instance of `fluid.express.user.utils`
+ * @param {Component} expressUserUtils - an instance of `fluid.express.user.utils`
  */
 sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtils) {
     if (request.req.session.authorID) {
