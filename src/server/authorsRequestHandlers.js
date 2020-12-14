@@ -69,7 +69,9 @@ sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUti
 
             promise.then(function (record) {
                 request.req.session.authorID = record.authorID;
-                request.events.onSuccess.fire();
+                request.events.onSuccess.fire({
+                    email: record.email
+                });
             }, function () {
                 request.events.onError.fire({
                     statusCode: 409,
@@ -119,7 +121,9 @@ sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtil
 
     promise.then(function (record) {
         request.req.session.authorID = record.authorID;
-        request.events.onSuccess.fire();
+        request.events.onSuccess.fire({
+            email: record.email
+        });
     }, function () {
         request.events.onError.fire({
             statusCode: 401
