@@ -51,6 +51,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         secret: "{server}.options.secureConfig.secrets.session"
                     }
                 },
+                account: "{that}.options.secureConfig.secrets.account",
                 distributeOptions: {
                     couchDBURL: {
                         record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
@@ -63,6 +64,10 @@ fluid.defaults("sjrk.storyTelling.server", {
                     sessionOptions: {
                         source: "{that}.options.session",
                         target: "{that > kettle.middlewareHolder > session}.options"
+                    },
+                    accountOptions: {
+                        source: "{that}.options.account",
+                        target: "{that > expressUserUtils}.options"
                     }
                 },
                 components: {
@@ -70,8 +75,6 @@ fluid.defaults("sjrk.storyTelling.server", {
                     expressUserUtils: {
                         type: "fluid.express.user.utils",
                         options: {
-                            iterations: 10,
-                            digest: "blake2b512",
                             dataSourceConfig: {
                                 host: "http://localhost:5984",
                                 path: "authors"
