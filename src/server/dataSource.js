@@ -67,8 +67,10 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.view", {
 // A CouchDB DataSource for retrieving a story by authorID and storyId
 fluid.defaults("sjrk.storyTelling.server.dataSource.couch.authorStoriesView", {
     gradeNames: ["sjrk.storyTelling.server.dataSource.couch.core"],
-    // TODO: investigate overriding the resolveUrl invoker to all for providing the query paramters via
+    // TODO: Investigate overriding the resolveUrl invoker to allow for providing the query paramters via
     // the directModel completely. In that way the view can be used for different filtering on the same view.
+    // https://issues.fluidproject.org/browse/SJRK-443
+
     // Note: the pre-uriEncoding for the `"` and `,` characters in the `key` query parameter
     path: "/%db/_design/%designDoc/_view/%viewId?key=[%22%authorID%22%2C%22%storyId%22]",
     termMap: {

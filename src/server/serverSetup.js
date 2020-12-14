@@ -58,7 +58,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     couchDBAuthorsURL: {
                         record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
-                        target: "{that gexpressUserUtils}.options.dataSourceConfig.host"
+                        target: "{that expressUserUtils}.options.dataSourceConfig.host"
                     },
                     sessionOptions: {
                         source: "{that}.options.session",
@@ -79,8 +79,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                             rules: {
                                 createUserWrite: {
                                     "_id": "userData.authorID",
-                                    "authorID": "userData.authorID", // may only need _id in the document,
-                                    "username": "userData.email"
+                                    "authorID": "userData.authorID" // may only need _id in the document
                                 }
                             },
                             couch: {
@@ -335,9 +334,15 @@ sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     return themePath;
 };
 
+/**
+ * Creates an in memory session store for use by the session middleware. Configured for sessions to expire after 24hrs.
+ *
+ * @return {Object} - a MemoryStore instance
+ */
 sjrk.storyTelling.server.makeMemorySessionStore = function () {
     // TODO: Currently using https://www.npmjs.com/package/memorystore as it is a production ready memory store;
     //       however, the session should eventually be stored in a database to prevent clearing on server restart.
+    //       https://issues.fluidproject.org/browse/SJRK-444
     return new MemoryStore({
         checkPeriod: 86400000 // prune expired entries every 24h
     });
