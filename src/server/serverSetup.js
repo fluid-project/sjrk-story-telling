@@ -58,7 +58,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     },
                     couchDBAuthorsURL: {
                         record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
-                        target: "{that gexpressUserUtils}.options.dataSourceConfig.host"
+                        target: "{that expressUserUtils}.options.dataSourceConfig.host"
                     },
                     sessionOptions: {
                         source: "{that}.options.session",
