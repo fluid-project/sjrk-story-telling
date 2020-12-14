@@ -54,3 +54,16 @@ sjrk.storyTelling.server.verifyGetThemeFileUnsuccessful = function (data, that) 
     var responseData = JSON.parse(data);
     jqUnit.assertTrue("Unsuccessful GET request for theme file 2/2: error was returned", responseData.isError);
 };
+
+/**
+ * A wrapper around `jqUnit.assertDeepEq` except it strips `_rev` out of the actual response as this is generated value.
+ * The remaining properties are compared with `jqUnit.assertDeepEq`.
+ *
+ * @param {String} msg - The assertion message
+ * @param {Object} expected - The expected value to compare against the `actual` value.
+ * @param {Object} actual - The actual value, minus `_rev` property, compared against the `expected` value.
+ */
+sjrk.storyTelling.server.verifyResponse = function (msg, expected, actual) {
+    actual = fluid.filterKeys(actual, "_rev", true);
+    jqUnit.assertDeepEq(msg, expected, actual);
+};

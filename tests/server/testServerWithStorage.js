@@ -26,6 +26,7 @@ require("../../src/server/serverSetup");
 require("../../src/server/requestHandlers");
 require("../../src/server/validators");
 require("../../src/server/db/story-dbConfiguration");
+require("./utils/serverTestUtils.js");
 
 kettle.loadTestingSupport();
 
@@ -817,10 +818,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = func
             jqUnit.assertTrue("Uploaded file exists: " + filePath, exists);
         }
 
-        // Strip the _rev field from the parsedData
-        parsedData = fluid.censorKeys(parsedData, "_rev");
-
-        jqUnit.assertDeepEq("Saved story data is as expected", updatedModel, parsedData);
+        sjrk.storyTelling.server.verifyResponse("Saved story data is as expected", updatedModel, parsedData);
 
         if (completionEvent && fileOptions) {
             completionEvent.fire(parsedData.content[0].mediaUrl);

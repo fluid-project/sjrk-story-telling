@@ -16,6 +16,7 @@ var fluid = require("infusion"),
 require("../../src/server/dataSource");
 require("../../src/server/db/authors-dbConfiguration");
 require("../../src/server/db/story-dbConfiguration");
+require("./utils/serverTestUtils.js");
 require("fluid-pouchdb");
 
 kettle.loadTestingSupport();
@@ -41,12 +42,12 @@ sjrk.test.storyTelling.server.dataSource.mockRecords = {
         }
     },
     stories: {
-        "story1": {
+        "publishedStory": {
             "type": "story",
             "authorID": "author1",
             "value": {
                 "published": true,
-                "id": "story1",
+                "id": "publishedStory",
                 "title": "Sample Story 1",
                 "author": "IDRC",
                 "tags": [
@@ -60,12 +61,12 @@ sjrk.test.storyTelling.server.dataSource.mockRecords = {
                 }]
             }
         },
-        "story2": {
+        "storyByOtherAuthor": {
             "type": "story",
             "authorID": "author2",
             "value": {
                 "published": true,
-                "id": "story2",
+                "id": "storyByOtherAuthor",
                 "title": "Sample Story 2",
                 "content": [{
                     "heading": "Reorder Content Blocks",
@@ -79,12 +80,12 @@ sjrk.test.storyTelling.server.dataSource.mockRecords = {
                 ]
             }
         },
-        "story3": {
+        "unpublishedStory": {
             "type": "story",
             "authorID": "author1",
             "value": {
                 "published": false,
-                "id": "story3",
+                "id": "unpublishedStory",
                 "title": "Sample Story 3",
                 "content": [{
                     "heading": "Navigating through Content Blocks",
@@ -105,20 +106,20 @@ sjrk.test.storyTelling.server.dataSource.mockRecords.tagsResponse = {
     "offset": 0,
     "rows": [{
         "key": "Example",
-        "id": "story1",
+        "id": "publishedStory",
         "value": "Sample Story 1"
     }, {
         "key": "Example",
-        "id": "story2",
+        "id": "storyByOtherAuthor",
         "value": "Sample Story 2"
-    }, {
-        "key": "Example",
-        "id": "story3",
-        "value": "Sample Story 3"
     }, {
         "key": "Example",
         "id": "storyExample",
         "value": "The Story Builder how-to"
+    }, {
+        "key": "Example",
+        "id": "unpublishedStory",
+        "value": "Sample Story 3"
     }, {
         "key": "Help",
         "id": "storyExample",
@@ -129,11 +130,11 @@ sjrk.test.storyTelling.server.dataSource.mockRecords.tagsResponse = {
         "value": "The Story Builder how-to"
     }, {
         "key": "Sample",
-        "id": "story2",
+        "id": "storyByOtherAuthor",
         "value": "Sample Story 2"
     }, {
         "key": "Test",
-        "id": "story1",
+        "id": "publishedStory",
         "value": "Sample Story 1"
     }]
 };
@@ -273,6 +274,12 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             "isError": true,
             "statusCode": 404
         },
+        storyMissingError: {
+            "reason": "missing",
+            "message": "not_found while executing HTTP %method on url http://http://localhost:6789/stories/%storyId",
+            "isError": true,
+            "statusCode": 404
+        },
         newStory: {
             "value": {
                 "published": true,
@@ -360,43 +367,43 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 task: "{storyByAuthorDataSource}.get",
                 args: [{
                     authorID: "author1",
-                    storyId: "story1"
+                    storyId: "publishedStory"
                 }],
                 resolve: "jqUnit.assertDeepEq",
                 resolveArgs: [
-                    "The correct story was returned: author1, story1",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.story1.value,
+                    "The correct story was returned: author1, publishedStory",
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.publishedStory.value,
                     "{arguments}.0.rows.0.value"
                 ]
             }, {
                 task: "{storyByAuthorDataSource}.get",
                 args: [{
                     authorID: "author2",
-                    storyId: "story2"
+                    storyId: "storyByOtherAuthor"
                 }],
                 resolve: "jqUnit.assertDeepEq",
                 resolveArgs: [
-                    "The correct story was returned: author2, story2",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.story2.value,
+                    "The correct story was returned: author2, storyByOtherAuthor",
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.storyByOtherAuthor.value,
                     "{arguments}.0.rows.0.value"
                 ]
             }, {
                 task: "{storyByAuthorDataSource}.get",
                 args: [{
                     authorID: "author1",
-                    storyId: "story3"
+                    storyId: "unpublishedStory"
                 }],
                 resolve: "jqUnit.assertDeepEq",
                 resolveArgs: [
-                    "The correct story was returned: author1, story3",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.story3.value,
+                    "The correct story was returned: author1, unpublishedStory",
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.unpublishedStory.value,
                     "{arguments}.0.rows.0.value"
                 ]
             }, {
                 task: "{storyByAuthorDataSource}.get",
                 args: [{
                     authorID: "noAuthor",
-                    storyId: "story3"
+                    storyId: "unpublishedStory"
                 }],
                 resolve: "jqUnit.assertUndefined",
                 resolveArgs: [
@@ -420,20 +427,20 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             expect: 7,
             sequence: [{
                 task: "{storyDataSource}.get",
-                args: [{directStoryId: "story1"}],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                args: [{directStoryId: "publishedStory"}],
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Retrieved the published story",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.story1.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.publishedStory.value,
                     "{arguments}.0"
                 ]
             }, {
                 task: "{storyDataSource}.get",
-                args: [{directStoryId: "story3"}],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                args: [{directStoryId: "unpublishedStory"}],
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Retrieved the unpublished story",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.story3.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.unpublishedStory.value,
                     "{arguments}.0"
                 ]
             }, {
@@ -442,13 +449,14 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 reject: "sjrk.test.storyTelling.server.dataSource.tester.assertMissingError",
                 rejectArgs: [
                     "Error returned for invalid story id",
+                    "{that}.options.testOpts.storyMissingError",
                     "{arguments}.0",
                     {storyId: "invalidStoryID"}
                 ]
             }, {
                 task: "{storyDataSource}.set",
                 args: [{directStoryId: "{that}.options.testOpts.newStory.value.id"}, "{that}.options.testOpts.newStory"],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "The new story should be saved",
                     {
@@ -460,7 +468,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             }, {
                 task: "{storyDataSource}.get",
                 args: [{directStoryId: "{that}.options.testOpts.newStory.value.id"}],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Retrieved the new story",
                     "{that}.options.testOpts.newStory.value",
@@ -469,7 +477,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             }, {
                 task: "{storyDataSource}.set",
                 args: [{directStoryId: "{that}.options.testOpts.updatedStory.value.id"}, "{that}.options.testOpts.updatedStory"],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "The updated story should be saved",
                     {
@@ -481,7 +489,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             }, {
                 task: "{storyDataSource}.get",
                 args: [{directStoryId: "{that}.options.testOpts.updatedStory.value.id"}],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Retrieved the updated story",
                     "{that}.options.testOpts.updatedStory.value",
@@ -494,7 +502,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             sequence: [{
                 // save the revision to use for deleting the story
                 task: "{storyDataSource}.get",
-                args: [{directStoryId: "story1"}],
+                args: [{directStoryId: "publishedStory"}],
                 resolve: "fluid.set",
                 resolveArgs: [
                     "{that}",
@@ -504,15 +512,16 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             }, {
                 task: "{deleteStoryDataSource}.set",
                 args: [{
-                    directStoryId: "story1",
+                    directStoryId: "publishedStory",
                     directRevisionId: "invalid_rev"
                 }],
                 reject: "sjrk.test.storyTelling.server.dataSource.tester.assertMissingError",
                 rejectArgs: [
                     "Error thrown for invalid story rev",
+                    "{that}.options.testOpts.storyMissingError",
                     "{arguments}.0",
                     {
-                        storyId: "story1",
+                        storyId: "publishedStory",
                         rev: "invalid_rev",
                         method: "DELETE"
                     }
@@ -526,6 +535,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 reject: "sjrk.test.storyTelling.server.dataSource.tester.assertMissingError",
                 rejectArgs: [
                     "Error thrown for invalid story id",
+                    "{that}.options.testOpts.storyMissingError",
                     "{arguments}.0",
                     {
                         storyId: "invalid_story_id",
@@ -536,26 +546,27 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             }, {
                 task: "{deleteStoryDataSource}.set",
                 args: [{
-                    directStoryId: "story1",
+                    directStoryId: "publishedStory",
                     directRevisionId: "{that}.rev"
                 }],
-                resolve: "sjrk.test.storyTelling.server.dataSource.tester.assertResponse",
+                resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Story should have been removed",
                     {
                         "ok": true,
-                        "id": "story1"
+                        "id": "publishedStory"
                     },
                     "{arguments}.0"
                 ]
             }, {
                 task: "{storyDataSource}.get",
-                args: [{directStoryId: "story1"}],
+                args: [{directStoryId: "publishedStory"}],
                 reject: "sjrk.test.storyTelling.server.dataSource.tester.assertMissingError",
                 rejectArgs: [
                     "Error thrown for attempting to access a deleted story",
+                    "{that}.options.testOpts.storyMissingError",
                     "{arguments}.0",
-                    {storyId: "story1"}
+                    {storyId: "publishedStory"}
                 ]
             }]
         }]
@@ -563,36 +574,19 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
 });
 
 /**
- * A wrapper around `jqUnit.assertDeepEq` except it strips `_rev` out of the actual response as this is generated value.
- * The remaining properties are compared with `jqUnit.assertDeepEq`.
- *
- * @param {String} msg - The assertion message
- * @param {Object} expected - The expected value to compare against the `actual` value.
- * @param {Object} actual - The actual value, minus `_rev` property, compared against the `expected` value.
- */
-sjrk.test.storyTelling.server.dataSource.tester.assertResponse = function (msg, expected, actual) {
-    actual = fluid.filterKeys(actual, "_rev", true);
-    jqUnit.assertDeepEq(msg, expected, actual);
-};
-
-/**
  * A wrapper around `jqUnit.assertDeepEq`, includes construction of the expected error message
  *
  * @param {String} msg - The assertion message
+ * @param {Object} expected - The expected error message.
  * @param {Object} actual - The actual error returned
- * @param {Object} [options] - (optional) values to be interpolated into the error message
- * @param {String} [options.method] - (optional) the HTTP method to interpolate into error message; default "GET"
- * @param {String} [options.storyId] - (optional) the storyId to interpolate into the error message; default ""
+ * @param {Object} [options] - (optional) values to be interpolated into the error message. The key matches the token
+ *                             to be replaced with the associated value.
  * @param {String} [options.rev] - (optional) the rev to interpolate into the error message
  */
-sjrk.test.storyTelling.server.dataSource.tester.assertMissingError = function (msg, actual, options) {
+sjrk.test.storyTelling.server.dataSource.tester.assertMissingError = function (msg, expected, actual, options) {
     var tokens = fluid.merge("replace", {}, {method: "GET", storyID: ""}, options || {});
-    var expected = {
-        "reason": "missing",
-        "message": fluid.stringTemplate("not_found while executing HTTP %method on url http://http://localhost:6789/stories/%storyId", tokens),
-        "isError": true,
-        "statusCode": 404
-    };
+    expected = fluid.copy(expected);
+    expected.message = fluid.stringTemplate(expected.message, tokens);
 
     if (options.rev) {
         expected.message += "?rev=" + options.rev;
