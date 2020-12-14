@@ -17,13 +17,14 @@ var fluid = require("infusion"),
     path = require("path"),
     { v4: uuidv4 } = require("uuid");
 
-require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
 require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
-require("../../src/server/requestHandlers");
+require("../../src/server/authorsRequestHandlers");
+require("../../src/server/staticRequestHandlers");
+require("../../src/server/storyRequestHandlers");
 require("../../src/server/validators");
 require("../../src/server/db/story-dbConfiguration");
 require("./utils/serverTestUtils.js");
