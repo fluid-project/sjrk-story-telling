@@ -16,20 +16,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.base.page"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-menu.handlebars"
+            record: "%resourcePrefix/templates/aihec-menu.hbs"
         },
         {
             target: "{that > masthead > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/aihecMessages.json",
-                templatePath: "%resourcePrefix/templates/aihec-masthead.handlebars"
+                templatePath: "%resourcePrefix/templates/aihec-masthead.hbs"
             }
         },
         {
             target: "{that > footer > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/aihecMessages.json",
-                templatePath: "%resourcePrefix/templates/aihec-footer.handlebars"
+                templatePath: "%resourcePrefix/templates/aihec-footer.hbs"
             }
         }],
         components: {
@@ -64,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyView"],
         distributeOptions: [{
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyViewer.hbs"
         },{
             target: "{that > masthead > templateManager}.options.model.dynamicValues",
             record: {
@@ -83,7 +83,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyBrowse"],
         distributeOptions: [{
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyBrowser.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyBrowser.hbs"
         },{
             target: "{that > masthead > templateManager}.options.model.dynamicValues",
             record: {
@@ -106,11 +106,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyEdit"],
         distributeOptions: [{
             target: "{that > storyEditor > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyEditor.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyEditor.hbs"
         },
         {
             target: "{that > storyPreviewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyViewer.hbs"
         },
         {
             target: "{that > masthead > templateManager}.options.model.dynamicValues",
@@ -126,7 +126,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             target: "{that > welcome > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/aihecMessages.json",
-                templatePath: "%resourcePrefix/templates/aihec-welcome.handlebars"
+                templatePath: "%resourcePrefix/templates/aihec-welcome.hbs"
             }
         },
         {

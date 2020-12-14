@@ -91,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyViewer.handlebars"
+                        templatePath: "%resourcePrefix/templates/storyViewer.hbs"
                     }
                 }
             },
