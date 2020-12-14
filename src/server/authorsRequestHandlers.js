@@ -53,7 +53,7 @@ sjrk.storyTelling.server.handleSignupRequest = function (request, expressUserUti
         return;
     }
 
-    expressUserUtils.byUsernameOrEmailReader.get({email: request.req.body.email}).then(function (body) {
+    expressUserUtils.byUsernameOrEmailReader.get({username: request.req.body.email}).then(function (body) {
         if (body.email) {
             request.events.onError.fire({
                 statusCode: 409,
