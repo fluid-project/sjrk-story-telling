@@ -1,0 +1,14 @@
+<nav class="sjrk-st-author-controls" lang="{{localizedMessages.language}}">
+    <ul>
+        <li class="sjrk-st-author-greeting">{{localizedMessages.message_author_greeting}}</li>
+        {{#if dynamicValues.sessionId}}
+            <li>
+                <button class="sjrkc-st-author-log-out sjrk-st-author-log-out" type="button" name="button">{{localizedMessages.message_author_log_out}}</button>
+            </li>
+        {{else}}
+            <li>
+                <button class="sjrkc-st-author-log-in sjrk-st-author-log-in" type="button" name="button">{{localizedMessages.message_author_log_in}}</button>
+            </li>
+        {{/if}}
+    </ul>
+</nav>
