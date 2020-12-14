@@ -104,8 +104,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
 });
 
 /**
- * Gets a single story's data from the database, parses it, rebuilds any URLs to
- * files associated with that story and responds to the HTTP request
+ * Gets a single story's data from the database, parses it and responds to the HTTP request
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
@@ -151,8 +150,7 @@ fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
 });
 
 /**
- * Gets a single story's data from the database, parses it, rebuilds any URLs to
- * files associated with that story and responds to the HTTP request
+ * Gets a single story's data from the database, parses it and responds to the HTTP request
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story

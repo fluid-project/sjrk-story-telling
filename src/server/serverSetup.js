@@ -337,6 +337,7 @@ sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
 sjrk.storyTelling.server.makeMemorySessionStore = function () {
     // TODO: Currently using https://www.npmjs.com/package/memorystore as it is a production ready memory store;
     //       however, the session should eventually be stored in a database to prevent clearing on server restart.
+    //       https://issues.fluidproject.org/browse/SJRK-444
     return new MemoryStore({
         checkPeriod: 86400000 // prune expired entries every 24h
     });
