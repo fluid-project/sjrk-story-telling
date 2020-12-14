@@ -139,7 +139,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
     });
 };
 
-// Kettle request handler for a single story (View)
+// Kettle request handler for getting a single story (Edit)
 fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
     gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
     invokers: {
