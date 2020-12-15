@@ -60,6 +60,18 @@ fieldset ul {
     display: none;
 }
 
+.sjrk-st-author-controls ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.5rem 2rem 0 2rem;
+    padding: 0;
+}
+
+.sjrk-st-author-controls li {
+    margin: 0 0 0 2rem;
+}
+
 .sjrk-st-page-content-container {
     background-color: #fff;
     padding: 0 2rem 2rem 2rem;
@@ -662,6 +674,15 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 }
 
 @media only screen and (max-width: 50em) {
+    .sjrk-st-author-controls ul {
+        justify-content: space-evenly;
+        margin: 1.5rem 1rem 0.5rem 1rem;
+    }
+
+    .sjrk-st-author-controls li {
+        margin: 0;
+    }
+
     .sjrk-st-page-content-container {
         padding: 0.5rem;
     }

@@ -1,5 +1,9 @@
 {
     "language": "en",
+    "message_author_greeting": "Hello, %author!",
+    "message_author_sign_up": "Sign up",
+    "message_author_log_in": "Log in",
+    "message_author_log_out": "Log out",
     "message_blockAddImageBlock": "Add an image block",
     "message_blockAddTextBlock": "Add a text block",
     "message_blockAddAudioBlock": "Add an audio block",
