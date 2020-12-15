@@ -136,20 +136,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             // the "author controls" section of the page
             authorControls: {
-                type: "sjrk.storyTelling.ui",
-                container: ".sjrkc-st-author-controls-container",
-                options: {
-                    components: {
-                        // the templateManager for this UI
-                        templateManager: {
-                            options: {
-                                templateConfig: {
-                                    templatePath: "%resourcePrefix/templates/authorControls.hbs"
-                                }
-                            }
-                        }
-                    }
-                }
+                type: "sjrk.storyTelling.ui.authorControls",
+                container: ".sjrkc-st-author-controls-container"
             },
             // the storytelling tool "main" menu
             menu: {
