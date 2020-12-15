@@ -17,6 +17,7 @@ require("../../src/server/dataSource");
 require("../../src/server/db/authors-dbConfiguration");
 require("../../src/server/db/story-dbConfiguration");
 require("./utils/serverTestUtils.js");
+require("./utils/mockDatabase.js");
 require("fluid-pouchdb");
 
 kettle.loadTestingSupport();
@@ -171,62 +172,26 @@ sjrk.test.storyTelling.server.dataSource.recordsToStoryViewResponse = function (
     return response;
 };
 
-fluid.defaults("sjrk.test.storyTelling.server.dataSource.testDB", {
-    gradeNames: ["fluid.component"],
-    events: {
-        authorsDBReady: null,
-        storiesDBReady: null,
-        onReady: {
-            events: {
-                authorsDBReady: "authorsDBReady",
-                storiesDBReady: "storiesDBReady"
-            }
-        }
-    },
-    components: {
-        pouchHarness: {
-            type: "fluid.pouch.harness",
-            options: {
-                port: 6789
-            }
-        },
-        authorsDBConfig: {
-            type: "sjrk.storyTelling.server.authorsDb",
-            createOnEvent: "{pouchHarness}.events.onReady",
-            options: {
-                listeners: {
-                    "onCreate.configureCouch": "{that}.configureCouch",
-                    "onSuccess.escalate": "{testDB}.events.authorsDBReady"
-                },
-                couchOptions: {
-                    couchUrl: "http://localhost:6789"
-                },
-                dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.authors
-            }
-        },
-        storiesDBConfig: {
-            type: "sjrk.storyTelling.server.storiesDb",
-            createOnEvent: "{pouchHarness}.events.onReady",
-            options: {
-                listeners: {
-                    "onCreate.configureCouch": "{that}.configureCouch",
-                    "onSuccess.escalate": "{testDB}.events.storiesDBReady"
-                },
-                couchOptions: {
-                    couchUrl: "http://localhost:6789"
-                },
-                dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.stories
-            }
-        }
-    }
-});
-
 fluid.defaults("sjrk.test.storyTelling.server.dataSource.testEnvironment", {
     gradeNames: ["fluid.test.testEnvironment"],
     components: {
         testDB: {
-            type: "sjrk.test.storyTelling.server.dataSource.testDB",
-            createOnEvent: "{datasourceTester}.events.onTestCaseStart"
+            type: "sjrk.test.storyTelling.server.mockDatabase",
+            createOnEvent: "{datasourceTester}.events.onTestCaseStart",
+            options: {
+                components: {
+                    authorsDBConfig: {
+                        options: {
+                            dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.authors
+                        }
+                    },
+                    storiesDBConfig: {
+                        options: {
+                            dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.stories
+                        }
+                    }
+                }
+            }
         },
         // a DataSource to get a list of stories
         viewDataSource: {
@@ -584,7 +549,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
  * @param {String} [options.rev] - (optional) the rev to interpolate into the error message
  */
 sjrk.test.storyTelling.server.dataSource.tester.assertMissingError = function (msg, expected, actual, options) {
-    var tokens = fluid.merge("replace", {}, {method: "GET", storyID: ""}, options || {});
+    var tokens = fluid.extend({}, {method: "GET", storyID: ""}, options || {});
     expected = fluid.copy(expected);
     expected.message = fluid.stringTemplate(expected.message, tokens);
 
