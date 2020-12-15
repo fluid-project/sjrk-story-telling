@@ -67,7 +67,7 @@ var testStoryModelPrePublish = {
     "published": false
 };
 
-var testStoryModelPostPublish = fluid.merge("replace", testStoryModelPrePublish, {"published": true});
+var testStoryModelPostPublish = fluid.extend({}, testStoryModelPrePublish, {"published": true});
 
 // a story with no content
 var blankStory = {
@@ -82,7 +82,7 @@ var blankStory = {
 };
 
 // an unpublished story with no content
-var unpublishedStory = fluid.merge("replace", testStoryModelPrePublish, {
+var unpublishedStory = fluid.extend({}, testStoryModelPrePublish, {
     "id": "unpublishedStory-ID",
     "published": false
 });

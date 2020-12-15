@@ -549,7 +549,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
  * @param {String} [options.rev] - (optional) the rev to interpolate into the error message
  */
 sjrk.test.storyTelling.server.dataSource.tester.assertMissingError = function (msg, expected, actual, options) {
-    var tokens = fluid.merge("replace", {}, {method: "GET", storyID: ""}, options || {});
+    var tokens = fluid.extend({}, {method: "GET", storyID: ""}, options || {});
     expected = fluid.copy(expected);
     expected.message = fluid.stringTemplate(expected.message, tokens);
 
