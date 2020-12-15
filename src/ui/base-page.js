@@ -36,7 +36,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         },
         pageSetup: {
-            resourcePrefix: ""
+            resourcePrefix: "",
+            logOutUrl: "/authors/logout"
             // "authoringEnabled" is retrieved from sjrk.storyTelling.server.config.json5
             // via a request to "/clientConfig". It enables and disables the
             // authoring capabilities of the tool and must be present.
@@ -91,12 +92,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             onUioPanelsUpdated: null,
             onRenderAllUiTemplates: null,
             beforePreferencesReset: null,
-            onPreferencesReset: null
+            onPreferencesReset: null,
+            onLogOut: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
                 funcName: "sjrk.storyTelling.base.page.getStoredPreferences",
                 args: ["{that}", "{cookieStore}"]
+            },
+            // SJRK-404 TODO: clear session-id cookie on logOut, too
+            "onLogOut.logOut": {
+                func: "sjrk.storyTelling.base.page.storyEdit.logOut",
+                priority: "last"
+            },
+            "{authorControls}.events.onLogOutRequested": {
+                func: "{that}.events.onLogOut.fire",
+                namespace: "onLogOutRequested"
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
@@ -194,6 +205,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         // setting the cookie expiry to epoch in order to delete it
         document.cookie = pageComponent.cookieStore.options.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         pageComponent.events.onPreferencesReset.fire(pageComponent);
+    };
+
+    /**
+     * Logs the author out of their account by calling the appropriate endpoint
+     *
+     * @param {String} logOutUrl - the server URL to call to end the session
+     *
+     * @return {jqXHR} - the jqXHR for the server request
+     */
+    sjrk.storyTelling.base.page.logOut = function (logOutUrl) {
+        return $.ajax({
+            url: logOutUrl,
+            type: "POST"
+        });
     };
 
 })(jQuery, fluid);
