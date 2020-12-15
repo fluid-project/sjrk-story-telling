@@ -107,7 +107,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             "{authorControls}.events.onLogOutRequested": {
                 func: "{that}.events.onLogOut.fire",
-                namespace: "onLogOutRequested"
+                namespace: "escalateOnLogOutRequested"
             },
             "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
@@ -116,7 +116,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 func: "{that}.events.onContextChangeRequested.fire",
-                namespace: "onContextChangeRequested",
+                namespace: "escalateOnContextChangeRequested",
                 priority: "last"
             }]
         },

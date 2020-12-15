@@ -40,13 +40,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     });
 
     // a UI representing the "login" form of the login page
-    fluid.defaults("sjrk.storyTelling.ui.login", {
+    fluid.defaults("sjrk.storyTelling.ui.loginUi", {
         gradeNames: ["sjrk.storyTelling.ui"],
+        model: {
+            email: null, // the author's email
+            password: null // the author's password
+        },
         selectors: {
-            logInButton: ".sjrkc-st-author-log-out",
-            emailInput: ".sjrkc-st-login-form-email",
-            passwordInput: ".sjrkc-st-login-form-password",
-            confirmInput: ".sjrkc-st-login-form-confirm"
+            logInButton: ".sjrkc-st-login-button",
+            emailInput: ".sjrkc-st-login-email-input",
+            passwordInput: ".sjrkc-st-login-password-input"
         },
         events: {
             onLogInRequested: null
@@ -64,6 +67,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 options: {
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/login.hbs"
+                    }
+                }
+            },
+            // for binding the input fields to the data model
+            binder: {
+                type: "sjrk.storyTelling.binder",
+                container: "{loginUi}.container",
+                options: {
+                    model: "{loginUi}.model",
+                    selectors: "{loginUi}.options.selectors",
+                    listeners: {
+                        "{loginUi}.events.onReadyToBind": {
+                            func: "{that}.events.onUiReadyToBind",
+                            namespace: "applyLoginUiBinding"
+                        }
+                    },
+                    bindings: {
+                        emailInput: "email",
+                        passwordInput: "password"
                     }
                 }
             }
