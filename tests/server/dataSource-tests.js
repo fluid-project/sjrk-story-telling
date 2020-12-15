@@ -18,7 +18,6 @@ require("../../src/server/db/authors-dbConfiguration");
 require("../../src/server/db/story-dbConfiguration");
 require("./utils/serverTestUtils.js");
 require("./utils/mockDatabase.js");
-require("fluid-pouchdb");
 
 kettle.loadTestingSupport();
 
@@ -32,14 +31,12 @@ sjrk.test.storyTelling.server.dataSource.mockRecords = {
         "author1": {
             "type": "user",
             "email": "test@example.com",
-            "authorID": "author1",
-            "username": "test@example.com"
+            "authorID": "author1"
         },
         "author2": {
             "type": "user",
             "email": "test2@example.com",
-            "authorID": "author2",
-            "username": "test2@example.com"
+            "authorID": "author2"
         }
     },
     stories: {
@@ -174,6 +171,13 @@ sjrk.test.storyTelling.server.dataSource.recordsToStoryViewResponse = function (
 
 fluid.defaults("sjrk.test.storyTelling.server.dataSource.testEnvironment", {
     gradeNames: ["fluid.test.testEnvironment"],
+    dbHost: "http://localhost:6789",
+    distributeOptions: {
+        dataSourceHost: {
+            source: "{that}.options.dbHost",
+            target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
+        }
+    },
     components: {
         testDB: {
             type: "sjrk.test.storyTelling.server.mockDatabase",
@@ -195,31 +199,19 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.testEnvironment", {
         },
         // a DataSource to get a list of stories
         viewDataSource: {
-            type: "sjrk.storyTelling.server.dataSource.couch.view",
-            options: {
-                host: "http://localhost:6789"
-            }
+            type: "sjrk.storyTelling.server.dataSource.couch.view"
         },
         // a DataSource to get a stories by author
         storyByAuthorDataSource: {
-            type: "sjrk.storyTelling.server.dataSource.couch.authorStoriesView",
-            options: {
-                host: "http://localhost:6789"
-            }
+            type: "sjrk.storyTelling.server.dataSource.couch.authorStoriesView"
         },
         // a DataSource to get or save a single story
         storyDataSource: {
-            type: "sjrk.storyTelling.server.dataSource.couch.story",
-            options: {
-                host: "http://localhost:6789"
-            }
+            type: "sjrk.storyTelling.server.dataSource.couch.story"
         },
         // a DataSource to delete a single story
         deleteStoryDataSource: {
-            type: "sjrk.storyTelling.server.dataSource.couch.deleteStory",
-            options: {
-                host: "http://localhost:6789"
-            }
+            type: "sjrk.storyTelling.server.dataSource.couch.deleteStory"
         },
         datasourceTester: {
             type: "sjrk.test.storyTelling.server.dataSource.tester"

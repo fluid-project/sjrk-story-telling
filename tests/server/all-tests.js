@@ -20,7 +20,8 @@ var testIncludes = [
     "./testServer.js",
     "./testServerWithCustomTheme.js",
     "./testServerWithStorage.js",
-    "./testServerWithMissingTheme.js"
+    "./testServerWithMissingTheme.js",
+    "./testServerWithAuthentication.js"
 ];
 
 fluid.each(testIncludes, function (path) {
