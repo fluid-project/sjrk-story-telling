@@ -28,6 +28,7 @@ require("../../src/server/storyRequestHandlers");
 require("../../src/server/validators");
 require("../../src/server/db/story-dbConfiguration");
 require("./utils/serverTestUtils.js");
+require("./utils/mockDatabase.js");
 
 kettle.loadTestingSupport();
 
@@ -212,7 +213,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     },
     components: {
         testDB: {
-            type: "sjrk.storyTelling.server.testServerWithStorageDefs.testDB"
+            type: "sjrk.test.storyTelling.server.mockDatabase"
         },
         storySavePrePublish: {
             type: "kettle.test.request.http",
@@ -377,7 +378,7 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
     // Story with an image
     {
         // initializes the story in its unpublished form
-        event: "{testDB}.dbConfiguration.events.onSuccess",
+        event: "{testDB}.events.onReady",
         listener: "{that}.storySavePrePublish.send",
         args: [testStoryModelPrePublish]
     },
@@ -1137,31 +1138,6 @@ sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests = f
         jqUnit.assertEquals(message, testCase.expected, actualResult);
     });
 };
-
-// a database for file and database tests
-fluid.defaults("sjrk.storyTelling.server.testServerWithStorageDefs.testDB", {
-    gradeNames: ["fluid.component"],
-    components: {
-        pouchHarness: {
-            type: "fluid.pouch.harness",
-            options: {
-                port: 6789
-            }
-        },
-        dbConfiguration: {
-            type: "sjrk.storyTelling.server.storiesDb",
-            createOnEvent: "{pouchHarness}.events.onReady",
-            options: {
-                listeners: {
-                    "onCreate.configureCouch": "{that}.configureCouch"
-                },
-                couchOptions: {
-                    couchUrl: "http://localhost:6789"
-                }
-            }
-        }
-    }
-});
 
 // starts up the test server based on the provided definitions
 kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithStorageDefs);
