@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 (function ($, fluid) {
 
-    // a UI representing the "author controls" part of the page
+    // a UI representing the "author controls" part of every page
     fluid.defaults("sjrk.storyTelling.ui.authorControls", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {
@@ -33,6 +33,37 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 options: {
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/authorControls.hbs"
+                    }
+                }
+            }
+        }
+    });
+
+    // a UI representing the "login" form of the login page
+    fluid.defaults("sjrk.storyTelling.ui.login", {
+        gradeNames: ["sjrk.storyTelling.ui"],
+        selectors: {
+            logInButton: ".sjrkc-st-author-log-out",
+            emailInput: ".sjrkc-st-login-form-email",
+            passwordInput: ".sjrkc-st-login-form-password",
+            confirmInput: ".sjrkc-st-login-form-confirm"
+        },
+        events: {
+            onLogInRequested: null
+        },
+        listeners: {
+            "onReadyToBind.bindLogInButton": {
+                "this": "{that}.dom.logInButton",
+                "method": "click",
+                "args": ["{that}.events.onLogInRequested.fire"]
+            }
+        },
+        components: {
+            // the templateManager for this UI
+            templateManager: {
+                options: {
+                    templateConfig: {
+                        templatePath: "%resourcePrefix/templates/login.hbs"
                     }
                 }
             }
