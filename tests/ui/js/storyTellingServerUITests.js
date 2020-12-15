@@ -237,7 +237,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     // clean up
                     func: "{that}.sandbox.restore"
                 }, {
-                    // test story not found due to ajax request failure
+                    // test story not found due to ajax request failure - story doesn't exist; not authorized
                     funcName: "fluid.set",
                     args: ["{that}", "sandbox", {
                         expander: {
