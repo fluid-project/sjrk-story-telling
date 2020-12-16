@@ -11,7 +11,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 var fluid = require("infusion");
 
-require("../../../src/server/db/authors-dbConfiguration");
 require("../../../src/server/db/story-dbConfiguration");
 require("fluid-pouchdb");
 
@@ -20,20 +19,13 @@ fluid.registerNamespace("sjrk");
 fluid.defaults("sjrk.test.storyTelling.server.mockDatabase", {
     gradeNames: ["fluid.component"],
     events: {
-        authorsDBReady: null,
-        storiesDBReady: null,
-        onReady: {
-            events: {
-                authorsDBReady: "authorsDBReady",
-                storiesDBReady: "storiesDBReady"
-            }
-        }
+        onReady: null
     },
     url: {
         port: 6789,
         host: "localhost",
-        scheme: "http",
-        template: "%scheme://%host:%port"
+        protocol: "http",
+        template: "%protocol://%host:%port"
     },
     couchUrl: {
         expander: {
@@ -55,23 +47,13 @@ fluid.defaults("sjrk.test.storyTelling.server.mockDatabase", {
         pouchHarness: {
             type: "fluid.pouch.harness"
         },
-        authorsDBConfig: {
-            type: "sjrk.storyTelling.server.authorsDb",
-            createOnEvent: "{pouchHarness}.events.onReady",
-            options: {
-                listeners: {
-                    "onCreate.configureCouch": "{that}.configureCouch",
-                    "onSuccess.escalate": "{testDB}.events.authorsDBReady"
-                }
-            }
-        },
         storiesDBConfig: {
             type: "sjrk.storyTelling.server.storiesDb",
             createOnEvent: "{pouchHarness}.events.onReady",
             options: {
                 listeners: {
                     "onCreate.configureCouch": "{that}.configureCouch",
-                    "onSuccess.escalate": "{testDB}.events.storiesDBReady"
+                    "onSuccess.escalate": "{testDB}.events.onReady"
                 }
             }
         }

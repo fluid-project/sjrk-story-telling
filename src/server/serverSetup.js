@@ -79,7 +79,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                             digest: "blake2b512",
                             dataSourceConfig: {
                                 host: "http://localhost:5984",
-                                path: "authors"
+                                path: "stories"
                             },
                             rules: {
                                 createUserWrite: {
