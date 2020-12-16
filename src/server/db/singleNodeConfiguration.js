@@ -44,11 +44,3 @@ fluid.defaults("sjrk.storyTelling.server.globalChangesDb", {
         dbName: "_global_changes"
     }
 });
-
-// includes the users database name
-fluid.defaults("sjrk.storyTelling.server.storyUsersDb", {
-    gradeNames: ["sjrk.storyTelling.server.singleNodeDb.core"],
-    couchOptions: {
-        dbName: "users"
-    }
-});
