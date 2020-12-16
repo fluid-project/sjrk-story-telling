@@ -212,9 +212,12 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
         return;
     }
 
-    var id = request.req.params.id;
+    if (!request.req.body.id) {
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+        return;
+    }
 
-    dataSource.get({directStoryId: id}).then(function (response) {
+    dataSource.get({directStoryId: request.req.body.id}).then(function (response) {
         if (request.req.session.authorID === response.authorID) {
             sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
         } else {
