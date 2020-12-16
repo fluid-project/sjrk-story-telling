@@ -13,11 +13,19 @@
                         "uploadedFilesHandlerPath": "./tests/server/uploads",
                         secretsConfigPath: "./secrets.json.example"
                     },
+                    dbHost: "http://localhost:6789",
                     "components": {
                         "storyDataSource": {
                             "type": "sjrk.storyTelling.server.dataSource.couch.story",
                             "options": {
-                                "host": "http://localhost:6789"
+                                "host": "{server}.options.dbHost"
+                            }
+                        },
+                        expressUserUtils: {
+                            options: {
+                                dataSourceConfig: {
+                                    host: "{server}.options.dbHost"
+                                }
                             }
                         }
                     }

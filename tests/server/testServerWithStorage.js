@@ -34,8 +34,6 @@ kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
 
-require("fluid-pouchdb");
-
 // a test story
 var testStoryModelPrePublish = {
     "id": "testStoryModel-ID",

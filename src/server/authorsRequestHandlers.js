@@ -126,7 +126,8 @@ sjrk.storyTelling.server.handleLoginRequest = function (request, expressUserUtil
         });
     }, function () {
         request.events.onError.fire({
-            statusCode: 401
+            statusCode: 401,
+            message: "Unauthorized"
         });
     });
 };
