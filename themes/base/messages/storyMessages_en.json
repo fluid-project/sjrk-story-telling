@@ -8,6 +8,8 @@
     "message_login_password_label": "Password",
     "message_login_forgot_password": "Forgot password",
     "message_login_button": "Log in",
+    "message_login_progress_text": "Logging in, please wait...",
+    "message_login_response_text": "Log in failed:",
     "message_sign_up_text": "Don't have an account?",
     "message_sign_up_link": "Sign up",
     "message_blockAddImageBlock": "Add an image block",

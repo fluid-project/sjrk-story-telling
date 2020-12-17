@@ -16,10 +16,14 @@
         </div>
     {{/getIds}}
     <button class="sjrk-st-login-button sjrkc-st-login-button" type="button">{{localizedMessages.message_login_button}}</button>
-    {{!--
-        TODO:
-        progress indicator
-        error text area
-    --}}
+
+    <div class="sjrkc-st-login-progress sjrk-st-login-progress" role="alert">
+        <div class="sjrk-st-login-progress-indicator" aria-describedby="sjrkc-st-login-progress-text"></div>
+        <span id="sjrkc-st-login-progress-text">{{localizedMessages.message_login_progress_text}}</span>
+    </div>
+    <div class="sjrkc-st-login-response sjrk-st-login-response" role="alert">
+        {{localizedMessages.message_login_response_text}} <span class="sjrkc-st-login-response-text"></span>
+    </div>
+
     <div class="sjrk-st-login-signup-text">{{localizedMessages.message_sign_up_text}} <a href="signup.html">{{localizedMessages.message_sign_up_link}}</a></div>
 </form>

@@ -14,6 +14,66 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // The login page base grade
     fluid.defaults("sjrk.storyTelling.base.page.login", {
         gradeNames: ["sjrk.storyTelling.base.page"],
+        model: {
+            // loginState can be one of the following values:
+            // "ready" (the initial state), "requestSent", "responseReceived"
+            loginState: "ready",
+            loginButtonDisabled: false,
+            progressAreaVisible: false,
+            responseAreaVisible: false
+        },
+        modelListeners: {
+            progressAreaVisible: {
+                this: "{loginUi}.dom.progressArea",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "progressAreaVisibleChange"
+            },
+            responseAreaVisible: {
+                this: "{loginUi}.dom.responseArea",
+                method: "toggle",
+                args: ["{change}.value"],
+                namespace: "responseAreaVisibleChange"
+            },
+            loginButtonDisabled: {
+                this: "{loginUi}.dom.logInButton",
+                method: "prop",
+                args: ["disabled", "{change}.value"],
+                namespace: "loginButtonDisabledChange"
+            }
+        },
+        modelRelay: {
+            "loginState": {
+                target: "",
+                singleTransform: {
+                    type: "fluid.transforms.valueMapper",
+                    defaultInputPath: "loginState",
+                    match: {
+                        "ready": {
+                            outputValue: {
+                                loginButtonDisabled: false,
+                                progressAreaVisible: false,
+                                responseAreaVisible: false
+                            }
+                        },
+                        "requestSent": {
+                            outputValue: {
+                                loginButtonDisabled: true,
+                                progressAreaVisible: true,
+                                responseAreaVisible: false
+                            }
+                        },
+                        "responseReceived": {
+                            outputValue: {
+                                loginButtonDisabled: false,
+                                progressAreaVisible: false,
+                                responseAreaVisible: true
+                            }
+                        }
+                    }
+                }
+            }
+        },
         pageSetup: {
             logInUrl: "/authors/login"
         },
@@ -31,6 +91,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // overwrite the listener to prevent losing the previous page URL
             "onCreate.setCurrentPage": null,
             "onLogInRequested.initiateLogin": "{that}.initiateLogin",
+            "onLogInRequested.setStatePublishing": {
+                changePath: "loginState",
+                value: "requestSent"
+            },
             "onLogInSuccess.saveAuthorAccountName": {
                 func: "{that}.setAuthorAccountName",
                 args: ["{arguments}.0"],
@@ -40,7 +104,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 func: "{that}.redirectToUrl",
                 args: ["{that}.model.persistedValues.currentPage"],
                 priority: "last"
-            }
+            },
+            "onLogInError": [{
+                changePath: "loginState",
+                value: "responseReceived",
+                namespace: "setStateResponseReceived"
+            },{
+                func: "{that}.setServerResponse",
+                args: ["{arguments}.0"],
+                namespace: "setServerResponse"
+            }]
         },
         invokers: {
             initiateLogin: {
@@ -56,6 +129,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             redirectToUrl: {
                 funcName: "sjrk.storyTelling.base.page.login.redirectToUrl",
                 args: ["{arguments}.0"]
+            },
+            setServerResponse: {
+                this: "{loginUi}.dom.responseText",
+                method: "text",
+                args: ["{arguments}.0"]
             }
         },
         components: {
@@ -66,6 +144,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         }
     });
+
+    sjrk.storyTelling.base.page.login.doAThing = function (responseText, message) {
+        responseText.text(message);
+    };
 
     /**
      * Calls the login endpoint on the server (provided) and fires a success or error
@@ -82,10 +164,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         sjrk.storyTelling.base.page.login.logIn(logInUrl, email, password).then(function (data) {
             successEvent.fire(data.email);
         }, function (jqXHR, textStatus, errorThrown) {
-            failureEvent.fire({
-                isError: true,
-                message: sjrk.storyTelling.base.page.getErrorMessageFromXhr(jqXHR, textStatus, errorThrown)
-            });
+            failureEvent.fire(sjrk.storyTelling.base.page.getErrorMessageFromXhr(jqXHR, textStatus, errorThrown));
         });
     };
 
