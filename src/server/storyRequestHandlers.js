@@ -220,7 +220,9 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
     }
 
     dataSource.get({directStoryId: request.req.body.id}).then(function (response) {
-        if (request.req.session.authorID === response.authorID) {
+        // Only allow saving if the authorized user matches the story author, or if the story was created by a guest
+        // account only allow the guest to re-save if the story has not yet been published.
+        if (request.req.session.authorID === response.authorID && (response.authorID || !response.published)) {
             sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
         } else {
             request.events.onError.fire({
