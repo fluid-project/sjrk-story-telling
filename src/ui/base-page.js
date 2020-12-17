@@ -34,7 +34,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     uiLanguage: "en", // default locale is set to English
                     // The authorAccountName is set on account login and is used
                     // to display the greeting in the Author Controls section
-                    authorAccountName: null
+                    authorAccountName: null,
+                    // Tracks what page the author is currently viewing, mainly
+                    // used for redirecting during the login or sign up process
+                    currentPage: null
                 }
             }
         },
@@ -54,6 +57,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "ui.templateManager.authorAccountName": {
                 record: "{page}.model.persistedValues.authorAccountName",
                 target: "{that ui > templateManager}.options.model.dynamicValues.authorAccountName"
+            },
+            "ui.templateManager.currentPage": {
+                record: "{page}.model.persistedValues.currentPage",
+                target: "{that ui > templateManager}.options.model.dynamicValues.currentPage"
             },
             "ui.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
@@ -108,6 +115,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "onCreate.getStoredPreferences": {
                 funcName: "sjrk.storyTelling.base.page.getStoredPreferences",
                 args: ["{that}", "{cookieStore}"]
+            },
+            "onCreate.setCurrentPage": {
+                changePath: "persistedValues.currentPage",
+                value: window.location.pathname + window.location.search
             },
             // SJRK-404 TODO: clear session-id cookie on logOut, too
             "onLogOutRequested.initiateLogout": "{that}.initiateLogout",

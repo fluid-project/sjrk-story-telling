@@ -28,6 +28,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             onLogInError: null
         },
         listeners: {
+            // overwrite the listener to prevent losing the previous page URL
+            "onCreate.setCurrentPage": null,
             "onLogInRequested.initiateLogin": "{that}.initiateLogin",
             "onLogInSuccess.saveAuthorAccountName": {
                 func: "{that}.setAuthorAccountName",
@@ -36,8 +38,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             "onLogInSuccess.redirect": {
                 func: "{that}.redirectToUrl",
-                // SJRK-403 TODO: redirect to previous page on successful login
-                args: ["storyBrowse.html"],
+                args: ["{that}.model.persistedValues.currentPage"],
                 priority: "last"
             }
         },
