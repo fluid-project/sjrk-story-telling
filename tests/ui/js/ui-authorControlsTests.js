@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                             // Supplying an email address to force rendering the
                             // "logged in" state, since the "logged out" template
                             // is only a pair of links to "Log In" and "Sign Up"
-                            authorEmail: "a-truthy-value"
+                            authorAccountName: "a-truthy-value"
                         }
                     },
                     templateConfig: {
