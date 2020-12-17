@@ -64,10 +64,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {jQuery} element - the DOM element to be tested
      * @param {String} propertyName - the property to be checked
-     * @param {String} expectedVisibility - the expected value of the property
+     * @param {String} expectedValue - the expected value of the property
      */
-    sjrk.storyTelling.testUtils.assertElementPropertyValue = function (element, propertyName, expectedVisibility) {
-        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected property value", expectedVisibility, element.prop(propertyName));
+    sjrk.storyTelling.testUtils.assertElementPropertyValue = function (element, propertyName, expectedValue) {
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected property value", expectedValue, element.prop(propertyName));
     };
 
     /**
