@@ -31,7 +31,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             initialModel: {
                 // the Initial Model of the page only specifies the locale
                 persistedValues: {
-                    uiLanguage: "en" // default locale is set to English
+                    uiLanguage: "en", // default locale is set to English
+                    // The authorAccountName is set on account login and is used
+                    // to display the greeting in the Author Controls section
+                    authorAccountName: null
                 }
             }
         },
@@ -47,6 +50,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "ui.templateManager.authoringEnabled": {
                 source: "{that}.options.pageSetup.authoringEnabled",
                 target: "{that ui > templateManager}.options.model.dynamicValues.authoringEnabled"
+            },
+            "ui.templateManager.authorAccountName": {
+                record: "{page}.model.persistedValues.authorAccountName",
+                target: "{that ui > templateManager}.options.model.dynamicValues.authorAccountName"
             },
             "ui.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
@@ -93,7 +100,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             onRenderAllUiTemplates: null,
             beforePreferencesReset: null,
             onPreferencesReset: null,
-            onLogOut: null
+            onLogOutRequested: "{authorControls}.events.onLogOutRequested",
+            onLogOutSuccess: null,
+            onLogOutError: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
@@ -101,14 +110,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: ["{that}", "{cookieStore}"]
             },
             // SJRK-404 TODO: clear session-id cookie on logOut, too
-            "onLogOut.logOut": {
-                func: "sjrk.storyTelling.base.page.storyEdit.logOut",
-                priority: "last"
-            },
-            "{authorControls}.events.onLogOutRequested": {
-                func: "{that}.events.onLogOut.fire",
-                namespace: "escalateOnLogOutRequested"
-            },
+            "onLogOutRequested.initiateLogout": "{that}.initiateLogout",
             "{menu}.events.onInterfaceLanguageChangeRequested": [{
                 func: "{that}.applier.change",
                 args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"],
@@ -118,7 +120,18 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 func: "{that}.events.onContextChangeRequested.fire",
                 namespace: "escalateOnContextChangeRequested",
                 priority: "last"
-            }]
+            }],
+            "onLogOutSuccess.clearAuthorAccountName": {
+                func: "{that}.setAuthorAccountName",
+                args: [null],
+                priority: "before:reload"
+            },
+            // refresh the page to reflect the change in authorization
+            "onLogOutSuccess.reload": {
+                this: "location",
+                method: "reload",
+                priority: "last"
+            }
         },
         modelListeners: {
             "persistedValues.uiLanguage": {
@@ -130,6 +143,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: [null, "{page}.model.persistedValues"],
                 excludeSource: "init",
                 namespace: "setCookie"
+            }
+        },
+        invokers: {
+            initiateLogout: {
+                funcName: "sjrk.storyTelling.base.page.initiateLogout",
+                args: ["{that}.options.pageSetup.logOutUrl", "{that}.events.onLogOutSuccess", "{that}.events.onLogOutError"]
+            },
+            setAuthorAccountName: {
+                changePath: "persistedValues.authorAccountName",
+                value: "{arguments}.0"
             }
         },
         components: {
@@ -205,6 +228,42 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         // setting the cookie expiry to epoch in order to delete it
         document.cookie = pageComponent.cookieStore.options.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         pageComponent.events.onPreferencesReset.fire(pageComponent);
+    };
+
+    /**
+     * Given error details from a jQuery.ajax server call,
+     * extracts and returns a meaningful error message.
+     *
+     * @see {@link https://api.jquery.com/jquery.ajax/} under "error" for more details
+     *
+     * @param {jqXHR} jqXHR - the jqXHR from the server request
+     * @param {String} textStatus - indicates the status of the request
+     * @param {String} errorThrown - a general error message
+     *
+     * @return {String} - a string describing the error
+     */
+    sjrk.storyTelling.base.page.getErrorMessageFromXhr = function (jqXHR, textStatus, errorThrown) {
+        return fluid.get(jqXHR, ["responseJSON", "message"]) || errorThrown || "Unknown server error";
+    };
+
+    /**
+     * Calls the logout function and fires a success or error
+     * event depending on the outcome. Success event returns the email address,
+     * error event returns error details
+     *
+     * @param {String} logOutUrl - the server URL to call to start a new session
+     * @param {Object} successEvent - an infusion event to fire upon successful completion
+     * @param {Object} failureEvent - an infusion event to fire on failure
+     */
+    sjrk.storyTelling.base.page.initiateLogout = function (logOutUrl, successEvent, failureEvent) {
+        sjrk.storyTelling.base.page.logOut(logOutUrl).then(function () {
+            successEvent.fire();
+        }, function (jqXHR, textStatus, errorThrown) {
+            failureEvent.fire({
+                isError: true,
+                message: sjrk.storyTelling.base.page.getErrorMessageFromXhr(jqXHR, textStatus, errorThrown)
+            });
+        });
     };
 
     /**

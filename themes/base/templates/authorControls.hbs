@@ -1,7 +1,7 @@
 <nav class="sjrk-st-author-controls" lang="{{localizedMessages.language}}">
     <ul>
-        {{#if dynamicValues.authorEmail}}
-            <li class="sjrk-st-author-greeting">{{#replace localizedMessages.message_author_greeting "%author" dynamicValues.authorEmail}}{{/replace}}</li>
+        {{#if dynamicValues.authorAccountName}}
+            <li class="sjrk-st-author-greeting">{{#replace localizedMessages.message_author_greeting "%author" dynamicValues.authorAccountName}}{{/replace}}</li>
             <li><button class="sjrkc-st-author-log-out sjrk-st-author-log-out" type="button" name="button">{{localizedMessages.message_author_log_out}}</button></li>
         {{else}}
             <li><a href="logIn.html" class="sjrk-st-author-log-in">{{localizedMessages.message_author_log_in}}</a></li>

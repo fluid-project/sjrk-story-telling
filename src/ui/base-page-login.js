@@ -23,16 +23,38 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     onLoginUiReady: "{loginUi}.events.onControlsBound"
                 }
             },
-            onLogIn: null
+            onLogInRequested: "{loginUi}.events.onLogInRequested",
+            onLogInSuccess: null,
+            onLogInError: null
         },
         listeners: {
-            "onLogIn.logIn": {
-                func: "sjrk.storyTelling.base.page.login.orchestrateLogIn",
-                args: ["{that}.options.pageSetup.logInUrl", "{loginUi}.model.email", "{loginUi}.model.password"]
+            "onLogInRequested.initiateLogin": "{that}.initiateLogin",
+            "onLogInSuccess.saveAuthorAccountName": {
+                func: "{that}.setAuthorAccountName",
+                args: ["{arguments}.0"],
+                priority: "before:redirect"
             },
-            "{loginUi}.events.onLogInRequested": {
-                func: "{that}.events.onLogIn.fire",
-                namespace: "escalateOnLogInRequested"
+            "onLogInSuccess.redirect": {
+                func: "{that}.redirectToUrl",
+                // SJRK-403 TODO: redirect to previous page on successful login
+                args: ["storyBrowse.html"],
+                priority: "last"
+            }
+        },
+        invokers: {
+            initiateLogin: {
+                funcName: "sjrk.storyTelling.base.page.login.initiateLogin",
+                args: [
+                    "{that}.options.pageSetup.logInUrl",
+                    "{loginUi}.model.email",
+                    "{loginUi}.model.password",
+                    "{that}.events.onLogInSuccess",
+                    "{that}.events.onLogInError"
+                ]
+            },
+            redirectToUrl: {
+                funcName: "sjrk.storyTelling.base.page.login.redirectToUrl",
+                args: ["{arguments}.0"]
             }
         },
         components: {
@@ -44,19 +66,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
-    sjrk.storyTelling.base.page.login.orchestrateLogIn = function (logInUrl, email, password) {
-        var loginPromise = sjrk.storyTelling.base.page.login.logIn(logInUrl, email, password);
-
-        loginPromise.then(function (data) {
-            // send the user back to their previous location
-            fluid.log(fluid.logLevel.INFO, "User was successfully logged in. Email address is:", data);
+    /**
+     * Calls the login endpoint on the server (provided) and fires a success or error
+     * event depending on the outcome. Success event returns the email address,
+     * error event returns error details
+     *
+     * @param {String} logInUrl - the server URL to call to start a new session
+     * @param {String} email - the author's email address
+     * @param {String} password - the author's password
+     * @param {Object} successEvent - an infusion event to fire upon successful completion
+     * @param {Object} failureEvent - an infusion event to fire on failure
+     */
+    sjrk.storyTelling.base.page.login.initiateLogin = function (logInUrl, email, password, successEvent, failureEvent) {
+        sjrk.storyTelling.base.page.login.logIn(logInUrl, email, password).then(function (data) {
+            successEvent.fire(data.email);
         }, function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = fluid.get(jqXHR, ["responseJSON", "message"]) ||
-                errorThrown ||
-                "Unknown server error";
-
-            // show the error text on the page
-            fluid.log(fluid.logLevel.WARN, "An error occurred while logging in:", errorMessage);
+            failureEvent.fire({
+                isError: true,
+                message: sjrk.storyTelling.base.page.getErrorMessageFromXhr(jqXHR, textStatus, errorThrown)
+            });
         });
     };
 
@@ -70,19 +98,26 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @return {jqXHR} - the jqXHR for the server request
      */
     sjrk.storyTelling.base.page.login.logIn = function (logInUrl, email, password) {
-        var authorCredentials = {
-            email: email,
-            password: password
-        };
-
         return $.ajax({
             url         : logInUrl,
-            data        : JSON.stringify(authorCredentials),
+            data        : JSON.stringify({
+                email: email,
+                password: password
+            }),
             cache       : false,
             contentType : "application/json",
             processData : false,
             type        : "POST"
         });
+    };
+
+    /**
+     * Redirects the author to the specified URL
+     *
+     * @param {String} redirectUrl - the URL to redirect to
+     */
+    sjrk.storyTelling.base.page.login.redirectToUrl = function (redirectUrl) {
+        window.location.href = redirectUrl;
     };
 
 })(jQuery, fluid);
