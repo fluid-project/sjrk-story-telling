@@ -18,7 +18,7 @@ require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
-require("../../src/server/authorsRequestHandlers");
+require("../../src/server/authRequestHandlers");
 require("../../src/server/staticRequestHandlers");
 require("../../src/server/storyRequestHandlers");
 require("../../src/server/validators");

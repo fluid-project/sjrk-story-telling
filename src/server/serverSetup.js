@@ -79,7 +79,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                             digest: "blake2b512",
                             dataSourceConfig: {
                                 host: "http://localhost:5984",
-                                path: "authors"
+                                path: "stories"
                             },
                             rules: {
                                 createUserWrite: {
@@ -280,17 +280,17 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         },
         signupHandler: {
             type: "sjrk.storyTelling.server.signupHandler",
-            "route": "/authors/signup",
+            "route": "/signup",
             method: "post"
         },
         loginHandler: {
             type: "sjrk.storyTelling.server.loginHandler",
-            "route": "/authors/login",
+            "route": "/login",
             method: "post"
         },
         logoutHandler: {
             type: "sjrk.storyTelling.server.logoutHandler",
-            "route": "/authors/logout",
+            "route": "/logout",
             method: "post"
         },
         themeHandler: {

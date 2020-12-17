@@ -121,6 +121,13 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                 }
             },
             validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"
+        },
+        lookup: {
+            views: {
+                "byUsernameOrEmail": {
+                    "map": "sjrk.storyTelling.server.storiesDb.byUsernameOrEmail"
+                }
+            }
         }
     }
 });
@@ -182,5 +189,18 @@ sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc) {
     // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete
     if (!newDoc._deleted && !newDoc.type) {
         throw ({forbidden: "doc.type is required"});
+    }
+};
+
+/**
+ * This function is used as a "view" design doc once it's migrated to CouchDB.
+ * Will locate user/author accounts.
+ *
+ * @param {Object} doc - a document to evaluate in the view
+ */
+sjrk.storyTelling.server.storiesDb.byUsernameOrEmail = function (doc) {
+    if (doc.type === "user") {
+        emit(doc.username, doc);
+        emit(doc.email, doc);
     }
 };

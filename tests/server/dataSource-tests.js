@@ -14,7 +14,6 @@ var fluid = require("infusion"),
     jqUnit = fluid.registerNamespace("jqUnit");
 
 require("../../src/server/dataSource");
-require("../../src/server/db/authors-dbConfiguration");
 require("../../src/server/db/story-dbConfiguration");
 require("./utils/serverTestUtils.js");
 require("./utils/mockDatabase.js");
@@ -22,79 +21,75 @@ require("./utils/mockDatabase.js");
 kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
-fluid.registerNamespace("sjrk.test.storyTelling.server.dataSource");
+fluid.registerNamespace("sjrk.test.storyTelling.server.dataSource.mockRecords");
 
 // NOTE: These mock documents may not include all properties that are included in the real documents. Only those
 // required for testing are guaranteed to be present.
-sjrk.test.storyTelling.server.dataSource.mockRecords = {
-    authors: {
-        "author1": {
-            "type": "user",
-            "email": "test@example.com",
-            "authorID": "author1"
-        },
-        "author2": {
-            "type": "user",
-            "email": "test2@example.com",
-            "authorID": "author2"
+sjrk.test.storyTelling.server.dataSource.mockRecords.docs = {
+    "author1": {
+        "type": "user",
+        "email": "test@example.com",
+        "authorID": "author1"
+    },
+    "author2": {
+        "type": "user",
+        "email": "test2@example.com",
+        "authorID": "author2"
+    },
+    "publishedStory": {
+        "type": "story",
+        "authorID": "author1",
+        "value": {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story 1",
+            "author": "IDRC",
+            "tags": [
+                "Test",
+                "Example"
+            ],
+            "content": [{
+                "heading": "Add Content Blocks",
+                "blockType": "text",
+                "text": "The Story Builder is designed based on building blocks."
+            }]
         }
     },
-    stories: {
-        "publishedStory": {
-            "type": "story",
-            "authorID": "author1",
-            "value": {
-                "published": true,
-                "id": "publishedStory",
-                "title": "Sample Story 1",
-                "author": "IDRC",
-                "tags": [
-                    "Test",
-                    "Example"
-                ],
-                "content": [{
-                    "heading": "Add Content Blocks",
-                    "blockType": "text",
-                    "text": "The Story Builder is designed based on building blocks."
-                }]
-            }
-        },
-        "storyByOtherAuthor": {
-            "type": "story",
-            "authorID": "author2",
-            "value": {
-                "published": true,
-                "id": "storyByOtherAuthor",
-                "title": "Sample Story 2",
-                "content": [{
-                    "heading": "Reorder Content Blocks",
-                    "blockType": "text",
-                    "text": "You can reorder your content blocks using the mouse or keyboard as follows."
-                }],
-                "author": "SJRK",
-                "tags": [
-                    "Example",
-                    "Sample"
-                ]
-            }
-        },
-        "unpublishedStory": {
-            "type": "story",
-            "authorID": "author1",
-            "value": {
-                "published": false,
-                "id": "unpublishedStory",
-                "title": "Sample Story 3",
-                "content": [{
-                    "heading": "Navigating through Content Blocks",
-                    "blockType": "text",
-                    "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block."
-                }],
-                "author": "Fluid",
-                "tags": [
-                    "Example"
-                ]
-            }
+    "storyByOtherAuthor": {
+        "type": "story",
+        "authorID": "author2",
+        "value": {
+            "published": true,
+            "id": "storyByOtherAuthor",
+            "title": "Sample Story 2",
+            "content": [{
+                "heading": "Reorder Content Blocks",
+                "blockType": "text",
+                "text": "You can reorder your content blocks using the mouse or keyboard as follows."
+            }],
+            "author": "SJRK",
+            "tags": [
+                "Example",
+                "Sample"
+            ]
+        }
+    },
+    "unpublishedStory": {
+        "type": "story",
+        "authorID": "author1",
+        "value": {
+            "published": false,
+            "id": "unpublishedStory",
+            "title": "Sample Story 3",
+            "content": [{
+                "heading": "Navigating through Content Blocks",
+                "blockType": "text",
+                "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block."
+            }],
+            "author": "Fluid",
+            "tags": [
+                "Example"
+            ]
         }
     }
 };
@@ -152,16 +147,18 @@ sjrk.test.storyTelling.server.dataSource.recordsToStoryViewResponse = function (
     };
 
     fluid.each(records, function (record, id) {
-        var story = fluid.copy(record.value);
+        if (record.type === "story") {
+            var story = fluid.copy(record.value);
 
-        if (story.published) {
-            story = fluid.filterKeys(story, filter);
+            if (story.published) {
+                story = fluid.filterKeys(story, filter);
 
-            response.rows.push({
-                "key": id,
-                "id": id,
-                "value": story
-            });
+                response.rows.push({
+                    "key": id,
+                    "id": id,
+                    "value": story
+                });
+            }
         }
     });
     response.total_rows = response.rows.length;
@@ -184,14 +181,9 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.testEnvironment", {
             createOnEvent: "{datasourceTester}.events.onTestCaseStart",
             options: {
                 components: {
-                    authorsDBConfig: {
-                        options: {
-                            dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.authors
-                        }
-                    },
                     storiesDBConfig: {
                         options: {
-                            dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.stories
+                            dbDocuments: sjrk.test.storyTelling.server.dataSource.mockRecords.docs
                         }
                     }
                 }
@@ -329,7 +321,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 resolve: "jqUnit.assertDeepEq",
                 resolveArgs: [
                     "The correct story was returned: author1, publishedStory",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.publishedStory.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.publishedStory.value,
                     "{arguments}.0.rows.0.value"
                 ]
             }, {
@@ -341,7 +333,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 resolve: "jqUnit.assertDeepEq",
                 resolveArgs: [
                     "The correct story was returned: author2, storyByOtherAuthor",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.storyByOtherAuthor.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.storyByOtherAuthor.value,
                     "{arguments}.0.rows.0.value"
                 ]
             }, {
@@ -353,7 +345,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 resolve: "jqUnit.assertDeepEq",
                 resolveArgs: [
                     "The correct story was returned: author1, unpublishedStory",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.unpublishedStory.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.unpublishedStory.value,
                     "{arguments}.0.rows.0.value"
                 ]
             }, {
@@ -388,7 +380,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Retrieved the published story",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.publishedStory.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.publishedStory.value,
                     "{arguments}.0"
                 ]
             }, {
@@ -397,7 +389,7 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                 resolve: "sjrk.storyTelling.server.verifyResponse",
                 resolveArgs: [
                     "Retrieved the unpublished story",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.stories.unpublishedStory.value,
+                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.unpublishedStory.value,
                     "{arguments}.0"
                 ]
             }, {

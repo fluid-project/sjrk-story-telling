@@ -117,7 +117,9 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
 
     promise.then(function (response) {
         if (response.published) {
-            request.events.onSuccess.fire(JSON.stringify(response));
+            // remove authorID from the story model before sending
+            var storyModel = fluid.censorKeys(response, "authorID");
+            request.events.onSuccess.fire(JSON.stringify(storyModel));
         } else {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
@@ -212,9 +214,12 @@ sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, author
         return;
     }
 
-    var id = request.req.params.id;
+    if (!request.req.body.id) {
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+        return;
+    }
 
-    dataSource.get({directStoryId: id}).then(function (response) {
+    dataSource.get({directStoryId: request.req.body.id}).then(function (response) {
         if (request.req.session.authorID === response.authorID) {
             sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
         } else {

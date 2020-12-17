@@ -17,7 +17,7 @@ require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
-require("../../src/server/authorsRequestHandlers");
+require("../../src/server/authRequestHandlers");
 require("../../src/server/staticRequestHandlers");
 require("../../src/server/storyRequestHandlers");
 require("../../src/server/validators");
@@ -28,8 +28,7 @@ kettle.loadTestingSupport();
 var sjrk = fluid.registerNamespace("sjrk");
 fluid.registerNamespace("sjrk.test.storyTelling.server.authentication.testDef");
 
-// Base configuration for authentication test defs. Should be mixed in with concrete testDefs, for example in the call
-// to `kettle.test.bootstrapServer`
+// Base configuration for authentication test defs. Should be mixed in with concrete test defs.
 fluid.defaults("sjrk.test.storyTelling.server.authentication.testDef.base", {
     port: 8082,
     events: {
@@ -57,7 +56,7 @@ fluid.defaults("sjrk.test.storyTelling.server.authentication.testDef.base", {
             type: "kettle.test.request.httpCookie",
             createOnEvent: "refreshRequests",
             options: {
-                path: "/authors/login",
+                path: "/login",
                 method: "POST"
             }
         },
@@ -65,7 +64,7 @@ fluid.defaults("sjrk.test.storyTelling.server.authentication.testDef.base", {
             type: "kettle.test.request.httpCookie",
             createOnEvent: "refreshRequests",
             options: {
-                path: "/authors/logout",
+                path: "/logout",
                 method: "POST"
             }
         },
@@ -73,7 +72,7 @@ fluid.defaults("sjrk.test.storyTelling.server.authentication.testDef.base", {
             type: "kettle.test.request.httpCookie",
             createOnEvent: "refreshRequests",
             options: {
-                path: "/authors/signup",
+                path: "/signup",
                 method: "POST"
             }
         }

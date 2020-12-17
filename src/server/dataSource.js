@@ -103,6 +103,7 @@ fluid.defaults("sjrk.storyTelling.server.dataSource.couch.story", {
             }
         },
         readPayload: {
+            "authorID": "authorID",
             "_rev": "_rev",
             "": "value"
         }
