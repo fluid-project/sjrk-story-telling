@@ -75,7 +75,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         },
         pageSetup: {
-            logInUrl: "/authors/login"
+            logInUrl: "/login"
         },
         events: {
             onAllUiComponentsReady: {

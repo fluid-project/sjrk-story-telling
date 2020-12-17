@@ -43,7 +43,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         },
         pageSetup: {
             resourcePrefix: "",
-            logOutUrl: "/authors/logout"
+            logOutUrl: "/logout"
             // "authoringEnabled" is retrieved from sjrk.storyTelling.server.config.json5
             // via a request to "/clientConfig". It enables and disables the
             // authoring capabilities of the tool and must be present.
