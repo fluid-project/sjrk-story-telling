@@ -145,10 +145,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
-    sjrk.storyTelling.base.page.login.doAThing = function (responseText, message) {
-        responseText.text(message);
-    };
-
     /**
      * Calls the login endpoint on the server (provided) and fires a success or error
      * event depending on the outcome. Success event returns the email address,
