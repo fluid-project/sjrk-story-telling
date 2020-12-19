@@ -124,7 +124,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
             request.events.onError.fire({
-                statusCode: 403,
+                statusCode: 404,
                 isError: true,
                 message: noAccessErrorMessage
             });
