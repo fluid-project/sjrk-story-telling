@@ -16,9 +16,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.defaults("sjrk.storyTelling.base.page.testLogin", {
         gradeNames: ["sjrk.storyTelling.base.page.login"],
         storyId: "test-id",
-        members: {
-            mockServer: null // to hold a reference to the mock server
-        },
         pageSetup: {
             resourcePrefix: "../../../themes/base"
         },
@@ -54,11 +51,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 6,
+                expect: 9,
                 sequence: [{
                     // check that the progressArea and responseArea are both hidden to begin with
                     // and that the logInButton is enabled
-                    event: "{testEnvironment > sjrk.storyTelling.base.page.testLogin}.events.onAllUiComponentsReady",
+                    event: "{testEnvironment > login}.events.onAllUiComponentsReady",
                     listener: "sjrk.storyTelling.testUtils.assertElementVisibility",
                     args: ["{login}.loginUi.dom.progressArea", "none"]
                 },
@@ -78,12 +75,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                         response: {
                             email:"rootbeer@emailforcats.meow"
                         }
-                    }]
+                    }, true] // wait for response to avoid possible race with jQuery
                 },
                 {
                     // click the login button and wait for a successful response
                     jQueryTrigger: "click",
                     element: "{login}.loginUi.dom.logInButton"
+                },
+                {
+                    // check that the progressArea is visible, responseArea is not
+                    // and that the logInButton is disabled
+                    funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
+                    args: ["{login}.loginUi.dom.progressArea", "block"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
+                    args: ["{login}.loginUi.dom.responseArea", "none"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{login}.loginUi.dom.logInButton", "disabled", true]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.sendMockServerResponse"
                 },
                 {
                     event: "{login}.events.onLogInSuccess",

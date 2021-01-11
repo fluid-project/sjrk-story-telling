@@ -247,10 +247,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {Object[]} urlConfig - an Object or array of Objects containing configuration for URL and responses.
      *                               e.g.: {url: "url", statusCode: 200, contentType: "application/json", response: ""}
+     * @param {Boolean} [respondManually] - (optional) if true, server will respond immediately to requests
+     *                               @see {@link https://sinonjs.org/releases/v9.2.1/fake-xhr-and-server/#serverrespondimmediately--true}
      */
-    sjrk.storyTelling.testUtils.setupMockServer = function (urlConfig) {
+    sjrk.storyTelling.testUtils.setupMockServer = function (urlConfig, respondManually) {
         mockServer = sinon.createFakeServer();
-        mockServer.respondImmediately = true;
+
+        mockServer.respondImmediately = !respondManually;
 
         // Prevents the ajax requests from appending a time stamp to prevent caching.
         // This timestamp prevents sinon mockserver from matching the requests.
@@ -268,6 +271,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 config.response || "{}"
             );
         });
+    };
+
+    /**
+     * Directs the mock server to send all queued responses. For more info,
+     * @see {@link https://sinonjs.org/releases/v9.2.1/fake-xhr-and-server/#serverrespond}
+     */
+    sjrk.storyTelling.testUtils.sendMockServerResponse = function () {
+        mockServer.respond();
     };
 
     /**
