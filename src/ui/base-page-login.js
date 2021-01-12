@@ -100,20 +100,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: ["{arguments}.0"],
                 priority: "before:redirect"
             },
+            "onLogInSuccess.setStateReady": {
+                changePath: "loginState",
+                value: "ready"
+            },
             "onLogInSuccess.redirect": {
                 func: "{that}.redirectToUrl",
                 args: ["{that}.model.persistedValues.currentPage"],
                 priority: "last"
             },
-            "onLogInError": [{
+            "onLogInError.setStateResponseReceived": {
                 changePath: "loginState",
-                value: "responseReceived",
-                namespace: "setStateResponseReceived"
-            },{
+                value: "responseReceived"
+            },
+            "onLogInError.setServerResponse": {
                 func: "{that}.setServerResponse",
-                args: ["{arguments}.0"],
-                namespace: "setServerResponse"
-            }]
+                args: ["{arguments}.0"]
+            }
         },
         invokers: {
             initiateLogin: {

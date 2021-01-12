@@ -51,7 +51,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 9,
+                expect: 12,
                 sequence: [{
                     // check that the progressArea and responseArea are both hidden to begin with
                     // and that the logInButton is enabled
@@ -103,6 +103,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     event: "{login}.events.onLogInSuccess",
                     listener: "jqUnit.assertEquals",
                     args: ["Successful server response is as expected", "rootbeer@emailforcats.meow", "{arguments}.0"]
+                },
+                {
+                    // check that the progressArea & responseArea are hidden
+                    // and that the logInButton is re-enabled
+                    funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
+                    args: ["{login}.loginUi.dom.progressArea", "none"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
+                    args: ["{login}.loginUi.dom.responseArea", "none"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{login}.loginUi.dom.logInButton", "disabled", false]
                 },
                 {
                     // test the login wiring in the error case
