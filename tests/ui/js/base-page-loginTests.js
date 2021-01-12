@@ -141,6 +141,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     args: ["Error server response is as expected", "Another cat is using this account already", "{arguments}.0"]
                 },
                 {
+                    // set the author account name value back to its initial
+                    // state in order reset the value stored in the cookie
+                    func: "{login}.setAuthorAccountName",
+                    args: [null]
+                },
+                {
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 }]
             }]

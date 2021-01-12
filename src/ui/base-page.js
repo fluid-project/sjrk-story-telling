@@ -95,6 +95,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         events: {
             onAllUiComponentsReady: {
                 events: {
+                    onAuthorControlsReady: "{authorControls}.events.onControlsBound",
                     onMenuReady: "{menu}.events.onControlsBound",
                     onUioReady: "onUioReady"
                 }
@@ -254,7 +255,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @return {String} - a string describing the error
      */
     sjrk.storyTelling.base.page.getErrorMessageFromXhr = function (jqXHR, textStatus, errorThrown) {
-        return fluid.get(jqXHR, ["responseJSON", "message"]) || errorThrown || "Unknown server error";
+        if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+            var message = "";
+
+            fluid.each(jqXHR.responseJSON.errors, function (error) {
+                message += error.dataPath[0] + " - " + error.message + " ";
+            });
+
+            return message;
+        } else {
+            return fluid.get(jqXHR, ["responseJSON", "message"]) || errorThrown || "Unknown server error";
+        }
     };
 
     /**
