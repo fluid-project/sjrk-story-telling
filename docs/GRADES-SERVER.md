@@ -21,12 +21,15 @@ These request handlers don't do much beyond serve requests for a particular rout
 These request handlers do a bit more heavy lifting, including communication with the database server
 
 * `sjrk.storyTelling.server.staticHandlerBase`, as its name suggests, is a base static handler implementation. If all
-  other handlers to a request fail, the `notFoundHandler` will be called
+  other handlers to a request fail, the `kettle.request.notFoundHandler` will be called
 * `sjrk.storyTelling.server.browseStoriesHandler` gets the list of stories from the database for use by the Browse page.
-  They're sorted by storyId, which is a unique value automatically assigned to each story on publish time
-* `sjrk.storyTelling.server.getStoryHandler` gets a single story from the database by looking for the story ID that's
-  passed in. It will also adjust any image or video file URLs in the story content to have working paths
+  They're sorted by `storyId`, which is a unique value automatically assigned to each story on publish time
+* `sjrk.storyTelling.server.getStoryHandler` gets a single story from the database by looking for the story ID that is
+  passed in.
+* `sjrk.storyTelling.server.getEditStoryHandler` gets a single story from the database for the purpose of editing. Looks
+  for the passed in story ID in combination with the logged in author.
 * `sjrk.storyTelling.server.saveStoryHandler` saves a story to the database
+* `sjrk.storyTelling.server.saveStoryFileHandler` saves a single file associated with a pre-existing story
 * `sjrk.storyTelling.server.deleteStoryHandler` removes a story from the database and deletes any files associated
   with it
 * `sjrk.storyTelling.server.clientConfigHandler` gets the client-safe config values from the server config file. These
@@ -40,4 +43,6 @@ These request handlers do a bit more heavy lifting, including communication with
   each other one
 * `sjrk.storyTelling.server.dataSource.couch.view` gets the list of all stories from CouchDB
 * `sjrk.storyTelling.server.dataSource.couch.story` handles reading and writing a single story to CouchDB
+* `sjrk.storyTelling.server.dataSource.couch.authorStoriesView` retrieves a story by authorID and storyId. Used to get
+  a story for editing.
 * `sjrk.storyTelling.server.dataSource.couch.deleteStory` deletes a story from the database
