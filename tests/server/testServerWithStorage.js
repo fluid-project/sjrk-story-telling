@@ -11,11 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 var fluid = require("infusion"),
     kettle = require("kettle"),
-    fs = require("fs"),
     exif = require("jpeg-exif"),
-    jqUnit = fluid.registerNamespace("jqUnit"),
-    path = require("path"),
-    { v4: uuidv4 } = require("uuid");
+    jqUnit = fluid.registerNamespace("jqUnit");
 
 require("../../src/server/middleware/basicAuth");
 require("../../src/server/middleware/saveStoryFile");
@@ -33,129 +30,6 @@ require("./utils/mockDatabase.js");
 kettle.loadTestingSupport();
 
 var sjrk = fluid.registerNamespace("sjrk");
-
-// a test story
-var testStoryModelPrePublish = {
-    "id": "testStoryModel-ID",
-    "title": "History of the Fluid Project",
-    "content": [
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "blockType": "image",
-            "mediaUrl": "logo_small_fluid_vertical.png",
-            "alternativeText": "Fluid",
-            "description": "The Fluid Project logo"
-        },
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "blockType": "text",
-            "text": "Fluid is an open, collaborative project to improve the user experience and inclusiveness of open source software.\n\nFluid was formed in April 2007."
-        }
-    ],
-    "author": "Alan Harnum",
-    "language": "",
-    "tags": [
-        "fluidproject",
-        "history"
-    ],
-    "published": false
-};
-
-var testStoryModelPostPublish = fluid.extend({}, testStoryModelPrePublish, {"published": true});
-
-// a story with no content
-var blankStory = {
-    "id": "blankStory-ID",
-    "title": "",
-    "content": [],
-    "author": "",
-    "tags": [
-        ""
-    ],
-    "published": true
-};
-
-// an unpublished story with no content
-var unpublishedStory = fluid.extend({}, testStoryModelPrePublish, {
-    "id": "unpublishedStory-ID",
-    "published": false
-});
-
-// a story consisting only of empty blocks
-var blankStoryWithEmptyMediaBlocks = {
-    "id": "blankStoryWithEmptyMediaBlocks-ID",
-    "title": "",
-    "content": [
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "blockType": "text",
-            "text": null
-        },
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "blockType": "image",
-            "mediaUrl": null,
-            "alternativeText": null,
-            "description": null
-        },
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "mediaUrl": null,
-            "alternativeText": null,
-            "description": null,
-            "blockType": "audio"
-        },
-        {
-            "id": null,
-            "language": null,
-            "heading": null,
-            "mediaUrl": null,
-            "alternativeText": null,
-            "description": null,
-            "blockType": "video"
-        }
-    ],
-    "author": "",
-    "tags": [
-        ""
-    ],
-    "published": true
-};
-
-// a story with image blocks, one having correct orientation and the other without
-var testStoryWithImages = {
-    "id": "testStoryWithImages-ID",
-    "title": "A story to test image rotation",
-    "content": [
-        {
-            "blockType": "image",
-            "mediaUrl": "incorrectOrientation.jpeg",
-            "description": "A photo of a cup that starts out with incorrect orientation"
-        },
-        {
-            "blockType": "image",
-            "mediaUrl": "correctOrientation.jpg",
-            "description": "A photo of a virtual room that has the correct orientation already"
-        }
-    ],
-    "author": "Gregor Moss",
-    "published": true
-};
-
-// TODO: Generalize story testing so that components (such as request
-// for retrieving saved story) and test sequences can be reused across
-// different story configurations. And use these generalized pieces to
-// test more story configurations.
 
 fluid.registerNamespace("sjrk.tests.storyTelling.server.storage.mockRecords");
 

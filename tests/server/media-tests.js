@@ -14,8 +14,7 @@ var fluid = require("infusion"),
     jqUnit = fluid.registerNamespace("jqUnit"),
     fs = require("fs"),
     exif = require("jpeg-exif"),
-    path = require("path"),
-    {v4: uuidv4} = require("uuid");
+    path = require("path");
 
 require("../../src/server/storyRequestHandlers");
 require("./utils/serverTestUtils.js");
