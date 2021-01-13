@@ -29,98 +29,76 @@ sjrk.tests.storyTelling.server.media.imageRotationTestCases = {
     "null file": {
         fileName: null,
         options: null,
-        error: {
-            "code": "ERR_INVALID_ARG_TYPE"
-        }
+        errorCode: "ERR_INVALID_ARG_TYPE"
     },
     "empty file null opts": {
         fileName: "",
         options: null,
-        error: {
-            "errno": -2,
-            "syscall": "access",
-            "code": "ENOENT"
-        }
+        errorCode: "ENOENT"
     },
     "empty file empty opts": {
         fileName: "",
         options: "",
-        error: {
-            "errno": -2,
-            "syscall": "access",
-            "code": "ENOENT"
-        }
+        errorCode: "ENOENT"
     },
     "correct orientation null opts": {
         fileName: "./tests/testData/correctOrientation.jpg",
         options: null,
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 1064578, finalFileSize: 1064578}
     },
     "incorrect orientation null opts": {
         fileName: "./tests/testData/incorrectOrientation.jpeg",
         options: null,
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 1143772, finalFileSize: 2331730, initialOrientation: 6, finalOrientation: 1}
     },
     "gif null opts": {
         fileName: "./tests/testData/test_gif.gif",
         options: null,
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 99303, finalFileSize: 99303}
     },
     "png null opts": {
         fileName: "./tests/testData/logo_small_fluid_vertical.png",
         options: null,
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 3719, finalFileSize: 3719}
     },
     "mp3 null opts": {
         fileName: "./tests/testData/Leslie_s_Strut_Sting.mp3",
         options: null,
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 365968, finalFileSize: 365968}
     },
     "mp4 null opts": {
         fileName: "./tests/testData/shyguy_and_rootbeer.mp4",
         options: null,
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 3017238, finalFileSize: 3017238}
     },
     "correct orientation with opts": {
         fileName: "./tests/testData/correctOrientation.jpg",
         options: {quality: 1},
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 1064578, finalFileSize: 1064578}
     },
     "incorrect orientation with opts": {
         fileName: "./tests/testData/incorrectOrientation.jpeg",
         options: {quality: 1},
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 1143772, finalFileSize: 144091, initialOrientation: 6, finalOrientation: 1}
     },
     "gif with opts": {
         fileName: "./tests/testData/test_gif.gif",
         options: {quality: 1},
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 99303, finalFileSize: 99303}
     },
     "png with opts": {
         fileName: "./tests/testData/logo_small_fluid_vertical.png",
         options: {quality: 1},
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 3719, finalFileSize: 3719}
     },
     "mp3 with opts": {
         fileName: "./tests/testData/Leslie_s_Strut_Sting.mp3",
         options: {quality: 1},
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 365968, finalFileSize: 365968}
     },
     "mp4 with opts": {
         fileName: "./tests/testData/shyguy_and_rootbeer.mp4",
         options: {quality: 1},
-        expectedResolution: true,
         expectedDetails: {initialFileSize: 3017238, finalFileSize: 3017238}
     }
 };
@@ -160,7 +138,7 @@ fluid.each(sjrk.tests.storyTelling.server.media.imageRotationTestCases, function
             jqUnit.start();
 
         }, function (rejection) {
-            jqUnit.assertDeepEq("Expected rejection returned for failed rotation", testCase.error, rejection);
+            jqUnit.assertEquals("Expected rejection returned for failed rotation", testCase.errorCode, rejection.code);
 
             // clean up
             if (filePath) {
