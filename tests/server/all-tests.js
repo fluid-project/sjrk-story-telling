@@ -16,6 +16,7 @@ kettle.loadTestingSupport();
 
 var testIncludes = [
     "./dataSource-tests.js",
+    "./media-tests.js",
     "./testServerWithBaseTheme.js",
     "./testServer.js",
     "./testServerAuthentication.js",

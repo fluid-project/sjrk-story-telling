@@ -7,7 +7,7 @@
         "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",
         "test": "npm run test:browser && npm run test:node",
         "test:browser": "testem ci --file tests/ui/testem.js",
-        "test:node": "node tests/server/all-tests.js",
+        "test:node": "nyc node tests/server/all-tests.js",
         "posttest": "nyc report -r text-summary -r html -r json",
         "lint": "grunt lint"
     },

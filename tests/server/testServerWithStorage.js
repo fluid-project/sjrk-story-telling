@@ -22,7 +22,7 @@ require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
-require("../../src/server/authorsRequestHandlers");
+require("../../src/server/authRequestHandlers");
 require("../../src/server/staticRequestHandlers");
 require("../../src/server/storyRequestHandlers");
 require("../../src/server/validators");
@@ -157,205 +157,158 @@ var testStoryWithImages = {
 // different story configurations. And use these generalized pieces to
 // test more story configurations.
 
-// server definitions to test file and database operations on the server
-sjrk.storyTelling.server.testServerWithStorageDefs = [{
-    name: "Test server with storage",
-    expect: 99,
+fluid.registerNamespace("sjrk.tests.storyTelling.server.storage.mockRecords");
+
+sjrk.tests.storyTelling.server.storage.insertIntoArray = function (toUpdate, index, toInsert) {
+    var start = toUpdate.slice(0, index);
+    var end = toUpdate.slice(index);
+    return start.concat(fluid.makeArray(toInsert), end);
+};
+
+sjrk.tests.storyTelling.server.storage.IMAGE_ORIENTATION_TOP_LEFT = 1;
+sjrk.tests.storyTelling.server.storage.verifyImageOrientation = function (filePath, expectedOrientation) {
+    var actualOrientation = exif.parseSync(filePath).Orientation;
+    jqUnit.assertEquals("Image orientation is as expected for image " + filePath, expectedOrientation, actualOrientation);
+};
+
+sjrk.tests.storyTelling.server.storage.mockRecords.docs = {
+    "publishedStory": {
+        "type": "story",
+        "authorID": "author-abcd-123",
+        "value": {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story",
+            "author": "IDRC",
+            "tags": [],
+            "content": []
+        }
+    },
+    "unpublishedStory": {
+        "type": "story",
+        "authorID": "author-abcd-123",
+        "value": {
+            "published": false,
+            "id": "unpublishedStory",
+            "title": "Sample Unpublished Story",
+            "author": "IDRC",
+            "tags": [],
+            "content": []
+        }
+    },
+    "publishedGuestStory": {
+        "type": "story",
+        "value": {
+            "published": true,
+            "id": "publishedGuestStory",
+            "title": "Sample Guest Story",
+            "author": "Guest",
+            "tags": [],
+            "content": []
+        }
+    },
+    "unpublishedGuestStory": {
+        "type": "story",
+        "value": {
+            "published": false,
+            "id": "unpublishedGuestStory",
+            "title": "Sample Unpublished Guest Story",
+            "author": "Guest",
+            "tags": [],
+            "content": []
+        }
+    }
+};
+
+// Base configuration for storage test defs. Should be mixed in with concrete test defs.
+fluid.defaults("sjrk.tests.storyTelling.server.storage.testDef.base", {
     port: 8082,
     events: {
-        // Receives no arguments
-        "onBlockUpdatedWithUploadedFilename": null,
-        // Receives one argument:
-        // - the path of the newly "uploaded" file
-        "onMockUploadComplete": null,
-        // Receives one argument:
-        // - the ID of the saved story
-        "onStorySaveSuccessful": null,
-        // Receives error details
-        "onStorySaveUnsuccessful": null,
-        // Receives one argument:
-        // - the filename of the image to retrieve
-        "onTestImageRetrieval": null,
-        // Receives two arguments:
-        // - the ID of the saved story
-        "onBlankStorySaveSuccessful": null,
-        // Receives one argument:
-        // - the ID of the saved story
-        "onUnpublishedStorySaveSuccessful": null,
-        // Receives one argument:
-        // - the ID of the saved story
-        "onBlankStoryWithEmptyMediaBlocksSaveSuccessful": null
+        // Create/refresh kettle request components
+        "refreshRequests": null
     },
-    testUploadOptions: {
-        testAuthorID: "test-author-id",
-        testPNGFile: "./tests/testData/logo_small_fluid_vertical.png",
-        testPNGFileHeaders: {
-            "content-type": "image/png",
-            "content-length": "3719"
-        },
-        testJPGFile: "./tests/testData/obliterationroom.jpg",
-        testJPGFileHeaders: {
-            "content-type": "image/jpeg",
-            "content-length": "1583244"
-        },
-        testImageWithCorrectOrientation: "./tests/testData/correctOrientation.jpg",
-        testImageWithIncorrectOrientation: "./tests/testData/incorrectOrientation.jpeg",
-        testDirectory: "./tests/server/uploads/",
-        testDataDirectory: "./tests/testData/",
-        expectedUploadDirectory: "./tests/server/uploads/",
-        expectedUploadedFilesHandlerPath: "./tests/server/uploads/"
+    listeners: {
+        "onCreate.refreshRequests": "{that}.events.refreshRequests"
     },
-    config: {
-        configName: "sjrk.storyTelling.server.test",
-        configPath: "./tests/server/configs"
+    members: {
+        savedStories: [],
+        savedFiles: [],
+        saveFileFormData: {}
+    },
+    testOpts: {
+        uploadDirectory: "./tests/server/uploads/"
     },
     components: {
         testDB: {
-            type: "sjrk.test.storyTelling.server.mockDatabase"
-        },
-        storySavePrePublish: {
-            type: "kettle.test.request.http",
+            type: "sjrk.test.storyTelling.server.mockDatabase",
             options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        storySavePostPublish: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        storySaveRepublish: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        getSavedStory: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories/%id"
-            }
-        },
-        getRepublishedStory: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories/%id"
-            }
-        },
-        getUploadedImage: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/%handlerPath/%imageFilename"
-            }
-        },
-        blankStorySave: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        getSavedBlankStory: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories/%id"
-            }
-        },
-        unpublishedStorySave: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        getSavedUnpublishedStory: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories/%id"
-            }
-        },
-        blankStoryWithEmptyMediaBlocksSave: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        getSavedBlankStoryWithEmptyMediaBlocks: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories/%id"
-            }
-        },
-        storyWithImagesSave: {
-            type: "kettle.test.request.http",
-            options: {
-                path: "/stories",
-                method: "POST"
-            }
-        },
-        singleFileSave: {
-            type: "kettle.test.request.formData",
-            options: {
-                path: "/stories/testStoryModel-ID",
-                method: "POST",
-                formData: {
-                    files: {
-                        "file": "{testCaseHolder}.options.testUploadOptions.testPNGFile"
-                    }
-                }
-            }
-        }
-    },
-    dynamicComponents: {
-        replaceFile: {
-            type: "kettle.test.request.formData",
-            createOnEvent: "onBlockUpdatedWithUploadedFilename",
-            options: {
-                path: "/stories/testStoryModel-ID",
-                method: "POST",
-                formData: {
-                    files: {
-                        "file": "{testCaseHolder}.options.testUploadOptions.testJPGFile"
-                    },
-                    fields: {
-                        previousFileUrl: "{arguments}.0.content.0.mediaUrl"
-                    }
-                }
-            }
-        },
-        getReplacementImage: {
-            type: "kettle.test.request.http",
-            createOnEvent: "onBlockUpdatedWithUploadedFilename",
-            options: {
-                path: "/%handlerPath/%imageFilename"
-            }
-        },
-        getReplacedImage: {
-            type: "kettle.test.request.http",
-            createOnEvent: "onBlockUpdatedWithUploadedFilename",
-            options: {
-                path: "/%handlerPath/%imageFilename",
-                termMap: {
-                    imageFilename: {
-                        expander: {
-                            "this": "path",
-                            method: "basename",
-                            args: ["{arguments}.0.content.0.mediaUrl"]
-                        }
-                    },
-                    handlerPath: {
-                        expander: {
-                            "this": "path",
-                            method: "dirname",
-                            args: ["{arguments}.0.content.0.mediaUrl"]
+                components: {
+                    storiesDBConfig: {
+                        options: {
+                            dbDocuments: sjrk.tests.storyTelling.server.storage.mockRecords.docs
                         }
                     }
                 }
+            }
+        },
+        saveStory: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/stories",
+                method: "POST",
+                listeners: {
+                    "onComplete.saveStory": {
+                        "this": "{sjrk.tests.storyTelling.server.storage.testDef.base}.savedStories",
+                        method: "push",
+                        args: {
+                            expander: {
+                                funcName: "JSON.parse",
+                                args: ["{arguments}.0"]
+                            }
+                        },
+                        priority: "first"
+                    }
+                }
+            }
+        },
+        getStory: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/stories/%id"
+            }
+        },
+        getStoryForEdit: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/stories/%id/edit"
+            }
+        },
+        saveFile: {
+            type: "kettle.test.request.formData",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/stories/%id",
+                method: "POST",
+                storeCookies: true,
+                formData: "{sjrk.tests.storyTelling.server.storage.testDef.base}.saveFileFormData",
+                listeners: {
+                    "onComplete.trackUploadedFiles": {
+                        "this": "{sjrk.tests.storyTelling.server.storage.testDef.base}.savedFiles",
+                        method: "push",
+                        args: ["{arguments}.0"],
+                        priority: "first"
+                    }
+                }
+            }
+        },
+        getFile: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/%filePath"
             }
         }
     },
@@ -368,774 +321,1963 @@ sjrk.storyTelling.server.testServerWithStorageDefs = [{
             source: "{that}.options.port",
             target: "{that kettle.test.request.http}.options.port"
         }
+    }
+});
+
+// Base configuration for storage test defs with authentication. Should be mixed in with concrete test defs.
+fluid.defaults("sjrk.tests.storyTelling.server.storage.testDef.authentication", {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.base"],
+    testOpts: {
+        signup: {
+            author1: {
+                credentials: {
+                    email: "test@example.com",
+                    password: "test-pass",
+                    confirm: "test-pass"
+
+                },
+                response: {
+                    email: "test@example.com"
+                }
+            },
+            author2: {
+                credentials: {
+                    email: "other@example.com",
+                    password: "other-pass",
+                    confirm: "other-pass"
+
+                },
+                response: {
+                    email: "other@example.com"
+                }
+            }
+        },
+        logoutResponse: "logout successful"
+    },
+    components: {
+        logout: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/logout",
+                method: "POST"
+            }
+        },
+        signup: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/signup",
+                method: "POST"
+            }
+        }
+    }
+});
+
+sjrk.tests.storyTelling.server.storage.testDef.saveStory = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.base"],
+    name: "Save story - guest",
+    expect: 14,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        storyWithId: {
+            "id": "test-ID",
+            "title": "",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        storyWithoutId: {
+            "title": "",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        updatedStory: {
+            "id": "test-ID",
+            "title": "updated",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        storyWithIdSaveResponse: {
+            "ok": true,
+            "id": "test-ID"
+        },
+        storyWithoutIdSaveResponse: {
+            "ok": true
+        }
     },
     sequence: [{
-        func: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory"]
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
     },
-    // Story with an image
     {
-        // initializes the story in its unpublished form
+        // setup: wait for database to initialize
         event: "{testDB}.events.onReady",
-        listener: "{that}.storySavePrePublish.send",
-        args: [testStoryModelPrePublish]
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
     },
     {
-        event: "{storySavePrePublish}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        // save story with storyId
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.storyWithId"]
     },
     {
-        // uploads the image for the story
-        event: "{that}.events.onStorySaveSuccessful",
-        listener: "{that}.singleFileSave.send"
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save story with storyId",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithIdSaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
     },
     {
-        // on the client side, the block would receive the updated filename, but we have to mock this step
-        event: "{singleFileSave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename",
-        args: [testStoryModelPostPublish, "{arguments}.0", "{that}.events.onBlockUpdatedWithUploadedFilename"]
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
     },
     {
-        // publishes the updated story so it can be retrieved from the server
-        event: "{that}.events.onBlockUpdatedWithUploadedFilename",
-        listener: "{that}.storySavePostPublish.send",
-        args: ["{arguments}.0"]
+        // save story without storyId
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.storyWithoutId"]
     },
     {
-        event: "{storySavePostPublish}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save story without storyId",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithoutIdSaveResponse",
+            filter: ["id", "rev"],
+            checkFiltered: true
+        }]
     },
     {
-        event: "{that}.events.onStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getSavedStory}"]
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
     },
     {
-        event: "{getSavedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
-        args: [
-            "{arguments}.0",
-            testStoryModelPostPublish,
-            {
-                expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
-                expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
-            },
-            "{testCaseHolder}.events.onTestImageRetrieval",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
+        // save empty story
+        func: "{saveStory}.send"
     },
     {
-        event: "{that}.events.onTestImageRetrieval",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
-        args: ["{arguments}.0", "{getUploadedImage}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save empty story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithoutIdSaveResponse",
+            filter: ["id", "rev"],
+            checkFiltered: true
+        }]
     },
     {
-        event: "{getUploadedImage}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
-        args: [
-            "{arguments}.0",
-            "{arguments}.1",
-            "{that}.options.testUploadOptions.testPNGFileHeaders",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
     },
     {
-        // replace the uploaded image file
-        funcName: "{that}.replaceFile.send"
+        // update existing story
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.updatedStory"]
     },
     {
-        // on the client side, the block would receive the updated filename, but we have to mock this step
-        event: "{replaceFile}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename",
-        args: [testStoryModelPostPublish, "{arguments}.0", "{that}.events.onBlockUpdatedWithUploadedFilename"]
-    },
-    {
-        // republishes the updated story so it can be retrieved from the server
-        event: "{that}.events.onBlockUpdatedWithUploadedFilename",
-        listener: "{that}.storySaveRepublish.send",
-        args: ["{arguments}.0"]
-    },
-    {
-        event: "{storySaveRepublish}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
-    },
-    {
-        event: "{that}.events.onStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getRepublishedStory}"]
-    },
-    {
-        event: "{getRepublishedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
-        args: [
-            "{arguments}.0",
-            testStoryModelPostPublish,
-            {
-                expectedUploadDirectory: "{testCaseHolder}.options.testUploadOptions.expectedUploadDirectory",
-                expectedUploadedFilesHandlerPath: "{testCaseHolder}.options.testUploadOptions.expectedUploadedFilesHandlerPath"
-            },
-            "{testCaseHolder}.events.onTestImageRetrieval",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        event: "{that}.events.onTestImageRetrieval",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage",
-        args: ["{arguments}.0", "{getReplacementImage}", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
-    },
-    {
-        event: "{getReplacementImage}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
-        args: [
-            "{arguments}.0",
-            "{arguments}.1",
-            "{that}.options.testUploadOptions.testJPGFileHeaders",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        // Test that the replaced image is still reachable
-        funcName: "{that}.getReplacedImage.send"
-    },
-    {
-        event: "{getReplacedImage}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval",
-        args: [
-            "{arguments}.0",
-            "{arguments}.1",
-            "{that}.options.testUploadOptions.testPNGFileHeaders",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        // Clean up
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
-    },
-    // Blank story
-    {
-        func: "{that}.blankStorySave.send",
-        args: [blankStory]
-    },
-    {
-        event: "{blankStorySave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: [
-            "{arguments}.0",
-            "{that}.events.onBlankStorySaveSuccessful",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        event: "{that}.events.onBlankStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getSavedBlankStory}"]
-    },
-    {
-        event: "{getSavedBlankStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
-        args: [
-            "{arguments}.0",
-            blankStory,
-            null, // No file expected
-            null, // No event needed
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    // Unpublished story
-    {
-        func: "{that}.unpublishedStorySave.send",
-        args: [unpublishedStory]
-    },
-    {
-        event: "{unpublishedStorySave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: [
-            "{arguments}.0",
-            "{that}.events.onUnpublishedStorySaveSuccessful",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        event: "{that}.events.onUnpublishedStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getSavedUnpublishedStory}"]
-    },
-    {
-        event: "{getSavedUnpublishedStory}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails",
-        args: [
-            "{arguments}.0",
-            null, // No event needed
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    // Blank story with empty media blocks
-    {
-        func: "{that}.blankStoryWithEmptyMediaBlocksSave.send",
-        args: [blankStoryWithEmptyMediaBlocks]
-    },
-    {
-        event: "{blankStoryWithEmptyMediaBlocksSave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: [
-            "{arguments}.0",
-            "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    {
-        event: "{that}.events.onBlankStoryWithEmptyMediaBlocksSaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory",
-        args: ["{arguments}.0", "{getSavedBlankStoryWithEmptyMediaBlocks}"]
-    },
-    {
-        event: "{getSavedBlankStoryWithEmptyMediaBlocks}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence",
-        args: [
-            "{arguments}.0",
-            blankStoryWithEmptyMediaBlocks,
-            null, // No file expected
-            null, // No event needed
-            "{that}.configuration.server.options.globalConfig.authoringEnabled"
-        ]
-    },
-    // Test sjrk.storyTelling.server.saveStoryToDatabase
-    {
-        funcName: "sjrk.storyTelling.server.saveStoryToDatabase",
-        args: [
-            "{server}.server.storyDataSource",
-            "{testCaseHolder}.options.testUploadOptions.testAuthorID",
-            { modelKey: "testValue" },
-            "{that}.events.onStorySaveSuccessful",
-            "{that}.events.onStorySaveUnsuccessful"
-        ]
-    },
-    {
-        event: "{that}.events.onStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse",
-        args: [{ ok: true }, "{arguments}.0"]
-    },
-    {
-        funcName: "sjrk.storyTelling.server.saveStoryToDatabase",
-        args: [
-            "{server}.server.storyDataSource",
-            "{testCaseHolder}.options.testUploadOptions.testAuthorID",
-            null,
-            "{that}.events.onStorySaveSuccessful",
-            "{that}.events.onStorySaveUnsuccessful"
-        ]
-    },
-    {
-        event: "{that}.events.onStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse",
-        args: [{ ok: true }, "{arguments}.0"]
-    },
-    // Verify image with incorrect orientation was rotated after uploading
-    {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload",
-        args: [testStoryWithImages.content[0].mediaUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
-    },
-    {
-        event: "{that}.events.onMockUploadComplete",
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload",
-        args: [testStoryWithImages.content[1].mediaUrl, "{testCaseHolder}.options.testUploadOptions.testDataDirectory", "{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.events.onMockUploadComplete"]
-    },
-    {
-        event: "{that}.events.onMockUploadComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
-        args: [
-            ["{testCaseHolder}.options.testUploadOptions.testImageWithCorrectOrientation",
-                "{testCaseHolder}.options.testUploadOptions.testImageWithIncorrectOrientation"],
-            [1, 6]
-        ]
-    },
-    {
-        func: "{that}.storyWithImagesSave.send",
-        args: [testStoryWithImages]
-    },
-    {
-        event: "{storyWithImagesSave}.events.onComplete",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful",
-        args: ["{arguments}.0", "{that}.events.onStorySaveSuccessful", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
-    },
-    {
-        event: "{that}.events.onStorySaveSuccessful",
-        listener: "sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations",
-        args: [
-            "@expand:sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFilePaths({arguments}.1, {testCaseHolder}.options.testUploadOptions.testDirectory)",
-            [1, 1]
-        ]
-    },
-    {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
-    },
-    // Unit tests for individual functions
-    {
-        task: "sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests",
-        resolve: "jqUnit.assert",
-        resolveArgs: ["The rotateImageFromExif tests have completed successfully"]
-    },
-    {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests"
-    },
-    {
-        funcName: "sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory",
-        args: ["{testCaseHolder}.options.testUploadOptions.testDirectory", "{that}.configuration.server.options.globalConfig.authoringEnabled"]
+        event: "{saveStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt to update existing story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 403
+        }]
     }]
+};
+
+sjrk.tests.storyTelling.server.storage.testDef.saveStoryAuthenticated = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.authentication"],
+    name: "Save story - authenticated",
+    expect: 25,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        storyWithId: {
+            "id": "test-ID",
+            "title": "",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        storyWithoutId: {
+            "title": "",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        updatedStory: {
+            "id": "test-ID",
+            "title": "updated",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        attemptedUpdateStory: {
+            "id": "test-ID",
+            "title": "attempt to update",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        storyWithIdSaveResponse: {
+            "ok": true,
+            "id": "test-ID"
+        },
+        storyWithoutIdSaveResponse: {
+            "ok": true
+        }
+    },
+    sequence: [{
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    },
+    {
+        // setup: wait for database to initialize
+        event: "{testDB}.events.onReady",
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
+    },
+    {
+        // setup: authenticate
+        func: "{signup}.send",
+        args: ["{that}.options.testOpts.signup.author1.credentials"]
+    },
+    {
+        event: "{signup}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "login",
+            request: "{signup}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.signup.author1.response"
+        }]
+    },
+    {
+        // save story with storyId
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.storyWithId"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save story with storyId",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithIdSaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // save story without storyId
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.storyWithoutId"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save story without storyId",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithoutIdSaveResponse",
+            filter: ["id", "rev"],
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // save empty story
+        func: "{saveStory}.send"
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save empty story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithoutIdSaveResponse",
+            filter: ["id", "rev"],
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // update existing story
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.updatedStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "update existing story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.storyWithIdSaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // setup: logout
+        func: "{logout}.send"
+    },
+    {
+        event: "{logout}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: [{
+            plainText: true,
+            message: "logout",
+            request: "{logout}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.logoutResponse"
+        }]
+    },
+    {
+        // attempt to update existing story after logout
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.attemptedUpdateStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt to update existing story after logout",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 403
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // setup: authenticate
+        func: "{signup}.send",
+        args: ["{that}.options.testOpts.signup.author2.credentials"]
+    },
+    {
+        event: "{signup}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "login with other account",
+            request: "{signup}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.signup.author2.response"
+        }]
+    },
+    {
+        // attempt to update existing story with other account
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.attemptedUpdateStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt to update existing story with other account",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 403
+        }]
+    }]
+};
+
+fluid.defaults("sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory", {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.base"],
+    expect: 17,
+    members: {
+        saveFileFormData: {
+            files: {
+                "file": "{that}.options.testOpts.files.imagePNG"
+            }
+        }
+    },
+    testOpts: {
+        files: {
+            imagePNG: "./tests/testData/logo_small_fluid_vertical.png",
+            imageJPG: "./tests/testData/obliterationroom.jpg"
+        },
+        fileHeaders: {
+            imagePNG: {
+                "content-type": "image/png",
+                "content-length": "3719"
+            },
+            imageJPG: {
+                "content-type": "image/jpeg",
+                "content-length": "1583244"
+            }
+        },
+        story: {
+            "id": "test-story",
+            "title": "",
+            "content": [],
+            "author": "",
+            "tags": [],
+            "published": true
+        },
+        saveStoryResponse: {
+            "ok": true,
+            "id": "test-story"
+        }
+    }
+});
+
+// Not included in the `sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory` grade because the
+// grade merging happens after the sequence is required by `kettle.test.bootstrapServer`. The squence needs to be
+// manually added to testDef directly.
+sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.sequence = [{
+    // setup: clear test uploads directory
+    func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+    args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+},
+{
+    // setup: wait for database to initialize
+    event: "{testDB}.events.onReady",
+    listener: "jqUnit.assert",
+    args: ["The database is initialized"]
+},
+{
+    // setup: save story
+    func: "{saveStory}.send",
+    args: ["{that}.options.testOpts.story"]
+},
+{
+    event: "{saveStory}.events.onComplete",
+    listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+    args: [{
+        message: "save story",
+        request: "{saveStory}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expected: "{that}.options.testOpts.saveStoryResponse",
+        filter: "rev",
+        checkFiltered: true
+    }]
+},
+{
+    // save image to story
+    func: "{saveFile}.send",
+    args: [undefined, {
+        termMap: {id: "{that}.options.testOpts.story.id"}
+    }]
+},
+{
+    event: "{saveFile}.events.onComplete",
+    listener: "kettle.test.assertResponse",
+    args: [{
+        message: "save file to story",
+        request: "{saveFile}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expectedSubstring: "{that}.options.testOpts.uploadDirectory",
+        plainText: true
+    }]
+},
+{
+    // get image saved to story
+    func: "{getFile}.send",
+    args: [undefined, {
+        termMap: {filePath: "{that}.savedFiles.0"}
+    }]
+},
+{
+    event: "{getFile}.events.onComplete",
+    listener: "sjrk.storyTelling.server.assertBinaryResponse",
+    args: [{
+        message: "get file saved to story",
+        request: "{getFile}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expectedHeaders: "{that}.options.testOpts.fileHeaders.imagePNG"
+    }]
+},
+{
+    // setup: set new formData
+    func: "fluid.set",
+    args: [
+        "{that}",
+        "saveFileFormData",
+        {
+            files: {
+                "file": "{that}.options.testOpts.files.imageJPG"
+            },
+            fields: {
+                previousFileUrl: "{that}.savedFiles.0"
+            }
+        }
+    ]
+},
+{
+    // setup: reset request components
+    func: "{that}.events.refreshRequests.fire"
+},
+{
+    // save new image to story
+    func: "{saveFile}.send",
+    args: [undefined, {
+        termMap: {id: "{that}.options.testOpts.story.id"}
+    }]
+},
+{
+    event: "{saveFile}.events.onComplete",
+    listener: "kettle.test.assertResponse",
+    args: [{
+        message: "save new file to story",
+        request: "{saveFile}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expectedSubstring: "{that}.options.testOpts.uploadDirectory",
+        plainText: true
+    }]
+},
+{
+    // get new image saved to story
+    func: "{getFile}.send",
+    args: [undefined, {
+        termMap: {filePath: "{that}.savedFiles.1"}
+    }]
+},
+{
+    event: "{getFile}.events.onComplete",
+    listener: "sjrk.storyTelling.server.assertBinaryResponse",
+    args: [{
+        message: "get new file saved to story",
+        request: "{getFile}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expectedHeaders: "{that}.options.testOpts.fileHeaders.imageJPG"
+    }]
+},
+{
+    // cleanup: reset request components
+    func: "{that}.events.refreshRequests.fire"
+},
+{
+    // get original image saved to story
+    func: "{getFile}.send",
+    args: [undefined, {
+        termMap: {filePath: "{that}.savedFiles.0"}
+    }]
+},
+{
+    event: "{getFile}.events.onComplete",
+    listener: "sjrk.storyTelling.server.assertBinaryResponse",
+    args: [{
+        message: "get original file saved to story",
+        request: "{getFile}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expectedHeaders: "{that}.options.testOpts.fileHeaders.imagePNG"
+    }]
+},
+{
+    // cleanup: clear test uploads directory
+    func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+    args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
 }];
 
-/**
- * Assembles the error text reported when trying to access a file on the server.
- *
- * @param {String} template - A string template taking tokens: %filePath (the filePath passed in), %handlerPath (the
- *                            directory path to the file, encoded), and %fileName (the file name)
- * @param {String} filePath - the URI to the file that the error is reported for
- * @return {String} - The assembled error text
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.assembleErrorExpectedErrorText = function (template, filePath) {
-    return fluid.stringTemplate(template, {
-        filePath: filePath,
-        handlerPath: encodeURIComponent(path.dirname(filePath)),
-        fileName: path.basename(filePath)
-    });
+// Inject the authentication step into the sequence
+sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.authenticatedSequence = sjrk.tests.storyTelling.server.storage.insertIntoArray(
+    sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.sequence,
+    2,
+    [{
+        // setup: authenticate
+        func: "{signup}.send",
+        args: ["{that}.options.testOpts.signup.author1.credentials"]
+    },
+    {
+        event: "{signup}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "login",
+            request: "{signup}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.signup.author1.response"
+        }]
+    }]
+);
+
+sjrk.tests.storyTelling.server.storage.testDef.saveFileToUnpublished = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory"],
+    name: "Save file to unpublished story - guest author",
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        story: {
+            "published": false
+        }
+    },
+    sequence: sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.sequence
 };
 
-/**
- * Mocks a single file upload by copying a file from a given path
- * to the test uploads directory. Fires an event upon successful completion
- *
- * @param {String} fileName - the name of the file to mock upload
- * @param {String} sourceDirPath - the path for the original file (to be copied)
- * @param {String} testUploadDirPath - the path for the test uploads directory
- * @param {Object} completionEvent - the event to fire on successful completion
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.mockFileUpload = function (fileName, sourceDirPath, testUploadDirPath, completionEvent) {
-    if (fileName) {
-        var sourcePath = path.join(sourceDirPath, fileName);
+sjrk.tests.storyTelling.server.storage.testDef.saveFileToPublished = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory"],
+    name: "Save file to published story - guest author",
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    sequence: sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.sequence
+};
 
-        if (fs.existsSync(sourcePath)) {
-            var copyPath = path.join(testUploadDirPath, fileName);
-            fs.copyFileSync(sourcePath, copyPath);
+sjrk.tests.storyTelling.server.storage.testDef.saveFileToUnpublishedAuthenticated = {
+    gradeNames: [
+        "sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory",
+        "sjrk.tests.storyTelling.server.storage.testDef.authentication"
+    ],
+    name: "Save file to unpublished story - authenticated author",
+    expect: 19,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        story: {
+            "published": false
+        }
+    },
+    sequence: sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.authenticatedSequence
+};
 
-            if (fs.existsSync(copyPath)) {
-                completionEvent.fire(copyPath);
+sjrk.tests.storyTelling.server.storage.testDef.saveFileToPublishedAuthenticated = {
+    gradeNames: [
+        "sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory",
+        "sjrk.tests.storyTelling.server.storage.testDef.authentication"
+    ],
+    name: "Save file to published story - authenticated author",
+    expect: 19,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    sequence: sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory.authenticatedSequence
+};
+
+
+sjrk.tests.storyTelling.server.storage.testDef.rotateSavedImage = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.saveFileToStory"],
+    name: "Save file to published story - guest author",
+    expect: 9,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    members: {
+        saveFileFormData: {
+            files: {
+                "file": "{that}.options.testOpts.files.imageIncorrectOrientation"
             }
         }
-    }
-};
-
-/**
- * Removes all files from the test uploads directory
- *
- * @param {String} dirPath - the path for the test uploads directory
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.cleanTestUploadsDirectory = function (dirPath) {
-    var testUploadsDir = fs.readdirSync(dirPath);
-    fluid.each(testUploadsDir, function (filePath) {
-        if (filePath !== ".gitkeep") {
-            fs.unlinkSync(dirPath + filePath);
-        }
-    });
-};
-
-/**
- * Verifies that a story was posted successfully if authoring is enabled, or
- * was not posted successfully if authoring is disabled
- *
- * @param {String} data - the data returned by the call
- * @param {Object} completionEvent - an event to fire on test completion
- * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPostRequestSuccessful = function (data, completionEvent, authoringEnabled) {
-    var parsedData = JSON.parse(data);
-
-    if (authoringEnabled) {
-        jqUnit.assertTrue("Response OK is true", parsedData.ok);
-        jqUnit.assertTrue("Response contains ID field", parsedData.id);
-        completionEvent.fire(parsedData.id);
-    } else {
-        jqUnit.assertTrue("Response isError is true", parsedData.isError);
-        jqUnit.assertFalse("Response does not contain ID field", parsedData.id);
-        completionEvent.fire(0, undefined); // fire the completion event with a dummy ID
-    }
-};
-
-/**
- * Updates the filename of a single media block in a given story model
- * (where the original filename of the block's file matches the one passed in with the request)
- * with the given dynamically-created filename
- *
- * @param {Object} testStory - the test story that is to be updated
- * @param {String} uploadedFilename - the filename of the uploaded file
- * @param {Object} completionEvent - an event to fire on test completion
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.updateStoryBlockWithUploadedFilename = function (testStory, uploadedFilename, completionEvent) {
-    testStory.content[0].mediaUrl = uploadedFilename;
-    completionEvent.fire(testStory);
-};
-
-/**
- * Prepares and sends a request to get a story from the server
- *
- * @param {String} storyId - the ID of the story to get
- * @param {Component} getSavedStoryRequest - an instance of kettle.test.request.http
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.getSavedStory = function (storyId, getSavedStoryRequest) {
-    getSavedStoryRequest.send(null, {termMap: {id: storyId}});
-};
-
-/**
- * Verifies that a story and its files are correctly stored on the server and
- * in the database
- *
- * @param {String} data - the data returned by the call
- * @param {Object} expectedStory - the expected story model
- * @param {Object} fileOptions - options related to the uploaded files
- * @param {Object} completionEvent - an event to fire on test completion
- * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryPersistence = function (data, expectedStory, fileOptions, completionEvent, authoringEnabled) {
-    var parsedData = JSON.parse(data);
-
-    if (authoringEnabled) {
-        // update the expected model to use the
-        // dynamically-generated file name before we
-        // test on it
-        var updatedModel = fluid.copy(expectedStory);
-
-        if (fileOptions) {
-            var filePath = parsedData.content[0].mediaUrl;
-
-            updatedModel.content[0].mediaUrl = filePath;
-
-            // verify that the file exists in the expected location
-            var exists = fs.existsSync(filePath);
-            jqUnit.assertTrue("Uploaded file exists: " + filePath, exists);
-        }
-
-        sjrk.storyTelling.server.verifyResponse("Saved story data is as expected", updatedModel, parsedData);
-
-        if (completionEvent && fileOptions) {
-            completionEvent.fire(parsedData.content[0].mediaUrl);
-        }
-    } else {
-        jqUnit.assertEquals("Story error message is as expected", "An error occurred while retrieving the requested story", parsedData.message);
-
-        if (fileOptions) {
-            jqUnit.assert("Uploaded file does not exist");
-        }
-
-        if (completionEvent) {
-            completionEvent.fire(undefined);
-        }
-    }
-};
-
-/**
- * Verifies that a story is not successfully retrieved
- *
- * @param {String} data - the data returned by the call
- * @param {Object} completionEvent - an event to fire on test completion
- * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryGetFails = function (data, completionEvent, authoringEnabled) {
-    var parsedData = JSON.parse(data);
-
-    if (authoringEnabled) {
-        jqUnit.assertEquals("Story error message is as expected", "An error occurred while retrieving the requested story", parsedData.message);
-
-        if (completionEvent) {
-            completionEvent.fire(parsedData);
-        }
-    } else {
-        jqUnit.assert("Saved story data does not exist");
-
-        if (completionEvent) {
-            completionEvent.fire(undefined);
-        }
-    }
-};
-
-/**
- * Prepares and sends a request to get an image file from the server
- *
- * @param {String} mediaUrl - the URL of the image to get
- * @param {Component} getUploadedImageRequest - an instance of kettle.test.request.http
- * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.retrieveUploadedImage = function (mediaUrl, getUploadedImageRequest, authoringEnabled) {
-    if (authoringEnabled) {
-        var imageFilename, handlerPath;
-        handlerPath = path.dirname(mediaUrl);
-        imageFilename = path.basename(mediaUrl);
-
-        getUploadedImageRequest.send(null, {termMap: {imageFilename: imageFilename, handlerPath: handlerPath}});
-    } else {
-        getUploadedImageRequest.send(null, {termMap: {imageFilename: authoringEnabled, handlerPath: authoringEnabled}});
-    }
-};
-
-/**
- * Verifies that an image was successfully retrieved
- *
- * @param {String} data - the data returned by the call
- * @param {Object} request - the Kettle request component
- * @param {Object} expectedHeaders - key/value pairs for headers and their expected values
- * @param {Boolean} authoringEnabled - a flag indicating whether authoring is enabled
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageRetrieval = function (data, request, expectedHeaders, authoringEnabled) {
-    if (authoringEnabled) {
-        jqUnit.assertEquals("Status code from retrieving image is 200", 200, request.nativeResponse.statusCode);
-        fluid.each(expectedHeaders, function (value, header) {
-            jqUnit.assertEquals("header." + header + " is " + value, value, request.nativeResponse.headers[header]);
-        });
-    } else {
-        jqUnit.assertEquals("Status code from retrieving image is 404", 404, request.nativeResponse.statusCode);
-        fluid.each(expectedHeaders, function (value, header) {
-            jqUnit.assertNotEquals("header." + header + " is not" + value, value, request.nativeResponse.headers[header]);
-        });
-    }
-
-
-};
-
-/**
- * Verifies a database response is as expected (less internal DB ID's)
- *
- * @param {String} expectedResponse - the expected response data
- * @param {String} actualResponse - the expected response data
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyStoryDataSourceResponse = function (expectedResponse, actualResponse) {
-    var actualResponseWithoutIds = fluid.censorKeys(JSON.parse(actualResponse), ["id", "rev"]);
-
-    jqUnit.assertDeepEq("Story save response was as expected", expectedResponse, actualResponseWithoutIds);
-};
-
-/**
- * Verifies whether the orientation of a given set of images is as expected
- * assumes the images have EXIF data that can be read
- *
- * @param {String[]} images - a set of images
- * @param {Number[]} expectedOrientations - a set of expected orientation values
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.verifyImageOrientations = function (images, expectedOrientations) {
-    fluid.each(images, function (image, index) {
-        var actualOrientation = exif.parseSync(image).Orientation;
-        jqUnit.assertEquals("Image orientation is as expected for image " + image, expectedOrientations[index], actualOrientation);
-    });
-};
-
-/**
- * Converts a binaryRenameMap to a set of upload paths relative to the test
- * uploads directory
- *
- * @param {Object.<String, String>} binaryRenameMap - a map of uploaded file names to paths
- * @param {String} testUploadsDir - the path for the test uploads directory
- *
- * @return {String[]} - a collection of paths to which files were uploaded
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.binaryRenameMapToUploadedFilePaths = function (binaryRenameMap, testUploadsDir) {
-    var uploadedPaths = [];
-    fluid.each(binaryRenameMap, function (mapping) {
-        uploadedPaths.push(testUploadsDir + mapping);
-    });
-    return uploadedPaths;
-};
-
-/**
- * Tests the rotateImageFromExif function
- *
- * @return {Promise} - a promise representing the cumulative result of all test cases
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.rotateImageFromExifTests = function () {
-    var testCases = {
-        nullFile: {
-            fileName: null,
-            options: null,
-            expectedResolution: false,
-            expectedDetails: {}
+    },
+    testOpts: {
+        files: {
+            imageIncorrectOrientation: "./tests/testData/incorrectOrientation.jpeg"
         },
-        emptyFileNullOpts: {
-            fileName: "",
-            options: null,
-            expectedResolution: false,
-            expectedDetails: {}
-        },
-        emptyFileEmptyOpts: {
-            fileName: "",
-            options: "",
-            expectedResolution: false,
-            expectedDetails: {}
-        },
-        correctOrientationNullOpts: {
-            fileName: "correctOrientation.jpg",
-            options: null,
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 1064578, finalFileSize: 1064578 }
-        },
-        incorrectOrientationNullOpts: {
-            fileName: "incorrectOrientation.jpeg",
-            options: null,
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 1143772, finalFileSize: 2331730, initialOrientation: 6, finalOrientation: 1 }
-        },
-        gifNullOpts: {
-            fileName: "test_gif.gif",
-            options: null,
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 99303, finalFileSize: 99303 }
-        },
-        pngNullOpts: {
-            fileName: "logo_small_fluid_vertical.png",
-            options: null,
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 3719, finalFileSize: 3719 }
-        },
-        mp3NullOpts: {
-            fileName: "Leslie_s_Strut_Sting.mp3",
-            options: null,
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 365968, finalFileSize: 365968 }
-        },
-        mp4NullOpts: {
-            fileName: "shyguy_and_rootbeer.mp4",
-            options: null,
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 3017238, finalFileSize: 3017238 }
-        },
-        correctOrientationWithOpts: {
-            fileName: "correctOrientation.jpg",
-            options: { quality: 1 },
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 1064578, finalFileSize: 1064578 }
-        },
-        incorrectOrientationWithOpts: {
-            fileName: "incorrectOrientation.jpeg",
-            options: { quality: 1 },
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 1143772, finalFileSize: 144091, initialOrientation: 6, finalOrientation: 1 }
-        },
-        gifWithOpts: {
-            fileName: "test_gif.gif",
-            options: { quality: 1 },
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 99303, finalFileSize: 99303 }
-        },
-        pngWithOpts: {
-            fileName: "logo_small_fluid_vertical.png",
-            options: { quality: 1 },
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 3719, finalFileSize: 3719 }
-        },
-        mp3WithOpts: {
-            fileName: "Leslie_s_Strut_Sting.mp3",
-            options: { quality: 1 },
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 365968, finalFileSize: 365968 }
-        },
-        mp4WithOpts: {
-            fileName: "shyguy_and_rootbeer.mp4",
-            options: { quality: 1 },
-            expectedResolution: true,
-            expectedDetails: { initialFileSize: 3017238, finalFileSize: 3017238 }
-        }
-    };
-
-    // We need to wait until all of the test cases are done before moving on.
-    // This collection of promises will be collapsed and waited for in an IoC task fixture
-    var testPromises = [];
-
-    fluid.each(testCases, function (testCase, index) {
-        jqUnit.stop();
-
-        var filePath = testCase.fileName;
-
-        // copy the file to the test uploads dir, if a filename was provided
-        if (filePath) {
-            var oldFilePath = "./tests/testData/" + testCase.fileName;
-            filePath = "./tests/server/uploads/" + uuidv4() + path.extname(testCase.fileName);
-            fs.copyFileSync(oldFilePath, filePath);
-
-            var initialFileStats = fs.statSync(filePath);
-            jqUnit.assertEquals("The file size is as expected for test case: initial " + index, testCase.expectedDetails.initialFileSize, initialFileStats.size);
-        }
-
-        if (testCase.expectedDetails.initialOrientation) {
-            jqUnit.assertEquals("The file orientation is as expected for test case: initial " + index, testCase.expectedDetails.initialOrientation, exif.parseSync(filePath).Orientation);
-        }
-
-        var singleTestPromise = fluid.promise();
-        testPromises.push(singleTestPromise);
-
-        // call the function passing the new copy's path and options
-        sjrk.storyTelling.server.rotateImageFromExif({ path: filePath }, testCase.options).then(function (imageData) {
-            jqUnit.assertEquals("Rotation call resolved as expected for test case " + index, testCase.expectedResolution, true);
-
-            var finalFileStats = fs.statSync(filePath);
-            jqUnit.assertEquals("The file size is as expected for test case: final " + index, testCase.expectedDetails.finalFileSize, finalFileStats.size);
-
-            if (testCase.expectedDetails.finalOrientation) {
-                // imageData.orientation is the original orientation, so we have to check the returned file (via the jpeg-exif package)
-                jqUnit.assertEquals("The file orientation is as expected for test case: final " + index, testCase.expectedDetails.finalOrientation, exif.fromBuffer(imageData.buffer).Orientation);
+        filesHeaders: {
+            imageIncorrectOrientation: {
+                "content-type": "image/jpeg",
+                "content-length": "1583244"
             }
+        }
+    },
+    sequence: [{
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    },
+    {
+        // setup: wait for database to initialize
+        event: "{testDB}.events.onReady",
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
+    },
+    {
+        // setup: save story
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.story"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.saveStoryResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // save image to story
+        func: "{saveFile}.send",
+        args: [undefined, {
+            termMap: {id: "{that}.options.testOpts.story.id"}
+        }]
+    },
+    {
+        event: "{saveFile}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: [{
+            message: "save file to story",
+            request: "{saveFile}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expectedSubstring: "{that}.options.testOpts.uploadDirectory",
+            plainText: true
+        }]
+    },
+    {
+        // get image saved to story
+        func: "{getFile}.send",
+        args: [undefined, {
+            termMap: {filePath: "{that}.savedFiles.0"}
+        }]
+    },
+    {
+        event: "{getFile}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertBinaryResponse",
+        args: [{
+            message: "get file saved to story",
+            request: "{getFile}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expectedHeaders: "{that}.options.testOpts.fileHeaders.imageIncorrectOrientation"
+        }]
+    },
+    {
+        // verify that the image is rotated correctly
+        funcName: "sjrk.tests.storyTelling.server.storage.verifyImageOrientation",
+        args: [
+            "{that}.savedFiles.0",
+            sjrk.tests.storyTelling.server.storage.IMAGE_ORIENTATION_TOP_LEFT
+        ]
+    },
+    {
+        // cleanup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    }]
+};
 
-            jqUnit.start();
-            singleTestPromise.resolve();
-        }, function () {
-            jqUnit.assertEquals("Rotation call rejected as expected for test case " + index, testCase.expectedResolution, false);
+sjrk.tests.storyTelling.server.storage.testDef.getStories_view = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.base"],
+    name: "Get stories to View - Guest",
+    expect: 16,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        publishedStoryResponse: {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story",
+            "tags": [],
+            "content": []
+        },
+        publishedGuestStoryResponse: {
+            "published": true,
+            "id": "publishedGuestStory",
+            "title": "Sample Guest Story",
+            "tags": [],
+            "content": []
+        },
+        noAccessErrorMsg: "An error occurred while retrieving the requested story"
+    },
+    sequence: [{
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    },
+    {
+        // setup: wait for database to initialize
+        event: "{testDB}.events.onReady",
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
+    },
+    {
+        // get (view story) published story by authenticated author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "publishedStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "get (view story) published story by authenticated author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.publishedStoryResponse",
+            filter: "_rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) unpublished story by authenticated author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) unpublished story by authenticated author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // get (view story) published story by guest author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "publishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "get (view story) published story by guest author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.publishedGuestStoryResponse",
+            filter: "_rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) unpublished story by guest author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) unpublished story by guest author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) missing story
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "missing-story"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) unpublished story by guest author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    }]
+};
 
-            if (filePath) {
-                var finalFileStats = fs.statSync(filePath);
-                jqUnit.assertEquals("The file size is as expected for test case: final " + index, testCase.expectedDetails.finalFileSize, finalFileStats.size);
+sjrk.tests.storyTelling.server.storage.testDef.getStories_authenticated_view = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.authentication"],
+    name: "Get stories to View - Authenticated",
+    expect: 30,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        ownPublishedStory: {
+            "published": true,
+            "id": "ownPublishedStory",
+            "title": "My published story",
+            "author": "IDRC",
+            "tags": [
+                "Test",
+                "Example"
+            ],
+            "content": [{
+                "heading": "Add Content Blocks",
+                "blockType": "text",
+                "text": "The Story Builder is designed based on building blocks."
+            }]
+        },
+        ownPublishedStorySaveResponse: {
+            "ok": true,
+            "id": "ownPublishedStory"
+        },
+        ownPublishedStoryResponse: {
+            "published": true,
+            "id": "ownPublishedStory",
+            "title": "My published story",
+            "tags": [
+                "Test",
+                "Example"
+            ],
+            "content": [{
+                "heading": "Add Content Blocks",
+                "blockType": "text",
+                "text": "The Story Builder is designed based on building blocks."
+            }]
+        },
+        ownUnpublishedStory: {
+            "published": false,
+            "id": "ownUnpublishedStory",
+            "title": "My unpublished story",
+            "content": [{
+                "heading": "Navigating through Content Blocks",
+                "blockType": "text",
+                "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block."
+            }],
+            "author": "Fluid",
+            "tags": [
+                "Example"
+            ]
+        },
+        ownUnpublishedStorySaveResponse: {
+            "ok": true,
+            "id": "ownUnpublishedStory"
+        },
+        ownUnpublishedStoryResponse: {
+            "published": false,
+            "id": "ownUnpublishedStory",
+            "title": "My unpublished story",
+            "content": [{
+                "heading": "Navigating through Content Blocks",
+                "blockType": "text",
+                "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block."
+            }],
+            "tags": [
+                "Example"
+            ]
+        },
+        publishedStoryResponse: {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story",
+            "tags": [],
+            "content": []
+        },
+        publishedGuestStoryResponse: {
+            "published": true,
+            "id": "publishedGuestStory",
+            "title": "Sample Guest Story",
+            "tags": [],
+            "content": []
+        },
+        noAccessErrorMsg: "An error occurred while retrieving the requested story"
+    },
+    sequence: [{
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    },
+    {
+        // setup: wait for database to initialize
+        event: "{testDB}.events.onReady",
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
+    },
+    {
+        // setup: authenticate
+        func: "{signup}.send",
+        args: ["{that}.options.testOpts.signup.author1.credentials"]
+    },
+    {
+        event: "{signup}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "login",
+            request: "{signup}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.signup.author1.response"
+        }]
+    },
+    {
+        // setup: save published story with authenticated user
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.ownPublishedStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save published story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownPublishedStorySaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // setup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // setup: save unpublished story with authenticated user
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.ownUnpublishedStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save unpublished story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownUnpublishedStorySaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // setup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // get (view story) own published story
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "ownPublishedStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "get (view story) own published story",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownPublishedStoryResponse",
+            filter: "_rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) own unpublished story
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "ownUnpublishedStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) own unpublished story",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // get (view story) published story by other authenticated author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "publishedStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "get (view story) published story by other authenticated author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.publishedStoryResponse",
+            filter: "_rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) unpublished story by other authenticated author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) unpublished story by other authenticated author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // get (view story) published story by guest author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "publishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "get (view story) published story by guest author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.publishedGuestStoryResponse",
+            filter: "_rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) unpublished story by guest author
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) unpublished story by guest author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (view story) missing story
+        func: "{getStory}.send",
+        args: [undefined, {
+            termMap: {id: "missing-story"}
+        }]
+    },
+    {
+        event: "{getStory}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (view story) unpublished story by guest author",
+            request: "{getStory}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    }]
+};
+
+sjrk.tests.storyTelling.server.storage.testDef.getStories_edit = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.base"],
+    name: "Get stories to Edit - Guest",
+    expect: 16,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        publishedStoryResponse: {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story",
+            "tags": [],
+            "content": []
+        },
+        publishedGuestStoryResponse: {
+            "published": true,
+            "id": "publishedGuestStory",
+            "title": "Sample Guest Story",
+            "tags": [],
+            "content": []
+        },
+        unpublishedGuestStoryResponse: {
+            "published": false,
+            "id": "unpublishedGuestStory",
+            "title": "Sample Unpublished Guest Story",
+            "author": "Guest",
+            "tags": [],
+            "content": []
+        },
+        noAccessErrorMsg: "An error occurred while retrieving the requested story"
+    },
+    sequence: [{
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    },
+    {
+        // setup: wait for database to initialize
+        event: "{testDB}.events.onReady",
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
+    },
+    {
+        // attempt get (edit story) published story by authenticated author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "publishedStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) published story by authenticated author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) unpublished story by authenticated author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) unpublished story by authenticated author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) published story by guest author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "publishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) published story by guest author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) unpublished story by guest author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) unpublished story by guest author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) missing story
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "missing-story"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) unpublished story by guest author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    }]
+};
+
+sjrk.tests.storyTelling.server.storage.testDef.getStoriesAuthenticated_edit = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.authentication"],
+    name: "Get stories to Edit - Authenticated",
+    expect: 28,
+    config: {
+        configName: "sjrk.storyTelling.server.test",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        ownPublishedStory: {
+            "published": true,
+            "id": "ownPublishedStory",
+            "title": "My published story",
+            "author": "IDRC",
+            "tags": [
+                "Test",
+                "Example"
+            ],
+            "content": [{
+                "heading": "Add Content Blocks",
+                "blockType": "text",
+                "text": "The Story Builder is designed based on building blocks."
+            }]
+        },
+        ownPublishedStorySaveResponse: {
+            "ok": true,
+            "id": "ownPublishedStory"
+        },
+        ownPublishedStoryResponse: {
+            "published": true,
+            "id": "ownPublishedStory",
+            "title": "My published story",
+            "author": "IDRC",
+            "tags": [
+                "Test",
+                "Example"
+            ],
+            "content": [{
+                "heading": "Add Content Blocks",
+                "blockType": "text",
+                "text": "The Story Builder is designed based on building blocks."
+            }]
+        },
+        ownUnpublishedStory: {
+            "published": false,
+            "id": "ownUnpublishedStory",
+            "title": "My unpublished story",
+            "content": [{
+                "heading": "Navigating through Content Blocks",
+                "blockType": "text",
+                "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block."
+            }],
+            "author": "Fluid",
+            "tags": [
+                "Example"
+            ]
+        },
+        ownUnpublishedStorySaveResponse: {
+            "ok": true,
+            "id": "ownUnpublishedStory"
+        },
+        ownUnpublishedStoryResponse: {
+            "published": false,
+            "id": "ownUnpublishedStory",
+            "title": "My unpublished story",
+            "author": "Fluid",
+            "content": [{
+                "heading": "Navigating through Content Blocks",
+                "blockType": "text",
+                "text": "You can use the up/down arrow keys on your keyboard to move focus from block to block."
+            }],
+            "tags": [
+                "Example"
+            ]
+        },
+        publishedStoryResponse: {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story",
+            "tags": [],
+            "content": []
+        },
+        publishedGuestStoryResponse: {
+            "published": true,
+            "id": "publishedGuestStory",
+            "title": "Sample Guest Story",
+            "tags": [],
+            "content": []
+        },
+        unpublishedGuestStoryResponse: {
+            "published": false,
+            "id": "unpublishedGuestStory",
+            "title": "Sample Unpublished Guest Story",
+            "author": "Guest",
+            "tags": [],
+            "content": []
+        },
+        noAccessErrorMsg: "An error occurred while retrieving the requested story"
+    },
+    sequence: [{
+        // setup: clear test uploads directory
+        func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+        args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+    },
+    {
+        // setup: wait for database to initialize
+        event: "{testDB}.events.onReady",
+        listener: "jqUnit.assert",
+        args: ["The database is initialized"]
+    },
+    {
+        // setup: authenticate
+        func: "{signup}.send",
+        args: ["{that}.options.testOpts.signup.author1.credentials"]
+    },
+    {
+        event: "{signup}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "login",
+            request: "{signup}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.signup.author1.response"
+        }]
+    },
+    {
+        // setup: save published story with authenticated user
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.ownPublishedStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save published story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownPublishedStorySaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // setup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // setup: save unpublished story with authenticated user
+        func: "{saveStory}.send",
+        args: ["{that}.options.testOpts.ownUnpublishedStory"]
+    },
+    {
+        event: "{saveStory}.events.onComplete",
+        listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+        args: [{
+            message: "save unpublished story",
+            request: "{saveStory}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownUnpublishedStorySaveResponse",
+            filter: "rev",
+            checkFiltered: true
+        }]
+    },
+    {
+        // setup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // get (edit story) own published story
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "ownPublishedStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "get (edit story) own published story",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownPublishedStoryResponse"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // get (edit story) own unpublished story
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "ownUnpublishedStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "get (edit story) own unpublished story",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.ownUnpublishedStoryResponse"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) published story by other authenticated author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "publishedStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) published story by other authenticated author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) unpublished story by other authenticated author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) unpublished story by other authenticated author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) published story by guest author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "publishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) published story by guest author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) unpublished story by guest author
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "unpublishedGuestStory"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) unpublished story by guest author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    },
+    {
+        // cleanup: reset request components
+        func: "{that}.events.refreshRequests.fire"
+    },
+    {
+        // attempt get (edit story) missing story
+        func: "{getStoryForEdit}.send",
+        args: [undefined, {
+            termMap: {id: "missing-story"}
+        }]
+    },
+    {
+        event: "{getStoryForEdit}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: [{
+            message: "attempt get (edit story) unpublished story by guest author",
+            request: "{getStoryForEdit}",
+            string: "{arguments}.0",
+            statusCode: 404,
+            errorTexts: "{that}.options.testOpts.noAccessErrorMsg"
+        }]
+    }]
+};
+
+fluid.defaults("sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled", {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.base"],
+    members: {
+        saveFileFormData: {
+            files: {
+                "file": "{that}.options.testOpts.files.imagePNG"
             }
+        }
+    },
+    testOpts: {
+        files: {
+            imagePNG: "./tests/testData/logo_small_fluid_vertical.png"
+        },
+        storyToSave: {
+            "id": "test-ID",
+            "title": "",
+            "content": [],
+            "author": "",
+            "tags": [
+                ""
+            ],
+            "published": true
+        },
+        saveErrorResponse: "Saving is currently disabled.",
+        editErrorResponse: "Editing is currently disabled.",
+        publishedStoryResponse: {
+            "published": true,
+            "id": "publishedStory",
+            "title": "Sample Story",
+            "tags": [],
+            "content": []
+        }
+    }
+});
 
-            jqUnit.start();
-            singleTestPromise.resolve();
-        });
-    });
+sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled.sequence = [{
+    // setup: clear test uploads directory
+    func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+    args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+},
+{
+    // setup: wait for database to initialize
+    event: "{testDB}.events.onReady",
+    listener: "jqUnit.assert",
+    args: ["The database is initialized"]
+},
+{
+    // attempt to save story
+    func: "{saveStory}.send",
+    args: ["{that}.options.testOpts.storyToSave"]
+},
+{
+    event: "{saveStory}.events.onComplete",
+    listener: "kettle.test.assertErrorResponse",
+    args: [{
+        message: "attempt to save story when authoring disabled",
+        request: "{saveStory}",
+        string: "{arguments}.0",
+        statusCode: 403,
+        errorTexts: "{that}.options.testOpts.saveErrorResponse"
+    }]
+},
+{
+    // attempt to save image to story
+    func: "{saveFile}.send",
+    args: [undefined, {
+        termMap: {id: "publishedStory"}
+    }]
+},
+{
+    event: "{saveFile}.events.onComplete",
+    listener: "kettle.test.assertErrorResponse",
+    args: [{
+        message: "attempt to save file when authoring disabled",
+        request: "{saveFile}",
+        string: "{arguments}.0",
+        statusCode: 403,
+        errorTexts: "{that}.options.testOpts.saveErrorResponse"
+    }]
+},
+{
+    // attempt to get (view story) published story
+    func: "{getStory}.send",
+    args: [undefined, {
+        termMap: {id: "publishedStory"}
+    }]
+},
+{
+    event: "{getStory}.events.onComplete",
+    listener: "sjrk.storyTelling.server.assertFilteredJSONResponse",
+    args: [{
+        message: "attempt to get (view story) published story when authoring disabled",
+        request: "{getStory}",
+        string: "{arguments}.0",
+        statusCode: 200,
+        expected: "{that}.options.testOpts.publishedStoryResponse",
+        filter: "_rev",
+        checkFiltered: true
+    }]
+},
+{
+    // attempt to get (edit story) published story
+    func: "{getStoryForEdit}.send",
+    args: [undefined, {
+        termMap: {id: "publishedStory"}
+    }]
+},
+{
+    event: "{getStoryForEdit}.events.onComplete",
+    listener: "kettle.test.assertErrorResponse",
+    args: [{
+        message: "attempt to get (edit story) published story when authoring disabled",
+        request: "{getStoryForEdit}",
+        string: "{arguments}.0",
+        statusCode: 403,
+        errorTexts: "{that}.options.testOpts.editErrorResponse"
+    }]
+},
+{
+    // cleanup: clear test uploads directory
+    func: "sjrk.storyTelling.server.cleanTestUploadsDirectory",
+    args: ["{testCaseHolder}.options.testOpts.uploadDirectory"]
+}];
 
-    return fluid.promise.sequence(testPromises);
+// Inject the authentication step into the sequence
+sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled.authenticatedSequence = sjrk.tests.storyTelling.server.storage.insertIntoArray(
+    sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled.sequence,
+    2,
+    [{
+        // setup: authenticate
+        func: "{signup}.send",
+        args: ["{that}.options.testOpts.signup.author1.credentials"]
+    },
+    {
+        event: "{signup}.events.onComplete",
+        listener: "kettle.test.assertJSONResponse",
+        args: [{
+            message: "login",
+            request: "{signup}",
+            string: "{arguments}.0",
+            statusCode: 200,
+            expected: "{that}.options.testOpts.signup.author1.response"
+        }]
+    }]
+);
+
+sjrk.tests.storyTelling.server.storage.testDef.authoringDisabledGuest = {
+    gradeNames: ["sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled"],
+    name: "Authoring Disabled - Guest",
+    expect: 13,
+    config: {
+        configName: "sjrk.storyTelling.server.testAuthoringDisabled",
+        configPath: "./tests/server/configs"
+    },
+    sequence: sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled.sequence
 };
 
-/**
- * Tests the isValidMediaFilename function
- */
-sjrk.storyTelling.server.testServerWithStorageDefs.isValidMediaFilenameTests = function () {
-    var testCases = [
-        { input: null, expected: false },
-        { input: undefined, expected: false },
-        { input: 0, expected: false },
-        { input: {}, expected: false },
-        { input: [], expected: false },
-        { input: [0], expected: false },
-        { input: "", expected: false },
-        { input: "../", expected: false },
-        { input: "FailingFileName", expected: false },
-        { input: "FailingFileName.ext", expected: false },
-        { input: "1f4EAE4020CF11E9975C2103755D20B8.mp4", expected: false },
-        { input: "1f4eae4020cf11e9975c2103755d20b8.mp4", expected: false },
-        { input: "jpg.1f4845a0-20cf-11e9-975c-2103755d20b8", expected: false },
-        { input: "/uploads/1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: false },
-        { input: "../1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: false },
-        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg.exe", expected: false },
-        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8", expected: true },
-        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.jpg", expected: true },
-        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.mp4", expected: true },
-        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8._jpg", expected: true },
-        { input: "1f4845a0-20cf-11e9-975c-2103755d20b8.somethingVeryLong", expected: true }
-    ];
+sjrk.tests.storyTelling.server.storage.testDef.authoringDisabledAuthenticated = {
+    gradeNames: [
+        "sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled",
+        "sjrk.tests.storyTelling.server.storage.testDef.authentication"
+    ],
+    name: "Authoring Disabled - Authenticated",
+    expect: 15,
+    config: {
+        configName: "sjrk.storyTelling.server.testAuthoringDisabled",
+        configPath: "./tests/server/configs"
+    },
+    testOpts: {
+        signup: {
+            author1: {
+                credentials: {
+                    email: "test@example.com",
+                    password: "test-pass",
+                    confirm: "test-pass"
 
-    fluid.each(testCases, function (testCase) {
-        var actualResult = sjrk.storyTelling.server.isValidMediaFilename(testCase.input);
-        var message = "Filename validity is as expected: " + testCase.input;
-        jqUnit.assertEquals(message, testCase.expected, actualResult);
-    });
+                },
+                response: {
+                    email: "test@example.com"
+                }
+            }
+        }
+    },
+    sequence: sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled.authenticatedSequence
 };
+
+/*
+    Other tests
+    - review that there are no tests that were in the original file that are no longer covered here.
+
+*/
 
 // starts up the test server based on the provided definitions
-kettle.test.bootstrapServer(sjrk.storyTelling.server.testServerWithStorageDefs);
+kettle.test.bootstrapServer([
+    sjrk.tests.storyTelling.server.storage.testDef.saveStory,
+    sjrk.tests.storyTelling.server.storage.testDef.saveStoryAuthenticated,
+    sjrk.tests.storyTelling.server.storage.testDef.saveFileToUnpublished,
+    sjrk.tests.storyTelling.server.storage.testDef.saveFileToPublished,
+    sjrk.tests.storyTelling.server.storage.testDef.saveFileToUnpublishedAuthenticated,
+    sjrk.tests.storyTelling.server.storage.testDef.saveFileToPublishedAuthenticated,
+    sjrk.tests.storyTelling.server.storage.testDef.rotateSavedImage,
+    sjrk.tests.storyTelling.server.storage.testDef.getStories_view,
+    sjrk.tests.storyTelling.server.storage.testDef.getStories_authenticated_view,
+    sjrk.tests.storyTelling.server.storage.testDef.getStories_edit,
+    sjrk.tests.storyTelling.server.storage.testDef.getStoriesAuthenticated_edit,
+    sjrk.tests.storyTelling.server.storage.testDef.authoringDisabledGuest,
+    sjrk.tests.storyTelling.server.storage.testDef.authoringDisabledAuthenticated
+]);
