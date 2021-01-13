@@ -36,6 +36,9 @@ These request handlers do a bit more heavy lifting, including communication with
   values include the current custom theme name as well as whether saving and editing are enabled
 * `sjrk.storyTelling.server.themeHandler` controls the fallback rules for themes, which will load files for a custom
   theme where they exist, and then fall back to the base theme
+* `sjrk.storyTelling.server.signupHandler` creates an author account and logs the new author in
+* `sjrk.storyTelling.server.loginHandler` logs in an author
+* `sjrk.storyTelling.server.logoutHandler` logs out an author
 
 ## Data sources
 
