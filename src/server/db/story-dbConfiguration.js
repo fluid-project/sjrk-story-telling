@@ -114,7 +114,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "map": "sjrk.storyTelling.server.storiesDb.storyTagsFunction"
                 },
                 "storiesById": {
-                    "map": "sjrk.storyTelling.server.storiesDb.storiesByIdFunction"
+                    "map": "sjrk.storyTelling.server.storiesDb.publishedStoriesById"
                 },
                 "storiesByAuthor": {
                     "map": "sjrk.storyTelling.server.storiesDb.storiesByAuthorFunction"
@@ -150,7 +150,7 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
  *
  * @param {Object} doc - a document to evaluate in the view
  */
-sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
+sjrk.storyTelling.server.storiesDb.publishedStoriesById = function (doc) {
     if (doc.type === "story" && doc.value.published) {
         var browseDoc = {
             "title": doc.value.title,
