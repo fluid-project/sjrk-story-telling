@@ -124,7 +124,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
             request.events.onError.fire({
-                statusCode: 403,
+                statusCode: 404,
                 isError: true,
                 message: noAccessErrorMessage
             });
@@ -146,7 +146,7 @@ fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleGetEditStory",
-            args: ["{request}", "{server}.storyByAuthorDataSource"]
+            args: ["{request}", "{server}.storyByAuthorDataSource", "{server}.options.globalConfig.authoringEnabled"]
         }
     }
 });
@@ -156,8 +156,19 @@ fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
+ * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
-sjrk.storyTelling.server.handleGetEditStory = function (request, dataSource) {
+sjrk.storyTelling.server.handleGetEditStory = function (request, dataSource, authoringEnabled) {
+    if (!authoringEnabled) {
+        request.events.onError.fire({
+            statusCode: 403,
+            isError: true,
+            message: "Editing is currently disabled."
+        });
+
+        return;
+    }
+
     var id = request.req.params.id;
     var directModel = {
         authorID: request.req.session.authorID,

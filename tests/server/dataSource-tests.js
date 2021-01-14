@@ -377,20 +377,28 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             sequence: [{
                 task: "{storyDataSource}.get",
                 args: [{directStoryId: "publishedStory"}],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "Retrieved the published story",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.publishedStory.value,
-                    "{arguments}.0"
+                    fluid.extend(
+                        {authorID: sjrk.test.storyTelling.server.dataSource.mockRecords.docs.publishedStory.authorID},
+                        sjrk.test.storyTelling.server.dataSource.mockRecords.docs.publishedStory.value
+                    ),
+                    "{arguments}.0",
+                    {filter: "_rev"}
                 ]
             }, {
                 task: "{storyDataSource}.get",
                 args: [{directStoryId: "unpublishedStory"}],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "Retrieved the unpublished story",
-                    sjrk.test.storyTelling.server.dataSource.mockRecords.docs.unpublishedStory.value,
-                    "{arguments}.0"
+                    fluid.extend(
+                        {authorID: sjrk.test.storyTelling.server.dataSource.mockRecords.docs.unpublishedStory.authorID},
+                        sjrk.test.storyTelling.server.dataSource.mockRecords.docs.unpublishedStory.value
+                    ),
+                    "{arguments}.0",
+                    {filter: "_rev"}
                 ]
             }, {
                 task: "{storyDataSource}.get",
@@ -405,44 +413,48 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
             }, {
                 task: "{storyDataSource}.set",
                 args: [{directStoryId: "{that}.options.testOpts.newStory.value.id"}, "{that}.options.testOpts.newStory"],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "The new story should be saved",
                     {
                         "ok": true,
                         "id": "{that}.options.testOpts.newStory.value.id"
                     },
-                    "{arguments}.0"
+                    "{arguments}.0",
+                    {filter: "rev"}
                 ]
             }, {
                 task: "{storyDataSource}.get",
                 args: [{directStoryId: "{that}.options.testOpts.newStory.value.id"}],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "Retrieved the new story",
                     "{that}.options.testOpts.newStory.value",
-                    "{arguments}.0"
+                    "{arguments}.0",
+                    {filter: "_rev"}
                 ]
             }, {
                 task: "{storyDataSource}.set",
                 args: [{directStoryId: "{that}.options.testOpts.updatedStory.value.id"}, "{that}.options.testOpts.updatedStory"],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "The updated story should be saved",
                     {
                         "ok": true,
                         "id": "{that}.options.testOpts.updatedStory.value.id"
                     },
-                    "{arguments}.0"
+                    "{arguments}.0",
+                    {filter: "rev"}
                 ]
             }, {
                 task: "{storyDataSource}.get",
                 args: [{directStoryId: "{that}.options.testOpts.updatedStory.value.id"}],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "Retrieved the updated story",
                     "{that}.options.testOpts.updatedStory.value",
-                    "{arguments}.0"
+                    "{arguments}.0",
+                    {filter: "_rev"}
                 ]
             }]
         }, {
@@ -498,14 +510,15 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
                     directStoryId: "publishedStory",
                     directRevisionId: "{that}.rev"
                 }],
-                resolve: "sjrk.storyTelling.server.verifyResponse",
+                resolve: "sjrk.storyTelling.server.assertFilteredDeepEq",
                 resolveArgs: [
                     "Story should have been removed",
                     {
                         "ok": true,
                         "id": "publishedStory"
                     },
-                    "{arguments}.0"
+                    "{arguments}.0",
+                    {filter: "rev"}
                 ]
             }, {
                 task: "{storyDataSource}.get",

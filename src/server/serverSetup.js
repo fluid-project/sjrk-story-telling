@@ -34,6 +34,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     // theme: "",
                     // themeIndexFile": "",
                     // authoringEnabled: true
+                    // sessionCheckPeriod: 86400000 //in ms
                 },
                 secureConfig: {
                     baseThemeName: "base",
@@ -46,7 +47,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                 },
                 port: "{that}.options.globalConfig.port",
                 session: {
-                    store: "@expand:sjrk.storyTelling.server.makeMemorySessionStore()",
+                    store: "@expand:sjrk.storyTelling.server.makeMemorySessionStore({that}.options.globalConfig.sessionCheckPeriod)",
                     middlewareOptions: {
                         secret: "{server}.options.secureConfig.secrets.session"
                     }
@@ -342,13 +343,15 @@ sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
 /**
  * Creates an in memory session store for use by the session middleware. Configured for sessions to expire after 24hrs.
  *
+ * @param {Integer} [checkPeriod] - (optional) the time in ms between checks to prune expired sessions. Defaults to
+ *                                  86400000 ms / 24 hr.
  * @return {Object} - a MemoryStore instance
  */
-sjrk.storyTelling.server.makeMemorySessionStore = function () {
+sjrk.storyTelling.server.makeMemorySessionStore = function (checkPeriod) {
     // TODO: Currently using https://www.npmjs.com/package/memorystore as it is a production ready memory store;
     //       however, the session should eventually be stored in a database to prevent clearing on server restart.
     //       https://issues.fluidproject.org/browse/SJRK-444
     return new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h
+        checkPeriod: checkPeriod || 86400000 // prune expired entries every 24h
     });
 };

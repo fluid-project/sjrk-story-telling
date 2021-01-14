@@ -1,12 +1,12 @@
 {
-    "type": "sjrk.storyTelling.server.testServer",
+    "type": "sjrk.storyTelling.server.testServerAuthoringDisabled",
     "options": {
         "gradeNames": ["sjrk.storyTelling.server"],
         "components": {
             "server": {
                 "options": {
                     "globalConfig": {
-                        "authoringEnabled": true
+                        "authoringEnabled": false
                     },
                     "secureConfig": {
                         "binaryUploadDirectory": "./tests/server/uploads",
