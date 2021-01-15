@@ -9,8 +9,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 "use strict";
 
-/* global jqUnit */
-
 (function ($, fluid) {
 
     fluid.defaults("sjrk.storyTelling.base.page.testLogin", {
@@ -20,8 +18,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             resourcePrefix: "../../../themes/base"
         },
         invokers: {
+            // stub the redirectToUrl invoker & function to prevent actual redirect
             redirectToUrl: {
-                funcName: "sjrk.storyTelling.base.page.loginTester.stubRedirectToUrl"
+                funcName: "jqUnit.assertEquals",
+                args: [
+                    "Stub for redirectToUrl called with expected URL",
+                    "{that}.model.persistedValues.currentPage", // expected URL
+                    "{arguments}.0"] // redirect URL
             }
         },
         components: {
@@ -51,7 +54,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test Login page",
             tests: [{
                 name: "Test element visibility model relay and events",
-                expect: 16,
+                expect: 17,
                 sequence: [{
                     // check that the progressArea and responseArea are both hidden to begin with
                     // and that the logInButton is enabled
@@ -73,7 +76,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     args: [{
                         url: "/login",
                         response: {
-                            email:"rootbeer@emailforcats.meow"
+                            email: "rootbeer@emailforcats.meow"
                         }
                     }, true] // wait for response to avoid possible race with jQuery
                 },
@@ -164,20 +167,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     args: [null]
                 },
                 {
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{
+                        url: "/rootbeerSpecialUrl",
+                        response: "Rootbeer has logged in",
+                        contentType: "text/plain"
+                    }]
+                },
+                {
+                    task: "sjrk.storyTelling.base.page.login.logIn",
+                    args: ["/rootbeerSpecialUrl", "rootbeer@emailforcats.meow", "catsDontNeedPasswords"],
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["logIn function resolved successfully with expected args", "Rootbeer has logged in", "{arguments}.0"]
+                },
+                {
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 }]
             }]
         }]
     });
-
-    /**
-     * Stubs the `redirectToUrl` function to prevent actual redirection
-     *
-     * @param {String} redirectUrl - the URL to redirect to
-     */
-    sjrk.storyTelling.base.page.loginTester.stubRedirectToUrl = function (redirectUrl) {
-        jqUnit.assert("Stub for redirectToUrl was called for URL: " + redirectUrl);
-    };
 
     // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.loginTest", {
