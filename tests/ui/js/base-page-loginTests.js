@@ -48,10 +48,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.defaults("sjrk.storyTelling.base.page.loginTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test combined story authoring interface",
+            name: "Test Login page",
             tests: [{
-                name: "Test editor and previewer model binding and updating",
-                expect: 12,
+                name: "Test element visibility model relay and events",
+                expect: 16,
                 sequence: [{
                     // check that the progressArea and responseArea are both hidden to begin with
                     // and that the logInButton is enabled
@@ -139,6 +139,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     event: "{login}.events.onLogInError",
                     listener: "jqUnit.assertDeepEq",
                     args: ["Error server response is as expected", "Another cat is using this account already", "{arguments}.0"]
+                },
+                {
+                    // check visibility again after error message is returned
+                    funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
+                    args: ["{login}.loginUi.dom.progressArea", "none"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
+                    args: ["{login}.loginUi.dom.responseArea", "block"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
+                    args: ["{login}.loginUi.dom.logInButton", "disabled", false]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.assertElementText",
+                    args: ["{login}.loginUi.dom.responseArea", "Log in failed: Another cat is using this account already"]
                 },
                 {
                     // set the author account name value back to its initial

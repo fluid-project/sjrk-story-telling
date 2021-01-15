@@ -202,7 +202,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 namespace: "setStateResponseReceived"
             },{
                 func: "{that}.setServerResponse",
-                args: ["{arguments}.0"],
+                args: ["{arguments}.0.message"],
                 namespace: "setServerResponse"
             }]
         },

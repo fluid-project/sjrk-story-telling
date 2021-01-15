@@ -901,7 +901,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     func: "{storyEdit}.events.onStoryPublishError.fire",
-                    args: ["Story about Shyguy didn't save because Rootbeer got jealous"]
+                    args: [{message:"Story about Shyguy didn't save because Rootbeer got jealous"}]
                 },
                 {
                     "event": "{storyEdit}.events.onStoryPublishError",
