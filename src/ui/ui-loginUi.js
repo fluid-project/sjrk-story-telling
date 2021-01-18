@@ -13,7 +13,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // a UI representing the "login" form of the login page
     fluid.defaults("sjrk.storyTelling.ui.loginUi", {
-        gradeNames: ["sjrk.storyTelling.ui"],
+        gradeNames: ["sjrk.storyTelling.ui", "fluid.schema.modelComponent"],
+        modelSchema: {
+            "$schema": "fss-v7-full#",
+            type: "object",
+            properties: {
+                email: {
+                    type: "string",
+                    required: true,
+                    format: "email"
+                },
+                password: {
+                    type: "string",
+                    required: true,
+                    minLength: 8
+                }
+            }
+        },
         model: {
             email: null, // the author's email
             password: null // the author's password
