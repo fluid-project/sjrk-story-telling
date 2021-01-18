@@ -125,7 +125,7 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
         lookup: {
             views: {
                 "byUsernameOrEmail": {
-                    "map": "sjrk.storyTelling.server.storiesDb.byUsernameOrEmail"
+                    "map": "sjrk.storyTelling.server.storiesDb.email"
                 }
             }
         }
@@ -198,9 +198,8 @@ sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc) {
  *
  * @param {Object} doc - a document to evaluate in the view
  */
-sjrk.storyTelling.server.storiesDb.byUsernameOrEmail = function (doc) {
+sjrk.storyTelling.server.storiesDb.email = function (doc) {
     if (doc.type === "user") {
-        emit(doc.username, doc);
         emit(doc.email, doc);
     }
 };
