@@ -151,13 +151,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
+                                "ajv",
                                 "fluid-binder",
                                 "fluid-handlebars",
+                                "fluid-json-schema",
                                 "fluid-location-bar-relay",
                                 "handlebars",
                                 "infusion",
-                                "markdown-it",
-                                "sinon"]
+                                "markdown-it"
+                            ]
                         }
                     },
                     // static middleware for the node_modules directory
