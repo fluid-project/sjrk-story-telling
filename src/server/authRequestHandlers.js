@@ -151,3 +151,28 @@ sjrk.storyTelling.server.handleLogoutRequest = function (request) {
     request.req.session.destroy();
     request.events.onSuccess.fire("logout successful");
 };
+
+fluid.defaults("sjrk.storyTelling.server.sessionHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleSessionRequest",
+            args: ["{request}"]
+        }
+    }
+});
+
+/**
+ * Returns a successful response if the session is active.
+ *
+ * @param {Object} request - a Kettle request
+ */
+sjrk.storyTelling.server.handleSessionRequest = function (request) {
+    if (!request.req.session.authorID) {
+        request.events.onError.fire({
+            statusCode: 404
+        });
+        return;
+    }
+    request.events.onSuccess.fire();
+};

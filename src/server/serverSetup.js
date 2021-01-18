@@ -279,6 +279,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             route: "/clientConfig",
             method: "get"
         },
+        sessionHandler: {
+            type: "sjrk.storyTelling.server.sessionHandler",
+            "route": "/session",
+            method: "get"
+        },
         signupHandler: {
             type: "sjrk.storyTelling.server.signupHandler",
             "route": "/signup",

@@ -75,6 +75,14 @@ fluid.defaults("sjrk.test.storyTelling.server.authentication.testDef.base", {
                 path: "/signup",
                 method: "POST"
             }
+        },
+        session: {
+            type: "kettle.test.request.httpCookie",
+            createOnEvent: "refreshRequests",
+            options: {
+                path: "/session",
+                method: "GET"
+            }
         }
     },
     distributeOptions: {
@@ -97,7 +105,7 @@ sjrk.test.storyTelling.server.authentication.testDef.signup = {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/server/configs"
     },
-    expect: 32,
+    expect: 34,
     testOpts: {
         missingEmail: {
             password: "test-pass",
@@ -149,6 +157,20 @@ sjrk.test.storyTelling.server.authentication.testDef.signup = {
             statusCode: 200,
             string: "{arguments}.0",
             expected: "{that}.options.testOpts.signupResponse"
+        }
+    }, {
+        // check session is valid
+        func : "{session}.send"
+    }, {
+        event: "{session}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: {
+            plainText: true,
+            message: "valid session",
+            request: "{session}",
+            string: "{arguments}.0",
+            expected: "",
+            statusCode: 200
         }
     }, {
         // cleanup: reset request components
@@ -326,7 +348,7 @@ sjrk.test.storyTelling.server.authentication.testDef.login = {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/server/configs"
     },
-    expect: 27,
+    expect: 29,
     testOpts: {
         login: {
             email: "test@example.com",
@@ -401,6 +423,20 @@ sjrk.test.storyTelling.server.authentication.testDef.login = {
             statusCode: 200,
             string: "{arguments}.0",
             expected: "{that}.options.testOpts.loginResponse"
+        }
+    }, {
+        // check session is valid
+        func: "{session}.send"
+    }, {
+        event: "{session}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: {
+            plainText: true,
+            message: "valid session",
+            request: "{session}",
+            string: "{arguments}.0",
+            expected: "",
+            statusCode: 200
         }
     }, {
         // cleanup: reset request components
@@ -527,12 +563,24 @@ sjrk.test.storyTelling.server.authentication.testDef.logout = {
         configName: "sjrk.storyTelling.server.test",
         configPath: "./tests/server/configs"
     },
-    expect: 7,
+    expect: 13,
     sequence: [{
         // wait for database to initialize
         event: "{testDB}.events.onReady",
         listener: "jqUnit.assert",
         args: ["The database is initialized"]
+    }, {
+        // check session is not valid
+        func: "{session}.send"
+    }, {
+        event: "{session}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: {
+            message: "invalid session before login/signup",
+            request: "{session}",
+            statusCode: 404,
+            string: "{arguments}.0"
+        }
     }, {
         // logout - no user logged in
         func: "{logout}.send"
@@ -564,6 +612,20 @@ sjrk.test.storyTelling.server.authentication.testDef.logout = {
             expected: "{that}.options.testOpts.signupResponse"
         }
     }, {
+        // check session is valid
+        func: "{session}.send"
+    }, {
+        event: "{session}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: {
+            plainText: true,
+            message: "valid session",
+            request: "{session}",
+            string: "{arguments}.0",
+            expected: "",
+            statusCode: 200
+        }
+    }, {
         // cleanup: reset request components
         func: "{that}.events.refreshRequests.fire"
     }, {
@@ -578,6 +640,18 @@ sjrk.test.storyTelling.server.authentication.testDef.logout = {
             request: "{logout}",
             string: "{arguments}.0",
             expected: "logout successful"
+        }
+    }, {
+        // check session is not valid
+        func: "{session}.send"
+    }, {
+        event: "{session}.events.onComplete",
+        listener: "kettle.test.assertErrorResponse",
+        args: {
+            message: "invalid session after logout",
+            request: "{session}",
+            statusCode: 404,
+            string: "{arguments}.0"
         }
     }]
 };
