@@ -67,7 +67,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                         target: "{that > kettle.middlewareHolder > session}.options"
                     },
                     authorCredentialConfig: {
-                        source: "{that}.options.account",
+                        source: "{that}.options.authorCredentialConfig",
                         target: "{that > expressUserUtils}.options"
                     }
                 },
