@@ -54,10 +54,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 source: "{that}.options.pageSetup.authoringEnabled",
                 target: "{that ui > templateManager}.options.model.dynamicValues.authoringEnabled"
             },
-            "ui.templateManager.authorAccountName": {
-                record: "{page}.model.persistedValues.authorAccountName",
-                target: "{that ui > templateManager}.options.model.dynamicValues.authorAccountName"
-            },
             "ui.templateManager.currentPage": {
                 record: "{page}.model.persistedValues.currentPage",
                 target: "{that ui > templateManager}.options.model.dynamicValues.currentPage"
@@ -183,7 +179,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // the "author controls" section of the page
             authorControls: {
                 type: "sjrk.storyTelling.ui.authorControls",
-                container: ".sjrkc-st-author-controls-container"
+                container: ".sjrkc-st-author-controls-container",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                model: {
+                                    dynamicValues: {
+                                        authorAccountName: "{page}.model.persistedValues.authorAccountName"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             },
             // the storytelling tool "main" menu
             menu: {
@@ -223,23 +232,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
-    };
-
-    /**
-     * Resets the page preferences and clears the page model, with event hooks
-     * before and after the reset
-     *
-     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` to be reset
-     */
-    sjrk.storyTelling.base.page.resetPreferences = function (pageComponent) {
-        var transaction = pageComponent.applier.initiate();
-        pageComponent.events.beforePreferencesReset.fire(pageComponent);
-        transaction.fireChangeRequest({path: "", type: "DELETE"});
-        transaction.change("", fluid.copy(pageComponent.initialModel));
-        transaction.commit();
-        // setting the cookie expiry to epoch in order to delete it
-        document.cookie = pageComponent.cookieStore.options.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-        pageComponent.events.onPreferencesReset.fire(pageComponent);
     };
 
     /**

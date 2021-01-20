@@ -288,4 +288,32 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         mockServer.restore();
     };
 
+    /**
+     * Resets the specified cookie
+     *
+     * @param {Component} cookieName - the cookie to be reset
+     */
+    sjrk.storyTelling.testUtils.resetCookie = function (cookieName) {
+        // setting the cookie expiry to epoch in order to delete it
+        document.cookie = cookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    };
+
+    /**
+     * Resets the page preferences and clears the page model, with event hooks
+     * before and after the reset
+     *
+     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` to be reset
+     */
+    sjrk.storyTelling.testUtils.resetPreferences = function (pageComponent) {
+        var transaction = pageComponent.applier.initiate();
+        pageComponent.events.beforePreferencesReset.fire(pageComponent);
+        transaction.fireChangeRequest({path: "", type: "DELETE"});
+        transaction.change("", fluid.copy(pageComponent.initialModel));
+        transaction.commit();
+
+        sjrk.storyTelling.testUtils.resetCookie(pageComponent.cookieStore.options.cookie.name);
+
+        pageComponent.events.onPreferencesReset.fire(pageComponent);
+    };
+
 })(jQuery, fluid);

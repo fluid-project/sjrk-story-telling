@@ -49,7 +49,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "onReadyToBind.bindLogInButton": {
                 "this": "{that}.dom.logInButton",
                 "method": "click",
-                "args": ["{that}.events.onLogInRequested.fire"]
+                "args": ["{that}.events.onLogInRequested.fire"],
+                "priority": "before:fireOnControlsBound"
             }
         },
         components: {
