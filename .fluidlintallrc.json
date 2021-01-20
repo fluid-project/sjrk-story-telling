@@ -1,0 +1,29 @@
+{
+    "sources": {
+        "md": ["./*.md", "docs/*.md"],
+        "js": ["src/**/*.js", "tests/**/*.js", "themes/**/*.js", "./*.js"],
+        "json": [
+            "./package.json",
+            "./.eslintrc.json",
+            "./.fluidlintallrc.json",
+            "./.nycrc",
+            "./*.json.example",
+            "themes/**/*.json",
+            "tests/**/*.json"
+        ],
+        "json5": ["./*.json5", "tests/**/*.json5"]
+    },
+    "lintspaces": {
+        "newlines": {
+            "excludes": [
+                "./tests/**/*.png",
+                "./tests/**/*.jpg",
+                "./tests/**/*.jpeg",
+                "./tests/**/*.gif",
+                "./tests/**/*.mp3",
+                "./tests/**/*.mp4",
+                "./tests/**/*.webm"
+            ]
+        }
+    }
+}
