@@ -73,5 +73,3 @@ has been provided and can be used as a template to create your own file.
     }
 }
 ```
-
-
