@@ -62,7 +62,7 @@ For more information about the author credential options, see [crypto](https://n
 An example, [secrets.json.example](../secrets.json.example),
 has been provided and can be used as a template to create your own file.
 
-```JSON with Comments
+```JSON5
 {
     "adminPass": "admin password",
     "session": "session secret",
