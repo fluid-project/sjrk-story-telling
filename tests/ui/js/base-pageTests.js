@@ -20,6 +20,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         pageSetup: {
             resourcePrefix: "../../../themes/base"
         },
+        listeners: {
+            // Stub the page reload listener to prevent test interruption
+            "onLogOutSuccess.reload": {
+                funcName: "jqUnit.assertEquals",
+                args: ["Page reload was called after successful logout", "/logout", "{arguments}.0"]
+            }
+        },
+        model: {
+            persistedValues: {
+                // Supply an truthy value to force rendering the logout button
+                // and mimic the logged-in state
+                authorAccountName: "shyguy@emailforcats.meow"
+            }
+        },
         components: {
             uio: {
                 options: {
@@ -223,6 +237,61 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     "event": "{testPage}.events.onPreferencesReset",
                     "listener": "jqUnit.assertDeepEq",
                     "args": ["Model is equal to initial model after reset", "{testPage}.model", "{testPage}.initialModel"]
+                }]
+            },
+            {
+                name: "Test logout button wiring",
+                expect: 4,
+                sequence: [{
+                    // test the logout wiring in the error case
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{
+                        url: "/logout",
+                        statusCode: 500,
+                        response: {
+                            "isError": true,
+                            "message": "Logout failed when Shyguy disconnected the cable"
+                        }
+                    }]
+                },
+                {
+                    // click the logout button and wait for an error response
+                    jQueryTrigger: "click",
+                    element: "{testPage}.authorControls.dom.logOutButton"
+                },
+                {
+                    event: "{testPage}.events.onLogOutError",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Error server response is as expected", "Logout failed when Shyguy disconnected the cable", "{arguments}.0.message"]
+                },
+                // {
+                //     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                // },
+                {
+                    // test the logout wiring in the successful case
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{
+                        url: "/logout",
+                        response: "Log out call successful",
+                        contentType: "text/plain"
+                    }]
+                },
+                {
+                    // click the logout button and wait for a successful response
+                    jQueryTrigger: "click",
+                    element: "{testPage}.authorControls.dom.logOutButton"
+                },
+                {
+                    event: "{testPage}.events.onLogOutSuccess",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Successful server response is as expected", "/logout", "{arguments}.0"]
+                },
+                {
+                    funcName: "jqUnit.assertEquals",
+                    args: ["authorAccountName is cleared as expected", null, "{testPage}.model.persistedValues.authorAccountName"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
                 }]
             }]
         }]

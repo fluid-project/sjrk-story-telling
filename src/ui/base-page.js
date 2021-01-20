@@ -279,7 +279,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      */
     sjrk.storyTelling.base.page.initiateLogout = function (logOutUrl, successEvent, failureEvent) {
         sjrk.storyTelling.base.page.logOut(logOutUrl).then(function () {
-            successEvent.fire();
+            successEvent.fire(logOutUrl);
         }, function (jqXHR, textStatus, errorThrown) {
             failureEvent.fire({
                 isError: true,
