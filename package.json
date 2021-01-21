@@ -6,9 +6,9 @@
     "scripts": {
         "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",
         "test": "npm run test:browser && npm run test:node",
-        "test:browser": "node node_modules/testem/testem.js ci --file tests/ui/testem.js",
-        "test:node": "node node_modules/nyc/bin/nyc.js node tests/server/all-tests.js",
-        "posttest": "node node_modules/nyc/bin/nyc.js report -r text-summary -r html -r json",
+        "test:browser": "testem ci --file tests/ui/testem.js",
+        "test:node": "nyc node tests/server/all-tests.js",
+        "posttest": "nyc report -r text-summary -r html -r json",
         "lint": "grunt lint"
     },
     "repository": {
@@ -25,29 +25,33 @@
         "express-basic-auth": "1.2.0",
         "fluid-binder": "1.1.1",
         "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
+        "fluid-express-user": "2.0.1",
         "fluid-handlebars": "2.1.3",
+        "fluid-json-schema": "2.1.4",
         "fluid-location-bar-relay": "1.0.6",
         "fs-extra": "9.0.1",
         "handlebars": "4.7.6",
         "infusion": "3.0.0-dev.20200728T104627Z.e6aa1a341.FLUID-6145",
-        "jpeg-autorotate": "6.0.0",
+        "jpeg-autorotate": "7.1.1",
         "jpeg-exif": "1.1.4",
         "kettle": "1.15.1",
-        "markdown-it": "11.0.0",
-        "uuid": "8.3.0"
+        "markdown-it": "12.0.3",
+        "memorystore": "1.6.4",
+        "uuid": "8.3.1"
     },
     "devDependencies": {
-        "chance": "1.1.6",
-        "eslint-config-fluid": "1.4.0",
+        "chance": "1.1.7",
+        "eslint-config-fluid": "2.0.0",
+        "eslint-plugin-jsdoc": "30.7.8",
         "eslint-plugin-markdown": "1.0.2",
-        "fluid-grunt-lint-all": "1.0.8",
+        "fluid-grunt-lint-all": "2.0.0",
         "fluid-pouchdb": "1.0.17",
         "fluid-testem": "2.1.13",
-        "grunt": "1.2.1",
+        "grunt": "1.3.0",
         "node-jqunit": "1.1.8",
         "nyc": "15.1.0",
         "rimraf": "3.0.2",
-        "sinon": "9.0.2",
+        "sinon": "9.2.1",
         "testem": "3.2.0"
     }
 }

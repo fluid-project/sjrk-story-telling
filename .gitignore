@@ -7,6 +7,7 @@ uploads/*
 deleted_uploads/*
 !deleted_uploads/.gitkeep
 secrets.json
+!tests/server/configs/secrets.json
 couchdb
 sjrk.storyTelling.server.config.json*
 !sjrk.storyTelling.server.config.json*.example

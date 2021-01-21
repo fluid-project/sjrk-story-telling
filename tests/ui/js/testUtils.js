@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit, sinon */
+/* global jqUnit, sinon */
 
 "use strict";
 
@@ -236,7 +236,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @param {Object} response - the data to include in the server response
      */
     sjrk.storyTelling.testUtils.addPathToMockServer = function (url, statusCode, contentType, response) {
-        if (contentType === "application/json" && typeof (response) !== "string") {
+        if (contentType === "application/json" && typeof(response) !== "string") {
             response = JSON.stringify(response);
         }
         mockServer.respondWith(url, [statusCode, { "Content-Type": contentType }, response]);

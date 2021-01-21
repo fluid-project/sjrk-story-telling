@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid */
-
 // TODO: Once https://issues.fluidproject.org/browse/SJRK-416 has been completed to make the end points more restful,
 // it may be possible to remove this component and related work. Which is a stop gap for rendering a page indicating
 // that a story couldn't be found. With SJRK-416 a proper 404 workflow should be adopted.

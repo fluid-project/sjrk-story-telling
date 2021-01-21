@@ -12,13 +12,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 var fluid = require("infusion"),
     kettle = require("kettle");
 
-require("../../src/server/staticHandlerBase");
 require("../../src/server/middleware/basicAuth");
 require("../../src/server/middleware/saveStoryFile");
 require("../../src/server/middleware/staticMiddlewareSubdirectoryFilter");
 require("../../src/server/dataSource");
 require("../../src/server/serverSetup");
-require("../../src/server/requestHandlers");
+require("../../src/server/authRequestHandlers");
+require("../../src/server/staticRequestHandlers");
+require("../../src/server/storyRequestHandlers");
+require("../../src/server/validators");
 require("./utils/serverTestUtils.js");
 
 kettle.loadTestingSupport();
