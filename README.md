@@ -37,18 +37,7 @@ to build the web-hosting environment that drives the tool.
   instance, you will need to provide the credentials to `dbSetup.js`. This can be done by setting the `COUCHDB_URL`
   environment variable. `dbSetup.js` will use the URL specified in `COUCHDB_URL` when connecting to CouchDB. For
   example: `COUCHDB_URL=http://admin:adminpassword@localhost:5984`
-* Create a `sjrk.storyTelling.server.config.json5` file in the style of `sjrk.storyTelling.server.config.json5.example`
-  and place it in the application root (where the example file is located). See [Configuring the application](#configuring-the-application)
-  for more information on configuring the application. To get started using some default values, simply copy the example
-  file and remove `.example` from the filename:
-
-  ```shell
-  cp sjrk.storyTelling.server.config.json5.example sjrk.storyTelling.server.config.json5
-  ```
-
-* Create a `secrets.json` file which contains the following: `{"adminPass": "ADMINPASSWORD"}`, where the `ADMINPASSWORD`
-  part is replaced by a ___secure___ password of your choosing. This new file specifies credentials for the story deletion
-  endpoint. You can find an example of this in `secrets.json.example` in the application root.
+* Create the necessary [configuration](docs/CONFIGURATION.md) files.
 * Run `node .\index.js` to launch the server
 
 ### Development
