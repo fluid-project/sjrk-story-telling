@@ -43,7 +43,7 @@
         "chance": "1.1.7",
         "eslint-config-fluid": "2.0.0",
         "eslint-plugin-jsdoc": "30.7.8",
-        "fluid-lint-all": "1.0.0",
+        "fluid-lint-all": "1.0.2",
         "fluid-pouchdb": "1.0.17",
         "fluid-testem": "2.1.13",
         "node-jqunit": "1.1.8",

@@ -1,29 +1,15 @@
 {
     "sources": {
         "md": ["./*.md", "docs/*.md"],
-        "js": ["src/**/*.js", "tests/**/*.js", "themes/**/*.js", "./*.js"],
+        "js": ["./*.js", "src/**/*.js", "tests/**/*.js", "themes/**/*.js"],
         "json": [
-            "./package.json",
-            "./.eslintrc.json",
-            "./.fluidlintallrc.json",
-            "./.nycrc",
+            "./*.json",
             "./*.json.example",
-            "themes/**/*.json",
-            "tests/**/*.json"
+            "./.nycrc",
+            "tests/**/*.json",
+            "themes/**/*.json"
+
         ],
-        "json5": ["./*.json5", "tests/**/*.json5"]
-    },
-    "lintspaces": {
-        "newlines": {
-            "excludes": [
-                "./tests/**/*.png",
-                "./tests/**/*.jpg",
-                "./tests/**/*.jpeg",
-                "./tests/**/*.gif",
-                "./tests/**/*.mp3",
-                "./tests/**/*.mp4",
-                "./tests/**/*.webm"
-            ]
-        }
+        "json5": ["./*.json5", "./*.json5.example", "tests/**/*.json5"]
     }
 }
