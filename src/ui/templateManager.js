@@ -73,7 +73,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                             "func": "sjrk.storyTelling.templateManager.loadLocalizedMessages",
                             "args": ["{that}.resources.componentMessages.parsed",
                                 "{templateManager}",
-                                ["templateStrings", "localizedMessages"]]
+                                ["templateStrings", "localizedMessages"]],
+                            "priority": "before:escalate"
                         },
                         "onResourcesLoaded.escalate": "{templateManager}.events.onMessagesLoaded.fire"
                     }

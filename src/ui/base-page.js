@@ -160,6 +160,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` that will accept the preferences
      * @param {Component} cookieStore - a fluid.prefs.cookieStore containing the data to laod
+     * @return {Promise} - the promise returned for getting the cookie data.
      */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
@@ -172,6 +173,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
+
+        return promise;
     };
 
     /**
