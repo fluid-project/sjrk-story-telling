@@ -53,6 +53,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 funcName: "fluid.set",
                 args: ["{that}", ["record", "onPreferencesReset"], "{arguments}.0"],
                 priority: "first"
+            },
+            "onContextChangeRequested.record": {
+                funcName: "fluid.set",
+                args: ["{that}", ["record", "onContextChangeRequested"], "{arguments}.0"],
+                priority: "first"
             }
         },
         components: {
@@ -109,10 +114,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     task: "{testPage}.cookieStore.get",
                     resolve: "jqUnit.assertUndefined",
                     resolveArgs: ["Initially no cookie is set", "{arguments}.0"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 }]
             }, {
                 name: "Click to change language",
-                expect: 8,
+                expect: 10,
                 sequence: [{
                     "jQueryTrigger": "click",
                     "element": "{testPage}.menu.dom.languageLinkSpanish"
@@ -128,6 +138,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     task: "{testPage}.cookieStore.get",
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The uiLanguage value should be set to: es", "es", "{arguments}.0.uiLanguage"]
+                },
+                {
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 },
                 // change language to English
                 {
@@ -145,10 +164,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     task: "{testPage}.cookieStore.get",
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The uiLanguage value should be set to: en", "en", "{arguments}.0.uiLanguage"]
+                },
+                {
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 }]
             }, {
                 name: "Change langauge via model",
-                expect: 8,
+                expect: 10,
                 sequence: [{
                     func: "{testPage}.applier.change",
                     args: [["persistedValues", "uiLanguage"], "es"]
@@ -166,6 +194,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     resolveArgs: ["The uiLanguage value should be set to: es", "es", "{arguments}.0.uiLanguage"]
                 },
                 {
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
+                },
+                // change language to English
+                {
                     func: "{testPage}.applier.change",
                     args: [["persistedValues", "uiLanguage"], "en"]
                 },
@@ -180,17 +218,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     task: "{testPage}.cookieStore.get",
                     resolve: "jqUnit.assertEquals",
                     resolveArgs: ["The uiLanguage value should be set to: en", "en", "{arguments}.0.uiLanguage"]
+                },
+                {
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 }]
             },
             {
                 name: "Test functions",
                 expect: 4,
                 sequence: [{
-                    // reset record
-                    "funcName": "fluid.set",
-                    "args": ["{testPage}", ["record"], {}]
-                },
-                {
+                    // getStoredPreferences
                     "task": "sjrk.storyTelling.base.page.getStoredPreferences",
                     "args": ["{testPage}", "{testPage}.cookieStore"],
                     "resolve": "jqUnit.assertEquals",
@@ -200,6 +243,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     "funcName": "jqUnit.assertTrue",
                     "args": ["onPreferencesLoaded event fired", "{testPage}.record.onPreferencesLoaded"]
                 },
+                // resetPreferences
                 {
                     "funcName": "sjrk.storyTelling.base.page.resetPreferences",
                     "args": ["{testPage}"]
