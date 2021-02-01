@@ -1,6 +1,7 @@
 name: stories.cities.inclusivedesign.ca__production
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stories-cities-production

@@ -1,6 +1,7 @@
 name: stories.sojustrepairit.org__production
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stories-sojustrepairit-production

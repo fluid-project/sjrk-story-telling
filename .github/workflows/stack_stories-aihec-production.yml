@@ -1,6 +1,7 @@
 name: aihec.inclusivedesign.ca__production
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stories-aihec-production

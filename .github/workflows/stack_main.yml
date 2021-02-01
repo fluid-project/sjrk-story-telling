@@ -1,6 +1,7 @@
 name: stories.floeproject.org__staging
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main

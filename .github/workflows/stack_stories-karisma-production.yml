@@ -1,6 +1,7 @@
 name: karisma-stories.floeproject.org__production
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stories-karisma-production

@@ -1,6 +1,7 @@
 name: staging-stories.floeproject.org daily cleanup
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
 
