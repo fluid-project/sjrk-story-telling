@@ -129,7 +129,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 // ensure the new state is Spanish
                 {
-                    event: "{testPage}.menu.events.onReadyToBind",
+                    event: "{testPage}.events.onAllUiComponentsReady",
                     listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
                     args: ["{testPage}", "es"],
                     priority: "last:testing"
@@ -155,7 +155,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 // ensure the new state is English
                 {
-                    event: "{testPage}.menu.events.onReadyToBind",
+                    event: "{testPage}.events.onAllUiComponentsReady",
                     listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
                     args: ["{testPage}", "en"],
                     priority: "last:testing"
@@ -183,7 +183,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 // ensure the new state is Spanish
                 {
-                    event: "{testPage}.menu.events.onReadyToBind",
+                    event: "{testPage}.events.onAllUiComponentsReady",
                     listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
                     args: ["{testPage}", "es"],
                     priority: "last:testing"
@@ -209,7 +209,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 // ensure the new state is English
                 {
-                    event: "{testPage}.menu.events.onReadyToBind",
+                    event: "{testPage}.events.onAllUiComponentsReady",
                     listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
                     args: ["{testPage}", "en"],
                     priority: "last:testing"
