@@ -56,11 +56,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 target: "{that ui blockManager templateManager}.options.templateConfig.resourcePrefix"
             },
             "timeBased.stopMediaPlayerOnContextChange": {
-                record: { "{page}.events.onContextChangeRequested": "{that}.stopMediaPlayer" },
+                record: {
+                    "{page}.events.onContextChangeRequested": {
+                        listener: "{sjrk.storyTelling.blockUi.timeBased}.stopMediaPlayer",
+                        namespace: "stopMediaPlayer"
+                    }
+                },
                 target: "{that sjrk.storyTelling.blockUi.timeBased}.options.listeners"
             },
             "ui.requestResourceLoadOnRenderAllUiTemplates": {
-                record: { "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": "{templateManager}.events.onResourceLoadRequested.fire" },
+                record: {
+                    "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": {
+                        listener: "{templateManager}.events.onResourceLoadRequested.fire",
+                        namespace: "requestResourceLoad"
+                    }
+                },
                 target: "{that sjrk.storyTelling.ui}.options.listeners"
             },
             "templateManager.uiLanguageToTemplateManager": {
@@ -98,16 +108,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 funcName: "sjrk.storyTelling.base.page.getStoredPreferences",
                 args: ["{that}", "{cookieStore}"]
             },
-            "{menu}.events.onInterfaceLanguageChangeRequested": [{
-                func: "{that}.applier.change",
-                args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"],
-                namespace: "changeUiLanguage"
-            },
-            {
-                func: "{that}.events.onContextChangeRequested.fire",
-                namespace: "onContextChangeRequested",
-                priority: "last"
-            }]
+            "onRenderAllUiTemplates.onContextChangeRequested": "{that}.events.onContextChangeRequested"
         },
         modelListeners: {
             "persistedValues.uiLanguage": {
@@ -137,7 +138,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: ".sjrkc-st-menu"
+                container: ".sjrkc-st-menu",
+                options: {
+                    listeners: {
+                        "onInterfaceLanguageChangeRequested.changeUiLanguage": {
+                            func: "{page}.applier.change",
+                            args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"]
+                        }
+                    }
+                }
             },
             // the UIO component
             uio: {
@@ -160,6 +169,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` that will accept the preferences
      * @param {Component} cookieStore - a fluid.prefs.cookieStore containing the data to laod
+     * @return {Promise} - the promise returned for getting the cookie data.
      */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
@@ -172,6 +182,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
+
+        return promise;
     };
 
     /**
