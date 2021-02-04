@@ -45,11 +45,11 @@
         "eslint-plugin-jsdoc": "31.6.0",
         "fluid-lint-all": "1.0.4",
         "fluid-pouchdb": "1.0.17",
-        "fluid-testem": "2.1.13",
+        "fluid-testem": "2.1.14",
         "node-jqunit": "1.1.8",
         "nyc": "15.1.0",
         "rimraf": "3.0.2",
-        "sinon": "9.2.1",
+        "sinon": "9.2.4",
         "testem": "3.2.0"
     }
 }
