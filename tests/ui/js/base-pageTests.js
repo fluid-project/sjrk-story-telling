@@ -20,6 +20,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         pageSetup: {
             resourcePrefix: "../../../themes/base"
         },
+        model: {
+            persistedValues: {
+                // Supply an truthy value to force rendering the logout button
+                // and mimic the logged-in state
+                authorAccountName: "shyguy@emailforcats.meow",
+                uiLanguage: "en"
+            }
+        },
+        members: {
+            initialModel: {
+                persistedValues: {
+                    uiLanguage: "en"
+                }
+            },
+            record: {}
+        },
         listeners: {
             // Stub the page reload listener to prevent test interruption
             "onLogOutSuccess.reload": {
@@ -28,13 +44,31 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 // make sure the previous listener is totally deactivated
                 this: null,
                 method: null
-            }
-        },
-        model: {
-            persistedValues: {
-                // Supply an truthy value to force rendering the logout button
-                // and mimic the logged-in state
-                authorAccountName: "shyguy@emailforcats.meow"
+            },
+            "onPreferencesLoaded.record": {
+                funcName: "fluid.set",
+                args: ["{that}", ["record", "onPreferencesLoaded"], true],
+                priority: "first"
+            },
+            "onPreferenceLoadFailed.record": {
+                funcName: "fluid.set",
+                args: ["{that}", ["record", "onPreferenceLoadFailed"], "{arguments}.0"],
+                priority: "first"
+            },
+            "beforePreferencesReset.record": {
+                funcName: "fluid.set",
+                args: ["{that}", ["record", "beforePreferencesReset"], "{arguments}.0"],
+                priority: "first"
+            },
+            "onPreferencesReset.record": {
+                funcName: "fluid.set",
+                args: ["{that}", ["record", "onPreferencesReset"], "{arguments}.0"],
+                priority: "first"
+            },
+            "onContextChangeRequested.record": {
+                funcName: "fluid.set",
+                args: ["{that}", ["record", "onContextChangeRequested"], "{arguments}.0"],
+                priority: "first"
             }
         },
         components: {
@@ -56,6 +90,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             menu: {
                 container: "#testMenu"
+            },
+            cookieStore: {
+                type: "fluid.prefs.cookieStore",
+                options: {
+                    gradeNames: ["fluid.dataSource.writable"],
+                    cookie: {
+                        name: "{that}.id" // setting to the id of the component to provide a unique cookie for each run
+                    }
+                }
             }
         }
     });
@@ -66,180 +109,169 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         modules: [{
             name: "Test page grade",
             tests: [{
-                name: "Test events and timing",
-                expect: 15,
+                name: "Initialization",
+                expect: 5,
                 sequence: [{
                     "event": "{pageTest testPage}.events.onAllUiComponentsReady",
                     "listener": "jqUnit.assert",
-                    "args": "onAllUiComponentsReady event fired"
+                    "args": "On initializations the onAllUiComponentsReady event is fired"
                 },
                 // ensure the initial state is English
                 {
-                    func: "{testPage}.applier.change",
-                    args: [["persistedValues", "uiLanguage"], ""]
+                    funcName: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
+                    args: ["{testPage}", "en"]
                 },
                 {
-                    func: "{testPage}.applier.change",
-                    args: [["persistedValues", "uiLanguage"], "en"]
+                    task: "{testPage}.cookieStore.get",
+                    resolve: "jqUnit.assertDeepEq",
+                    resolveArgs: ["Initial cookie set", "{testPage}.model.persistedValues", "{arguments}.0"]
                 },
                 {
-                    "event": "{testPage}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assert",
-                    "args": "menu re-rendered after uiLanguage changed"
-                },
-                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
+                }]
+            }, {
+                name: "Click to change language",
+                expect: 10,
+                sequence: [{
                     "jQueryTrigger": "click",
                     "element": "{testPage}.menu.dom.languageLinkSpanish"
                 },
+                // ensure the new state is Spanish
                 {
-                    "event": "{testPage}.menu.events.onInterfaceLanguageChangeRequested",
-                    listener: "jqUnit.assertEquals",
-                    args: ["onInterfaceLanguageChangeRequested event fired for Spanish button with correct args", "es", "{arguments}.0.data"]
+                    event: "{testPage}.events.onAllUiComponentsReady",
+                    listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
+                    args: ["{testPage}", "es"],
+                    priority: "last:testing"
                 },
                 {
-                    "event": "{testPage}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["menu re-rendered in Spanish after uiLanguage change to Spanish", "es", "{testPage}.menu.templateManager.model.locale"]
+                    task: "{testPage}.cookieStore.get",
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The uiLanguage value should be set to: es", "es", "{arguments}.0.uiLanguage"]
                 },
                 {
-                    "event": "{testPage}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
-                    "listener": "jqUnit.assert",
-                    "args": "UIO messages reloaded successfully for Spanish button"
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["uiLanguage value is as expected", "es", "{testPage}.model.persistedValues.uiLanguage"]
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 },
+                // change language to English
                 {
                     "jQueryTrigger": "click",
                     "element": "{testPage}.menu.dom.languageLinkEnglish"
                 },
+                // ensure the new state is English
                 {
-                    "event": "{testPage}.menu.events.onInterfaceLanguageChangeRequested",
-                    listener: "jqUnit.assertEquals",
-                    args: ["onInterfaceLanguageChangeRequested event fired for English button with correct args", "en", "{arguments}.0.data"]
+                    event: "{testPage}.events.onAllUiComponentsReady",
+                    listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
+                    args: ["{testPage}", "en"],
+                    priority: "last:testing"
                 },
                 {
-                    "event": "{testPage}.menu.events.onControlsBound",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["menu re-rendered in English after uiLanguage change to English", "en", "{testPage}.menu.templateManager.model.locale"]
+                    task: "{testPage}.cookieStore.get",
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The uiLanguage value should be set to: en", "en", "{arguments}.0.uiLanguage"]
                 },
                 {
-                    "event": "{testPage}.uio.prefsEditorLoader.messageLoader.events.onResourcesLoaded",
-                    "listener": "jqUnit.assert",
-                    "args": "UIO messages reloaded successfully for English button"
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
                 },
                 {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["uiLanguage value is as expected", "en", "{testPage}.model.persistedValues.uiLanguage"]
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
+                }]
+            }, {
+                name: "Change langauge via model",
+                expect: 10,
+                sequence: [{
+                    func: "{testPage}.applier.change",
+                    args: [["persistedValues", "uiLanguage"], "es"]
+                },
+                // ensure the new state is Spanish
+                {
+                    event: "{testPage}.events.onAllUiComponentsReady",
+                    listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
+                    args: ["{testPage}", "es"],
+                    priority: "last:testing"
                 },
                 {
-                    func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
-                    args: [{data:"en"}]
+                    task: "{testPage}.cookieStore.get",
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The uiLanguage value should be set to: es", "es", "{arguments}.0.uiLanguage"]
                 },
                 {
-                    "event": "{testPage}.events.onContextChangeRequested",
-                    "listener": "jqUnit.assert",
-                    "args": "onContextChangeRequested fired after menu language change"
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
                 },
                 {
-                    func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
-                    args: [{data:"es"}]
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 },
-                {
-                    "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "persistedValues.uiLanguage",
-                    "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"es", "{testPage}.model.persistedValues.uiLanguage"]
-                },
-                {
-                    func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
-                    args: [{data:"en"}]
-                },
-                {
-                    "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "persistedValues.uiLanguage",
-                    "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.persistedValues.uiLanguage"]
-                },
-                {
-                    func: "{testPage}.menu.events.onInterfaceLanguageChangeRequested.fire",
-                    args: [{data:"cattish"}]
-                },
-                {
-                    "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "persistedValues.uiLanguage",
-                    "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"cattish", "{testPage}.model.persistedValues.uiLanguage"]
-                },
+                // change language to English
                 {
                     func: "{testPage}.applier.change",
                     args: [["persistedValues", "uiLanguage"], "en"]
                 },
+                // ensure the new state is English
                 {
-                    "changeEvent": "{testPage}.applier.modelChanged",
-                    "path": "persistedValues.uiLanguage",
-                    "funcName": "jqUnit.assertEquals",
-                    "args": ["uiLanguage is as expected" ,"en", "{testPage}.model.persistedValues.uiLanguage"]
+                    event: "{testPage}.events.onAllUiComponentsReady",
+                    listener: "sjrk.storyTelling.base.page.pageTester.verifyLanguageState",
+                    args: ["{testPage}", "en"],
+                    priority: "last:testing"
+                },
+                {
+                    task: "{testPage}.cookieStore.get",
+                    resolve: "jqUnit.assertEquals",
+                    resolveArgs: ["The uiLanguage value should be set to: en", "en", "{arguments}.0.uiLanguage"]
+                },
+                {
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["onContextChangeRequested event fired", "{testPage}.record.onContextChangeRequested"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 }]
             },
             {
-                name: "Test functions and invokers",
-                expect: 1,
+                name: "Test functions",
+                expect: 4,
                 sequence: [{
-                    "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
-                    "args": ["{testPage}", "{testPage}.cookieStore"]
+                    // getStoredPreferences
+                    "task": "sjrk.storyTelling.base.page.getStoredPreferences",
+                    "args": ["{testPage}", "{testPage}.cookieStore"],
+                    "resolve": "jqUnit.assertEquals",
+                    "resolveArgs": ["UIO language is correct after call to getStoredPreferences", "en", "{testPage}.uio.model.locale"]
                 },
                 {
-                    "event": "{testPage}.events.onPreferencesLoaded",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["UIO language is correct after call to getStoredPreferences", "en", "{testPage}.uio.model.locale"]
-                }]
-            },
-            {
-                name: "Test cookieStore",
-                expect: 5,
-                sequence: [{
-                    "func": "{testPage}.applier.change",
-                    "args": [["persistedValues", "uiLanguage"], "meowish"]
+                    "funcName": "jqUnit.assertTrue",
+                    "args": ["onPreferencesLoaded event fired", "{testPage}.record.onPreferencesLoaded"]
                 },
-                {
-                    "event": "{testPage}.cookieStore.events.onWriteResponse",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["Cookie was saved after uiLanguage change, cookie data is as expected", "meowish", "{arguments}.0.uiLanguage"]
-                },
-                {
-                    "func": "{testPage}.applier.change",
-                    "args": [["persistedValues", "fuzzyCat"], "yes please"]
-                },
-                {
-                    "event": "{testPage}.cookieStore.events.onWriteResponse",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["Cookie was saved after new value added, cookie data is as expected", "yes please", "{arguments}.0.fuzzyCat"]
-                },
-                {
-                    "funcName": "sjrk.storyTelling.base.page.getStoredPreferences",
-                    "args": ["{testPage}", "{testPage}.cookieStore"]
-                },
-                {
-                    "event": "{testPage}.events.onPreferencesLoaded",
-                    "listener": "jqUnit.assertEquals",
-                    "args": ["Language is still as expected after cookie load", "meowish", "{testPage}.model.persistedValues.uiLanguage"]
-                },
-                // reset the cookie to its initial state for subsequent test runs
+                // resetPreferences
                 {
                     "funcName": "sjrk.storyTelling.testUtils.resetPreferences",
                     "args": ["{testPage}"]
                 },
                 {
-                    "event": "{testPage}.events.beforePreferencesReset",
-                    "listener": "jqUnit.assertNotEquals",
-                    "args": ["Model is not equal to initial model before reset", "{testPage}.model", "{testPage}.initialModel"]
+                    "event": "{testPage}.events.onPreferencesReset",
+                    "listener": "jqUnit.assert",
+                    "args": ["onPreferencesLoaded event fired"]
                 },
                 {
-                    "event": "{testPage}.events.onPreferencesReset",
-                    "listener": "jqUnit.assertDeepEq",
-                    "args": ["Model is equal to initial model after reset", "{testPage}.model", "{testPage}.initialModel"]
+                    "funcName": "jqUnit.assertNotUndefined",
+                    "args": ["beforePreferencesReset event fired", "{testPage}.record.beforePreferencesReset"]
+                },
+                {
+                    // reset record
+                    "funcName": "fluid.set",
+                    "args": ["{testPage}", ["record"], {}]
                 }]
             }]
         }]
@@ -324,16 +356,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @param {Component} pageComponent - an instance of sjrk.storyTelling.base.page
      * @param {String} expectedLanguage - the single expected langauge of all the UIO panels
      */
-    sjrk.storyTelling.base.page.pageTester.verifyUioPanelLanguages = function (pageComponent, expectedLanguage) {
-        if (pageComponent.uio.prefsEditorLoader.prefsEditor) {
-            fluid.each(pageComponent.uio.prefsEditorLoader.prefsEditor, function (panel, key) {
-                if (key.startsWith("fluid_prefs_panel_")) {
-                    jqUnit.assertEquals("Language of panel '" + key + "' is as expected", expectedLanguage, panel.msgResolver.messageLanguage);
-                }
-            });
-        } else {
-            jqUnit.fail("prefsEditor component not available");
-        }
+    sjrk.storyTelling.base.page.pageTester.verifyLanguageState = function (pageComponent, expectedLanguage) {
+        jqUnit.assertEquals("The base page component's language is set to: " + expectedLanguage, expectedLanguage, fluid.get(pageComponent, ["model", "persistedValues", "uiLanguage"]));
+        jqUnit.assertEquals("The UIO component's language is set to: " + expectedLanguage, expectedLanguage, fluid.get(pageComponent, ["uio", "model", "locale"]));
+        jqUnit.assertEquals("The menu's templateManager component's language is set to: " + expectedLanguage, expectedLanguage, fluid.get(pageComponent, ["menu", "templateManager", "model", "locale"]));
     };
 
     // Test environment
