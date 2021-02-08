@@ -78,8 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "ui.requestResourceLoadOnRenderAllUiTemplates": {
                 record: {
                     "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": {
-                        listener: "{templateManager}.events.onResourceLoadRequested.fire",
-                        namespace: "requestResourceLoad"
+                        listener: "{templateManager}.events.onResourceLoadRequested.fire"
                     }
                 },
                 target: "{that sjrk.storyTelling.ui}.options.listeners"

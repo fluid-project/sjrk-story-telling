@@ -123,8 +123,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     task: "{testPage}.cookieStore.get",
-                    resolve: "jqUnit.assertUndefined",
-                    resolveArgs: ["Initially no cookie is set", "{arguments}.0"]
+                    resolve: "jqUnit.assertDeepEq",
+                    resolveArgs: ["Initial cookie set", "{testPage}.model.persistedValues", "{arguments}.0"]
                 },
                 {
                     // reset record
