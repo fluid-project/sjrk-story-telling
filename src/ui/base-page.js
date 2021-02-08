@@ -127,7 +127,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             cookieStore: {
                 type: "fluid.prefs.cookieStore",
                 options: {
-                    gradeNames: ["fluid.dataSource.writable"],
+                    writable: true,
                     cookie: {
                         name: "sjrk-st-settings",
                         path: "/",
