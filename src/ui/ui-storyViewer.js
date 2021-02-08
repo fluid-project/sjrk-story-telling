@@ -130,9 +130,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         modelRelay: {
             "publishingState": {
                 target: "",
+                source: "publishingState",
                 singleTransform: {
                     type: "fluid.transforms.valueMapper",
-                    defaultInputPath: "publishingState",
+                    defaultInputPath: "",
                     match: {
                         "unpublished": {
                             outputValue: {
