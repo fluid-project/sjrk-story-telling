@@ -42,7 +42,7 @@
     "devDependencies": {
         "chance": "1.1.7",
         "eslint-config-fluid": "2.0.0",
-        "eslint-plugin-jsdoc": "31.6.0",
+        "eslint-plugin-jsdoc": "31.6.1",
         "fluid-lint-all": "1.0.4",
         "fluid-pouchdb": "1.0.17",
         "fluid-testem": "2.1.14",
