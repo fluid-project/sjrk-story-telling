@@ -59,6 +59,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
+    // Applies the AIHEC shell to the login page
+    fluid.defaults("sjrk.storyTelling.aihec.page.login", {
+        gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.login"],
+        distributeOptions: [{
+            target: "{that > loginUi > templateManager}.options.templateConfig.templatePath",
+            record: "%resourcePrefix/templates/aihec-login.hbs"
+        }]
+    });
+
     // Applies the AIHEC shell to the storyView page
     fluid.defaults("sjrk.storyTelling.aihec.page.storyView", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyView"],

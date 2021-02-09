@@ -153,6 +153,44 @@ h3:empty {
     border-bottom: solid 3px var(--site-dark-green);
 }
 
+.sjrk-st-label-container:first-child {
+    margin: 0 0 0.5rem 0;
+}
+
+.sjrk-st-label-container:not(:first-child) {
+    margin: 2rem 0 0.5rem 0;
+}
+
+.sjrk-st-login-response,
+.sjrk-st-login-progress {
+    margin: 1rem 0 0.5rem 0 !important;
+}
+
+.sjrk-st-login-signup-text {
+    margin: 1rem 0 0 0;
+    font-weight: 600;
+}
+
+.sjrk-st-login-form button {
+    height: 2rem;
+    width: 100%;
+    margin: 4rem 0 .25rem 0;
+    background: var(--site-light-blue);
+    font-weight: 600;
+    border: 1px solid;
+    border-radius: 0.25rem;
+}
+
+.sjrk-st-author-log-out {
+    border: none;
+    background: none;
+}
+
+.sjrk-st-login-form {
+    margin: 0 auto;
+    max-width: 20rem;
+}
+
 .sjrk-st-edit-link {
     border: 2px solid var(--site-blue);
     padding: 0.75rem 2rem;

@@ -543,13 +543,15 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 }
 
 .sjrk-st-story-editor-metadata-step input,
-.sjrk-st-story-editor-metadata-step label {
+.sjrk-st-story-editor-metadata-step label,
+.sjrk-st-login-form input {
     font-size: 1rem;
     line-height: 1.4;
     padding: 0.25rem;
 }
 
-.sjrk-st-story-editor-metadata-step input {
+.sjrk-st-story-editor-metadata-step input,
+.sjrk-st-login-form input {
     border: 1px solid var(--site-border-grey);
 }
 

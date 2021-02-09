@@ -4,6 +4,7 @@
     "message_author_sign_up": "Sign up",
     "message_author_log_in": "Log in",
     "message_author_log_out": "Log out",
+    "message_login_title_text": "Log in",
     "message_login_email_label": "Email address",
     "message_login_password_label": "Password",
     "message_login_forgot_password": "Forgot password",
