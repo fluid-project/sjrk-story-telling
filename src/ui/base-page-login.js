@@ -93,7 +93,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "onLogInRequested.initiateLogin": "{that}.initiateLogin",
             "onLogInRequested.setStatePublishing": {
                 changePath: "loginState",
-                value: "requestSent"
+                value: "requestSent",
+                priority: "before:initiateLogin"
             },
             "onLogInSuccess.saveAuthorAccountName": {
                 func: "{that}.setAuthorAccountName",
@@ -122,9 +123,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             initiateLogin: {
                 funcName: "sjrk.storyTelling.base.page.login.initiateLogin",
                 args: [
-                    "{that}.options.pageSetup.logInUrl",
-                    "{loginUi}.model.email",
-                    "{loginUi}.model.password",
+                    "{loginDataSource}",
+                    "{loginUi}.model",
                     "{that}.events.onLogInSuccess",
                     "{that}.events.onLogInError"
                 ]
@@ -144,50 +144,49 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             loginUi: {
                 type: "sjrk.storyTelling.ui.loginUi",
                 container: ".sjrkc-st-login-container"
+            },
+            loginDataSource: {
+                type: "fluid.dataSource.URL",
+                options: {
+                    writable: true,
+                    writeMethod: "POST",
+                    listeners: {
+                        "onWrite.localValidation": {
+                            func: "sjrk.storyTelling.base.page.login.validation",
+                            priority: "before:encoding"
+                        }
+                    }
+                }
+            }
+        },
+        distributeOptions: {
+            "login.url": {
+                source: "{that}.options.pageSetup.logInUrl",
+                target: "{loginDataSource}.options.url"
             }
         }
     });
 
     /**
-     * Calls the login endpoint on the server (provided) and fires a success or error
+     * Calls the login dataSource and fires a success or error
      * event depending on the outcome. Success event returns the email address,
      * error event returns error details
      *
-     * @param {String} logInUrl - the server URL to call to start a new session
-     * @param {String} email - the author's email address
-     * @param {String} password - the author's password
+     * @param {Component} dataSource - the dataSource used to send the login request
+     * @param {Object} model - the login model to send to the server for authentication
+     * @param {String} model.email - the author's email address
+     * @param {String} model.password - the author's password
+     * @param {Object} model.validationResults - the results of the local form validation
      * @param {Object} successEvent - an infusion event to fire upon successful completion
      * @param {Object} failureEvent - an infusion event to fire on failure
+     * @return {Promise} - a promise that is resolved on successful login and rejected on errors.
      */
-    sjrk.storyTelling.base.page.login.initiateLogin = function (logInUrl, email, password, successEvent, failureEvent) {
-        sjrk.storyTelling.base.page.login.logIn(logInUrl, email, password).then(function (data) {
+    sjrk.storyTelling.base.page.login.initiateLogin = function (dataSource, model, successEvent, failureEvent) {
+        var promise = dataSource.set({}, model);
+        promise.then(function (data) {
             successEvent.fire(data.email);
-        }, function (jqXHR, textStatus, errorThrown) {
-            failureEvent.fire(sjrk.storyTelling.base.page.getErrorMessageFromXhr(jqXHR, textStatus, errorThrown));
-        });
-    };
-
-    /**
-     * Logs the author into their account by calling the appropriate endpoint
-     *
-     * @param {String} logInUrl - the server URL to call to start a new session
-     * @param {String} email - the author's email address
-     * @param {String} password - the author's password
-     *
-     * @return {jqXHR} - the jqXHR for the server request
-     */
-    sjrk.storyTelling.base.page.login.logIn = function (logInUrl, email, password) {
-        return $.ajax({
-            url         : logInUrl,
-            data        : JSON.stringify({
-                email: email,
-                password: password
-            }),
-            cache       : false,
-            contentType : "application/json",
-            processData : false,
-            type        : "POST"
-        });
+        }, failureEvent.fire);
+        return promise;
     };
 
     /**
@@ -197,6 +196,49 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      */
     sjrk.storyTelling.base.page.login.redirectToUrl = function (redirectUrl) {
         window.location.href = redirectUrl;
+    };
+
+    /**
+     * Ensures that login model passes local validation before sending to the server. It checks the
+     * `validationResults` model path which is populated by the loginUI upon form entry. If the data passes validation,
+     * the promise is resolved with the model; however, the `validationResults` are stripped out.
+     *
+     * @param {Object} model - the login model to send to the server for authentication
+     * @param {String} model.email - the author's email address
+     * @param {String} model.password - the author's password
+     * @param {Object} model.validationResults - the results of the local form validation
+     * @return {Promise} - a promise that is resolved if the model is valid and rejected otherwise.
+     */
+    sjrk.storyTelling.base.page.login.validation = function (model) {
+        var promise = fluid.promise();
+
+        if (fluid.get(model, ["validationResults", "isValid"])) {
+            delete model.validationResults;
+            promise.resolve(model);
+        } else {
+            promise.reject(fluid.get(model, ["validationResults", "errors"]));
+        }
+
+        return promise;
+    };
+
+    // Due to FLUID-6597 ( https://issues.fluidproject.org/browse/FLUID-6597 ) the DataSource implementation in
+    // Infusion does not properly send request headers. Until a fix is in place we will redefine the
+    // `fluid.resourceLoader.configureXHR` here to set the header values.
+    // see: https://matrix.to/#/!JcoHDrfLedPQdFhAXn:matrix.org/$-Hkm4IIFzmk4WQSwspO8amfKwgIYYi7NtFE9TToI540?via=matrix.org
+    fluid.resourceLoader.configureXHR = function (xhr, options) {
+        fluid.resourceLoader.loaders.XHR.copyProps.forEach(function (prop) {
+            if (fluid.isValue(options[prop])) {
+                xhr[prop] = options[prop];
+            }
+        });
+        // set request headers from the `headers` option.
+        fluid.each(options.headers, function (value, key) {
+            var values = fluid.makeArray(value);
+            values.forEach(function (oneValue) {
+                xhr.setRequestHeader(key, oneValue);
+            });
+        });
     };
 
 })(jQuery, fluid);
