@@ -136,7 +136,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             setServerResponse: {
                 this: "{loginUi}.dom.responseText",
                 method: "text",
-                args: ["{arguments}.0"]
+                args: ["{arguments}.0.message"]
             }
         },
         components: {
@@ -213,8 +213,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         var promise = fluid.promise();
 
         if (fluid.get(model, ["validationResults", "isValid"])) {
-            delete model.validationResults;
-            promise.resolve(model);
+            var acceptedModel = fluid.copy(model);
+            delete acceptedModel.validationResults;
+            promise.resolve(acceptedModel);
         } else {
             promise.reject(fluid.get(model, ["validationResults", "errors"]));
         }
