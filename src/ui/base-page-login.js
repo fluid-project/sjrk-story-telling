@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // The login page base grade
     fluid.defaults("sjrk.storyTelling.base.page.login", {
-        gradeNames: ["sjrk.storyTelling.base.page"],
+        gradeNames: ["sjrk.storyTelling.base.page.withAuthorControls"],
         model: {
             // loginState can be one of the following values:
             // "ready" (the initial state), "requestSent", "responseReceived"

@@ -22,9 +22,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         },
         model: {
             persistedValues: {
-                // Supply an truthy value to force rendering the logout button
-                // and mimic the logged-in state
-                authorAccountName: "shyguy@emailforcats.meow",
                 uiLanguage: "en"
             }
         },
@@ -37,14 +34,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             record: {}
         },
         listeners: {
-            // Stub the page reload listener to prevent test interruption
-            "onLogOutSuccess.reload": {
-                funcName: "jqUnit.assertEquals",
-                args: ["Page reload was called after successful logout", "/logout", "{arguments}.0"],
-                // make sure the previous listener is totally deactivated
-                this: null,
-                method: null
-            },
             "onPreferencesLoaded.record": {
                 funcName: "fluid.set",
                 args: ["{that}", ["record", "onPreferencesLoaded"], true],
@@ -277,79 +266,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }]
     });
 
-    // Test cases and sequences for the base page logout
-    fluid.defaults("sjrk.storyTelling.base.page.pageLogoutTester", {
-        gradeNames: ["fluid.test.testCaseHolder"],
-        modules: [{
-            name: "Test page logout",
-            tests: [{
-                name: "Test logout button wiring",
-                expect: 6,
-                sequence: [{
-                    "event": "{pageLogoutTest testPage}.events.onAllUiComponentsReady",
-                    "listener": "jqUnit.assert",
-                    "args": "onAllUiComponentsReady event fired"
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["authorAccountName is set as expected", "shyguy@emailforcats.meow", "{testPage}.model.persistedValues.authorAccountName"]
-                },
-                {
-                    // test the logout wiring in the error case
-                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: [{
-                        url: "/logout",
-                        statusCode: 500,
-                        response: {
-                            "isError": true,
-                            "message": "Logout failed when Shyguy disconnected the cable"
-                        }
-                    }]
-                },
-                {
-                    // click the logout button and wait for an error response
-                    jQueryTrigger: "click",
-                    element: "{testPage}.authorControls.dom.logOutButton"
-                },
-                {
-                    event: "{testPage}.events.onLogOutError",
-                    listener: "jqUnit.assertEquals",
-                    args: ["Error server response is as expected", "Logout failed when Shyguy disconnected the cable", "{arguments}.0.message"]
-                },
-                {
-                    // test the logout wiring in the successful case
-                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
-                    args: [{
-                        url: "/logout",
-                        response: "Log out call successful",
-                        contentType: "text/plain"
-                    }]
-                },
-                {
-                    // click the logout button and wait for a successful response
-                    jQueryTrigger: "click",
-                    element: "{testPage}.authorControls.dom.logOutButton"
-                },
-                {
-                    event: "{testPage}.events.onLogOutSuccess",
-                    listener: "jqUnit.assertEquals",
-                    args: ["Successful server response is as expected", "/logout", "{arguments}.0"]
-                },
-                {
-                    funcName: "jqUnit.assertEquals",
-                    args: ["authorAccountName is cleared as expected", null, "{testPage}.model.persistedValues.authorAccountName"]
-                },
-                {
-                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
-                },
-                {
-                    funcName: "sjrk.storyTelling.testUtils.resetCookie",
-                    args: ["{testPage}.cookieStore.options.cookie.name"]
-                }]
-            }]
-        }]
-    });
-
     /**
      * Verifies the language of the UIO component's panels
      *
@@ -378,26 +294,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
-    // Test environment
-    fluid.defaults("sjrk.storyTelling.base.page.pageLogoutTest", {
-        gradeNames: ["fluid.test.testEnvironment"],
-        markupFixture: "#testPage",
-        components: {
-            testPageLogout: {
-                type: "sjrk.storyTelling.base.page.testPage",
-                container: "#testPage",
-                createOnEvent: "{pageLogoutTester}.events.onTestCaseStart"
-            },
-            pageLogoutTester: {
-                type: "sjrk.storyTelling.base.page.pageLogoutTester"
-            }
-        }
-    });
-
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.base.page.pageTest",
-            "sjrk.storyTelling.base.page.pageLogoutTest"
+            "sjrk.storyTelling.base.page.pageTest"
         ]);
     });
 
