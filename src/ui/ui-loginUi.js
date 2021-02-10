@@ -21,7 +21,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 email: {
                     type: "string",
                     required: true,
-                    format: "email"
+                    format: "email",
+                    minLength: 3
                 },
                 password: {
                     type: "string",
