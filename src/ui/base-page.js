@@ -31,19 +31,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             initialModel: {
                 // the Initial Model of the page only specifies the locale
                 persistedValues: {
-                    uiLanguage: "en", // default locale is set to English
-                    // The authorAccountName is set on account login and is used
-                    // to display the greeting in the Author Controls section
-                    authorAccountName: null,
-                    // Tracks what page the author is currently viewing, mainly
-                    // used for redirecting during the login or sign up process
-                    currentPage: null
+                    uiLanguage: "en" // default locale is set to English
                 }
             }
         },
         pageSetup: {
-            resourcePrefix: "",
-            logOutUrl: "/logout"
+            resourcePrefix: ""
             // "authoringEnabled" is retrieved from sjrk.storyTelling.server.config.json5
             // via a request to "/clientConfig". It enables and disables the
             // authoring capabilities of the tool and must be present.
@@ -100,7 +93,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         events: {
             onAllUiComponentsReady: {
                 events: {
-                    onAuthorControlsReady: "{authorControls}.events.onControlsBound",
                     onMenuReady: "{menu}.events.onControlsBound",
                     onUioReady: "onUioReady"
                 }
@@ -112,10 +104,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             onUioPanelsUpdated: null,
             onRenderAllUiTemplates: null,
             beforePreferencesReset: null,
-            onPreferencesReset: null,
-            onLogOutRequested: "{authorControls}.events.onLogOutRequested",
-            onLogOutSuccess: null,
-            onLogOutError: null
+            onPreferencesReset: null
         },
         listeners: {
             "onCreate.getStoredPreferences": {
@@ -125,19 +114,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "onCreate.setCurrentPage": {
                 changePath: "persistedValues.currentPage",
                 value: window.location.pathname + window.location.search
-            },
-            // SJRK-404 TODO: clear session-id cookie on logOut, too
-            "onLogOutRequested.initiateLogout": "{that}.initiateLogout",
-            "onLogOutSuccess.clearAuthorAccountName": {
-                func: "{that}.setAuthorAccountName",
-                args: [null],
-                priority: "before:reload"
-            },
-            // refresh the page to reflect the change in authorization
-            "onLogOutSuccess.reload": {
-                this: "location",
-                method: "reload",
-                priority: "last"
             },
             "onRenderAllUiTemplates.onContextChangeRequested": "{that}.events.onContextChangeRequested"
         },
@@ -153,16 +129,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 namespace: "setCookie"
             }
         },
-        invokers: {
-            initiateLogout: {
-                funcName: "sjrk.storyTelling.base.page.initiateLogout",
-                args: ["{that}.options.pageSetup.logOutUrl", "{that}.events.onLogOutSuccess", "{that}.events.onLogOutError"]
-            },
-            setAuthorAccountName: {
-                changePath: "persistedValues.authorAccountName",
-                value: "{arguments}.0"
-            }
-        },
         components: {
             // cookie storage
             cookieStore: {
@@ -173,24 +139,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                         name: "sjrk-st-settings",
                         path: "/",
                         expires: ""
-                    }
-                }
-            },
-            // the "author controls" section of the page
-            authorControls: {
-                type: "sjrk.storyTelling.ui.authorControls",
-                container: ".sjrkc-st-author-controls-container",
-                options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                model: {
-                                    dynamicValues: {
-                                        authorAccountName: "{page}.model.persistedValues.authorAccountName"
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -217,6 +165,84 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     },
                     listeners: {
                         "onUioReady.escalate": "{page}.events.onUioReady"
+                    }
+                }
+            }
+        }
+    });
+
+    // mix-in grade to include login/logout controls on the page
+    fluid.defaults("sjrk.storyTelling.base.page.withAuthorControls", {
+        gradeNames: ["sjrk.storyTelling.base.page"],
+        pageSetup: {
+            logOutUrl: "/logout"
+        },
+        members: {
+            initialModel: {
+                // the Initial Model of the page only specifies the locale
+                persistedValues: {
+                    // The authorAccountName is set on account login and is used
+                    // to display the greeting in the Author Controls section
+                    authorAccountName: null,
+                    // Tracks what page the author is currently viewing, mainly
+                    // used for redirecting during the login or sign up process
+                    currentPage: null
+                }
+            }
+        },
+        events: {
+            onAllUiComponentsReady: {
+                events: {
+                    onAuthorControlsReady: "{authorControls}.events.onControlsBound"
+                }
+            },
+            onLogOutRequested: "{authorControls}.events.onLogOutRequested",
+            onLogOutSuccess: null,
+            onLogOutError: null
+        },
+        listeners: {
+            // SJRK-404 TODO: clear session-id cookie on logOut, too
+            "onLogOutRequested.initiateLogout": "{that}.initiateLogout",
+            "onLogOutSuccess.clearAuthorAccountName": {
+                func: "{that}.setAuthorAccountName",
+                args: [null],
+                priority: "before:reload"
+            },
+            // refresh the page to reflect the change in authorization
+            "onLogOutSuccess.reload": {
+                this: "location",
+                method: "reload",
+                priority: "last"
+            }
+        },
+        invokers: {
+            // initiates the log out process/logs the user out and reloads
+            initiateLogout: {
+                funcName: "sjrk.storyTelling.base.page.initiateLogout",
+                args: ["{that}.options.pageSetup.logOutUrl", "{that}.events.onLogOutSuccess", "{that}.events.onLogOutError"]
+            },
+            // sets the author account name for use in the user greeting
+            setAuthorAccountName: {
+                changePath: "persistedValues.authorAccountName",
+                value: "{arguments}.0"
+            }
+        },
+        components: {
+            // the "author controls" section of the page
+            authorControls: {
+                type: "sjrk.storyTelling.ui.authorControls",
+                container: ".sjrkc-st-author-controls-container",
+                options: {
+                    components: {
+                        templateManager: {
+                            options: {
+                                model: {
+                                    dynamicValues: {
+                                        authorAccountName: "{page}.model.persistedValues.authorAccountName"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

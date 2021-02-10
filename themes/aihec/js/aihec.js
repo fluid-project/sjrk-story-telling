@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.aihec.page", {
-        gradeNames: ["sjrk.storyTelling.base.page"],
+        gradeNames: ["sjrk.storyTelling.base.page", "sjrk.storyTelling.base.page.withAuthorControls"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/aihec-menu.hbs"

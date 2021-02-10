@@ -122,7 +122,6 @@ h3:empty {
 .sjrk-st-edit-link,
 .sjrk-st-author-greeting,
 .sjrk-st-author-log-in,
-.sjrk-st-author-log-out,
 .sjrk-st-author-sign-up {
     color: var(--site-blue);
 }
@@ -182,8 +181,11 @@ h3:empty {
 }
 
 .sjrk-st-author-log-out {
+    background: var(--site-dark-grey-3);
     border: none;
-    background: none;
+    border-radius: 1.25rem;
+    color: #fff;
+    padding: 0.5rem 1.75rem;
 }
 
 .sjrk-st-login-form {
