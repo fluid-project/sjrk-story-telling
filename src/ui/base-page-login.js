@@ -223,23 +223,4 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         return promise;
     };
 
-    // Due to FLUID-6597 ( https://issues.fluidproject.org/browse/FLUID-6597 ) the DataSource implementation in
-    // Infusion does not properly send request headers. Until a fix is in place we will redefine the
-    // `fluid.resourceLoader.configureXHR` here to set the header values.
-    // see: https://matrix.to/#/!JcoHDrfLedPQdFhAXn:matrix.org/$-Hkm4IIFzmk4WQSwspO8amfKwgIYYi7NtFE9TToI540?via=matrix.org
-    fluid.resourceLoader.configureXHR = function (xhr, options) {
-        fluid.resourceLoader.loaders.XHR.copyProps.forEach(function (prop) {
-            if (fluid.isValue(options[prop])) {
-                xhr[prop] = options[prop];
-            }
-        });
-        // set request headers from the `headers` option.
-        fluid.each(options.headers, function (value, key) {
-            var values = fluid.makeArray(value);
-            values.forEach(function (oneValue) {
-                xhr.setRequestHeader(key, oneValue);
-            });
-        });
-    };
-
 })(jQuery, fluid);
