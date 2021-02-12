@@ -78,5 +78,12 @@
         "en-CA": "English (Canada)",
         "fr-CA": "French (Canada)",
         "ja": "Japanese"
+    },
+    "validationErrors": {
+        "error_email_blank": "The email address is required.",
+        "error_email_format": "The email address format is incorrect.",
+        "error_email_length": "The email address is too short, it must be at least 3 characters long.",
+        "error_password_blank": "The password is required.",
+        "error_password_length": "The password is too short, it must be at least 8 characters long."
     }
 }

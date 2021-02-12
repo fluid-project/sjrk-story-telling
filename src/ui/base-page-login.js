@@ -114,8 +114,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 changePath: "loginState",
                 value: "responseReceived"
             },
-            "onLogInError.setServerResponse": {
-                func: "{that}.setServerResponse",
+            "onLogInError.handleLoginErrors": {
+                funcName: "{that}.handleLoginErrors",
                 args: ["{arguments}.0"]
             }
         },
@@ -136,8 +136,35 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             setServerResponse: {
                 this: "{loginUi}.dom.responseText",
                 method: "text",
-                args: ["{arguments}.0.message"]
+                args: ["{arguments}.0"]
+            },
+            handleLoginErrors: {
+                funcName: "sjrk.storyTelling.base.page.login.handleLoginErrors",
+                args: ["{that}", "{arguments}.0"] // loginResponse
+            },
+            handleValidationErrors: {
+                funcName: "sjrk.storyTelling.base.page.login.handleValidationErrors",
+                args: [
+                    "{that}",
+                    "{arguments}.0", // validationErrors
+                    "{loginUi}.templateManager.templateStrings.localizedMessages.validationErrors",
+                    "{that}.options.validationErrorMapping"
+                ]
             }
+        },
+        validationErrorMapping: {
+            /*
+             * this collection is meant to map the localized error message keys
+             * to their corresponding validationResults error paths
+             * the format is:
+             *
+             * localized_error_message_name: "error.schema.path"
+             */
+            error_email_blank: "properties.email.required",
+            error_email_format: "properties.email.format",
+            error_email_length: "properties.email.minLength",
+            error_password_blank: "properties.password.required",
+            error_password_length: "properties.password.minLength"
         },
         components: {
             // the login context
@@ -221,6 +248,48 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
 
         return promise;
+    };
+
+    /**
+     * Processes the input validation results and displays a localized summary
+     * of validation errors if the input is not valid
+     *
+     * @param {Component} that - an instance of `sjrk.storyTelling.ui.loginUi`
+     * @param {Object} loginResponse - either a server response containing an
+     *      HTTP status code and error message, or a `fluid-json-schema`
+     *      validation error collection
+     */
+    sjrk.storyTelling.base.page.login.handleLoginErrors = function (that, loginResponse) {
+        if (loginResponse.isError) {
+            that.setServerResponse(loginResponse.message);
+        } else {
+            that.handleValidationErrors(loginResponse);
+        }
+    };
+
+    /**
+     * Processes the input validation results and displays a localized summary
+     * of validation errors if the input is not valid
+     *
+     * @param {Component} that - an instance of `sjrk.storyTelling.ui.loginUi`
+     * @param {Object} validationErrors - the validation errors collection from `fluid-json-schema`
+     *     @see {@link https://github.com/fluid-project/fluid-json-schema/blob/v2.1.6/docs/schemaValidatedModelComponent.md#the-model-validation-cycle}
+     * @param {String[]} localizedErrorMessages - a collection of localized error messages
+     * @param {Object} validationErrorMapping - a mapping of localized error message names to validator schema paths
+     *     @see the component option "validationErrorMapping" for details
+     */
+    sjrk.storyTelling.base.page.login.handleValidationErrors = function (that, validationErrors, localizedErrorMessages, validationErrorMapping) {
+        if (validationErrors.length && validationErrors.length > 0) {
+            var loginErrorsLocalized = "";
+
+            fluid.each(validationErrors, function (error) {
+                var joinedSchemaPath = error.schemaPath.join(".");
+                var messageKey = fluid.keyForValue(validationErrorMapping, joinedSchemaPath);
+                loginErrorsLocalized += localizedErrorMessages[messageKey] + " ";
+            });
+
+            that.setServerResponse(loginErrorsLocalized);
+        }
     };
 
 })(jQuery, fluid);
