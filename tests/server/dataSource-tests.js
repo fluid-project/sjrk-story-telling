@@ -219,13 +219,13 @@ fluid.defaults("sjrk.test.storyTelling.server.dataSource.tester", {
     testOpts: {
         storiesViewError: {
             "reason": "ddoc _design/stories has no view named notAView",
-            "message": "not_found while executing HTTP GET on url http://http://localhost:6789/stories/_design/stories/_view/notAView?limit=500&reduce=false&skip=0",
+            "message": "not_found while executing HTTP GET on url http://localhost:6789/stories/_design/stories/_view/notAView?limit=500&reduce=false&skip=0",
             "isError": true,
             "statusCode": 404
         },
         storyMissingError: {
             "reason": "missing",
-            "message": "not_found while executing HTTP %method on url http://http://localhost:6789/stories/%storyId",
+            "message": "not_found while executing HTTP %method on url http://localhost:6789/stories/%storyId",
             "isError": true,
             "statusCode": 404
         },
