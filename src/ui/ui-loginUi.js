@@ -21,8 +21,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 email: {
                     type: "string",
                     required: true,
-                    format: "email",
-                    minLength: 3
+                    format: "email"
                 },
                 password: {
                     type: "string",
@@ -38,10 +37,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         selectors: {
             logInButton: ".sjrkc-st-login-button",
             emailInput: ".sjrkc-st-login-email-input",
+            emailErrorText: ".sjrkc-st-login-error-email",
             passwordInput: ".sjrkc-st-login-password-input",
+            passwordErrorText: ".sjrkc-st-login-error-password",
             progressArea: ".sjrkc-st-login-progress",
-            responseArea: ".sjrkc-st-login-response",
-            responseText: ".sjrkc-st-login-response-text"
+            responseText: ".sjrkc-st-login-response"
         },
         events: {
             onLogInRequested: null

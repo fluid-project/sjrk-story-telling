@@ -11,6 +11,7 @@
                 <div>
                     <input id="$id" class="sjrk-st-login-email-input sjrkc-st-login-email-input" />
                 </div>
+                <div class="sjrkc-st-login-error-email sjrk-st-login-error-email"></div>
             {{/getIds}}
             {{#getIds "password"}}
                 <div class="sjrk-st-label-container">
@@ -19,6 +20,7 @@
                 <div>
                     <input id="$id" type="password" class="sjrk-st-login-password-input sjrkc-st-login-password-input" />
                 </div>
+                <div class="sjrkc-st-login-error-password sjrk-st-login-error-password"></div>
             {{/getIds}}
             <button class="sjrk-st-login-button sjrkc-st-login-button" type="submit">{{localizedMessages.message_login_button}}</button>
 
@@ -26,9 +28,7 @@
                 <div class="sjrk-st-login-progress-indicator" aria-describedby="sjrkc-st-login-progress-text"></div>
                 <span id="sjrkc-st-login-progress-text">{{localizedMessages.message_login_progress_text}}</span>
             </div>
-            <div class="sjrkc-st-login-response sjrk-st-login-response" role="alert">{{!--
-            --}}{{localizedMessages.message_login_response_text}} <span class="sjrkc-st-login-response-text"></span>{{!--
-        --}}</div>
+            <div class="sjrkc-st-login-response sjrk-st-login-response" role="alert"></div>
 
             <div class="sjrk-st-login-signup-text">{{localizedMessages.message_sign_up_text}} <a href="signup.html">{{localizedMessages.message_sign_up_link}}</a></div>
         </form>

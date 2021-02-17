@@ -5,6 +5,7 @@
     --site-border-grey: #aaa;
     --site-medium-grey: #e6e6e6;
     --site-focus: #0c0c0c;
+    --site-error: #ff0000;
     --site-font: "Source Sans Pro";
     --uio-black: #000;
     --uio-grey: #888;
@@ -507,12 +508,26 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 }
 
 .sjrk-st-story-share-response,
-.sjrk-st-file-share-response,
+.sjrk-st-file-share-response {
+    display: none;
+    grid-column: 1 / span 2;
+    margin-top: 1rem;
+    color: var(--site-error);
+}
+
+.sjrk-st-login-error-email,
+.sjrk-st-login-error-password,
 .sjrk-st-login-response {
-  display: none;
-  grid-column: 1 / span 2;
-  margin-top: 1rem;
-  color: #ff0000;
+    display: none;
+    font-weight: bold;
+    margin-top: 0.25rem;
+    color: var(--site-error);
+}
+
+.sjrk-st-login-error-email:not(:empty),
+.sjrk-st-login-error-password:not(:empty),
+.sjrk-st-login-response:not(:empty) {
+    display: block;
 }
 
 .sjrk-st-story-share:disabled,

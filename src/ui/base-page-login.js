@@ -20,7 +20,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             loginState: "ready",
             loginButtonDisabled: false,
             progressAreaVisible: false,
-            responseAreaVisible: false
+            responseTextVisible: false,
+            emailErrorMessage: "",
+            passwordErrorMessage: ""
         },
         modelListeners: {
             progressAreaVisible: {
@@ -29,17 +31,29 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: ["{change}.value"],
                 namespace: "progressAreaVisibleChange"
             },
-            responseAreaVisible: {
-                this: "{loginUi}.dom.responseArea",
-                method: "toggle",
-                args: ["{change}.value"],
-                namespace: "responseAreaVisibleChange"
-            },
             loginButtonDisabled: {
                 this: "{loginUi}.dom.logInButton",
                 method: "prop",
                 args: ["disabled", "{change}.value"],
                 namespace: "loginButtonDisabledChange"
+            },
+            responseTextVisible: {
+                this: "{loginUi}.dom.responseText",
+                method: "text",
+                args: ["{change}.value"],
+                namespace: "responseTextVisibleChange"
+            },
+            emailErrorMessage: {
+                this: "{loginUi}.dom.emailErrorText",
+                method: "text",
+                args: ["{change}.value"],
+                namespace: "emailErrorMessageUpdate"
+            },
+            passwordErrorMessage: {
+                this: "{loginUi}.dom.passwordErrorText",
+                method: "text",
+                args: ["{change}.value"],
+                namespace: "passwordErrorMessageUpdate"
             }
         },
         modelRelay: {
@@ -53,21 +67,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                             outputValue: {
                                 loginButtonDisabled: false,
                                 progressAreaVisible: false,
-                                responseAreaVisible: false
+                                responseTextVisible: false
                             }
                         },
                         "requestSent": {
                             outputValue: {
                                 loginButtonDisabled: true,
                                 progressAreaVisible: true,
-                                responseAreaVisible: false
+                                responseTextVisible: false
                             }
                         },
                         "responseReceived": {
                             outputValue: {
                                 loginButtonDisabled: false,
                                 progressAreaVisible: false,
-                                responseAreaVisible: true
+                                responseTextVisible: true
                             }
                         }
                     }
@@ -114,12 +128,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 changePath: "loginState",
                 value: "responseReceived"
             },
-            "onLogInError.handleLoginErrors": {
-                funcName: "{that}.handleLoginErrors",
+            "onLogInError.displayLoginErrors": {
+                funcName: "{that}.displayLoginErrors",
                 args: ["{arguments}.0"]
             }
         },
         invokers: {
+            // initiates the login process (server call, etc.)
             initiateLogin: {
                 funcName: "sjrk.storyTelling.base.page.login.initiateLogin",
                 args: [
@@ -129,25 +144,48 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     "{that}.events.onLogInError"
                 ]
             },
+            // redirects the user to the specified URL
             redirectToUrl: {
                 funcName: "sjrk.storyTelling.base.page.login.redirectToUrl",
                 args: ["{arguments}.0"]
             },
+            // sets the server response area text
             setServerResponse: {
                 this: "{loginUi}.dom.responseText",
                 method: "text",
                 args: ["{arguments}.0"]
             },
-            handleLoginErrors: {
-                funcName: "sjrk.storyTelling.base.page.login.handleLoginErrors",
+            // shows the appropriate login error(s), be they validation or server
+            displayLoginErrors: {
+                funcName: "sjrk.storyTelling.base.page.login.displayLoginErrors",
                 args: ["{that}", "{arguments}.0"] // loginResponse
             },
-            handleValidationErrors: {
-                funcName: "sjrk.storyTelling.base.page.login.handleValidationErrors",
+            // resets the email error message
+            resetEmailErrorMessage: {
+                changePath: "emailErrorMessage",
+                value: ""
+            },
+            // resets the password error message
+            resetPasswordErrorMessage: {
+                changePath: "passwordErrorMessage",
+                value: ""
+            },
+            // gets a single localized error message from a given server error
+            getLocalizedServerErrorMessage: {
+                funcName: "sjrk.storyTelling.base.page.login.getLocalizedServerErrorMessage",
                 args: [
                     "{that}",
-                    "{arguments}.0", // validationErrors
-                    "{loginUi}.templateManager.templateStrings.localizedMessages.validationErrors",
+                    "{arguments}.0", // error
+                    "{loginUi}.templateManager.templateStrings.localizedMessages.loginServerErrors"
+                ]
+            },
+            // gets a single localized error message from a given validation error
+            getLocalizedValidationErrorMessage: {
+                funcName: "sjrk.storyTelling.base.page.login.getLocalizedValidationErrorMessage",
+                args: [
+                    "{that}",
+                    "{arguments}.0", // error
+                    "{loginUi}.templateManager.templateStrings.localizedMessages.loginValidationErrors",
                     "{that}.options.validationErrorMapping"
                 ]
             }
@@ -254,42 +292,69 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * Processes the input validation results and displays a localized summary
      * of validation errors if the input is not valid
      *
-     * @param {Component} that - an instance of `sjrk.storyTelling.ui.loginUi`
+     * @param {Component} that - an instance of `sjrk.storyTelling.base.page.login`
      * @param {Object} loginResponse - either a server response containing an
      *      HTTP status code and error message, or a `fluid-json-schema`
      *      validation error collection
      */
-    sjrk.storyTelling.base.page.login.handleLoginErrors = function (that, loginResponse) {
+    sjrk.storyTelling.base.page.login.displayLoginErrors = function (that, loginResponse) {
+        // clear any previous error messages before reiterating
+        that.resetEmailErrorMessage();
+        that.resetPasswordErrorMessage();
+        that.setServerResponse("");
+
         if (loginResponse.isError) {
-            that.setServerResponse(loginResponse.message);
+            // if it's an infusion-style error, assume it's a server error &
+            // show the message
+            that.setServerResponse(that.getLocalizedServerErrorMessage(loginResponse));
         } else {
-            that.handleValidationErrors(loginResponse);
+            // if it's not an infusion-style error, assume it's validation errors
+            fluid.each(loginResponse, function (error) {
+                that.applier.change([error.dataPath + "ErrorMessage"], that.getLocalizedValidationErrorMessage(error));
+            });
         }
     };
 
     /**
-     * Processes the input validation results and displays a localized summary
-     * of validation errors if the input is not valid
+     * Given a server response error, returns the associated localized error message string.
      *
-     * @param {Component} that - an instance of `sjrk.storyTelling.ui.loginUi`
-     * @param {Object} validationErrors - the validation errors collection from `fluid-json-schema`
-     *     @see {@link https://github.com/fluid-project/fluid-json-schema/blob/v2.1.6/docs/schemaValidatedModelComponent.md#the-model-validation-cycle}
+     * @param {Component} that - an instance of `sjrk.storyTelling.base.page.login`
+     * @param {Object} error - a single server error
+     * @param {String[]} localizedErrorMessages - a collection of localized error messages
+     * @return {String} - the localized error message
+     */
+    sjrk.storyTelling.base.page.login.getLocalizedServerErrorMessage = function (that, error, localizedErrorMessages) {
+        // check the status code
+        // if it's 401 or 409, get the string
+        // if it's something else or missing, show general error message
+        var errorMessage = localizedErrorMessages.undefinedError;
+
+        switch (error.statusCode) {
+        case 400:
+        case 401:
+        case 409:
+            errorMessage = localizedErrorMessages[error.statusCode];
+            break;
+        }
+
+        return errorMessage;
+    };
+
+    /**
+     * Given an error record from `fluid-json-schema`, returns the associated
+     * localized error message string.
+     *
+     * @param {Component} that - an instance of `sjrk.storyTelling.base.page.login`
+     * @param {Object} error - a single validation error record
      * @param {String[]} localizedErrorMessages - a collection of localized error messages
      * @param {Object} validationErrorMapping - a mapping of localized error message names to validator schema paths
      *     @see the component option "validationErrorMapping" for details
+     * @return {String} - the localized error message
      */
-    sjrk.storyTelling.base.page.login.handleValidationErrors = function (that, validationErrors, localizedErrorMessages, validationErrorMapping) {
-        if (validationErrors.length && validationErrors.length > 0) {
-            var loginErrorsLocalized = "";
-
-            fluid.each(validationErrors, function (error) {
-                var joinedSchemaPath = error.schemaPath.join(".");
-                var messageKey = fluid.keyForValue(validationErrorMapping, joinedSchemaPath);
-                loginErrorsLocalized += localizedErrorMessages[messageKey] + " ";
-            });
-
-            that.setServerResponse(loginErrorsLocalized);
-        }
+    sjrk.storyTelling.base.page.login.getLocalizedValidationErrorMessage = function (that, error, localizedErrorMessages, validationErrorMapping) {
+        var joinedSchemaPath = error.schemaPath.join(".");
+        var messageKey = fluid.keyForValue(validationErrorMapping, joinedSchemaPath);
+        return localizedErrorMessages[messageKey];
     };
 
 })(jQuery, fluid);
