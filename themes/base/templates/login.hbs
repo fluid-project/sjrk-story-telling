@@ -1,4 +1,4 @@
-<form lang="{{localizedMessages.language}}" class="sjrkc-st-login-form sjrk-st-login-form">
+<form lang="{{localizedMessages.language}}" class="sjrkc-st-login-form sjrk-st-login-form" onSubmit="return false;">
     {{#getIds "email"}}
         <div class="sjrk-st-label-container">
             <label for="$id">{{../localizedMessages.message_login_email_label}}</label>
@@ -15,7 +15,7 @@
             <input id="$id" type="password" class="sjrk-st-login-password-input sjrkc-st-login-password-input" />
         </div>
     {{/getIds}}
-    <button class="sjrk-st-login-button sjrkc-st-login-button" type="button">{{localizedMessages.message_login_button}}</button>
+    <button class="sjrk-st-login-button sjrkc-st-login-button" type="submit">{{localizedMessages.message_login_button}}</button>
 
     <div class="sjrkc-st-login-progress sjrk-st-login-progress" role="alert">
         <div class="sjrk-st-login-progress-indicator" aria-describedby="sjrkc-st-login-progress-text"></div>
