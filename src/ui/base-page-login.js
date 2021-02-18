@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             loginState: "ready",
             loginButtonDisabled: false,
             progressAreaVisible: false,
-            responseTextVisible: false,
+            serverResponseText: false,
             emailErrorMessage: "",
             passwordErrorMessage: ""
         },
@@ -37,11 +37,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: ["disabled", "{change}.value"],
                 namespace: "loginButtonDisabledChange"
             },
-            responseTextVisible: {
+            serverResponseText: {
                 this: "{loginUi}.dom.responseText",
                 method: "text",
                 args: ["{change}.value"],
-                namespace: "responseTextVisibleChange"
+                namespace: "serverResponseTextChange"
             },
             emailErrorMessage: {
                 this: "{loginUi}.dom.emailErrorText",
@@ -66,22 +66,19 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                         "ready": {
                             outputValue: {
                                 loginButtonDisabled: false,
-                                progressAreaVisible: false,
-                                responseTextVisible: false
+                                progressAreaVisible: false
                             }
                         },
                         "requestSent": {
                             outputValue: {
                                 loginButtonDisabled: true,
-                                progressAreaVisible: true,
-                                responseTextVisible: false
+                                progressAreaVisible: true
                             }
                         },
                         "responseReceived": {
                             outputValue: {
                                 loginButtonDisabled: false,
-                                progressAreaVisible: false,
-                                responseTextVisible: true
+                                progressAreaVisible: false
                             }
                         }
                     }
@@ -104,12 +101,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         listeners: {
             // overwrite the listener to prevent losing the previous page URL
             "onCreate.setCurrentPage": null,
-            "onLogInRequested.initiateLogin": "{that}.initiateLogin",
-            "onLogInRequested.setStatePublishing": {
+            "onLogInRequested.resetEmailErrorMessage": {
+                func: "{that}.resetEmailErrorMessage",
+                priority: "before:setStateRequestSent"
+            },
+            "onLogInRequested.resetPasswordErrorMessage": {
+                func: "{that}.resetPasswordErrorMessage",
+                priority: "before:setStateRequestSent"
+            },
+            "onLogInRequested.resetServerErrorMessage": {
+                func: "{that}.setServerResponse",
+                args: [""],
+                priority: "before:setStateRequestSent"
+            },
+            "onLogInRequested.setStateRequestSent": {
                 changePath: "loginState",
                 value: "requestSent",
                 priority: "before:initiateLogin"
             },
+            "onLogInRequested.initiateLogin": "{that}.initiateLogin",
             "onLogInSuccess.saveAuthorAccountName": {
                 func: "{that}.setAuthorAccountName",
                 args: ["{arguments}.0"],
@@ -298,11 +308,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *      validation error collection
      */
     sjrk.storyTelling.base.page.login.displayLoginErrors = function (that, loginResponse) {
-        // clear any previous error messages before reiterating
-        that.resetEmailErrorMessage();
-        that.resetPasswordErrorMessage();
-        that.setServerResponse("");
-
         if (loginResponse.isError) {
             // if it's an infusion-style error, assume it's a server error &
             // show the message
