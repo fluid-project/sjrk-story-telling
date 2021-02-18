@@ -118,7 +118,7 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
     promise.then(function (response) {
         if (response.published) {
             // remove authorID from the story model before sending
-            var storyModel = fluid.censorKeys(response, "authorID");
+            var storyModel = fluid.censorKeys(response, ["authorID"]);
             request.events.onSuccess.fire(JSON.stringify(storyModel));
         } else {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
