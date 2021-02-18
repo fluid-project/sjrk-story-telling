@@ -147,6 +147,10 @@ h3:empty {
     white-space: nowrap;
 }
 
+.sjrk-st-author-greeting {
+    padding: 0.5rem 0;
+}
+
 .sjrk-st-top-menu nav a:hover,
 .sjrk-st-top-menu nav a.current-page {
     border-bottom: solid 3px var(--site-dark-green);
