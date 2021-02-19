@@ -30,6 +30,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         invokers: {
             redirectToViewStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory"
+            },
+            createNewStoryOnServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEditTester.stubCreateNewStoryOnServer"
             }
         },
         components: {
@@ -532,7 +535,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 18,
+                expect: 21,
                 sequence: [{
                     event: "{storyEditTest storyEdit}.events.onCreate",
                     listener: "sjrk.storyTelling.testUtils.setupMockServer",
@@ -664,7 +667,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test block controls",
             tests: [{
                 name: "Test block operations within the page context",
-                expect: 16,
+                expect: 18,
                 sequence: [{
                     // set the currently-visible part of the page back to the block editor
                     jQueryTrigger: "click",
@@ -782,12 +785,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 8,
+                expect: 13,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
                 name: "Test block filtering model relay: Image block",
-                expect: 12,
+                expect: 17,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.imageBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -808,7 +811,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test block filtering model relay: Audio block",
-                expect: 12,
+                expect: 17,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -829,7 +832,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test block filtering model relay: Video block",
-                expect: 12,
+                expect: 17,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -990,7 +993,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test story autosave functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 10,
+                expect: 14,
                 sequence: [{
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.resetStoryModel",
                     args: ["{storyEdit}.storyEditor.story"]
@@ -1447,6 +1450,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      */
     sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory = function (storyId, viewPageUrl) {
         jqUnit.assert("Stub for redirectToViewStory was called for URL: " + viewPageUrl + "?id=" + storyId);
+    };
+
+    /**
+     * Stubs the `redirectToViewStory` function to prevent actual redirection
+     *
+     * @param {String} storySaveUrl - the server URL at which to save a story
+     * @param {Component} story - an instance of `sjrk.storyTelling.story`
+     */
+    sjrk.storyTelling.base.page.storyEditTester.stubCreateNewStoryOnServer = function (storySaveUrl, story) {
+        jqUnit.assert("Stub for createNewStoryOnServer was called for story with title: " + story.model.title);
     };
 
     // Test environment
