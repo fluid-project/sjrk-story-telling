@@ -314,6 +314,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             that.setServerResponse(that.getLocalizedServerErrorMessage(loginResponse));
         } else {
             // if it's not an infusion-style error, assume it's validation errors
+
+            // show the general validation error message
+            that.setServerResponse(that.getLocalizedServerErrorMessage({statusCode: "error_validation"}));
+
             fluid.each(loginResponse, function (error) {
                 that.applier.change([error.dataPath + "ErrorMessage"], that.getLocalizedValidationErrorMessage(error));
             });
@@ -332,9 +336,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         // check the status code
         // if it's 401 or 409, get the string
         // if it's something else or missing, show general error message
-        var errorMessage = localizedErrorMessages.undefinedError;
+        var errorMessage = localizedErrorMessages.error_undefined;
 
         switch (error.statusCode) {
+        case "error_validation":
+            errorMessage = localizedErrorMessages.error_validation;
         case 400:
         case 401:
         case 409:

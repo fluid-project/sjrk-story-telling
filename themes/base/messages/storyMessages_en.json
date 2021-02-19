@@ -89,6 +89,7 @@
         "400": "Log in failed: An invalid request was received by the server. Please check the inputs are correct.",
         "401": "Log in failed: Unauthorized.",
         "409": "Log in failed: An account is already logged in. To log in again, please first log out.",
-        "undefinedError": "Log in failed: An unexpected error has occurred."
+        "error_validation": "Your form has errors",
+        "error_undefined": "Log in failed: An unexpected error has occurred."
     }
 }

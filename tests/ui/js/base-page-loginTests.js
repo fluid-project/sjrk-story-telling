@@ -85,7 +85,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     message: "fluid.schema.messages.validationErrors.format",
                     rule: {
                         format: "email",
-                        minLength: 3,
                         required: true,
                         type: "string"
                     },
@@ -107,7 +106,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     message: "fluid.schema.messages.validationErrors.type",
                     rule: {
                         format: "email",
-                        minLength: 3,
                         required: true,
                         type: "string"
                     },
@@ -125,8 +123,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 }]
             },
             errorMessages: {
-                409: "Log in failed: Conflict while executing HTTP POST on url /login",
-                401: "Log in failed: Unauthorized while executing HTTP POST on url /login"
+                409: "Log in failed: An account is already logged in. To log in again, please first log out.",
+                401: "Log in failed: Unauthorized."
             }
         },
         modules: [{
@@ -143,7 +141,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "none"]
+                    args: ["{login}.loginUi.dom.responseText", "none"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -177,7 +175,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "none"]
+                    args: ["{login}.loginUi.dom.responseText", "none"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -199,7 +197,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "none"]
+                    args: ["{login}.loginUi.dom.responseText", "none"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -230,7 +228,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "block"]
+                    args: ["{login}.loginUi.dom.responseText", "block"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -238,7 +236,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementText",
-                    args: ["{login}.loginUi.dom.responseArea", "{that}.options.testOpts.errorMessages.409"]
+                    args: ["{login}.loginUi.dom.responseText", "{that}.options.testOpts.errorMessages.409"]
                 },
                 {
                     // test the login wiring in the error case - not authorized
@@ -265,7 +263,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "block"]
+                    args: ["{login}.loginUi.dom.responseText", "block"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -273,7 +271,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementText",
-                    args: ["{login}.loginUi.dom.responseArea", "{that}.options.testOpts.errorMessages.401"]
+                    args: ["{login}.loginUi.dom.responseText", "{that}.options.testOpts.errorMessages.401"]
                 },
                 {
                     // test the login wiring in the error case - malformed e-mail
@@ -297,7 +295,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "block"]
+                    args: ["{login}.loginUi.dom.responseText", "block"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -325,7 +323,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "block"]
+                    args: ["{login}.loginUi.dom.responseText", "block"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
@@ -353,7 +351,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementVisibility",
-                    args: ["{login}.loginUi.dom.responseArea", "block"]
+                    args: ["{login}.loginUi.dom.responseText", "block"]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.assertElementPropertyValue",
