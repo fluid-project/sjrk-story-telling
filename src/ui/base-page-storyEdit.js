@@ -394,7 +394,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             /*
             * load from existing story model if available
             *
-            * no initalStoryData && no savedStoryData -> create new story
+            * no initalStoryData && no savedStoryData -> create new story after story model changed
             * initalStoryData && no savedStoryData -> use initalStoryData
             * no initialStoryData && savedStoryData -> use savedStoryData
             * initialStoryData && savedStoryData (different ids) -> use initialStoryData

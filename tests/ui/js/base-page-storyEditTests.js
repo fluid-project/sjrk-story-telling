@@ -1489,8 +1489,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     sjrk.storyTelling.base.page.testStoryEdit.initializeStoryTestCases = {
         "no initial or saved story": {
-            autoSaveKey: "test-initializeStory",
-            createNewStoryOnServer: true
+            autoSaveKey: "test-initializeStory"
         },
         "initial story": {
             initialModel: {
@@ -1641,11 +1640,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 jqUnit.assertTrue(testName + ": loadStoryContent not called", mockStoryEdit.loadStoryContent.notCalled);
             }
 
-            if (testCase.createNewStoryOnServer) {
-                jqUnit.assertTrue(testName + ": createNewStoryOnServer called.", mockStoryEdit.createNewStoryOnServer.calledOnce);
-            } else {
-                jqUnit.assertTrue(testName + ": createNewStoryOnServer not called", mockStoryEdit.createNewStoryOnServer.notCalled);
-            }
+            jqUnit.assertTrue(testName + ": createNewStoryOnServer not called", mockStoryEdit.createNewStoryOnServer.notCalled);
 
             // teardown
             sandbox.reset();
