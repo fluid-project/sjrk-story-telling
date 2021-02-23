@@ -428,13 +428,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
 
             serverSavePromise.then(function (data) {
-                var successResponse = JSON.parse(data);
-
                 // The "story created" moment is now, since the story was created successfully
                 story.applier.change("timestampCreated", new Date().toISOString(), null, sourceName);
 
                 // store the ID on the story model for later use
-                story.applier.change(storyIdPath, successResponse.id, null, sourceName);
+                story.applier.change(storyIdPath, data.id, null, sourceName);
             }, function (jqXHR, textStatus, errorThrown) {
                 fluid.log(fluid.logLevel.WARN, "Error saving a new story to server:");
                 fluid.log(jqXHR, textStatus, errorThrown);

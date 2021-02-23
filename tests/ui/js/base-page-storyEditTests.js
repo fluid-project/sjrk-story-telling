@@ -990,7 +990,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }]
         },
         {
-            name: "Test story autosave functionality",
+            name: "Test story autosave & loadng functionality",
             tests: [{
                 name: "Test autosave wiring",
                 expect: 14,
@@ -1079,6 +1079,65 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                }]
+            },
+            {
+                name: "Test createNewStoryOnServer function",
+                expect: 6,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{url: "/storiesAboutCats/", response: null, statusCode: 400}]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer",
+                    args: ["/storiesAboutCats/", "{storyEdit}.storyEditor.story", "fakeID", "catStoryChangeSource", "{storyEdit}.events.onStoryCreateOnServerError"]
+                },
+                {
+                    event: "{storyEdit}.events.onStoryCreateOnServerError",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["The story creation error message fired with the excpected payload", {
+                        isError: true, message: "Internal server error"
+                    }, "{arguments}.0"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{
+                        url: "/storiesAboutCats/",
+                        response: {
+                            id: "the-cats-story-id-2"
+                        }
+                    }]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer",
+                    args: ["/storiesAboutCats/", "{storyEdit}.storyEditor.story", "fakeID", "catStoryChangeSource", "{storyEdit}.events.onStoryCreateOnServerError"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "timestampCreated",
+                    listener: "jqUnit.assert",
+                    args: ["Story timestampCreated was updated after successful create call"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "fakeID",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Story ID was updated after successful create call", "the-cats-story-id-2", "{storyEdit}.storyEditor.story.model.fakeID"]
+                },
+                {
+                    // tear down the mock server, reset the cookie and clear the localStorage
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.resetCookie"
                 }]
             }]
         }]

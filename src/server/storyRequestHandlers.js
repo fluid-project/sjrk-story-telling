@@ -265,7 +265,7 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, authorID, s
     }
 
     dataSource.set({directStoryId: id}, story).then(function (response) {
-        successEvent.fire(JSON.stringify(response));
+        successEvent.fire(response);
     }, function (error) {
         failureEvent.fire({
             isError: true,
