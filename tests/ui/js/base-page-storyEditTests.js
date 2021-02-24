@@ -535,7 +535,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 21,
+                expect: 19,
                 sequence: [{
                     event: "{storyEditTest storyEdit}.events.onCreate",
                     listener: "sjrk.storyTelling.testUtils.setupMockServer",
@@ -667,7 +667,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test block controls",
             tests: [{
                 name: "Test block operations within the page context",
-                expect: 18,
+                expect: 16,
                 sequence: [{
                     // set the currently-visible part of the page back to the block editor
                     jQueryTrigger: "click",
@@ -785,12 +785,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test block filtering model relay: Text block",
-                expect: 13,
+                expect: 8,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.textBlockModelRelaySequence"
             },
             {
                 name: "Test block filtering model relay: Image block",
-                expect: 17,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.imageBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -811,7 +811,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test block filtering model relay: Audio block",
-                expect: 17,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.audioBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -832,7 +832,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test block filtering model relay: Video block",
-                expect: 17,
+                expect: 12,
                 sequenceGrade: "sjrk.storyTelling.base.page.storyEditTester.videoBlockModelRelaySequence",
                 sequence: [{
                     funcName: "jqUnit.assertEquals",
@@ -993,7 +993,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test story autosave & loadng functionality",
             tests: [{
                 name: "Test autosave wiring",
-                expect: 14,
+                expect: 10,
                 sequence: [{
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.resetStoryModel",
                     args: ["{storyEdit}.storyEditor.story"]
@@ -1083,7 +1083,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             {
                 name: "Test createNewStoryOnServer function",
-                expect: 6,
+                expect: 4,
                 sequence: [{
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
                     args: [{url: "/storiesAboutCats/", response: null, statusCode: 400}]
