@@ -11,7 +11,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 (function ($, fluid) {
 
-    // a UI representing the "author controls" part of every page
+    // a UI representing the "author controls" part of a page, comprised of
+    // either links to the login and sign up pages, or, if the author is logged
+    // in, a greeting message and a logout button
     fluid.defaults("sjrk.storyTelling.ui.authorControls", {
         gradeNames: ["sjrk.storyTelling.ui"],
         selectors: {

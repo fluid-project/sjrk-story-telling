@@ -171,7 +171,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
-    // mix-in grade to include login/logout controls on the page
+    // Mix-in grade to include login/logout controls on the page
+    //
+    // This grade is designed as a mix-in in order to make optional the
+    // inclusion of logout functionality on a given page (or, if combined with
+    // the base-page grade, on every page), along with the user greeting and
+    // sign up & login page links, as not all themes have user accounts enabled.
     fluid.defaults("sjrk.storyTelling.base.page.withAuthorControls", {
         gradeNames: ["sjrk.storyTelling.base.page"],
         pageSetup: {
