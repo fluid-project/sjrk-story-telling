@@ -36,12 +36,25 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 target: "{that storyEditor blockManager}.options.modelListeners"
             },
-            "story.createNewStoryOnServer": {
+            "blockManager.userInteractionReceived": {
+                record: {
+                    "viewComponentContainerRequested.userInteractionReceived": {
+                        changePath: "{sjrk.storyTelling.base.page.storyEdit}.model.userInteractionReceived",
+                        value: true,
+                        source: "blockAdded",
+                        priority: "before:addComponentContainer"
+                    }
+                },
+                target: "{that storyEditor blockManager}.options.listeners"
+            },
+            "story.userInteractionReceived": {
                 record: {
                     "": {
-                        listener: "{sjrk.storyTelling.base.page.storyEdit}.createNewStoryOnServer",
-                        excludeSource: ["init", "storyCreation", "publishStory"],
-                        namespace: "createNewStoryOnServer"
+                        changePath: "{sjrk.storyTelling.base.page.storyEdit}.model.userInteractionReceived",
+                        value: true,
+                        source: "storyUpdated",
+                        excludeSource: ["init", "storyAutoload", "storyCreation", "publishStory"],
+                        namespace: "storyUpdated"
                     }
                 },
                 target: "{that storyEditor story}.options.modelListeners"
@@ -85,7 +98,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 uploads: 0
             },
             // true when a file is uploading to the server or an error has been received
-            previewingDisabled: false
+            previewingDisabled: false,
+            // true after the story model is updated or a content block is added. Indicates that a story should be
+            // created on the server.
+            userInteractionReceived: false
         },
         modelRelay: {
             editPageVisibilityMutex: {
@@ -144,6 +160,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 method: "prop",
                 args: ["disabled", "{change}.value"],
                 namespace: "disablePreviewingOnUploadChange"
+            },
+            "userInteractionReceived": {
+                func: "{that}.createNewStoryOnServer",
+                includeSource: ["storyUpdated", "blockAdded"],
+                namespace: "createNewStoryOnServer"
             }
         },
         selectors: {
@@ -424,25 +445,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
     sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer = function (storySaveUrl, story, storyIdPath, sourceName, errorEvent) {
-        if (!fluid.get(story.model, storyIdPath)) {
-            var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
+        var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
 
-            serverSavePromise.then(function (data) {
-                // The "story created" moment is now, since the story was created successfully
-                story.applier.change("timestampCreated", new Date().toISOString(), null, sourceName);
+        serverSavePromise.then(function (data) {
+            // The "story created" moment is now, since the story was created successfully
+            story.applier.change("timestampCreated", new Date().toISOString(), null, sourceName);
 
-                // store the ID on the story model for later use
-                story.applier.change(storyIdPath, data.id, null, sourceName);
-            }, function (jqXHR, textStatus, errorThrown) {
-                fluid.log(fluid.logLevel.WARN, "Error saving a new story to server:");
-                fluid.log(jqXHR, textStatus, errorThrown);
+            // store the ID on the story model for later use
+            story.applier.change(storyIdPath, data.id, null, sourceName);
+        }, function (jqXHR, textStatus, errorThrown) {
+            fluid.log(fluid.logLevel.WARN, "Error saving a new story to server:");
+            fluid.log(jqXHR, textStatus, errorThrown);
 
-                errorEvent.fire({
-                    isError: true,
-                    message: fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error"
-                });
+            errorEvent.fire({
+                isError: true,
+                message: fluid.get(jqXHR, ["responseJSON", "message"]) || "Internal server error"
             });
-        }
+        });
     };
 
     /**

@@ -158,7 +158,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     dynamicComponents: {
                         managedViewComponents: {
                             options: {
-                                members: {
+                                model: {
                                     storyId: "{story}.model.id"
                                 }
                             }
