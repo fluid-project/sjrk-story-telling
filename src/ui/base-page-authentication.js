@@ -322,7 +322,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             that.setServerResponse(that.getLocalizedServerErrorMessage({statusCode: "error_validation"}));
 
             fluid.each(authenticationResponse, function (error) {
-                that.applier.change([error.dataPath + "ErrorMessage"], that.getLocalizedValidationErrorMessage(error));
+                that.applier.change([error.dataPath[0] + "ErrorMessage"], that.getLocalizedValidationErrorMessage(error));
             });
         }
     };
