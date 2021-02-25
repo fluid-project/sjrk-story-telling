@@ -91,7 +91,8 @@
         "error_password_blank": "The password is required.",
         "error_password_length": "The password is too short, it must be at least 8 characters long.",
         "error_password_confirmation_blank": "The password confirmation is required.",
-        "error_password_confirmation_length": "The password confirmation is too short, it must be at least 8 characters long."
+        "error_password_confirmation_length": "The password confirmation is too short, it must be at least 8 characters long.",
+        "error_password_confirmation_mismatch": "The password and password confirmation do not match"
     },
     "authenticationServerErrors": {
         "400": "Log in failed: An invalid request was received by the server. Please check the inputs are correct.",

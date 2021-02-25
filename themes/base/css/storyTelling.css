@@ -518,6 +518,7 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 .sjrk-st-authentication-error-email,
 .sjrk-st-authentication-error-password,
 .sjrk-st-authentication-error-password-confirmation,
+.sjrk-st-authentication-error-password-confirmation-comparison,
 .sjrk-st-authentication-response {
     display: none;
     font-weight: bold;
@@ -528,6 +529,7 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 .sjrk-st-authentication-error-email:not(:empty),
 .sjrk-st-authentication-error-password:not(:empty),
 .sjrk-st-authentication-error-password-confirmation:not(:empty),
+.sjrk-st-authentication-error-password-confirmation-comparison:not(:empty),
 .sjrk-st-authentication-response:not(:empty) {
     display: block;
 }

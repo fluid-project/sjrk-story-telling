@@ -19,10 +19,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         },
         validationErrorMapping: {
             error_password_confirmation_blank: "properties.confirm.type",
-            error_password_confirmation_length: "properties.confirm.minLength"
+            error_password_confirmation_length: "properties.confirm.minLength",
+            error_password_confirmation_mismatch: "properties.confirmComparison.type"
         },
         model: {
-            confirmErrorMessage: ""
+            confirmErrorMessage: "",
+            confirmComparisonErrorMessage: ""
         },
         modelListeners: {
             confirmErrorMessage: {
@@ -30,11 +32,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 method: "text",
                 args: ["{change}.value"],
                 namespace: "confirmErrorMessageUpdate"
+            },
+            confirmComparisonErrorMessage: {
+                this: "{authenticationUi}.dom.passwordConfirmationComparisonErrorText",
+                method: "text",
+                args: ["{change}.value"],
+                priority: "after:confirmErrorMessageUpdate",
+                namespace: "confirmComparisonErrorMessageUpdate"
             }
         },
         listeners: {
             "onAuthenticationRequested.resetPasswordConfirmationErrorMessage": {
                 func: "{that}.resetPasswordConfirmationErrorMessage",
+                priority: "before:setStateRequestSent"
+            },
+            "onAuthenticationRequested.resetPasswordConfirmationComparisonErrorMessage": {
+                func: "{that}.resetPasswordConfirmationComparisonErrorMessage",
                 priority: "before:setStateRequestSent"
             }
         },
@@ -42,6 +55,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // resets the password confirmation error message
             resetPasswordConfirmationErrorMessage: {
                 changePath: "confirmErrorMessage",
+                value: ""
+            },
+            // resets the password confirmation comparison error message
+            resetPasswordConfirmationComparisonErrorMessage: {
+                changePath: "confirmComparisonErrorMessage",
                 value: ""
             }
         },
@@ -54,15 +72,47 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                                 type: "string",
                                 required: true,
                                 minLength: 8
+                            },
+                            confirmComparison: {
+                                type: "boolean",
+                                required: true
                             }
                         }
                     },
                     model: {
-                        confirm: null // the new author's password confirmation
+                        confirm: null, // the new author's password confirmation
+                        confirmComparison: null // the intermediate comparison holder
+                    },
+                    modelListeners: {
+                        confirmComparison: {
+                            this: "console",
+                            method: "log",
+                            args: ["comparison from", "{change}.oldValue", "to", "{change}.value"]
+                        }
+                    },
+                    modelRelay: {
+                        uploadCountersToPreviewingDisabled: {
+                            target: "confirmComparison",
+                            singleTransform: {
+                                type: "fluid.transforms.condition",
+                                condition: {
+                                    transform: {
+                                        type: "fluid.transforms.binaryOp",
+                                        left: "{that}.model.password",
+                                        right: "{that}.model.confirm",
+                                        operator: "==="
+                                    }
+                                },
+                                backwards: "never",
+                                true: true,
+                                false: null
+                            }
+                        }
                     },
                     selectors: {
                         passwordConfirmationInput: ".sjrkc-st-authentication-password-confirmation-input",
-                        passwordConfirmationErrorText: ".sjrkc-st-authentication-error-password-confirmation"
+                        passwordConfirmationErrorText: ".sjrkc-st-authentication-error-password-confirmation",
+                        passwordConfirmationComparisonErrorText: ".sjrkc-st-authentication-error-password-confirmation-comparison"
                     },
                     components: {
                         templateManager: {
