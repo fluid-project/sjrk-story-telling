@@ -157,11 +157,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     "{that}.events.onAuthenticationError"
                 ]
             },
-            // redirects the user to the specified URL
-            redirectToUrl: {
-                funcName: "sjrk.storyTelling.base.page.authentication.redirectToUrl",
-                args: ["{arguments}.0"]
-            },
             // sets the server response area text
             setServerResponse: {
                 this: "{authenticationUi}.dom.responseText",
@@ -265,15 +260,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             successEvent.fire(data.email);
         }, failureEvent.fire);
         return promise;
-    };
-
-    /**
-     * Redirects the author to the specified URL
-     *
-     * @param {String} redirectUrl - the URL to redirect to
-     */
-    sjrk.storyTelling.base.page.authentication.redirectToUrl = function (redirectUrl) {
-        window.location.href = redirectUrl;
     };
 
     /**

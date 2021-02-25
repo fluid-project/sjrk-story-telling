@@ -211,13 +211,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             "onLogOutSuccess.clearAuthorAccountName": {
                 func: "{that}.setAuthorAccountName",
                 args: [null],
-                priority: "before:reload"
+                priority: "before:redirectToLogin"
             },
             // refresh the page to reflect the change in authorization
-            "onLogOutSuccess.reload": {
-                this: "location",
-                method: "reload",
-                priority: "last"
+            "onLogOutSuccess.redirectToLogin": {
+                func: "{that}.redirectToUrl",
+                args: ["/login.html"]
             }
         },
         invokers: {
@@ -230,6 +229,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             setAuthorAccountName: {
                 changePath: "persistedValues.authorAccountName",
                 value: "{arguments}.0"
+            },
+            // redirects the user to the specified URL
+            redirectToUrl: {
+                funcName: "sjrk.storyTelling.base.page.redirectToUrl",
+                args: ["{arguments}.0"]
             }
         },
         components: {
@@ -253,6 +257,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         }
     });
+
+    /**
+     * Redirects the author to the specified URL
+     *
+     * @param {String} redirectUrl - the URL to redirect to
+     */
+    sjrk.storyTelling.base.page.redirectToUrl = function (redirectUrl) {
+        window.location.href = redirectUrl;
+    };
 
     /**
      * Retrieves preferences stored in the cookie and applies them to the component

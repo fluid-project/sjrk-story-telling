@@ -33,13 +33,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }
         },
         listeners: {
-            // Stub the page reload listener to prevent test interruption
-            "onLogOutSuccess.reload": {
+            // Stub the page redirect listener to prevent test interruption
+            "onLogOutSuccess.redirectToLogin": {
                 funcName: "jqUnit.assertEquals",
-                args: ["Page reload was called after successful logout", "/logout", "{arguments}.0"],
-                // make sure the previous listener is totally deactivated
-                this: null,
-                method: null
+                args: ["Redirect to Login was called after successful logout", "/logout", "{arguments}.0"]
             }
         },
         components: {
