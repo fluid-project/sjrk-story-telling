@@ -14,17 +14,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // Test component for the AuthorControls UI grade
     fluid.defaults("sjrk.storyTelling.ui.testAuthorControls", {
         gradeNames: ["sjrk.storyTelling.ui.authorControls"],
+        model: {
+            // Supplying an email address to force rendering the
+            // "logged in" state, since the "logged out" template
+            // is only a pair of links to "Log In" and "Sign Up"
+            authorAccountName: "a-truthy-value"
+        },
         components: {
             templateManager: {
                 options: {
-                    model: {
-                        dynamicValues: {
-                            // Supplying an email address to force rendering the
-                            // "logged in" state, since the "logged out" template
-                            // is only a pair of links to "Log In" and "Sign Up"
-                            authorAccountName: "a-truthy-value"
-                        }
-                    },
                     templateConfig: {
                         // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
                         resourcePrefix: "../../../themes/base"

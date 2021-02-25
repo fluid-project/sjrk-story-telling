@@ -124,9 +124,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             },
             "onAuthenticationRequested.initiateAuthentication": "{that}.initiateAuthentication",
             "onAuthenticationSuccess.saveAuthorAccountName": {
-                func: "{that}.setAuthorAccountName",
-                args: ["{arguments}.0"],
-                priority: "before:redirect"
+                changePath: "persistedValues.authorAccountName",
+                value: "{arguments}.0",
+                priority: "before:redirect",
+                source: "login"
             },
             "onAuthenticationSuccess.setStateReady": {
                 changePath: "authenticationState",

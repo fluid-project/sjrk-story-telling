@@ -375,8 +375,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 {
                     // set the author account name value back to its initial
                     // state in order reset the value stored in the cookie
-                    func: "{authentication}.setAuthorAccountName",
-                    args: [null]
+                    func: "{authentication}.applier.change",
+                    args: ["persistedValues.authorAccountName", null]
                 },
                 {
                     funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
