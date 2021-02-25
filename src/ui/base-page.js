@@ -247,12 +247,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     });
 
     /**
-     * Redirects the author to the specified URL
+     * Redirects the author to the specified URL, or to the site root if the URL
+     * is falsy
      *
      * @param {String} redirectUrl - the URL to redirect to
      */
     sjrk.storyTelling.base.page.redirectToUrl = function (redirectUrl) {
-        window.location.href = redirectUrl;
+        window.location.href = redirectUrl || "/";
     };
 
     /**
