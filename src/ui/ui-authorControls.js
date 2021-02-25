@@ -20,7 +20,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             logOutButton: ".sjrkc-st-author-log-out"
         },
         events: {
-            onLogOutRequested: null
+            onLogOutRequested: null,
+            onSessionConfirmed: null
+        },
+        model: {
+            authorAccountName: null
         },
         listeners: {
             "onReadyToBind.bindLogOutButton": {
@@ -29,15 +33,59 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 "args": ["{that}.events.onLogOutRequested.fire"]
             }
         },
+        modelListeners: {
+            "authorAccountName": [{
+                func: "{that}.checkSession",
+                excludeSource: ["init"],
+                nameSpace: "checkSession"
+            }]
+        },
+        invokers: {
+            checkSession: {
+                funcName: "sjrk.storyTelling.ui.authorControls.checkSession",
+                args: [
+                    "{that}.model.authorAccountName",
+                    "{sessionDataSource}",
+                    null,
+                    null,
+                    "{that}.events.onSessionConfirmed.fire",
+                    "{that}.events.onLogOutRequested.fire"
+                ]
+            }
+        },
         components: {
             // the templateManager for this UI
             templateManager: {
                 options: {
                     templateConfig: {
                         templatePath: "%resourcePrefix/templates/authorControls.hbs"
+                    },
+                    model: {
+                        dynamicValues: {
+                            authorAccountName: "{authorControls}.model.authorAccountName"
+                        }
+                    },
+                    modelListeners: {
+                        "dynamicValues.authorAccountName": {
+                            func: "{that}.renderTemplate",
+                            includeSource: ["logout"],
+                            namespace: "renderTemplate"
+                        }
                     }
+                }
+            },
+            sessionDataSource: {
+                type: "fluid.dataSource.URL",
+                options: {
+                    url: "/session"
                 }
             }
         }
     });
+
+    sjrk.storyTelling.ui.authorControls.checkSession = function (authorAccountName, dataSource, directModel, directOptions, success, failure) {
+        if (authorAccountName) {
+            dataSource.get(directModel, directOptions).then(success, failure);
+        }
+    };
 })(jQuery, fluid);
