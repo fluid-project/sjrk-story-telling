@@ -209,15 +209,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // SJRK-404 TODO: clear session-id cookie on logOut, too
             "onLogOutRequested.initiateLogout": "{that}.initiateLogout",
             "onLogOutSuccess.clearAuthorAccountName": {
-                func: "{that}.setAuthorAccountName",
-                args: [null],
-                priority: "before:reload"
-            },
-            // refresh the page to reflect the change in authorization
-            "onLogOutSuccess.reload": {
-                this: "location",
-                method: "reload",
-                priority: "last"
+                changePath: "persistedValues.authorAccountName",
+                value: null,
+                source: "logout"
             }
         },
         invokers: {
@@ -225,11 +219,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             initiateLogout: {
                 funcName: "sjrk.storyTelling.base.page.initiateLogout",
                 args: ["{that}.options.pageSetup.logOutUrl", "{that}.events.onLogOutSuccess", "{that}.events.onLogOutError"]
-            },
-            // sets the author account name for use in the user greeting
-            setAuthorAccountName: {
-                changePath: "persistedValues.authorAccountName",
-                value: "{arguments}.0"
             }
         },
         components: {
@@ -238,16 +227,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 type: "sjrk.storyTelling.ui.authorControls",
                 container: ".sjrkc-st-author-controls-container",
                 options: {
-                    components: {
-                        templateManager: {
-                            options: {
-                                model: {
-                                    dynamicValues: {
-                                        authorAccountName: "{page}.model.persistedValues.authorAccountName"
-                                    }
-                                }
-                            }
-                        }
+                    model: {
+                        authorAccountName: "{page}.model.persistedValues.authorAccountName"
                     }
                 }
             }
