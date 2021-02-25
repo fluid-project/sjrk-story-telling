@@ -475,20 +475,20 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 }
 
 .sjrk-st-file-share-progress,
-.sjrk-st-login-progress {
+.sjrk-st-authentication-progress {
     text-align: center;
     display: none;
 }
 
 .sjrk-st-story-share-progress span,
 .sjrk-st-file-share-progress span,
-.sjrk-st-login-progress span {
+.sjrk-st-authentication-progress span {
     vertical-align: middle;
 }
 
 .sjrk-st-story-share-progress-indicator,
 .sjrk-st-file-share-progress-indicator,
-.sjrk-st-login-progress-indicator {
+.sjrk-st-authentication-progress-indicator {
     border: solid 0.25rem #ddd;
     border-bottom-color: var(--site-blue);
     border-radius: 50%;
@@ -515,18 +515,18 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
     color: var(--site-error);
 }
 
-.sjrk-st-login-error-email,
-.sjrk-st-login-error-password,
-.sjrk-st-login-response {
+.sjrk-st-authentication-error-email,
+.sjrk-st-authentication-error-password,
+.sjrk-st-authentication-response {
     display: none;
     font-weight: bold;
     margin-top: 0.25rem;
     color: var(--site-error);
 }
 
-.sjrk-st-login-error-email:not(:empty),
-.sjrk-st-login-error-password:not(:empty),
-.sjrk-st-login-response:not(:empty) {
+.sjrk-st-authentication-error-email:not(:empty),
+.sjrk-st-authentication-error-password:not(:empty),
+.sjrk-st-authentication-response:not(:empty) {
     display: block;
 }
 
@@ -560,14 +560,14 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 
 .sjrk-st-story-editor-metadata-step input,
 .sjrk-st-story-editor-metadata-step label,
-.sjrk-st-login-form input {
+.sjrk-st-authentication-form input {
     font-size: 1rem;
     line-height: 1.4;
     padding: 0.25rem;
 }
 
 .sjrk-st-story-editor-metadata-step input,
-.sjrk-st-login-form input {
+.sjrk-st-authentication-form input {
     border: 1px solid var(--site-border-grey);
 }
 

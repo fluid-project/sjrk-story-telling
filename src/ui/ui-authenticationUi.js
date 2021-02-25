@@ -11,8 +11,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 (function ($, fluid) {
 
-    // a UI representing the "login" form of the login page
-    fluid.defaults("sjrk.storyTelling.ui.loginUi", {
+    // a UI representing the "authentication" form of authentication pages
+    fluid.defaults("sjrk.storyTelling.ui.authenticationUi", {
         gradeNames: ["sjrk.storyTelling.ui", "fluid.schema.modelComponent"],
         modelSchema: {
             "$schema": "fss-v7-full#",
@@ -35,22 +35,22 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             password: null // the author's password
         },
         selectors: {
-            logInButton: ".sjrkc-st-login-button",
-            emailInput: ".sjrkc-st-login-email-input",
-            emailErrorText: ".sjrkc-st-login-error-email",
-            passwordInput: ".sjrkc-st-login-password-input",
-            passwordErrorText: ".sjrkc-st-login-error-password",
-            progressArea: ".sjrkc-st-login-progress",
-            responseText: ".sjrkc-st-login-response"
+            authenticationButton: ".sjrkc-st-authentication-button",
+            emailInput: ".sjrkc-st-authentication-email-input",
+            emailErrorText: ".sjrkc-st-authentication-error-email",
+            passwordInput: ".sjrkc-st-authentication-password-input",
+            passwordErrorText: ".sjrkc-st-authentication-error-password",
+            progressArea: ".sjrkc-st-authentication-progress",
+            responseText: ".sjrkc-st-authentication-response"
         },
         events: {
-            onLogInRequested: null
+            onAuthenticationRequested: null
         },
         listeners: {
-            "onReadyToBind.bindLogInButton": {
-                "this": "{that}.dom.logInButton",
+            "onReadyToBind.bindAuthenticationButton": {
+                "this": "{that}.dom.authenticationButton",
                 "method": "click",
-                "args": ["{that}.events.onLogInRequested.fire"],
+                "args": ["{that}.events.onAuthenticationRequested.fire"],
                 "priority": "before:fireOnControlsBound"
             }
         },
@@ -59,21 +59,21 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/login.hbs"
+                        templatePath: null // to be supplied by the implementing grade
                     }
                 }
             },
             // for binding the input fields to the data model
             binder: {
                 type: "sjrk.storyTelling.binder",
-                container: "{loginUi}.container",
+                container: "{authenticationUi}.container",
                 options: {
-                    model: "{loginUi}.model",
-                    selectors: "{loginUi}.options.selectors",
+                    model: "{authenticationUi}.model",
+                    selectors: "{authenticationUi}.options.selectors",
                     listeners: {
-                        "{loginUi}.events.onReadyToBind": {
+                        "{authenticationUi}.events.onReadyToBind": {
                             func: "{that}.events.onUiReadyToBind",
-                            namespace: "applyLoginUiBinding"
+                            namespace: "applyAuthenticationUiBinding"
                         }
                     },
                     bindings: {

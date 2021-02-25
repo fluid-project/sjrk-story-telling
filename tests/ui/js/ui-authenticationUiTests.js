@@ -11,40 +11,42 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
 (function ($, fluid) {
 
-    // Test component for the loginUi grade
-    fluid.defaults("sjrk.storyTelling.ui.testLoginUi", {
-        gradeNames: ["sjrk.storyTelling.ui.loginUi"],
+    // Test component for the authenticationUi grade
+    fluid.defaults("sjrk.storyTelling.ui.testAuthenticationUi", {
+        gradeNames: ["sjrk.storyTelling.ui.authenticationUi"],
         components: {
             templateManager: {
                 options: {
                     templateConfig: {
                         // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
-                        resourcePrefix: "../../../themes/base"
+                        resourcePrefix: "../../../themes/base",
+                        // since there's no dedicated "authentication" template, we'll use the login page
+                        templatePath: "%resourcePrefix/templates/login.hbs"
                     }
                 }
             }
         }
     });
 
-    // Test cases and sequences for the Login UI
-    fluid.defaults("sjrk.storyTelling.ui.loginUiTester", {
+    // Test cases and sequences for the Authentication UI
+    fluid.defaults("sjrk.storyTelling.ui.authenticationUiTester", {
         gradeNames: ["fluid.test.testCaseHolder"],
         modules: [{
-            name: "Test Login UI.",
+            name: "Test Authentication UI.",
             tests: [{
                 name: "Test UI controls",
                 expect: 2,
                 sequence: [{
-                    "event": "{loginUiTest loginUi}.events.onControlsBound",
+                    "event": "{authenticationUiTest authenticationUi}.events.onControlsBound",
                     listener: "jqUnit.assert",
-                    args: ["LoginUi's onControlsBound event fired"]
+                    args: ["authenticationUi's onControlsBound event fired"]
                 },
                 {
                     "jQueryTrigger": "click",
-                    "element": "{loginUi}.dom.logInButton"
+                    "element": "{authenticationUi}.dom.authenticationButton"
                 },
                 {
-                    "event": "{loginUi}.events.onLogInRequested",
+                    "event": "{authenticationUi}.events.onAuthenticationRequested",
                     listener: "jqUnit.assert",
                     args: ["onLogOutRequested event fired"]
                 }]
@@ -53,23 +55,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     });
 
     // Test environment
-    fluid.defaults("sjrk.storyTelling.ui.loginUiTest", {
+    fluid.defaults("sjrk.storyTelling.ui.authenticationUiTest", {
         gradeNames: ["fluid.test.testEnvironment"],
         components: {
-            loginUi: {
-                type: "sjrk.storyTelling.ui.testLoginUi",
-                container: "#testLoginUi",
-                createOnEvent: "{loginUiTester}.events.onTestCaseStart"
+            authenticationUi: {
+                type: "sjrk.storyTelling.ui.testAuthenticationUi",
+                container: "#testAuthenticationUi",
+                createOnEvent: "{authenticationUiTester}.events.onTestCaseStart"
             },
-            loginUiTester: {
-                type: "sjrk.storyTelling.ui.loginUiTester"
+            authenticationUiTester: {
+                type: "sjrk.storyTelling.ui.authenticationUiTester"
             }
         }
     });
 
     $(document).ready(function () {
         fluid.test.runTests([
-            "sjrk.storyTelling.ui.loginUiTest"
+            "sjrk.storyTelling.ui.authenticationUiTest"
         ]);
     });
 

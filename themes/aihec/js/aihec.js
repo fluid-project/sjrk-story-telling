@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.defaults("sjrk.storyTelling.aihec.page.login", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.login"],
         distributeOptions: [{
-            target: "{that > loginUi > templateManager}.options.templateConfig.templatePath",
+            target: "{that > authenticationUi > templateManager}.options.templateConfig.templatePath",
             record: "%resourcePrefix/templates/aihec-login.hbs"
         }]
     });

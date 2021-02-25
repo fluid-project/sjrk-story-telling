@@ -164,17 +164,17 @@ h3:empty {
     margin: 2rem 0 0.5rem 0;
 }
 
-.sjrk-st-login-response,
-.sjrk-st-login-progress {
+.sjrk-st-authentication-response,
+.sjrk-st-authentication-progress {
     margin: 1rem 0 0.5rem 0 !important;
 }
 
-.sjrk-st-login-signup-text {
+.sjrk-st-authentication-signup-text {
     margin: 1rem 0 0 0;
     font-weight: 600;
 }
 
-.sjrk-st-login-form button {
+.sjrk-st-authentication-form button {
     height: 2rem;
     width: 100%;
     margin: 4rem 0 .25rem 0;
@@ -192,7 +192,7 @@ h3:empty {
     padding: 0.5rem 1.75rem;
 }
 
-.sjrk-st-login-form {
+.sjrk-st-authentication-form {
     margin: 0 auto;
     max-width: 20rem;
 }
