@@ -132,7 +132,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyEditor.hbs"
+                        templatePath: "%resourcePrefix/templates/storyEditor.handlebars"
                     }
                 }
             },
@@ -158,7 +158,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     dynamicComponents: {
                         managedViewComponents: {
                             options: {
-                                model: {
+                                members: {
                                     storyId: "{story}.model.id"
                                 }
                             }

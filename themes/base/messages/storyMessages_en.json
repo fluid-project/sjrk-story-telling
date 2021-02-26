@@ -1,23 +1,5 @@
 {
     "language": "en",
-    "message_author_greeting": "Hello, %author!",
-    "message_author_sign_up": "Sign up",
-    "message_author_log_in": "Log in",
-    "message_author_log_out": "Log out",
-    "message_authentication_email_label": "Email address",
-    "message_authentication_password_label": "Password",
-    "message_authentication_password_confirmation_label": "Confirm password",
-    "message_login_title_text": "Log in",
-    "message_login_forgot_password": "Forgot password",
-    "message_login_button": "Log in",
-    "message_login_progress_text": "Logging in, please wait...",
-    "message_login_sign_up_text": "Don't have an account?",
-    "message_login_sign_up_link": "Sign up",
-    "message_signup_title_text": "Sign up",
-    "message_signup_button": "Sign up",
-    "message_signup_progress_text": "Signing up, please wait...",
-    "message_signup_log_in_text": "Already have an account?",
-    "message_signup_log_in_link": "Log in",
     "message_blockAddImageBlock": "Add an image block",
     "message_blockAddTextBlock": "Add a text block",
     "message_blockAddAudioBlock": "Add an audio block",
@@ -83,22 +65,5 @@
         "en-CA": "English (Canada)",
         "fr-CA": "French (Canada)",
         "ja": "Japanese"
-    },
-    "authenticationValidationErrors": {
-        "error_email_blank": "The email address is required.",
-        "error_email_format": "The email address format is incorrect.",
-        "error_email_length": "The email address is too short, it must be at least 3 characters long.",
-        "error_password_blank": "The password is required.",
-        "error_password_length": "The password is too short, it must be at least 8 characters long.",
-        "error_password_confirmation_blank": "The password confirmation is required.",
-        "error_password_confirmation_length": "The password confirmation is too short, it must be at least 8 characters long.",
-        "error_password_confirmation_mismatch": "The password and password confirmation do not match"
-    },
-    "authenticationServerErrors": {
-        "400": "Log in failed: An invalid request was received by the server. Please check the inputs are correct.",
-        "401": "Log in failed: Unauthorized.",
-        "409": "Log in failed: An account is already logged in. To log in again, please first log out.",
-        "error_validation": "Your form has errors",
-        "error_undefined": "Log in failed: An unexpected error has occurred."
     }
 }
