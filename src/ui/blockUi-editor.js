@@ -14,9 +14,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // the base blockUi for editing individual blocks, contains shared elements
     fluid.defaults("sjrk.storyTelling.blockUi.editor", {
         gradeNames: ["sjrk.storyTelling.blockUi"],
-        model: {
+        members: {
             // the ID of the story of which the block being edited is a part
-            storyId: "",
+            storyId: ""
+        },
+        model: {
             moveBlockDownDisabled: true,
             moveBlockUpDisabled: true
         },
@@ -239,9 +241,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     selectors: {
                         fileInput: "{that}.container"
                     },
+                    members: {
+                        storyId: "{editor}.storyId"
+                    },
                     model: {
-                        fileObjectUrl: "{block}.model.mediaUrl",
-                        storyId: "{editor}.model.storyId"
+                        fileObjectUrl: "{block}.model.mediaUrl"
                     },
                     listeners: {
                         "{editor}.events.onMediaUploadRequested": {

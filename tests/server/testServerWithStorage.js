@@ -1020,7 +1020,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_view = {
             "published": true,
             "id": "publishedStory",
             "title": "Sample Story",
-            "author": "IDRC",
             "tags": [],
             "content": []
         },
@@ -1028,7 +1027,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_view = {
             "published": true,
             "id": "publishedGuestStory",
             "title": "Sample Guest Story",
-            "author": "Guest",
             "tags": [],
             "content": []
         },
@@ -1189,7 +1187,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_authenticated_view = {
             "published": true,
             "id": "ownPublishedStory",
             "title": "My published story",
-            "author": "IDRC",
             "tags": [
                 "Test",
                 "Example"
@@ -1235,7 +1232,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_authenticated_view = {
             "published": true,
             "id": "publishedStory",
             "title": "Sample Story",
-            "author": "IDRC",
             "tags": [],
             "content": []
         },
@@ -1243,7 +1239,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_authenticated_view = {
             "published": true,
             "id": "publishedGuestStory",
             "title": "Sample Guest Story",
-            "author": "Guest",
             "tags": [],
             "content": []
         },
@@ -1491,7 +1486,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_edit = {
             "published": true,
             "id": "publishedStory",
             "title": "Sample Story",
-            "author": "IDRC",
             "tags": [],
             "content": []
         },
@@ -1499,7 +1493,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStories_edit = {
             "published": true,
             "id": "publishedGuestStory",
             "title": "Sample Guest Story",
-            "author": "Guest",
             "tags": [],
             "content": []
         },
@@ -1711,7 +1704,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStoriesAuthenticated_edit = {
             "published": true,
             "id": "publishedStory",
             "title": "Sample Story",
-            "author": "IDRC",
             "tags": [],
             "content": []
         },
@@ -1719,7 +1711,6 @@ sjrk.tests.storyTelling.server.storage.testDef.getStoriesAuthenticated_edit = {
             "published": true,
             "id": "publishedGuestStory",
             "title": "Sample Guest Story",
-            "author": "Guest",
             "tags": [],
             "content": []
         },
@@ -1985,7 +1976,6 @@ fluid.defaults("sjrk.tests.storyTelling.server.storage.testDef.authoringDisabled
             "published": true,
             "id": "publishedStory",
             "title": "Sample Story",
-            "author": "IDRC",
             "tags": [],
             "content": []
         }

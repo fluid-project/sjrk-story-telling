@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyBlockAudioView.hbs"
+                        templatePath: "%resourcePrefix/templates/storyBlockAudioView.handlebars"
                     }
                 }
             },

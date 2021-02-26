@@ -35,29 +35,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     }
                 },
                 target: "{that storyEditor blockManager}.options.modelListeners"
-            },
-            "blockManager.userInteractionReceived": {
-                record: {
-                    "viewComponentContainerRequested.userInteractionReceived": {
-                        changePath: "{sjrk.storyTelling.base.page.storyEdit}.model.userInteractionReceived",
-                        value: true,
-                        source: "blockAdded",
-                        priority: "before:addComponentContainer"
-                    }
-                },
-                target: "{that storyEditor blockManager}.options.listeners"
-            },
-            "story.userInteractionReceived": {
-                record: {
-                    "": {
-                        changePath: "{sjrk.storyTelling.base.page.storyEdit}.model.userInteractionReceived",
-                        value: true,
-                        source: "storyUpdated",
-                        excludeSource: ["init", "storyAutoload", "storyCreation", "publishStory"],
-                        namespace: "storyUpdated"
-                    }
-                },
-                target: "{that storyEditor story}.options.modelListeners"
             }
         },
         pageSetup: {
@@ -98,10 +75,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 uploads: 0
             },
             // true when a file is uploading to the server or an error has been received
-            previewingDisabled: false,
-            // true after the story model is updated or a content block is added. Indicates that a story should be
-            // created on the server.
-            userInteractionReceived: false
+            previewingDisabled: false
         },
         modelRelay: {
             editPageVisibilityMutex: {
@@ -160,11 +134,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 method: "prop",
                 args: ["disabled", "{change}.value"],
                 namespace: "disablePreviewingOnUploadChange"
-            },
-            "userInteractionReceived": {
-                func: "{that}.createNewStoryOnServer",
-                includeSource: ["storyUpdated", "blockAdded"],
-                namespace: "createNewStoryOnServer"
             }
         },
         selectors: {
@@ -262,7 +231,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 args: [
                     "{that}",
                     "{storyEditor}.story",
-                    "publishStory",
                     "{that}.events.onStoryPublishSuccess",
                     "{that}.events.onStoryPublishError"
                 ]
@@ -337,7 +305,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                         templateManager: {
                             options: {
                                 templateConfig: {
-                                    templatePath: "%resourcePrefix/templates/etiquette.hbs"
+                                    templatePath: "%resourcePrefix/templates/etiquette.handlebars"
                                 }
                             }
                         }
@@ -415,7 +383,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             /*
             * load from existing story model if available
             *
-            * no initalStoryData && no savedStoryData -> create new story after story model changed
+            * no initalStoryData && no savedStoryData -> create new story
             * initalStoryData && no savedStoryData -> use initalStoryData
             * no initialStoryData && savedStoryData -> use savedStoryData
             * initialStoryData && savedStoryData (different ids) -> use initialStoryData
@@ -428,6 +396,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 storyEdit.storyEditor.blockManager.createBlocksFromData(initialStoryData.content);
             } else if (savedStoryData) {
                 storyEdit.loadStoryContent(savedStoryData);
+            } else {
+                storyEdit.createNewStoryOnServer();
             }
         } catch (ex) {
             fluid.log(fluid.logLevel.WARN, "An error occurred while initializing story", ex);
@@ -435,8 +405,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     };
 
     /**
-     * Creates a new story on the server and sets the current story's ID accordingly. If the story id is already
-     * present in the model, the story isn't saved again.
+     * Creates a new story on the server and sets the current story's ID accordingly
      *
      * @param {String} storySaveUrl - the server URL at which to save a story
      * @param {Component} story - an instance of `sjrk.storyTelling.story`
@@ -448,11 +417,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         var serverSavePromise = sjrk.storyTelling.base.page.storyEdit.updateStoryOnServer(storySaveUrl, story.model);
 
         serverSavePromise.then(function (data) {
+            var successResponse = JSON.parse(data);
+
             // The "story created" moment is now, since the story was created successfully
             story.applier.change("timestampCreated", new Date().toISOString(), null, sourceName);
 
             // store the ID on the story model for later use
-            story.applier.change(storyIdPath, data.id, null, sourceName);
+            story.applier.change(storyIdPath, successResponse.id, null, sourceName);
         }, function (jqXHR, textStatus, errorThrown) {
             fluid.log(fluid.logLevel.WARN, "Error saving a new story to server:");
             fluid.log(jqXHR, textStatus, errorThrown);
@@ -587,16 +558,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {Component} storyEditPage - an instance of `sjrk.storyTelling.base.page.storyEdit`
      * @param {Component} story - an instance of `sjrk.storyTelling.story`
-     * @param {String} sourceName - the name of the Infusion change source for this update
      * @param {Object} successEvent - the event to be fired on successful publish
      * @param {Object} errorEvent - the event to be fired in case of an error
      */
-    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, story, sourceName, successEvent, errorEvent) {
+    sjrk.storyTelling.base.page.storyEdit.publishStory = function (storyEditPage, story, successEvent, errorEvent) {
         // set the publish timestamp to now and the flag to "true"
         story.applier.change("", {
             "timestampPublished": new Date().toISOString(),
             "published": true
-        }, null, sourceName);
+        });
 
         var storyUpdatePromise = storyEditPage.updateStoryOnServer();
 

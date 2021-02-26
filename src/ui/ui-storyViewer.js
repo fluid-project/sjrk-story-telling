@@ -91,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyViewer.hbs"
+                        templatePath: "%resourcePrefix/templates/storyViewer.handlebars"
                     }
                 }
             },
@@ -203,7 +203,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 namespace: "setStateResponseReceived"
             },{
                 func: "{that}.setServerResponse",
-                args: ["{arguments}.0.message"],
+                args: ["{arguments}.0"],
                 namespace: "setServerResponse"
             }]
         },

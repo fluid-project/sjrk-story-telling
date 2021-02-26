@@ -112,8 +112,8 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     task: "{testPage}.cookieStore.get",
-                    resolve: "jqUnit.assertDeepEq",
-                    resolveArgs: ["Initial cookie set", "{testPage}.model.persistedValues", "{arguments}.0"]
+                    resolve: "jqUnit.assertUndefined",
+                    resolveArgs: ["Initially no cookie is set", "{arguments}.0"]
                 },
                 {
                     // reset record
@@ -245,7 +245,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 // resetPreferences
                 {
-                    "funcName": "sjrk.storyTelling.testUtils.resetPreferences",
+                    "funcName": "sjrk.storyTelling.base.page.resetPreferences",
                     "args": ["{testPage}"]
                 },
                 {
@@ -281,7 +281,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.pageTest", {
         gradeNames: ["fluid.test.testEnvironment"],
-        markupFixture: "#testPage",
         components: {
             testPage: {
                 type: "sjrk.storyTelling.base.page.testPage",

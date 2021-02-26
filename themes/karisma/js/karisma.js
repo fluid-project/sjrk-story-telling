@@ -31,7 +31,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                                     }
                                 },
                                 templateConfig: {
-                                    templatePath: "%resourcePrefix/templates/karisma-menu.hbs"
+                                    templatePath: "%resourcePrefix/templates/karisma-menu.handlebars"
                                 }
                             }
                         }
@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                                 },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/templates/karisma-masthead.hbs"
+                                    templatePath: "%resourcePrefix/templates/karisma-masthead.handlebars"
                                 }
                             }
                         }
@@ -115,7 +115,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/templates/karisma-sidebar-left.hbs"
+                                    templatePath: "%resourcePrefix/templates/karisma-sidebar-left.handlebars"
                                 }
                             }
                         }
@@ -131,7 +131,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                             options: {
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/templates/karisma-sidebar-right.hbs"
+                                    templatePath: "%resourcePrefix/templates/karisma-sidebar-right.handlebars"
                                 }
                             }
                         }
@@ -156,7 +156,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                                     }
                                 },
                                 templateConfig: {
-                                    templatePath: "%resourcePrefix/templates/karisma-menu.hbs"
+                                    templatePath: "%resourcePrefix/templates/karisma-menu.handlebars"
                                 }
                             }
                         }
@@ -178,7 +178,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                                 },
                                 templateConfig: {
                                     messagesPath: "%resourcePrefix/messages/karismaMessages.json",
-                                    templatePath: "%resourcePrefix/templates/karisma-welcome.hbs"
+                                    templatePath: "%resourcePrefix/templates/karisma-welcome.handlebars"
                                 }
                             }
                         }

@@ -64,10 +64,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {jQuery} element - the DOM element to be tested
      * @param {String} propertyName - the property to be checked
-     * @param {String} expectedValue - the expected value of the property
+     * @param {String} expectedVisibility - the expected value of the property
      */
-    sjrk.storyTelling.testUtils.assertElementPropertyValue = function (element, propertyName, expectedValue) {
-        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected property value", expectedValue, element.prop(propertyName));
+    sjrk.storyTelling.testUtils.assertElementPropertyValue = function (element, propertyName, expectedVisibility) {
+        jqUnit.assertEquals("The element " + sjrk.storyTelling.testUtils.getElementName(element) + " has expected property value", expectedVisibility, element.prop(propertyName));
     };
 
     /**
@@ -247,13 +247,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
      *
      * @param {Object[]} urlConfig - an Object or array of Objects containing configuration for URL and responses.
      *                               e.g.: {url: "url", statusCode: 200, contentType: "application/json", response: ""}
-     * @param {Boolean} [respondManually] - (optional) if true, server will respond immediately to requests
-     *                               @see {@link https://sinonjs.org/releases/v9.2.1/fake-xhr-and-server/#serverrespondimmediately--true}
      */
-    sjrk.storyTelling.testUtils.setupMockServer = function (urlConfig, respondManually) {
+    sjrk.storyTelling.testUtils.setupMockServer = function (urlConfig) {
         mockServer = sinon.createFakeServer();
-
-        mockServer.respondImmediately = !respondManually;
+        mockServer.respondImmediately = true;
 
         // Prevents the ajax requests from appending a time stamp to prevent caching.
         // This timestamp prevents sinon mockserver from matching the requests.
@@ -274,46 +271,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     };
 
     /**
-     * Directs the mock server to send all queued responses. For more info,
-     * @see {@link https://sinonjs.org/releases/v9.2.1/fake-xhr-and-server/#serverrespond}
-     */
-    sjrk.storyTelling.testUtils.sendMockServerResponse = function () {
-        mockServer.respond();
-    };
-
-    /**
      * Stops the remote server and hands any previously set-up routes back to Kettle
      */
     sjrk.storyTelling.testUtils.teardownMockServer = function () {
         mockServer.restore();
-    };
-
-    /**
-     * Resets the specified cookie
-     *
-     * @param {Component} cookieName - the cookie to be reset
-     */
-    sjrk.storyTelling.testUtils.resetCookie = function (cookieName) {
-        // setting the cookie expiry to epoch in order to delete it
-        document.cookie = cookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    };
-
-    /**
-     * Resets the page preferences and clears the page model, with event hooks
-     * before and after the reset
-     *
-     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` to be reset
-     */
-    sjrk.storyTelling.testUtils.resetPreferences = function (pageComponent) {
-        var transaction = pageComponent.applier.initiate();
-        pageComponent.events.beforePreferencesReset.fire(pageComponent);
-        transaction.fireChangeRequest({path: "", type: "DELETE"});
-        transaction.change("", fluid.copy(pageComponent.initialModel));
-        transaction.commit();
-
-        sjrk.storyTelling.testUtils.resetCookie(pageComponent.cookieStore.options.cookie.name);
-
-        pageComponent.events.onPreferencesReset.fire(pageComponent);
     };
 
 })(jQuery, fluid);
