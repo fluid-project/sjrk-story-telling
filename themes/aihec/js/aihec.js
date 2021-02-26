@@ -13,23 +13,23 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // Provides the Learning Reflections framing to the Storytelling Tool
     fluid.defaults("sjrk.storyTelling.aihec.page", {
-        gradeNames: ["sjrk.storyTelling.base.page"],
+        gradeNames: ["sjrk.storyTelling.base.page", "sjrk.storyTelling.base.page.withAuthorControls"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-menu.handlebars"
+            record: "%resourcePrefix/templates/aihec-menu.hbs"
         },
         {
             target: "{that > masthead > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/aihecMessages.json",
-                templatePath: "%resourcePrefix/templates/aihec-masthead.handlebars"
+                templatePath: "%resourcePrefix/templates/aihec-masthead.hbs"
             }
         },
         {
             target: "{that > footer > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/aihecMessages.json",
-                templatePath: "%resourcePrefix/templates/aihec-footer.handlebars"
+                templatePath: "%resourcePrefix/templates/aihec-footer.hbs"
             }
         }],
         components: {
@@ -59,12 +59,30 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
+    // Applies the AIHEC shell to the login page
+    fluid.defaults("sjrk.storyTelling.aihec.page.login", {
+        gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.login"],
+        distributeOptions: [{
+            target: "{that > authenticationUi > templateManager}.options.templateConfig.templatePath",
+            record: "%resourcePrefix/templates/aihec-login.hbs"
+        }]
+    });
+
+    // Applies the AIHEC shell to the signup page
+    fluid.defaults("sjrk.storyTelling.aihec.page.signup", {
+        gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.signup"],
+        distributeOptions: [{
+            target: "{that > authenticationUi > templateManager}.options.templateConfig.templatePath",
+            record: "%resourcePrefix/templates/aihec-signup.hbs"
+        }]
+    });
+
     // Applies the AIHEC shell to the storyView page
     fluid.defaults("sjrk.storyTelling.aihec.page.storyView", {
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyView"],
         distributeOptions: [{
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyViewer.hbs"
         },{
             target: "{that > masthead > templateManager}.options.model.dynamicValues",
             record: {
@@ -83,7 +101,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyBrowse"],
         distributeOptions: [{
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyBrowser.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyBrowser.hbs"
         },{
             target: "{that > masthead > templateManager}.options.model.dynamicValues",
             record: {
@@ -106,11 +124,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.aihec.page", "sjrk.storyTelling.base.page.storyEdit"],
         distributeOptions: [{
             target: "{that > storyEditor > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyEditor.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyEditor.hbs"
         },
         {
             target: "{that > storyPreviewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/aihec-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/aihec-storyViewer.hbs"
         },
         {
             target: "{that > masthead > templateManager}.options.model.dynamicValues",
@@ -126,7 +144,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             target: "{that > welcome > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/aihecMessages.json",
-                templatePath: "%resourcePrefix/templates/aihec-welcome.handlebars"
+                templatePath: "%resourcePrefix/templates/aihec-welcome.hbs"
             }
         },
         {
