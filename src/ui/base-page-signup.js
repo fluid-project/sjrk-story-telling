@@ -43,24 +43,14 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         },
         listeners: {
             "onAuthenticationRequested.resetPasswordConfirmationErrorMessage": {
-                func: "{that}.resetPasswordConfirmationErrorMessage",
+                changePath: "confirmErrorMessage",
+                value: "",
                 priority: "before:setStateRequestSent"
             },
             "onAuthenticationRequested.resetPasswordConfirmationComparisonErrorMessage": {
-                func: "{that}.resetPasswordConfirmationComparisonErrorMessage",
-                priority: "before:setStateRequestSent"
-            }
-        },
-        invokers: {
-            // resets the password confirmation error message
-            resetPasswordConfirmationErrorMessage: {
-                changePath: "confirmErrorMessage",
-                value: ""
-            },
-            // resets the password confirmation comparison error message
-            resetPasswordConfirmationComparisonErrorMessage: {
                 changePath: "confirmComparisonErrorMessage",
-                value: ""
+                value: "",
+                priority: "before:setStateRequestSent"
             }
         },
         components: {
@@ -82,13 +72,6 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     model: {
                         confirm: null, // the new author's password confirmation
                         confirmComparison: null // the intermediate comparison holder
-                    },
-                    modelListeners: {
-                        confirmComparison: {
-                            this: "console",
-                            method: "log",
-                            args: ["comparison from", "{change}.oldValue", "to", "{change}.value"]
-                        }
                     },
                     modelRelay: {
                         uploadCountersToPreviewingDisabled: {

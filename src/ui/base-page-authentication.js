@@ -105,11 +105,13 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // overwrite the listener to prevent losing the previous page URL
             "onCreate.setCurrentPage": null,
             "onAuthenticationRequested.resetEmailErrorMessage": {
-                func: "{that}.resetEmailErrorMessage",
+                changePath: "emailErrorMessage",
+                value: "",
                 priority: "before:setStateRequestSent"
             },
             "onAuthenticationRequested.resetPasswordErrorMessage": {
-                func: "{that}.resetPasswordErrorMessage",
+                changePath: "passwordErrorMessage",
+                value: "",
                 priority: "before:setStateRequestSent"
             },
             "onAuthenticationRequested.resetServerErrorMessage": {
@@ -122,7 +124,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 value: "requestSent",
                 priority: "before:initiateAuthentication"
             },
-            "onAuthenticationRequested.initiateAuthentication": "{that}.initiateAuthentication",
+            "onAuthenticationRequested.initiateAuthentication": {
+                funcName: "sjrk.storyTelling.base.page.authentication.initiateAuthentication",
+                args: [
+                    "{authenticationDataSource}",
+                    "{authenticationUi}.model",
+                    "{that}.events.onAuthenticationSuccess",
+                    "{that}.events.onAuthenticationError"
+                ]
+            },
             "onAuthenticationSuccess.saveAuthorAccountName": {
                 changePath: "persistedValues.authorAccountName",
                 value: "{arguments}.0",
@@ -143,41 +153,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 value: "responseReceived"
             },
             "onAuthenticationError.displayAuthenticationErrors": {
-                funcName: "{that}.displayAuthenticationErrors",
-                args: ["{arguments}.0"]
+                funcName: "sjrk.storyTelling.base.page.authentication.displayAuthenticationErrors",
+                args: ["{that}", "{arguments}.0"] // authenticationResponse
             }
         },
         invokers: {
-            // initiates the authentication process (server call, etc.)
-            initiateAuthentication: {
-                funcName: "sjrk.storyTelling.base.page.authentication.initiateAuthentication",
-                args: [
-                    "{authenticationDataSource}",
-                    "{authenticationUi}.model",
-                    "{that}.events.onAuthenticationSuccess",
-                    "{that}.events.onAuthenticationError"
-                ]
-            },
             // sets the server response area text
             setServerResponse: {
                 this: "{authenticationUi}.dom.responseText",
                 method: "text",
                 args: ["{arguments}.0"]
-            },
-            // shows the appropriate authentication error(s), be they validation or server
-            displayAuthenticationErrors: {
-                funcName: "sjrk.storyTelling.base.page.authentication.displayAuthenticationErrors",
-                args: ["{that}", "{arguments}.0"] // authenticationResponse
-            },
-            // resets the email error message
-            resetEmailErrorMessage: {
-                changePath: "emailErrorMessage",
-                value: ""
-            },
-            // resets the password error message
-            resetPasswordErrorMessage: {
-                changePath: "passwordErrorMessage",
-                value: ""
             },
             // gets a single localized error message from a given server error
             getLocalizedServerErrorMessage: {
