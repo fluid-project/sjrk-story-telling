@@ -49,20 +49,20 @@
 
 * `sjrk.storyTelling.ui` is used to set up UI contexts (parts of a page).
 * `sjrk.storyTelling.ui.storyEditor` is an editing interface for a `story` (which it has as a component). It has a
-  handlebars template associated with it called `storyEditor.hbs`, and a `binder` to connect the title, author
+  handlebars template associated with it called `storyEditor.handlebars`, and a `binder` to connect the title, author
   and keywords fields to their respective model values in the `story`. It makes use of a `dynamicViewComponentManager`
   called **blockManager** to add blocks of varying types on demand. The `reorderer` component is for reordering individual
   blocks via buttons on each (see `sjrk.storyTelling.block.editor` above), by pressing `CTRL + UP` or `CTRL + DOWN` (or
   in macOS, `CTRL + SHIFT + UP` or `CTRL + SHIFT + DOWN`) or by dragging and dropping a block.
-* `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.hbs`.
+* `sjrk.storyTelling.ui.storyViewer` is to view a single story. Its handlebars template is `storyViewer.handlebars`.
   There is also a special version of the `storyViewer` called the `storyPreviewer` which is meant to be used in the
   `storyEdit` page (more info below).
   * has a `fluid.orator` component called **orator** for reading out various content on demand
-* `sjrk.storyTelling.ui.storyBrowser` shows a list of all the stories in the database. Its handlebars template is `storyBrowse.hbs`.
+* `sjrk.storyTelling.ui.storyBrowser` shows a list of all the stories in the database. Its handlebars template is `storyBrowse.handlebars`.
 * `sjrk.storyTelling.base.page` represents a single HTML page, including all interactions within that page. It is the
   highest-level interface management grade. It has:
   * a `fluid.prefs.cookieStore` for storing site preferences,
-  * a `ui` grade called **menu** for top-level links and controls, with an associated template called `menu.hbs`.
+  * a `ui` grade called **menu** for top-level links and controls, with an associated template called `menu.handlebars`.
   * a component for [User Interface Options](https://wiki.fluidproject.org/pages/viewpage.action?pageId=29959408)
       with some associated events to dynamically redraw the page contents when the language is changed, and
   * a component for each `ui` in the tool and wiring for communication of relevant information between them.

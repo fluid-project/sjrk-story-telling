@@ -16,20 +16,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.base.page"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/sojustrepairit-menu.hbs"
+            record: "%resourcePrefix/templates/sojustrepairit-menu.handlebars"
         },
         {
             target: "{that > masthead > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/sojustrepairitMessages.json",
-                templatePath: "%resourcePrefix/templates/sojustrepairit-masthead.hbs"
+                templatePath: "%resourcePrefix/templates/sojustrepairit-masthead.handlebars"
             }
         },
         {
             target: "{that > footer > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/sojustrepairitMessages.json",
-                templatePath: "%resourcePrefix/templates/sojustrepairit-footer.hbs"
+                templatePath: "%resourcePrefix/templates/sojustrepairit-footer.handlebars"
             }
         }],
         components: {
@@ -64,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.sojustrepairit.page", "sjrk.storyTelling.base.page.storyView"],
         distributeOptions: {
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/sojustrepairit-storyViewer.hbs"
+            record: "%resourcePrefix/templates/sojustrepairit-storyViewer.handlebars"
         }
     });
 
@@ -78,7 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.sojustrepairit.page", "sjrk.storyTelling.base.page.storyBrowse"],
         distributeOptions: {
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/sojustrepairit-storyBrowser.hbs"
+            record: "%resourcePrefix/templates/sojustrepairit-storyBrowser.handlebars"
         },
         components: {
             storyBrowser: {
@@ -96,11 +96,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.sojustrepairit.page", "sjrk.storyTelling.base.page.storyEdit"],
         distributeOptions: [{
             target: "{that > storyEditor > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/sojustrepairit-storyEditor.hbs"
+            record: "%resourcePrefix/templates/sojustrepairit-storyEditor.handlebars"
         },
         {
             target: "{that > storyPreviewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/sojustrepairit-storyViewer.hbs"
+            record: "%resourcePrefix/templates/sojustrepairit-storyViewer.handlebars"
         }]
     });
 
