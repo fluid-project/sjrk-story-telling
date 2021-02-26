@@ -33,13 +33,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 "args": ["{that}.events.onLogOutRequested.fire"]
             }
         },
-        modelListeners: {
-            "authorAccountName": [{
-                func: "{that}.checkSession",
-                excludeSource: ["init"],
-                nameSpace: "checkSession"
-            }]
-        },
+        // // SJRK-454: this is disabled until such time as the server error
+        // // has been resolved
+        // modelListeners: {
+        //     "authorAccountName": [{
+        //         func: "{that}.checkSession",
+        //         excludeSource: ["init"],
+        //         nameSpace: "checkSession"
+        //     }]
+        // },
         invokers: {
             checkSession: {
                 funcName: "sjrk.storyTelling.ui.authorControls.checkSession",
