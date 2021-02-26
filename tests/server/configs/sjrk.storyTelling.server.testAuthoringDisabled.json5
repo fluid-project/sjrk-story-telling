@@ -1,0 +1,36 @@
+{
+    "type": "sjrk.storyTelling.server.testServerAuthoringDisabled",
+    "options": {
+        "gradeNames": ["sjrk.storyTelling.server"],
+        "components": {
+            "server": {
+                "options": {
+                    "globalConfig": {
+                        "authoringEnabled": false
+                    },
+                    "secureConfig": {
+                        "binaryUploadDirectory": "./tests/server/uploads",
+                        "uploadedFilesHandlerPath": "./tests/server/uploads",
+                        secretsConfigPath: "./secrets.json.example"
+                    },
+                    dbHost: "http://localhost:6789",
+                    distributeOptions: {
+                        "couchDataSourceHost": {
+                            source: "{that}.options.dbHost",
+                            target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
+                        }
+                    },
+                    "components": {
+                        expressUserUtils: {
+                            options: {
+                                dataSourceConfig: {
+                                    host: "{server}.options.dbHost"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

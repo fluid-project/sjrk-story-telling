@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global jqUnit */
 
 "use strict";
 
@@ -37,7 +37,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyViewer.handlebars",
+                        templatePath: "%resourcePrefix/templates/storyViewer.hbs",
                         // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
                         resourcePrefix: "../../../themes/base"
                     }

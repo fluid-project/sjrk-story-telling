@@ -12,7 +12,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 var fluid = require("infusion"),
     sjrk = fluid.registerNamespace("sjrk"),
     kettle = require("kettle"),
-    fs = require("fs");
+    fs = require("fs"),
+    MemoryStore = require("memorystore")(kettle.npm.expressSession);
+
+require("fluid-express-user");
 
 // The main Kettle server configuration grade
 fluid.defaults("sjrk.storyTelling.server", {
@@ -22,6 +25,7 @@ fluid.defaults("sjrk.storyTelling.server", {
         server: {
             type: "kettle.server",
             options: {
+                gradeNames: ["kettle.server.sessionAware"],
                 globalConfig: {
                     // Config values are stored in the external config file
                     // named "sjrk.storyTelling.server.themed.json5"
@@ -30,6 +34,7 @@ fluid.defaults("sjrk.storyTelling.server", {
                     // theme: "",
                     // themeIndexFile": "",
                     // authoringEnabled: true
+                    // sessionCheckPeriod: 86400000 //in ms
                 },
                 secureConfig: {
                     baseThemeName: "base",
@@ -41,14 +46,68 @@ fluid.defaults("sjrk.storyTelling.server", {
                     secrets: "@expand:sjrk.storyTelling.server.resolveJSONFile({that}.options.secureConfig.secretsConfigPath)"
                 },
                 port: "{that}.options.globalConfig.port",
+                session: {
+                    store: "@expand:sjrk.storyTelling.server.makeMemorySessionStore({that}.options.globalConfig.sessionCheckPeriod)",
+                    middlewareOptions: {
+                        secret: "{server}.options.secureConfig.secrets.session"
+                    }
+                },
+                authorCredentialConfig: "{that}.options.secureConfig.secrets.authorCredentialConfig",
                 distributeOptions: {
-                    record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
-                    target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
+                    couchDBURL: {
+                        record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
+                        target: "{that sjrk.storyTelling.server.dataSource.couch.core}.options.host"
+                    },
+                    couchDBAuthorsURL: {
+                        record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
+                        target: "{that expressUserUtils}.options.dataSourceConfig.host"
+                    },
+                    sessionOptions: {
+                        source: "{that}.options.session",
+                        target: "{that > kettle.middlewareHolder > session}.options"
+                    },
+                    authorCredentialConfig: {
+                        source: "{that}.options.authorCredentialConfig",
+                        target: "{that > expressUserUtils}.options"
+                    }
                 },
                 components: {
+                    // user authentication
+                    expressUserUtils: {
+                        type: "fluid.express.user.utils",
+                        options: {
+                            iterations: 100,
+                            digest: "blake2b512",
+                            dataSourceConfig: {
+                                host: "http://localhost:5984",
+                                path: "stories"
+                            },
+                            rules: {
+                                createUserWrite: {
+                                    "_id": "userData.authorID",
+                                    "authorID": "userData.authorID" // may only need _id in the document
+                                }
+                            },
+                            couch: {
+                                userDbUrl: {
+                                    expander: {
+                                        funcName: "fluid.stringTemplate",
+                                        args: ["%host/%path", {
+                                            host: "{expressUserUtils}.options.dataSourceConfig.host",
+                                            path: "{expressUserUtils}.options.dataSourceConfig.path"
+                                        }]
+                                    }
+                                }
+                            }
+                        }
+                    },
                     // a DataSource to get a list of stories
                     viewDataSource: {
                         type: "sjrk.storyTelling.server.dataSource.couch.view"
+                    },
+                    // a DataSource to get a stories by author
+                    storyByAuthorDataSource: {
+                        type: "sjrk.storyTelling.server.dataSource.couch.authorStoriesView"
                     },
                     // a DataSource to get or save a single story
                     storyDataSource: {
@@ -92,13 +151,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
+                                "ajv",
                                 "fluid-binder",
                                 "fluid-handlebars",
+                                "fluid-json-schema",
                                 "fluid-location-bar-relay",
                                 "handlebars",
                                 "infusion",
-                                "markdown-it",
-                                "sinon"]
+                                "markdown-it"
+                            ]
                         }
                     },
                     // static middleware for the node_modules directory
@@ -158,6 +219,14 @@ fluid.defaults("sjrk.storyTelling.server", {
 // the Kettle app
 fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
     gradeNames: ["kettle.app"],
+    components: {
+        loginValidator: {
+            type: "sjrk.storyTelling.server.loginValidator"
+        },
+        signupValidator: {
+            type: "sjrk.storyTelling.server.signupValidator"
+        }
+    },
     requestHandlers: {
         browseStoriesHandler: {
             type: "sjrk.storyTelling.server.browseStoriesHandler",
@@ -167,6 +236,11 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
         getStoryHandler: {
             type: "sjrk.storyTelling.server.getStoryHandler",
             "route": "/stories/:id",
+            "method": "get"
+        },
+        getEditStoryHandler: {
+            type: "sjrk.storyTelling.server.getEditStoryHandler",
+            "route": "/stories/:id/edit",
             "method": "get"
         },
         saveStoryHandler: {
@@ -206,6 +280,26 @@ fluid.defaults("sjrk.storyTelling.server.app.storyTellingHandlers", {
             type: "sjrk.storyTelling.server.clientConfigHandler",
             route: "/clientConfig",
             method: "get"
+        },
+        sessionHandler: {
+            type: "sjrk.storyTelling.server.sessionHandler",
+            "route": "/session",
+            method: "get"
+        },
+        signupHandler: {
+            type: "sjrk.storyTelling.server.signupHandler",
+            "route": "/signup",
+            method: "post"
+        },
+        loginHandler: {
+            type: "sjrk.storyTelling.server.loginHandler",
+            "route": "/login",
+            method: "post"
+        },
+        logoutHandler: {
+            type: "sjrk.storyTelling.server.logoutHandler",
+            "route": "/logout",
+            method: "post"
         },
         themeHandler: {
             type: "sjrk.storyTelling.server.themeHandler",
@@ -251,4 +345,20 @@ sjrk.storyTelling.server.getThemePath = function (theme, themeFolder) {
     }
 
     return themePath;
+};
+
+/**
+ * Creates an in memory session store for use by the session middleware. Configured for sessions to expire after 24hrs.
+ *
+ * @param {Integer} [checkPeriod] - (optional) the time in ms between checks to prune expired sessions. Defaults to
+ *                                  86400000 ms / 24 hr.
+ * @return {Object} - a MemoryStore instance
+ */
+sjrk.storyTelling.server.makeMemorySessionStore = function (checkPeriod) {
+    // TODO: Currently using https://www.npmjs.com/package/memorystore as it is a production ready memory store;
+    //       however, the session should eventually be stored in a database to prevent clearing on server restart.
+    //       https://issues.fluidproject.org/browse/SJRK-444
+    return new MemoryStore({
+        checkPeriod: checkPeriod || 86400000 // prune expired entries every 24h
+    });
 };

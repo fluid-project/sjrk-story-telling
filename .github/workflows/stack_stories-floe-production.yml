@@ -1,6 +1,7 @@
 name: stories.floeproject.org__production
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stories-floe-production
@@ -19,10 +20,14 @@ jobs:
       - name: Deploy stack
         uses: appleboy/ssh-action@master
         with:
-          host:     ${{ secrets.SSH_HOSTNAME }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key:      ${{ secrets.SSH_PRIVATE_KEY }}
-          port:     ${{ secrets.SSH_PORT }}
+          host:           ${{ secrets.SSH_HOSTNAME }}
+          username:       ${{ secrets.SSH_USERNAME }}
+          key:            ${{ secrets.SSH_PRIVATE_KEY }}
+          port:           ${{ secrets.SSH_PORT }}
+          proxy_host:     ${{ secrets.SSH_PROXY_HOSTNAME }}
+          proxy_username: ${{ secrets.SSH_PROXY_USERNAME }}
+          proxy_key:      ${{ secrets.SSH_PROXY_PRIVATE_KEY }}
+          proxy_port:     ${{ secrets.SSH_PROXY_PORT }}
           envs:     PROJECT_ID
           script: |
             cd /srv/$PROJECT_ID/src                                       && \

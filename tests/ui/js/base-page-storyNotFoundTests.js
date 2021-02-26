@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global jqUnit */
 
 "use strict";
 
@@ -138,7 +138,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     /**
      * Asserts that the expected messages have been rendered into the associated selectors for the provided component.
      *
-     * @param {sjrk.storyTelling.ui.storyNotFound} that - an instance of `sjrk.storyTelling.ui.storyNotFound`
+     * @param {Component} that - an instance of `sjrk.storyTelling.ui.storyNotFound`
      * @param {Object} expectedMessages - key/value pairs where the key matches a selector name, and the value is the
      *                                    expected text associated with that selector. If the value is an array it is
      *                                    iterated over and expected to match a similar array of elements retrieved from

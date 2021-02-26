@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid */
-
 "use strict";
 
 (function ($, fluid) {
@@ -59,7 +57,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyBlockMediaEdit.handlebars"
+                        templatePath: "%resourcePrefix/templates/storyBlockMediaEdit.hbs"
                     }
                 }
             },

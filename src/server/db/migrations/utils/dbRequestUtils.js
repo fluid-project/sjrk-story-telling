@@ -69,8 +69,8 @@ fluid.registerNamespace("gpii.dbRequest");
  *                                  the response.
  * @param {String} details.responseErrMsg - Error message to display on a
  *                                          response error.
- * @param {Array} details.dataToPost - Optional: if present, a POST request is
- *                                     used.
+ * @param {Array} [details.dataToPost] - (optional) if present, a POST request is
+ *                                       used.
  * @param {String} details.requestUrl - If not a POST request, the URL for a GET
  *                                      request.
  * @param {Object} options - Post request:
@@ -132,8 +132,8 @@ gpii.dbRequest.createPostRequest = function (dataToPost, responseHandler, option
  * @param {Object} options - Data loader options passed to `handleEnd()`.
  * @param {Promise} promise - Promise to resolve/reject on a response "end" or
  *                           "error" event.
- * @param {String} errorMsg - Optional error message to prepend to the error
- *                            received from a response "error" event.
+ * @param {String} [errorMsg] - (Optional) error message to prepend to the error
+ *                              received from a response "error" event.
  * @return {ResponseCallback} - Reponse callback function suitable for an http
  *                              request.
  */
@@ -183,7 +183,7 @@ gpii.dbRequest.createResponseHandler = function (handleEnd, options, promise, er
  * @param {String} databaseURL - URL to query the database with.
  * @param {ResponseCallback} handleResponse - callback that processes the
  *                                            response from the request.
- * @param {String} errorMsg - optional error message for request errors.
+ * @param {String} [errorMsg] - (optional) error message for request errors.
  * @param {Promise} promise - promise to reject on a request error.
  * @return {http.ClientRequest} - The http request object.
  */
