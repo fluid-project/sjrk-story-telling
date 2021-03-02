@@ -7,8 +7,7 @@
                 "options": {
                     "secureConfig": {
                         "baseThemeName": "mockBaseTheme",
-                        "themesPath": "./tests/testData/%theme",
-                        secretsConfigPath: "./secrets.json.example"
+                        "themesPath": "./tests/testData/%theme"
                     }
                 }
             }

@@ -21,7 +21,8 @@ provided as an example and can be used as a template to create your own configur
                     "globalConfig": {
                         /*
                          * the HTTP port the server will be hosted from, default is 8081
-                         * this only needs to be set if you intend to use a different port
+                         * this only needs to be set if you intend to use a different port.
+                         * for example, using port 443 for HTTPS
                          */
                         "port": "8081",
 
@@ -55,7 +56,7 @@ provided as an example and can be used as a template to create your own configur
 In addition to the above configuration options, there are others that are more private and you may not wish to store in
 a repository. For those you can make use of a `secrets.json` file which should be placed in the root directory of a
 running instance of the Storytelling tool. The `secrets.json` can be used to configure the admin password, session
-secret and configure how author credentials are encrypted.
+secret, configure how author credentials are encrypted, and https certificates.
 
 For more information about the author credential options, see [crypto](https://nodejs.org/api/crypto.html).
 
@@ -70,6 +71,10 @@ has been provided and can be used as a template to create your own file.
         "digest": "hashing algorithm to use",
         "keyLength": Number, // An integer representing the desired key length
         "iterations": Number // An integer indicating the number of iterations used during encoding
+    },
+    "https": {
+        "cert": "/path/to/certificate",
+        "key": "/path/to/key"
     }
 }
 ```

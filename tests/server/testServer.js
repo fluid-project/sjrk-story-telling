@@ -110,7 +110,7 @@ sjrk.storyTelling.server.testServerDefs.verifyGetRequestFailed = function (data,
 // test usage and distribution of configuration sourced from the secrets file
 sjrk.storyTelling.server.testServerSecretsDefs = {
     name: "Basic server tests - Secrets",
-    expect: 7,
+    expect: 8,
     port: 8082,
     config: {
         configName: "sjrk.storyTelling.server.testSecrets",
@@ -124,6 +124,10 @@ sjrk.storyTelling.server.testServerSecretsDefs = {
                 "digest": "sha256",
                 "keyLength": 10,
                 "iterations": 10
+            },
+            "https": {
+                "cert": "./server-cert.pem",
+                "key": "./server-key.pem"
             }
         }
     },
@@ -181,6 +185,12 @@ sjrk.storyTelling.server.testServerSecretsDefs = {
             "The expressUserUtils digest options should be set from the secrets file",
             "{that}.options.testOpts.expectedSecrets.authorCredentialConfig.digest",
             "{server}.server.expressUserUtils.options.digest"
+        ]
+    }, {
+        funcName: "jqUnit.assertValue",
+        args: [
+            "The httpsServerOptions options should be set",
+            "{server}.server.options.httpsServerOptions"
         ]
     }]
 };

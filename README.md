@@ -50,6 +50,38 @@ interface for creating and sharing stories.
   folders (see [Theme Customization](#Theme-Customization)). A list of grades used on the client side of the project can
   be found in [GRADES-UI.md](docs/GRADES-UI.md).
 
+#### Running HTTPS locally
+
+It's likely that the production/deployed instances are run with https enabled. Ideally the development environment
+will closely match the production one, in that case you'll likely want to run your local dev environment with https as
+well. You'll need to set up the [configuration](docs/CONFIGURATION.md) to use port `443` and provide the `https`
+configuration in the `secrets.json` to point at the necessary `key` and `cert` files.
+
+##### Using mkcert
+
+If you don't already have trusted certificates, you can use [mkcert](https://github.com/FiloSottile/mkcert) to generate
+the certifcate and act as a certificate authority running on your local machine. Follow thier instructions to install it
+on your particular platform.
+
+After installing, run `mkcert -install` to automatically add new certifcates to the trust stores. This should only need
+to be run once.
+
+```bash
+mkcert -install
+```
+
+Generate certificate and key files for running on localhost, 127.0.0.1 and ::1. If you require other domains, you can
+modify the list to include those as well. The command below sets the key to `server-key.pem` and the certificate to
+`server-cert.pem`. You can use other names, but these are already excluded from version control. After generating the
+files, you'll need to update the `secrets.json` file to point at them.
+
+```bash
+mkcert -cert-file server-cert.pem -key-file server-key.pem localhost 127.0.0.1 ::1
+```
+
+Once the configuration is complete, the Storytelling tool will be accessible from <https://localhost/> and
+<https://127.0.0.1>
+
 ## Configuring the application
 
 While Infusion allows for just about any possible extension you can imagine and implement, there are a few handy

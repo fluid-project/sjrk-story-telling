@@ -10,8 +10,7 @@
                     },
                     "secureConfig": {
                         "binaryUploadDirectory": "./tests/server/uploads",
-                        "uploadedFilesHandlerPath": "./tests/server/uploads",
-                        secretsConfigPath: "./secrets.json.example"
+                        "uploadedFilesHandlerPath": "./tests/server/uploads"
                     },
                     dbHost: "http://localhost:6789",
                     distributeOptions: {
