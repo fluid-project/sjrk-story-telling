@@ -10,7 +10,8 @@
                     },
                     "secureConfig": {
                         "baseThemeName": "mockBaseTheme",
-                        "themesPath": "./tests/testData/%theme"
+                        "themesPath": "./tests/testData/%theme",
+                        "secretsConfigPath": "./tests/server/configs/secrets-empty.json"
                     }
                 }
             }
