@@ -56,7 +56,7 @@ provided as an example and can be used as a template to create your own configur
 In addition to the above configuration options, there are others that are more private and you may not wish to store in
 a repository. For those you can make use of a `secrets.json` file which should be placed in the root directory of a
 running instance of the Storytelling tool. The `secrets.json` can be used to configure the admin password, session
-secret, configure how author credentials are encrypted, and https certificates.
+secret, https certificates, and configure how author credentials are encrypted.
 
 For more information about the author credential options, see [crypto](https://nodejs.org/api/crypto.html).
 

@@ -55,7 +55,17 @@ interface for creating and sharing stories.
 It's likely that the production/deployed instances are run with https enabled. Ideally the development environment
 will closely match the production one, in that case you'll likely want to run your local dev environment with https as
 well. You'll need to set up the [configuration](docs/CONFIGURATION.md) to use port `443` and provide the `https`
-configuration in the `secrets.json` to point at the necessary `key` and `cert` files.
+configuration in the `secrets.json` to point at the necessary `key` and `cert` files. An example of the configuration
+needed is provided in the [secrects.json.example](./secrects.json.example) file.
+
+```json
+{
+    "https": {
+        "cert": "/path/to/certificate",
+        "key": "/path/to/key"
+    }
+}
+```
 
 ##### Using mkcert
 
