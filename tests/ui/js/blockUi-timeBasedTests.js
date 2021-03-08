@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     };
 
     fluid.contextAware.makeChecks({
-        "fluid.supportsMP4": sjrk.storyTelling.isVideoFormatSupported("video/mp4")
+        "fluid.supportsWEBM": sjrk.storyTelling.isVideoFormatSupported("video/webm")
     });
 
     fluid.defaults("sjrk.storyTelling.blockUi.testTimeBased.webm", {
@@ -59,12 +59,12 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     contextAwareness: {
                         videoFormat: {
                             checks: {
-                                supportsMP4: {
-                                    contextValue: "{fluid.supportsMP4}",
-                                    gradeNames: "sjrk.storyTelling.blockUi.testTimeBased.mp4"
+                                supportsWEBM: {
+                                    contextValue: "{fluid.supportsWEBM}",
+                                    gradeNames: "sjrk.storyTelling.blockUi.testTimeBased.webm"
                                 }
                             },
-                            defaultGradeNames: "sjrk.storyTelling.blockUi.testTimeBased.webm"
+                            defaultGradeNames: "sjrk.storyTelling.blockUi.testTimeBased.mp4"
                         }
                     }
                 }
