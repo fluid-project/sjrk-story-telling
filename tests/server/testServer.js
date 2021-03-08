@@ -126,8 +126,8 @@ sjrk.storyTelling.server.testServerSecretsDefs = {
                 "iterations": 10
             },
             "https": {
-                "cert": "./server-cert.pem",
-                "key": "./server-key.pem"
+                "cert": "./tests/server/configs/server-cert-test.pem",
+                "key": "./tests/server/configs/server-key-test.pem"
             }
         }
     },
