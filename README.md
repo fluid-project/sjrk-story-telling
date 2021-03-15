@@ -50,6 +50,48 @@ interface for creating and sharing stories.
   folders (see [Theme Customization](#Theme-Customization)). A list of grades used on the client side of the project can
   be found in [GRADES-UI.md](docs/GRADES-UI.md).
 
+#### Running HTTPS locally
+
+It's likely that the production/deployed instances are run with https enabled. Ideally the development environment
+will closely match the production one, in that case you'll likely want to run your local dev environment with https as
+well. You'll need to set up the [configuration](docs/CONFIGURATION.md) to use port `443` and provide the `https`
+configuration in the `secrets.json` to point at the necessary `key` and `cert` files. An example of the configuration
+needed is provided in the [secrects.json.example](./secrects.json.example) file.
+
+```json
+{
+    "https": {
+        "cert": "/path/to/certificate",
+        "key": "/path/to/key"
+    }
+}
+```
+
+##### Using mkcert
+
+If you don't already have trusted certificates, you can use [mkcert](https://github.com/FiloSottile/mkcert) to generate
+the certifcate and act as a certificate authority running on your local machine. Follow thier instructions to install it
+on your particular platform.
+
+After installing, run `mkcert -install` to automatically add new certifcates to the trust stores. This should only need
+to be run once.
+
+```bash
+mkcert -install
+```
+
+Generate certificate and key files for running on localhost, 127.0.0.1 and ::1. If you require other domains, you can
+modify the list to include those as well. The command below sets the key to `server-key.pem` and the certificate to
+`server-cert.pem`. You can use other names, but these are already excluded from version control. After generating the
+files, you'll need to update the `secrets.json` file to point at them.
+
+```bash
+mkcert -cert-file server-cert.pem -key-file server-key.pem localhost 127.0.0.1 ::1
+```
+
+Once the configuration is complete, the Storytelling tool will be accessible from <https://localhost/> and
+<https://127.0.0.1>
+
 ## Configuring the application
 
 While Infusion allows for just about any possible extension you can imagine and implement, there are a few handy
@@ -100,7 +142,7 @@ To create new a custom theme, follow these steps:
 * Create a CSS file in the `css` directory with all of the styling rules specific to the new theme. The CSS file, like
   the JavaScript file, should have the same name as the theme and theme folder: `themes/cuteCats/css/cuteCats.css`
 * Add any new associated [handlebars](https://handlebarsjs.com/) templates to be used by new UI components, and be sure
-  to set the path for these templates. It is recommended to put them in the `templates` directory. E.g. `themes/cuteCats/templates/newTemplateName.handlebars`
+  to set the path for these templates. It is recommended to put them in the `templates` directory. E.g. `themes/cuteCats/templates/newTemplateName.hbs`
 * If your new content contains any new wording, you can create new message bundle files (in the `themes/cuteCats/messages`
   directory) and refer to those message names in the handlebars template(s). Please note that a `ui` component specifies
   and loads _only one_ message bundle at a time.

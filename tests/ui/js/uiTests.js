@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 options: {
                     templateConfig: {
                         // there is no "plain" UI template, so we'll co-op the storyViewer
-                        templatePath: "%resourcePrefix/templates/storyViewer.handlebars",
+                        templatePath: "%resourcePrefix/templates/storyViewer.hbs",
                         // TODO: run tests for each theme. see: https://issues.fluidproject.org/browse/SJRK-303
                         resourcePrefix: "../../../themes/base"
                     }

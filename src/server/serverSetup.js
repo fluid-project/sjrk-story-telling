@@ -25,7 +25,7 @@ fluid.defaults("sjrk.storyTelling.server", {
         server: {
             type: "kettle.server",
             options: {
-                gradeNames: ["kettle.server.sessionAware"],
+                gradeNames: ["kettle.server.sessionAware", "fluid.contextAware"],
                 globalConfig: {
                     // Config values are stored in the external config file
                     // named "sjrk.storyTelling.server.themed.json5"
@@ -53,6 +53,16 @@ fluid.defaults("sjrk.storyTelling.server", {
                     }
                 },
                 authorCredentialConfig: "{that}.options.secureConfig.secrets.authorCredentialConfig",
+                contextAwareness: {
+                    protocol: {
+                        checks: {
+                            https: {
+                                contextValue: "{that}.options.secureConfig.secrets.https",
+                                gradeNames: "sjrk.storyTelling.server.https"
+                            }
+                        }
+                    }
+                },
                 distributeOptions: {
                     couchDBURL: {
                         record: "@expand:kettle.resolvers.env(COUCHDB_URL)",
@@ -151,13 +161,15 @@ fluid.defaults("sjrk.storyTelling.server", {
                         type: "sjrk.storyTelling.server.staticMiddlewareSubdirectoryFilter",
                         options: {
                             allowedSubdirectories: [
+                                "ajv",
                                 "fluid-binder",
                                 "fluid-handlebars",
+                                "fluid-json-schema",
                                 "fluid-location-bar-relay",
                                 "handlebars",
                                 "infusion",
-                                "markdown-it",
-                                "sinon"]
+                                "markdown-it"
+                            ]
                         }
                     },
                     // static middleware for the node_modules directory
@@ -211,6 +223,26 @@ fluid.defaults("sjrk.storyTelling.server", {
                 }
             }
         }
+    }
+});
+
+fluid.defaults("sjrk.storyTelling.server.https", {
+    httpsServerOptions: {
+        key: {
+            expander: {
+                func: "fs.readFileSync",
+                args: ["{that}.options.secureConfig.secrets.https.key"]
+            }
+        },
+        cert: {
+            expander: {
+                func: "fs.readFileSync",
+                args: ["{that}.options.secureConfig.secrets.https.cert"]
+            }
+        }
+    },
+    members: {
+        httpServer: "@expand:kettle.server.httpsServer({that}.options.httpsServerOptions, {kettle.server}.expressApp)"
     }
 });
 

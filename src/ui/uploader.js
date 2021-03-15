@@ -28,10 +28,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // these values configure the file upload server call
             uploadUrl: "/stories/",
             uploadMethod: "POST",
-            uploadTimeout: 300000, // 5 minutes, in ms
-            storyId: null // to be provided by implementing grade
+            uploadTimeout: 300000 // 5 minutes, in ms
         },
         model: {
+            storyId: null, // to be provided by a parent component or implementing grade
             // uploadState can be one of the following values:
             // "ready" (the initial state), "uploading", "errorReceived"
             uploadState: "ready",
@@ -100,7 +100,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 funcName: "sjrk.storyTelling.block.singleFileUploader.uploadFileToServer",
                 args: [
                     "{arguments}.0",
-                    "{that}.storyId",
+                    "{that}.model.storyId",
                     "{arguments}.1",
                     {
                         uploadUrl: "{that}.uploadUrl",
