@@ -9,7 +9,7 @@
                         "theme": "aThemeThatIsntReal"
                     },
                     "secureConfig": {
-                        secretsConfigPath: "./secrets.json.example"
+                        "secretsConfigPath": "./tests/server/configs/secrets-empty.json"
                     }
                 }
             }

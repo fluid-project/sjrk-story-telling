@@ -5,6 +5,7 @@
     --site-border-grey: #aaa;
     --site-medium-grey: #e6e6e6;
     --site-focus: #0c0c0c;
+    --site-error: #ff0000;
     --site-font: "Source Sans Pro";
     --uio-black: #000;
     --uio-grey: #888;
@@ -58,6 +59,19 @@ fieldset ul {
 
 .flc-toc-tocContainer:empty {
     display: none;
+}
+
+.sjrk-st-author-controls ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.5rem 2rem 0 2rem;
+    padding: 0;
+}
+
+.sjrk-st-author-controls li {
+    margin: 0 0 0 2rem;
+    font-size: 1rem;
 }
 
 .sjrk-st-page-content-container {
@@ -460,18 +474,21 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
     display: none;
 }
 
-.sjrk-st-file-share-progress {
+.sjrk-st-file-share-progress,
+.sjrk-st-authentication-progress {
     text-align: center;
     display: none;
 }
 
 .sjrk-st-story-share-progress span,
-.sjrk-st-file-share-progress span {
+.sjrk-st-file-share-progress span,
+.sjrk-st-authentication-progress span {
     vertical-align: middle;
 }
 
 .sjrk-st-story-share-progress-indicator,
-.sjrk-st-file-share-progress-indicator {
+.sjrk-st-file-share-progress-indicator,
+.sjrk-st-authentication-progress-indicator {
     border: solid 0.25rem #ddd;
     border-bottom-color: var(--site-blue);
     border-radius: 50%;
@@ -492,10 +509,29 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 
 .sjrk-st-story-share-response,
 .sjrk-st-file-share-response {
-  display: none;
-  grid-column: 1 / span 2;
-  margin-top: 1rem;
-  color: #ff0000;
+    display: none;
+    grid-column: 1 / span 2;
+    margin-top: 1rem;
+    color: var(--site-error);
+}
+
+.sjrk-st-authentication-error-email,
+.sjrk-st-authentication-error-password,
+.sjrk-st-authentication-error-password-confirmation,
+.sjrk-st-authentication-error-password-confirmation-comparison,
+.sjrk-st-authentication-response {
+    display: none;
+    font-weight: bold;
+    margin-top: 0.25rem;
+    color: var(--site-error);
+}
+
+.sjrk-st-authentication-error-email:not(:empty),
+.sjrk-st-authentication-error-password:not(:empty),
+.sjrk-st-authentication-error-password-confirmation:not(:empty),
+.sjrk-st-authentication-error-password-confirmation-comparison:not(:empty),
+.sjrk-st-authentication-response:not(:empty) {
+    display: block;
 }
 
 .sjrk-st-story-share:disabled,
@@ -527,13 +563,15 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 }
 
 .sjrk-st-story-editor-metadata-step input,
-.sjrk-st-story-editor-metadata-step label {
+.sjrk-st-story-editor-metadata-step label,
+.sjrk-st-authentication-form input {
     font-size: 1rem;
     line-height: 1.4;
     padding: 0.25rem;
 }
 
-.sjrk-st-story-editor-metadata-step input {
+.sjrk-st-story-editor-metadata-step input,
+.sjrk-st-authentication-form input {
     border: 1px solid var(--site-border-grey);
 }
 
@@ -662,6 +700,15 @@ audio.sjrk-st-block-media-preview:not([src]) + .sjrk-st-block-media-preview-plac
 }
 
 @media only screen and (max-width: 50em) {
+    .sjrk-st-author-controls ul {
+        justify-content: space-evenly;
+        margin: 1.5rem 1rem 0.5rem 1rem;
+    }
+
+    .sjrk-st-author-controls li {
+        margin: 0;
+    }
+
     .sjrk-st-page-content-container {
         padding: 0.5rem;
     }

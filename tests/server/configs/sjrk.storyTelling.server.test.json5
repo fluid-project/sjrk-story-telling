@@ -11,7 +11,7 @@
                     "secureConfig": {
                         "binaryUploadDirectory": "./tests/server/uploads",
                         "uploadedFilesHandlerPath": "./tests/server/uploads",
-                        secretsConfigPath: "./secrets.json.example"
+                        "secretsConfigPath": "./tests/server/configs/secrets-empty.json"
                     },
                     dbHost: "http://localhost:6789",
                     distributeOptions: {
