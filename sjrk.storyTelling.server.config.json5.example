@@ -7,27 +7,27 @@
                 "options": {
                     "globalConfig": {
                         /*
-                         * the HTTP port the server will be hosted from, default is 8081
-                         * this only needs to be set if you intend to use a different port
-                         */
+                        * the HTTP port the server will be hosted from, default is 8081
+                        * this only needs to be set if you intend to use a different port
+                        */
                         "port": "8081",
 
                         /*
-                         * the custom theme to load in on top of the base theme
-                         * for the base theme, simply remove, comment out or leave this setting empty
-                         * available themes are: aihec, cities, karisma, learningReflections, sojustrepairit
-                         */
+                        * the custom theme to load in on top of the base theme
+                        * for the base theme, simply remove, comment out or leave this setting empty
+                        * available themes are: aihec, cities, karisma, learningReflections, sojustrepairit
+                        */
                         "theme": "learningReflections",
 
                         /*
-                         * a default file to load at the site root (e.g. index.html)
-                         * if left blank or not set, this will default to storyBrowse.html
-                         */
+                        * a default file to load at the site root (e.g. index.html)
+                        * if left blank or not set, this will default to storyBrowse.html
+                        */
                         "themeIndexFile": "introduction.html",
 
                         /*
-                         * if true, creating and saving stories to the database will be enabled
-                         */
+                        * if true, creating and saving stories to the database will be enabled
+                        */
                         "authoringEnabled": true
                     }
                 }

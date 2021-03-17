@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid */
-
 "use strict";
 
 (function ($, fluid) {
@@ -18,20 +16,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.base.page"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/cities-menu.handlebars"
+            record: "%resourcePrefix/templates/cities-menu.hbs"
         },
         {
             target: "{that > masthead > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/citiesMessages.json",
-                templatePath: "%resourcePrefix/templates/cities-masthead.handlebars"
+                templatePath: "%resourcePrefix/templates/cities-masthead.hbs"
             }
         },
         {
             target: "{that > footer > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/citiesMessages.json",
-                templatePath: "%resourcePrefix/templates/cities-footer.handlebars"
+                templatePath: "%resourcePrefix/templates/cities-footer.hbs"
             }
         }],
         components: {
@@ -66,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.cities.page", "sjrk.storyTelling.base.page.storyView"],
         distributeOptions: {
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/cities-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/cities-storyViewer.hbs"
         }
     });
 
@@ -80,7 +78,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.cities.page", "sjrk.storyTelling.base.page.storyBrowse"],
         distributeOptions: {
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/cities-storyBrowser.handlebars"
+            record: "%resourcePrefix/templates/cities-storyBrowser.hbs"
         },
         components: {
             storyBrowser: {
@@ -98,11 +96,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.cities.page", "sjrk.storyTelling.base.page.storyEdit"],
         distributeOptions: [{
             target: "{that > storyEditor > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/cities-storyEditor.handlebars"
+            record: "%resourcePrefix/templates/cities-storyEditor.hbs"
         },
         {
             target: "{that > storyPreviewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/cities-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/cities-storyViewer.hbs"
         }]
     });
 

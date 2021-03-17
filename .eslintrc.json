@@ -1,7 +1,13 @@
 {
+    "extends": "eslint-config-fluid",
     "env": {
         "node": true,
         "es6": true
     },
-    "extends": "eslint-config-fluid"
+    "parserOptions": {
+        "ecmaVersion": 8
+    },
+    "globals": {
+        "sjrk": true
+    }
 }

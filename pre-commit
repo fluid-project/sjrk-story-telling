@@ -3,7 +3,7 @@
 # 1. mv pre-commit .git/hooks
 # 2. chmod +x .git/hooks/pre-commit
 # Git hook documentation is available at https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
-LINTER_COMMAND="grunt lint"
+LINTER_COMMAND="npm run lint"
 echo "---------------------------------------"
 echo "Running pre-commit linter command: $LINTER_COMMAND"
 echo "---------------------------------------"

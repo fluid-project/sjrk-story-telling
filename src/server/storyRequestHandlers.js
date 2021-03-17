@@ -104,8 +104,7 @@ fluid.defaults("sjrk.storyTelling.server.getStoryHandler", {
 });
 
 /**
- * Gets a single story's data from the database, parses it, rebuilds any URLs to
- * files associated with that story and responds to the HTTP request
+ * Gets a single story's data from the database, parses it and responds to the HTTP request
  *
  * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
@@ -118,11 +117,14 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
 
     promise.then(function (response) {
         if (response.published) {
-            request.events.onSuccess.fire(JSON.stringify(response));
+            // remove authorID from the story model before sending
+            var storyModel = fluid.censorKeys(response, ["authorID"]);
+            request.events.onSuccess.fire(JSON.stringify(storyModel));
         } else {
             fluid.log(fluid.logLevel.WARN, "Unauthorized: cannot access an unpublished story: " + id);
 
             request.events.onError.fire({
+                statusCode: 404,
                 isError: true,
                 message: noAccessErrorMessage
             });
@@ -131,15 +133,71 @@ sjrk.storyTelling.server.handleGetStory = function (request, dataSource) {
         fluid.log(fluid.logLevel.WARN, "Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
 
         request.events.onError.fire({
+            statusCode: 404,
             isError: true,
             message: noAccessErrorMessage
         });
     });
 };
 
+// Kettle request handler for getting a single story (Edit)
+fluid.defaults("sjrk.storyTelling.server.getEditStoryHandler", {
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
+    invokers: {
+        handleRequest: {
+            funcName: "sjrk.storyTelling.server.handleGetEditStory",
+            args: ["{request}", "{server}.storyByAuthorDataSource", "{server}.options.globalConfig.authoringEnabled"]
+        }
+    }
+});
+
+/**
+ * Gets a single story's data from the database, parses it and responds to the HTTP request
+ *
+ * @param {Object} request - a Kettle request that includes an ID for the story to retrieve
+ * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
+ * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
+ */
+sjrk.storyTelling.server.handleGetEditStory = function (request, dataSource, authoringEnabled) {
+    if (!authoringEnabled) {
+        request.events.onError.fire({
+            statusCode: 403,
+            isError: true,
+            message: "Editing is currently disabled."
+        });
+
+        return;
+    }
+
+    var id = request.req.params.id;
+    var directModel = {
+        authorID: request.req.session.authorID,
+        storyId: id
+    };
+
+    var promise = dataSource.get(directModel);
+    var noAccessError = {
+        statusCode: 404,
+        message: "An error occurred while retrieving the requested story"
+    };
+
+    promise.then(function (response) {
+        var storyModel = fluid.get(response, ["rows", "0", "value"]);
+        if (storyModel) {
+            request.events.onSuccess.fire(JSON.stringify(storyModel));
+        } else {
+            fluid.log(fluid.logLevel.WARN, "Story with id " + id + " not found for authenitcated user, or no user authenticated");
+            request.events.onError.fire(noAccessError);
+        }
+    }, function (error) {
+        fluid.log(fluid.logLevel.WARN, "Error getting story with ID " + id + ", error detail: " + JSON.stringify(error));
+        request.events.onError.fire(noAccessError);
+    });
+};
+
 // Kettle request handler for saving a single story
 fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
-    gradeNames: "kettle.request.http",
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
     invokers: {
         handleRequest: {
             funcName: "sjrk.storyTelling.server.handleSaveStory",
@@ -157,29 +215,57 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryHandler", {
  * @param {Boolean} authoringEnabled - a server-level flag to indicate whether authoring is enabled
  */
 sjrk.storyTelling.server.handleSaveStory = function (request, dataSource, authoringEnabled) {
-    if (authoringEnabled) {
-        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.body, request.events.onSuccess, request.events.onError);
-    } else {
+    if (!authoringEnabled) {
         request.events.onError.fire({
+            statusCode: 403,
             isError: true,
             message: "Saving is currently disabled."
         });
+
+        return;
     }
+
+    if (!request.req.body.id) {
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+        return;
+    }
+
+    dataSource.get({directStoryId: request.req.body.id}).then(function (response) {
+        // Only allow saving if the authorized user matches the story author, or if the story was created by a guest
+        // account only allow the guest to re-save if the story has not yet been published.
+        if (request.req.session.authorID === response.authorID && (response.authorID || !response.published)) {
+            sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+        } else {
+            request.events.onError.fire({
+                statusCode: 403
+            });
+        }
+    }, function () {
+        sjrk.storyTelling.server.saveStoryToDatabase(dataSource, request.req.session.authorID, request.req.body, request.events.onSuccess, request.events.onError);
+    });
 };
 
 /**
  * Persist the story model to couch, with the updated references to where the binaries are saved
  *
  * @param {Component} dataSource - an instance of sjrk.storyTelling.server.dataSource.couch.story
+ * @param {String|undefined} [authorID] - (optional) Used to identify the author account for the story. If provided,
+ *                                        will be stored with the storyModel for use in future requests to access the
+ *                                        story.
  * @param {Object} storyModel - a single story's model
  * @param {Object} successEvent - an infusion event to fire upon successful completion
  * @param {Object} failureEvent - an infusion event to fire on failure
  */
-sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel, successEvent, failureEvent) {
+sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, authorID, storyModel, successEvent, failureEvent) {
     var id = fluid.get(storyModel, "id") || uuidv4();
+    var story = {value: storyModel};
 
-    dataSource.set({directStoryId: id}, storyModel).then(function (response) {
-        successEvent.fire(JSON.stringify(response));
+    if (authorID) {
+        story.authorID = authorID;
+    }
+
+    dataSource.set({directStoryId: id}, story).then(function (response) {
+        successEvent.fire(response);
     }, function (error) {
         failureEvent.fire({
             isError: true,
@@ -190,7 +276,7 @@ sjrk.storyTelling.server.saveStoryToDatabase = function (dataSource, storyModel,
 
 // Kettle request handler for saving a single file associated with a pre-existing story
 fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
-    gradeNames: "kettle.request.http",
+    gradeNames: ["kettle.request.http", "kettle.request.sessionAware"],
     requestMiddleware: {
         saveStoryFile: {
             middleware: "{server}.saveStoryFile"
@@ -221,6 +307,7 @@ fluid.defaults("sjrk.storyTelling.server.saveStoryFileHandler", {
 sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, authoringEnabled) {
     if (!authoringEnabled) {
         request.events.onError.fire({
+            statusCode: 403,
             isError: true,
             message: "Saving is currently disabled."
         });
@@ -228,38 +315,44 @@ sjrk.storyTelling.server.handleSaveStoryFile = function (request, dataSource, au
         return;
     }
 
+    // verify there is a file to save before continuing
+    if (!request.req.file) {
+        request.events.onError.fire({
+            statusCode: 400,
+            message: "Error saving file: file was not provided"
+        });
+
+        return;
+    }
+
     var id = request.req.params.id;
 
-    dataSource.get({directStoryId: id}).then(function () {
-        // verify there is a file to save before continuing
-        if (request.req.file) {
-            // if the file is an image, attmept to rotate it based on its EXIF data
-            if (request.req.file.mimetype &&
-                request.req.file.mimetype.indexOf("image") === 0) {
-
-                sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
-                    request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
-                }, function (error) {
-                    request.events.onError.fire({
-                        errorCode: error.errorCode,
-                        isError: true,
-                        message: error.message || "Unknown error in image rotation."
-                    });
-                });
-            } else {
-                request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
-            }
-        } else {
+    dataSource.get({directStoryId: id}).then(function (response) {
+        if (request.req.session.authorID !== response.authorID) {
             request.events.onError.fire({
-                isError: true,
-                message: "Error saving file: file was not provided"
+                statusCode: 403
             });
+
+            return;
         }
-    }, function (err) {
+
+        // if the file is an image, attmept to rotate it based on its EXIF data
+        if (request.req.file.mimetype && request.req.file.mimetype.indexOf("image") === 0) {
+            sjrk.storyTelling.server.rotateImageFromExif(request.req.file).then(function () {
+                request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+            }, function (error) {
+                request.events.onError.fire({
+                    statusCode: 500,
+                    message: error.message || "Unknown error in image rotation."
+                });
+            });
+        } else {
+            request.events.onSuccess.fire(request.req.file.destination + "/" + request.req.file.filename);
+        }
+    }, function () {
         request.events.onError.fire({
-            isError: true,
-            message: "Error retrieving story with ID " + id,
-            error: err
+            statusCode: 404,
+            message: "Error retrieving story with ID " + id
         });
     });
 };
@@ -503,83 +596,3 @@ sjrk.storyTelling.server.deleteSingleFileRecoverable = function (fileToDelete, d
         fluid.log("Deleted file:", deletionPath);
     }
 };
-
-// Kettle request handler for getting Client Configuration data
-fluid.defaults("sjrk.storyTelling.server.clientConfigHandler", {
-    gradeNames: "kettle.request.http",
-    invokers: {
-        handleRequest: {
-            funcName: "sjrk.storyTelling.server.getClientConfig",
-            args: ["{arguments}.0", "{server}.options.globalConfig", "{server}.options.secureConfig"]
-        }
-    }
-});
-
-/**
- * Returns a collection of values which are "safe" to share with the client side of the application
- *
- * @param {Object} request - a Kettle request for clientConfig
- * @param {Object} globalConfig - the "global config" entry list
- * @param {Object} secureConfig - the "secure config" entry list
- */
-sjrk.storyTelling.server.getClientConfig = function (request, globalConfig, secureConfig) {
-    request.events.onSuccess.fire({
-        theme: globalConfig.theme || secureConfig.baseThemeName,
-        baseTheme: secureConfig.baseThemeName,
-        authoringEnabled: globalConfig.authoringEnabled
-    });
-};
-
-// Kettle request handler for the ui directory
-fluid.defaults("sjrk.storyTelling.server.uiHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.ui"
-        }
-    }
-});
-
-// Kettle request handler for the themes directory. It looks first in the custom
-// theme directory before falling back to the base theme directory
-fluid.defaults("sjrk.storyTelling.server.themeHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        // includes things like robots.txt and (in the future) favicon
-        "staticFiles": {
-            middleware: "{server}.static"
-        },
-        "baseTheme": {
-            middleware: "{server}.baseTheme",
-            priority: "before:staticFiles"
-        },
-        "currentTheme": {
-            middleware: "{server}.currentTheme",
-            priority: "before:baseTheme"
-        }
-    }
-});
-
-// Kettle request handler for the uploads directory
-fluid.defaults("sjrk.storyTelling.server.uploadsHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "static": {
-            middleware: "{server}.uploads"
-        }
-    }
-});
-
-// Kettle request handler for the node_modules directory
-fluid.defaults("sjrk.storyTelling.server.nodeModulesHandler", {
-    gradeNames: ["sjrk.storyTelling.server.staticHandlerBase"],
-    requestMiddleware: {
-        "staticFilter": {
-            middleware: "{server}.nodeModulesFilter"
-        },
-        "static": {
-            middleware: "{server}.nodeModules",
-            priority: "after:staticFilter"
-        }
-    }
-});

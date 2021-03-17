@@ -11,7 +11,7 @@
                     "secureConfig": {
                         "baseThemeName": "mockBaseTheme",
                         "themesPath": "./tests/testData/%theme",
-                        secretsConfigPath: "./secrets.json.example"
+                        "secretsConfigPath": "./tests/server/configs/secrets-empty.json"
                     }
                 }
             }
