@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, jqUnit, sinon, sjrk */
+/* global jqUnit, sinon */
 
 "use strict";
 
@@ -30,6 +30,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         invokers: {
             redirectToViewStory: {
                 funcName: "sjrk.storyTelling.base.page.storyEditTester.stubRedirectToViewStory"
+            },
+            createNewStoryOnServer: {
+                funcName: "sjrk.storyTelling.base.page.storyEditTester.stubCreateNewStoryOnServer"
             }
         },
         components: {
@@ -532,7 +535,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             name: "Test combined story authoring interface",
             tests: [{
                 name: "Test editor and previewer model binding and updating",
-                expect: 18,
+                expect: 19,
                 sequence: [{
                     event: "{storyEditTest storyEdit}.events.onCreate",
                     listener: "sjrk.storyTelling.testUtils.setupMockServer",
@@ -901,7 +904,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 },
                 {
                     func: "{storyEdit}.events.onStoryPublishError.fire",
-                    args: ["Story about Shyguy didn't save because Rootbeer got jealous"]
+                    args: [{message:"Story about Shyguy didn't save because Rootbeer got jealous"}]
                 },
                 {
                     "event": "{storyEdit}.events.onStoryPublishError",
@@ -987,7 +990,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             }]
         },
         {
-            name: "Test story autosave functionality",
+            name: "Test story autosave & loadng functionality",
             tests: [{
                 name: "Test autosave wiring",
                 expect: 10,
@@ -1076,6 +1079,65 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 {
                     funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
                     args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                }]
+            },
+            {
+                name: "Test createNewStoryOnServer function",
+                expect: 4,
+                sequence: [{
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{url: "/storiesAboutCats/", response: null, statusCode: 400}]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer",
+                    args: ["/storiesAboutCats/", "{storyEdit}.storyEditor.story", "fakeID", "catStoryChangeSource", "{storyEdit}.events.onStoryCreateOnServerError"]
+                },
+                {
+                    event: "{storyEdit}.events.onStoryCreateOnServerError",
+                    listener: "jqUnit.assertDeepEq",
+                    args: ["The story creation error message fired with the excpected payload", {
+                        isError: true, message: "Internal server error"
+                    }, "{arguments}.0"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.setupMockServer",
+                    args: [{
+                        url: "/storiesAboutCats/",
+                        response: {
+                            id: "the-cats-story-id-2"
+                        }
+                    }]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.createNewStoryOnServer",
+                    args: ["/storiesAboutCats/", "{storyEdit}.storyEditor.story", "fakeID", "catStoryChangeSource", "{storyEdit}.events.onStoryCreateOnServerError"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "timestampCreated",
+                    listener: "jqUnit.assert",
+                    args: ["Story timestampCreated was updated after successful create call"]
+                },
+                {
+                    changeEvent: "{storyEdit}.storyEditor.story.applier.modelChanged",
+                    path: "fakeID",
+                    listener: "jqUnit.assertEquals",
+                    args: ["Story ID was updated after successful create call", "the-cats-story-id-2", "{storyEdit}.storyEditor.story.model.fakeID"]
+                },
+                {
+                    // tear down the mock server, reset the cookie and clear the localStorage
+                    funcName: "sjrk.storyTelling.testUtils.teardownMockServer"
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEdit.clearAutosave",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey"]
+                },
+                {
+                    funcName: "sjrk.storyTelling.base.page.storyEditTester.verifyAutosaveState",
+                    args: ["{storyEdit}.options.pageSetup.storyAutosaveKey", null]
+                },
+                {
+                    funcName: "sjrk.storyTelling.testUtils.resetCookie"
                 }]
             }]
         }]
@@ -1345,9 +1407,9 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     /**
      * Represents a progress state as the visibility of three parts of the page
      * @typedef {Object} PublishingState
-     * @property {boolean} progressArea - the visibility of the progress area
-     * @property {boolean} responseArea - the visibility of the server response area
-     * @property {boolean} shareButton - the visibility of the share story button
+     * @property {Boolean} progressArea - the visibility of the progress area
+     * @property {Boolean} responseArea - the visibility of the server response area
+     * @property {Boolean} shareButton - the visibility of the share story button
      */
 
     /**
@@ -1449,6 +1511,16 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         jqUnit.assert("Stub for redirectToViewStory was called for URL: " + viewPageUrl + "?id=" + storyId);
     };
 
+    /**
+     * Stubs the `redirectToViewStory` function to prevent actual redirection
+     *
+     * @param {String} storySaveUrl - the server URL at which to save a story
+     * @param {Component} story - an instance of `sjrk.storyTelling.story`
+     */
+    sjrk.storyTelling.base.page.storyEditTester.stubCreateNewStoryOnServer = function (storySaveUrl, story) {
+        jqUnit.assert("Stub for createNewStoryOnServer was called for story with title: " + story.model.title);
+    };
+
     // Test environment
     fluid.defaults("sjrk.storyTelling.base.page.storyEditTest", {
         gradeNames: ["fluid.test.testEnvironment"],
@@ -1466,18 +1538,17 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
 
     // Test sjrk.storyTelling.base.page.storyEdit.initializeStory
 
-        // test cases
-        // - initialModel
-        // - storyAutosaveKey
-        // - storyAutoSave data
-        // - createBlocksFromData called, and with what value
-        // - loadStoryContent called and with what value
-        // - createNewStoryOnServer called
+    // test cases
+    // - initialModel
+    // - storyAutosaveKey
+    // - storyAutoSave data
+    // - createBlocksFromData called, and with what value
+    // - loadStoryContent called and with what value
+    // - createNewStoryOnServer called
 
     sjrk.storyTelling.base.page.testStoryEdit.initializeStoryTestCases = {
         "no initial or saved story": {
-            autoSaveKey: "test-initializeStory",
-            createNewStoryOnServer: true
+            autoSaveKey: "test-initializeStory"
         },
         "initial story": {
             initialModel: {
@@ -1628,11 +1699,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 jqUnit.assertTrue(testName + ": loadStoryContent not called", mockStoryEdit.loadStoryContent.notCalled);
             }
 
-            if (testCase.createNewStoryOnServer) {
-                jqUnit.assertTrue(testName + ": createNewStoryOnServer called.", mockStoryEdit.createNewStoryOnServer.calledOnce);
-            } else {
-                jqUnit.assertTrue(testName + ": createNewStoryOnServer not called", mockStoryEdit.createNewStoryOnServer.notCalled);
-            }
+            jqUnit.assertTrue(testName + ": createNewStoryOnServer not called", mockStoryEdit.createNewStoryOnServer.notCalled);
 
             // teardown
             sandbox.reset();

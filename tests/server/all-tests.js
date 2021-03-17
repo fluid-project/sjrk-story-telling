@@ -15,11 +15,14 @@ var fluid = require("infusion"),
 kettle.loadTestingSupport();
 
 var testIncludes = [
+    "./dataSource-tests.js",
+    "./media-tests.js",
     "./testServerWithBaseTheme.js",
     "./testServer.js",
+    "./testServerAuthentication.js",
     "./testServerWithCustomTheme.js",
-    "./testServerWithStorage.js",
-    "./testServerWithMissingTheme.js"
+    "./testServerWithMissingTheme.js",
+    "./testServerWithStorage.js"
 ];
 
 fluid.each(testIncludes, function (path) {

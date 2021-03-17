@@ -21,8 +21,7 @@ fluid.defaults("fluid.tests.testem", {
     testPages: ["tests/ui/all-tests.html"],
     instrumentationOptions: {
         nonSources: [
-            "./**/*.!(js)",
-            "./Gruntfile.js"
+            "./**/*.!(js)"
         ]
     },
     sourceDirs: {

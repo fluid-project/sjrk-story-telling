@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid */
-
 "use strict";
 
 (function ($, fluid) {
@@ -18,20 +16,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.base.page"],
         distributeOptions: [{
             target: "{that > menu > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/learningReflections-menu.handlebars"
+            record: "%resourcePrefix/templates/learningReflections-menu.hbs"
         },
         {
             target: "{that > masthead > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/learningReflectionMessages.json",
-                templatePath: "%resourcePrefix/templates/learningReflections-masthead.handlebars"
+                templatePath: "%resourcePrefix/templates/learningReflections-masthead.hbs"
             }
         },
         {
             target: "{that > footer > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/learningReflectionMessages.json",
-                templatePath: "%resourcePrefix/templates/learningReflections-footer.handlebars"
+                templatePath: "%resourcePrefix/templates/learningReflections-footer.hbs"
             }
         }],
         components: {
@@ -66,7 +64,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyView"],
         distributeOptions: {
             target: "{that > storyViewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/learningReflections-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/learningReflections-storyViewer.hbs"
         }
     });
 
@@ -75,7 +73,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyBrowse"],
         distributeOptions: {
             target: "{that > storyBrowser > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/learningReflections-storyBrowser.handlebars"
+            record: "%resourcePrefix/templates/learningReflections-storyBrowser.hbs"
         },
         components: {
             storyBrowser: {
@@ -93,11 +91,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         gradeNames: ["sjrk.storyTelling.learningReflections.page", "sjrk.storyTelling.base.page.storyEdit"],
         distributeOptions: [{
             target: "{that > storyEditor > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/learningReflections-storyEditor.handlebars"
+            record: "%resourcePrefix/templates/learningReflections-storyEditor.hbs"
         },
         {
             target: "{that > storyPreviewer > templateManager}.options.templateConfig.templatePath",
-            record: "%resourcePrefix/templates/learningReflections-storyViewer.handlebars"
+            record: "%resourcePrefix/templates/learningReflections-storyViewer.hbs"
         }]
     });
 
@@ -112,7 +110,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             target: "{that > introduction > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/learningReflectionMessages.json",
-                templatePath: "%resourcePrefix/templates/learningReflections-introduction.handlebars"
+                templatePath: "%resourcePrefix/templates/learningReflections-introduction.hbs"
             }
         }],
         components: {
@@ -129,7 +127,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             target: "{that > workshops > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/learningReflectionMessages.json",
-                templatePath: "%resourcePrefix/templates/learningReflections-workshops.handlebars"
+                templatePath: "%resourcePrefix/templates/learningReflections-workshops.hbs"
             }
         }],
         components: {
@@ -146,7 +144,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             target: "{that > resources > templateManager}.options.templateConfig",
             record: {
                 messagesPath: "%resourcePrefix/messages/learningReflectionMessages.json",
-                templatePath: "%resourcePrefix/templates/learningReflections-resources.handlebars"
+                templatePath: "%resourcePrefix/templates/learningReflections-resources.hbs"
             }
         }],
         components: {
