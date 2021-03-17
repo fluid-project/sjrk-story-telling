@@ -1,0 +1,39 @@
+<form lang="{{localizedMessages.language}}" class="sjrkc-st-authentication-form sjrk-st-authentication-form" onSubmit="return false;">
+    {{#getIds "email"}}
+        <div class="sjrk-st-label-container">
+            <label for="$id">{{../localizedMessages.message_authentication_email_label}}</label>
+        </div>
+        <div>
+            <input id="$id" class="sjrk-st-authentication-email-input sjrkc-st-authentication-email-input" />
+        </div>
+        <div class="sjrkc-st-authentication-error-email sjrk-st-authentication-error-email"></div>
+    {{/getIds}}
+    {{#getIds "password"}}
+        <div class="sjrk-st-label-container">
+            <label for="$id">{{../localizedMessages.message_authentication_password_label}}</label>
+        </div>
+        <div>
+            <input id="$id" type="password" class="sjrk-st-authentication-password-input sjrkc-st-authentication-password-input" />
+        </div>
+        <div class="sjrkc-st-authentication-error-password sjrk-st-authentication-error-password"></div>
+    {{/getIds}}
+    {{#getIds "password-confirmation"}}
+        <div class="sjrk-st-label-container">
+            <label for="$id">{{../localizedMessages.message_authentication_password_confirmation_label}}</label>
+        </div>
+        <div>
+            <input id="$id" type="password" class="sjrk-st-authentication-password-confirmation-input sjrkc-st-authentication-password-confirmation-input" />
+        </div>
+        <div class="sjrk-st-authentication-error-password-confirmation sjrkc-st-authentication-error-password-confirmation"></div>
+        <div class="sjrk-st-authentication-error-password-confirmation-comparison sjrkc-st-authentication-error-password-confirmation-comparison"></div>
+    {{/getIds}}
+    <button class="sjrk-st-authentication-button sjrkc-st-authentication-button" type="submit">{{localizedMessages.message_signup_button}}</button>
+
+    <div class="sjrkc-st-authentication-progress sjrk-st-authentication-progress" role="alert">
+        <div class="sjrk-st-authentication-progress-indicator" aria-describedby="sjrkc-st-authentication-progress-text"></div>
+        <span id="sjrkc-st-authentication-progress-text">{{localizedMessages.message_signup_progress_text}}</span>
+    </div>
+    <div class="sjrkc-st-authentication-response sjrk-st-authentication-response" role="alert"></div>
+
+    <div class="sjrk-st-authentication-signup-text">{{localizedMessages.message_signup_log_in_text}} <a href="login.html">{{localizedMessages.message_signup_log_in_link}}</a></div>
+</form>

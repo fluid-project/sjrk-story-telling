@@ -106,17 +106,33 @@ h3:empty {
 }
 
 .sjrk-st-top-menu nav a,
-.sjrk-st-edit-link {
+.sjrk-st-edit-link,
+.sjrk-st-author-greeting,
+.sjrk-st-author-log-in,
+.sjrk-st-author-log-out,
+.sjrk-st-author-sign-up {
     color: var(--site-blue);
 }
 
-.sjrk-st-edit-link {
+.sjrk-st-edit-link,
+.sjrk-st-author-log-in {
     border: 2px solid var(--site-blue);
-    padding: 0.75rem 2rem;
     border-radius: 1.5rem;
     background: #fff;
     white-space: nowrap;
+}
+
+.sjrk-st-edit-link {
+    padding: 0.75rem 2rem;
     text-transform: uppercase;
+}
+
+.sjrk-st-author-log-in {
+    padding: 0.5rem 1.75rem;
+}
+
+.sjrk-st-author-sign-up {
+    white-space: nowrap;
 }
 
 .sjrk-st-page-content-container {
@@ -277,12 +293,19 @@ h3:empty {
 .sjrk-st-story-viewer-previous,
 .sjrk-st-story-submit,
 .sjrk-st-story-share,
-.sjrk-st-edit-link {
+.sjrk-st-edit-link,
+.sjrk-st-author-log-in,
+.sjrk-st-author-log-out,
+.sjrk-st-author-sign-up {
     position: relative;
     text-decoration: none;
     font-family: var(--site-font);
     font-weight: 800;
     font-size: 1rem;
+}
+
+.sjrk-st-author-sign-up {
+    text-decoration: underline;
 }
 
 .sjrk-st-menu {
@@ -549,7 +572,7 @@ h3:empty {
     }
 
     .sjrk-st-page-body h1 {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
     .sjrk-st-page-body figcaption {

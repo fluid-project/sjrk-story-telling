@@ -61,6 +61,7 @@
 <script src="src/story.js"></script>
 <script src="src/templateManager.js"></script>
 <script src="src/ui.js"></script>
+<script src="src/ui-authorControls.js"></script>
 <script src="src/ui-menu.js"></script>
 <script src="src/ui-storyEditor.js"></script>
 <script src="src/ui-storyViewer.js"></script>
@@ -76,6 +77,20 @@
 <link rel="stylesheet" href="/node_modules/infusion/src/framework/core/css/fluid.css">
 
 <script src="src/storyTellingServerUI.js"></script>
+
+<!--
+    SJRK-435: This style rule is needed to hide the UIO Table of Contents element.
+              Using inline styling on the element is not sufficient, as UIO would
+              make the element reappear after turning the preference off and & on
+
+              Please see the Jira for more info:
+              https://issues.fluidproject.org/browse/SJRK-435
+-->
+<style>
+    .flc-toc-tocContainer {
+        display: none !important;
+    }
+</style>
 
 </head>
 <body>
@@ -111,10 +126,11 @@
    <!-- END markup for Preference Editor -->
 </div>
 
-
+<div class="sjrk-st-author-controls-container sjrkc-st-author-controls-container"></div>
 <header class="sjrk-st-page-header-container sjrkc-st-page-header-container"></header>
 
 <!-- This div is for the table of contents feature provided by the Preferences Editor -->
+<!-- SJRK-435: this element is always hidden on this page (see note in style tag above) -->
 <div class="flc-toc-tocContainer toc"></div>
 
 <main class="sjrk-st-page-content-container sjrk-edit-page-container sjrkc-edit-page-container">

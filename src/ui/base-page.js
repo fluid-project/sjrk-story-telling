@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk */
-
 "use strict";
 
 (function ($, fluid) {
@@ -49,6 +47,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 source: "{that}.options.pageSetup.authoringEnabled",
                 target: "{that ui > templateManager}.options.model.dynamicValues.authoringEnabled"
             },
+            "ui.templateManager.currentPage": {
+                record: "{page}.model.persistedValues.currentPage",
+                target: "{that ui > templateManager}.options.model.dynamicValues.currentPage"
+            },
             "ui.templateManager.resourcePrefix": {
                 source: "{that}.options.pageSetup.resourcePrefix",
                 target: "{that ui templateManager}.options.templateConfig.resourcePrefix"
@@ -58,11 +60,20 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 target: "{that ui blockManager templateManager}.options.templateConfig.resourcePrefix"
             },
             "timeBased.stopMediaPlayerOnContextChange": {
-                record: { "{page}.events.onContextChangeRequested": "{that}.stopMediaPlayer" },
+                record: {
+                    "{page}.events.onContextChangeRequested": {
+                        listener: "{sjrk.storyTelling.blockUi.timeBased}.stopMediaPlayer",
+                        namespace: "stopMediaPlayer"
+                    }
+                },
                 target: "{that sjrk.storyTelling.blockUi.timeBased}.options.listeners"
             },
             "ui.requestResourceLoadOnRenderAllUiTemplates": {
-                record: { "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": "{templateManager}.events.onResourceLoadRequested.fire" },
+                record: {
+                    "{sjrk.storyTelling.base.page}.events.onRenderAllUiTemplates": {
+                        listener: "{templateManager}.events.onResourceLoadRequested.fire"
+                    }
+                },
                 target: "{that sjrk.storyTelling.ui}.options.listeners"
             },
             "templateManager.uiLanguageToTemplateManager": {
@@ -100,16 +111,11 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 funcName: "sjrk.storyTelling.base.page.getStoredPreferences",
                 args: ["{that}", "{cookieStore}"]
             },
-            "{menu}.events.onInterfaceLanguageChangeRequested": [{
-                func: "{that}.applier.change",
-                args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"],
-                namespace: "changeUiLanguage"
+            "onCreate.setCurrentPage": {
+                changePath: "persistedValues.currentPage",
+                value: window.location.pathname + window.location.search
             },
-            {
-                func: "{that}.events.onContextChangeRequested.fire",
-                namespace: "onContextChangeRequested",
-                priority: "last"
-            }]
+            "onRenderAllUiTemplates.onContextChangeRequested": "{that}.events.onContextChangeRequested"
         },
         modelListeners: {
             "persistedValues.uiLanguage": {
@@ -128,7 +134,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             cookieStore: {
                 type: "fluid.prefs.cookieStore",
                 options: {
-                    gradeNames: ["fluid.dataSource.writable"],
+                    writable: true,
                     cookie: {
                         name: "sjrk-st-settings",
                         path: "/",
@@ -139,7 +145,15 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             // the storytelling tool "main" menu
             menu: {
                 type: "sjrk.storyTelling.ui.menu",
-                container: ".sjrkc-st-menu"
+                container: ".sjrkc-st-menu",
+                options: {
+                    listeners: {
+                        "onInterfaceLanguageChangeRequested.changeUiLanguage": {
+                            func: "{page}.applier.change",
+                            args: [["persistedValues", "uiLanguage"], "{arguments}.0.data"]
+                        }
+                    }
+                }
             },
             // the UIO component
             uio: {
@@ -157,11 +171,97 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }
     });
 
+    // Mix-in grade to include login/logout controls on the page
+    //
+    // This grade is designed as a mix-in in order to make optional the
+    // inclusion of logout functionality on a given page (or, if combined with
+    // the base-page grade, on every page), along with the user greeting and
+    // sign up & login page links, as not all themes have user accounts enabled.
+    fluid.defaults("sjrk.storyTelling.base.page.withAuthorControls", {
+        gradeNames: ["sjrk.storyTelling.base.page"],
+        pageSetup: {
+            logOutUrl: "/logout"
+        },
+        members: {
+            initialModel: {
+                // the Initial Model of the page only specifies the locale
+                persistedValues: {
+                    // The authorAccountName is set on account login and is used
+                    // to display the greeting in the Author Controls section
+                    authorAccountName: null,
+                    // Tracks what page the author is currently viewing, mainly
+                    // used for redirecting during the login or sign up process
+                    currentPage: null
+                }
+            }
+        },
+        events: {
+            onAllUiComponentsReady: {
+                events: {
+                    onAuthorControlsReady: "{authorControls}.events.onControlsBound"
+                }
+            },
+            onLogOutRequested: "{authorControls}.events.onLogOutRequested",
+            onLogOutSuccess: null,
+            onLogOutError: null
+        },
+        listeners: {
+            // SJRK-404 TODO: clear session-id cookie on logOut, too
+            "onLogOutRequested.initiateLogout": "{that}.initiateLogout",
+            "onLogOutSuccess.clearAuthorAccountName": {
+                changePath: "persistedValues.authorAccountName",
+                value: null,
+                source: "logout",
+                priority: "before:redirectToLogin"
+            },
+            // refresh the page to reflect the change in authorization
+            "onLogOutSuccess.redirectToLogin": {
+                func: "{that}.redirectToUrl",
+                args: ["/login.html"]
+            }
+        },
+        invokers: {
+            // initiates the log out process/logs the user out and reloads
+            initiateLogout: {
+                funcName: "sjrk.storyTelling.base.page.initiateLogout",
+                args: ["{that}.options.pageSetup.logOutUrl", "{that}.events.onLogOutSuccess", "{that}.events.onLogOutError"]
+            },
+            // redirects the user to the specified URL
+            redirectToUrl: {
+                funcName: "sjrk.storyTelling.base.page.redirectToUrl",
+                args: ["{arguments}.0"]
+            }
+        },
+        components: {
+            // the "author controls" section of the page
+            authorControls: {
+                type: "sjrk.storyTelling.ui.authorControls",
+                container: ".sjrkc-st-author-controls-container",
+                options: {
+                    model: {
+                        authorAccountName: "{page}.model.persistedValues.authorAccountName"
+                    }
+                }
+            }
+        }
+    });
+
+    /**
+     * Redirects the author to the specified URL, or to the site root if the URL
+     * is falsy
+     *
+     * @param {String} redirectUrl - the URL to redirect to
+     */
+    sjrk.storyTelling.base.page.redirectToUrl = function (redirectUrl) {
+        window.location.href = redirectUrl || "/";
+    };
+
     /**
      * Retrieves preferences stored in the cookie and applies them to the component
      *
      * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` that will accept the preferences
      * @param {Component} cookieStore - a fluid.prefs.cookieStore containing the data to laod
+     * @return {Promise} - the promise returned for getting the cookie data.
      */
     sjrk.storyTelling.base.page.getStoredPreferences = function (pageComponent, cookieStore) {
         var promise = cookieStore.get();
@@ -174,23 +274,68 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         }, function (error) {
             pageComponent.events.onPreferenceLoadFailed.fire(error);
         });
+
+        return promise;
     };
 
     /**
-     * Resets the page preferences and clears the page model, with event hooks
-     * before and after the reset
+     * Given error details from a jQuery.ajax server call,
+     * extracts and returns a meaningful error message.
      *
-     * @param {Component} pageComponent - the `sjrk.storyTelling.base.page` to be reset
+     * @see {@link https://api.jquery.com/jquery.ajax/} under "error" for more details
+     *
+     * @param {jqXHR} jqXHR - the jqXHR from the server request
+     * @param {String} textStatus - indicates the status of the request
+     * @param {String} errorThrown - a general error message
+     *
+     * @return {String} - a string describing the error
      */
-    sjrk.storyTelling.base.page.resetPreferences = function (pageComponent) {
-        var transaction = pageComponent.applier.initiate();
-        pageComponent.events.beforePreferencesReset.fire(pageComponent);
-        transaction.fireChangeRequest({path: "", type: "DELETE"});
-        transaction.change("", fluid.copy(pageComponent.initialModel));
-        transaction.commit();
-        // setting the cookie expiry to epoch in order to delete it
-        document.cookie = pageComponent.cookieStore.options.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-        pageComponent.events.onPreferencesReset.fire(pageComponent);
+    sjrk.storyTelling.base.page.getErrorMessageFromXhr = function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+            var message = "";
+
+            fluid.each(jqXHR.responseJSON.errors, function (error) {
+                message += error.dataPath[0] + " - " + error.message + " ";
+            });
+
+            return message;
+        } else {
+            return fluid.get(jqXHR, ["responseJSON", "message"]) || errorThrown || "Unknown server error";
+        }
+    };
+
+    /**
+     * Calls the logout function and fires a success or error
+     * event depending on the outcome. Success event returns the email address,
+     * error event returns error details
+     *
+     * @param {String} logOutUrl - the server URL to call to start a new session
+     * @param {Object} successEvent - an infusion event to fire upon successful completion
+     * @param {Object} failureEvent - an infusion event to fire on failure
+     */
+    sjrk.storyTelling.base.page.initiateLogout = function (logOutUrl, successEvent, failureEvent) {
+        sjrk.storyTelling.base.page.logOut(logOutUrl).then(function () {
+            successEvent.fire(logOutUrl);
+        }, function (jqXHR, textStatus, errorThrown) {
+            failureEvent.fire({
+                isError: true,
+                message: sjrk.storyTelling.base.page.getErrorMessageFromXhr(jqXHR, textStatus, errorThrown)
+            });
+        });
+    };
+
+    /**
+     * Logs the author out of their account by calling the appropriate endpoint
+     *
+     * @param {String} logOutUrl - the server URL to call to end the session
+     *
+     * @return {jqXHR} - the jqXHR for the server request
+     */
+    sjrk.storyTelling.base.page.logOut = function (logOutUrl) {
+        return $.ajax({
+            url: logOutUrl,
+            type: "POST"
+        });
     };
 
 })(jQuery, fluid);

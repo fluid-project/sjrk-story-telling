@@ -7,8 +7,6 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid */
-
 "use strict";
 
 (function ($, fluid) {
@@ -93,7 +91,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
             templateManager: {
                 options: {
                     templateConfig: {
-                        templatePath: "%resourcePrefix/templates/storyViewer.handlebars"
+                        templatePath: "%resourcePrefix/templates/storyViewer.hbs"
                     }
                 }
             },
@@ -132,9 +130,10 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
         modelRelay: {
             "publishingState": {
                 target: "",
+                source: "publishingState",
                 singleTransform: {
                     type: "fluid.transforms.valueMapper",
-                    defaultInputPath: "publishingState",
+                    defaultInputPath: "",
                     match: {
                         "unpublished": {
                             outputValue: {
@@ -204,7 +203,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                 namespace: "setStateResponseReceived"
             },{
                 func: "{that}.setServerResponse",
-                args: ["{arguments}.0"],
+                args: ["{arguments}.0.message"],
                 namespace: "setServerResponse"
             }]
         },

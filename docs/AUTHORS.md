@@ -6,7 +6,7 @@ This is the list of Storytelling Tool copyright holders. It does not list all in
 copyright to an institution, only made minor changes, or their contributions no longer appear in the codebase.
 Please see the version control system's revision history for details on contributions.
 
-Copyright 2017-2020
+Copyright 2017-2021
 
 * OCAD University
 

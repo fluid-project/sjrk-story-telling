@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, jqUnit, sinon, sjrk */
+/* global jqUnit, sinon */
 
 "use strict";
 
@@ -197,7 +197,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     funcName: "sjrk.storyTelling.testUtils.setupMockServer",
                     args: [
                         {
-                            url: "/stories/test-id",
+                            url: "/stories/test-id/edit",
                             contentType: "text/strings",
                             response: ""
                         }
@@ -237,7 +237,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
                     // clean up
                     func: "{that}.sandbox.restore"
                 }, {
-                    // test story not found due to ajax request failure
+                    // test story not found due to ajax request failure - story doesn't exist; not authorized
                     funcName: "fluid.set",
                     args: ["{that}", "sandbox", {
                         expander: {

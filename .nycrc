@@ -6,7 +6,7 @@
         "tests",
         "reports",
         "coverage",
-        "Gruntfile.js"
+        "src/server/db/*-dbConfiguration.js"
     ],
     "reporter": "none",
     "report-dir": "reports",
