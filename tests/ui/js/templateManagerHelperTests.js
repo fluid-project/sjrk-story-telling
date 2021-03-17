@@ -7,7 +7,7 @@ You may obtain a copy of the BSD License at
 https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.txt
 */
 
-/* global fluid, sjrk, jqUnit */
+/* global jqUnit */
 
 "use strict";
 
@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/fluid-project/sjrk-story-telling/main/LICENSE.
     fluid.defaults("sjrk.storyTelling.testTemplateManagerHelper", {
         gradeNames: ["sjrk.storyTelling.templateManager"],
         templateConfig: {
-            templatePath: "../html/templates/testHandleBarsHelperTemplate.handlebars",
+            templatePath: "../html/templates/testHandleBarsHelperTemplate.hbs",
             messagesPath: "../messages/testLocalizationMessages.json"
         },
         selectors: {

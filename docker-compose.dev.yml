@@ -6,6 +6,7 @@ services:
       - "./sjrk.storyTelling.server.config.json5:/usr/src/app/sjrk.storyTelling.server.config.json5"
     ports:
       - "8081:8081"
+      - "443:443"
   db:
     ports:
       - "5984:5984"

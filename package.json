@@ -1,15 +1,15 @@
 {
     "name": "sjrk-story-telling",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "The Storytelling Project with Kettle-based server and CouchDB interface",
     "main": "index.js",
     "scripts": {
         "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",
         "test": "npm run test:browser && npm run test:node",
-        "test:browser": "node node_modules/testem/testem.js ci --file tests/ui/testem.js",
-        "test:node": "node node_modules/nyc/bin/nyc.js node tests/server/all-tests.js",
-        "posttest": "node node_modules/nyc/bin/nyc.js report -r text-summary -r html -r json",
-        "lint": "grunt lint"
+        "test:browser": "testem ci --file tests/ui/testem.js",
+        "test:node": "nyc node tests/server/all-tests.js",
+        "posttest": "nyc report -r text-summary -r html -r json",
+        "lint": "fluid-lint-all"
     },
     "repository": {
         "type": "git",
@@ -23,31 +23,33 @@
     "homepage": "https://github.com/fluid-project/sjrk-story-telling",
     "dependencies": {
         "express-basic-auth": "1.2.0",
-        "fluid-binder": "1.1.1",
+        "fluid-binder": "1.1.2",
         "fluid-couch-config": "git+https://github.com/BlueSlug/fluid-couch-config.git",
-        "fluid-handlebars": "2.1.3",
-        "fluid-location-bar-relay": "1.0.6",
-        "fs-extra": "9.0.1",
-        "handlebars": "4.7.6",
-        "infusion": "3.0.0-dev.20200728T104627Z.e6aa1a341.FLUID-6145",
-        "jpeg-autorotate": "6.0.0",
+        "fluid-express-user": "2.0.3",
+        "fluid-handlebars": "2.1.5",
+        "fluid-json-schema": "2.1.7",
+        "fluid-location-bar-relay": "1.0.7",
+        "fs-extra": "9.1.0",
+        "handlebars": "4.7.7",
+        "infusion": "3.0.0-dev.20210302T181135Z.08e9a66ea.FLUID-6580",
+        "jpeg-autorotate": "7.1.1",
         "jpeg-exif": "1.1.4",
-        "kettle": "1.15.1",
-        "markdown-it": "11.0.0",
-        "uuid": "8.3.0"
+        "kettle": "2.1.0",
+        "markdown-it": "12.0.4",
+        "memorystore": "1.6.4",
+        "uuid": "8.3.2"
     },
     "devDependencies": {
-        "chance": "1.1.6",
-        "eslint-config-fluid": "1.4.0",
-        "eslint-plugin-markdown": "1.0.2",
-        "fluid-grunt-lint-all": "1.0.8",
+        "chance": "1.1.7",
+        "eslint-config-fluid": "2.0.0",
+        "eslint-plugin-jsdoc": "32.0.1",
+        "fluid-lint-all": "1.0.4",
         "fluid-pouchdb": "1.0.17",
-        "fluid-testem": "2.1.13",
-        "grunt": "1.2.1",
+        "fluid-testem": "2.1.14",
         "node-jqunit": "1.1.8",
         "nyc": "15.1.0",
         "rimraf": "3.0.2",
-        "sinon": "9.0.2",
+        "sinon": "9.2.4",
         "testem": "3.2.0"
     }
 }

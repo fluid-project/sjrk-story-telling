@@ -114,10 +114,20 @@ fluid.defaults("sjrk.storyTelling.server.storiesDb", {
                     "map": "sjrk.storyTelling.server.storiesDb.storyTagsFunction"
                 },
                 "storiesById": {
-                    "map": "sjrk.storyTelling.server.storiesDb.storiesByIdFunction"
+                    "map": "sjrk.storyTelling.server.storiesDb.publishedStoriesById"
+                },
+                "storiesByAuthor": {
+                    "map": "sjrk.storyTelling.server.storiesDb.storiesByAuthorFunction"
                 }
             },
             validate_doc_update: "sjrk.storyTelling.server.storiesDb.validateFunction"
+        },
+        lookup: {
+            views: {
+                "byUsernameOrEmail": {
+                    "map": "sjrk.storyTelling.server.storiesDb.email"
+                }
+            }
         }
     }
 });
@@ -140,8 +150,8 @@ sjrk.storyTelling.server.storiesDb.storyTagsFunction = function (doc) {
  *
  * @param {Object} doc - a document to evaluate in the view
  */
-sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
-    if (doc.value.published) {
+sjrk.storyTelling.server.storiesDb.publishedStoriesById = function (doc) {
+    if (doc.type === "story" && doc.value.published) {
         var browseDoc = {
             "title": doc.value.title,
             "author": doc.value.author,
@@ -154,19 +164,42 @@ sjrk.storyTelling.server.storiesDb.storiesByIdFunction = function (doc) {
 };
 
 /**
-* This function is used to validate new documents once it's migrated to CouchDB
-* For more info on this process, please see the CouchDB guide:
-* {@link https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions}
-*
-* @throws - If newDoc doesn't have a type defined, an error will be thrown
-*
-* @param {Object} newDoc - the incoming doc
-*/
+ * This function is used as a "view" design doc once it's migrated to CouchDB
+ *
+ * @param {Object} doc - a document to evaluate in the view
+ */
+sjrk.storyTelling.server.storiesDb.storiesByAuthorFunction = function (doc) {
+    if (doc.type === "story" && doc.authorID) {
+        emit([doc.authorID, doc._id], doc.value);
+    }
+};
+
+/**
+ * This function is used to validate new documents once it's migrated to CouchDB
+ * For more info on this process, please see the CouchDB guide:
+ * {@link https://docs.couchdb.org/en/1.6.1/couchapp/ddocs.html#validate-document-update-functions}
+ *
+ * @throws - If newDoc doesn't have a type defined, an error will be thrown
+ *
+ * @param {Object} newDoc - the incoming doc
+ */
 sjrk.storyTelling.server.storiesDb.validateFunction = function (newDoc) {
     // checking !newDoc._deleted is important because
     // otherwise validation can prevent deletion,
     // per https://stackoverflow.com/questions/34221859/couchdb-validation-prevents-delete
     if (!newDoc._deleted && !newDoc.type) {
         throw ({forbidden: "doc.type is required"});
+    }
+};
+
+/**
+ * This function is used as a "view" design doc once it's migrated to CouchDB.
+ * Will locate user/author accounts.
+ *
+ * @param {Object} doc - a document to evaluate in the view
+ */
+sjrk.storyTelling.server.storiesDb.email = function (doc) {
+    if (doc.type === "user") {
+        emit(doc.email, doc);
     }
 };

@@ -29,10 +29,12 @@
         <script src="../../../node_modules/fluid-handlebars/src/js/client/templateManager.js"></script>
         <script src="../../../node_modules/fluid-handlebars/src/js/client/templateMessage.js"></script>
         <script src="../../../node_modules/fluid-handlebars/src/js/client/templateRequestAndRender.js"></script>
+        <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
 
         <script src="../../../src/ui/base-page.js"></script>
         <script src="../../../src/ui/templateManager.js"></script>
         <script src="../../../src/ui/ui.js"></script>
+        <script src="../../../src/ui/ui-authorControls.js"></script>
         <script src="../../../src/ui/ui-menu.js"></script>
         <script src="../../../src/ui/UIOMultilingualDemo.js"></script>
 
@@ -41,6 +43,7 @@
         <script src="/coverage/client/coverageSender.js"></script>
 
         <script src="../js/base-pageTests.js"></script>
+        <script src="../js/testUtils.js"></script>
 
         <title>Story Page - Tests</title>
     </head>
@@ -54,6 +57,8 @@
         <div id="testPage">
             <div id="testMenu"></div>
         </div>
+
+        <div class="sjrk-st-author-controls-container sjrkc-st-author-controls-container"></div>
 
         <div class="sjrk-prefsEditor-container">
             <!-- BEGIN markup for Preference Editor -->
